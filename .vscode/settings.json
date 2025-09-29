@@ -1,0 +1,28 @@
+{
+    "php.validate.enable": true,
+    "php.validate.executablePath": "/usr/bin/php",
+    "php.suggest.basic": false,
+    "php.debug.executablePath": "/usr/bin/php",
+    "php.debug.xdebugSettings": {
+        "max_children": 128,
+        "max_data": 1024,
+        "max_depth": 5
+    },
+    "debug.console.fontSize": 14,
+    "debug.console.lineHeight": 22,
+    "debug.inlineValues": true,
+    "debug.showBreakpointsInOverviewRuler": true,
+    "debug.showSubSessionsInToolBar": true,
+    "files.associations": {
+        "*.php": "php",
+        "*.tpl": "smarty"
+    },
+    "emmet.includeLanguages": {
+        "php": "html"
+    },
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.wordBasedSuggestions": "off"
+}

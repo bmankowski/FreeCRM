@@ -8,16 +8,31 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once 'vendor/yii/Yii.php';
+require_once 'vendor/autoload.php';
+require_once 'vendor/yiisoft/yii2/Yii.php';
+//require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
+require_once 'include/App/Debugger.php';
+require_once 'include/App/DebugConsole.php';
+require_once 'include/App/Cache.php';
+require_once 'include/App/Db.php';
+require_once 'include/App/Db/Query.php';
+require_once 'include/App/Log.php';
+require_once 'include/App/User.php';
+require_once 'include/App/RequestUtil.php';
+require_once 'include/App/Language.php';
+require_once 'include/App/Version.php';
+require_once 'include/App/Company.php';
+require_once 'include/App/Purifier.php';
+require_once 'include/App/Json.php';
 vimport('include.runtime.EntryPoint');
-\App\Debuger::init();
+\App\Debugger::init();
 \App\Cache::init();
 App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
-App\Log::$logToProfile = Yii::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
+App\Log::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
 App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
 App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
@@ -109,16 +124,22 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	public function process(Vtiger_Request $request)
 	{
-		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
-			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+		if (AppConfig::main('forceSSL')) {
+			$browserInfo = \App\RequestUtil::getBrowserInfo();
+			if ($browserInfo && is_object($browserInfo) && !$browserInfo->https) {
+				header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+			}
 		}
 		if (!$this->isInstalled()) {
 			header('Location:install/Install.php');
 		}
 		if (AppConfig::main('forceRedirect')) {
-			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
-				header('Location: ' . AppConfig::main('site_URL'), true, 301);
+			$browserInfo = \App\RequestUtil::getBrowserInfo();
+			if ($browserInfo && is_object($browserInfo)) {
+				$requestUrl = ($browserInfo->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+				if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
+					header('Location: ' . AppConfig::main('site_URL'), true, 301);
+				}
 			}
 		}
 		Vtiger_Session::init();
@@ -250,7 +271,7 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = 'cache/logs/errors.log';
 			$content = print_r($msg, true);
-			$content .= PHP_EOL . \App\Debuger::getBacktrace();
+			$content .= PHP_EOL . \App\Debugger::getBacktrace();
 			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
 		}
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {

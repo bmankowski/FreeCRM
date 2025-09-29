@@ -59,7 +59,7 @@ class Install_InitSchema_Model
 		foreach ($queries as $query) {
 			// Trim any whitespace.
 			$query = trim($query);
-			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-')) {
+			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
 				try {
 					$this->db->query($query);
 					$executed_query++;

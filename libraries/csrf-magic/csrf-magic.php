@@ -472,7 +472,7 @@ class CSRF
 		}
 		// Initialize our handler
 		if (static::$rewrite) {
-			ob_start(['self', 'obHandler']);
+			ob_start([static::class, 'obHandler']);
 		}
 		// Perform check
 		if (!static::$defer) {

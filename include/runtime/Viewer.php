@@ -9,7 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_Viewer extends SmartyBC
+use App\Debugger;
+
+class Vtiger_Viewer extends Smarty
 {
 
 	const DEFAULTLAYOUT = 'basic';
@@ -83,6 +85,16 @@ class Vtiger_Viewer extends SmartyBC
 
 			$this->log("URI: $debugViewerURI, TYPE: " . $_SERVER['REQUEST_METHOD']);
 		}
+		
+		// Register custom functions for Smarty 4.5 compatibility
+		try {
+			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
+			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
+			$this->registerClass('Json', 'App\Json');
+		} catch (Exception $e) {
+			// Log error but don't break the application
+			\App\Log::error('Smarty plugin registration error: ' . $e->getMessage());
+		}
 	}
 
 	/**
@@ -114,12 +126,18 @@ class Vtiger_Viewer extends SmartyBC
 	 */
 	public function getTemplatePath($templateName, $moduleName = '')
 	{
+		// Validate template name to prevent concatenation issues
+		if (empty($templateName) || !is_string($templateName)) {
+			throw new \Exception('Invalid template name provided');
+		}
+		
 		$moduleName = str_replace(':', '/', $moduleName);
 		$cacheKey = $templateName . $moduleName;
 		if (\App\Cache::has('ViewerTemplatePath', $cacheKey)) {
 			return \App\Cache::get('ViewerTemplatePath', $cacheKey);
 		}
-		foreach ($this->getTemplateDir() as $templateDir) {
+		$possibleTemplateDirs = $this->getTemplateDir();
+		foreach ($possibleTemplateDirs as $templateDir) {
 			$completeFilePath = $templateDir . "modules/$moduleName/$templateName";
 			if (!empty($moduleName) && file_exists($completeFilePath)) {
 				$filePath = "modules/$moduleName/$templateName";
@@ -143,6 +161,7 @@ class Vtiger_Viewer extends SmartyBC
 					}
 				}
 				$filePath = "modules/Vtiger/$templateName";
+				Debugger::log($filePath);
 			}
 		}
 		\App\Cache::save('ViewerTemplatePath', $cacheKey, $filePath, \App\Cache::LONG);

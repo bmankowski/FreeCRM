@@ -8,9 +8,40 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-// $ANTLR 3.1 VTEventConditionParser.g 2009-01-23 20:13:10              
+// $ANTLR 3.1 VTEventConditionParser.g 2009-01-23 20:13:10
 
-class VTEventConditionParserParser extends AntlrParser
+// Use composer autoloader for ANTLR classes
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+// Compatibility class for ANTLR 3 to ANTLR 4 migration
+class Set
+{
+    private $data;
+    
+    public function __construct($data = [])
+    {
+        $this->data = is_array($data) ? $data : [$data];
+    }
+    
+    public function add($item)
+    {
+        if (!in_array($item, $this->data)) {
+            $this->data[] = $item;
+        }
+    }
+    
+    public function contains($item)
+    {
+        return in_array($item, $this->data);
+    }
+    
+    public function toArray()
+    {
+        return $this->data;
+    }
+}              
+
+class VTEventConditionParserParser extends \Antlr\Antlr4\Runtime\Parser
 {
 
 	public static $tokenNames = array(
@@ -64,6 +95,37 @@ class VTEventConditionParserParser extends AntlrParser
 	public function getGrammarFileName()
 	{
 		return "VTEventConditionParser.g";
+	}
+
+	public function getVocabulary(): \Antlr\Antlr4\Runtime\Vocabulary
+	{
+		return \Antlr\Antlr4\Runtime\VocabularyImpl::emptyVocabulary();
+	}
+
+	public function getInputStream(): ?\Antlr\Antlr4\Runtime\IntStream
+	{
+		return null;
+	}
+
+
+	public function getTokenFactory(): \Antlr\Antlr4\Runtime\TokenFactory
+	{
+		return null;
+	}
+
+	public function setTokenFactory(\Antlr\Antlr4\Runtime\TokenFactory $input): void
+	{
+		// Basic implementation
+	}
+
+	public function getRuleNames(): array
+	{
+		return [];
+	}
+
+	public function getATN(): \Antlr\Antlr4\Runtime\Atn\ATN
+	{
+		return null;
 	}
 
 	protected function mismatch($input, $ttype, $follow)

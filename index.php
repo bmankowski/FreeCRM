@@ -18,5 +18,8 @@ require 'include/RequirementsValidation.php';
 require 'include/main/WebUI.php';
 
 $webUI = new Vtiger_WebUI();
-$webUI->process(AppRequest::init());
+$request = AppRequest::init();
+if ($request instanceof Vtiger_Request) {
+	$webUI->process($request);
+}
 

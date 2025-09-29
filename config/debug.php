@@ -6,29 +6,29 @@ $DEBUG_CONFIG = [
 	 * 	Logger 
 	 * ************************************************************** */
 	// Enable saving logs to file. Values: false/true
-	'LOG_TO_FILE' => false,
+	'LOG_TO_FILE' => true,
 	// Enable displaying logs in debug console. Values: false/true
-	'LOG_TO_CONSOLE' => false,
+	'LOG_TO_CONSOLE' => true,
 	// Enable saving logs profiling.  Values: false/true
-	'LOG_TO_PROFILE' => false,
+	'LOG_TO_PROFILE' => true,
 	// Level of saved/displayed logs
 	// Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'], 
-	'LOG_LEVELS' => false,
+	'LOG_LEVELS' => ['error', 'warning', 'info', 'debug', 'trace'],
 	// Level of saved/displayed tracerts. // Values: int
-	'LOG_TRACE_LEVEL' => 0,
+	'LOG_TRACE_LEVEL' => 5,
 	// Display Main Debug Console
-	'DISPLAY_DEBUG_CONSOLE' => false,
+	'DISPLAY_DEBUG_CONSOLE' => true,
 	// List of IP addresses allowed to display debug console
 	// Values: false = All IPS / '192.168.1.10' / ['192.168.1.10','192.168.1.11']
 	'DEBUG_CONSOLE_ALLOWED_IPS' => false,
 	// Stop the running process of the system if there is and error in sql query
-	'SQL_DIE_ON_ERROR' => false,
+	'SQL_DIE_ON_ERROR' => true,
 	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
-	'DISPLAY_DEBUG_BACKTRACE' => false,
+	'DISPLAY_DEBUG_BACKTRACE' => true,
 	// Debug Viewer => cache/logs/viewer-debug.log
-	'DEBUG_VIEWER' => false,
+	'DEBUG_VIEWER' => true,
 	// Display Smarty Debug Console
-	'DISPLAY_DEBUG_VIEWER' => false,
+	'DISPLAY_DEBUG_VIEWER' => true,
 	// migoi
 	// Don't show Smarty Notice in phpError.log
 	'SMARTY_ERROR_REPORTING' => E_ALL & ~E_NOTICE,
@@ -36,16 +36,16 @@ $DEBUG_CONFIG = [
 	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
-	'EXCEPTION_ERROR_HANDLER' => false,
+	'EXCEPTION_ERROR_HANDLER' => true,
 	// Save logs to file (cache/logs/errors.log)
-	'EXCEPTION_ERROR_TO_FILE' => false,
+	'EXCEPTION_ERROR_TO_FILE' => true,
 	// Display errors
-	'EXCEPTION_ERROR_TO_SHOW' => false,
+	'EXCEPTION_ERROR_TO_SHOW' => true,
 	// Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.  
 	// https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
 	// All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
 	// Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
-	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED,
+	'EXCEPTION_ERROR_LEVEL' => E_ALL,
 	/* +***************************************************************
 	 * 	API 
 	 * ************************************************************** */

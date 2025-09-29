@@ -1,0 +1,82 @@
+[2025-09-29 12:28:12] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:28:12] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:28:12] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:29:34] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:29:34] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:29:34] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:29:47] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:29:47] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:29:47] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:29:48] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:29:48] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:29:48] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:30:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:30:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:30:25] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:30:43] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:30:43] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:30:43] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:30:52] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:30:52] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:30:52] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:31:17] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:31:17] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:31:17] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:33:49] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:33:49] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:34:09] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-29 12:34:32] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:34:32] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:34:54] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-29 12:36:27] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:36:27] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:36:49] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-29 12:37:02] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-29 12:37:06] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-29 12:37:13] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-29 12:37:13] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-29 12:37:13] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-29 12:37:30] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-29 12:37:30] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-29 12:37:30] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-29 12:37:37] DEBUG: cannot translate this: '16384: Using unregistered function "file_exists" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-29 12:37:37] DEBUG: cannot translate this: '16384: Using unregistered function "file_exists" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-29 12:37:37] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-29 12:40:20] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:40:20] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:40:20] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 12:42:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:42:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 12:42:21] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeYeti/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}

@@ -24,7 +24,7 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		if (!$request->get('lang')) {
 
-			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en', 0, 2);
 
 			if ('pl' === $lang) {
 				$request->set('lang', 'pl_pl');
@@ -76,6 +76,11 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->get('lang'));
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
+		$this->viewer->assign('LANGUAGE', $defaultLanguage);
+		$this->viewer->assign('SKIN_PATH', 'layouts/basic/skins/');
+		$this->viewer->assign('YETIFORCE_VERSION', '1.0.0');
+		$this->viewer->assign('STYLES', []);
+		$this->viewer->assign('SCRIPTS', []);
 		define('INSTALLATION_MODE', true);
 		define('INSTALLATION_MODE_DEBUG', $this->debug);
 		$this->viewer->error_reporting = E_ALL & ~E_NOTICE;
@@ -125,6 +130,7 @@ class Install_Index_view extends Vtiger_View_Controller
 	public function Step3(Vtiger_Request $request)
 	{
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
+		$this->viewer->assign('MODULE', 'Settings::ConfReport');
 		echo $this->viewer->fetch('Step3.tpl');
 	}
 

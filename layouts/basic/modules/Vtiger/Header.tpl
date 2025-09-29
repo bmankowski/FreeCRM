@@ -37,8 +37,8 @@
 			{if $HEAD_LOCKS}
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
 			{/if}
-			{if \App\Debuger::isDebugBar()}
-				{\App\Debuger::getDebugBar()->getJavascriptRenderer()->renderHead()}
+			{if \App\Debugger::isDebugBar()}
+				{\App\Debugger::getDebugBar()->getJavascriptRenderer()->renderHead()}
 			{/if}
 		</head>
 		<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
@@ -69,7 +69,7 @@
 				<!-- container which holds data temporarly for pjax calls -->
 				<div id="pjaxContainer" class="hide noprint"></div>
 				{assign var="ANNOUNCEMENTS" value=Vtiger_Module_Model::getInstance('Announcements')}
-				{if $ANNOUNCEMENTS->checkActive()}
+				{if $ANNOUNCEMENTS && $ANNOUNCEMENTS->checkActive()}
 					{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
 				{/if}
 				{if $SHOW_BODY_HEADER}

@@ -104,7 +104,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'session.gc_probability' => ['prefer' => '1'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
-		if (App\RequestUtil::getBrowserInfo()->https) {
+		if (App\RequestUtil::getBrowserInfo()['https']) {
 			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
 			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
 				$directiveValues['session.cookie_secure']['status'] = true;
@@ -284,6 +284,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting))
 			$directiveValues['error_reporting']['status'] = true;
 		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
+
+		// Ensure all items have a 'status' key (default to false if not set)
+		foreach ($directiveValues as $key => $value) {
+			if (!isset($value['status'])) {
+				$directiveValues[$key]['status'] = false;
+			}
+		}
 
 		return $directiveValues;
 	}

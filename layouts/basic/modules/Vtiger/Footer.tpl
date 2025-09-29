@@ -101,8 +101,8 @@
 {* javascript files *}
 {include file='JSResources.tpl'|@vtemplate_path}
 </div>
-{if \App\Debuger::isDebugBar()}
-	{\App\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
+{if \App\Debugger::isDebugBar()}
+	{\App\Debugger::getDebugBar()->getJavascriptRenderer()->render()}
 {/if}
 </body>
 </html>

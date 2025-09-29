@@ -8,7 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'libraries/antlr/antlr.php';
+//require_once 'libraries/antlr/antlr.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once 'VTEventConditionSymbol.php';
 require_once 'VTEventCondition.php';
 require_once 'VTEventConditionParserLexer.php';

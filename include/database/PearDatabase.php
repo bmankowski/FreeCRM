@@ -152,7 +152,7 @@ class PearDatabase
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				$backtrace = \App\Debuger::getBacktrace();
+				$backtrace = \App\Debugger::getBacktrace();
 			}
 			$message = [
 				'message' => $message,
