@@ -7,7 +7,7 @@
             "request": "launch",
             "port": 9003,
             "pathMappings": {
-                "/home/bmankowski/projects/FreeYeti": "${workspaceFolder}"
+                "/home/bmankowski/projects/FreeCRM": "${workspaceFolder}"
             },
             "ignore": [
                 "**/vendor/**/*.php"
@@ -38,7 +38,7 @@
             "cwd": "${workspaceFolder}",
             "port": 9003,
             "pathMappings": {
-                "/home/bmankowski/projects/FreeYeti": "${workspaceFolder}"
+                "/home/bmankowski/projects/FreeCRM": "${workspaceFolder}"
             },
             "args": []
         },
