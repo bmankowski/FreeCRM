@@ -1363,6 +1363,6 @@
             "install-path": "../yiisoft/yii2-composer"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }

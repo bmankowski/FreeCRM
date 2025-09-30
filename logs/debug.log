@@ -227,3 +227,187 @@
     "level": "WARNING"
 }
 [2025-09-29 17:42:40] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-29 17:45:23] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:45:23] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:45:29] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-29 17:45:49] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:45:49] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:45:49] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:46:35] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:46:35] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:46:35] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:46:42] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:46:42] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:46:42] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:47:09] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:09] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:09] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:47:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:25] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:47:43] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:43] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:43] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:47:59] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:59] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:47:59] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:48:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:48:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:48:13] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:48:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:48:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:48:21] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:49:18] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:49:18] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:49:41] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:49:41] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:49:59] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:49:59] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:49:59] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-29 17:51:47] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:51:47] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:52:08] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-29 17:53:15] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-29 17:53:17] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-29 17:53:18] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-29 17:53:18] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-29 17:54:03] DEBUG: [Exception] Call to a member function get() on string in /home/bmankowski/projects/FreeCRM/cache/templates_c/basic/18cefa4a65f10ccf65c90b8f6744c96b7b1451b5_0.file.Login.Default.tpl.php on line 27 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/cache\/templates_c\/basic\/18cefa4a65f10ccf65c90b8f6744c96b7b1451b5_0.file.Login.Default.tpl.php",
+    "line": 27,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_resource_base.php(123): content_68dab97ef36c52_75454668()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(114): Smarty_Template_Resource_Base->getRenderedTemplateCode()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(217): Smarty_Template_Compiled->render()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(386): Smarty_Internal_Template->render()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/cache\/templates_c\/basic\/9fd41af756a5177a88b3c9bcd65622bbf2eed192_0.file.Login.tpl.php(31): Smarty_Internal_Template->_subTemplateRender()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_resource_base.php(123): content_68dab97bae94b5_10628520()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(114): Smarty_Template_Resource_Base->getRenderedTemplateCode()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(217): Smarty_Template_Compiled->render()\n#8 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(238): Smarty_Internal_Template->render()\n#9 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(134): Smarty_Internal_TemplateBase->_execute()\n#10 \/home\/bmankowski\/projects\/FreeCRM\/include\/runtime\/Viewer.php(214): Smarty_Internal_TemplateBase->display()\n#11 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/views\/Login.php(60): Vtiger_Viewer->view()\n#12 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_View->process()\n#13 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#14 {main}"
+}
+[2025-09-29 17:54:03] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:54:03] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:54:05] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-29 17:54:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:54:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-29 17:54:21] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:22:31] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:22:31] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:22:31] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:23:15] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:23:15] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:25:22] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:25:57] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 09:26:11] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 09:26:13] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 09:26:13] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 09:26:18] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:26:53] DEBUG: cannot translate this: '16384: Using unregistered static method "App\Company::getInstanceById()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:26:53] DEBUG: cannot translate this: '16384: Using unregistered static method "App\Company::getInstanceById()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:04] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:09] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:09] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:11] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:13] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:13] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:16] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:19] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:19] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:23] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:23] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:24] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:26] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:26] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:28] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:29] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::main('default_language')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:29] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::main('default_language')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:30] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:32] DEBUG: cannot translate this: '16384: Using unregistered static method "Vtiger_Language_Handler::getAllLanguages()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:32] DEBUG: cannot translate this: '16384: Using unregistered static method "Vtiger_Language_Handler::getAllLanguages()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:33] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:34] DEBUG: cannot translate this: '16384: Using unregistered static method "Vtiger_Util_Helper::toSafeHTML($_smarty_tpl->tpl_vars['KEY']->value)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:34] DEBUG: cannot translate this: '16384: Using unregistered static method "Vtiger_Util_Helper::toSafeHTML($_smarty_tpl->tpl_vars['KEY']->value)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:36] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:38] DEBUG: cannot translate this: '16384: Using unregistered static method "Yeti_Layout::getAllLayouts()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:38] DEBUG: cannot translate this: '16384: Using unregistered static method "Yeti_Layout::getAllLayouts()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:40] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:43] DEBUG: cannot translate this: '16384: Using unregistered static method "Vtiger_Util_Helper::toSafeHTML($_smarty_tpl->tpl_vars['KEY']->value)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:43] DEBUG: cannot translate this: '16384: Using unregistered static method "Vtiger_Util_Helper::toSafeHTML($_smarty_tpl->tpl_vars['KEY']->value)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:47] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('RESET_LOGIN_PASSWORD')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:47] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('RESET_LOGIN_PASSWORD')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:50] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 09:27:56] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('RESET_LOGIN_PASSWORD')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 09:27:56] DEBUG: cannot translate this: '16384: Using unregistered static method "AppConfig::security('RESET_LOGIN_PASSWORD')" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 09:28:19] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:28:19] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:28:25] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:28:48] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:28:48] DEBUG: modules/Vtiger/Header.tpl

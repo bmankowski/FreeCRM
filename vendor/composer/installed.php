@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'yetiforce/yetiforce-crm',
-        'pretty_version' => 'dev-65062f34a621317df6e3702f150680e4bc03459b',
-        'version' => 'dev-65062f34a621317df6e3702f150680e4bc03459b',
-        'reference' => '65062f34a621317df6e3702f150680e4bc03459b',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'b896703aa4d19e501f0f1b860f467a8acb2e7574',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'antlr/antlr4-php-runtime' => array(
@@ -197,9 +197,9 @@
             'dev_requirement' => false,
         ),
         'yetiforce/yetiforce-crm' => array(
-            'pretty_version' => 'dev-65062f34a621317df6e3702f150680e4bc03459b',
-            'version' => 'dev-65062f34a621317df6e3702f150680e4bc03459b',
-            'reference' => '65062f34a621317df6e3702f150680e4bc03459b',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'b896703aa4d19e501f0f1b860f467a8acb2e7574',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
