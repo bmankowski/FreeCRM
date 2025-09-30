@@ -37,6 +37,14 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			if (!$moduleModel) {
+				// Non-entity or unsupported module (e.g. Home); skip permission block
+				$viewer->assign('CURRENT_VIEW', $request->get('view'));
+				if ($display) {
+					$this->preProcessDisplay($request);
+				}
+				return;
+			}
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());

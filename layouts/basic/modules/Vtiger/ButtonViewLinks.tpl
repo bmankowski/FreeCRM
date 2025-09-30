@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{if count($LINKS) gt 0}
+	{if $LINKS && is_array($LINKS) && count($LINKS) gt 0}
 		{assign var=TEXT_HOLDER value=''}
 		{foreach item=LINK from=$LINKS}
 			{assign var=LINK_PARAMS value=vtlib\Functions::getQueryParams($LINK->getUrl())}

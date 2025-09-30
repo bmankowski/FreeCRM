@@ -1816,3 +1816,330 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/F
 [2025-09-30 14:56:43] DEBUG: modules/Vtiger/Login.Custom.tpl
 [2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
 [2025-09-30 14:56:43] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 14:58:09] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 14:58:09] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:09] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:09] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:09] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 14:58:36] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 14:58:36] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:36] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:36] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:58:36] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 15:00:18] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:00:18] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:00:18] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:00:18] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:00:18] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:00:18] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 15:01:02] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 15:01:02] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 15:01:02] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 15:01:02] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 15:01:02] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 15:01:16] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:16] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:16] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:16] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:16] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:16] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:01:16] DEBUG: [Exception] Cannot access offset of type string on string in /home/bmankowski/projects/FreeCRM/vendor/yetiforce/Fields/Owner.php on line 200 {
+    "exception": "TypeError",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yetiforce\/Fields\/Owner.php",
+    "line": 200,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yetiforce\/Fields\/Owner.php(169): App\\Fields\\Owner->getQueryInitUsers()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yetiforce\/Fields\/Owner.php(529): App\\Fields\\Owner->initUsers()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(53): App\\Fields\\Owner::getUserLabel()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(238): Users_Login_Action->process()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#5 {main}"
+}
+[2025-09-30 15:02:12] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:12] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:12] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:12] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:12] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:12] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:12] DEBUG: [Exception] Call to undefined method App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php",
+    "line": 452,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(72): Users->retrieveCurrentUserInfoFromFile()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(153): Vtiger_WebUI->getLogin()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#3 {main}"
+}
+[2025-09-30 15:02:19] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:19] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:19] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:02:19] DEBUG: [Exception] Call to undefined method App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php",
+    "line": 452,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(72): Users->retrieveCurrentUserInfoFromFile()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(153): Vtiger_WebUI->getLogin()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#3 {main}"
+}
+[2025-09-30 15:04:02] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:04:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:04:02] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:04:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:04:02] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:04:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:04:02] DEBUG: [Exception] Call to undefined method App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php",
+    "line": 452,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(72): Users->retrieveCurrentUserInfoFromFile()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(153): Vtiger_WebUI->getLogin()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#3 {main}"
+}
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 15:06:20] DEBUG: [Exception] Cannot access offset of type string on string in /home/bmankowski/projects/FreeCRM/vtlib/Vtiger/ModuleBasic.php on line 83 {
+    "exception": "TypeError",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/ModuleBasic.php",
+    "line": 83,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/ModuleBasic.php(71): vtlib\\ModuleBasic->initialize2()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(207): vtlib\\ModuleBasic->initialize()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(856): Vtiger_Module_Model::getInstanceFromArray()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(892): Vtiger_Module_Model::getAll()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(945): Vtiger_Module_Model::getEntityModules()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/views\/Basic.php(54): Vtiger_Module_Model::getSearchableModules()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/views\/Index.php(35): Vtiger_Basic_View->preProcess()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/views\/DashBoard.php(62): Vtiger_Index_View->preProcess()\n#8 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Home\/views\/DashBoard.php(17): Vtiger_DashBoard_View->preProcess()\n#9 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(104): Home_DashBoard_View->preProcess()\n#10 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(237): Vtiger_WebUI->triggerPreProcess()\n#11 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#12 {main}"
+}

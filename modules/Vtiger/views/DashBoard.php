@@ -37,7 +37,12 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		//check profile permissions for Dashboards
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		if (!$moduleModel) {
+			$permission = false;
+			$widgets = [];
+		} else {
+			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		}
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
 			$widgets = $dashBoardModel->getDashboards('Header');
@@ -71,7 +76,12 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		//check profile permissions for Dashboards
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		if (!$moduleModel) {
+			$permission = false;
+			$widgets = [];
+		} else {
+			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		}
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
 			$widgets = $dashBoardModel->getDashboards('Header');

@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Debugger;
 require_once 'include/runtime/Globals.php';
 
 class Vtiger_Viewer extends Smarty
@@ -97,8 +96,14 @@ class Vtiger_Viewer extends Smarty
 			$this->registerClass('App\\Company', 'App\\Company');
 			$this->registerClass('\\App\\Company', 'App\\Company');
 			$this->registerClass('\\App\\Json', 'App\\Json');
-			$this->registerClass('App\\Debugger', 'App\\Debugger');
-			$this->registerClass('\\App\\Debugger', 'App\\Debugger');
+			// Ensure App\\Debugger references resolve to App\\Debuger
+			if (class_exists('App\\Debuger') && !class_exists('App\\Debugger')) {
+				class_alias('App\\Debuger', 'App\\Debugger');
+			}
+			$this->registerClass('App\\Debuger', 'App\\Debuger');
+			$this->registerClass('\\App\\Debuger', 'App\\Debuger');
+			$this->registerClass('App\\Debugger', 'App\\Debuger');
+			$this->registerClass('\\App\\Debugger', 'App\\Debuger');
 			$this->registerClass('Vtiger_Language_Handler', 'Vtiger_Language_Handler');
 			$this->registerClass('Yeti_Layout', 'Yeti_Layout');
 			$this->registerClass('Vtiger_Util_Helper', 'Vtiger_Util_Helper');
@@ -182,11 +187,9 @@ class Vtiger_Viewer extends Smarty
 					}
 				}
 				$filePath = "modules/Vtiger/$templateName";
-				Debugger::log($filePath);
 			}
 		}
 		\App\Cache::save('ViewerTemplatePath', $cacheKey, $filePath, \App\Cache::LONG);
-		Debugger::log("getTemplatePath on return: $filePath");
 		return $filePath;
 	}
 
@@ -260,7 +263,6 @@ function vtemplate_path($templateName, $moduleName = '')
 {
 	$viewerInstance = Vtiger_Viewer::getInstance();
 	$templatePath = $viewerInstance->getTemplatePath($templateName, $moduleName);
-	Debugger::log("vtemplate_path: $templatePath");
 	return $templatePath;
 }
 

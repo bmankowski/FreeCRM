@@ -15,20 +15,21 @@ require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
-require_once 'include/App/Debugger.php';
-require_once 'include/App/DebugConsole.php';
-require_once 'include/App/Cache.php';
+require_once 'vendor/yetiforce/Debuger.php';
+require_once 'vendor/yetiforce/Cache.php';
+require_once 'vendor/yetiforce/Db.php';
 require_once 'vendor/yetiforce/Db/Query.php';
 require_once 'vendor/yetiforce/Log.php';
-require_once 'include/App/User.php';
+require_once 'vendor/yetiforce/User.php';
 require_once 'vendor/yetiforce/RequestUtil.php';
-require_once 'include/App/Language.php';
-require_once 'include/App/Version.php';
-require_once 'include/App/Company.php';
-require_once 'include/App/Purifier.php';
-require_once 'include/App/Json.php';
+require_once 'vendor/yetiforce/Language.php';
+require_once 'vendor/yetiforce/Version.php';
+require_once 'vendor/yetiforce/Company.php';
+require_once 'vendor/yetiforce/Purifier.php';
+require_once 'vendor/yetiforce/Json.php';
 vimport('include.runtime.EntryPoint');
-\App\Debugger::init();
+
+\App\Debuger::init();
 \App\Cache::init();
 App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
@@ -270,7 +271,7 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = 'cache/logs/errors.log';
 			$content = print_r($msg, true);
-			$content .= PHP_EOL . \App\Debugger::getBacktrace();
+            $content .= PHP_EOL . \App\Debuger::getBacktrace();
 			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
 		}
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
