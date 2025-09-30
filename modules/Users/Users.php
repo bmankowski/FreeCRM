@@ -42,6 +42,12 @@ class Users extends CRMEntity
 	public $error_string;
 	public $is_admin;
 	public $deleted;
+	
+	// Dynamic properties for user info
+	public $currency_name;
+	public $currency_code;
+	public $currency_symbol;
+	public $conv_rate;
 	public $tab_name = ['vtiger_users', 'vtiger_user2role'];
 	public $tab_name_index = ['vtiger_users' => 'id', 'vtiger_user2role' => 'userid'];
 	public $table_name = "vtiger_users";

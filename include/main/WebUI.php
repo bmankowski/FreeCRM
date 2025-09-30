@@ -8,6 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+// Configure error reporting for production
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
 require_once 'vendor/autoload.php';
 require_once 'vendor/yiisoft/yii2/Yii.php';
 //require_once 'vendor/yii/Yii.php';
@@ -267,16 +272,23 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 
 	function exception_error_handler($errno, $errstr, $errfile, $errline)
 	{
+		// Skip if output buffering is active to avoid conflicts
+		if (ob_get_level() > 0) {
+			return false;
+		}
+		
 		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = 'cache/logs/errors.log';
 			$content = print_r($msg, true);
             $content .= PHP_EOL . \App\Debuger::getBacktrace();
-			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
+			@file_put_contents($file, $content . PHP_EOL, FILE_APPEND | LOCK_EX);
 		}
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
 			\vtlib\Functions::throwNewException($msg, false);
 		}
+		
+		return false; // Let PHP handle the error normally
 	}
 	set_error_handler('exception_error_handler', \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 }

@@ -511,7 +511,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$moduleName = $module->get('name');
 		} elseif (is_string($module)) {
 			$module = Vtiger_Module_Model::getInstance($module);
-			$moduleName = $module->get('name');
+			$moduleName = $module ? $module->get('name') : $module;
 		} elseif (empty($module)) {
 			$moduleName = \App\Record::getType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
