@@ -1004,3 +1004,336 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base 
 Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
     "level": "WARNING"
 }
+[2025-09-30 11:29:00] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 11:29:00] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:29:00] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:29:00] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 11:29:00] DEBUG: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 11:29:00] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 11:29:00] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:29:00] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:29:00] DEBUG: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 11:29:00] DEBUG: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 11:30:25] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 11:30:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:30:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:30:25] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 11:30:25] DEBUG: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 11:30:25] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 11:30:25] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:30:25] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:30:25] DEBUG: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 11:30:25] DEBUG: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:30:25] DEBUG: [Exception] SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(67): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 10:30:31] DEBUG: [Exception] SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(67): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 10:34:11] DEBUG: [Exception] SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(67): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 11:34:19] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 11:34:19] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:34:19] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:34:19] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 11:34:19] DEBUG: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 11:34:19] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 11:34:19] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:34:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:34:19] DEBUG: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 11:34:19] DEBUG: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:34:19] DEBUG: [Exception] SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(67): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 10:36:15] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:36:15] DEBUG: [Exception] Undefined constant "vtlib\REQUEST_MODE" in /home/bmankowski/projects/FreeCRM/vtlib/Vtiger/Functions.php on line 697 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php",
+    "line": 697,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(277): vtlib\\Functions::throwNewException()\n#1 [internal function]: exception_error_handler()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatecompilerbase.php(664): trigger_error()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templateparser.php(2604): Smarty_Internal_TemplateCompilerBase->compilePHPFunctionCall()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templateparser.php(2780): Smarty_Internal_Templateparser->yy_r143()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templateparser.php(2875): Smarty_Internal_Templateparser->yy_reduce()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_smartytemplatecompiler.php(128): Smarty_Internal_Templateparser->doParse()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatecompilerbase.php(479): Smarty_Internal_SmartyTemplateCompiler->doCompile()\n#8 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatecompilerbase.php(394): Smarty_Internal_TemplateCompilerBase->compileTemplateSource()\n#9 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(184): Smarty_Internal_TemplateCompilerBase->compileTemplate()\n#10 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(141): Smarty_Template_Compiled->compileTemplateSource()\n#11 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(105): Smarty_Template_Compiled->process()\n#12 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(217): Smarty_Template_Compiled->render()\n#13 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(386): Smarty_Internal_Template->render()\n#14 \/home\/bmankowski\/projects\/FreeCRM\/cache\/templates_c\/basic\/74a427ef7932358366e6731807a2abff40d53531_0.file.InstallPreProcess.tpl.php(25): Smarty_Internal_Template->_subTemplateRender()\n#15 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_resource_base.php(123): content_68dbb29f5b56b3_46696695()\n#16 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(114): Smarty_Template_Resource_Base->getRenderedTemplateCode()\n#17 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(217): Smarty_Template_Compiled->render()\n#18 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(238): Smarty_Internal_Template->render()\n#19 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(116): Smarty_Internal_TemplateBase->_execute()\n#20 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(91): Smarty_Internal_TemplateBase->fetch()\n#21 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#22 {main}"
+}
+[2025-09-30 10:37:07] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:37:07] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:37:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:37:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:37:07] DEBUG: cannot translate this: '16384: Using unregistered function "vimage_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:37:07] DEBUG: cannot translate this: '16384: Using unregistered function "vimage_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:37:07] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:37:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:37:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:37:07] DEBUG: cannot translate this: '16384: Using unregistered function "date" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:37:07] DEBUG: cannot translate this: '16384: Using unregistered function "date" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:39:46] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:39:46] DEBUG: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationLibrary()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationLibrary()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:39:46] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:39:46] DEBUG: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationValue(true)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationValue(true)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'LBL_MYSQLND_LIBRARY' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:46] DEBUG: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'LBL_MYSQLND_LIBRARY' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}

@@ -187,3 +187,101 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/F
 Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us
 [2025-09-30 10:46:43] WARNING: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
 Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 11:29:00] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 11:29:00] ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272
+[2025-09-30 11:29:00] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 11:29:00] WARNING: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us
+[2025-09-30 11:29:00] WARNING: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 11:30:25] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 11:30:25] ERROR: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272
+[2025-09-30 11:30:25] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 11:30:25] WARNING: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us
+[2025-09-30 11:30:25] WARNING: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 11:34:19] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 11:34:19] ERROR: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272
+[2025-09-30 11:34:19] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 11:34:19] WARNING: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us
+[2025-09-30 11:34:19] WARNING: cannot translate this: 'SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:36:15] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 10:37:07] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 10:37:07] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 10:37:07] WARNING: cannot translate this: '16384: Using unregistered function "vimage_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us
+[2025-09-30 10:37:07] WARNING: cannot translate this: '16384: Using unregistered function "vimage_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:37:07] ERROR: Smarty plugin registration error: Undefined class 'vglobal' in register template class
+[2025-09-30 10:37:07] WARNING: cannot translate this: '16384: Using unregistered function "date" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us
+[2025-09-30 10:37:07] WARNING: cannot translate this: '16384: Using unregistered function "date" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationLibrary()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationLibrary()" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationValue(true)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: '16384: Using unregistered static method "Settings_ConfReport_Module_Model::getConfigurationValue(true)" in a template is deprecated and will be removed in a future release. Use Smarty::registerClass to explicitly register a class for access. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templateparser.php, line 2428' for module 'Vtiger' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'LBL_MYSQLND_LIBRARY' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:39:46] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'LBL_MYSQLND_LIBRARY' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl

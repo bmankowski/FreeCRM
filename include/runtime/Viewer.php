@@ -10,6 +10,7 @@
  * ********************************************************************************** */
 
 use App\Debugger;
+require_once 'include/runtime/Globals.php';
 
 class Vtiger_Viewer extends Smarty
 {
@@ -103,7 +104,11 @@ class Vtiger_Viewer extends Smarty
 			$this->registerClass('Vtiger_Util_Helper', 'Vtiger_Util_Helper');
 			$this->registerClass('AppConfig', 'AppConfig');
 			$this->registerClass('Vtiger_Module_Model', 'Vtiger_Module_Model');
-			$this->registerClass('vglobal', 'vglobal');
+			// Register legacy helper as a Smarty function instead of class
+			$this->registerPlugin('function', 'vglobal', 'vglobal');
+			// Allow static access from templates (Smarty 4.5 requirement)
+			$this->registerClass('Settings_ConfReport_Module_Model', 'Settings_ConfReport_Module_Model');
+			$this->registerClass('\\Settings_ConfReport_Module_Model', 'Settings_ConfReport_Module_Model');
 		} catch (Exception $e) {
 			// Log error but don't break the application
 			\App\Log::error('Smarty plugin registration error: ' . $e->getMessage());

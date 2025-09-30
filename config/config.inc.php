@@ -48,7 +48,7 @@ $dbconfig['db_server'] = 'localhost';
 $dbconfig['db_port'] = '3306';
 $dbconfig['db_username'] = 'yetiforce';
 $dbconfig['db_password'] = 'yetiforce123';
-$dbconfig['db_name'] = 'yetiforce';
+$dbconfig['db_name'] = '';
 $dbconfig['db_type'] = 'mysql';
 $dbconfig['db_status'] = 'true';
 

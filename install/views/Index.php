@@ -24,7 +24,7 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		if (!$request->get('lang')) {
 
-			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en', 0, 2);
+			$lang = substr(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en', 0, 2);
 
 			if ('pl' === $lang) {
 				$request->set('lang', 'pl_pl');
@@ -63,10 +63,14 @@ class Install_Index_view extends Vtiger_View_Controller
 
 		$configFileName = 'config/config.inc.php';
 		if ($request->getMode() !== 'Step7' && is_file($configFileName) && filesize($configFileName) > 10) {
-			$defaultModule = vglobal('default_module');
-			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
-			$defaultView = $defaultModuleInstance->getDefaultViewName();
-			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
+			// Redirect to app only if installation is actually completed (db configured)
+			$dbconfig = AppConfig::main('dbconfig');
+			if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
+				$defaultModule = vglobal('default_module');
+				$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
+				$defaultView = $defaultModuleInstance->getDefaultViewName();
+				header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
+			}
 		}
 		$_SESSION['default_language'] = $defaultLanguage = ($request->get('lang')) ? $request->get('lang') : 'en_us';
 		vglobal('default_language', $defaultLanguage);
