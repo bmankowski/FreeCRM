@@ -80,6 +80,17 @@ class Log
     }
 
     /**
+     * Log trace message
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    public static function trace($message, array $context = [])
+    {
+        static::log('TRACE', $message, $context);
+    }
+
+    /**
      * Log info message
      * @param string $message
      * @param array $context

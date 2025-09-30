@@ -96,13 +96,15 @@ class PearDatabase
 	public function connect()
 	{
 		// Set DSN 
-		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port;
+		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port . ';allowPublicKeyRetrieval=true';
 
 		// Set options
 		$options = array(
 			PDO::ATTR_EMULATE_PREPARES => false,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_TIMEOUT => 5
+			PDO::ATTR_TIMEOUT => 5,
+			PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+			PDO::MYSQL_ATTR_SSL_CA => null
 		);
 		// Create a new PDO instanace
 		try {

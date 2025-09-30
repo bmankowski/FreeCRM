@@ -152,6 +152,42 @@ class Cache
         return static::set($key, $value, $ttl);
     }
 
+	/**
+	 * Backward-compatible: check if cache exists for category/key.
+	 * @param string $category
+	 * @param mixed $key
+	 * @return bool
+	 */
+	public static function staticHas($category, $key)
+	{
+		return static::has(static::composeKey($category, $key));
+	}
+
+	/**
+	 * Backward-compatible: get cached value for category/key.
+	 * @param string $category
+	 * @param mixed $key
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public static function staticGet($category, $key, $default = null)
+	{
+		return static::get(static::composeKey($category, $key), $default);
+	}
+
+	/**
+	 * Backward-compatible: save cached value for category/key.
+	 * @param string $category
+	 * @param mixed $key
+	 * @param mixed $value
+	 * @param int|null $ttl
+	 * @return bool
+	 */
+	public static function staticSave($category, $key, $value, $ttl = null)
+	{
+		return static::set(static::composeKey($category, $key), $value, $ttl);
+	}
+
     /**
      * Get cache file path
      * @param string $key
@@ -161,4 +197,20 @@ class Cache
     {
         return static::$cacheDir . md5($key) . '.cache';
     }
+
+	/**
+	 * Compose a stable cache key from category and key parts.
+	 * @param string $category
+	 * @param mixed $key
+	 * @return string
+	 */
+	protected static function composeKey($category, $key)
+	{
+		if (is_scalar($key)) {
+			$keyPart = (string) $key;
+		} else {
+			$keyPart = md5(serialize($key));
+		}
+		return (string) $category . ':' . $keyPart;
+	}
 }

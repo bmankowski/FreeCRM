@@ -217,10 +217,10 @@ class Debugger
             file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
         }
         
-        // Output to console if enabled
-        if (\AppConfig::debug('LOG_TO_CONSOLE')) {
-            echo $logEntry;
-        }
+        // // Output to console if enabled
+        // if (\AppConfig::debug('LOG_TO_CONSOLE')) {
+        //     echo $logEntry;
+        // }
     }
 
     /**

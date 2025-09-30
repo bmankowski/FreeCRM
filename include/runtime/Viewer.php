@@ -21,6 +21,7 @@ class Vtiger_Viewer extends Smarty
 	// Turn-it on to analyze the data pushed to templates for the request.
 	protected static $debugViewer = false;
 	protected static $instance = false;
+	protected $source = null;
 
 	/**
 	 * log message into the file if in debug mode.
@@ -91,6 +92,18 @@ class Vtiger_Viewer extends Smarty
 			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
 			$this->registerClass('Json', 'App\Json');
+			// Explicitly register classes used directly in templates (Smarty 4.5 deprecation fix)
+			$this->registerClass('App\\Company', 'App\\Company');
+			$this->registerClass('\\App\\Company', 'App\\Company');
+			$this->registerClass('\\App\\Json', 'App\\Json');
+			$this->registerClass('App\\Debugger', 'App\\Debugger');
+			$this->registerClass('\\App\\Debugger', 'App\\Debugger');
+			$this->registerClass('Vtiger_Language_Handler', 'Vtiger_Language_Handler');
+			$this->registerClass('Yeti_Layout', 'Yeti_Layout');
+			$this->registerClass('Vtiger_Util_Helper', 'Vtiger_Util_Helper');
+			$this->registerClass('AppConfig', 'AppConfig');
+			$this->registerClass('Vtiger_Module_Model', 'Vtiger_Module_Model');
+			$this->registerClass('vglobal', 'vglobal');
 		} catch (Exception $e) {
 			// Log error but don't break the application
 			\App\Log::error('Smarty plugin registration error: ' . $e->getMessage());
@@ -133,9 +146,10 @@ class Vtiger_Viewer extends Smarty
 		
 		$moduleName = str_replace(':', '/', $moduleName);
 		$cacheKey = $templateName . $moduleName;
-		if (\App\Cache::has('ViewerTemplatePath', $cacheKey)) {
-			return \App\Cache::get('ViewerTemplatePath', $cacheKey);
-		}
+		// TODO: repair Ten cache tutaj zwaraca połączone wartości, nie wiem skąd to się bierze
+		// if (\App\Cache::has('ViewerTemplatePath', $cacheKey)) {
+		// 	return \App\Cache::get('ViewerTemplatePath', $cacheKey);
+		// }
 		$possibleTemplateDirs = $this->getTemplateDir();
 		foreach ($possibleTemplateDirs as $templateDir) {
 			$completeFilePath = $templateDir . "modules/$moduleName/$templateName";
@@ -165,6 +179,7 @@ class Vtiger_Viewer extends Smarty
 			}
 		}
 		\App\Cache::save('ViewerTemplatePath', $cacheKey, $filePath, \App\Cache::LONG);
+		Debugger::log("getTemplatePath on return: $filePath");
 		return $filePath;
 	}
 
@@ -237,7 +252,9 @@ class Vtiger_Viewer extends Smarty
 function vtemplate_path($templateName, $moduleName = '')
 {
 	$viewerInstance = Vtiger_Viewer::getInstance();
-	return $viewerInstance->getTemplatePath($templateName, $moduleName);
+	$templatePath = $viewerInstance->getTemplatePath($templateName, $moduleName);
+	Debugger::log("vtemplate_path: $templatePath");
+	return $templatePath;
 }
 
 /**

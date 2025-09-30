@@ -411,3 +411,596 @@
 [2025-09-30 09:28:25] DEBUG: modules/Vtiger/Body.tpl
 [2025-09-30 09:28:48] DEBUG: modules/Vtiger/Header.tpl
 [2025-09-30 09:28:48] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:31:42] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:31:50] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:31:50] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:31:53] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:32:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:32:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:32:17] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:32:17] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:32:17] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:32:35] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:32:35] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:32:41] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:33:27] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:33:27] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:33:31] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:33:45] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:33:45] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:33:51] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:34:08] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:34:08] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:34:12] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:35:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:35:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:35:08] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:35:22] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:35:22] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:35:28] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:43:20] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:43:20] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:43:21] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:43:52] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:43:52] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:43:56] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:44:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:44:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:44:19] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 09:44:29] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:44:29] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:44:29] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:45:39] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:45:39] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:45:39] DEBUG: Unable to load template 'file:Body.tpl' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:45:51] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:45:51] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:46:38] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:46:38] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:47:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:47:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:51:24] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:51:24] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:51:24] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:51:27] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:51:27] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:51:27] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:51:47] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:51:47] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:52:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:52:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:54:54] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:54:54] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:54:54] DEBUG: Header.tplUsers
+[2025-09-30 09:54:54] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:55:41] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:55:41] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:55:41] DEBUG: Header.tplUsers
+[2025-09-30 09:55:41] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:56:02] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:56:02] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:56:02] DEBUG: Header.tplUsers
+[2025-09-30 09:56:02] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:57:29] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:57:29] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:57:29] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 09:57:29] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:59:06] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:59:06] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:59:06] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 09:59:06] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 09:59:59] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:59:59] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 09:59:59] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 09:59:59] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 09:59:59] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:00:31] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:00:31] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:00:31] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:00:31] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 10:00:31] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:00:31] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:00:31] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:00:31] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:00:46] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:00:46] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:00:46] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:00:46] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 10:00:46] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:00:46] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:00:46] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:00:46] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:02:01] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:02:01] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:02:01] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:02:01] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 10:02:01] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:02:01] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:02:01] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:02:01] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:02:33] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:02:33] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:02:33] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:02:33] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 10:02:33] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:02:33] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:02:33] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:02:33] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:03:43] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:03:43] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:03:43] DEBUG: getTemplatePath: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:03:43] DEBUG: cannot translate this: '1024: Undefined property: Vtiger_Viewer::$source in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/Smarty.class.php, line 1321' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:03:43] DEBUG: cannot translate this: '1024: Undefined property: Vtiger_Viewer::$source in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/Smarty.class.php, line 1321' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:04:24] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:04:42] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:04:42] DEBUG: getTemplatePath: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:04:42] DEBUG: cannot translate this: '1024: Undefined property: Vtiger_Viewer::$source in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/Smarty.class.php, line 1321' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:04:42] DEBUG: cannot translate this: '1024: Undefined property: Vtiger_Viewer::$source in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/Smarty.class.php, line 1321' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:10:04] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:10:04] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:10:04] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:10:04] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 10:10:04] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:10:04] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:10:04] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:10:04] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:10:13] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:10:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:10:13] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:10:13] DEBUG: getTemplatePath: modules/Vtiger/Header.tpl
+[2025-09-30 10:10:13] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:10:13] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:10:13] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:10:13] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:11:05] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:11:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:11:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:11:05] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:11:05] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:11:05] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:11:05] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:11:05] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:11:51] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:11:51] DEBUG: getTemplatePath: 1
+[2025-09-30 10:11:51] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:11:51] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:11:51] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:11:51] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:11:51] DEBUG: getTemplatePath: 1
+[2025-09-30 10:11:51] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:11:51] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:11:51] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:11:51] DEBUG: getTemplatePath: 1
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: 1
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: 2
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: 3
+[2025-09-30 10:12:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: 3
+[2025-09-30 10:12:25] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:12:25] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: 1
+[2025-09-30 10:12:25] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:12:25] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:12:25] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:03] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:03] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:13:03] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 1.1
+[2025-09-30 10:13:03] DEBUG: vtemplate_path: Header.tplUsers
+[2025-09-30 10:13:03] DEBUG: Unable to load template 'file:Header.tplUsers' in 'modules/Vtiger/Header.tpl' => /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_template.php:196 {
+    "level": "ERROR"
+}
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:03] DEBUG: getTemplatePath: 1.1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 10:13:21] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_compile_private_modifier.php, line 113' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: Login.tpl, Users
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vtemplate_path" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "file_exists" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "file_exists" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: Login.Default.tpl, Users
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 10:13:21] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: Login.Custom.tpl, Users
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:13:21] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: OperationNotPermitted.tpl, Vtiger
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 1
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 2
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: getTemplatePath: 3
+[2025-09-30 10:13:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:13:21] DEBUG: cannot translate this: '16384: Using unregistered function "vglobal" in a template is deprecated and will be removed in a future release. Use Smarty::registerPlugin to explicitly register a custom modifier. in /home/bmankowski/projects/FreeCRM/vendor/smarty/smarty/libs/sysplugins/smarty_internal_templatecompilerbase.php, line 664' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:14:20] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 1
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 2
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 1
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 2
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 10:14:20] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: Login.tpl, Users
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 1
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 2
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: Login.Default.tpl, Users
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 1
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 2
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 10:14:20] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: Login.Custom.tpl, Users
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 1
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 2
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath: 3
+[2025-09-30 10:14:20] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:14:20] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:14:20] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:16:31] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:16:31] DEBUG: getTemplatePath: Header.tpl, Users
+[2025-09-30 10:16:31] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:16:31] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath: Body.tpl, Users
+[2025-09-30 10:16:31] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 10:16:31] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath: Login.tpl, Users
+[2025-09-30 10:16:31] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath: Login.Default.tpl, Users
+[2025-09-30 10:16:31] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 10:16:31] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath: Login.Custom.tpl, Users
+[2025-09-30 10:16:31] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:16:31] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:16:31] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:16:31] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:18:05] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:18:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:18:05] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 10:18:05] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 10:18:05] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 10:18:05] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 10:18:05] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 10:18:05] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 10:18:05] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 10:18:05] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 10:18:05] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 10:18:05] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 10:18:05] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:18:05] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:18:05] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:18:05] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 10:18:25] DEBUG: [Exception] Call to undefined method App\Cache::staticHas() in /home/bmankowski/projects/FreeCRM/include/CRMEntity.php on line 49 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/include\/CRMEntity.php",
+    "line": 49,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(41): CRMEntity::getInstance()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#3 {main}"
+}
+[2025-09-30 10:20:03] DEBUG: [Exception] Call to undefined method App\Log::trace() in /home/bmankowski/projects/FreeCRM/include/utils/utils.php on line 99 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/include\/utils\/utils.php",
+    "line": 99,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php(103): getColumnFields()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/CRMEntity.php(63): Users->__construct()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(41): CRMEntity::getInstance()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#5 {main}"
+}
+[2025-09-30 10:20:58] DEBUG: Entering getColumnFields(Users) method ... {
+    "level": "TRACE"
+}
+[2025-09-30 10:20:58] DEBUG: [Exception] Class "App\Module" not found in /home/bmankowski/projects/FreeCRM/include/utils/VTCacheUtils.php on line 125 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/include\/utils\/VTCacheUtils.php",
+    "line": 125,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/utils\/utils.php(102): VTCacheUtils::lookupFieldInfo_Module()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php(103): getColumnFields()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/include\/CRMEntity.php(63): Users->__construct()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(41): CRMEntity::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#6 {main}"
+}
+[2025-09-30 10:39:26] DEBUG: Entering getColumnFields(Users) method ... {
+    "level": "TRACE"
+}
+[2025-09-30 10:39:26] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:39:26] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:39:26] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:39:26] DEBUG: cannot translate this: '2: Array to string conversion in /home/bmankowski/projects/FreeCRM/include/App/Db/Query.php, line 159' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:26] DEBUG: cannot translate this: '2: Array to string conversion in /home/bmankowski/projects/FreeCRM/include/App/Db/Query.php, line 159' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:39:26] DEBUG: [Exception] Call to undefined method App\Db\Query::createCommand() in /home/bmankowski/projects/FreeCRM/vtlib/Vtiger/Functions.php on line 302 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php",
+    "line": 302,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/utils\/utils.php(105): vtlib\\Functions::getModuleFieldInfos()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php(103): getColumnFields()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/include\/CRMEntity.php(63): Users->__construct()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(41): CRMEntity::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#6 {main}"
+}
+[2025-09-30 10:43:21] DEBUG: [Exception] Call to undefined method App\Db::getQueryBuilder() in /home/bmankowski/projects/FreeCRM/vendor/yetiforce/Db/Query.php on line 24 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yetiforce\/Db\/Query.php",
+    "line": 24,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): App\\Db\\Query->createCommand()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(33): Vtiger_Module_Model::getInstance()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#7 {main}"
+}
+[2025-09-30 10:44:18] DEBUG: [Exception] Call to undefined method App\Db::getQueryBuilder() in /home/bmankowski/projects/FreeCRM/vendor/yetiforce/Db/Query.php on line 24 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yetiforce\/Db\/Query.php",
+    "line": 24,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): App\\Db\\Query->createCommand()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(33): Vtiger_Module_Model::getInstance()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#7 {main}"
+}
+[2025-09-30 10:44:43] DEBUG: [Exception] Call to undefined method App\Db::getQueryBuilder() in /home/bmankowski/projects/FreeCRM/vendor/yetiforce/Db/Query.php on line 24 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yetiforce\/Db\/Query.php",
+    "line": 24,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): App\\Db\\Query->createCommand()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(33): Vtiger_Module_Model::getInstance()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#7 {main}"
+}
+[2025-09-30 10:45:16] DEBUG: [Exception] Call to undefined method App\Db::getQueryBuilder() in /home/bmankowski/projects/FreeCRM/vendor/yetiforce/Db/Query.php on line 24 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yetiforce\/Db\/Query.php",
+    "line": 24,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): App\\Db\\Query->createCommand()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(33): Vtiger_Module_Model::getInstance()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(239): Users_Login_Action->process()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#7 {main}"
+}
+[2025-09-30 10:46:20] DEBUG: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 10:46:20] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:46:20] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:46:20] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:46:20] DEBUG: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:46:20] DEBUG: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:46:43] DEBUG: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 10:46:43] DEBUG: Smarty plugin registration error: Undefined class 'vglobal' in register template class {
+    "level": "ERROR"
+}
+[2025-09-30 10:46:43] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:46:43] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:46:43] DEBUG: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:46:43] DEBUG: cannot translate this: 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
