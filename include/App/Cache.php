@@ -45,6 +45,10 @@ class Cache
      */
     public static function get($key, $default = null)
     {
+        // TODO: repair cache - temporarily disabled
+        return $default;
+        
+        /*
         static::init();
         
         $file = static::getCacheFile($key);
@@ -63,6 +67,7 @@ class Cache
         }
         
         return $cached['value'];
+        */
     }
 
     /**
@@ -84,10 +89,16 @@ class Cache
         $ttl = (int) $ttl;
         
         $file = static::getCacheFile($key);
-        $data = serialize([
-            'value' => $value,
-            'expires' => time() + $ttl
-        ]);
+        
+        try {
+            $data = serialize([
+                'value' => $value,
+                'expires' => time() + $ttl
+            ]);
+        } catch (\Exception $e) {
+            // If serialization fails (e.g., PDO objects), don't cache
+            return false;
+        }
         
         return file_put_contents($file, $data, LOCK_EX) !== false;
     }
@@ -185,7 +196,13 @@ class Cache
 	 */
 	public static function staticSave($category, $key, $value, $ttl = null)
 	{
-		return static::set(static::composeKey($category, $key), $value, $ttl);
+		try {
+			return static::set(static::composeKey($category, $key), $value, $ttl);
+		} catch (\Exception $e) {
+			// If serialization fails (e.g., PDO objects), don't cache
+			\App\Log::warning('Cache staticSave failed for category "' . $category . '" key "' . $key . '": ' . $e->getMessage());
+			return false;
+		}
 	}
 
     /**
@@ -209,7 +226,12 @@ class Cache
 		if (is_scalar($key)) {
 			$keyPart = (string) $key;
 		} else {
-			$keyPart = md5(serialize($key));
+			try {
+				$keyPart = md5(serialize($key));
+			} catch (\Exception $e) {
+				// If serialization fails, use object hash as fallback
+				$keyPart = md5(spl_object_hash($key) . get_class($key));
+			}
 		}
 		return (string) $category . ':' . $keyPart;
 	}

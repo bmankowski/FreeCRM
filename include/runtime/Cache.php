@@ -14,7 +14,7 @@ class Vtiger_Cache
 {
 
 	private static $selfInstance = false;
-	public static $cacheEnable = true;
+	public static $cacheEnable = false;
 	protected $connector;
 
 	private function __construct()

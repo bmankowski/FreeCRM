@@ -96,21 +96,22 @@ class PearDatabase
 	public function connect()
 	{
 		// Set DSN 
-		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port . ';allowPublicKeyRetrieval=true';
+		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port . ';charset=utf8';
 
 		// Set options
 		$options = array(
 			PDO::ATTR_EMULATE_PREPARES => false,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_TIMEOUT => 5,
-			PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-			PDO::MYSQL_ATTR_SSL_CA => null
+			PDO::ATTR_TIMEOUT => 5
 		);
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
 			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
-		} catch (\Exception\AppException $e) {
+		} catch (\PDOException $e) {
+			\App\Log::error('Database connect (PDOException): ' . $e->getMessage());
+			$this->checkError($e->getMessage());
+		} catch (\Exception $e) {
 			// Catch any errors
 			\App\Log::error('Database connect : ' . $e->getMessage());
 			$this->checkError($e->getMessage());

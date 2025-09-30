@@ -1337,3 +1337,482 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/F
 [2025-09-30 10:41:12] DEBUG: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
     "level": "WARNING"
 }
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'LBL_MYSQLND_LIBRARY' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us {
+    "level": "WARNING"
+}
+[2025-09-30 10:43:11] DEBUG: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl {
+    "level": "WARNING"
+}
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:49:44] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:50:43] DEBUG: [Exception] SQLSTATE[HY000] [2002] Cannot connect to MySQL using SSL in /home/bmankowski/projects/FreeCRM/include/database/PearDatabase.php on line 111 {
+    "exception": "PDOException",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php",
+    "line": 111,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php(111): PDO->__construct()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php(64): PearDatabase->connect()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php(83): PearDatabase->__construct()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/install\/models\/InitSchema.php(22): PearDatabase::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(218): Install_InitSchema_Model->initialize()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(102): Install_Index_view->Step7()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(31): Install_Index_view->process()\n#7 {main}"
+}
+[2025-09-30 10:51:29] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 10:52:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:52:14] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:52:14] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:52:14] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 11:52:14] DEBUG: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 11:52:14] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:52:14] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 10:52:25] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 10:52:41] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 10:53:04] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 11:53:19] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:53:19] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:53:19] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 11:53:19] DEBUG: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 11:53:19] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:53:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:53:45] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:53:45] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 11:53:45] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 11:53:45] DEBUG: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 11:53:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 11:53:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:33:19] DEBUG: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272 {
+    "level": "ERROR"
+}
+[2025-09-30 14:33:19] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:33:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:29] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:34:46] DEBUG: [Exception] SQLSTATE[HY000] [2002] Cannot connect to MySQL using SSL in /home/bmankowski/projects/FreeCRM/include/database/PearDatabase.php on line 114 {
+    "exception": "PDOException",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php",
+    "line": 114,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php(114): PDO->__construct()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php(64): PearDatabase->connect()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php(83): PearDatabase->__construct()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/install\/models\/InitSchema.php(22): PearDatabase::getInstance()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(218): Install_InitSchema_Model->initialize()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(102): Install_Index_view->Step7()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(31): Install_Index_view->process()\n#7 {main}"
+}
+[2025-09-30 13:36:36] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:36:36] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:36:36] DEBUG: [Exception] Call to undefined method App\Log::beginProfile() in /home/bmankowski/projects/FreeCRM/include/database/PearDatabase.php on line 307 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/include\/database\/PearDatabase.php",
+    "line": 307,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/install\/models\/InitSchema.php(38): PearDatabase->query()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/install\/models\/InitSchema.php(23): Install_InitSchema_Model->initializeDatabase()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(218): Install_InitSchema_Model->initialize()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(102): Install_Index_view->Step7()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(31): Install_Index_view->process()\n#5 {main}"
+}
+[2025-09-30 13:39:07] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 13:39:13] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 13:39:32] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 13:39:35] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 14:39:36] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:39:36] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:39:36] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:39:36] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:39:36] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:39:39] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:39:39] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:39:39] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:39:39] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:39:39] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:00] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:41:34] DEBUG: [Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php on line 272 {
+    "exception": "yii\\db\\Exception",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php",
+    "line": 272,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(1181): yii\\db\\Command->prepare()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Command.php(417): yii\\db\\Command->queryInternal()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/yiisoft\/yii2\/db\/Query.php(249): yii\\db\\Command->queryAll()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(157): yii\\db\\Query->all()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(234): vtlib\\Functions::getModuleData()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(70): Vtiger_Module_Model::getInstance()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#8 {main}"
+}
+[2025-09-30 13:42:00] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:42:00] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:43:30] DEBUG: [Exception] Call to a member function getDefaultViewName() on false in /home/bmankowski/projects/FreeCRM/install/views/Index.php on line 71 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php",
+    "line": 71,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(30): Install_Index_view->preProcess()\n#1 {main}"
+}
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 13:45:45] DEBUG: [Exception] Cannot access offset of type string on string in /home/bmankowski/projects/FreeCRM/vtlib/Vtiger/Functions.php on line 173 {
+    "exception": "TypeError",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php",
+    "line": 173,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Functions.php(301): vtlib\\Functions::getModuleId()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/utils\/utils.php(105): vtlib\\Functions::getModuleFieldInfos()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php(103): getColumnFields()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/install\/models\/InitSchema.php(92): Users->__construct()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/install\/models\/InitSchema.php(24): Install_InitSchema_Model->setDefaultUsersAccess()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(218): Install_InitSchema_Model->initialize()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/install\/views\/Index.php(102): Install_Index_view->Step7()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/install\/Install.php(31): Install_Index_view->process()\n#8 {main}"
+}
+[2025-09-30 14:46:37] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:46:37] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:46:37] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:46:37] DEBUG: [Exception] Cannot access offset of type string on string in /home/bmankowski/projects/FreeCRM/vtlib/Vtiger/ModuleBasic.php on line 55 {
+    "exception": "TypeError",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/ModuleBasic.php",
+    "line": 55,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(237): vtlib\\ModuleBasic->initialize()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/cache\/templates_c\/basic\/42623faee947478f89136224f7662072d373c473_0.file.Header.tpl.php(84): Vtiger_Module_Model::getInstance()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_resource_base.php(123): content_68db9ade6626f6_24891460()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(114): Smarty_Template_Resource_Base->getRenderedTemplateCode()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(217): Smarty_Template_Compiled->render()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(238): Smarty_Internal_Template->render()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(134): Smarty_Internal_TemplateBase->_execute()\n#8 \/home\/bmankowski\/projects\/FreeCRM\/include\/runtime\/Viewer.php(236): Smarty_Internal_TemplateBase->display()\n#9 \/home\/bmankowski\/projects\/FreeCRM\/include\/runtime\/Controller.php(249): Vtiger_Viewer->view()\n#10 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/views\/Login.php(40): Vtiger_View_Controller->preProcessDisplay()\n#11 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(104): Users_Login_View->preProcess()\n#12 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(237): Vtiger_WebUI->triggerPreProcess()\n#13 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#14 {main}"
+}
+[2025-09-30 14:48:41] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:48:41] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:48:41] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:48:56] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:48:56] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:48:56] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:12] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:12] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:12] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:24] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:24] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:24] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:26] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:26] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:26] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:52] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:52] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:52] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:49:52] DEBUG: [Exception] Cannot access offset of type string on string in /home/bmankowski/projects/FreeCRM/vtlib/Vtiger/ModuleBasic.php on line 55 {
+    "exception": "TypeError",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/ModuleBasic.php",
+    "line": 55,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/vtlib\/Vtiger\/Module.php(237): vtlib\\ModuleBasic->initialize()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Vtiger\/models\/Module.php(172): vtlib\\Module::getInstance()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/cache\/templates_c\/basic\/42623faee947478f89136224f7662072d373c473_0.file.Header.tpl.php(84): Vtiger_Module_Model::getInstance()\n#3 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_resource_base.php(123): content_68db9ade6626f6_24891460()\n#4 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_template_compiled.php(114): Smarty_Template_Resource_Base->getRenderedTemplateCode()\n#5 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_template.php(217): Smarty_Template_Compiled->render()\n#6 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(238): Smarty_Internal_Template->render()\n#7 \/home\/bmankowski\/projects\/FreeCRM\/vendor\/smarty\/smarty\/libs\/sysplugins\/smarty_internal_templatebase.php(134): Smarty_Internal_TemplateBase->_execute()\n#8 \/home\/bmankowski\/projects\/FreeCRM\/include\/runtime\/Viewer.php(236): Smarty_Internal_TemplateBase->display()\n#9 \/home\/bmankowski\/projects\/FreeCRM\/include\/runtime\/Controller.php(249): Vtiger_Viewer->view()\n#10 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/views\/Login.php(40): Vtiger_View_Controller->preProcessDisplay()\n#11 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(104): Users_Login_View->preProcess()\n#12 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(237): Vtiger_WebUI->triggerPreProcess()\n#13 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#14 {main}"
+}
+[2025-09-30 14:50:16] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:50:16] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:50:16] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:50:16] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 14:50:16] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 14:50:16] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 14:50:16] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 14:50:16] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 14:50:16] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 14:50:16] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 14:50:16] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 14:50:16] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:50:16] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:50:16] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:50:16] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:50:27] DEBUG: [Exception] Call to undefined method App\RequestUtil::getRemoteIP() in /home/bmankowski/projects/FreeCRM/modules/Settings/BruteForce/models/Module.php on line 107 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Settings\/BruteForce\/models\/Module.php",
+    "line": 107,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php(35): Settings_BruteForce_Module_Model->isBlockedIp()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(238): Users_Login_Action->process()\n#2 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#3 {main}"
+}
+[2025-09-30 14:53:10] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:53:10] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:53:10] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:53:10] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:53:10] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:53:10] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:54:33] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:54:33] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:54:33] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:54:33] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:54:33] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:54:33] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:54:33] DEBUG: [Exception] Call to a member function saveLoginHistory() on false in /home/bmankowski/projects/FreeCRM/modules/Users/actions/Login.php on line 80 {
+    "exception": "Error",
+    "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/actions\/Login.php",
+    "line": 80,
+    "trace": "#0 \/home\/bmankowski\/projects\/FreeCRM\/include\/main\/WebUI.php(238): Users_Login_Action->process()\n#1 \/home\/bmankowski\/projects\/FreeCRM\/index.php(23): Vtiger_WebUI->process()\n#2 {main}"
+}
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 14:55:57] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 14:55:57] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:55:57] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:55:57] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:55:57] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 14:56:07] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 14:56:07] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:07] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:07] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:07] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 14:56:21] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 14:56:21] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:21] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:21] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:21] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Vtiger/Header.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/Body.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Users/Body.tpl
+[2025-09-30 14:56:43] DEBUG: vtemplate_path: modules/Users/Body.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/Login.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Users/Login.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/Login.Default.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Users/Login.Default.tpl
+[2025-09-30 14:56:43] DEBUG: vtemplate_path: modules/Users/Login.Default.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:43] DEBUG: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:43] DEBUG: getTemplatePath on return: modules/Vtiger/Login.Custom.tpl
+[2025-09-30 14:56:43] DEBUG: vtemplate_path: modules/Vtiger/Login.Custom.tpl

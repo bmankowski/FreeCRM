@@ -36,7 +36,7 @@
 									</td>
 									<td>
 										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
-											<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
+											<option value="">{vtranslate('LBL_SELECT_OPTION','Install')}</option>
 											{foreach from=$INDUSTRY item=ITEM}
 												<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 											{/foreach}

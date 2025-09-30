@@ -285,3 +285,42 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab`' for module 'Vtiger' (or base 
 [2025-09-30 10:41:12] WARNING: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
 [2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
 [2025-09-30 10:41:12] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'LBL_MYSQLND_LIBRARY' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'E_ALL & ~E_NOTICE' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: '1' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Address book directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/addressBook/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Image cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/images/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Import cache directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/import/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Cache upload directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/upload/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Vtlib test directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/vtlib/' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'Vtlib test HTML directory' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: en_us
+[2025-09-30 10:43:11] WARNING: cannot translate this: 'cache/vtlib/HTML' for module 'Settings..ConfReport' (or base or Vtiger), lang: pl_pl
+[2025-09-30 11:52:14] ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272
+[2025-09-30 11:53:19] ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'yetiforce.vtiger_tab' doesn't exist
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272
+[2025-09-30 11:53:45] ERROR: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272
+[2025-09-30 14:33:19] ERROR: SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+Failed to prepare SQL: SELECT * FROM `vtiger_tab` => /home/bmankowski/projects/FreeCRM/vendor/yiisoft/yii2/db/Command.php:272

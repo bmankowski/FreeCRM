@@ -34,7 +34,9 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
-			$moduleModel->saveLoginHistory($username, 'Blocked IP');
+			if ($moduleModel) {
+				$moduleModel->saveLoginHistory($username, 'Blocked IP');
+			}
 			header('Location: index.php?module=Users&view=Login&error=2');
 			return false;
 		}
@@ -57,7 +59,9 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				Vtiger_Session::set('layout', $request->get('layout'));
 			}
 			//Track the login History
-			$moduleModel->saveLoginHistory($user->column_fields['user_name']);
+			if ($moduleModel) {
+				$moduleModel->saveLoginHistory($user->column_fields['user_name']);
+			}
 			//End
 			if (isset($_SESSION['return_params'])) {
 				$return_params = urldecode($_SESSION['return_params']);
@@ -77,7 +81,9 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				$error = 2;
 			}
 			//Track the login History
-			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
+			if ($moduleModel) {
+				$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
+			}
 			header("Location: index.php?module=Users&view=Login&error=$error");
 		}
 	}

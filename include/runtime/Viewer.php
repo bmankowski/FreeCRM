@@ -109,6 +109,8 @@ class Vtiger_Viewer extends Smarty
 			// Allow static access from templates (Smarty 4.5 requirement)
 			$this->registerClass('Settings_ConfReport_Module_Model', 'Settings_ConfReport_Module_Model');
 			$this->registerClass('\\Settings_ConfReport_Module_Model', 'Settings_ConfReport_Module_Model');
+			$this->registerClass('App\\Language', 'App\\Language');
+			$this->registerClass('\\App\\Language', 'App\\Language');
 		} catch (Exception $e) {
 			// Log error but don't break the application
 			\App\Log::error('Smarty plugin registration error: ' . $e->getMessage());

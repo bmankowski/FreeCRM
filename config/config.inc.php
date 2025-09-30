@@ -48,7 +48,7 @@ $dbconfig['db_server'] = 'localhost';
 $dbconfig['db_port'] = '3306';
 $dbconfig['db_username'] = 'yetiforce';
 $dbconfig['db_password'] = 'yetiforce123';
-$dbconfig['db_name'] = '';
+$dbconfig['db_name'] = 'yetiforce';
 $dbconfig['db_type'] = 'mysql';
 $dbconfig['db_status'] = 'true';
 
@@ -133,7 +133,7 @@ $display_empty_home_blocks = false;
 $disable_stats_tracking = false;
 
 // Generating Unique Application Key
-$application_unique_key = '4964944015847418904e63f82465a8a1c62348bb';
+$application_unique_key = '0d00af240e2caf7c4706ef37a2745ccc08c490a2';
 
 // trim descriptions, titles in listviews to this value
 $listview_max_textlength = 40;
