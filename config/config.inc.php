@@ -183,7 +183,7 @@ $listMaxEntriesMassEdit = 500;
 $backgroundClosingModal = true;
 
 // Enable CSRF-protection
-$csrfProtection = false;
+$csrfProtection = true;
 
 // Is sending emails active. 
 $isActiveSendingMails = true;

@@ -19,11 +19,16 @@ class CSRFConfig
 		//Override the default expire time of token 
 		CSRF::$expires = 259200;
 
-		// Disable JavaScript rewriting for all requests (not just AJAX)
-		// This prevents issues with public directory structure
+		// Enable JavaScript support for AJAX requests
 		CSRF::$frameBreaker = false;
-		CSRF::$rewriteJs = null;
-		CSRF::$rewrite = false;
+		CSRF::$rewriteJs = 'libraries/csrf-magic/csrf-magic.js';
+		
+		// Force output buffering to be enabled
+		if (ob_get_level() > 0) {
+			// If there's already output buffering, we need to start our own
+			ob_start([CSRF::class, 'obHandler']);
+		}
+		CSRF::$rewrite = true;
 		
 		// Enable defer mode - let the application handle CSRF checking manually
 		CSRF::$defer = true;
