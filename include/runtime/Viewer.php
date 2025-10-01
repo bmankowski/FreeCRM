@@ -89,33 +89,36 @@ class Vtiger_Viewer extends Smarty
 		
 		// Register custom functions for Smarty 4.5 compatibility
 		try {
+			// Register plugins
 			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
-			$this->registerClass('Json', 'App\Json');
-			// Explicitly register classes used directly in templates (Smarty 4.5 deprecation fix)
-			$this->registerClass('App\\Company', 'App\\Company');
-			$this->registerClass('\\App\\Company', 'App\\Company');
-			$this->registerClass('\\App\\Json', 'App\\Json');
-			// Ensure App\\Debugger references resolve to App\\Debuger
-			if (class_exists('App\\Debuger') && !class_exists('App\\Debugger')) {
-				class_alias('App\\Debuger', 'App\\Debugger');
-			}
-			$this->registerClass('App\\Debuger', 'App\\Debuger');
-			$this->registerClass('\\App\\Debuger', 'App\\Debuger');
-			$this->registerClass('App\\Debugger', 'App\\Debuger');
-			$this->registerClass('\\App\\Debugger', 'App\\Debuger');
-			$this->registerClass('Vtiger_Language_Handler', 'Vtiger_Language_Handler');
-			$this->registerClass('Yeti_Layout', 'Yeti_Layout');
-			$this->registerClass('Vtiger_Util_Helper', 'Vtiger_Util_Helper');
-			$this->registerClass('AppConfig', 'AppConfig');
-			$this->registerClass('Vtiger_Module_Model', 'Vtiger_Module_Model');
-			// Register legacy helper as a Smarty function instead of class
 			$this->registerPlugin('function', 'vglobal', 'vglobal');
-			// Allow static access from templates (Smarty 4.5 requirement)
-			$this->registerClass('Settings_ConfReport_Module_Model', 'Settings_ConfReport_Module_Model');
-			$this->registerClass('\\Settings_ConfReport_Module_Model', 'Settings_ConfReport_Module_Model');
-			$this->registerClass('App\\Language', 'App\\Language');
-			$this->registerClass('\\App\\Language', 'App\\Language');
+			
+			// // Register classes used in templates - both with and without leading backslash
+			// $classesToRegister = [
+			// 	'App\\Json',
+			// 	'App\\Company',
+			// 	'App\\Debugger',
+			// 	'App\\Language',
+			// 	'Vtiger_Language_Handler',
+			// 	'Yeti_Layout',
+			// 	'Vtiger_Util_Helper',
+			// 	'AppConfig',
+			// 	'Vtiger_Module_Model',
+			// 	'Settings_ConfReport_Module_Model',
+			// ];
+			
+			// foreach ($classesToRegister as $className) {
+			// 	// Register both with and without leading backslash for maximum compatibility
+			// 	$this->registerClass($className, ltrim($className, '\\'));
+			// 	if ($className[0] !== '\\') {
+			// 		$this->registerClass('\\' . $className, ltrim($className, '\\'));
+			// 	}
+			// }
+			
+			// // Special case: Json alias
+			// $this->registerClass('Json', 'App\\Json');
+			
 		} catch (Exception $e) {
 			// Log error but don't break the application
 			\App\Log::error('Smarty plugin registration error: ' . $e->getMessage());

@@ -36,7 +36,7 @@
 												{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
 													class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
 												{/if}
-												{if count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
+												{if $LISTVIEW_ADVANCEDACTIONS->get('linkdata') && count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
 													{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
 														data-{$NAME}="{$DATA}" 
 													{/foreach}

@@ -123,7 +123,7 @@
 								  </div>
 							  {/if}
 							  {if $MODULE_NAME eq 'Events'}
-								  {if count($RECORD->get('selectedusers')) > 0}
+								  {if $RECORD->get('selectedusers') && count($RECORD->get('selectedusers')) > 0}
 									  <br />{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
 									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
 									  {if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
