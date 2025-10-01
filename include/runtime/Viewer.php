@@ -93,20 +93,14 @@ class Vtiger_Viewer extends Smarty
 			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
 			$this->registerPlugin('function', 'vglobal', 'vglobal');
+			$this->registerPlugin('modifier', 'vglobal', 'vglobal'); // Also register as modifier for compatibility
 			
-			// // Register classes used in templates - both with and without leading backslash
-			// $classesToRegister = [
-			// 	'App\\Json',
-			// 	'App\\Company',
-			// 	'App\\Debugger',
-			// 	'App\\Language',
-			// 	'Vtiger_Language_Handler',
-			// 	'Yeti_Layout',
-			// 	'Vtiger_Util_Helper',
-			// 	'AppConfig',
-			// 	'Vtiger_Module_Model',
-			// 	'Settings_ConfReport_Module_Model',
-			// ];
+			// Register PHP functions that are used in templates
+			$this->registerPlugin('modifier', 'strrpos', 'strrpos');
+			$this->registerPlugin('modifier', 'stripos', 'stripos');
+			$this->registerPlugin('modifier', 'array_flip', 'array_flip');
+			$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
+			
 			
 			// foreach ($classesToRegister as $className) {
 			// 	// Register both with and without leading backslash for maximum compatibility

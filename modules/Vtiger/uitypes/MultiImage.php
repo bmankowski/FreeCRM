@@ -3,8 +3,8 @@
  * UIType MultiImage Field Class
  * @package YetiForce.UIType
  * @license licenses/License.html
- * @author Michał Lorencik <m.lorencik@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Michał Lorencik <m.lorencik@titantech.pl>
+ * @author Radosław Skrzypczak <r.skrzypczak@titantech.pl>
  */
 
 /**

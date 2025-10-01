@@ -14,7 +14,7 @@
 
 ### Final checklist
 <!--- Go over all the following points and check all the boxes that apply. --->
-<!--- We require everyone who wants to contribute to our project to sign the Contributor License Agreement. If you haven’t, please send us an email to cla@yetiforce.com and we will send you the form. --->
+<!--- We require everyone who wants to contribute to our project to sign the Contributor License Agreement. If you haven’t, please send us an email to cla@titantech.pl and we will send you the form. --->
 - [ ] My code is written according to the guidelines found [here] (https://yetiforce.com/en/developer-documentation/standards/167-how-to-create-php-files.html).
 - [ ] I have signed the Contributor Licence Agreement between me and YetiForce.
 

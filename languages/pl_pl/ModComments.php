@@ -28,7 +28,7 @@ $languageStrings = [
 	'LBL_ADDED_COMMENT_TO_TICKET' => 'Dodano komentarz do zgłoszenia',
 	'LBL_NEW_COMMENT_FOR_TICKET' => 'Został dodany komentarz do zgłoszenia',
 	'LBL_NOTICE_WELCOME' => 'Witaj w platformie',
-	'LBL_NOTICE_FOOTER' => 'Jeżeli nie chcesz otrzymywać powiadomień z naszego systemu do zarządzania projektów, poinformuj nas o tym wysyłając nam wiadomość na adres <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Jeżeli nie jesteś adresatem tej wiadomości poinformuj nas o tym i usuń tą wiadomość.',
+	'LBL_NOTICE_FOOTER' => 'Jeżeli nie chcesz otrzymywać powiadomień z naszego systemu do zarządzania projektów, poinformuj nas o tym wysyłając nam wiadomość na adres <a href="mailto:help@titantech.pl" target="_blank">help@titantech.pl</a>. Jeżeli nie jesteś adresatem tej wiadomości poinformuj nas o tym i usuń tą wiadomość.',
 	'LBL_NOTICE_CREATED' => 'został utworzony przez',
 	//Others
 	'LBL_COMMENTS_0' => 'Bieżący rekord',

@@ -95,7 +95,7 @@ $languageStrings = [
 	'LBL_NOTICE_CREATE' => 'Added',
 	'LBL_NOTICE_MODIFICATION' => 'Modification',
 	'LBL_NOTICE_CLOSE' => 'Closed',
-	'LBL_NOTICE_FOOTER' => 'If you don\'t want to receive any notifications from our project management system, please inform us by sending an email to <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. If you are not an addressee of this message, please notify us about it and delete the message.',
+	'LBL_NOTICE_FOOTER' => 'If you don\'t want to receive any notifications from our project management system, please inform us by sending an email to <a href="mailto:help@titantech.pl" target="_blank">help@titantech.pl</a>. If you are not an addressee of this message, please notify us about it and delete the message.',
 	// FIELDS
 	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',

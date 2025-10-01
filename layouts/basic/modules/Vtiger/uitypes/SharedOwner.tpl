@@ -13,6 +13,7 @@
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}
 		{else}
 			{assign var=FIELD_VALUE value=[]}
+			{assign var=NOT_DISPLAY_LIST value=[]}
 		{/if}
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="" />
 		<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}[]" data-fieldinfo='{$FIELD_INFO}' multiple {if !empty($SPECIAL_VALIDATOR)}  data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} 

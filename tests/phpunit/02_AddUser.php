@@ -3,7 +3,7 @@
  * AddUser test class
  * @package YetiForce.Tests
  * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@titantech.pl>
  */
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +14,7 @@ class AddUser extends TestCase
 	{
 		$user = Vtiger_Record_Model::getCleanInstance('Users');
 		$user->set('user_name', 'demo');
-		$user->set('email1', 'demo@yetiforce.com');
+		$user->set('email1', 'demo@titantech.pl');
 		$user->set('first_name', 'Demo');
 		$user->set('last_name', 'YetiForce');
 		$user->set('user_password', 'demo');
