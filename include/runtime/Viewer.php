@@ -92,6 +92,7 @@ class Vtiger_Viewer extends Smarty
 			// Register plugins
 			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
+			$this->registerPlugin('function', 'vtemplate_path', 'vtemplate_path');
 			$this->registerPlugin('function', 'vglobal', 'vglobal');
 			$this->registerPlugin('modifier', 'vglobal', 'vglobal'); // Also register as modifier for compatibility
 			

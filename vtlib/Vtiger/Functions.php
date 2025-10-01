@@ -1125,7 +1125,7 @@ class Functions
 
 	public static function getQueryParams($url)
 	{
-		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
+		$queryStr = parse_url(htmlspecialchars_decode($url ?? ''), PHP_URL_QUERY);
 		// PHP 8.1+: parse_str() doesn't accept null, return empty array if no query string
 		if ($queryStr === null) {
 			return [];

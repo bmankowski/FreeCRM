@@ -472,7 +472,10 @@ class CSRF
 		}
 		// Initialize our handler
 		if (static::$rewrite) {
-			ob_start([static::class, 'obHandler']);
+			// Check if output buffering is already active to avoid conflicts with Smarty
+			if (ob_get_level() == 0) {
+				ob_start([static::class, 'obHandler']);
+			}
 		}
 		// Perform check
 		if (!static::$defer) {
