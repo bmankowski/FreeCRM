@@ -252,7 +252,7 @@ class Field extends FieldBasic
 				->all();
 			\App\Cache::save('AllFieldForModule', $moduleId, $rows);
 		}
-		$instances = false;
+		$instances = []; // PHP 8.2+: Initialize as array instead of false to avoid deprecation warning
 		foreach ($rows as $row) {
 			$instance = new self();
 			$instance->initialize($row, $moduleInstance);

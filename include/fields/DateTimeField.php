@@ -16,6 +16,10 @@ class DateTimeField
 	static protected $databaseTimeZone = null;
 	protected $datetime;
 	private static $cache = [];
+	
+	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
+	protected $date;
+	protected $time;
 
 	/**
 	 *
