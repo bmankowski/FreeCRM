@@ -26,9 +26,9 @@ $DEBUG_CONFIG = [
 	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
 	'DISPLAY_DEBUG_BACKTRACE' => true,
 	// Debug Viewer => cache/logs/viewer-debug.log
-	'DEBUG_VIEWER' => true,
+	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
-	'DISPLAY_DEBUG_VIEWER' => true,
+	'DISPLAY_DEBUG_VIEWER' => false,
 	// migoi
 	// Don't show Smarty Notice in phpError.log
 	'SMARTY_ERROR_REPORTING' => E_ALL & ~E_NOTICE,
