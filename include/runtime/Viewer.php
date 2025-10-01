@@ -101,19 +101,9 @@ class Vtiger_Viewer extends Smarty
 			$this->registerPlugin('modifier', 'stripos', 'stripos');
 			$this->registerPlugin('modifier', 'array_flip', 'array_flip');
 			$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
+		
 			
-			
-			// foreach ($classesToRegister as $className) {
-			// 	// Register both with and without leading backslash for maximum compatibility
-			// 	$this->registerClass($className, ltrim($className, '\\'));
-			// 	if ($className[0] !== '\\') {
-			// 		$this->registerClass('\\' . $className, ltrim($className, '\\'));
-			// 	}
-			// }
-			
-			// // Special case: Json alias
-			// $this->registerClass('Json', 'App\\Json');
-			
+	
 		} catch (Exception $e) {
 			// Log error but don't break the application
 			\App\Log::error('Smarty plugin registration error: ' . $e->getMessage());
