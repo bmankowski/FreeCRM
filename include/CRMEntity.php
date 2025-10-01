@@ -27,6 +27,20 @@ class CRMEntity
 
 	public $db;
 	public $ownedby;
+	
+	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
+	public $moduleName;
+	public $column_fields;
+	public $list_fields;
+	public $search_fields;
+	public $table_name;
+	public $table_index;
+	public $tab_name;
+	public $tab_name_index;
+	public $inventoryData;
+	public $id;
+	public $mode;
+	protected $__inactive_fields_filtered = false;
 
 	/** 	Constructor which will set the column_fields in this object
 	 */
@@ -1135,13 +1149,6 @@ class CRMEntity
 			return false;
 		}
 	}
-
-	/**
-	 * To keep track of action of field filtering and avoiding doing more than once.
-	 *
-	 * @var Array
-	 */
-	protected $__inactive_fields_filtered = false;
 
 	/**
 	 * Filter in-active fields based on type

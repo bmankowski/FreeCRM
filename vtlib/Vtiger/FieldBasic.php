@@ -14,6 +14,7 @@ namespace vtlib;
  * Provides basic API to work with vtiger CRM Fields
  * @package vtlib
  */
+#[\AllowDynamicProperties]
 class FieldBasic
 {
 

@@ -308,6 +308,10 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 	{
 		if (count($this->widgetsList) > 0)
 			return;
+		
+		// Initialize widget columns to avoid PHP 8.0+ count() errors on null
+		$this->widgets = [1 => [], 2 => [], 3 => []];
+		
 		$moduleModel = $this->getModule();
 		$module = $this->getModuleName();
 		$record = $this->getRecord()->getId();

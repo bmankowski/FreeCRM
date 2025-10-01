@@ -17,6 +17,15 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	// Class variable to store the child links
 	protected $childlinks = [];
+	
+	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
+	protected $linkclass;          // CSS class for the link
+	protected $linkgrupclass;      // CSS class for link group
+	protected $modalView;          // Boolean - whether link opens in modal
+	protected $linkdata;           // Array of data attributes for the link
+	protected $active;             // Boolean - whether link is active
+	protected $relatedModuleName;  // Related module name (module or parent:module)
+	protected $showLabel;          // Boolean - whether to show label
 
 	/**
 	 * Function to get the value of a given property

@@ -20,6 +20,21 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $uitype_instance;
 	public $webserviceField = false;
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
+	
+	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
+	protected $fieldDataType;
+	protected $module;
+	protected $isReadOnly;
+	protected $fieldInfo;
+	protected $uitypeModel;
+	protected $fieldvalue;
+	protected $workflow_columnname;
+	protected $isEditableReadOnly;
+	protected $editable;
+	protected $reportcolumn;
+	protected $reportlabel;
+	protected $reportcolumninfo;
+	protected $fromOutsideList;
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';

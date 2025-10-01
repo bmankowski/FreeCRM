@@ -15,6 +15,9 @@ require_once 'include/runtime/Cache.php';
 class VTWorkflowManager
 {
 
+	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
+	public $adb;
+	
 	static $ON_FIRST_SAVE = 1;
 	static $ONCE = 2;
 	static $ON_EVERY_SAVE = 3;

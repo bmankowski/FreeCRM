@@ -24,6 +24,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
+	
+	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
+	protected $entity;            // CRMEntity instance
+	protected $isWatchingRecord;  // Boolean - whether user is watching this record
 
 	/**
 	 * Function to get the id of the record
