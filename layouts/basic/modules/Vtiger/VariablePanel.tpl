@@ -9,16 +9,16 @@
 	{if $SELECTED_MODULE && App\Module::getEntityInfo($SELECTED_MODULE)}
 		<div class="col-md-6 fieldRow">
 			<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
-				<label class="muted">{\App\Language::translate('LBL_MODULE_FIELDS')}</label>
+				<label class="muted">{'LBL_MODULE_FIELDS'|t}</label>
 			</div>
 			<div class="medium col-md-9 fieldValue">
 				<div class="row">
 					<div class="input-group">
 						<select class="select2 form-control" id="recordVariable">
 							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
-								<optgroup label="{\App\Language::translate($BLOCK_NAME, $SELECTED_MODULE)}">
+								<optgroup label="{$BLOCK_NAME|t:$SELECTED_MODULE}">
 									{foreach item=ITEM from=$FIELDS}
-										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{\App\Language::translate($ITEM['label'], $SELECTED_MODULE)}</option>
+										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']|t:$SELECTED_MODULE}</option>
 									{/foreach}
 								</optgroup>
 							{/foreach}
@@ -39,7 +39,7 @@
 		{if $RELATED_VARIABLE}
 			<div class="col-md-6 fieldRow">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
-					<label class="muted">{\App\Language::translate('LBL_RELATED_MODULE_FIELDS')}</label>
+					<label class="muted">{'LBL_RELATED_MODULE_FIELDS'|t}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
@@ -72,7 +72,7 @@
 		{if $SOURCE_VARIABLE}
 			<div class="col-md-6 fieldRow">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
-					<label class="muted">{\App\Language::translate('LBL_SOURCE_MODULE_FIELDS')}</label>
+					<label class="muted">{'LBL_SOURCE_MODULE_FIELDS'|t}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
@@ -80,15 +80,15 @@
 							<select class="select2" id="sourceVariable">
 								{foreach item=BLOCKS key=SOURCE_MODULE from=$SOURCE_VARIABLE}
 									{if $SOURCE_MODULE == 'LBL_ENTITY_VARIABLES'}
-										<optgroup label="{\App\Language::translate($SOURCE_MODULE)}">
+										<optgroup label="{$SOURCE_MODULE|t}">
 											{foreach item=ITEM from=$BLOCKS}
 												<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
 											{/foreach}
 										</optgroup> 
 									{else}
-										{assign var=SOURCE_LABEL value=\App\Language::translate("SINGLE_$SOURCE_MODULE", $SOURCE_MODULE)}
+										{assign var=SOURCE_LABEL value="SINGLE_$SOURCE_MODULE"|t:$SOURCE_MODULE}
 										{foreach item=FIELDS key=BLOCK_NAME from=$BLOCKS}
-											<optgroup label="{$SOURCE_LABEL} - {\App\Language::translate($BLOCK_NAME, $SOURCE_MODULE)}">
+											<optgroup label="{$SOURCE_LABEL} - {$BLOCK_NAME|t:$SOURCE_MODULE}">
 												{foreach item=ITEM from=$FIELDS}
 													<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$SOURCE_LABEL}: {$ITEM['label']}</option>
 												{/foreach}
@@ -113,14 +113,14 @@
 	{/if}
 	<div class="col-md-6 fieldRow">
 		<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
-			<label class="muted">{\App\Language::translate('LBL_ADDITIONAL_VARIABLES')}</label>
+			<label class="muted">{'LBL_ADDITIONAL_VARIABLES'|t}</label>
 		</div>
 		<div class="medium col-md-9 fieldValue">
 			<div class="row">
 				<div class="input-group">
 					<select class="select2" id="generalVariable">
 						{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getGeneralVariable()}
-							<optgroup label="{\App\Language::translate($BLOCK_NAME)}">
+							<optgroup label="{$BLOCK_NAME|t}">
 								{foreach item=LABEL key=VARIABLE from=$FIELDS}
 									<option value="{$VARIABLE}">{$LABEL}</option>
 								{/foreach}

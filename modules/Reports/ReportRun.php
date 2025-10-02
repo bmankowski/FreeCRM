@@ -341,14 +341,14 @@ class ReportRun extends CRMEntity
 			$fld_arr = explode(' ', $fieldlabel);
 			if (($mod_arr[0] == '')) {
 				$mod = $module;
-				$mod_lbl = \App\Language::translate($module, $module); //module
+				$mod_lbl = LanguageTranslator::translate($module, $module); //module
 			} else {
 				$mod = $mod_arr[0];
 				array_shift($fld_arr);
-				$mod_lbl = \App\Language::translate($fld_arr[0], $mod); //module
+				$mod_lbl = LanguageTranslator::translate($fld_arr[0], $mod); //module
 			}
 			$fld_lbl_str = implode(' ', $fld_arr);
-			$fld_lbl = \App\Language::translate($fld_lbl_str, $module); //fieldlabel
+			$fld_lbl = LanguageTranslator::translate($fld_lbl_str, $module); //fieldlabel
 			$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 			if (($selectedfields[0] == 'vtiger_usersRel1') && ($selectedfields[1] == 'user_name') && ($selectedfields[2] == 'Quotes_Inventory_Manager')) {
 				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'), 'Users');
@@ -2326,18 +2326,18 @@ class ReportRun extends CRMEntity
 			$fieldType = $field->getFieldDataType();
 		}
 		if (!empty($fieldInfo)) {
-			$translatedLabel = \App\Language::translate($field->getFieldLabelKey(), $module);
+			$translatedLabel = LanguageTranslator::translate($field->getFieldLabelKey(), $module);
 		} else {
 			$fieldLabel = str_replace("__", " ", $fieldLabel);
-			$translatedLabel = \App\Language::translate($fieldLabel, $module);
+			$translatedLabel = LanguageTranslator::translate($fieldLabel, $module);
 		}
 		/* STRING TRANSLATION starts */
 		$moduleLabel = '';
 		if (in_array($module, $modules_selected))
-			$moduleLabel = \App\Language::translate($module, $module);
+			$moduleLabel = LanguageTranslator::translate($module, $module);
 
 		if (empty($translatedLabel)) {
-			$translatedLabel = \App\Language::translate(str_replace('__', " ", $fld->name), $module);
+			$translatedLabel = LanguageTranslator::translate(str_replace('__', " ", $fld->name), $module);
 		}
 		$headerLabel = $translatedLabel;
 		if (!empty($this->secondarymodule)) {
@@ -2401,7 +2401,7 @@ class ReportRun extends CRMEntity
 			if (!$result && $error_msg != '') {
 				// Performance Optimization: If direct output is requried
 				if ($directOutput) {
-					echo \App\Language::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
+					echo LanguageTranslator::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
 					$error_msg = false;
 				}
 				// END
@@ -2433,24 +2433,24 @@ class ReportRun extends CRMEntity
 					$mod_name = explode(' ', $headerLabel, 2);
 					$moduleLabel = '';
 					if (in_array($mod_name[0], $modules_selected)) {
-						$moduleLabel = \App\Language::translate($mod_name[0], $mod_name[0]);
+						$moduleLabel = LanguageTranslator::translate($mod_name[0], $mod_name[0]);
 					}
 
 					if (!empty($this->secondarymodule)) {
 						if ($moduleLabel != '') {
-							$headerLabel_tmp = $moduleLabel . " " . \App\Language::translate($mod_name[1], $mod_name[0]);
+							$headerLabel_tmp = $moduleLabel . " " . LanguageTranslator::translate($mod_name[1], $mod_name[0]);
 						} else {
-							$headerLabel_tmp = \App\Language::translate($mod_name[0] . " " . $mod_name[1]);
+							$headerLabel_tmp = LanguageTranslator::translate($mod_name[0] . " " . $mod_name[1]);
 						}
 					} else {
 						if ($moduleLabel != '') {
-							$headerLabel_tmp = \App\Language::translate($mod_name[1], $mod_name[0]);
+							$headerLabel_tmp = LanguageTranslator::translate($mod_name[1], $mod_name[0]);
 						} else {
-							$headerLabel_tmp = \App\Language::translate($mod_name[0] . " " . $mod_name[1]);
+							$headerLabel_tmp = LanguageTranslator::translate($mod_name[0] . " " . $mod_name[1]);
 						}
 					}
 					if ($headerLabel == $headerLabel_tmp)
-						$headerLabel = \App\Language::translate($headerLabel_tmp);
+						$headerLabel = LanguageTranslator::translate($headerLabel_tmp);
 					else
 						$headerLabel = $headerLabel_tmp;
 					/* STRING TRANSLATION ends */
@@ -2517,7 +2517,7 @@ class ReportRun extends CRMEntity
 						if ($fieldvalue == "") {
 							$fieldvalue = "-";
 						} else if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
-							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>" . LanguageTranslator::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 						}
 
 						if (($lastvalue == $fieldvalue) && $this->reporttype == "summary") {
@@ -2576,14 +2576,14 @@ class ReportRun extends CRMEntity
 					// Performance Optimization: Output directly
 					if ($directOutput) {
 						echo '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
-						echo sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \App\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
-							"+ " . \App\Language::translate('records found') . ". " . \App\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
+						echo sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, LanguageTranslator::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
+							"+ " . LanguageTranslator::translate('records found') . ". " . LanguageTranslator::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"
 						);
 					} else {
 						$valtemplate .= '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
-						$valtemplate .= sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \App\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
-							" " . \App\Language::translate('records found') . ". " . \App\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
+						$valtemplate .= sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, LanguageTranslator::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
+							" " . LanguageTranslator::translate('records found') . ". " . LanguageTranslator::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"
 						);
 					}
@@ -2642,7 +2642,7 @@ class ReportRun extends CRMEntity
 						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
-							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . LanguageTranslator::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 						}
 						if (false != strpos($fld->name, 'Share__with__users')) {
 							$id = $custom_field_values[$this->primarymodule . '__LBL_ACTION'];
@@ -2680,9 +2680,9 @@ class ReportRun extends CRMEntity
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
-								$field = \App\Language::translate($module_name, $module_name) . " " . \App\Language::translate($fieldlabel, $module_name);
+								$field = LanguageTranslator::translate($module_name, $module_name) . " " . LanguageTranslator::translate($fieldlabel, $module_name);
 							} else {
-								$field = \App\Language::translate($fieldlabel);
+								$field = LanguageTranslator::translate($fieldlabel);
 							}
 						}
 						// Since there are duplicate entries for this table
@@ -2704,7 +2704,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2795,9 +2795,9 @@ class ReportRun extends CRMEntity
 						if ($module_name) {
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
-							$field = \App\Language::translate($module_name, $module_name) . " " . \App\Language::translate($fieldlabel, $module_name);
+							$field = LanguageTranslator::translate($module_name, $module_name) . " " . LanguageTranslator::translate($fieldlabel, $module_name);
 						} else {
-							$field = \App\Language::translate($fieldlabel);
+							$field = LanguageTranslator::translate($fieldlabel);
 						}
 
 						$uitype_arr[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $adb->query_result($mod_query, 0, "uitype");
@@ -2815,7 +2815,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3000,9 +3000,9 @@ class ReportRun extends CRMEntity
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
-								$field = \App\Language::translate($module_name, $module_name) . " " . \App\Language::translate($fieldlabel, $module_name);
+								$field = LanguageTranslator::translate($module_name, $module_name) . " " . LanguageTranslator::translate($fieldlabel, $module_name);
 							} else {
-								$field = \App\Language::translate($fieldlabel);
+								$field = LanguageTranslator::translate($fieldlabel);
 							}
 						}
 						$uitype_arr[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $adb->query_result($mod_query, 0, "uitype");
@@ -3015,12 +3015,12 @@ class ReportRun extends CRMEntity
 					}
 					foreach ($totclmnflds as $key => $value) {
 						$coltotalhtml .= '<tr class="rptGrpHead">';
-						$col_header = \App\Language::translate(trim(str_replace($modules, " ", $value)));
+						$col_header = LanguageTranslator::translate(trim(str_replace($modules, " ", $value)));
 						$fld_name_1 = $this->primarymodule . "__" . trim($value);
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3307,7 +3307,7 @@ class ReportRun extends CRMEntity
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
 		$fieldInfo = getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
-			$curr_symb = " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+			$curr_symb = " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 		}
 		$rep_header .= $curr_symb;
 
@@ -3444,12 +3444,12 @@ class ReportRun extends CRMEntity
 			$rowcount++;
 			$count = 0;
 			if (is_array($totalxls[0])) {
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, App\Language::translate('LBL_FIELD_NAMES', 'Reports'));
+				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, LanguageTranslator::translate('LBL_FIELD_NAMES', 'Reports'));
 				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
 				$count++;
 				foreach ($totalxls[0] as $key => $value) {
 					$operator = substr($key, -3, 3);
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, App\Language::translate("LBL_$operator", 'Reports'));
+					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, LanguageTranslator::translate("LBL_$operator", 'Reports'));
 					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
 					$count++;
 				}
@@ -3463,7 +3463,7 @@ class ReportRun extends CRMEntity
 				$moduleName = $valueArray[0];
 				$fieldLabel = str_replace("__$operator", '', $valueArray[1]);
 				$fieldLabel = str_replace('__', '', $fieldLabel);
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, App\Language::translate($moduleName, $moduleName) . '-' . App\Language::translate($fieldLabel, $moduleName));
+				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, LanguageTranslator::translate($moduleName, $moduleName) . '-' . LanguageTranslator::translate($fieldLabel, $moduleName));
 				$count++;
 				foreach ($array_value as $hdr => $value) {
 					$value = decode_html($value);

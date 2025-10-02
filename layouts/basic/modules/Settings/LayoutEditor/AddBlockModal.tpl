@@ -15,14 +15,14 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</h3>
+					<h3>{'LBL_ADD_CUSTOM_BLOCK'|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<form class="form-horizontal addCustomBlockForm">
 					<div class="modal-body">
 						<div class="form-group">
 							<div class="col-md-3 control-label">
 								<span class="redColor">*</span>
-								<span>{App\Language::translate('LBL_BLOCK_NAME', $QUALIFIED_MODULE)}</span>
+								<span>{'LBL_BLOCK_NAME'|t:$QUALIFIED_MODULE}</span>
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" name="label" class="form-control" data-validation-engine="validate[required]" />
@@ -30,12 +30,12 @@
 						</div>
 						<div class="form-group">
 							<div class="col-md-3 control-label">
-								{App\Language::translate('LBL_ADD_AFTER', $QUALIFIED_MODULE)}
+								{'LBL_ADD_AFTER'|t:$QUALIFIED_MODULE}
 							</div>
 							<div class="col-md-8 controls">
 								<select class="form-control" name="beforeBlockId">
 									{foreach key=BLOCK_ID item=BLOCK_LABEL from=$ALL_BLOCK_LABELS}
-										<option value="{$BLOCK_ID}" data-label="{$BLOCK_LABEL}">{App\Language::translate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}</option>
+										<option value="{$BLOCK_ID}" data-label="{$BLOCK_LABEL}">{|$BLOCK_LABEL|t:$SELECTED_MODULE_NAME}</option>
 									{/foreach}
 								</select>
 							</div>

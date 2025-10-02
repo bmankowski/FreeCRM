@@ -130,9 +130,9 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDisplayCheckboxValue($value)
 	{
 		if (0 === $value) {
-			$value = \App\Language::translate('LBL_NO');
+			$value = \LanguageTranslator::translate('LBL_NO');
 		} else {
-			$value = \App\Language::translate('LBL_YES');
+			$value = \LanguageTranslator::translate('LBL_YES');
 		}
 		return $value;
 	}

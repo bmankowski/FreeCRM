@@ -53,7 +53,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		$currencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
 		while ($row = $dataReader->read()) {
 			$data [] = [
-				\App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
+				\LanguageTranslator::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
 				$i++,
 				$moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status'])
 			];

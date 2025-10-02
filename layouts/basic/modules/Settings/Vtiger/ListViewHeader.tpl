@@ -20,7 +20,7 @@
 			<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
 				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					{if $LINK->getLabel()}
-						{assign var="LABEL" value=\App\Language::translate($LINK->getLabel(), $QUALIFIED_MODULE)}
+						{assign var="LABEL" value={$LINK->getLabel()|t:$QUALIFIED_MODULE}}
 					{/if}
 					<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}" class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-default{/if}" 
 							{if $LINK->getUrl()}
@@ -47,7 +47,7 @@
 						<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 							<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$TAB_ID}">
-									{App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+									{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}
 							</option>
 						{/foreach}
 					</select>

@@ -35,7 +35,7 @@ class DataAccess_blockEditView
 			'save_record' => false,
 			'type' => 0,
 			'info' => [
-				'text' => App\Language::translate($message, 'DataAccess'),
+				'text' => LanguageTranslator::translate($message, 'DataAccess'),
 				'type' => 'error'
 			]
 		];

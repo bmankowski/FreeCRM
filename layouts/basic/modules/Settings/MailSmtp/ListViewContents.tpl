@@ -14,8 +14,8 @@
 
 <div class="listViewEntriesDiv">
 	<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
-		<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
+		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{'LBL_LOADING'|t}"/>
+		<p class="listViewLoadingMsg">{'LBL_LOADING_LISTVIEW_CONTENTS'|t}........</p>
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -26,7 +26,7 @@
 				{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				<th  width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-					<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+					<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{$LISTVIEW_HEADER->get('label')|t:$QUALIFIED_MODULE}
 						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 				</th>
 				{/foreach}
@@ -44,7 +44,7 @@
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 					{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 					<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
-						&nbsp;{App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
+						&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)|t:$QUALIFIED_MODULE}
 						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 							</td><td nowrap class="{$WIDTHTYPE}">
 								<div class="pull-right actions">
@@ -55,7 +55,7 @@
 												if (event.stopPropagation){ldelim}
 															event.stopPropagation();{rdelim} else{ldelim}
 																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-											<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+											<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
 										</a>
 										{if !$RECORD_LINK@last}
 											&nbsp;
@@ -78,7 +78,7 @@
 		<tbody>
 			<tr>
 				<td>
-					{App\Language::translate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
+					{'LBL_NO_RECORDS_FOUND'|t:$QUALIFIED_MODULE}
 				</td>
 			</tr>
 		</tbody>

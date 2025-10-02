@@ -56,7 +56,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 			$item = [];
 			$crmid = $record['osstimecontrolid'];
 			$item['id'] = $crmid;
-			$item['title'] = \App\Language::translate($record['name'], $module);
+			$item['title'] = \LanguageTranslator::translate($record['name'], $module);
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $crmid;
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);

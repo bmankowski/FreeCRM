@@ -170,7 +170,7 @@
 				<br>
 				<hr>
 				<div class="form-group paddingTop10">
-					<label class="col-md-4"><strong>{\App\Language::translate('LBL_AUTO_ASSIGN_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
+					<label class="col-md-4"><strong>{'LBL_AUTO_ASSIGN_RECORDS'|t:$QUALIFIED_MODULE}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<div class="pull-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('auto_assign')} checked="" {/if} name="auto_assign" class="alignTop"/>

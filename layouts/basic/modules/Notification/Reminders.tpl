@@ -18,7 +18,7 @@
 					</div>
 					<div class="col-xs-10 paddingLR5 notiContent">
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
-							<strong class="pull-left">{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
+							<strong class="pull-left">{$RECORD->get('notification_type')|t:$MODULE_NAME}</strong>
 						</div>
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
 							<strong class="pull-right">{$RECORD->getDisplayValue('createdtime')}</strong>
@@ -40,10 +40,10 @@
 						</div>
 						<div class="col-xs-12 paddingLRZero marginBottom5 ">
 							<div class="col-xs-10 paddingLRZero textOverflowEllipsis">
-								<strong class="">{\App\Language::translate($RECORD->getModule()->getField('smcreatorid')->get('label'),$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
+								<strong class="">{$RECORD->getModule()->getField('smcreatorid')->get('label')|t:$MODULE_NAME}: {$RECORD->getCreatorUser()}</strong>
 							</div>
 							<div class="col-xs-2 paddingLRZero">
-								<button type="button" class="btn btn-success btn-xs pull-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
+								<button type="button" class="btn btn-success btn-xs pull-right setAsMarked" title="{'LBL_MARK_AS_READ'|t:$MODULE_NAME}">
 									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 								</button>
 							</div>

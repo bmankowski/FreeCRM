@@ -83,7 +83,7 @@ class Record extends \Api\Core\BaseAction
 				if (empty($block)) {
 					continue;
 				}
-				$fieldLabel = \App\Language::translate($moduleField->get('label'), $moduleName);
+				$fieldLabel = \LanguageTranslator::translate($moduleField->get('label'), $moduleName);
 				$displayData[$moduleField->getName()] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
 				$fieldsLabel[$moduleField->getName()] = $fieldLabel;
 				if ($moduleField->isReferenceField()) {

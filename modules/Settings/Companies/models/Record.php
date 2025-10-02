@@ -108,7 +108,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$value = \App\Module::getModuleName($value);
 				break;
 			case 'industry':
-				$value = App\Language::translate($value);
+				$value = LanguageTranslator::translate($value);
 				break;
 			case 'logo_login':
 			case 'logo_main':
@@ -127,9 +127,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDisplayCheckboxValue($value)
 	{
 		if (0 === $value) {
-			$value = \App\Language::translate('LBL_NO');
+			$value = \LanguageTranslator::translate('LBL_NO');
 		} else {
-			$value = \App\Language::translate('LBL_YES');
+			$value = \LanguageTranslator::translate('LBL_YES');
 		}
 		return $value;
 	}

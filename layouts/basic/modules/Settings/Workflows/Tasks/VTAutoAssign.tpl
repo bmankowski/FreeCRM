@@ -2,12 +2,12 @@
 {strip}
 	{assign var=ENTRIES value=$TASK_OBJECT->getAutoAssignEntries($WORKFLOW_MODEL->get('module_name'))}
 	<div class="row">
-		<label class="col-md-4 control-label">{\App\Language::translate('LBL_SELECT_TEMPLATE', $QUALIFIED_MODULE)}</label>
+		<label class="col-md-4 control-label">{'LBL_SELECT_TEMPLATE'|t:$QUALIFIED_MODULE}</label>
 		<div class="col-md-5">
 			<select class="chzn-select form-control" name="template" data-validation-engine='validate[required]'>
-				<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
+				<option value="">{'LBL_NONE'|t:$QUALIFIED_MODULE}</option>
 				{foreach from=$ENTRIES key=KEY item=ITEM}
-					<option  value="{$KEY}">{\App\Language::translate($ITEM->getDisplayValue('field'), $ITEM->getSourceModuleName())}</option>
+					<option  value="{$KEY}">{$ITEM->getDisplayValue('field')|t:$ITEM->getSourceModuleName()}</option>
 				{/foreach}	
 			</select>
 		</div>

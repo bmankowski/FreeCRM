@@ -13,7 +13,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			{\App\Language::translate('LBL_CUSTOM_TYPE_INFO', $QUALIFIED_MODULE)}
+			{'LBL_CUSTOM_TYPE_INFO'|t:$QUALIFIED_MODULE}
 		</div>
 	{/if}
 	<div class="">

@@ -70,7 +70,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
-					$value = \App\Language::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
+					$value = \LanguageTranslator::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
 				}
 				break;
 			case 'owner':

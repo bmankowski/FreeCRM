@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 	<div class="modal-header">
-		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-		<h4 class="modal-title">{\App\Language::translate('LBL_ADD_FILES', $MODULE_NAME)}</h4>
+		<button class="close" data-dismiss="modal" title="{'LBL_CLOSE'|t}">x</button>
+		<h4 class="modal-title">{'LBL_ADD_FILES'|t:$MODULE_NAME}</h4>
 	</div>
 	<form class="form-horizontal" id="fileUploadForm" name="fileUploadForm" method="post" action="file.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE_NAME}">
@@ -27,8 +27,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn-success sendFiles" type="submit" disabled="">{\App\Language::translate('BTN_SUBMIT', $MODULE_NAME)}</button>
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
+			<button class="btn btn-success sendFiles" type="submit" disabled="">{'BTN_SUBMIT'|t:$MODULE_NAME}</button>
+			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{'LBL_CLOSE'|t:$MODULE_NAME}</button>
 		</div>
 	</form>
 {/strip}

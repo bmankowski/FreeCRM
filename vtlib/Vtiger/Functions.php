@@ -81,7 +81,7 @@ class Functions
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		if ($show_symbol) {
-			return sprintf("%s : %s", \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
+			return sprintf("%s : %s", LanguageTranslator::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
 		return $currencyInfo['currency_name'];
 	}
@@ -477,7 +477,7 @@ class Functions
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br><br>' . LanguageTranslator::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 
@@ -612,8 +612,8 @@ class Functions
 		$hour = floor($decTime);
 		$min = round(60 * ($decTime - $hour));
 		return array(
-			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
-			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
+			'short' => $hour . LanguageTranslator::translate('LBL_H') . ' ' . $min . LanguageTranslator::translate('LBL_M'),
+			'full' => $hour . LanguageTranslator::translate('LBL_HOURS') . ' ' . $min . LanguageTranslator::translate('LBL_MINUTES'),
 		);
 	}
 

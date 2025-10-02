@@ -59,7 +59,7 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 			$time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');
 			$users[$user] = [
 				'time' => $time,
-				'role' => \App\Language::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
+				'role' => \LanguageTranslator::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
 			];
 		}
 		return $users;

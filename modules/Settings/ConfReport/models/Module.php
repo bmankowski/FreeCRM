@@ -339,16 +339,16 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$core++;
 			$cpu = "{$value['Model']} , {$value['MHz']} MHz";
 			if (isset($value['usage_percentage'])) {
-				$cpu .= ', ' . App\Language::translate('LBL_CPU_USAGE', 'Settings::ConfReport') . ": {$value['usage_percentage']} %";
+				$cpu .= ', ' . LanguageTranslator::translate('LBL_CPU_USAGE', 'Settings::ConfReport') . ": {$value['usage_percentage']} %";
 			}
 			$params['LBL_CPU'][] = $cpu;
 		}
 		$ram = $parser->getRam();
 		$precent = number_format(($ram['free'] / $ram['total']) * 100);
-		$params['LBL_RAM'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
+		$params['LBL_RAM'] = LanguageTranslator::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total']) . ', ' . LanguageTranslator::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . LanguageTranslator::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
 		$disk = \vtlib\Functions::getDiskSpace();
 		$precent = number_format(($disk['free'] / $disk['total']) * 100);
-		$params['LBL_HDD'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['used']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
+		$params['LBL_HDD'] = LanguageTranslator::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['total']) . ', ' . LanguageTranslator::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['used']) . ", " . LanguageTranslator::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
 		return $params;
 	}
 

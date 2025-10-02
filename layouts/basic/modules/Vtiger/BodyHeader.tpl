@@ -7,14 +7,14 @@
 				<div class="pull-right rightHeaderBtn">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{'LBL_QUICK_CREATE'|t}" href="#">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 							<li class="quickCreateModules">
 								<div class="panel-default">
 									<div class="panel-heading">
-										<h4 class="panel-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
+										<h4 class="panel-title"><strong>{'LBL_QUICK_CREATE'|t}</strong></h4>
 									</div>
 									<div class="panel-body paddingLRZero">
 										{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
@@ -47,18 +47,18 @@
 						</ul>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-						<a type="button" class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
+						<a type="button" class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{'LBL_NOTIFICATIONS'|t}">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
 					{if $CHAT_ACTIVE}
-						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{'LBL_CHAT'|t}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
 					{/if}
 					{if $REMINDER_ACTIVE}
-						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{'LBL_REMINDER'|t}" href="#">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
@@ -78,7 +78,7 @@
 								{assign var="HREF" value=$LINK}
 							{/if}
 							{assign var="OBJ_CLASS" value=$obj->getClassName()}
-							<a class="btn btn-sm popoverTooltip {if $OBJ_CLASS && $OBJ_CLASS|strrpos:"btn-" === false}btn-default {$OBJ_CLASS}{elseif $OBJ_CLASS}{$OBJ_CLASS}{else}btn-default{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
+							<a class="btn btn-sm popoverTooltip {if $OBJ_CLASS && $OBJ_CLASS|strrpos:"btn-" === false}btn-default {$OBJ_CLASS}{elseif $OBJ_CLASS}{$OBJ_CLASS}{else}btn-default{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{$TITLE|t}" href="{$HREF}"
 							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 									   data-{$DATA_NAME}="{$DATA_VALUE}" 
@@ -124,18 +124,18 @@
 					<div class="pull-left selectSearch">
 						<div class="input-group globalSearchInput">
 							<span class="input-group-btn">
-								<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
-									<option value="">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
+								<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{'LBL_SEARCH_MODULE'|t}">
+									<option value="">{'LBL_ALL_RECORDS'|t}</option>
 									{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
 										{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
-											<option value="{$SEARCHABLE_MODULE}" selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+											<option value="{$SEARCHABLE_MODULE}" selected>{$SEARCHABLE_MODULE|t:$SEARCHABLE_MODULE}</option>
 										{else}
-											<option value="{$SEARCHABLE_MODULE}">{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+											<option value="{$SEARCHABLE_MODULE}">{$SEARCHABLE_MODULE|t:$SEARCHABLE_MODULE}</option>
 										{/if}
 									{/foreach}
 								</select>
 							</span>
-							<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
+							<input type="text" class="form-control globalSearchValue" title="{'LBL_GLOBAL_SEARCH'|t}" placeholder="{'LBL_GLOBAL_SEARCH'|t}" results="10" data-operator="contains" />
 							<span class="input-group-btn">
 								<button class="btn btn-default searchIcon" type="button">
 									<span class="glyphicon glyphicon-search"></span>
@@ -146,13 +146,13 @@
 											<span class="glyphicon glyphicon-screenshot"></span>
 										</button>
 										<ul class="dropdown-menu globalSearchOperator">
-											<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
-											<li><a href="#" data-operator="starts">{\App\Language::translate('starts with')}</a></li>
-											<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
+											<li class="active"><a href="#" data-operator="contains">{'contains'|t}</a></li>
+											<li><a href="#" data-operator="starts">{'starts with'|t}</a></li>
+											<li><a href="#" data-operator="ends">{'ends with'|t}</a></li>
 										</ul>
 									</div>
 								{/if}
-								<button class="btn btn-default globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+								<button class="btn btn-default globalSearch" title="{'LBL_ADVANCE_SEARCH'|t}" type="button">
 									<span class="glyphicon glyphicon-th-large"></span>
 								</button>
 							</span>

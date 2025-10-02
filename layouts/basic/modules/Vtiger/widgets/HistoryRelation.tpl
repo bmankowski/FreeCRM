@@ -15,7 +15,7 @@
 						</select>
 					</div>
 					<div class="col-xs-1 text-right">
-						<button type="button" title="{\App\Language::translate('LBL_FULLSCREEN')}" data-title="{vtranslate($WIDGET['label'],$MODULE_NAME)}" class="widgetFullscreen btn btn-sm btn-default">
+						<button type="button" title="{'LBL_FULLSCREEN'|t}" data-title="{vtranslate($WIDGET['label'],$MODULE_NAME)}" class="widgetFullscreen btn btn-sm btn-default">
 							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
 						</button>
 					</div>	

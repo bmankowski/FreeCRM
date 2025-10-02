@@ -143,7 +143,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 						'linklabel' => '',
 						'linkurl' => 'javascript:Vtiger_Detail_Js.updateField(\'' . $fieldName . '\')',
 						'linkicon' => 'glyphicon glyphicon-time',
-						'linkhint' => App\Language::translate('LBL_UPDATE_FIELD', $moduleName) . ' ' . App\Language::translate($fieldLabel, $moduleName),
+						'linkhint' => LanguageTranslator::translate('LBL_UPDATE_FIELD', $moduleName) . ' ' . LanguageTranslator::translate($fieldLabel, $moduleName),
 						'linkclass' => 'btn-warning',
 					];
 					$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);

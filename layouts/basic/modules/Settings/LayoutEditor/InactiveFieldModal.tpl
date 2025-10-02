@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{'LBL_INACTIVE_FIELDS'|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<form class="form-horizontal inactiveFieldsForm" method="POST">
 					<div class="modal-body">
@@ -23,10 +23,10 @@
 					</div>
 					<div class="modal-footer">
 						<div class=" pull-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+							<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{'LBL_CANCEL'|t:$QUALIFIED_MODULE}</a>
 						</div>
 						<button class="btn btn-success" type="submit" name="reactivateButton">
-							<strong>{App\Language::translate('LBL_REACTIVATE', $QUALIFIED_MODULE)}</strong>
+							<strong>{'LBL_REACTIVATE'|t:$QUALIFIED_MODULE}</strong>
 						</button>
 					</div>
 				</form>

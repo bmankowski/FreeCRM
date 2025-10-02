@@ -103,7 +103,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 						->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
 						->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+					$filetrs[$value['related_tabid']][$row['fieldname']] = \LanguageTranslator::translate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
@@ -124,7 +124,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 						->andWhere(['<>', 'columnname', 'was_read'])
 						->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \LanguageTranslator::translate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
@@ -145,8 +145,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $adb->pquery($sql, $params, true);
 		$Num = $adb->num_rows($result);
 		while ($row = $adb->fetch_array($result)) {
-			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $value['name']);
-			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+			$fieldlabel[$row['fieldid']] = \LanguageTranslator::translate($row['fieldlabel'], $value['name']);
+			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \LanguageTranslator::translate($row['fieldlabel'], $value['name']);
 		}
 		return array('labels' => $fieldlabel, 'table' => $fieldsList);
 	}
@@ -241,7 +241,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;";
 		$result = $adb->pquery($sql, [$tabid, '300']);
 		while ($row = $adb->fetch_array($result)) {
-			$field[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $module);
+			$field[$row['fieldname']] = \LanguageTranslator::translate($row['fieldlabel'], $module);
 		}
 		return $field;
 	}
@@ -252,7 +252,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			\App\Module::getModuleId('SSalesProcesses') => [ 0 =>
 				[
 					'type' => 1,
-					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
+					'label' => \LanguageTranslator::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
 					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']]
 				]
 			]
@@ -277,7 +277,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = \App\Module::getModuleName($moduleId);
 		if ($moduleName === 'Documents') {
 			$linkList[] = [
-				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
+				'linklabel' => LanguageTranslator::translate('LBL_MASS_ADD', $moduleName),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'glyphicon glyphicon-plus',
 				'linkclass' => 'btn-sm btn-primary'

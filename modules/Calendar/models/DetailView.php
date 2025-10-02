@@ -95,7 +95,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'title' => App\Language::translate('LBL_DELETE_RECORD')
+				'title' => LanguageTranslator::translate('LBL_DELETE_RECORD')
 			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
 		}

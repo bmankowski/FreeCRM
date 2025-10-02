@@ -53,12 +53,12 @@ class IStorages_ProductsValueTable_TextParser extends \App\TextParser\Base
 							$class = 'class="width20"';
 							break;
 					}
-					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Language::translate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \LanguageTranslator::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width10" style="padding:10px">' . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . \App\Language::translate('LBL_VALUE') . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \LanguageTranslator::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \LanguageTranslator::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \LanguageTranslator::translate('LBL_VALUE') . '</th>';
 			$html .= '</tr></thead><tbody>';
 			$totalValue = 0;
 			foreach ($entries as $entry) {

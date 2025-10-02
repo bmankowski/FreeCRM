@@ -39,8 +39,8 @@
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
-			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
+			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{'LBL_LOADING'|t}"/>
+			<p class="listViewLoadingMsg">{'LBL_LOADING_LISTVIEW_CONTENTS'|t}........</p>
 		</span>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">

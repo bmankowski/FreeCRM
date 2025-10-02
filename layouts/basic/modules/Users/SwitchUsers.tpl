@@ -15,7 +15,7 @@
 				<div class="form-group">
 					<select class="select2 form-control" name="user" id="user">
 						{foreach item=ROW key=USER_ID from=$SWITCH_USERS}
-							<option value="{$USER_ID}">{$ROW['userName']} ({App\Language::translate($ROW['roleName'])})</option>
+							<option value="{$USER_ID}">{$ROW['userName']} ({$ROW['roleName']|t})</option>
 						{/foreach}
 					</select>
 				</div>

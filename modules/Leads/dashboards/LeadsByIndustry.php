@@ -54,9 +54,9 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$response = [];
 		$i = 0;
 		while ($row = $dataReader->read()) {
-			$data[$i]['label'] = \App\Language::translate($row['industryvalue'], 'Leads');
+			$data[$i]['label'] = \LanguageTranslator::translate($row['industryvalue'], 'Leads');
 			$ticks[$i][0] = $i;
-			$ticks[$i][1] = \App\Language::translate($row['industryvalue'], 'Leads');
+			$ticks[$i][1] = \LanguageTranslator::translate($row['industryvalue'], 'Leads');
 			$data[$i]['data'][0][0] = $i;
 			$data[$i]['data'][0][1] = $row['count'];
 			$name[] = $row['industryvalue'];

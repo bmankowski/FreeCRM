@@ -29,7 +29,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => App\Language::translate('LBL_SAVED_CHANGES', $request->getModule(false))
+			'message' => LanguageTranslator::translate('LBL_SAVED_CHANGES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -43,7 +43,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => App\Language::translate('LBL_SAVED_CHANGES', $request->getModule(false))
+			'message' => LanguageTranslator::translate('LBL_SAVED_CHANGES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -55,7 +55,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => App\Language::translate('LBL_SAVED_SIGNATURE', $request->getModule(false))
+			'message' => LanguageTranslator::translate('LBL_SAVED_SIGNATURE', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -66,7 +66,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => \App\Language::translate('LBL_RECORD_ACCEPTED', $request->getModule(false))
+			'message' => \LanguageTranslator::translate('LBL_RECORD_ACCEPTED', $request->getModule(false))
 		]);
 		$response->emit();
 	}

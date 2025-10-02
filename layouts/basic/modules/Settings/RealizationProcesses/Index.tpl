@@ -38,7 +38,7 @@
 							{assign var=STATUS_CLOSED value=$STATUS_NOT_MODIFY['Project']}
 							<select class="chzn-select projectStatus" multiple name="projectStatus" data-moduleid="{$STATUS_CLOSED.id}">
 								{foreach  item=STATUS from=$PROJECT_STATUS}
-									<option value="{$STATUS}" {if in_array($STATUS, $STATUS_CLOSED.status)} selected {/if}  >{\App\Language::translate($STATUS, 'Project')}</option>
+									<option value="{$STATUS}" {if in_array($STATUS, $STATUS_CLOSED.status)} selected {/if}  >{$STATUS, 'Project'|t}</option>
 								{/foreach}
 							</select>
 						</td>

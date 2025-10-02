@@ -9,6 +9,11 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+/** 
+ * @author Bartłomiej Mańkowski <bmankowski@itconnect.pl>
+ * removed deprecated function getTypeFolder
+ */
+
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
 
@@ -151,24 +156,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$value = null;
 		}
 		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
-		return App\Language::translate('LBL_SAVE', 'OSSMailScanner');
-	}
-
-	public static function getTypeFolder($folder)
-	{
-		switch ($folder) {
-			case 'Received': $return = 0;
-				break;
-			case 'Sent': $return = 1;
-				break;
-			case 'Spam': $return = 2;
-				break;
-			case 'Trash': $return = 3;
-				break;
-			case 'All': $return = 4;
-				break;
-		}
-		return $return;
+		return LanguageTranslator::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
 	public static function getUidFolder($accountID, $folder)
@@ -575,8 +563,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$mail_status = \App\Mailer::addMail([
 						//'smtp_id' => 1,
 						'to' => $config['email'],
-						'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-						'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+						'subject' => LanguageTranslator::translate('Email_FromName', 'OSSMailScanner'),
+						'content' => LanguageTranslator::translate('Email_Body', 'OSSMailScanner'),
 				]);
 				$adb->pquery("update vtiger_ossmailscanner_log_cron set status = ? WHERE laststart = ?", array($mail_status, $checkCronStatus));
 			}

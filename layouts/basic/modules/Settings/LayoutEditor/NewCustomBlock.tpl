@@ -19,25 +19,25 @@
 				<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 					<div class="btn-group">
 						<button class="btn btn-success addCustomField hide" type="button">
-							<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+							<strong>{'LBL_ADD_CUSTOM_FIELD'|t:$QUALIFIED_MODULE}</strong>
 						</button>
 					</div>
 					<div class="btn-group">
 						<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-							<strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
+							<strong>{'LBL_ACTIONS'|t:$QUALIFIED_MODULE}</strong>&nbsp;&nbsp;
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu pull-right">
 							<li class="blockVisibility" data-visible="1" data-block-id="">
 								<a href="javascript:void(0)">
-									<span class="glyphicon glyphicon-ok"></span>&nbsp;{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+									<span class="glyphicon glyphicon-ok"></span>&nbsp;{'LBL_ALWAYS_SHOW'|t:$QUALIFIED_MODULE}
 								</a>
 							</li>
 							<li class="inActiveFields">
-								<a href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
+								<a href="javascript:void(0)">{'LBL_INACTIVE_FIELDS'|t:$QUALIFIED_MODULE}</a>
 							</li>
 							<li class="deleteCustomBlock">
-								<a href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
+								<a href="javascript:void(0)">{'LBL_DELETE_CUSTOM_BLOCK'|t:$QUALIFIED_MODULE}</a>
 							</li>
 						</ul>
 					</div>

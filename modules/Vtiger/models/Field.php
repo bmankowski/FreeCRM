@@ -425,7 +425,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		foreach ($allModules as $module) {
 			$modules[$module['tabid']] = [
 				'name' => $module['name'],
-				'label' => App\Language::translate($module['name'], $module['name'])
+				'label' => LanguageTranslator::translate($module['name'], $module['name'])
 			];
 		}
 		return $modules;

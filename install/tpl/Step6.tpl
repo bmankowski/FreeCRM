@@ -24,7 +24,7 @@
 							<tbody>
 								<tr>
 									<td class="text-right">
-										{App\Language::translate('LBL_NAME', 'Settings:Companies')}&nbsp;<span class="no">*</span>
+										{'LBL_NAME'|t:'Settings:Companies'}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]">
@@ -32,20 +32,20 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
+										{'LBL_INDUSTRY'|t:'Settings:Companies'}
 									</td>
 									<td>
 										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
 											<option value="">{vtranslate('LBL_SELECT_OPTION','Install')}</option>
 											{foreach from=$INDUSTRY item=ITEM}
-												<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
+												<option value="{$ITEM}">{$ITEM|t}</option>
 											{/foreach}
 										</select>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_STREET', 'Settings:Companies')}&nbsp;<span class="no">*</span>
+										{'LBL_STREET'|t:'Settings:Companies'}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<input type="text" name="company_street" class="form-control" data-validation-engine="validate[required]">
@@ -53,7 +53,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_CITY', 'Settings:Companies')}&nbsp;<span class="no">*</span>
+										{'LBL_CITY'|t:'Settings:Companies'}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]">
@@ -61,7 +61,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_CODE', 'Settings:Companies')}&nbsp;<span class="no">*</span>
+										{'LBL_CODE'|t:'Settings:Companies'}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<input type="text" name="company_code" class="form-control" data-validation-engine="validate[required]">
@@ -69,7 +69,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_STATE', 'Settings:Companies')}
+										{'LBL_STATE'|t:'Settings:Companies'}
 									</td>
 									<td>
 										<input type="text" name="company_state" class="form-control">
@@ -77,7 +77,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span>
+										{'LBL_COUNTRY'|t:'Settings:Companies'}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]">
@@ -85,7 +85,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_PHONE', 'Settings:Companies')}
+										{'LBL_PHONE'|t:'Settings:Companies'}
 									</td>
 									<td>
 										<input type="text" name="company_phone" class="form-control" data-validation-engine="validate[custom[phone]]">
@@ -93,7 +93,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_WEBSITE', 'Settings:Companies')}
+										{'LBL_WEBSITE'|t:'Settings:Companies'}
 									</td>
 									<td>
 										<input type="text" name="company_website" class="form-control" data-validation-engine="validate[custom[url]]" >
@@ -101,7 +101,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_EMAIL', 'Settings:Companies')}&nbsp;<span class="no">*</span>
+										{'LBL_EMAIL'|t:'Settings:Companies'}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<input type="text" name="company_email" class="form-control" data-validation-engine="validate[required,custom[email]]">
@@ -109,7 +109,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_VATID', 'Settings:Companies')}
+										{'LBL_VATID'|t:'Settings:Companies'}
 									</td>
 									<td>
 										<input type="text" name="company_vatid" class="form-control">

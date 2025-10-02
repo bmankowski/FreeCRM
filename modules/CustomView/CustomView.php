@@ -158,7 +158,7 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($ssql, $sparams);
 		while ($cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
-				$cvrow['viewname'] = \App\Language::translate('COMBO_ALL');
+				$cvrow['viewname'] = \LanguageTranslator::translate('COMBO_ALL');
 			}
 
 			$option = '';
@@ -187,15 +187,15 @@ class CustomView extends CRMEntity
 					$shtml_user .= $option;
 				} elseif ($cvrow['status'] == App\CustomView::CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
-						$shtml_public = "<option disabled>--- " . \App\Language::translate('LBL_PUBLIC') . " ---</option>";
+						$shtml_public = "<option disabled>--- " . \LanguageTranslator::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
 				} elseif ($cvrow['status'] == App\CustomView::CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
-						$shtml_pending = "<option disabled>--- " . \App\Language::translate('LBL_PENDING') . " ---</option>";
+						$shtml_pending = "<option disabled>--- " . \LanguageTranslator::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
 				} else {
 					if ($shtml_others == '')
-						$shtml_others = "<option disabled>--- " . \App\Language::translate('LBL_OTHERS') . " ---</option>";
+						$shtml_others = "<option disabled>--- " . \LanguageTranslator::translate('LBL_OTHERS') . " ---</option>";
 					$shtml_others .= $option;
 				}
 			}

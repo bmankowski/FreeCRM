@@ -53,10 +53,10 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 					if ($detailView->isMethodExposed($method)) {
 						$label = '';
 						if (!empty($widget['label'])) {
-							$label = App\Language::translate($widget['label'], $moduleName);
+							$label = LanguageTranslator::translate($widget['label'], $moduleName);
 						} elseif ($widget['type'] === 'RelatedModule') {
 							$relatedModule = App\Module::getModuleName($widget['data']['relatedmodule']);
-							$label = App\Language::translate($relatedModule, $relatedModule);
+							$label = LanguageTranslator::translate($relatedModule, $relatedModule);
 						}
 						$widgets[] = ['title' => $label, 'content' => $detailView->$method($widgetRequest)];
 					}

@@ -4,14 +4,14 @@
 		<div class='widget_header row '>
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-				{App\Language::translate('LBL_MAILSMTP_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
+				{'LBL_MAILSMTP_TO_SEND_DESCRIPTION'|t:$QUALIFIED_MODULE}
 			</div>
 		</div>
 		<div class="listViewActionsDiv row">
 			<div class="col-md-8 btn-toolbar">
 				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					{if $LINK->getLabel()}
-						{assign var="LABEL" value=\App\Language::translate($LINK->getLabel(), $QUALIFIED_MODULE)}
+						{assign var="LABEL" value={$LINK->getLabel()|t:$QUALIFIED_MODULE}}
 					{/if}
 					<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}" class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-default{/if}" 
 							{if $LINK->getUrl()}

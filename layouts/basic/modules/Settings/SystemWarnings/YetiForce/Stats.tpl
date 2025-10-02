@@ -1,15 +1,15 @@
 {strip}
 	<form class="form-horizontal row validateForm" method="post" action="index.php">
 		<h3 class="marginTB3">
-			{App\Language::translate('LBL_STATS','Settings:SystemWarnings')}
+			{'LBL_STATS'|t:'Settings:SystemWarnings'}
 		</h3>
-		<p>{App\Language::translate('LBL_STATS_DESC','Settings:SystemWarnings')}</p>
+		<p>{'LBL_STATS_DESC'|t:'Settings:SystemWarnings'}</p>
 		{assign var=COMPANY value=\App\Company::getInstanceById()}
 		<div class="input-group">
 			<span class="input-group-addon">
 				<input type="checkbox" checked>
 			</span>
-			<input type="text" name="company_name" class="form-control" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
+			<input type="text" name="company_name" class="form-control" placeholder="{'LBL_NAME'|t:'Settings:Companies'}" value="{$COMPANY->get('name')}">
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">
@@ -17,7 +17,7 @@
 			</span>
 			<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
 				{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
-					<option value="{$ITEM}" {if $COMPANY->get('industry') eq $ITEM}selected{/if}>{App\Language::translate($ITEM)}</option>
+					<option value="{$ITEM}" {if $COMPANY->get('industry') eq $ITEM}selected{/if}>{$ITEM|t}</option>
 				{/foreach}
 			</select>
 		</div><br>
@@ -25,34 +25,34 @@
 			<span class="input-group-addon">
 				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_CITY','Settings:Companies')}" value="{$COMPANY->get('city')}">
+			<input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]" placeholder="{'LBL_CITY'|t:'Settings:Companies'}" value="{$COMPANY->get('city')}">
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">
 				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_COUNTRY','Settings:Companies')}" value="{$COMPANY->get('country')}">
+			<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]" placeholder="{'LBL_COUNTRY'|t:'Settings:Companies'}" value="{$COMPANY->get('country')}">
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">
 				<input type="checkbox" checked>
 			</span>
-			<input type="text" name="company_website" class="form-control" placeholder="{App\Language::translate('LBL_WEBSITE','Settings:Companies')}" value="{$COMPANY->get('website')}">
+			<input type="text" name="company_website" class="form-control" placeholder="{'LBL_WEBSITE'|t:'Settings:Companies'}" value="{$COMPANY->get('website')}">
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">
 				<input type="checkbox" checked>
 			</span>
-			<input type="text" name="company_email" class="form-control" placeholder="{App\Language::translate('LBL_EMAIL','Settings:Companies')}" value="{$COMPANY->get('email')}">
+			<input type="text" name="company_email" class="form-control" placeholder="{'LBL_EMAIL'|t:'Settings:Companies'}" value="{$COMPANY->get('email')}">
 		</div><br>
 		<div class="pull-right">
 			<button type="button" class="btn btn-success ajaxBtn">
 				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-				&nbsp;&nbsp;{App\Language::translate('LBL_SEND','Settings:SystemWarnings')}
+				&nbsp;&nbsp;{'LBL_SEND'|t:'Settings:SystemWarnings'}
 			</button>&nbsp;&nbsp;
 			<button type="button" class="btn btn-danger cancel">
 				<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-				&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
+				&nbsp;&nbsp;{'LBL_REMIND_LATER'|t:'Settings:SystemWarnings'}
 			</button>
 		</div>
 		<div class="clearfix"></div>

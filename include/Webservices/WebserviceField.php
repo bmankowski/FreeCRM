@@ -404,7 +404,7 @@ class WebserviceField
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
-				$elem["label"] = \App\Language::translate($picklistValue, $moduleName);
+				$elem["label"] = \LanguageTranslator::translate($picklistValue, $moduleName);
 				$elem["value"] = $picklistValue;
 				array_push($options, $elem);
 			}
@@ -417,7 +417,7 @@ class WebserviceField
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
-				$elem["label"] = \App\Language::translate($picklistValue, $moduleName);
+				$elem["label"] = \LanguageTranslator::translate($picklistValue, $moduleName);
 				$elem["value"] = $picklistValue;
 				array_push($options, $elem);
 			}
@@ -444,7 +444,7 @@ class WebserviceField
 
 		$result = $db->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
 		while ($row = $db->fetch_array($result)) {
-			self::$treeDetails[$row['tree']] = \App\Language::translate($row['label'], $moduleName);
+			self::$treeDetails[$row['tree']] = \LanguageTranslator::translate($row['label'], $moduleName);
 		}
 		return self::$treeDetails;
 	}

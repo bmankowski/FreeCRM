@@ -685,17 +685,17 @@ function dateDiffAsString($d1, $d2)
 	$seconds = $dateDiff['seconds'];
 
 	if ($years > 0) {
-		$diffString = "$years " . \App\Language::translate('LBL_YEARS', $currentModule);
+		$diffString = "$years " . \LanguageTranslator::translate('LBL_YEARS', $currentModule);
 	} elseif ($months > 0) {
-		$diffString = "$months " . \App\Language::translate('LBL_MONTHS', $currentModule);
+		$diffString = "$months " . \LanguageTranslator::translate('LBL_MONTHS', $currentModule);
 	} elseif ($days > 0) {
-		$diffString = "$days " . \App\Language::translate('LBL_DAYS', $currentModule);
+		$diffString = "$days " . \LanguageTranslator::translate('LBL_DAYS', $currentModule);
 	} elseif ($hours > 0) {
-		$diffString = "$hours " . \App\Language::translate('LBL_HOURS', $currentModule);
+		$diffString = "$hours " . \LanguageTranslator::translate('LBL_HOURS', $currentModule);
 	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . \App\Language::translate('LBL_MINUTES', $currentModule);
+		$diffString = "$minutes " . \LanguageTranslator::translate('LBL_MINUTES', $currentModule);
 	} else {
-		$diffString = "$seconds " . \App\Language::translate('LBL_SECONDS', $currentModule);
+		$diffString = "$seconds " . \LanguageTranslator::translate('LBL_SECONDS', $currentModule);
 	}
 	return $diffString;
 }

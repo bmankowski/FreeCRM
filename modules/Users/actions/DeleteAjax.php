@@ -42,7 +42,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
 		$response = new Vtiger_Response();
-		$response->setResult(['message' => \App\Language::translate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
+		$response->setResult(['message' => \LanguageTranslator::translate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
 		$response->emit();
 	}
 }

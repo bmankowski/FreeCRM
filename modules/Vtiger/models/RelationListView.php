@@ -334,11 +334,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parentName = '';
 			if ($row['depth'] > 0) {
 				$treeDetail = App\Fields\Tree::getValueByTreeId($template, $parent);
-				$parentName = '(' . App\Language::translate($treeDetail['name'], $relModuleName) . ') ';
+				$parentName = '(' . LanguageTranslator::translate($treeDetail['name'], $relModuleName) . ') ';
 			}
 			$tree = [
 				'id' => $row['tree'],
-				'name' => $parentName . App\Language::translate($row['name'], $relModuleName),
+				'name' => $parentName . LanguageTranslator::translate($row['name'], $relModuleName),
 				'parent' => $parent == 0 ? '#' : $parent
 			];
 			if ($showCreatorDetail) {
@@ -487,14 +487,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($relatedModel->get('label') == 'Calendar') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
+				'linklabel' => LanguageTranslator::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => App\Language::translate('LBL_ADD_TASK'),
+				'linklabel' => LanguageTranslator::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -504,7 +504,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
 				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
+				'linklabel' => LanguageTranslator::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -513,7 +513,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($relatedModel->get('label') === 'Documents') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
+				'linklabel' => LanguageTranslator::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'glyphicon glyphicon-plus',
 			];

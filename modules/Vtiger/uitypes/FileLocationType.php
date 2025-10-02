@@ -33,7 +33,7 @@ class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 	public function getPicklistValues()
 	{
 		$moduleName = $this->get('field')->getModuleName();
-		return ['I' => \App\Language::translate('LBL_INTERNAL', $moduleName), 'E' => \App\Language::translate('LBL_EXTERNAL', $moduleName)];
+		return ['I' => \LanguageTranslator::translate('LBL_INTERNAL', $moduleName), 'E' => \LanguageTranslator::translate('LBL_EXTERNAL', $moduleName)];
 	}
 
 	/**

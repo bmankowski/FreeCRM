@@ -75,10 +75,10 @@
 									<select name="{$PREFIX}mapped_fields" class="txtBox chzn-select form-control {if $PREFIX}inventory{/if}" onchange="ImportJs.loadDefaultValueWidget('fieldIdentifier{$_COUNTER}')">
 										<option value="">{'LBL_NONE'|@vtranslate:$FOR_MODULE}</option>
 										{foreach key=BLOCK_NAME item=_FIELDS from=$TYPE_AVAILABLE_BLOCKS}
-											{assign var="TRANSLATED_BLOCK" value=\App\Language::translate($BLOCK_NAME,$FOR_MODULE)}
+											{assign var="TRANSLATED_BLOCK" value={$BLOCK_NAME|t:$FOR_MODULE}}
 											<optgroup label="{$TRANSLATED_BLOCK}">
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
-													{assign var="_TRANSLATED_FIELD_LABEL" value=\App\Language::translate($_FIELD_INFO->get('label'),$FOR_MODULE)}
+													{assign var="_TRANSLATED_FIELD_LABEL" value={$_FIELD_INFO->get('label')|t:$FOR_MODULE}}
 													<option value="{$_FIELD_NAME}" 
 															{if $HEADER_FIELD_LABELS && decode_html($HEADER_FIELD_LABELS[0]) eq $TRANSLATED_BLOCK && decode_html($HEADER_FIELD_LABELS[1]) eq $_TRANSLATED_FIELD_LABEL} selected {elseif !$HEADER_FIELD_LABELS && decode_html($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if} 
 															data-label="{$_TRANSLATED_FIELD_LABEL}">{$_TRANSLATED_FIELD_LABEL}

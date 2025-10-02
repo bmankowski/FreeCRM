@@ -147,18 +147,18 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 								$name = \App\Fields\Owner::getUserLabel($id);
 								break;
 							case 'Groups' :
-								$name = \App\Language::translate(\App\Fields\Owner::getGroupName($id));
+								$name = \LanguageTranslator::translate(\App\Fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \App\Language::translate($roleInfo['rolename']);
+								$name = \LanguageTranslator::translate($roleInfo['rolename']);
 								break;
 							case 'RoleAndSubordinates' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \App\Language::translate($roleInfo['rolename']);
+								$name = \LanguageTranslator::translate($roleInfo['rolename']);
 								break;
 						}
-						$values[] = \App\Language::translate($type) . ': ' . $name;
+						$values[] = \LanguageTranslator::translate($type) . ': ' . $name;
 					}
 					$value = implode(', ', $values);
 				}

@@ -129,7 +129,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	} elseif ($dbField->name == "PriceBooks_Currency") {
 		if ($value != '') {
-			$fieldvalue = \App\Language::translate($value, 'Currency');
+			$fieldvalue = LanguageTranslator::translate($value, 'Currency');
 		}
 	} elseif (in_array($dbField->name, $report->ui101_fields) && !empty($value)) {
 		$entityNames = getEntityName('Users', $value);
@@ -166,12 +166,12 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			if (is_array($picklistArray[$dbField->name]) &&
 				$field->getFieldName() != 'activitytype' && !in_array(
 					$value, $picklistArray[$dbField->name])) {
-				$fieldvalue = \App\Language::translate('LBL_NOT_ACCESSIBLE');
+				$fieldvalue = LanguageTranslator::translate('LBL_NOT_ACCESSIBLE');
 			} else {
-				$fieldvalue = \App\Language::translate($value, $module);
+				$fieldvalue = LanguageTranslator::translate($value, $module);
 			}
 		} else {
-			$fieldvalue = \App\Language::translate($value, $module);
+			$fieldvalue = LanguageTranslator::translate($value, $module);
 		}
 	} elseif ($fieldType == "multipicklist" && !empty($value)) {
 		if (is_array($picklistArray[1])) {
@@ -180,9 +180,9 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			foreach ($valueList as $value) {
 				if (is_array($picklistArray[1][$dbField->name]) && !in_array(
 						$value, $picklistArray[1][$dbField->name])) {
-					$translatedValueList[] = \App\Language::translate('LBL_NOT_ACCESSIBLE');
+					$translatedValueList[] = LanguageTranslator::translate('LBL_NOT_ACCESSIBLE');
 				} else {
-					$translatedValueList[] = \App\Language::translate($value, $module);
+					$translatedValueList[] = LanguageTranslator::translate($value, $module);
 				}
 			}
 		}

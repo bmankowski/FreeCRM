@@ -57,7 +57,7 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 			case 'user_name':
 				return $this->getHtmlEncode($fieldName);
 			case 'status':
-				return App\Language::translate($this->get($fieldName), 'Settings::Vtiger');
+				return LanguageTranslator::translate($this->get($fieldName), 'Settings::Vtiger');
 			default:
 				return $this->get($fieldName);
 		}

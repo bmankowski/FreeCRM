@@ -58,7 +58,7 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 			}
 			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
 		} else {
-			$result = ['success' => false, 'message' => \App\Language::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
+			$result = ['success' => false, 'message' => \LanguageTranslator::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

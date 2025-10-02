@@ -25,9 +25,9 @@ class Reports_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 		$recordModel = Reports_Record_Model::getInstanceById($request->get('record'), $moduleName);
 		if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 			$recordModel->delete();
-			$response->setResult([App\Language::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);
+			$response->setResult([LanguageTranslator::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);
 		} else {
-			$response->setError(App\Language::translate('LBL_REPORT_DELETE_DENIED', $moduleName));
+			$response->setError(LanguageTranslator::translate('LBL_REPORT_DELETE_DENIED', $moduleName));
 		}
 		$response->emit();
 	}

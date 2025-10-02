@@ -27,7 +27,7 @@
 		<tr class="listViewEntries">
 			{foreach key=FIELD_NAME item=VALUE from=$RECORD->getData()}
 				<td>
-					{\App\Language::translate($VALUE, $FOR_MODULE)}
+					{$VALUE|t:$FOR_MODULE}
 				</td>
 			{/foreach}
 		</tr>

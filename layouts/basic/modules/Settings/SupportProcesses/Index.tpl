@@ -37,7 +37,7 @@
 						<td class="col-xs-6">
 							<select class="chzn-select configField form-control status" multiple name="status">
 								{foreach  item=STATUS from=$TICKETSTATUS}
-									<option value="{$STATUS}" {if in_array($STATUS, $TICKETSTATUSNOTMODIFY)} selected {/if}  >{\App\Language::translate($STATUS, 'HelpDesk')}</option>
+									<option value="{$STATUS}" {if in_array($STATUS, $TICKETSTATUSNOTMODIFY)} selected {/if}  >{$STATUS, 'HelpDesk'|t}</option>
 								{/foreach}
 							</select>
 						</td>

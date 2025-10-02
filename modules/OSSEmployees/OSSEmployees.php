@@ -116,7 +116,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 		foreach ($this->list_fields_name as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
-				$listview_header[] = \App\Language::translate($fieldname);
+				$listview_header[] = \LanguageTranslator::translate($fieldname);
 			}
 		}
 

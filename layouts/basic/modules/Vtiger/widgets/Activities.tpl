@@ -5,20 +5,20 @@
 		<div class="col-xs-5">
 			<h4 class="widgetTitle textOverflowEllipsis">
 				{if $WIDGET['label'] eq ''}
-					{App\Language::translate('LBL_ACTIVITIES',$MODULE_NAME)}
+					{'LBL_ACTIVITIES'|t:$MODULE_NAME}
 				{else}	
-					{App\Language::translate($WIDGET['label'],$MODULE_NAME)}
+					{$WIDGET['label']|t:$MODULE_NAME}
 				{/if}
 			</h4>
 		</div>
 		<div class="col-xs-5">
 			<span class="pull-right">
-				<input class="switchBtn" title="{App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{App\Language::translate('LBL_CURRENT')}" data-off-text="{App\Language::translate('LBL_HISTORY')}" data-basic-texton="{App\Language::translate('LBL_CURRENT')}" data-basic-textoff="{App\Language::translate('LBL_HISTORY')}">
+				<input class="switchBtn" title="{'LBL_CHANGE_ACTIVITY_TYPE'|t}" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{'LBL_CURRENT'|t}" data-off-text="{'LBL_HISTORY'|t}" data-basic-texton="{'LBL_CURRENT'|t}" data-basic-textoff="{'LBL_HISTORY'|t}">
 			</span>
 		</div>
 		<div class="col-xs-2">
 			<button class="btn btn-sm btn-default pull-right addButton createActivity" data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true" type="button"
-					 title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
+					 title="{'LBL_ADD'|t:$MODULE_NAME}">
 				<span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>

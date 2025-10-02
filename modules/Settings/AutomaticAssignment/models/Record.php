@@ -210,7 +210,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
 						$data = explode(':', $val);
-						$name = \App\Language::translate(\App\PrivilegeUtil::getRoleName($data[1]));
+						$name = \LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($data[1]));
 						$rows[$index]['type'] = $data[0];
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
@@ -226,7 +226,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				if ($this->get($key)) {
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
-						$name = \App\Language::translate(\App\Fields\Owner::getLabel($val));
+						$name = \LanguageTranslator::translate(\App\Fields\Owner::getLabel($val));
 						$rows[$index]['type'] = \App\Fields\Owner::getType($val);
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
@@ -443,7 +443,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			case 'active':
 				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
 			case 'roleid':
-				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Language::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
+				return empty($this->get($name)) ? 'LBL_SYSTEM' : \LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
 			default:
 				break;
 		}

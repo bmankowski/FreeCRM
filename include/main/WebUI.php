@@ -27,7 +27,7 @@ require_once 'vendor/yetiforce/Db/Query.php';
 require_once 'vendor/yetiforce/Log.php';
 require_once 'vendor/yetiforce/User.php';
 require_once 'vendor/yetiforce/RequestUtil.php';
-require_once 'vendor/yetiforce/Language.php';
+
 require_once 'vendor/yetiforce/Version.php';
 require_once 'vendor/yetiforce/Company.php';
 require_once 'vendor/yetiforce/Purifier.php';

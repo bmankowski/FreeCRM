@@ -68,9 +68,9 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$result = $moduleModel->setModuleSequence();
 		$response = new Vtiger_Response();
 		if ($result['success']) {
-			$response->setResult(App\Language::translate('LBL_SUCCESSFULLY_UPDATED', $qualifiedModuleName));
+			$response->setResult(LanguageTranslator::translate('LBL_SUCCESSFULLY_UPDATED', $qualifiedModuleName));
 		} else {
-			$message = App\Language::translate('LBL_PREFIX_IN_USE', $qualifiedModuleName);
+			$message = LanguageTranslator::translate('LBL_PREFIX_IN_USE', $qualifiedModuleName);
 			$response->setError($message);
 		}
 		$response->emit();

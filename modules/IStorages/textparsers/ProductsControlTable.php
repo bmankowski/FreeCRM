@@ -57,11 +57,11 @@ class IStorages_ProductsControlTable_TextParser extends \App\TextParser\Base
 							$class = 'class="width25"';
 							break;
 					}
-					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Language::translate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \LanguageTranslator::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \LanguageTranslator::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \LanguageTranslator::translate('Qty/Unit', $relationModuleName) . '</th>';
 			$html .= '</tr></thead><tbody>';
 			foreach ($entries as $entry) {
 				$html .= '<tr>';

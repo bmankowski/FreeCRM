@@ -27,7 +27,7 @@ class Module
 		$modules = [];
 		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
 			if (\App\Privilege::isPermitted($value['name'])) {
-				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
+				$modules[$value['name']] = \LanguageTranslator::translate($value['name'], $value['name']);
 			}
 		}
 		return static::$permittedModules = $modules;

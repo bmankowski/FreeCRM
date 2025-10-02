@@ -63,9 +63,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 					$fieldModel = $this->moduleFieldInstances[$fieldName];
 					// Check added as querygenerator is not checking this for admin users
 					if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
-						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+						$header = \LanguageTranslator::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 						if ($exportBlockName) {
-							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+							$header = LanguageTranslator::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
 						}
 						$headers[] = $header;
 					}
@@ -73,9 +73,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			}
 		} else {
 			foreach ($this->moduleFieldInstances as &$fieldModel) {
-				$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+				$header = \LanguageTranslator::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 				if ($exportBlockName) {
-					$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+					$header = LanguageTranslator::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
 				}
 				$headers[] = $header;
 			}
@@ -88,7 +88,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {
-				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
+				$headers[] = 'Inventory::' . \LanguageTranslator::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
 					$headers[] = 'Inventory::' . $columnName;
 				}
@@ -203,7 +203,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	public function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', decode_html(\App\Language::translate($moduleName, $moduleName))) . '.csv';
+		$fileName = str_replace(' ', '_', decode_html(\LanguageTranslator::translate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");

@@ -174,7 +174,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		if (!isset($this->viewer)) {
 			$viewer = Vtiger_Viewer::getInstance();
-			$viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
+			$viewer->assign('APPTITLE', \LanguageTranslator::translate('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
@@ -193,7 +193,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$moduleName = $request->getModule(false);
 		$moduleNameArray = explode(':', $moduleName);
 		$moduleLabel = end($moduleNameArray) == 'Vtiger' ? 'YetiForce' : end($moduleNameArray);
-		$title = App\Language::translate($moduleLabel, $moduleName);
+		$title = LanguageTranslator::translate($moduleLabel, $moduleName);
 		$pageTitle = $this->getBreadcrumbTitle($request);
 		if ($pageTitle) {
 			$title .= ' - ' . $pageTitle;

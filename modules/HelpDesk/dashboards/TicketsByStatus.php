@@ -74,7 +74,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
 					$result[$priorityValue]['data'][$counter][0] = $counter;
-					$result[$priorityValue]['label'] = \App\Language::translate($priorityKey, $moduleName);
+					$result[$priorityValue]['label'] = \LanguageTranslator::translate($priorityKey, $moduleName);
 					$result[$priorityValue]['color'] = $colors[$priorityKey];
 					if ($ticketValue[$priorityKey]) {
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];
@@ -87,7 +87,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 			$ticks = [];
 			foreach ($status as $key => $value) {
-				$newArray = [$key, App\Language::translate($value, $moduleName)];
+				$newArray = [$key, LanguageTranslator::translate($value, $moduleName)];
 				array_push($ticks, $newArray);
 				$name[] = $value;
 			}

@@ -51,10 +51,10 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 					end($pieces);
 					$parent = prev($pieces);
 					$parentName = isset($treeData[$parent]) ? $treeData[$parent]['label'] : '';
-					$parentName = '(' . \App\Language::translate($parentName, $module) . ') ';
-					$names[] = $parentName . \App\Language::translate($row['label'], $module);
+					$parentName = '(' . \LanguageTranslator::translate($parentName, $module) . ') ';
+					$names[] = $parentName . \LanguageTranslator::translate($row['label'], $module);
 				} else {
-					$names[] = \App\Language::translate($row['label'], $module);
+					$names[] = \LanguageTranslator::translate($row['label'], $module);
 				}
 			}
 		}

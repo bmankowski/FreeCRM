@@ -17,7 +17,7 @@
 					<div class="modal-header row no-margin">
 						<div class="col-xs-12 paddingLRZero">
 							<div class="col-xs-8 paddingLRZero">
-								<h4>{App\Language::translate('LBL_TITLE_TYPE_DELETE', $MODULE)}</h4>
+								<h4>{'LBL_TITLE_TYPE_DELETE'|t:$MODULE}</h4>
 							</div>
 							<div class="pull-right">
 								<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
@@ -29,31 +29,31 @@
 							<div class="col-xs-12 paddingLRZero marginBottom10px">
 								<div class="col-xs-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="2">
-										{App\Language::translate('LBL_DELETE_THIS_EVENT', $MODULE)}
+										{'LBL_DELETE_THIS_EVENT'|t:$MODULE}
 									</button>
 								</div>
 								<div class="col-xs-8">
-									{App\Language::translate('LBL_DELETE_THIS_EVENT_DESCRIPTION', $MODULE)}
+									{'LBL_DELETE_THIS_EVENT_DESCRIPTION'|t:$MODULE}
 								</div>
 							</div>
 							<div class="col-xs-12 paddingLRZero marginBottom10px">	
 								<div class="col-xs-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="3">
-										{App\Language::translate('LBL_DELETE_FUTURE_EVENTS', $MODULE)}
+										{'LBL_DELETE_FUTURE_EVENTS'|t:$MODULE}
 									</button>
 								</div>
 								<div class="col-xs-8">
-									{App\Language::translate('LBL_DELETE_FUTURE_EVENTS_DESCRIPTION', $MODULE)}
+									{'LBL_DELETE_FUTURE_EVENTS_DESCRIPTION'|t:$MODULE}
 								</div>
 							</div>
 							<div class="col-xs-12 paddingLRZero marginBottom10px">	
 								<div class="col-xs-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="1">
-										{App\Language::translate('LBL_DELETE_ALL_EVENTS', $MODULE)}
+										{'LBL_DELETE_ALL_EVENTS'|t:$MODULE}
 									</button>
 								</div>
 								<div class="col-xs-8">
-									{App\Language::translate('LBL_DELETE_ALL_EVENTS_DESCRIPTION', $MODULE)}
+									{'LBL_DELETE_ALL_EVENTS_DESCRIPTION'|t:$MODULE}
 								</div>
 							</div>
 						</div>

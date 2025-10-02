@@ -48,7 +48,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$customView = CustomView_Record_Model::getInstanceById($filter);
 		//get the column headers, they go in row 0 of the spreadsheet
 		foreach ($headers as &$fieldsModel) {
-			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(App\Language::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
+			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(LanguageTranslator::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
 			$col++;
 		}
 		$row++;

@@ -107,23 +107,23 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$emailFieldoptions = [];
 		$textParser = App\TextParser::getInstance($sourceModule);
 		foreach ($textParser->getRecordVariable('email') as $blockName => $fields) {
-			$blockName = \App\Language::translate($blockName, $sourceModule);
+			$blockName = \LanguageTranslator::translate($blockName, $sourceModule);
 			foreach ($fields as $field) {
-				$emailFieldoptions[$blockName][$field['var_value']] = \App\Language::translate($field['label'], $sourceModule);
+				$emailFieldoptions[$blockName][$field['var_value']] = \LanguageTranslator::translate($field['label'], $sourceModule);
 			}
 		}
 		foreach ($textParser->getRelatedVariable('email') as $modules) {
 			foreach ($modules as $blockName => $fields) {
-				$blockName = \App\Language::translate($blockName, $sourceModule);
+				$blockName = \LanguageTranslator::translate($blockName, $sourceModule);
 				foreach ($fields as $field) {
-					$emailFieldoptions[$blockName][$field['var_value']] = \App\Language::translate($field['label'], $sourceModule);
+					$emailFieldoptions[$blockName][$field['var_value']] = \LanguageTranslator::translate($field['label'], $sourceModule);
 				}
 			}
 		}
-		$fromEmailFieldOptions = array_merge(['' => ['' => \App\Language::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
+		$fromEmailFieldOptions = array_merge(['' => ['' => \LanguageTranslator::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
 		$assignedToValues = [
-			\App\Language::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
-			\App\Language::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()
+			\LanguageTranslator::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
+			\LanguageTranslator::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()
 		];
 		$viewer->assign('TEXT_PARSER', $textParser);
 		$viewer->assign('ASSIGNED_TO', $assignedToValues);

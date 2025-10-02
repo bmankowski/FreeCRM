@@ -117,7 +117,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			if ($leadStatusVal == '') {
 				$leadStatusVal = 'LBL_BLANK';
 			}
-			$response[$i][1] = \App\Language::translate($leadStatusVal, $module);
+			$response[$i][1] = \LanguageTranslator::translate($leadStatusVal, $module);
 			$response[$i][2] = $leadStatusVal;
 			$i++;
 		}

@@ -39,7 +39,7 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 			$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $row['id']])->execute();
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
+		$response->setResult(['success' => true, 'message' => \LanguageTranslator::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
 		$response->emit();
 	}
 

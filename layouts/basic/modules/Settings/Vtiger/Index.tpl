@@ -18,7 +18,7 @@
 						<div class="modal-header">
 							<h4 class="modal-title" id="myModalLabel">
 								<span class="glyphicon glyphicon-warning-sign redColor" aria-hidden="true"></span>&nbsp;&nbsp;
-								{App\Language::translate('LBL_SYSTEM_WARNINGS','Settings:Vtiger')}
+								{'LBL_SYSTEM_WARNINGS'|t:'Settings:Vtiger'}
 							</h4>
 						</div>
 						<div class="modal-body">
@@ -29,7 +29,7 @@
 											{include file=$ITEM->getTpl()}
 										{else}
 											<h3 class="marginTB3">
-												{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}
+												{$ITEM->getTitle()|t:'Settings:SystemWarnings'}
 											</h3>
 											<p>
 												{$ITEM->getDescription()}
@@ -38,7 +38,7 @@
 												{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
 													<button type="button" class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
 														<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-														&nbsp;&nbsp;{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
+														&nbsp;&nbsp;{'BTN_SET_IGNORE'|t:'Settings:SystemWarnings'}
 													</button>&nbsp;&nbsp;
 												{/if}
 												{if $ITEM->getLink()}
@@ -49,7 +49,7 @@
 												{/if}
 												<button type="button" class="btn btn-danger cancel">
 													<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-													&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
+													&nbsp;&nbsp;{'LBL_REMIND_LATER'|t:'Settings:SystemWarnings'}
 												</button>
 											</div>
 										{/if}
