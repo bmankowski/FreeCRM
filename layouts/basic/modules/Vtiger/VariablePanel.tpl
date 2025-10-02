@@ -86,7 +86,7 @@
 											{/foreach}
 										</optgroup> 
 									{else}
-										{assign var=SOURCE_LABEL value=\App\Language::translate(\App\Language::getSingularModuleName($SOURCE_MODULE), $SOURCE_MODULE)}
+										{assign var=SOURCE_LABEL value=\App\Language::translate("SINGLE_$SOURCE_MODULE", $SOURCE_MODULE)}
 										{foreach item=FIELDS key=BLOCK_NAME from=$BLOCKS}
 											<optgroup label="{$SOURCE_LABEL} - {\App\Language::translate($BLOCK_NAME, $SOURCE_MODULE)}">
 												{foreach item=ITEM from=$FIELDS}

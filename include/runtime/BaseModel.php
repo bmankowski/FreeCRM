@@ -60,7 +60,7 @@ class Vtiger_Base_Model
 
 	/**
 	 * Function to set all the values for the Object
-	 * @param Array (key-value mapping) $values
+	 * @param array (key-value mapping) $values
 	 * @return Vtiger_Base_Model
 	 */
 	public function setData($values)

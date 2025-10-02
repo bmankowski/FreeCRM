@@ -32,10 +32,12 @@ require_once 'vendor/yetiforce/Version.php';
 require_once 'vendor/yetiforce/Company.php';
 require_once 'vendor/yetiforce/Purifier.php';
 require_once 'vendor/yetiforce/Json.php';
+require_once 'include/LanguageTranslator.php';
 vimport('include.runtime.EntryPoint');
 
 \App\Debugger::init();
 \App\Cache::init();
+// \App\LanguageTranslator::init();
 App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
 App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
@@ -43,6 +45,7 @@ App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
+
 
 	/**
 	 * Function to check if the User has logged in
@@ -276,18 +279,18 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 		if (ob_get_level() > 0) {
 			return false;
 		}
-		
+
 		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = 'cache/logs/errors.log';
 			$content = print_r($msg, true);
-            $content .= PHP_EOL . \App\Debugger::getBacktrace();
+			$content .= PHP_EOL . \App\Debugger::getBacktrace();
 			@file_put_contents($file, $content . PHP_EOL, FILE_APPEND | LOCK_EX);
 		}
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
 			\vtlib\Functions::throwNewException($msg, false);
 		}
-		
+
 		return false; // Let PHP handle the error normally
 	}
 	set_error_handler('exception_error_handler', \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));

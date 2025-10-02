@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-4 control-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+			<span class="col-md-4 control-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)} {'LBL_SMTP'|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-4">
 				<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 					<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>

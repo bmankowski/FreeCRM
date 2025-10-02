@@ -28,6 +28,7 @@ class Vtiger_Language_Handler
 		if ($currentLanguage === false) {
 			$currentLanguage = self::getLanguage();
 		}
+
 		//decoding for Start Date & Time and End Date & Time 
 		if (!is_array($key)) {
 			$key = App\Purifier::decodeHtml($key);
@@ -90,7 +91,6 @@ class Vtiger_Language_Handler
 		if (!empty($commonStrings['languageStrings'][$key])) {
 			return stripslashes($commonStrings['languageStrings'][$key]);
 		}
-		// \App\Log::warning("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
 		return null;
 	}
 

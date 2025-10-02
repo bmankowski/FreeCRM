@@ -37,7 +37,6 @@ class AppConfig
 			App\Log::warning("Parameter does not exist: $key");
 			return null;
 		}
-		return $value;
 	}
 
 	public static function module()

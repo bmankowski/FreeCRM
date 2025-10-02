@@ -90,11 +90,17 @@ class Vtiger_Viewer extends Smarty
 		// Register custom functions for Smarty 4.5 compatibility
 		try {
 			// Register plugins
+			
 			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
 			$this->registerPlugin('function', 'vtemplate_path', 'vtemplate_path');
 			$this->registerPlugin('function', 'vglobal', 'vglobal');
 			$this->registerPlugin('modifier', 'vglobal', 'vglobal'); // Also register as modifier for compatibility
+			
+			// Register LanguageTranslator modifier 't'
+			$this->registerPlugin('modifier', 't', 'LanguageTranslator::translate');
+			
+			
 			
 			// Register PHP functions that are used in templates
 			$this->registerPlugin('modifier', 'strrpos', 'strrpos');
@@ -146,7 +152,7 @@ class Vtiger_Viewer extends Smarty
 		
 		$moduleName = str_replace(':', '/', $moduleName);
 		$cacheKey = $templateName . $moduleName;
-		// TODO: repair Ten cache tutaj zwaraca połączone wartości, nie wiem skąd to się bierze
+		// TODO: BMN repair Ten cache tutaj zwaraca połączone wartości, nie wiem skąd to się bierze
 		// if (\App\Cache::has('ViewerTemplatePath', $cacheKey)) {
 		// 	return \App\Cache::get('ViewerTemplatePath', $cacheKey);
 		// }

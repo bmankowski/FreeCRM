@@ -7,7 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
+ * @author Bartłomiej Mańkowski <bmankowski@itconnect.pl>
  * *********************************************************************************** */
+
+/**
+ * Bartłomiej Mańkowski: Removed isModuleUpgradable method as it is not used in the project
+ * Bartłomiej Mańkowski: Removed getFieldsByLabel method as it is not used in the project
+ */
 
 /**
  * Vtiger Module Model Class
@@ -636,19 +642,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			if ($field->get('uitype') === $uitype) {
 				$fieldList[$field->getName()] = $field;
 			}
-		}
-		return $fieldList;
-	}
-
-	/**
-	 * Function gives fields based on the type
-	 * @return Vtiger_Field_Model[] with field label as key
-	 */
-	public function getFieldsByLabel()
-	{
-		$fieldList = [];
-		foreach ($this->getFields() as &$field) {
-			$fieldList[$field->get('label')] = $field;
 		}
 		return $fieldList;
 	}
@@ -1377,11 +1370,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function isCustomizable()
 	{
 		return $this->customized == '1' ? true : false;
-	}
-
-	public function isModuleUpgradable()
-	{
-		return $this->isCustomizable() ? true : false;
 	}
 
 	public function isExportable()
