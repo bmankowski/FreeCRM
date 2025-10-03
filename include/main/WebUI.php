@@ -13,26 +13,18 @@ error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
+// Core autoloaders - must be loaded first
 require_once 'vendor/autoload.php';
 require_once 'vendor/yiisoft/yii2/Yii.php';
-//require_once 'vendor/yii/Yii.php';
+
+// Essential configuration and utilities - loaded immediately
 require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
-require_once 'vendor/yetiforce/Debugger.php';
-require_once 'vendor/yetiforce/Cache.php';
-require_once 'vendor/yetiforce/Db.php';
-require_once 'vendor/yetiforce/Db/Query.php';
-require_once 'vendor/yetiforce/Log.php';
-require_once 'vendor/yetiforce/User.php';
-require_once 'vendor/yetiforce/RequestUtil.php';
-
-require_once 'vendor/yetiforce/Version.php';
-require_once 'vendor/yetiforce/Company.php';
-require_once 'vendor/yetiforce/Purifier.php';
-require_once 'vendor/yetiforce/Json.php';
 require_once 'include/LanguageTranslator.php';
+
+// Lazy load entry point
 vimport('include.runtime.EntryPoint');
 
 \App\Debugger::init();
