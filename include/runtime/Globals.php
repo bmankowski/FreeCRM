@@ -12,7 +12,7 @@
  * Function to get or set a global variable
  * @param type $key
  * @param type $value
- * @return value of the given key
+ * @return value of the given key or null if the key is not set
  */
 function vglobal($key, $value = null)
 {

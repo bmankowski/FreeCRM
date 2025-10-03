@@ -1,4 +1,9 @@
 <?php
+// namespace Vtiger\Core;
+
+
+
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -23,6 +28,7 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 require_once 'include/LanguageTranslator.php';
+require_once 'include/runtime/EntryPoint.php';
 
 // Lazy load entry point
 vimport('include.runtime.EntryPoint');
@@ -35,7 +41,9 @@ App\Log::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
 App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
 App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
-class Vtiger_WebUI extends Vtiger_EntryPoint
+
+
+class WebUI extends Vtiger_EntryPoint
 {
 
 

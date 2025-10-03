@@ -38,8 +38,9 @@ define('REQUEST_MODE', 'WebUI');
 
 require 'include/RequirementsValidation.php';
 require 'include/main/WebUI.php';
+require 'include/http/Vtiger_Request.php';
 
-$webUI = new Vtiger_WebUI();
+$webUI = new WebUI();
 $request = AppRequest::init();
 if ($request instanceof Vtiger_Request) {
 	$webUI->process($request);
