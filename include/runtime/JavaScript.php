@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_JavaScript extends Vtiger_Viewer
+class Vtiger_JavaScript extends FreeCRM_Viewer
 {
 
 	/**
@@ -18,15 +18,17 @@ class Vtiger_JavaScript extends Vtiger_Viewer
 	 */
 	public static function getFilePath($fileName = '')
 	{
-		if (empty($fileName)) {
+		if ($fileName === null || $fileName === '') {
 			return false;
 		}
+
 		$filePath = self::getBaseJavaScriptPath() . '/' . $fileName;
 		$completeFilePath = Vtiger_Loader::resolveNameToPath('~' . $filePath);
 
 		if (file_exists($completeFilePath)) {
 			return $filePath;
 		}
+
 		return false;
 	}
 
@@ -36,6 +38,6 @@ class Vtiger_JavaScript extends Vtiger_Viewer
 	 */
 	public static function getBaseJavaScriptPath()
 	{
-		return 'layouts' . '/' . self::getLayoutName();
+		return 'layouts/' . self::getLayoutName();
 	}
 }

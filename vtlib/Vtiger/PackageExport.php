@@ -153,18 +153,18 @@ class PackageExport
 			$zip->copyDirectoryFromDisk("cron/modules/$module", "cron");
 
 		//Copy module templates files
-		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module))
-			$zip->copyDirectoryFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
+		if (is_dir('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . '/modules/' . $module))
+			$zip->copyDirectoryFromDisk('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
 
 		//Copy Settings module templates files, if any
-		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
-			$zip->copyDirectoryFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
+		if (is_dir('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
+			$zip->copyDirectoryFromDisk('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
 
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
 
 		foreach ($layoutDirectories as $key => $layoutName) {
-			if ($layoutName != 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName()) {
+			if ($layoutName != 'layouts/' . \FreeCRM_Viewer::getDefaultLayoutName()) {
 				$moduleLayout = $layoutName . "/modules/$module";
 				if (is_dir($moduleLayout)) {
 					$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
@@ -181,8 +181,8 @@ class PackageExport
 		$this->__copyLanguageFiles($zip, $module);
 
 		//Copy image file
-		if (file_exists('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
-			$zip->copyFileFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
+		if (file_exists('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
+			$zip->copyFileFromDisk('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
 		}
 
 		// Copty config files

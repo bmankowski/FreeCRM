@@ -33,6 +33,7 @@ class Vtiger_Language_Handler
 		if (!is_array($key)) {
 			$key = App\Purifier::decodeHtml($key);
 		}
+
 		$translatedString = self::getLanguageTranslatedString($currentLanguage, $key, $module);
 
 		// label not found in users language pack, then check in the default language pack(config.inc.php)
@@ -47,6 +48,7 @@ class Vtiger_Language_Handler
 		if ($translatedString === null) {
 			$translatedString = $key;
 		}
+
 		return $translatedString;
 	}
 
@@ -62,35 +64,42 @@ class Vtiger_Language_Handler
 		if ($key === '') { // nothing to translate
 			return '';
 		}
+
 		if (is_array($module)) {
 			App\Log::warning('Invalid module name - module: ' . var_export($module, true));
 			return null;
 		}
+
 		if (is_numeric($module)) {
 			// ok, we have a tab id, lets turn it into name
 			$module = \App\Module::getModuleName($module);
 		} else {
 			$module = str_replace(':', '.', $module);
 		}
+
 		$moduleStrings = self::getModuleStringsFromFile($language, $module);
 		if (!empty($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);
 		}
+
 		// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
 		if (strpos($module, '.') > 0) {
 			$baseModule = substr($module, 0, strpos($module, '.'));
-			if ($baseModule == 'Settings') {
+			if ($baseModule === 'Settings') {
 				$baseModule = 'Settings.Vtiger';
 			}
+
 			$moduleStrings = self::getModuleStringsFromFile($language, $baseModule);
 			if (!empty($moduleStrings['languageStrings'][$key])) {
 				return stripslashes($moduleStrings['languageStrings'][$key]);
 			}
 		}
+
 		$commonStrings = self::getModuleStringsFromFile($language);
 		if (!empty($commonStrings['languageStrings'][$key])) {
 			return stripslashes($commonStrings['languageStrings'][$key]);
 		}
+
 		return null;
 	}
 
@@ -107,22 +116,26 @@ class Vtiger_Language_Handler
 		if (!empty($moduleStrings['jsLanguageStrings'][$key])) {
 			return $moduleStrings['jsLanguageStrings'][$key];
 		}
+
 		// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
 		if (strpos($module, '.') > 0) {
 			$baseModule = substr($module, 0, strpos($module, '.'));
-			if ($baseModule == 'Settings') {
+			if ($baseModule === 'Settings') {
 				$baseModule = 'Settings.Vtiger';
 			}
+
 			$moduleStrings = self::getModuleStringsFromFile($language, $baseModule);
 			if (!empty($moduleStrings['jsLanguageStrings'][$key])) {
 				return $moduleStrings['jsLanguageStrings'][$key];
 			}
 		}
+
 		$commonStrings = self::getModuleStringsFromFile($language);
 		if (!empty($commonStrings['jsLanguageStrings'][$key])) {
 			return $commonStrings['jsLanguageStrings'][$key];
 		}
-		\App\Log::warning("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
+
+		\App\Log::warning(sprintf("cannot translate this: '%s' for module '%s' (or base or Vtiger), lang: %s", $key, $module, $language));
 		return $key;
 	}
 
@@ -132,18 +145,20 @@ class Vtiger_Language_Handler
 	 * @param string $module - module Name
 	 * @return <array> - array if module has language strings else returns empty array
 	 */
-	public static function getModuleStringsFromFile($language, $module = 'Vtiger')
+	public static function getModuleStringsFromFile(string $language, $module = 'Vtiger')
 	{
 		$module = str_replace(':', '.', $module);
 		if (!isset(self::$languageContainer[$language][$module])) {
 			$qualifiedName = 'languages.' . $language . '.' . $module;
 			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
-			$languageStrings = $jsLanguageStrings = [];
+            $languageStrings = [];
+            $jsLanguageStrings = [];
 			if (file_exists($file)) {
 				require $file;
 			} else {
-				\App\Log::warning("Language file does not exist, module: $module ,language: $language");
+				\App\Log::warning(sprintf('Language file does not exist, module: %s ,language: %s', $module, $language));
 			}
+
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
 			if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
@@ -154,15 +169,18 @@ class Vtiger_Language_Handler
 					foreach ($languageStrings as $key => $val) {
 						self::$languageContainer[$language][$module]['languageStrings'][$key] = $val;
 					}
+
 					foreach ($jsLanguageStrings as $key => $val) {
 						self::$languageContainer[$language][$module]['jsLanguageStrings'][$key] = $val;
 					}
 				}
 			}
 		}
+
 		if (isset(self::$languageContainer[$language][$module])) {
 			return self::$languageContainer[$language][$module];
 		}
+
 		return [];
 	}
 
@@ -177,6 +195,7 @@ class Vtiger_Language_Handler
 		if (static::$language) {
 			return static::$language;
 		}
+
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
 		} elseif (Vtiger_Session::get('language') != '') {
@@ -184,6 +203,7 @@ class Vtiger_Language_Handler
 		} else {
 			$language = \App\User::getCurrentUserModel()->getDetail('language');
 		}
+
 		$language = empty($language) ? vglobal('default_language') : strtolower($language);
 		static::$language = $language;
 		return $language;
@@ -209,11 +229,11 @@ class Vtiger_Language_Handler
 	{
 		$userSelectedLanguage = self::getLanguage();
 		$defaultLanguage = vglobal('default_language');
-		$languages = array($userSelectedLanguage);
+		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
 		if ($userSelectedLanguage != $defaultLanguage) {
-			array_push($languages, $defaultLanguage);
-		}
+            $languages[] = $defaultLanguage;
+        }
 
 
 		$resultantLanguageString = [];
@@ -228,9 +248,10 @@ class Vtiger_Language_Handler
 			// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
 			if (strpos($module, '.') > 0) {
 				$baseModule = substr($module, 0, strpos($module, '.'));
-				if ($baseModule == 'Settings') {
+				if ($baseModule === 'Settings') {
 					$baseModule = 'Settings.Vtiger';
 				}
+
 				$moduleStrings = self::getModuleStringsFromFile($currentLanguage, $baseModule);
 				if (!empty($moduleStrings[$type])) {
 					$exportLangString += $commonStrings[$type];
@@ -241,6 +262,7 @@ class Vtiger_Language_Handler
 			if (!empty($commonStrings[$type])) {
 				$exportLangString += $commonStrings[$type];
 			}
+
 			$resultantLanguageString += $exportLangString;
 		}
 
@@ -264,16 +286,17 @@ class Vtiger_Language_Handler
 	public static function getLanguageLabel($name)
 	{
 		$db = PearDatabase::getInstance();
-		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', array($name));
+		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', [$name]);
 		if ($db->num_rows($languageResult)) {
 			return $db->query_result($languageResult, 0, 'label');
 		}
+
 		return false;
 	}
 
-	public static function getTranslateSingularModuleName($moduleName)
+	public static function getTranslateSingularModuleName(string $moduleName)
 	{
-		return Vtiger_Language_Handler::getTranslatedString("SINGLE_$moduleName", $moduleName);
+		return Vtiger_Language_Handler::getTranslatedString('SINGLE_' . $moduleName, $moduleName);
 	}
 }
 
@@ -283,8 +306,9 @@ function vtranslate($key, $moduleName = 'Vtiger')
 	$args = func_get_args();
 	array_shift($args);
 	array_shift($args);
-	if (is_array($args) && !empty($args)) {
+	if ($args !== []) {
 		$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
 	}
+
 	return $formattedString;
 }

@@ -51,7 +51,7 @@ class Rss_List_View extends Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$module = $request->getModule();
 		$recordId = $request->get('id');

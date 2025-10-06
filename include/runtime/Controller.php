@@ -173,7 +173,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getViewer(Vtiger_Request $request)
 	{
 		if (!isset($this->viewer)) {
-			$viewer = Vtiger_Viewer::getInstance();
+			$viewer = FreeCRM_Viewer::getInstance();
 			$viewer->assign('APPTITLE', \LanguageTranslator::translate('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			$viewer->assign('MODULE_NAME', $request->getModule());
@@ -406,7 +406,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				}
 
 				// Checking if file exists in default layout
-				$layoutPath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName();
+				$layoutPath = 'layouts' . '/' . FreeCRM_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
 					$filePath = $jsFile;
@@ -479,7 +479,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				}
 
 				// Checking if file exists in default layout
-				$layoutPath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName();
+				$layoutPath = 'layouts' . '/' . FreeCRM_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
 					if (empty($preLayoutPath))

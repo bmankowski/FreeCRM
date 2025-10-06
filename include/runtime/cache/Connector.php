@@ -21,31 +21,30 @@ class Vtiger_Cache_Connector
 	{
 		if (self::$selfInstance) {
 			return self::$selfInstance;
-		} else {
-			self::$selfInstance = new self();
-			return self::$selfInstance;
 		}
+        self::$selfInstance = new self();
+        return self::$selfInstance;
 	}
 	
-	public function get($ns, $key)
+	public function get(string $ns, string $key)
 	{
 		// Use the new App\Cache system for compatibility
 		return \App\Cache::get($ns . '_' . $key);
 	}
 	
-	public function set($ns, $key, $value)
+	public function set(string $ns, string $key, $value)
 	{
 		// Use the new App\Cache system for compatibility
 		return \App\Cache::set($ns . '_' . $key, $value);
 	}
 	
-	public function has($ns, $key)
+	public function has(string $ns, string $key)
 	{
 		// Use the new App\Cache system for compatibility
 		return \App\Cache::has($ns . '_' . $key);
 	}
 	
-	public function delete($ns, $key)
+	public function delete(string $ns, string $key)
 	{
 		// Use the new App\Cache system for compatibility
 		return \App\Cache::delete($ns . '_' . $key);
@@ -53,13 +52,8 @@ class Vtiger_Cache_Connector
 	
 	public function flush($ns = null)
 	{
-		// Use the new App\Cache system for compatibility
-		if ($ns === null) {
-			return \App\Cache::clear();
-		} else {
-			// For namespace-specific flushing, we'd need to implement this differently
-			// For now, just clear all cache
-			return \App\Cache::clear();
-		}
+		// For namespace-specific flushing, we'd need to implement this differently
+        // For now, just clear all cache
+        return \App\Cache::clear();
 	}
 }

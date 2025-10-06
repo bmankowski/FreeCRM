@@ -42,7 +42,7 @@ class PackageUpdate extends PackageImport
 					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries'],
 				// DEFAULT: excludes all not in include
 				], [// Templates folder to be renamed while copying
-				'templates' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
+				'templates' => "layouts/" . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Settings folder
@@ -52,9 +52,9 @@ class PackageUpdate extends PackageImport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => "layouts/" . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => "layouts/" . \FreeCRM_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => 'modules/Settings',
 				'layouts' => 'layouts',
 				]

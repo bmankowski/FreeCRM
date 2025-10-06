@@ -66,7 +66,7 @@ class Import_Utils_Helper
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
 	{
-		$viewer = new Vtiger_Viewer();
+		$viewer = new FreeCRM_Viewer();
 
 		$viewer->assign('ERROR_MESSAGE', $errorMessage);
 		$viewer->assign('ERROR_DETAILS', $errorDetails);

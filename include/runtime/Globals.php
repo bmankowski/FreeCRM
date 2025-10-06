@@ -17,9 +17,10 @@
 function vglobal($key, $value = null)
 {
 	if ($value !== null) {
-		$GLOBALS[$key] = $value;
-	} else if (isset($GLOBALS[$key])) {
-		return $GLOBALS[$key];
-	}
+        $GLOBALS[$key] = $value;
+    } elseif (isset($GLOBALS[$key])) {
+        return $GLOBALS[$key];
+    }
+
 	return false;
 }

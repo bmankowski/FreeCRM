@@ -17,17 +17,19 @@ class Yeti_Layout
 		if (!empty($layout)) {
 			return $layout;
 		}
+
 		return AppConfig::main('defaultLayout');
 	}
 
-	public static function getLayoutFile($name)
+	public static function getLayoutFile(string $name)
 	{
-		$basePath = 'layouts' . '/' . AppConfig::main('defaultLayout') . '/';
+		$basePath = 'layouts/' . AppConfig::main('defaultLayout') . '/';
 		$filePath = Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			return $basePath . $name;
 		}
-		$basePath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName() . '/';
+
+		$basePath = 'layouts/' . FreeCRM_Viewer::getDefaultLayoutName() . '/';
 		return $basePath . $name;
 	}
 
@@ -41,6 +43,7 @@ class Yeti_Layout
 		while ($row = $db->fetch_array($result)) {
 			$folders[$row['name']] = vtranslate($row['label']);
 		}
+
 		return $folders;
 	}
 }

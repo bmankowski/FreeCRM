@@ -28,7 +28,7 @@ class Portal_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->get('page');

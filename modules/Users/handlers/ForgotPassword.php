@@ -17,7 +17,7 @@ class Users_ForgotPassword_Handler
 		$site_URL = rtrim(vglobal('site_URL'), '/');
 		$request = new Vtiger_Request($data);
 		$userName = $request->get('username');
-		$viewer = Vtiger_Viewer::getInstance();
+		$viewer = FreeCRM_Viewer::getInstance();
 		$companyModel = App\Company::getInstanceById();
 		$logo = $companyModel->getLogo();
 		$moduleName = 'Users';

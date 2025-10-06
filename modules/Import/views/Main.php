@@ -101,7 +101,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		$moduleName = $importInfo['module'];
 		$importId = $importInfo['id'];
 
-		$viewer = new Vtiger_Viewer();
+		$viewer = new FreeCRM_Viewer();
 
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
@@ -118,7 +118,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		$moduleName = $importInfo['module'];
 		$ownerId = $importInfo['user_id'];
 
-		$viewer = new Vtiger_Viewer();
+		$viewer = new FreeCRM_Viewer();
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('OWNER_ID', $ownerId);
@@ -135,7 +135,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		$moduleName = $importInfo['module'];
 		$importId = $importInfo['id'];
 
-		$viewer = new Vtiger_Viewer();
+		$viewer = new FreeCRM_Viewer();
 
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
@@ -211,7 +211,7 @@ class Import_Main_View extends Vtiger_View_Controller
 			Import_Map_Model::markAsDeleted($mapId);
 		}
 
-		$viewer = new Vtiger_Viewer();
+		$viewer = new FreeCRM_Viewer();
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));

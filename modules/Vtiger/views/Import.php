@@ -178,7 +178,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	public function undoImport(Vtiger_Request $request)
 	{
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
-		$viewer = new Vtiger_Viewer();
+		$viewer = new FreeCRM_Viewer();
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('foruser');
 		$type = $request->get('type');

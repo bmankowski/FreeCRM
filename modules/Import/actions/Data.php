@@ -753,7 +753,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$importStatusCount = $importDataController->getImportStatusCount();
 
 			$emailSubject = 'vtiger CRM - Scheduled Import Report for ' . $importDataController->module;
-			$viewer = new Vtiger_Viewer();
+			$viewer = new FreeCRM_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
 			$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);

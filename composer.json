@@ -69,10 +69,21 @@
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
 		},
 		"files": [
+			"include/runtime/Globals.php",
 			"include/ConfigUtils.php",
 			"include/Loader.php",
 			"include/LanguageTranslator.php",
-			"include/runtime/EntryPoint.php",
+			"include/http/Vtiger_Request.php",
+			"include/http/Response.php",
+			"include/http/Session.php",
+			"include/runtime/BaseModel.php",
+			"include/runtime/FreeCRM_Viewer.php",
+			"include/runtime/JavaScript.php",
+			"include/runtime/LanguageHandler.php",
+			"include/runtime/Theme.php",
+			"include/runtime/Layout.php",
+			"include/runtime/Controller.php",
+			"include/runtime/Vtiger_EntryPoint.php",
 			"include/runtime/Cache.php",
 			"include/utils/VTCacheUtils.php",
 			"include/utils/utils.php"

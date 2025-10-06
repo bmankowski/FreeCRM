@@ -47,10 +47,10 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function gets variables to advanced filter
-	 * @param Vtiger_Viewer $viewer
+	 * @param FreeCRM_Viewer $viewer
 	 * @param Settings_AutomaticAssignment_Record_Model $recordModel
 	 */
-	private function getVariablesToAdvancedFilter(Vtiger_Viewer $viewer, $recordModel)
+	private function getVariablesToAdvancedFilter(FreeCRM_Viewer $viewer, $recordModel)
 	{
 		$sourceModuleName = $recordModel->getSourceModuleName();
 		$moduleModel = Vtiger_Module_Model::getInstance($recordModel->get('tabid'));

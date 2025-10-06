@@ -55,7 +55,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$currentUser = vglobal('current_user');
 		$viewer = $this->getViewer($request);

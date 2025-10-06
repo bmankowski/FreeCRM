@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_Theme extends Vtiger_Viewer
+class Vtiger_Theme extends FreeCRM_Viewer
 {
 
 	/**
@@ -23,6 +23,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (file_exists($completeFilePath)) {
 			return $filePath;
 		}
+
 		// Exception should be thrown???
 		return false;
 	}
@@ -33,18 +34,20 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 * @param string $imageFileName - file name with extension
 	 * @return <string/boolean> - returns file path if exists or false;
 	 */
-	public static function getImagePath($imageFileName)
+	public static function getImagePath(string $imageFileName)
 	{
 		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
 		$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName;
 		$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
 		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+        if (file_exists($completeImageFilePath)) {
+            return $imageFilePath;
+        }
 
-		if (file_exists($completeImageFilePath)) {
-			return $imageFilePath;
-		} else if (file_exists($completeFallBackThemePath)) {
+		if (file_exists($completeFallBackThemePath)) {
 			return $fallbackPath;
 		}
+
 		return false;
 	}
 
@@ -56,7 +59,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 * @param string $defaultFileName - file name 
 	 * @return <string/boolean> - returns file path if exists or false;
 	 */
-	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
+	public static function getOrignOrDefaultImgPath(string $imageFileName, string $defaultFileName)
 	{
 		$allowedImgTypes = ['.gif', '.jpg', '.png'];
 		foreach ($allowedImgTypes as $type) {
@@ -64,9 +67,10 @@ class Vtiger_Theme extends Vtiger_Viewer
 			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
 			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
-			if (file_exists($completeImageFilePath)) {
-				return $imageFilePath;
-			} else if (file_exists($completeFallBackThemePath)) {
+            if (file_exists($completeImageFilePath)) {
+                return $imageFilePath;
+            }
+			if (file_exists($completeFallBackThemePath)) {
 				return $fallbackPath;
 			}
 		}
@@ -76,12 +80,14 @@ class Vtiger_Theme extends Vtiger_Viewer
 			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
 			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
-			if (file_exists($completeImageFilePath)) {
-				return $imageFilePath;
-			} else if (file_exists($completeFallBackThemePath)) {
+            if (file_exists($completeImageFilePath)) {
+                return $imageFilePath;
+            }
+			if (file_exists($completeFallBackThemePath)) {
 				return $fallbackPath;
 			}
 		}
+
 		return false;
 	}
 
@@ -91,7 +97,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getBaseThemePath()
 	{
-		return 'layouts' . '/' . self::getLayoutName() . '/skins';
+		return 'layouts/' . self::getLayoutName() . '/skins';
 	}
 
 	/**
@@ -117,12 +123,14 @@ class Vtiger_Theme extends Vtiger_Viewer
 
 		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~' . $selectedThemePath);
 		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallBackThemePath);
+        if (file_exists($completeSelectedThemePath)) {
+            return $selectedThemePath;
+        }
 
-		if (file_exists($completeSelectedThemePath)) {
-			return $selectedThemePath;
-		} else if (file_exists($completeFallBackThemePath)) {
+		if (file_exists($completeFallBackThemePath)) {
 			return $fallBackThemePath;
 		}
+
 		return false;
 	}
 
@@ -159,11 +167,11 @@ class Vtiger_Theme extends Vtiger_Viewer
 function vimage_path($imageName)
 {
 	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
+	return call_user_func_array(['Vtiger_Theme', 'getImagePath'], $args);
 }
 
 function vimage_path_default($imageName, $defaultImageName)
 {
 	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Theme', 'getOrignOrDefaultImgPath'), $args);
+	return call_user_func_array(['Vtiger_Theme', 'getOrignOrDefaultImgPath'], $args);
 }

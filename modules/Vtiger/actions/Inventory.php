@@ -78,7 +78,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 		$status = $totalPrice > $limit ? false : true;
 		if (!$status) {
-			$viewer = new Vtiger_Viewer();
+			$viewer = new FreeCRM_Viewer();
 			$viewer->assign('PRICE', $price);
 			$viewer->assign('BALANCE', $balance);
 			$viewer->assign('SYMBOL', $symbol);

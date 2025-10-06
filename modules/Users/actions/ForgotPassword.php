@@ -21,7 +21,7 @@ class Users_ForgotPassword_Action
 
 	public function changePassword(Vtiger_Request $request)
 	{
-		$viewer = Vtiger_Viewer::getInstance();
+		$viewer = FreeCRM_Viewer::getInstance();
 		$userName = $request->get('username');
 		$newPassword = $request->get('password');
 		$confirmPassword = $request->get('confirmPassword');

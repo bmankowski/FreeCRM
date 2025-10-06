@@ -713,7 +713,7 @@ class Functions
 			}
 			$response->emit();
 		} else {
-			$viewer = new \Vtiger_Viewer();
+			$viewer = new \FreeCRM_Viewer();
 			$viewer->assign('MESSAGE', $message);
 			$viewer->view($tpl, 'Vtiger');
 		}

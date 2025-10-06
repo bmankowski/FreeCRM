@@ -247,7 +247,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				return DateTimeField::getDBTimeZone();
 				break;
 			case 'theme':
-				return Vtiger_Viewer::DEFAULTTHEME;
+				return FreeCRM_Viewer::DEFAULTTHEME;
 				break;
 			case 'is_admin':
 				return 'off';

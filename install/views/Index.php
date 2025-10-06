@@ -75,7 +75,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$_SESSION['default_language'] = $defaultLanguage = ($request->get('lang')) ? $request->get('lang') : 'en_us';
 		vglobal('default_language', $defaultLanguage);
 
-		$this->viewer = new Vtiger_Viewer();
+		$this->viewer = new FreeCRM_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->get('lang'));

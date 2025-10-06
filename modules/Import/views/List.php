@@ -42,7 +42,7 @@ class Import_List_View extends Vtiger_Popup_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $request->get('for_module');
 		$cvId = $request->get('viewname');

@@ -40,7 +40,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
