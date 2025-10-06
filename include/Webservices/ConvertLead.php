@@ -14,7 +14,6 @@ require_once 'config/performance.php';
 require_once 'include/Webservices/Delete.php';
 require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Loader.php';
-require_once('include/ConfigUtils.php');
 vimport('include.runtime.Globals');
 vimport('include.runtime.BaseModel');
 

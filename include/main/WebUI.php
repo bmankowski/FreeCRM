@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-// namespace Vtiger\Core;
+// namespace FreeCRM\Core;
 
 
 // Configure error reporting for production
@@ -21,17 +21,6 @@ ini_set('log_errors', 1);
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 
-// Essential configuration and utilities - loaded immediately
-require_once ROOT_DIRECTORY . '/include/ConfigUtils.php';
-require_once ROOT_DIRECTORY . '/include/utils/utils.php';
-require_once ROOT_DIRECTORY . '/include/utils/CommonUtils.php';
-require_once ROOT_DIRECTORY . '/include/Loader.php';
-require_once ROOT_DIRECTORY . '/include/LanguageTranslator.php';
-require_once ROOT_DIRECTORY . '/include/runtime/EntryPoint.php';
-
-// Lazy load entry point
-vimport('include.runtime.EntryPoint');
-
 \App\Debugger::init();
 \App\Cache::init();
 // \App\LanguageTranslator::init();
@@ -39,7 +28,6 @@ App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
 App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
 App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
-
 
 
 class WebUI extends Vtiger_EntryPoint
@@ -160,8 +148,8 @@ class WebUI extends Vtiger_EntryPoint
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
-			require_once('config/csrf_config.php');
-			require_once(ROOT_DIRECTORY . '/libraries/csrf-magic/csrf-magic.php');
+			vimport('config.csrf_config');
+			vimport('libraries.csrf-magic.csrf-magic');
 		}
 
 		// common utils api called, depend on this variable right now

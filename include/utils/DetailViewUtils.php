@@ -21,6 +21,5 @@
  * ****************************************************************************** */
 
 require_once('include/database/PearDatabase.php');
-require_once('include/utils/CommonUtils.php'); //new
 require_once('modules/PickList/PickListUtils.php');
 

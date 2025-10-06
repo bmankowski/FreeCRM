@@ -21,7 +21,6 @@
  * ****************************************************************************** */
 require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/ListViewUtils.php';
-require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/InventoryUtils.php';
 require_once 'include/utils/SearchUtils.php';
 require_once 'include/events/SqlResultIterator.php';
@@ -30,11 +29,28 @@ require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
 require_once 'include/CRMEntity.php';
 include_once 'modules/Vtiger/CRMEntity.php';
-require_once 'include/runtime/Cache.php';
 require_once 'modules/Vtiger/helpers/Util.php';
 require_once 'modules/PickList/DependentPickListUtils.php';
 require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
+
+/**
+ * Function to get entity name for a given module and IDs
+ * @param string $module Module name
+ * @param mixed $ids Entity IDs
+ * @param bool $compute Whether to compute labels
+ * @return mixed Entity names
+ */
+function getEntityName($module, $ids, $compute = true)
+{
+	if ($module == 'Users' || $module == 'Groups') {
+		return \App\Fields\Owner::getLabel($ids);
+	} elseif ($compute) {
+		return \App\Record::computeLabels($module, $ids);
+	} else {
+		return \App\Record::getLabel($ids);
+	}
+}
 
 // Constants to be defined here
 // For Migration status.

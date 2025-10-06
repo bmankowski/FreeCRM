@@ -12,4 +12,11 @@ return array(
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '38143a9afc50997d55e4815db8489d1c' => $vendorDir . '/rector/rector/bootstrap.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
+    '01bdbe3b7b2121e936e9709caf09907f' => $baseDir . '/include/ConfigUtils.php',
+    '883a07d6b1abf4ad889989d53a9f650a' => $baseDir . '/include/Loader.php',
+    'b5980b93c962407ce218905dcd19dd34' => $baseDir . '/include/LanguageTranslator.php',
+    'bafa40289dd2f5cc985c28a4071e1b1a' => $baseDir . '/include/runtime/EntryPoint.php',
+    '03314e5aa68e8544576e394bdb67240c' => $baseDir . '/include/runtime/Cache.php',
+    '229abf0e8d9b3678d8b4ad7b1c8d1563' => $baseDir . '/include/utils/VTCacheUtils.php',
+    '4e4ba41ba3159a1e8f1ab5544f357608' => $baseDir . '/include/utils/utils.php',
 );

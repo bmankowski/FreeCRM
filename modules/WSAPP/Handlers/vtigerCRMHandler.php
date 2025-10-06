@@ -12,7 +12,6 @@ require_once 'modules/WSAPP/WSAPP.php';
 require_once 'include/Webservices/Utils.php';
 require_once 'include/database/PearDatabase.php';
 require_once 'include/Webservices/GetUpdates.php';
-require_once 'include/utils/CommonUtils.php';
 require_once 'modules/WSAPP/Utils.php';
 require_once 'include/Webservices/Update.php';
 require_once 'include/Webservices/Revise.php';

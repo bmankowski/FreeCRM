@@ -67,7 +67,16 @@
 			"Api\\": "api/webservice/",
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
-		}
+		},
+		"files": [
+			"include/ConfigUtils.php",
+			"include/Loader.php",
+			"include/LanguageTranslator.php",
+			"include/runtime/EntryPoint.php",
+			"include/runtime/Cache.php",
+			"include/utils/VTCacheUtils.php",
+			"include/utils/utils.php"
+		]
 	},
 	"repositories": {
 		"asset-packagist": {

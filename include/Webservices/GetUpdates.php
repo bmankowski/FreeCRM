@@ -10,7 +10,6 @@
  * *********************************************************************************** */
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/ModuleTypes.php';
-require_once 'include/utils/CommonUtils.php';
 require_once 'include/Webservices/DescribeObject.php';
 
 function vtws_sync($mtime, $elementType, $syncType, $user)

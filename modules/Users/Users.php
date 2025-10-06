@@ -25,7 +25,6 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 require_once('include/utils/UserInfoUtil.php');
-require_once 'include/utils/CommonUtils.php';
 require_once 'include/Webservices/Utils.php';
 require_once('modules/Users/UserTimeZonesArray.php');
 
