@@ -63,6 +63,7 @@
 			"vtlib\\": "vtlib/Vtiger/",
 			"includes\\": "include/",
 			"App\\": "vendor/yetiforce/",
+			"App\\Rector\\": "src/Rector/",
 			"Api\\": "api/webservice/",
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
@@ -73,5 +74,8 @@
 			"type": "composer",
 			"url": "https://asset-packagist.org"
 		}
+	},
+	"require-dev": {
+		"rector/rector": "^2.1"
 	}
 }

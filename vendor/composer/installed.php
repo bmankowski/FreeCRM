@@ -3,7 +3,7 @@
         'name' => 'yetiforce/yetiforce-crm',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'b896703aa4d19e501f0f1b860f467a8acb2e7574',
+        'reference' => '30648bd601647f82bf750e7fba9db3045bcdd00b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -127,6 +127,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'phpstan/phpstan' => array(
+            'pretty_version' => '2.1.30',
+            'version' => '2.1.30.0',
+            'reference' => 'a4a7f159927983dd4f7c8020ed227d80b7f39d7d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpstan/phpstan',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'psr/log' => array(
             'pretty_version' => '3.0.2',
             'version' => '3.0.2.0',
@@ -141,6 +150,15 @@
             'provided' => array(
                 0 => '3.0.0',
             ),
+        ),
+        'rector/rector' => array(
+            'pretty_version' => '2.1.7',
+            'version' => '2.1.7.0',
+            'reference' => 'c34cc07c4698f007a20dc5c99ff820089ae413ce',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../rector/rector',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'rmccue/requests' => array(
             'pretty_version' => 'v1.7.0',
@@ -199,7 +217,7 @@
         'yetiforce/yetiforce-crm' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'b896703aa4d19e501f0f1b860f467a8acb2e7574',
+            'reference' => '30648bd601647f82bf750e7fba9db3045bcdd00b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -21,6 +21,7 @@ return array(
     'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/src'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
     'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
+    'App\\Rector\\' => array($baseDir . '/src/Rector'),
     'App\\' => array($vendorDir . '/yetiforce'),
     'Api\\' => array($baseDir . '/api/webservice'),
     'Antlr\\Antlr4\\Runtime\\' => array($vendorDir . '/antlr/antlr4-php-runtime/src'),

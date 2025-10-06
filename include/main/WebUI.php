@@ -1,9 +1,4 @@
 <?php
-// namespace Vtiger\Core;
-
-
-
-
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -13,22 +8,26 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
+// namespace Vtiger\Core;
+
+
 // Configure error reporting for production
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
 // Core autoloaders - must be loaded first
-require_once 'vendor/autoload.php';
-require_once 'vendor/yiisoft/yii2/Yii.php';
+require_once ROOT_DIRECTORY . '/vendor/autoload.php';
+require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 
 // Essential configuration and utilities - loaded immediately
-require_once 'include/ConfigUtils.php';
-require_once 'include/utils/utils.php';
-require_once 'include/utils/CommonUtils.php';
-require_once 'include/Loader.php';
-require_once 'include/LanguageTranslator.php';
-require_once 'include/runtime/EntryPoint.php';
+require_once ROOT_DIRECTORY . '/include/ConfigUtils.php';
+require_once ROOT_DIRECTORY . '/include/utils/utils.php';
+require_once ROOT_DIRECTORY . '/include/utils/CommonUtils.php';
+require_once ROOT_DIRECTORY . '/include/Loader.php';
+require_once ROOT_DIRECTORY . '/include/LanguageTranslator.php';
+require_once ROOT_DIRECTORY . '/include/runtime/EntryPoint.php';
 
 // Lazy load entry point
 vimport('include.runtime.EntryPoint');
@@ -48,11 +47,10 @@ class WebUI extends Vtiger_EntryPoint
 
 
 	/**
-	 * Function to check if the User has logged in
-	 * @param Vtiger_Request $request
-	 * @throws \Exception\AppException
-	 */
-	protected function checkLogin(Vtiger_Request $request)
+     * Function to check if the User has logged in
+     * @throws \Exception\AppException
+     */
+    protected function checkLogin(Vtiger_Request $request)
 	{
 		if (!$this->hasLogin()) {
 			$return_params = $_SERVER['QUERY_STRING'];
@@ -61,6 +59,7 @@ class WebUI extends Vtiger_EntryPoint
 				$return_params = urlencode($return_params);
 				Vtiger_Session::set('return_params', $return_params);
 			}
+
 			header('Location: index.php');
 			throw new \Exception\AppException('Login is required');
 		}
@@ -82,6 +81,7 @@ class WebUI extends Vtiger_EntryPoint
 				$this->setLogin($user);
 			}
 		}
+
 		return $user;
 	}
 
@@ -101,6 +101,7 @@ class WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
+
 		throw new \Exception\NoPermitted(vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
 
@@ -110,7 +111,9 @@ class WebUI extends Vtiger_EntryPoint
 			$handler->preProcessAjax($request);
 			return true;
 		}
+
 		$handler->preProcess($request);
+        return null;
 	}
 
 	protected function triggerPostProcess($handler, $request)
@@ -118,16 +121,15 @@ class WebUI extends Vtiger_EntryPoint
 		if ($request->isAjax()) {
 			return true;
 		}
+
 		$handler->postProcess($request);
+        return null;
 	}
 
 	public function isInstalled()
 	{
 		$dbconfig = AppConfig::main('dbconfig');
-		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
-			return false;
-		}
-		return true;
+        return !(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -135,12 +137,14 @@ class WebUI extends Vtiger_EntryPoint
 		if (AppConfig::main('forceSSL')) {
 			$browserInfo = \App\RequestUtil::getBrowserInfo();
 			if ($browserInfo && is_object($browserInfo) && !$browserInfo->https) {
-				header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+				header(sprintf('Location: https://%s%s', $_SERVER[HTTP_HOST], $_SERVER[REQUEST_URI]), true, 301);
 			}
 		}
+
 		if (!$this->isInstalled()) {
 			header('Location:install/Install.php');
 		}
+
 		if (AppConfig::main('forceRedirect')) {
 			$browserInfo = \App\RequestUtil::getBrowserInfo();
 			if ($browserInfo && is_object($browserInfo)) {
@@ -150,14 +154,16 @@ class WebUI extends Vtiger_EntryPoint
 				}
 			}
 		}
+
 		Vtiger_Session::init();
 
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
 			require_once('config/csrf_config.php');
-			require_once('libraries/csrf-magic/csrf-magic.php');
+			require_once(ROOT_DIRECTORY . '/libraries/csrf-magic/csrf-magic.php');
 		}
+
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
@@ -172,12 +178,14 @@ class WebUI extends Vtiger_EntryPoint
 				vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
 			}
 		}
+
 		if ($currentUser) {
 			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
 			if (isset($moduleLanguageStrings['languageStrings'])) {
 				vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
 			}
 		}
+
 		$view = $request->get('view');
 		$action = $request->get('action');
 		$response = false;
@@ -202,9 +210,11 @@ class WebUI extends Vtiger_EntryPoint
 					$qualifiedModuleName = $module;
 					$view = 'Login';
 				}
+
 				$request->set('module', $module);
 				$request->set('view', $view);
 			}
+
 			if (!empty($action)) {
 				$componentType = 'Action';
 				$componentName = $action;
@@ -213,13 +223,16 @@ class WebUI extends Vtiger_EntryPoint
 				if (empty($view)) {
 					$view = 'Index';
 				}
+
 				$componentName = $view;
 			}
+
 			define('_PROCESS_TYPE', $componentType);
 			define('_PROCESS_NAME', $componentName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($currentUser)) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}
+
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
 			if ($handler) {
@@ -228,43 +241,51 @@ class WebUI extends Vtiger_EntryPoint
 					// Ensure handler validates the request
 					$handler->validateRequest($request);
 				}
+
 				if ($handler->loginRequired()) {
 					$this->checkLogin($request);
 				}
+
 				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker', 'WSAPP'];
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);
 				}
+
 				// Every settings page handler should implement this method
 				if (stripos($qualifiedModuleName, 'Settings') === 0 || ($module === 'Users')) {
 					$handler->checkPermission($request);
 				}
+
 				$notPermittedModules = ['ModComments', 'Integration', 'DashBoard'];
 				if (in_array($module, $notPermittedModules) && $view === 'List') {
 					header('Location:index.php?module=Home&view=DashBoard');
 				}
+
 				$this->triggerPreProcess($handler, $request);
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
 			} else {
 				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
-		} catch (Exception $e) {
-			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+		} catch (Exception $exception) {
+			\App\Log::error($exception->getMessage() . ' => ' . $exception->getFile() . ':' . $exception->getLine());
 			$tpl = 'OperationNotPermitted.tpl';
-			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
+			if ($exception instanceof \Exception\NoPermittedToRecord || $exception instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';
 			}
-			\vtlib\Functions::throwNewException($e, false, $tpl);
+
+			\vtlib\Functions::throwNewException($exception, false, $tpl);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && !$request->isAjax()) {
-				echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) . '</pre>';
+				echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $exception->getTraceAsString()) . '</pre>';
 				$response = false;
 			}
+
 			if (AppConfig::main('systemMode') === 'test') {
 				file_put_contents('cache/logs/request.log', print_r($request->getAll(), true));
-				throw $e;
+				throw $exception;
 			}
 		}
+
 		if ($response) {
 			$response->emit();
 		}
@@ -273,7 +294,7 @@ class WebUI extends Vtiger_EntryPoint
 
 if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 
-	function exception_error_handler($errno, $errstr, $errfile, $errline)
+	function exception_error_handler(string $errno, string $errstr, string $errfile, string $errline)
 	{
 		// Skip if output buffering is active to avoid conflicts
 		if (ob_get_level() > 0) {
@@ -287,11 +308,13 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 			$content .= PHP_EOL . \App\Debugger::getBacktrace();
 			@file_put_contents($file, $content . PHP_EOL, FILE_APPEND | LOCK_EX);
 		}
+
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
 			\vtlib\Functions::throwNewException($msg, false);
 		}
 
 		return false; // Let PHP handle the error normally
 	}
+
 	set_error_handler('exception_error_handler', \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 }
