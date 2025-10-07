@@ -22,6 +22,7 @@ class Vtiger_Cache_Connector
 		if (self::$selfInstance) {
 			return self::$selfInstance;
 		}
+
         self::$selfInstance = new self();
         return self::$selfInstance;
 	}

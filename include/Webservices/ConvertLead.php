@@ -14,8 +14,8 @@ require_once 'config/performance.php';
 require_once 'include/Webservices/Delete.php';
 require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Loader.php';
-vimport('include.runtime.Globals');
-vimport('include.runtime.BaseModel');
+require_once 'include.runtime.Globals';
+require_once 'include.runtime.BaseModel';
 
 function vtws_convertlead($entityvalues, $user)
 {

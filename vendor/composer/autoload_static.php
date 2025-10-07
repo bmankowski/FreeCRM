@@ -31,6 +31,7 @@ class ComposerStaticInitYT
         '03314e5aa68e8544576e394bdb67240c' => __DIR__ . '/../..' . '/include/runtime/Cache.php',
         '229abf0e8d9b3678d8b4ad7b1c8d1563' => __DIR__ . '/../..' . '/include/utils/VTCacheUtils.php',
         '4e4ba41ba3159a1e8f1ab5544f357608' => __DIR__ . '/../..' . '/include/utils/utils.php',
+        'f857dd645c1b8314dcad0ca213dee347' => __DIR__ . '/../..' . '/vtlib/Vtiger/Deprecated.php',
     );
 
     public static $prefixLengthsPsr4 = array (

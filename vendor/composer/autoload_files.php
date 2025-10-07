@@ -30,4 +30,5 @@ return array(
     '03314e5aa68e8544576e394bdb67240c' => $baseDir . '/include/runtime/Cache.php',
     '229abf0e8d9b3678d8b4ad7b1c8d1563' => $baseDir . '/include/utils/VTCacheUtils.php',
     '4e4ba41ba3159a1e8f1ab5544f357608' => $baseDir . '/include/utils/utils.php',
+    'f857dd645c1b8314dcad0ca213dee347' => $baseDir . '/vtlib/Vtiger/Deprecated.php',
 );

@@ -46,8 +46,8 @@ class Vtiger_Language_Handler
 
 		// If translation is not found then return label
 		if ($translatedString === null) {
-			$translatedString = $key;
-		}
+            return $key;
+        }
 
 		return $translatedString;
 	}
@@ -228,19 +228,19 @@ class Vtiger_Language_Handler
 	public static function export($module, $type = 'languageStrings')
 	{
 		$userSelectedLanguage = self::getLanguage();
-		$defaultLanguage = vglobal('default_language');
+		$value = vglobal('default_language');
 		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
-		if ($userSelectedLanguage != $defaultLanguage) {
-            $languages[] = $defaultLanguage;
+		if ($userSelectedLanguage != $value) {
+            $languages[] = $value;
         }
 
 
 		$resultantLanguageString = [];
-		foreach ($languages as $currentLanguage) {
+		foreach ($languages as $language) {
 			$exportLangString = [];
 
-			$moduleStrings = self::getModuleStringsFromFile($currentLanguage, $module);
+			$moduleStrings = self::getModuleStringsFromFile($language, $module);
 			if (!empty($moduleStrings[$type])) {
 				$exportLangString = $moduleStrings[$type];
 			}
@@ -252,13 +252,13 @@ class Vtiger_Language_Handler
 					$baseModule = 'Settings.Vtiger';
 				}
 
-				$moduleStrings = self::getModuleStringsFromFile($currentLanguage, $baseModule);
+				$moduleStrings = self::getModuleStringsFromFile($language, $baseModule);
 				if (!empty($moduleStrings[$type])) {
 					$exportLangString += $commonStrings[$type];
 				}
 			}
 
-			$commonStrings = self::getModuleStringsFromFile($currentLanguage);
+			$commonStrings = self::getModuleStringsFromFile($language);
 			if (!empty($commonStrings[$type])) {
 				$exportLangString += $commonStrings[$type];
 			}
@@ -307,8 +307,8 @@ function vtranslate($key, $moduleName = 'Vtiger')
 	array_shift($args);
 	array_shift($args);
 	if ($args !== []) {
-		$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
-	}
+        return call_user_func_array('vsprintf', [$formattedString, $args]);
+    }
 
 	return $formattedString;
 }

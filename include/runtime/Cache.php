@@ -29,6 +29,7 @@ class Vtiger_Cache
 		if (self::$selfInstance) {
 			return self::$selfInstance;
 		}
+
         self::$selfInstance = new self();
         return self::$selfInstance;
 	}

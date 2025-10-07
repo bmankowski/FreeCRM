@@ -86,7 +86,8 @@
 			"include/runtime/Vtiger_EntryPoint.php",
 			"include/runtime/Cache.php",
 			"include/utils/VTCacheUtils.php",
-			"include/utils/utils.php"
+			"include/utils/utils.php",
+			"vtlib/Vtiger/Deprecated.php"
 		]
 	},
 	"repositories": {

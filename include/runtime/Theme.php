@@ -70,19 +70,21 @@ class Vtiger_Theme extends FreeCRM_Viewer
             if (file_exists($completeImageFilePath)) {
                 return $imageFilePath;
             }
+
 			if (file_exists($completeFallBackThemePath)) {
 				return $fallbackPath;
 			}
 		}
 
-		foreach ($allowedImgTypes as $type) {
-			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
+		foreach ($allowedImgTypes as $allowedImgType) {
+			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $allowedImgType;
 			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
-			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
+			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $allowedImgType;
 			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
             if (file_exists($completeImageFilePath)) {
                 return $imageFilePath;
             }
+
 			if (file_exists($completeFallBackThemePath)) {
 				return $fallbackPath;
 			}
