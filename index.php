@@ -37,7 +37,15 @@ if ($isPublicDir) {
 define('REQUEST_MODE', 'WebUI');
 
 require 'include/RequirementsValidation.php';
-require 'include/main/WebUI.php';
+
+// Bootstrap: Load autoloaders
+require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer autoloader (includes WebUI via 'files')
+require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
+require_once ROOT_DIRECTORY . '/include/Loader.php';
+Vtiger_Loader::register();
+
+// Initialize WebUI services (cache, debugger, error handlers)
+WebUI::initialize();
 
 $webUI = new WebUI();
 $request = AppRequest::init();

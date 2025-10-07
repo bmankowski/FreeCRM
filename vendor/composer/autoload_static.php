@@ -28,6 +28,8 @@ class ComposerStaticInitYT
         '1e954bb9870d97e400e19bd5390fcc41' => __DIR__ . '/../..' . '/include/runtime/Controller.php',
         '529fdb6334cdec89d0642c3f4fa9306b' => __DIR__ . '/../..' . '/include/runtime/Vtiger_EntryPoint.php',
         '03314e5aa68e8544576e394bdb67240c' => __DIR__ . '/../..' . '/include/runtime/Cache.php',
+        '840adf920337fa6acf0eb10ee659fe82' => __DIR__ . '/../..' . '/include/main/WebUI.php',
+        '0c756a6b78d8385880ec3e0b3a7efdb0' => __DIR__ . '/../..' . '/include/main/WebUI_ErrorHandler.php',
         '229abf0e8d9b3678d8b4ad7b1c8d1563' => __DIR__ . '/../..' . '/include/utils/VTCacheUtils.php',
         '4e4ba41ba3159a1e8f1ab5544f357608' => __DIR__ . '/../..' . '/include/utils/utils.php',
         'f857dd645c1b8314dcad0ca213dee347' => __DIR__ . '/../..' . '/vtlib/Vtiger/Deprecated.php',

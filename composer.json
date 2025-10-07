@@ -84,6 +84,8 @@
 			"include/runtime/Controller.php",
 			"include/runtime/Vtiger_EntryPoint.php",
 			"include/runtime/Cache.php",
+			"include/main/WebUI.php",
+			"include/main/WebUI_ErrorHandler.php",
 			"include/utils/VTCacheUtils.php",
 			"include/utils/utils.php",
 			"vtlib/Vtiger/Deprecated.php"
