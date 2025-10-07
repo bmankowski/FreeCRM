@@ -1,20 +1,20 @@
 {
-	"name": "yetiforce/yetiforce-crm",
+	"name": "FreeCRM/FreeCRM",
 	"description": "An open and innovative CRM system.",
-	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm"],
-	"license": "YetiForce Public License 1.1",
-	"homepage": "https://yetiforce.com/",
+	"keywords": ["FreeCRM", "CRM", "open source crm", "best crm"],
+	"license": "FreeCRM Public License 1.0",
+	"homepage": "https://FreeCRM.com/",
 	"type": "project",
 	"support": {
-		"issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
-		"wiki": "https://yetiforce.com/en/documentation.html",
-		"source": "https://github.com/YetiForceCompany/YetiForceCRM"
+		"issues": "https://github.com/FreeCRM/FreeCRM/issues",
+		"wiki": "https://FreeCRM.com/en/documentation.html",
+		"source": "https://github.com/FreeCRM/FreeCRM"
 	},
 	"authors": [
 		{
-			"name": "YetiForce team",
+			"name": "FreeCRM team",
 			"email": "info@titantech.pl",
-			"homepage": "https://yetiforce.com/"
+			"homepage": "https://FreeCRM.com/"
 		}
 	],
 	"require": {
@@ -60,6 +60,7 @@
     },
 	"autoload": {
 		"psr-4": {
+			"FreeCRM\\": "src/",
 			"vtlib\\": "vtlib/Vtiger/",
 			"includes\\": "include/",
 			"App\\": "vendor/yetiforce/",
@@ -70,7 +71,7 @@
 		},
 		"files": [
 			"include/runtime/Globals.php",
-			"include/ConfigUtils.php",
+			"include/AppConfig.php",
 			"include/LanguageTranslator.php",
 			"include/http/Vtiger_Request.php",
 			"include/http/Response.php",
@@ -82,10 +83,7 @@
 			"include/runtime/Theme.php",
 			"include/runtime/Layout.php",
 			"include/runtime/Controller.php",
-			"include/runtime/Vtiger_EntryPoint.php",
 			"include/runtime/Cache.php",
-			"include/main/WebUI.php",
-			"include/main/WebUI_ErrorHandler.php",
 			"include/utils/VTCacheUtils.php",
 			"include/utils/utils.php",
 			"vtlib/Vtiger/Deprecated.php"

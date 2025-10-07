@@ -14,7 +14,7 @@ class ComposerStaticInitYT
         '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'ea4f9562fb4c8181ff813c2c5f82ee0d' => __DIR__ . '/../..' . '/include/runtime/Globals.php',
-        '01bdbe3b7b2121e936e9709caf09907f' => __DIR__ . '/../..' . '/include/ConfigUtils.php',
+        '0aaf54951b81c5942645476236647d8d' => __DIR__ . '/../..' . '/include/AppConfig.php',
         'b5980b93c962407ce218905dcd19dd34' => __DIR__ . '/../..' . '/include/LanguageTranslator.php',
         '0e69b4024062f9f5fe6262d96402a2f1' => __DIR__ . '/../..' . '/include/http/Vtiger_Request.php',
         '727eaa22a80172c3cabf7928d6219733' => __DIR__ . '/../..' . '/include/http/Response.php',
@@ -26,10 +26,7 @@ class ComposerStaticInitYT
         'c7bea81103f8e0d3e979d9b55bd9c594' => __DIR__ . '/../..' . '/include/runtime/Theme.php',
         '05c087765022419ab3e993f42d926f0a' => __DIR__ . '/../..' . '/include/runtime/Layout.php',
         '1e954bb9870d97e400e19bd5390fcc41' => __DIR__ . '/../..' . '/include/runtime/Controller.php',
-        '529fdb6334cdec89d0642c3f4fa9306b' => __DIR__ . '/../..' . '/include/runtime/Vtiger_EntryPoint.php',
         '03314e5aa68e8544576e394bdb67240c' => __DIR__ . '/../..' . '/include/runtime/Cache.php',
-        '840adf920337fa6acf0eb10ee659fe82' => __DIR__ . '/../..' . '/include/main/WebUI.php',
-        '0c756a6b78d8385880ec3e0b3a7efdb0' => __DIR__ . '/../..' . '/include/main/WebUI_ErrorHandler.php',
         '229abf0e8d9b3678d8b4ad7b1c8d1563' => __DIR__ . '/../..' . '/include/utils/VTCacheUtils.php',
         '4e4ba41ba3159a1e8f1ab5544f357608' => __DIR__ . '/../..' . '/include/utils/utils.php',
         'f857dd645c1b8314dcad0ca213dee347' => __DIR__ . '/../..' . '/vtlib/Vtiger/Deprecated.php',
@@ -73,6 +70,10 @@ class ComposerStaticInitYT
         'L' => 
         array (
             'Linfo\\' => 6,
+        ),
+        'F' => 
+        array (
+            'FreeCRM\\' => 8,
         ),
         'E' => 
         array (
@@ -137,6 +138,10 @@ class ComposerStaticInitYT
         'Linfo\\' => 
         array (
             0 => __DIR__ . '/..' . '/linfo/linfo/src/Linfo',
+        ),
+        'FreeCRM\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'Exception\\' => 
         array (
