@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'modules/WSAPP/synclib/models/SyncRecordModel.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/SyncRecordModel.php';
 
 // place holder vtiger type models 
 class WSAPP_VtigerModel extends WSAPP_SyncRecordModel

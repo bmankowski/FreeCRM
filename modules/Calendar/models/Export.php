@@ -1,9 +1,9 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-vimport('modules.Calendar.iCal.iCalendar_rfc2445');
-vimport('modules.Calendar.iCal.iCalendar_components');
-vimport('modules.Calendar.iCal.iCalendar_properties');
-vimport('modules.Calendar.iCal.iCalendar_parameters');
+require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_rfc2445.php';
+require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_components.php';
+require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_properties.php';
+require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_parameters.php';
 
 class Calendar_Export_Model extends Vtiger_Export_Model
 {

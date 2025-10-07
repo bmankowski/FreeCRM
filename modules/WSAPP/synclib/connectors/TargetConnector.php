@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'modules/WSAPP/synclib/connectors/BaseConnector.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/connectors/BaseConnector.php';
 
 abstract class WSAPP_TargetConnector extends WSAPP_BaseConnector
 {

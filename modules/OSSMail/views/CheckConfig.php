@@ -24,6 +24,6 @@ class OSSMail_CheckConfig_View extends Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		require_once 'modules/OSSMail/views/CheckConfigCore.php';
+		require_once ROOT_DIRECTORY . '/modules/OSSMail/views/CheckConfigCore.php';
 	}
 }

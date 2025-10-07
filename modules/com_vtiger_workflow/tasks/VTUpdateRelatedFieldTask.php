@@ -40,7 +40,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 						$fieldValue = $recordModel->get($fieldValue);
 						break;
 					case 'expression':
-						require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
+						require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
 
 						$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 						$expression = $parser->expression();

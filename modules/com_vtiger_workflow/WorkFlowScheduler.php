@@ -10,7 +10,7 @@
 
 require_once ('modules/com_vtiger_workflow/WorkflowSchedulerInclude.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once 'modules/Users/Users.php';
+require_once ROOT_DIRECTORY . '/modules/Users/Users.php';
 
 class WorkFlowScheduler
 {

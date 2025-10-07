@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'modules/WSAPP/SyncServer.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/SyncServer.php';
 
 function wsapp_register($type, $syncType, $user)
 {

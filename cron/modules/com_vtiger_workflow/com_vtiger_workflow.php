@@ -23,10 +23,10 @@ require_once 'include/Webservices/ModuleTypes.php';
 require_once 'include/utils/VtlibUtils.php';
 require_once 'include/Webservices/WebserviceEntityOperation.php';
 require_once 'include/Webservices/Retrieve.php';
-require_once 'modules/com_vtiger_workflow/VTEntityCache.php';
+require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityCache.php';
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once 'modules/com_vtiger_workflow/include.php';
-require_once 'modules/com_vtiger_workflow/WorkFlowScheduler.php';
+require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
+require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/WorkFlowScheduler.php';
 
 $adb = PearDatabase::getInstance();
 $workflowScheduler = new WorkFlowScheduler($adb);

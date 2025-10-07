@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-vimport('~~modules/PaymentsOut/helpers/mt940.php');
+require_once ROOT_DIRECTORY . '/modules/PaymentsOut/helpers/mt940.php';
 
 class mt940_Milenium extends mt940
 {

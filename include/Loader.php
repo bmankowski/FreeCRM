@@ -198,11 +198,24 @@ class Vtiger_Loader
 		}
 		return false;
 	}
+
+	/**
+	 * Register the Vtiger autoloader
+	 * This should be called during application bootstrap
+	 */
+	public static function register()
+	{
+		spl_autoload_register([__CLASS__, 'autoLoad']);
+	}
 }
 
+/**
+ * Summary of vimport
+ * @param mixed $qualifiedName
+ * @return bool
+ * @deprecated
+ */
 function vimport($qualifiedName)
 {
 	return Vtiger_Loader::includeOnce($qualifiedName);
 }
-
-spl_autoload_register('Vtiger_Loader::autoLoad');

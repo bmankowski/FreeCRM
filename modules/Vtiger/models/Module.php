@@ -130,7 +130,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isTrackingEnabled()
 	{
-		require_once 'modules/ModTracker/ModTracker.php';
+		require_once ROOT_DIRECTORY . '/modules/ModTracker/ModTracker.php';
 		$trackingEnabled = ModTracker::isTrackingEnabledForModule($this->getName());
 		return ($this->isActive() && $trackingEnabled);
 	}
@@ -278,8 +278,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
-		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
+		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
 		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
@@ -1299,7 +1299,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$this->isEntityModule()) {
 			return [];
 		}
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
@@ -1451,7 +1451,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function vtJsonDependentModules()
 	{
-		vimport('~modules/com_vtiger_workflow/WorkflowComponents.php');
+		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/WorkflowComponents.php';
 		$db = PearDatabase::getInstance();
 		$param = array('modulename' => $this->getName());
 		return vtJsonDependentModules($db, $param);

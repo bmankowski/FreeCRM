@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 require_once('include/utils/UserInfoUtil.php');
-require_once 'modules/Reports/ReportUtils.php';
+require_once ROOT_DIRECTORY . '/modules/Reports/ReportUtils.php';
 global $calpath;
 global $app_list_strings;
 global $modules;

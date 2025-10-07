@@ -14,7 +14,6 @@ return array(
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
     'ea4f9562fb4c8181ff813c2c5f82ee0d' => $baseDir . '/include/runtime/Globals.php',
     '01bdbe3b7b2121e936e9709caf09907f' => $baseDir . '/include/ConfigUtils.php',
-    '883a07d6b1abf4ad889989d53a9f650a' => $baseDir . '/include/Loader.php',
     'b5980b93c962407ce218905dcd19dd34' => $baseDir . '/include/LanguageTranslator.php',
     '0e69b4024062f9f5fe6262d96402a2f1' => $baseDir . '/include/http/Vtiger_Request.php',
     '727eaa22a80172c3cabf7928d6219733' => $baseDir . '/include/http/Response.php',

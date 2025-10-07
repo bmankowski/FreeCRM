@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-vimport('modules.Vtiger.helpers.ListUpdatedRecord');
+require_once ROOT_DIRECTORY . '/modules/Vtiger/helpers/ListUpdatedRecord.php';
 
 class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 {

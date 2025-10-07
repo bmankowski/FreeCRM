@@ -11,7 +11,7 @@
 require_once 'include/Webservices/Utils.php';
 require_once 'include/events/VTEntityData.php';
 require_once 'include/Webservices/DataTransform.php';
-require_once 'modules/WSAPP/SyncServer.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/SyncServer.php';
 
 class WSAPPAssignToTracker extends VTEventHandler
 {

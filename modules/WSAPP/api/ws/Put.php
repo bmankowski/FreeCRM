@@ -10,7 +10,7 @@
 require_once 'include/Webservices/Create.php';
 require_once 'include/Webservices/Update.php';
 require_once 'include/Webservices/Delete.php';
-require_once 'modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
 
 function wsapp_put($key, $element, $user)
 {

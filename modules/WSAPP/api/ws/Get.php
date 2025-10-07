@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 require_once 'include/Webservices/GetUpdates.php';
-require_once 'modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
 
 function wsapp_get($key, $module, $token, $user)
 {

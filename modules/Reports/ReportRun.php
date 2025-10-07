@@ -15,7 +15,7 @@ global $theme;
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
 require_once('modules/Reports/Reports.php');
-require_once 'modules/Reports/ReportUtils.php';
+require_once ROOT_DIRECTORY . '/modules/Reports/ReportUtils.php';
 require_once('modules/Vtiger/helpers/Util.php');
 
 /*

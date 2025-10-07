@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once('include/events/include.php');
-require_once 'modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
 
 class WSAPP
 {

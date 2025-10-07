@@ -9,7 +9,7 @@
  * ******************************************************************************* */
 
 require_once 'include/utils/utils.php';
-require_once 'modules/PickList/PickListUtils.php';
+require_once ROOT_DIRECTORY . '/modules/PickList/PickListUtils.php';
 
 class Vtiger_DependencyPicklist
 {

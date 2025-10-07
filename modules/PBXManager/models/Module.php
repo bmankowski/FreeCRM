@@ -46,7 +46,7 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 		if (!$this->isEntityModule()) {
 			return array();
 		}
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');

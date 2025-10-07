@@ -16,12 +16,12 @@ class PaymentsOut_Record_Model extends Vtiger_Record_Model
 	{
 		$adres = vglobal('cache_dir');
 		if ($bank == 'Default') {
-			vimport('~~modules/PaymentsOut/helpers/' . $type . '.php');
+			require_once 'modules/PaymentsOut/helpers/' . $type . '.php';
 			$records = new $type($adres . $file);
 			return $records;
 		}
 
-		vimport('~~modules/PaymentsOut/helpers/subclass/' . $type . '_' . $bank . '.php');
+		require_once 'modules/PaymentsOut/helpers/subclass/' . $type . '_' . $bank . '.php';
 		$class = $type . '_' . $bank;
 		$records = new $class($adres . $file);
 

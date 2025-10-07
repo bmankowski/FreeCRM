@@ -8,8 +8,8 @@
  * All Rights Reserved.
  *
  * ****************************************************************************** */
-require_once 'modules/WSAPP/SyncServer.php';
-require_once 'modules/WSAPP/Handlers/SyncHandler.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/SyncServer.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/SyncHandler.php';
 
 class WSAPP_VtigerSyncEventHandler extends SyncHandler
 {

@@ -199,7 +199,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		foreach ($recipientEmails as $name => $email) {
 			$to[$email] = $name;
 		}
-		vimport('~modules/Report/models/Record.php');
+		require_once ROOT_DIRECTORY . '/modules/Report/models/Record.php';
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
 		vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
@@ -248,7 +248,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	 */
 	public function getNextTriggerTime()
 	{
-		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
+		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowManager.php';
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
@@ -312,7 +312,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 	public static function runScheduledReports()
 	{
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-vimport('~~modules/PaymentsIn/helpers/mt940.php');
+require_once ROOT_DIRECTORY . '/modules/PaymentsIn/helpers/mt940.php';
 
 class mt940_mbank extends mt940
 {

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'modules/WSAPP/Handlers/vtigerCRMHandler.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/vtigerCRMHandler.php';
 require_once 'include/utils/GetUserGroups.php';
 
 class OutlookVtigerCRMHandler extends vtigerCRMHandler

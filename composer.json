@@ -71,7 +71,6 @@
 		"files": [
 			"include/runtime/Globals.php",
 			"include/ConfigUtils.php",
-			"include/Loader.php",
 			"include/LanguageTranslator.php",
 			"include/http/Vtiger_Request.php",
 			"include/http/Response.php",

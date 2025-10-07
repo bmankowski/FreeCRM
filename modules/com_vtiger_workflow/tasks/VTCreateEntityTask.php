@@ -55,7 +55,7 @@ class VTCreateEntityTask extends VTTask
 						$fieldValue = $recordModel->get($fieldValue);
 					}
 				} elseif ($fieldValueType === 'expression') {
-					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
+					require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
 
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
@@ -135,7 +135,7 @@ class VTCreateEntityTask extends VTTask
 					$fieldValue = $parentRecordModel->get($fieldValue);
 				}
 			} elseif ($fieldValueType == 'expression') {
-				require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
+				require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
 
 				$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 				$expression = $parser->expression();

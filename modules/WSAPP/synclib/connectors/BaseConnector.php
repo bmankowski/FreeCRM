@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'modules/WSAPP/synclib/models/SyncStateModel.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/SyncStateModel.php';
 
 abstract class WSAPP_BaseConnector
 {

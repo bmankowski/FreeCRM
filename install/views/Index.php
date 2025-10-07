@@ -141,7 +141,7 @@ class Install_Index_view extends Vtiger_View_Controller
 	public function Step4(Vtiger_Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
-		require_once 'modules/Users/UserTimeZonesArray.php';
+		require_once ROOT_DIRECTORY . '/modules/Users/UserTimeZonesArray.php';
 		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();

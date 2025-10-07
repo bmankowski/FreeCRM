@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
 
 function wsapp_map($key, $element, $user)
 {

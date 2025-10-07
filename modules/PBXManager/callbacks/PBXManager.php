@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . '/../../../');
 include_once 'include/main/WebUI.php';
-vimport('include.http.Request');
+require_once 'include/http/Request.php';
 
 class PBXManager_PBXManager_Callbacks
 {

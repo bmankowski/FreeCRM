@@ -8,14 +8,14 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'modules/WSAPP/WSAPP.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/WSAPP.php';
 require_once 'include/Webservices/Utils.php';
 require_once 'include/database/PearDatabase.php';
 require_once 'include/Webservices/GetUpdates.php';
-require_once 'modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
 require_once 'include/Webservices/Update.php';
 require_once 'include/Webservices/Revise.php';
-require_once 'modules/WSAPP/Handlers/SyncHandler.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/SyncHandler.php';
 
 class vtigerCRMHandler extends SyncHandler
 {

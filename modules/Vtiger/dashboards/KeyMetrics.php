@@ -42,7 +42,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$current_user = Users_Record_Model::getCurrentUserModel();
 		vglobal('current_user', $current_user);
-		require_once 'modules/CustomView/ListViewTop.php';
+		require_once ROOT_DIRECTORY . '/modules/CustomView/ListViewTop.php';
 		$metriclists = getMetricList();
 		foreach ($metriclists as $key => &$metriclist) {
 			$queryGenerator = new \App\QueryGenerator($metriclist['module']);

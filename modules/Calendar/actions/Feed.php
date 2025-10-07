@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-vimport('~include/Webservices/Query.php');
+require_once 'include/Webservices/Query.php';
 
 class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 {
@@ -26,9 +26,8 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 			$color = $request->get('color');
 			$textColor = $request->get('textColor');
 
-			$actionName = 'Calendar_' . $type . '_ActivityTypes';
-			vimport('~modules/Calendar/activityTypes/' . $type . '.php');
-			$pullInstance = new $actionName;
+		$actionName = 'Calendar_' . $type . '_ActivityTypes';
+		$pullInstance = new $actionName;
 			$pullInstance->process($this, $request, $start, $end, $result, $userid, $color, $textColor);
 			echo json_encode($result);
 		} catch (Exception $ex) {
@@ -38,7 +37,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 
 	public function getGroupsIdsForUsers($userId)
 	{
-		vimport('~include/utils/GetUserGroups.php');
+		require_once 'include/utils/GetUserGroups.php';
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);

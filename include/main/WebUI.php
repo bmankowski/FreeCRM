@@ -21,6 +21,10 @@ ini_set('log_errors', 1);
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 
+// Register Vtiger custom autoloader for Module_Class_Type pattern
+require_once ROOT_DIRECTORY . '/include/Loader.php';
+Vtiger_Loader::register();
+
 \App\Debugger::init();
 \App\Cache::init();
 // \App\LanguageTranslator::init();

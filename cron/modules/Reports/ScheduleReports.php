@@ -8,6 +8,5 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-vimport ('include.runtime.Globals');
-require_once 'modules/Reports/models/ScheduleReports.php';
+require_once ROOT_DIRECTORY . '/modules/Reports/models/ScheduleReports.php';
 Reports_ScheduleReports_Model::runScheduledReports();

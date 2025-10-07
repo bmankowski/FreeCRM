@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'modules/com_vtiger_workflow/include.php';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
+require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
+require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -210,7 +210,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$num = $db->getSingleValue($result);
 
 		if ($num == 0) {
-			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
+			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
 			$emm = new VTEntityMethodManager();
 			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
 		}

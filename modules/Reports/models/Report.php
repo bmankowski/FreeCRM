@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-vimport('~modules/Reports/Reports.php');
+require_once ROOT_DIRECTORY . '/modules/Reports/Reports.php';
 
 class Vtiger_Report_Model extends Reports
 {

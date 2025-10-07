@@ -7,12 +7,12 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'modules/WSAPP/synclib/connectors/BaseConnector.php';
-require_once 'modules/WSAPP/api/ws/Get.php';
-require_once 'modules/WSAPP/synclib/models/VtigerModel.php';
-require_once 'modules/WSAPP/synclib/models/PullResultModel.php';
-require_once 'modules/WSAPP/api/ws/Map.php';
-require_once 'modules/WSAPP/api/ws/Put.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/connectors/BaseConnector.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/api/ws/Get.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/VtigerModel.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/PullResultModel.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/api/ws/Map.php';
+require_once ROOT_DIRECTORY . '/modules/WSAPP/api/ws/Put.php';
 require_once 'include/database/PearDatabase.php';
 require_once 'include/Webservices/Utils.php';
 

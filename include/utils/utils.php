@@ -29,9 +29,9 @@ require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
 require_once 'include/CRMEntity.php';
 include_once 'modules/Vtiger/CRMEntity.php';
-require_once 'modules/Vtiger/helpers/Util.php';
-require_once 'modules/PickList/DependentPickListUtils.php';
-require_once 'modules/Users/Users.php';
+require_once ROOT_DIRECTORY . '/modules/Vtiger/helpers/Util.php';
+require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
+require_once ROOT_DIRECTORY . '/modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
 
 /**

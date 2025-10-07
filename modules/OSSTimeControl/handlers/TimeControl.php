@@ -6,10 +6,10 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-vimport('~~modules/com_vtiger_workflow/include.php');
-vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
-vimport('~~include/Webservices/Utils.php');
-vimport('~~include/Webservices/Retrieve.php');
+require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
+require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityCache.php';
+require_once ROOT_DIRECTORY . '/include/Webservices/Utils.php';
+require_once ROOT_DIRECTORY . '/include/Webservices/Retrieve.php';
 
 class OSSTimeControl_TimeControl_Handler
 {
