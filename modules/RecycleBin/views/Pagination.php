@@ -1,6 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 {
 
@@ -10,7 +12,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -47,7 +49,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = CRMEntity::getInstance($moduleName);
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}

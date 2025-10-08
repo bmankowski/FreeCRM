@@ -20,7 +20,7 @@ class TaskDue
 	{
 		
 		\App\Log::trace("Entering TaskDue::process() method ...");
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$currentDate = date('Y-m-d');
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask

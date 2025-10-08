@@ -29,7 +29,7 @@
  */
 function getMetricList($filters = [])
 {
-	$db = PearDatabase::getInstance();
+	$db = \FreeCRM\database\PearDatabase::getInstance();
 	$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 	$ssql = 'select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype where vtiger_customview.setmetrics = 1 ';

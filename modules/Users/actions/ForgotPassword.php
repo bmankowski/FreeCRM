@@ -9,11 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . "/../../../");
-require_once 'include/RequirementsValidation.php';
-require_once 'include/main/WebUI.php';
-include_once "include/utils/VtlibUtils.php";
-include_once "include/Webservices/Custom/ChangePassword.php";
-include_once "include/Webservices/Utils.php";
+require_once ROOT_DIRECTORY . '/src/RequirementsValidation.php';
+require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
+include_once ROOT_DIRECTORY . "/src/utils/VtlibUtils.php";
+include_once ROOT_DIRECTORY . "/src/Webservices/Custom/ChangePassword.php";
+include_once ROOT_DIRECTORY . "/src/Webservices/Utils.php";
 include_once 'modules/Vtiger/helpers/ShortURL.php';
 
 class Users_ForgotPassword_Action
@@ -51,7 +51,7 @@ class Users_ForgotPassword_Action
 
 	public function requestForgotPassword(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$username = App\Purifier::purify($request->get('user_name'));
 		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
 		if ($adb->num_rows($result) > 0) {
@@ -107,4 +107,4 @@ class Users_ForgotPassword_Action
 	}
 }
 
-Users_ForgotPassword_Action::run(AppRequest::init());
+Users_ForgotPassword_Action::run(\FreeCRM\Http\AppRequest::init());

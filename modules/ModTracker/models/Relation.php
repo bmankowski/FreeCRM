@@ -29,7 +29,7 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 
 	public function getLinkedRecord()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$targetId = $this->get('targetid');
 		$targetModule = $this->get('targetmodule');
@@ -41,7 +41,7 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 		if ($noOfRows) {
 			$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
 			$row = $db->getRow($result);
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $targetModule);
+			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();
 			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 			$recordInstance->set('id', $row['crmid']);

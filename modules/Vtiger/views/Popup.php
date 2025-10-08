@@ -1,4 +1,5 @@
 <?php
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,15 +10,17 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_Popup_View extends Vtiger_Footer_View
 {
 
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -34,7 +37,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		return $moduleName;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -44,7 +47,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -57,14 +60,14 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . Vtiger_Language_Handler::getShortLanguageName() . '.js',
+			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \FreeCRM\Runtime\Vtiger_Language_Handler::getShortLanguageName() . '.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.min.js',
 			'modules.Vtiger.resources.Popup',
@@ -84,7 +87,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
@@ -136,7 +139,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = CRMEntity::getInstance($moduleName);
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -245,7 +248,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}
@@ -269,7 +272,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	 * Function to get listView count
 	 * @param Vtiger_Request $request
 	 */
-	public function getListViewCount(Vtiger_Request $request)
+	public function getListViewCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');
@@ -320,7 +323,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	public function getPageCount(Vtiger_Request $request)
+	public function getPageCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();

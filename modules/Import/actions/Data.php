@@ -141,7 +141,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public function updateModuleSequenceNumber()
 	{
 		$moduleName = $this->module;
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		$focus->updateMissingSeqNumber($moduleName);
 	}
 

@@ -34,9 +34,9 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		if ($value) {
 			if ($uiType === 72) {
 				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-				$value = CurrencyField::convertToUserFormat($value, null, true);
+				$value = \FreeCRM\fields\CurrencyField::convertToUserFormat($value, null, true);
 			} else {
-				$value = CurrencyField::convertToUserFormat($value);
+				$value = \FreeCRM\fields\CurrencyField::convertToUserFormat($value);
 			}
 			if (!$this->edit) {
 				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
@@ -70,7 +70,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
 	{
-		return CurrencyField::convertToUserFormat($value, $user, $skipConversion);
+		return \FreeCRM\fields\CurrencyField::convertToUserFormat($value, $user, $skipConversion);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
 	{
-		return CurrencyField::convertToDBFormat($value, $user, $skipConversion);
+		return \FreeCRM\fields\CurrencyField::convertToDBFormat($value, $user, $skipConversion);
 	}
 
 	/**
@@ -120,10 +120,10 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 				$currencySymbol = $currencyInfo['currency_symbol'];
 			}
 		} else {
-			$currencyModal = new CurrencyField($value);
+			$currencyModal = new \FreeCRM\fields\CurrencyField($value);
 			$currencyModal->initialize();
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
-		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+		return \FreeCRM\fields\CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
 }

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Assets extends CRMEntity
+class Assets extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_assets';
@@ -127,7 +127,7 @@ class Assets extends CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = CRMEntity::getInstance($related_module);
+			$other = \FreeCRM\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -292,12 +292,12 @@ class Assets extends CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
+		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
@@ -338,7 +338,7 @@ class Assets extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
+class Vtiger_FindDuplicate_Model extends Vtiger_Record_Model
 {
 
 	public function setModule($moduleModel)
@@ -23,7 +23,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 
 	public function getListViewHeaders()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$listViewHeaders = [];
 		$listViewHeaders[] = new Vtiger_Base_Model(array('name' => 'recordid', 'label' => 'ID'));
@@ -74,7 +74,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 
 	public function getListViewEntries(Vtiger_Paging_Model $paging)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$module = $moduleModel->getName();
 
@@ -100,7 +100,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 
 
 		//$query = $this->getQuery();
-		$focus = CRMEntity::getInstance($module);
+		$focus = \FreeCRM\CRMEntity::getInstance($module);
 		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
 		$query .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
@@ -172,7 +172,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		if ($this->rows) {
 			$rows = $this->rows;
 		} else {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$moduleModel = $this->getModule();
 			$module = $moduleModel->getName();
@@ -188,7 +188,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 					}
 				}
 			}
-			$focus = CRMEntity::getInstance($module);
+			$focus = \FreeCRM\CRMEntity::getInstance($module);
 			$ignoreEmpty = $this->get('ignoreEmpty');
 			$additionalColumns = array_diff($additionalColumns, $tableColumns);
 			$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
@@ -210,7 +210,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 
 	public function getMassDeleteRecords(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$module = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 
@@ -228,7 +228,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 			}
 		}
 
-		$focus = CRMEntity::getInstance($module);
+		$focus = \FreeCRM\CRMEntity::getInstance($module);
 		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty);
 		$result = $db->query($query);
 

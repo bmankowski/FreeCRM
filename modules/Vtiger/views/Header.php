@@ -8,6 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Runtime\Vtiger_View_Controller;
+use FreeCRM\Http\Vtiger_Request;
+use FreeCRM\Runtime\Vtiger_Theme;
+use FreeCRM\AppConfig;
+
 abstract class Vtiger_Header_View extends Vtiger_View_Controller
 {
 
@@ -17,7 +22,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	}
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(Vtiger_Request $request) {
+	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
@@ -48,7 +53,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * Function to get the list of Header Links
 	 * @return <Array> - List of Vtiger_Link_Model instances
 	 */
-	public function getMenuHeaderLinks(Vtiger_Request $request)
+	public function getMenuHeaderLinks(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
@@ -63,7 +68,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linkclass' => 'showModal',
 			];
 		}
-		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (\FreeCRM\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
@@ -119,7 +124,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
@@ -138,7 +143,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_CssScript_Model instances
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$baseStyleCssPath = Vtiger_Theme::getBaseStylePath();

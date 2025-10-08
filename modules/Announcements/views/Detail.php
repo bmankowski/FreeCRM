@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Announcements_Detail_View extends Vtiger_Detail_View
 {
 
@@ -15,7 +17,7 @@ class Announcements_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showUsers');
 	}
 
-	public function showUsers(Vtiger_Request $request)
+	public function showUsers(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

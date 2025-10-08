@@ -98,7 +98,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$recordId = $this->getId();
 
 		$sql = 'DELETE FROM vtiger_rss where rssid = ?';
@@ -110,7 +110,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function makeDefault()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$recordId = $this->getId();
 
 		$sql = 'UPDATE vtiger_rss set starred = 0';
@@ -193,7 +193,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getDefaultRss()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT rssid FROM vtiger_rss where starred = 1', array());
 		$recordId = $db->query_result($result, '0', 'rssid');

@@ -11,7 +11,7 @@
 /**
  * Vtiger Action Model Class
  */
-class Vtiger_Action_Model extends Vtiger_Base_Model
+class Vtiger_Action_Model extends Vtiger_Record_Model
 {
 
 	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');
@@ -38,7 +38,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 
 	public function isModuleEnabled($module)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		if (!$module->isEntityModule()) {
 			return false;
 		}
@@ -89,7 +89,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 
 	public static function getInstanceWithIdOrName($value)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
@@ -128,7 +128,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 
 	public static function getAllBasic($configurable = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
@@ -147,7 +147,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 
 	public static function getAllUtility($configurable = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));

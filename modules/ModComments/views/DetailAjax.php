@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class ModComments_DetailAjax_View extends Vtiger_IndexAjax_View
 {
 
@@ -16,7 +18,7 @@ class ModComments_DetailAjax_View extends Vtiger_IndexAjax_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$moduleName = $request->getModule();

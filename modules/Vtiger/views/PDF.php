@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Export PDF Modal View Class
  * @package YetiForce.ModalView
@@ -7,18 +8,20 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_PDF_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
+		if (!\Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
@@ -27,7 +30,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$view = $request->get('fromview');
 		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
 
 		$viewer = $this->getViewer($request);

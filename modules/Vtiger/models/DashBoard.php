@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_DashBoard_Model extends Vtiger_Base_Model
+class Vtiger_DashBoard_Model extends Vtiger_Record_Model
 {
 
 	/**
@@ -182,7 +182,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($moduleName)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		return $instance->setModule($moduleModel);

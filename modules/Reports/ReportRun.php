@@ -176,7 +176,7 @@ class ReportRunQueryPlanner
 
 	public function initializeTempTables()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
 			if (!in_array($uniqueName, self::$existTables)) {
 				$query1 = sprintf('CREATE TEMPORARY TABLE %s AS %s', $uniqueName, $tempTableInfo['query']);
@@ -208,7 +208,7 @@ class ReportRunQueryPlanner
 
 	public function cleanup()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$oldDieOnError = $adb->dieOnError;
 		$adb->dieOnError = false; // To avoid abnormal termination during shutdown...
@@ -221,7 +221,7 @@ class ReportRunQueryPlanner
 	}
 }
 
-class ReportRun extends CRMEntity
+class ReportRun extends \FreeCRM\CRMEntity
 {
 
 	// Maximum rows that should be emitted in HTML view.
@@ -296,7 +296,7 @@ class ReportRun extends CRMEntity
 			return $this->_columnslist;
 		}
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 		$current_user = vglobal('current_user');
@@ -388,12 +388,12 @@ class ReportRun extends CRMEntity
 
 	public function getColumnSQL($selectedfields)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
 
 		list($module, $field) = explode('__', $selectedfields[2]);
 		$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'), 'Users');
-		$moduleInstance = CRMEntity::getInstance($module);
+		$moduleInstance = \FreeCRM\CRMEntity::getInstance($module);
 		$this->queryPlanner->addTable($moduleInstance->table_name);
 		if ($selectedfields[4] == 'C') {
 			$field_label_data = explode('__', $selectedfields[2]);
@@ -482,7 +482,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($targetTableName);
 
 			// Added when no fields from the secondary module is selected but lastmodifiedby field is selected
-			$moduleInstance = CRMEntity::getInstance($module);
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance($module);
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'smcreatorid')) {
 			$targetTableName = 'vtiger_createdby' . $module;
@@ -492,7 +492,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($targetTableName);
 
 			// Added when no fields from the secondary module is selected but creator field is selected
-			$moduleInstance = CRMEntity::getInstance($module);
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance($module);
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'shownerid')) {
 			$targetTableName = 'vtiger_shOwners' . $module;
@@ -503,7 +503,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($targetTableName);
 
 			// Added when no fields from the secondary module is selected but lastmodifiedby field is selected
-			$moduleInstance = CRMEntity::getInstance($module);
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance($module);
 
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} elseif ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
@@ -539,7 +539,7 @@ class ReportRun extends CRMEntity
 				$columnSQL = "vtiger_service{$module}.servicename AS '" . decode_html($header_label) . "'";
 				$this->queryPlanner->addTable("vtiger_service{$module}");
 			} else if ($selectedfields[1] == 'listprice') {
-				$moduleInstance = CRMEntity::getInstance($module);
+				$moduleInstance = \FreeCRM\CRMEntity::getInstance($module);
 				$columnSQL = $selectedfields[0] . $module . "." . $selectedfields[1] . "/" . $moduleInstance->table_name . ".conversion_rate AS '" . decode_html($header_label) . "'";
 				$this->queryPlanner->addTable($selectedfields[0] . $module);
 			} else {
@@ -560,7 +560,7 @@ class ReportRun extends CRMEntity
 	public function getaccesfield($module)
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$access_fields = Array();
 
 		$profileList = $currentUser->getProfiles();
@@ -640,7 +640,7 @@ class ReportRun extends CRMEntity
 	public function getSelectedColumnsList($reportid)
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -691,7 +691,7 @@ class ReportRun extends CRMEntity
 	{
 
 		global $ogReport;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$default_charset = AppConfig::main('default_charset');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
@@ -782,11 +782,11 @@ class ReportRun extends CRMEntity
 	public function getFilterComparedField($field)
 	{
 		global $ogReport;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if (!empty($this->secondarymodule)) {
 			$secModules = explode(':', $this->secondarymodule);
 			foreach ($secModules as $secModule) {
-				$secondary = CRMEntity::getInstance($secModule);
+				$secondary = \FreeCRM\CRMEntity::getInstance($secModule);
 				$this->queryPlanner->addTable($secondary->table_name);
 			}
 		}
@@ -836,7 +836,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getAdvFilterList($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 
 		$advft_criteria = array();
@@ -891,7 +891,7 @@ class ReportRun extends CRMEntity
 	public function generateAdvFilterSql($advfilterlist)
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$advfiltersql = '';
 		foreach ($advfilterlist as $groupindex => $groupinfo) {
@@ -1146,7 +1146,7 @@ class ReportRun extends CRMEntity
 								$secondSecondaryModule = "vtiger_users" . $secondaryModules[1];
 								if (($firstSecondaryModule && $firstSecondaryModule == $selectedfields[0]) || ($secondSecondaryModule && $secondSecondaryModule == $selectedfields[0])) {
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
-									$moduleInstance = CRMEntity::getInstance($module_from_tablename);
+									$moduleInstance = \FreeCRM\CRMEntity::getInstance($module_from_tablename);
 									if (is_numeric($value)) {
 										$fieldvalue = '(' . $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupid" . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
 									} else {
@@ -1304,7 +1304,7 @@ class ReportRun extends CRMEntity
 			return $this->_stdfilterlist;
 		}
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$stdfilterlist = array();
 
@@ -1419,7 +1419,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function RunTimeAdvFilter($advft_criteria, $advft_criteria_groups)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$advfilterlist = array();
 		$advfiltersql = '';
@@ -1510,7 +1510,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getStandardCriterialSql($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -1573,7 +1573,7 @@ class ReportRun extends CRMEntity
 
 	public function hasGroupingList()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT 1 FROM vtiger_reportsortcol WHERE reportid=? and columnname <> "none"', array($this->reportid));
 		return ($result && $adb->num_rows($result)) ? true : false;
 	}
@@ -1588,7 +1588,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getGroupingList($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -1684,7 +1684,7 @@ class ReportRun extends CRMEntity
 	public function getSelectedOrderbyList($reportid)
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -1736,7 +1736,7 @@ class ReportRun extends CRMEntity
 		if ($secmodule != '') {
 			$secondarymodule = explode(':', $secmodule);
 			foreach ($secondarymodule as $key => $value) {
-				$foc = CRMEntity::getInstance($value);
+				$foc = \FreeCRM\CRMEntity::getInstance($value);
 
 				// Case handling: Force table requirement ahead of time.
 				$this->queryPlanner->addTable('vtiger_crmentity' . $value);
@@ -1791,13 +1791,13 @@ class ReportRun extends CRMEntity
 				$module = \App\Module::getModuleName($sharedTabId);
 				if ($module == 'Calendar') {
 					// For calendar we have some special case to check like, calendar shared type
-					$moduleInstance = CRMEntity::getInstance($module);
+					$moduleInstance = \FreeCRM\CRMEntity::getInstance($module);
 					$query = $moduleInstance->getReportsNonAdminAccessControlQuery($tableName, $tabId, $user, $current_user_parent_role_seq, $current_user_groups);
 				} else {
 					$query = $this->getNonAdminAccessQuery($module, $user, $current_user_parent_role_seq, $current_user_groups);
 				}
 
-				$db = PearDatabase::getInstance();
+				$db = \FreeCRM\database\PearDatabase::getInstance();
 				$result = $db->pquery($query, array());
 				$rows = $db->num_rows($result);
 				for ($i = 0; $i < $rows; $i++) {
@@ -2200,7 +2200,7 @@ class ReportRun extends CRMEntity
 			}
 		} else {
 			if ($module != '') {
-				$focus = CRMEntity::getInstance($module);
+				$focus = \FreeCRM\CRMEntity::getInstance($module);
 
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
@@ -2361,7 +2361,7 @@ class ReportRun extends CRMEntity
 	// Performance Optimization: Added parameter directOutput to avoid building big-string!
 	public function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		global $modules;
 		global $mod_strings;
@@ -3102,7 +3102,7 @@ class ReportRun extends CRMEntity
 			return $this->_columnstotallist;
 		}
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -3226,7 +3226,7 @@ class ReportRun extends CRMEntity
 			$field = $field_tablename . $premod . '.' . $field_columnname;
 			$itemTableName = 'vtiger_inventoryproductrel' . $premod;
 			$this->queryPlanner->addTable($itemTableName);
-			$primaryModuleInstance = CRMEntity::getInstance($premod);
+			$primaryModuleInstance = \FreeCRM\CRMEntity::getInstance($premod);
 			if ($field_columnname == 'listprice') {
 				$field = $field . '/' . $primaryModuleInstance->table_name . '.conversion_rate';
 			} else if ($field_columnname == 'discount_amount') {
@@ -3243,7 +3243,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getColumnsToTotalColumns($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -3319,7 +3319,7 @@ class ReportRun extends CRMEntity
 	 * */
 	public function getAccessPickListValues()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$id = array(\App\Module::getModuleId($this->primarymodule));
 		if ($this->secondarymodule != '')
@@ -3499,7 +3499,7 @@ class ReportRun extends CRMEntity
 
 	public function getGroupByTimeList($reportId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$groupByTimeQuery = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=?";
 		$groupByTimeRes = $adb->pquery($groupByTimeQuery, array($reportId));
 		$num_rows = $adb->num_rows($groupByTimeRes);
@@ -3535,7 +3535,7 @@ class ReportRun extends CRMEntity
 
 	public function GetFirstSortByField($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$groupByField = "";
 		$sortFieldQuery = "SELECT * FROM vtiger_reportsortcol
                             LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid and vtiger_reportsortcol.reportid = vtiger_reportgroupbycolumn.reportid)
@@ -3570,7 +3570,7 @@ class ReportRun extends CRMEntity
 
 	public function getReferenceFieldColumnList($moduleName, $fieldInfo)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$columnsSqlList = array();
 

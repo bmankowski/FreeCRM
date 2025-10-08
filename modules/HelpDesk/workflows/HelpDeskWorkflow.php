@@ -19,7 +19,7 @@ function getContactsMailsFromTicket($id)
 	if (empty($id)) {
 		return [];
 	}
-	$db = PearDatabase::getInstance();
+	$db = \FreeCRM\database\PearDatabase::getInstance();
 	$mails = [];
 	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
 	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
@@ -81,7 +81,7 @@ function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
  */
 function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
 {
-	$db = PearDatabase::getInstance();
+	$db = \FreeCRM\database\PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
 	$moduleName = vtlib\Functions::getCRMRecordType($relatedToId);
@@ -135,7 +135,7 @@ function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
-	$db = PearDatabase::getInstance();
+	$db = \FreeCRM\database\PearDatabase::getInstance();
 	$relatedToId = $recordModel->get('related_to');
 	$mails = [];
 	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 && crmid = ? ';
@@ -150,7 +150,7 @@ function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 				$mails[] = $currentUser->column_fields['email1'];
 			}
 		} else {
-			require_once('include/utils/GetGroupUsers.php');
+			require_once(ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php');
 			$ggu = new GetGroupUsers();
 			$ggu->getAllUsersInGroup($smownerid);
 			foreach ($ggu->group_users as $userId) {

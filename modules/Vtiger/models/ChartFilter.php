@@ -198,7 +198,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$suffix = '';
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {

@@ -112,7 +112,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$adb = App\Db::getInstance();
 		if (!is_array($valueToDeleteId)) {
 			$valueToDeleteId = array($valueToDeleteId);
@@ -216,7 +216,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 	public function updateSequence($pickListFieldName, $picklistValues)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$set = ' CASE ';

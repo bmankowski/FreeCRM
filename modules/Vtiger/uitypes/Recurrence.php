@@ -95,15 +95,15 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 		$text = '';
 		if (!$info) {
 			$moduleName = 'Events';
-			$text = LanguageTranslator::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
-				. LanguageTranslator::translate($info['freqLabel'], $moduleName) . ' '
-				. LanguageTranslator::translate('LBL_UNTIL', $moduleName) . ' ';
+			$text = \FreeCRM\LanguageTranslator::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
+				. \FreeCRM\LanguageTranslator::translate($info['freqLabel'], $moduleName) . ' '
+				. \FreeCRM\LanguageTranslator::translate('LBL_UNTIL', $moduleName) . ' ';
 			if (isset($info['COUNT'], $info['UNTIL'])) {
-				$text .= LanguageTranslator::translate('LBL_NEVER', $moduleName);
+				$text .= \FreeCRM\LanguageTranslator::translate('LBL_NEVER', $moduleName);
 			} else if (isset($info['COUNT'])) {
-				$text .= LanguageTranslator::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
+				$text .= \FreeCRM\LanguageTranslator::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
 			} else {
-				$text .= LanguageTranslator::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
+				$text .= \FreeCRM\LanguageTranslator::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
 			}
 		}
 		return $text;

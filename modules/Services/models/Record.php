@@ -21,7 +21,7 @@ class Services_Record_Model extends Products_Record_Model
 			return $activeStatus;
 		}
 		$recordId = $this->getId();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT discontinued FROM vtiger_service WHERE serviceid = ?', array($recordId));
 		$activeStatus = $db->query_result($result, 'discontinued');
 		return $activeStatus;

@@ -1,25 +1,28 @@
 <?php
 
+
 /**
  * Update comment for related record
  * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
+		$recordPermission = \Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

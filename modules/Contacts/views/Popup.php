@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Contacts_Popup_View extends Vtiger_Popup_View
 {
 	/*
@@ -17,7 +19,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 	 * @param FreeCRM_Viewer $viewer
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');

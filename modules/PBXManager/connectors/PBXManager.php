@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'include/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
 class PBXManager_PBXManager_Connector
 {
@@ -232,7 +232,7 @@ class PBXManager_PBXManager_Connector
 
 		$params['starttime'] = $details->get('StartTime');
 		$params['callstatus'] = "ringing";
-		$user = CRMEntity::getInstance('Users');
+		$user = \FreeCRM\CRMEntity::getInstance('Users');
 		$current_user = $user->getActiveAdminUser();
 
 		$recordModel = PBXManager_Record_Model::getCleanInstance();

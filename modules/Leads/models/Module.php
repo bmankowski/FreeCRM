@@ -27,7 +27,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRecentRecords($limit = 10)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
@@ -55,7 +55,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$module = $this->getName();
 		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
 		if (!empty($owner)) {
@@ -133,7 +133,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	{
 		$convertedInfo = [];
 		if ($recordIdsList) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$query = sprintf('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (%s)', implode(',', $recordIdsList));
 			$result = $db->query($query);
 			while ($row = $db->getRow($result)) {
@@ -194,7 +194,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		\App\Log::trace('Start ' . __METHOD__);
 		if ($recordModel) {
 			$params = [];
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
 			$mappingFields = \App\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "

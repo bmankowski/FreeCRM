@@ -69,7 +69,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$suffix = '';
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {
@@ -118,7 +118,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
 			}
 			$targetModuleName = $this->getTargetModule();
-			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
+			$targetModuleFocus = \FreeCRM\CRMEntity::getInstance($targetModuleName);
 			$filterId = $this->widgetModel->get('filterid');
 			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
 			if (!empty($filterModel->get('sort'))) {

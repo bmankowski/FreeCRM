@@ -9,10 +9,10 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
+class Settings_MarketingProcesses_Module_Model extends Vtiger_Record_Model
 {
 
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName = null)
 	{
 		$instance = new self();
 		return $instance;
@@ -22,7 +22,7 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
-		$cache = Vtiger_Cache::get('MarketingProcesses', $type);
+		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('MarketingProcesses', $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
@@ -43,7 +43,7 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 				$config[$param] = $value;
 			}
 		}
-		Vtiger_Cache::set('MarketingProcesses', $type, $config);
+		\FreeCRM\Runtime\Vtiger_Cache::set('MarketingProcesses', $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

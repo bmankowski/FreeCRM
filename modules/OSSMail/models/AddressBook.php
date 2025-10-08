@@ -15,7 +15,7 @@ class OSSMail_AddressBook_Model
 	public static function createABFile()
 	{
 		$mails = [];
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->query(sprintf('SELECT * FROM %s', self::TABLE));
 		while ($row = $adb->getRow($result)) {
 			$name = $row['name'];

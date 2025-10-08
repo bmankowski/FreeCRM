@@ -31,7 +31,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldtype = explode("~", $typeofdata);
 		$tabId = $this->getModuleId();
 
-		$focus = CRMEntity::getInstance($fldModule);
+		$focus = \FreeCRM\CRMEntity::getInstance($fldModule);
 
 		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
 		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);

@@ -1,4 +1,6 @@
 <?php
+
+use FreeCRM\Http\Vtiger_Request;
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -19,7 +21,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -36,7 +38,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		}
 	}
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('isDuplicate')) {
@@ -49,7 +51,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		return $pageTitle;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -94,7 +96,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				$specialField = true;
 				// Convert the incoming user-picked time to GMT time 
 				// which will get re-translated based on user-time zone on EditForm 
-				$fieldValue = DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
+				$fieldValue = \FreeCRM\Fields\DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
 			}
 
 			if ($moduleName == 'Calendar' && empty($record) && $fieldName == 'date_start' && !empty($fieldValue)) {
@@ -171,7 +173,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 

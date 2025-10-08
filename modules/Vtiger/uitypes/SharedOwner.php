@@ -42,7 +42,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (empty($values)) {
 			return '';
@@ -106,7 +106,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
-				$userModel = Users_Privileges_Model::getInstanceById($shownerid);
+				$userModel = \Users_Privileges_Model::getInstanceById($shownerid);
 				$userModel->setModule('Users');
 				$display[$key] = $userModel->getName();
 				if ($userModel->get('status') === 'Inactive') {
@@ -150,7 +150,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getSharedOwners($record, $moduleName = false)
 	{
-		$shownerid = Vtiger_Cache::get('SharedOwner', $record);
+		$shownerid = \FreeCRM\Runtime\Vtiger_Cache::get('SharedOwner', $record);
 		if ($shownerid !== false) {
 			return $shownerid;
 		}
@@ -159,7 +159,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$values = $query->column();
 		if (empty($values))
 			$values = [];
-		Vtiger_Cache::set('SharedOwner', $record, $values);
+		\FreeCRM\Runtime\Vtiger_Cache::set('SharedOwner', $record, $values);
 		return $values;
 	}
 

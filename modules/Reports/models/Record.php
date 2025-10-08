@@ -136,7 +136,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$self = new self();
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
@@ -289,7 +289,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getSelectedFields()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT vtiger_selectcolumn.columnname FROM vtiger_report
 					INNER JOIN vtiger_selectquery ON vtiger_selectquery.queryid = vtiger_report.queryid
@@ -317,7 +317,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getSelectedCalculationFields()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT vtiger_reportsummary.columnname FROM vtiger_reportsummary
 					INNER JOIN vtiger_report ON vtiger_report.reportid = vtiger_reportsummary.reportsummaryid
@@ -337,7 +337,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getSelectedSortFields()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT vtiger_reportsortcol.* FROM vtiger_report
 					INNER JOIN vtiger_reportsortcol ON vtiger_report.reportid = vtiger_reportsortcol.reportid
@@ -359,7 +359,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getSelectedStandardFilter()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = array();
@@ -405,7 +405,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$reportId = $this->getId();
@@ -477,7 +477,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveSortFields()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sortFields = $this->get('sortFields');
 
@@ -502,7 +502,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveCalculationFields()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$calculationFields = $this->get('calculationFields');
 		$countCalculationFields = count($calculationFields);
@@ -516,7 +516,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveStandardFilter()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$standardFilter = $this->get('standardFilter');
 		if (!empty($standardFilter)) {
@@ -531,7 +531,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveSharingInformation()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sharingInfo = $this->get('sharingInfo');
 		if ($sharingInfo) {
 			foreach ($sharingInfo as $key => $value) {
@@ -549,7 +549,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveSelectedFields()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$selectedFields = $this->get('selectedFields');
 
@@ -568,7 +568,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveAdvancedFilters()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$reportId = $this->getId();
 		$advancedFilter = $this->get('advancedFilter');
@@ -668,7 +668,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveScheduleInformation()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$selectedRecipients = $this->get('selectedRecipients');
 		$scheduledInterval = $this->get('scheduledInterval');
@@ -683,7 +683,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function deleteScheduling()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_scheduled_reports WHERE reportid = ?', array($this->getId()));
 	}
 
@@ -731,7 +731,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		if ($query === null)
 			$query = $this->get('recordCountQuery');
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$count = 0;
 		$result = $adb->query($query, array());
 		if ($adb->num_rows($result) > 0) {
@@ -832,7 +832,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function move($folderId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$db->pquery("UPDATE vtiger_report SET folderid = ? WHERE reportid = ?", array($folderId, $this->getId()));
 	}
@@ -1048,7 +1048,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function checkDuplicate()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$record = $this->getId();
 		$params = [];
 		$query = "SELECT 1 FROM vtiger_report WHERE reportname = ?";
@@ -1148,7 +1148,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveReportType()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$data = $this->get('reporttypedata');
 		if (!empty($data)) {
 			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($this->getId()));
@@ -1158,7 +1158,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	public function getReportTypeInfo()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT data FROM vtiger_reporttype WHERE reportid = ?", array($this->getId()));
 

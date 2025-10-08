@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Reports_Detail_View extends Vtiger_Index_View
 {
 
@@ -16,7 +18,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 	protected $calculationFields;
 	protected $count;
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
@@ -29,7 +31,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 
 	const REPORT_LIMIT = 1000;
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 
@@ -128,7 +130,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 		$viewer->view('ReportHeader.tpl', $moduleName);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -138,7 +140,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 		echo $this->getReport($request);
 	}
 
-	public function getReport(Vtiger_Request $request)
+	public function getReport(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -187,7 +189,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

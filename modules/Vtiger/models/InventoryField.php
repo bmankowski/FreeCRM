@@ -7,7 +7,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_InventoryField_Model extends Vtiger_Base_Model
+class Vtiger_InventoryField_Model extends Vtiger_Record_Model
 {
 
 	protected $fields = false;
@@ -33,7 +33,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$prefix = '_invmap';
 				break;
 		}
-		$focus = CRMEntity::getInstance($this->get('module'));
+		$focus = \FreeCRM\CRMEntity::getInstance($this->get('module'));
 		$basetable = $focus->table_name;
 		$supfield = $basetable . $prefix;
 		return $supfield;
@@ -148,7 +148,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '| ');
 
-		$className = Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
+		$className = \FreeCRM\Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
 		$instance->initialize($valueArray);
 		$instance->set('module', $this->get('module'));
@@ -167,7 +167,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '| ' . $moduleName);
 
-		$instance = Vtiger_Cache::get('InventoryFields', $moduleName);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('InventoryFields', $moduleName);
 		if ($instance) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 			return $instance;
@@ -186,13 +186,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			foreach (new DirectoryIterator($fieldPath) as $fileinfo) {
 				if ($fileinfo->isFile() && $fileinfo->getFilename() != 'Basic.php') {
 					$fieldName = str_replace('.php', '', $fileinfo->getFilename());
-					$className = Vtiger_Loader::getComponentClassName('InventoryField', $fieldName, $moduleName);
+					$className = \FreeCRM\Vtiger_Loader::getComponentClassName('InventoryField', $fieldName, $moduleName);
 					$instance = new $className();
 					$fields[$fieldName] = $instance->set('module', $moduleName);
 				}
 			}
 		}
-		Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
+		\FreeCRM\Runtime\Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $fields;
 	}
@@ -229,12 +229,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($moduleName)
 	{
-		$instance = Vtiger_Cache::get('inventoryField', $moduleName);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('inventoryField', $moduleName);
 		if (!$instance) {
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'InventoryField', $moduleName);
+			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'InventoryField', $moduleName);
 			$instance = new $modelClassName();
 			$instance->set('module', $moduleName);
-			Vtiger_Cache::set('inventoryField', $moduleName, $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('inventoryField', $moduleName, $instance);
 		}
 		return $instance;
 	}
@@ -246,12 +246,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public static function getFieldInstance($moduleName, $type)
 	{
-		$instance = Vtiger_Cache::get('inventoryFieldType', $moduleName . $type);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('inventoryFieldType', $moduleName . $type);
 		if (!$instance) {
-			$inventoryClassName = Vtiger_Loader::getComponentClassName('InventoryField', $type, $moduleName);
+			$inventoryClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('InventoryField', $type, $moduleName);
 			$instance = new $inventoryClassName();
 			$instance->set('module', $moduleName);
-			Vtiger_Cache::set('inventoryFieldType', $moduleName . $type, $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('inventoryFieldType', $moduleName . $type, $instance);
 		}
 		return $instance;
 	}
@@ -333,7 +333,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		if (!$moduleName) {
 			return false;
 		}
-		$cache = Vtiger_Cache::get('InventoryIsWysiwygType', $moduleName);
+		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('InventoryIsWysiwygType', $moduleName);
 		if ($cache) {
 			return $cache;
 		}
@@ -343,7 +343,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		if ($fieldModel && $fieldModel->get('uitype') == '300') {
 			$return = 1;
 		}
-		Vtiger_Cache::set('InventoryIsWysiwygType', $moduleName, $return);
+		\FreeCRM\Runtime\Vtiger_Cache::set('InventoryIsWysiwygType', $moduleName, $return);
 		return $return;
 	}
 
@@ -354,7 +354,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public static function getTaxField($moduleName)
 	{
-		$cache = Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
+		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
 		if ($cache) {
 			return $cache;
 		}
@@ -370,7 +370,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 		}
 
-		Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
+		\FreeCRM\Runtime\Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
 		return $return;
 	}
 
@@ -461,7 +461,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function saveField($type, $param)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$columns = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSpan'];
 		$set = [];
 		$params = [];
@@ -500,7 +500,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 * @return string/false
 	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
-	public function delete($param)
+	public function delete($param = [])
 	{
 		$db = \App\Db::getInstance();
 		$status = $db->createCommand()->delete($this->getTableName('fields'), ['id' => $param['id']])->execute();
@@ -522,7 +522,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function getUniqueID($instance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT MAX(id) AS max FROM `%s` WHERE `invtype` = ? ', $this->getTableName('fields'));
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
@@ -545,19 +545,19 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 	public function getAutoCompleteFields()
 	{
-		$instance = Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
 		if ($instance) {
 			return $instance;
 		}
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$table = $this->getTableName('autofield');
 		$result = $db->pquery(sprintf('SELECT * FROM %s', $table));
 		$fields = [];
 		while ($row = $db->getRow($result)) {
 			$fields[$row['tofield']] = $row;
 		}
-		Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
+		\FreeCRM\Runtime\Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
 

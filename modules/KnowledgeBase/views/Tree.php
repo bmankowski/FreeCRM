@@ -5,10 +5,12 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class KnowledgeBase_Tree_View extends Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -20,7 +22,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$viewer->view('TreeHeader.tpl', $moduleName);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
 		$scripts = [
@@ -33,7 +35,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		return $scriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

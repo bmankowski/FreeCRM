@@ -112,7 +112,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$data = [];
 		$fields = self::getFieldsByStep();

@@ -40,7 +40,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function getUserColors()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->query('SELECT * FROM vtiger_users');
 
 		$userColors = [];
@@ -57,7 +57,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function updateUserColor($params)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_users SET cal_color = ? WHERE id = ?;', array($params['color'], $params['id']));
 	}
 
@@ -84,7 +84,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function getGroupColors()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->query('SELECT * FROM vtiger_groups');
 
 		$groupColors = [];
@@ -100,7 +100,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function updateGroupColor($params)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_groups SET color = ? WHERE groupid = ?;', array($params['color'], $params['id']));
 	}
 

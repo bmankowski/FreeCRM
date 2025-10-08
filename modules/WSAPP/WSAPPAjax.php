@@ -7,6 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('include/Ajax/CommonAjax.php');
+require_once(ROOT_DIRECTORY . '/src/Ajax/CommonAjax.php');
 
 ?>

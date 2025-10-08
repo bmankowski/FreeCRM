@@ -28,7 +28,7 @@ class Settings_Picklist_PickListHandler_Handler
 	public function operationsAfterPicklistRename($entityData)
 	{
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$adb = App\Db::getInstance();
 		$pickListFieldName = $entityData['fieldname'];
 		$oldValue = $entityData['oldvalue'];
@@ -197,7 +197,7 @@ class Settings_Picklist_PickListHandler_Handler
 	 */
 	public function operationsAfterPicklistDelete($entityData)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$pickListFieldName = $entityData['fieldname'];
 		$valueToDelete = $entityData['valuetodelete'];
 		$replaceValue = $entityData['replacevalue'];

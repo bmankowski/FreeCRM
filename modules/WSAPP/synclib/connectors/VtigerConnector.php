@@ -13,8 +13,8 @@ require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/VtigerModel.php';
 require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/PullResultModel.php';
 require_once ROOT_DIRECTORY . '/modules/WSAPP/api/ws/Map.php';
 require_once ROOT_DIRECTORY . '/modules/WSAPP/api/ws/Put.php';
-require_once 'include/database/PearDatabase.php';
-require_once 'include/Webservices/Utils.php';
+require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 
 class WSAPP_VtigerConnector extends WSAPP_BaseConnector
 {
@@ -25,7 +25,7 @@ class WSAPP_VtigerConnector extends WSAPP_BaseConnector
 
 	public function __construct()
 	{
-		$this->db = PearDatabase::getInstance();
+		$this->db = \FreeCRM\database\PearDatabase::getInstance();
 	}
 
 	public function getDbInstance()

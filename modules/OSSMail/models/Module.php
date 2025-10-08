@@ -22,7 +22,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
 
 		$settingsLinks[] = array(
@@ -134,7 +134,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	public static function getComposeParameters()
 	{
 		if (!self::$composeParam) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$result = $db->pquery('SELECT parameter,value FROM vtiger_ossmailscanner_config WHERE conf_type = ?', ['email_list']);
 			$config = [];
 			$numRowsResult = $db->num_rows($result);

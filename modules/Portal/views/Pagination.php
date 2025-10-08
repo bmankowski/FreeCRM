@@ -1,6 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Portal_Pagination_View extends Vtiger_IndexAjax_View
 {
 
@@ -10,7 +12,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);

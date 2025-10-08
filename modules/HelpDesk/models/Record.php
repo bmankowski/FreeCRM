@@ -27,7 +27,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getCommentsList()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$commentsList = array();
 
 		$result = $db->pquery("SELECT commentcontent AS comments FROM vtiger_modcomments WHERE related_to = ?", array($this->getId()));
@@ -79,10 +79,10 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	public function saveToDb()
 	{
 		parent::saveToDb();
-		$forModule = AppRequest::get('return_module');
-		$forCrmid = AppRequest::get('return_id');
-		if (AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
-			CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, AppRequest::get('module'), $this->getId());
+		$forModule = \FreeCRM\Http\AppRequest::get('return_module');
+		$forCrmid = \FreeCRM\Http\AppRequest::get('return_id');
+		if (\FreeCRM\Http\AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
+			\FreeCRM\CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \FreeCRM\Http\AppRequest::get('module'), $this->getId());
 		}
 	}
 }

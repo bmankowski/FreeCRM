@@ -19,7 +19,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

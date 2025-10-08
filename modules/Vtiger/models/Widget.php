@@ -12,7 +12,7 @@
 /**
  * Vtiger Widget Model Class
  */
-class Vtiger_Widget_Model extends Vtiger_Base_Model
+class Vtiger_Widget_Model extends Vtiger_Record_Model
 {
 
 	public function getWidth()
@@ -247,7 +247,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	public static function removeWidgetFromList($id)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = "SELECT templateid FROM vtiger_module_dashboard_widgets WHERE id = ?";
 		$result = $db->pquery($query, [$id]);
 		$templateId = $db->getSingleValue($result);

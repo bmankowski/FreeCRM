@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 {
 
@@ -14,7 +16,7 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -27,7 +29,7 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

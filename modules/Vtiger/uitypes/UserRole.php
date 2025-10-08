@@ -22,7 +22,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$displayValue = \LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
+		$displayValue = \FreeCRM\LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if ($currentUserModel->isAdmin() && $rawText === false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
@@ -41,7 +41,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 		$roleModels = Settings_Roles_Record_Model::getAll();
 		$roles = [];
 		foreach ($roleModels as $roleId => $roleModel) {
-			$roles[$roleId] = \LanguageTranslator::translate($roleModel->getName(), $this->get('field')->getModuleName());
+			$roles[$roleId] = \FreeCRM\LanguageTranslator::translate($roleModel->getName(), $this->get('field')->getModuleName());
 		}
 		return $roles;
 	}

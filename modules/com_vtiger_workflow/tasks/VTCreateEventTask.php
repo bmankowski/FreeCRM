@@ -7,17 +7,17 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('include/Webservices/Utils.php');
+require_once(ROOT_DIRECTORY . '/src/Webservices/Utils.php');
 require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/Webservices/ModuleTypes.php';
-require_once('include/Webservices/Create.php');
-require_once 'include/Webservices/DescribeObject.php';
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
+require_once(ROOT_DIRECTORY . '/src/Webservices/Create.php');
+require_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
 
 require_once("modules/Users/Users.php");
 

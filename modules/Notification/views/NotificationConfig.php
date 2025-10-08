@@ -7,6 +7,8 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 {
 
@@ -15,7 +17,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -24,7 +26,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 	 * Function gets module settings
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
@@ -57,7 +59,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return array - List of Vtiger_CssScript_Model instances
 	 */
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [

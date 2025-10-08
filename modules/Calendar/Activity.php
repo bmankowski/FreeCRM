@@ -23,7 +23,7 @@
 require_once('modules/Calendar/CalendarCommon.php');
 
 // Task is used to store customer information.
-class Activity extends CRMEntity
+class Activity extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = "vtiger_activity";
@@ -98,7 +98,7 @@ class Activity extends CRMEntity
 
 	public function __construct()
 	{
-		$this->db = PearDatabase::getInstance();
+		$this->db = \FreeCRM\database\PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Calendar');
 	}
 
@@ -123,8 +123,8 @@ class Activity extends CRMEntity
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (\FreeCRM\Http\AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder method ...');
@@ -145,8 +145,8 @@ class Activity extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (\FreeCRM\Http\AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -186,7 +186,7 @@ class Activity extends CRMEntity
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
 			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
-			if (AppRequest::get('set_reminder') == 'Yes') {
+			if (\FreeCRM\Http\AppRequest::get('set_reminder') == 'Yes') {
 				$this->db->insert($this->reminder_table, [
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,
@@ -343,7 +343,7 @@ class Activity extends CRMEntity
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
 			"int(1) default 0) ignore " . $query;
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
@@ -363,7 +363,7 @@ class Activity extends CRMEntity
 
 	protected function getListViewAccessibleUsers($sharedid)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		;
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
@@ -397,7 +397,7 @@ class Activity extends CRMEntity
 					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($module)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+				$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -412,7 +412,7 @@ class Activity extends CRMEntity
 		}
 		foreach ($results as $row) {
 			App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, \FreeCRM\CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}
 }

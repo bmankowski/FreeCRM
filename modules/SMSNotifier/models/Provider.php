@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class SMSNotifier_Provider_Model extends Vtiger_Base_Model
+class SMSNotifier_Provider_Model extends Vtiger_Record_Model
 {
 
 	/**
@@ -20,7 +20,7 @@ class SMSNotifier_Provider_Model extends Vtiger_Base_Model
 	{
 		if (!empty($providerName)) {
 			$providerName = trim($providerName);
-			$className = Vtiger_Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
+			$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
 			return new $className();
 		}
 		return false;

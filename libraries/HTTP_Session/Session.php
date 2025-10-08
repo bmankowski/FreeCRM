@@ -35,6 +35,9 @@ define("HTTP_SESSION_STARTED", 1);
 // @const HTTP_SESSION_STARTED - No new session was started with the current request
 define("HTTP_SESSION_CONTINUED", 2);
 
+// Use the namespaced AppConfig class
+use FreeCRM\AppConfig;
+
 /**
  * Class for managing HTTP sessions
  *

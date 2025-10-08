@@ -74,7 +74,7 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	public static function deleteRecords($recordIdsList = array())
 	{
 		if ($recordIdsList) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$db->delete('vtiger_smsnotifier_servers', 'id IN (' . generateQuestionMarks($recordIdsList) . ')', $recordIdsList);
 			return true;
 		}

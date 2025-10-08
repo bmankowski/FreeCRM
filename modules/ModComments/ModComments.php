@@ -10,7 +10,7 @@
 include_once dirname(__FILE__) . '/ModCommentsCore.php';
 include_once dirname(__FILE__) . '/models/Comments.php';
 
-require_once 'include/utils/VtlibUtils.php';
+require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
 
 class ModComments extends ModCommentsCore
 {
@@ -25,7 +25,7 @@ class ModComments extends ModCommentsCore
 		parent::vtlib_handler($modulename, $event_type);
 		if ($event_type == 'module.postinstall') {
 			self::addWidgetTo(array('Leads', 'Contacts', 'Accounts', 'Project', 'ProjectTask'));
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 		} elseif ($event_type == 'module.postupdate') {
@@ -40,7 +40,7 @@ class ModComments extends ModCommentsCore
 	 */
 	static function transferRecords($currentParentId, $targetParentId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_modcomments SET related_to=? WHERE related_to=?", array($targetParentId, $currentParentId));
 	}
 

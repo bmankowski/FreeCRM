@@ -9,10 +9,12 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Users_DeleteAjax_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
@@ -23,7 +25,7 @@ class Users_DeleteAjax_View extends Vtiger_Index_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userid = $request->get('record');

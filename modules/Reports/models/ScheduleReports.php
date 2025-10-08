@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_ScheduleReports_Model extends Vtiger_Base_Model
+class Reports_ScheduleReports_Model extends Vtiger_Record_Model
 {
 
 	public $scheduledFormat = 'CSV';
@@ -30,7 +30,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$scheduledReportModel = new self();
 
 		if (!empty($recordId)) {
@@ -55,7 +55,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	 */
 	public function saveScheduleReport()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$reportid = $this->get('reportid');
 		$scheduleid = $this->get('scheduleid');
@@ -161,7 +161,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			}
 
 			if (!empty($recipients['Groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
+				require_once ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php';
 				foreach ($recipients['Groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);
@@ -282,7 +282,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 	public function updateNextTriggerTime()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
 		vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));

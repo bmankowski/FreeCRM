@@ -276,7 +276,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public function getDisplayActivityTime()
 	{
 		$time = $this->getActivityTime();
-		$time = new DateTimeField($time);
+		$time = new \FreeCRM\Fields\DateTimeField($time);
 		return $time->getFullcalenderDateTimevalue();
 	}
 
@@ -288,7 +288,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public function getFieldInstances()
 	{
 		$id = $this->get('id');
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$fieldInstances = [];
 		if ($this->isCreate() || $this->isUpdate()) {
@@ -314,7 +314,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public function getRelationInstance()
 	{
 		$id = $this->get('id');
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($this->isRelationLink() || $this->isRelationUnLink()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_relations WHERE id = ?', array($id));

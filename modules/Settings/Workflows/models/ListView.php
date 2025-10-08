@@ -29,7 +29,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 
 		$listFields = $module->listFields;
 		unset($listFields['all_tasks']);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FileUpload View Class
  * @package YetiForce.ModalView
@@ -9,6 +10,8 @@
 /**
  * FileUpload view class
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 {
 
@@ -17,7 +20,7 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -38,7 +41,7 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -55,7 +58,7 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getModalScripts($request);
 		$scripts = [

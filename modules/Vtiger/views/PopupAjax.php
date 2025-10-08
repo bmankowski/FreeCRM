@@ -1,4 +1,5 @@
 <?php
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,6 +10,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_PopupAjax_View extends Vtiger_Popup_View
 {
 
@@ -20,17 +23,17 @@ class Vtiger_PopupAjax_View extends Vtiger_Popup_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

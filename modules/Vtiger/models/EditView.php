@@ -11,7 +11,7 @@
 /**
  * Vtiger EditView Model Class
  */
-class Vtiger_EditView_Model extends Vtiger_Base_Model
+class Vtiger_EditView_Model extends Vtiger_Record_Model
 {
 
 	/**
@@ -22,7 +22,7 @@ class Vtiger_EditView_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'EditView', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'EditView', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		return $instance->set('module', $moduleModel);

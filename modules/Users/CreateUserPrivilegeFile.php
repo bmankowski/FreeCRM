@@ -10,10 +10,10 @@
 
 require_once('config/config.php');
 require_once('modules/Users/Users.php');
-require_once('include/utils/UserInfoUtil.php');
-require_once('include/utils/utils.php');
-require_once('include/utils/GetUserGroups.php');
-require_once('include/utils/GetGroupUsers.php');
+require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
+require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
+require_once(ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php');
 
 /** Creates a file with all the user, user-role,user-profile, user-groups informations 
  * @param $userid -- user id:: Type integer
@@ -26,7 +26,7 @@ function createUserPrivilegesfile($userid)
 	if ($handle) {
 		$newbuf = '';
 		$newbuf .= "<?php\n";
-		$user_focus = CRMEntity::getInstance('Users');
+		$user_focus = \FreeCRM\CRMEntity::getInstance('Users');
 		$user_focus->retrieve_entity_info($userid, 'Users');
 		$userInfo = [];
 		$user_focus->column_fields["id"] = '';
@@ -83,7 +83,7 @@ function createUserSharingPrivilegesfile($userid)
 
 	if ($handle) {
 		$newbuf = "<?php\n";
-		$user_focus = CRMEntity::getInstance('Users');
+		$user_focus = \FreeCRM\CRMEntity::getInstance('Users');
 		$user_focus->retrieve_entity_info($userid, 'Users');
 		if ($user_focus->is_admin == 'on') {
 			fputs($handle, $newbuf);
@@ -163,7 +163,7 @@ function createUserSharingPrivilegesfile($userid)
 function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_members, $mod_share_read_per, $mod_share_write_per, $def_org_share)
 {
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$related_mod_sharing_permission = [];
 	$mod_share_read_permission = [];
 	$mod_share_write_permission = [];
@@ -499,7 +499,7 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
  */
 function populateSharingtmptables($userid)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 	require('user_privileges/sharing_privileges_' . $userid . '.php');
 	//Deleting from the existing vtiger_tables
@@ -548,7 +548,7 @@ function populateSharingtmptables($userid)
  */
 function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$tabid = \App\Module::getModuleId($module);
 
 	if (!$var_name_arr) {
@@ -626,7 +626,7 @@ function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_na
  */
 function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$tabid = \App\Module::getModuleId($module);
 	$reltabid = \App\Module::getModuleId($relmodule);
 

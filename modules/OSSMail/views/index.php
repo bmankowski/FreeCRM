@@ -9,6 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class OSSMail_index_View extends Vtiger_Index_View
 {
 
@@ -35,7 +37,7 @@ class OSSMail_index_View extends Vtiger_Index_View
 					$this->mainUrl .= '?';
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
-				$db = PearDatabase::getInstance();
+				$db = \FreeCRM\database\PearDatabase::getInstance();
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
 				$params = ['language' => Vtiger_Language_Handler::getLanguage()];
@@ -50,14 +52,14 @@ class OSSMail_index_View extends Vtiger_Index_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$this->initAutologin();
 
 		parent::preProcess($request, $display);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

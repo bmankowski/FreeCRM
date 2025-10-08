@@ -35,7 +35,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return $ownerName;
 		}
 		if (\App\Fields\Owner::getType($value) === 'Users') {
-			$userModel = Users_Privileges_Model::getInstanceById($value);
+			$userModel = \Users_Privileges_Model::getInstanceById($value);
 			$userModel->setModule('Users');
 			$ownerName = $userModel->getName();
 			if ($userModel->get('status') === 'Inactive') {
@@ -71,7 +71,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 		}
 		if (\App\Fields\Owner::getType($value) === 'Users') {
-			$userModel = Users_Privileges_Model::getInstanceById($value);
+			$userModel = \Users_Privileges_Model::getInstanceById($value);
 			$userModel->setModule('Users');
 			$ownerName = vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
 			if ($userModel->get('status') === 'Inactive') {
@@ -111,7 +111,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 
 	public function isAjaxEditable()
 	{
-		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$roleModel = Settings_Roles_Record_Model::getInstanceById($userPrivModel->get('roleid'));
 		if ($roleModel->get('changeowner')) {
 			return true;

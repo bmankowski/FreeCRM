@@ -1,11 +1,14 @@
 <?php
 
+
 /**
  * Basic Inventory View Class
  * @package YetiForce.Views
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 {
 
@@ -16,7 +19,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('showTaxes');
 	}
 
-	public function showDiscounts(Vtiger_Request $request)
+	public function showDiscounts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$discountType = $request->get('discountType');
@@ -47,7 +50,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 	 * Function to show taxes
 	 * @param Vtiger_Request $request
 	 */
-	public function showTaxes(Vtiger_Request $request)
+	public function showTaxes(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

@@ -6,10 +6,12 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Assets_GetHierarchy_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$hierarchyModuleName = 'Accounts';
@@ -27,7 +29,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -36,7 +38,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$hierarchyModuleName = 'Accounts';
 
 
-		$focus = CRMEntity::getInstance($hierarchyModuleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($hierarchyModuleName);
 		$hierarchy = $focus->getAccountHierarchy($recordId, $fields);
 
 		$classFunction = AppConfig::module($moduleName, 'RENEWAL_CUSTOMER_FUNCTION');

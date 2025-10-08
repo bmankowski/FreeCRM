@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Import_List_View extends Vtiger_Popup_View
 {
 
@@ -24,7 +26,7 @@ class Import_List_View extends Vtiger_Popup_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$mode = $request->get('mode');
@@ -42,7 +44,7 @@ class Import_List_View extends Vtiger_Popup_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $request->get('for_module');
 		$cvId = $request->get('viewname');
@@ -50,7 +52,7 @@ class Import_List_View extends Vtiger_Popup_View
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = CRMEntity::getInstance($moduleName);
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -105,7 +107,7 @@ class Import_List_View extends Vtiger_Popup_View
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 	}
 
-	public function getImportDetails(Vtiger_Request $request)
+	public function getImportDetails(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

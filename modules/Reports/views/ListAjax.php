@@ -11,6 +11,8 @@
  * Class for reloading the Reports headers
  */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Reports_ListAjax_View extends Reports_List_View
 {
 
@@ -22,12 +24,12 @@ class Reports_ListAjax_View extends Reports_List_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

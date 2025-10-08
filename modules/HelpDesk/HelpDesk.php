@@ -13,7 +13,7 @@
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
 
-class HelpDesk extends CRMEntity
+class HelpDesk extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = "vtiger_troubletickets";
@@ -98,7 +98,7 @@ class HelpDesk extends CRMEntity
 	{
 		if ($with_module == 'ServiceContracts') {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
-			$serviceContract = CRMEntity::getInstance("ServiceContracts");
+			$serviceContract = \FreeCRM\CRMEntity::getInstance("ServiceContracts");
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
 			$serviceContract->updateServiceContractState($with_crmid);
 		} else {
@@ -159,7 +159,7 @@ class HelpDesk extends CRMEntity
 	 */
 	public function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
 		if ($mode != 'edit') {//this will be updated when we create new ticket
@@ -228,7 +228,7 @@ class HelpDesk extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

@@ -25,7 +25,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	public function save($request)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$content = $request->get('contents');
 		$noteBookId = $request->get('widgetid');
 		$date_var = date("Y-m-d H:i:s");
@@ -44,7 +44,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	public static function getUserInstance($widgetId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets 
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid 
 			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, \App\User::getCurrentUserId()]);

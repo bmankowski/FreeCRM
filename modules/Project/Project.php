@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Project extends CRMEntity
+class Project extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_project';
@@ -141,7 +141,7 @@ class Project extends CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = CRMEntity::getInstance($related_module);
+			$other = \FreeCRM\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -236,7 +236,7 @@ class Project extends CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = CRMEntity::getInstance($related_module);
+			$other = \FreeCRM\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -317,7 +317,7 @@ class Project extends CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 			$moduleInstance = vtlib\Module::getInstance($modulename);
 			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
@@ -355,7 +355,7 @@ class Project extends CRMEntity
 		} else if ($event_type == 'module.preupdate') {
 			
 		} else if ($event_type == 'module.postupdate') {
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
 			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
@@ -398,13 +398,13 @@ class Project extends CRMEntity
 			parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
 			return;
 		}
-		$destinationModule = AppRequest::get('destination_module');
+		$destinationModule = \FreeCRM\Http\AppRequest::get('destination_module');
 		if (empty($destinationModule))
 			$destinationModule = $with_module;
 		if (!is_array($with_crmid))
 			$with_crmid = Array($with_crmid);
 		foreach ($with_crmid as $relcrmid) {
-			$child = CRMEntity::getInstance($destinationModule);
+			$child = \FreeCRM\CRMEntity::getInstance($destinationModule);
 			$child->retrieve_entity_info($relcrmid, $destinationModule);
 			$child->mode = 'edit';
 			$child->column_fields['projectid'] = '';
@@ -426,7 +426,7 @@ class Project extends CRMEntity
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, \FreeCRM\CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}
@@ -440,7 +440,7 @@ class Project extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

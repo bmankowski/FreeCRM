@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Import_Map_Model extends Vtiger_Base_Model
+class Import_Map_Model extends Vtiger_Record_Model
 {
 
 	static $tableName = 'vtiger_import_maps';
@@ -44,7 +44,7 @@ class Import_Map_Model extends Vtiger_Base_Model
 
 	public static function markAsDeleted($mapId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_import_maps SET deleted=1 WHERE id=?', array($mapId));
 	}
 
@@ -82,7 +82,7 @@ class Import_Map_Model extends Vtiger_Base_Model
 
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$map = $this->getAllValues();
 		$map['content'] = "" . $db->getEmptyBlob() . "";

@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+use FreeCRM\AppConfig;
 class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 {
 

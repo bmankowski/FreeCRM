@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/vtigerCRMHandler.php';
-require_once 'include/utils/GetUserGroups.php';
+require_once ROOT_DIRECTORY . '/src/utils/GetUserGroups.php';
 
 class OutlookVtigerCRMHandler extends vtigerCRMHandler
 {

@@ -11,7 +11,7 @@
 /**
  * CSS Script Model Class
  */
-class Vtiger_CssScript_Model extends Vtiger_Base_Model
+class Vtiger_CssScript_Model extends Vtiger_Record_Model
 {
 
 	const DEFAULT_REL = 'stylesheet';

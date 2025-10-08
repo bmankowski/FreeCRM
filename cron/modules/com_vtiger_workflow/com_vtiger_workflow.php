@@ -8,21 +8,21 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'include/Webservices/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once("include/Webservices/State.php");
 require_once("include/Webservices/OperationManager.php");
 require_once("include/Webservices/SessionManager.php");
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
 require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/Webservices/ModuleTypes.php';
-require_once 'include/utils/VtlibUtils.php';
-require_once 'include/Webservices/WebserviceEntityOperation.php';
-require_once 'include/Webservices/Retrieve.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
+require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceEntityOperation.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Retrieve.php';
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityCache.php';
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';

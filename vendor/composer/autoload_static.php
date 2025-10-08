@@ -13,23 +13,24 @@ class ComposerStaticInitYT
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'ea4f9562fb4c8181ff813c2c5f82ee0d' => __DIR__ . '/../..' . '/include/runtime/Globals.php',
-        '0aaf54951b81c5942645476236647d8d' => __DIR__ . '/../..' . '/include/AppConfig.php',
-        'b5980b93c962407ce218905dcd19dd34' => __DIR__ . '/../..' . '/include/LanguageTranslator.php',
-        '0e69b4024062f9f5fe6262d96402a2f1' => __DIR__ . '/../..' . '/include/http/Vtiger_Request.php',
-        '727eaa22a80172c3cabf7928d6219733' => __DIR__ . '/../..' . '/include/http/Response.php',
-        '78a70a4d51d32ce3a7c6925dffc742a1' => __DIR__ . '/../..' . '/include/http/Session.php',
-        '02e342f23581311200a01bf82cb9de6d' => __DIR__ . '/../..' . '/include/runtime/BaseModel.php',
-        '23dff92772437557f93ffb2d6b5bf88b' => __DIR__ . '/../..' . '/include/runtime/FreeCRM_Viewer.php',
-        '105549670c96412cc736de4e6388af97' => __DIR__ . '/../..' . '/include/runtime/JavaScript.php',
-        '85a8bc31b89b0247cbfa75e2f3e89bc3' => __DIR__ . '/../..' . '/include/runtime/LanguageHandler.php',
-        'c7bea81103f8e0d3e979d9b55bd9c594' => __DIR__ . '/../..' . '/include/runtime/Theme.php',
-        '05c087765022419ab3e993f42d926f0a' => __DIR__ . '/../..' . '/include/runtime/Layout.php',
-        '1e954bb9870d97e400e19bd5390fcc41' => __DIR__ . '/../..' . '/include/runtime/Controller.php',
-        '03314e5aa68e8544576e394bdb67240c' => __DIR__ . '/../..' . '/include/runtime/Cache.php',
-        '229abf0e8d9b3678d8b4ad7b1c8d1563' => __DIR__ . '/../..' . '/include/utils/VTCacheUtils.php',
-        '4e4ba41ba3159a1e8f1ab5544f357608' => __DIR__ . '/../..' . '/include/utils/utils.php',
-        'f857dd645c1b8314dcad0ca213dee347' => __DIR__ . '/../..' . '/vtlib/Vtiger/Deprecated.php',
+        '5bd8071e76557df1f405e9132c925ca4' => __DIR__ . '/../..' . '/src/runtime/Globals.php',
+        'fd07c550ae471cf10fc654a4bc13a359' => __DIR__ . '/../..' . '/src/runtime/TemplateHelpers.php',
+        '6b88ebed41be39a9e91f7c953cbece53' => __DIR__ . '/../..' . '/src/LanguageTranslator.php',
+        'faaf28dff7cca5a276763158655ba902' => __DIR__ . '/../..' . '/src/http/Vtiger_Request.php',
+        'b7343332e4f3405e2fbd636dd9d4bdf9' => __DIR__ . '/../..' . '/src/http/Vtiger_Response.php',
+        'ea77e976304a20c21ce838072ec562ae' => __DIR__ . '/../..' . '/src/http/Vtiger_Session.php',
+        'beb02737793882ee6518f52ef439c648' => __DIR__ . '/../..' . '/src/runtime/Vtiger_Base_Model.php',
+        '326b72e39a696b59d1b70f2408976ce8' => __DIR__ . '/../..' . '/src/runtime/FreeCRM_Viewer.php',
+        '397dabe65772c71babbd2063d1f0237c' => __DIR__ . '/../..' . '/src/runtime/Vtiger_JavaScript.php',
+        '5ddf58db33b7bc8c1fae7f64a9e181ba' => __DIR__ . '/../..' . '/src/runtime/Vtiger_JsScript_Model.php',
+        '10840cea204d49a54963f2533f2fd0a5' => __DIR__ . '/../..' . '/src/runtime/Vtiger_Language_Handler.php',
+        '61e7f6acda35ff4afd763cdbcc887f05' => __DIR__ . '/../..' . '/src/runtime/Vtiger_Theme.php',
+        '77efc8df3aad07135b1d97d14d06ffdf' => __DIR__ . '/../..' . '/src/runtime/Yeti_Layout.php',
+        'a4667eaca1126213520c8eb4c68be860' => __DIR__ . '/../..' . '/src/runtime/Vtiger_Controller.php',
+        '949fffe91d29f2607648d3738f11206e' => __DIR__ . '/../..' . '/src/runtime/Vtiger_Cache.php',
+        '742a32ecd17667f60863493c111e5e31' => __DIR__ . '/../..' . '/src/utils/VTCacheUtils.php',
+        '3443957f76f899163eb9e8fb1d5bd5b1' => __DIR__ . '/../..' . '/src/utils/utils.php',
+        '0b7deb1a752d6f8b7a7c214200c6c25f' => __DIR__ . '/../..' . '/vtlib/Vtiger/Deprecated.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -41,10 +42,6 @@ class ComposerStaticInitYT
         'v' => 
         array (
             'vtlib\\' => 6,
-        ),
-        'i' => 
-        array (
-            'includes\\' => 9,
         ),
         'c' => 
         array (
@@ -107,10 +104,6 @@ class ComposerStaticInitYT
         array (
             0 => __DIR__ . '/../..' . '/vtlib/Vtiger',
         ),
-        'includes\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/include',
-        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
@@ -145,7 +138,7 @@ class ComposerStaticInitYT
         ),
         'Exception\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/include/exceptions',
+            0 => __DIR__ . '/../..' . '/src/exceptions',
         ),
         'Doctrine\\Deprecations\\' => 
         array (

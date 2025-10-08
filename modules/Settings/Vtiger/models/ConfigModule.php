@@ -101,7 +101,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function getPicklistValues($fieldName)
 	{
 		if ($fieldName === 'default_module') {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$presence = [0];
 			$restrictedModules = array('Integration', 'Dashboard');

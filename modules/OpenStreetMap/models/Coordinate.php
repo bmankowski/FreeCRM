@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
+class OpenStreetMap_Coordinate_Model extends Vtiger_Record_Model
 {
 
 	const earthRadius = 6378137;
@@ -74,7 +74,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 	 */
 	public function getCoordinates($address)
 	{
-		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
+		$url = \FreeCRM\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,
@@ -177,7 +177,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$queryGenerator->setFields($fields[$moduleName]);
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
@@ -224,7 +224,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 	public function getLabelToPopupByArray($data, $moduleName)
 	{
 		$html = '<b><a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $data['crmid'] . '"><span class="description">';
-		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
 				$html .= $data[$fieldName] . '<br>';
@@ -334,7 +334,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$moduleName = $moduleModel->getName();
-		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
@@ -407,7 +407,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$params = [];
-		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;

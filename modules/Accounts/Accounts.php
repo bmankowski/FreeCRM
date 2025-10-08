@@ -21,7 +21,7 @@
  * Contributor(s): ______________________________________..
  * ****************************************************************************** */
 
-class Accounts extends CRMEntity
+class Accounts extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_account';
@@ -299,7 +299,7 @@ class Accounts extends CRMEntity
 	 */
 	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
 
@@ -363,7 +363,7 @@ class Accounts extends CRMEntity
 	 */
 	public function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 

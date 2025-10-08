@@ -12,7 +12,7 @@
 /**
  * Vtiger Entity Record Model Class
  */
-class Vtiger_Record_Model extends Vtiger_Base_Model
+class Vtiger_Record_Model extends \FreeCRM\Runtime\Vtiger_Base_Model
 {
 
 	protected $module = false;
@@ -183,7 +183,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getEntity()
 	{
 		if (empty($this->entity)) {
-			$this->entity = CRMEntity::getInstance($this->getModuleName());
+			$this->entity = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
 		}
 		return $this->entity;
 	}
@@ -205,8 +205,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRawData()
 	{
-
-		return isset($this->rawData) ? $this->rawData : false;
+		return isset($this->rawData) ? $this->rawData : [];
 	}
 
 	/**
@@ -374,7 +373,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
 		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
@@ -474,7 +473,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->startTransaction();
 
 		$this->getModule()->deleteRecord($this);
@@ -492,9 +491,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (\App\Cache::staticHas('RecordModelCleanInstance', $moduleName)) {
 			return clone \App\Cache::staticGet('RecordModelCleanInstance', $moduleName);
 		}
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		$module = Vtiger_Module_Model::getInstance($moduleName);
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
@@ -525,10 +524,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			return \App\Cache::staticGet('RecordModel', $cacheName);
 		}
 
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		$focus->id = $recordId;
 		$focus->retrieve_entity_info($recordId, $moduleName);
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setEntity($focus)->setData($focus->column_fields)->setModuleFromInstance($module);
 		$instance->setId($recordId);
@@ -542,7 +541,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$moduleName = $focus->moduleName;
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$recordModel = new $modelClassName();
 		$recordModel->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
 		return $recordModel;
@@ -585,7 +584,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
@@ -640,7 +639,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$recordId = $this->getId();
 		$focus = $this->getEntity();
 		if (!$focus) {
-			$focus = CRMEntity::getInstance($moduleName);
+			$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$this->setEntity($focus);
 		}
 		$lockFields = $focus->getLockFields();
@@ -705,7 +704,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
 		$crmId = $db->query_result($checkResult, 0, 'crmid');
 		if ($this->getId() == $crmId) {
@@ -724,7 +723,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$description = $this->get('description');
 		if (empty($description)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$result = $db->pquery("SELECT description FROM vtiger_crmentity WHERE crmid = ?", array($this->getId()));
 			$description = $db->query_result($result, 0, "description");
 		}
@@ -740,7 +739,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		if ($recordIds) {
 			$moduleName = $this->getModuleName();
-			$focus = CRMEntity::getInstance($moduleName);
+			$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 			if (method_exists($focus, 'transferRelatedRecords')) {
 				$focus->transferRelatedRecords($moduleName, $recordIds, $this->getId());
 			}
@@ -782,7 +781,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function trackView()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$id = $this->getId();
 		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
 		if ($id != '') {
@@ -861,7 +860,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
-		$module = CRMEntity::getInstance($parentModuleName);
+		$module = \FreeCRM\CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
@@ -907,7 +906,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public static function getInventoryDataById($ID, $moduleName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventoryField->getTableName('data');
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
@@ -934,7 +933,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
-			$request = AppRequest::init();
+			$request = \FreeCRM\Http\AppRequest::init();
 		}
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');
@@ -1047,7 +1046,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment')
 	{
 		$id = $this->getId();
-		$module = AppRequest::get('module');
+		$module = \FreeCRM\Http\AppRequest::get('module');
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();
@@ -1103,9 +1102,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				'path' => $uploadFilePath
 			])->execute();
 
-			if (AppRequest::get('mode') === 'edit') {
-				if (!empty($id) && !empty(AppRequest::get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => AppRequest::get('fileid')])->execute();
+			if (\FreeCRM\Http\AppRequest::get('mode') === 'edit') {
+				if (!empty($id) && !empty(\FreeCRM\Http\AppRequest::get('fileid'))) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \FreeCRM\Http\AppRequest::get('fileid')])->execute();
 				}
 			}
 			if ($module === 'Documents') {

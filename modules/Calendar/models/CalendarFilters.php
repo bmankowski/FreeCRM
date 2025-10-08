@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
+class Calendar_CalendarFilters_Model extends Vtiger_Record_Model
 {
 
 	protected $filterPath = 'modules/Calendar/calendarfilters';
@@ -28,7 +28,7 @@ class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
 			if (!$fileinfo->isDot()) {
 				$name = $fileinfo->getFilename();
 				$name = rtrim($name, '.php');
-				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
+				$filterClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
 				$filterInstance = new $filterClassName();
 				if (method_exists($filterInstance, 'checkPermissions') && $filterInstance->checkPermissions()) {
 					$this->filters[] = $filterInstance;

@@ -160,14 +160,14 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	{
 		foreach ($recordIds as &$recordId) {
 			$moduleName = App\Record::getType($recordId);
-			$entity = CRMEntity::getInstance($moduleName);
+			$entity = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$entity->deletePerminently($moduleName, $recordId);
 		}
 	}
 
 	public function deleteFiles($recordIds)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$getAttachmentsIdQuery = sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
 		$result = $db->pquery($getAttachmentsIdQuery, [$recordIds]);
 		$attachmentsIds = [];
@@ -206,7 +206,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function restore($sourceModule, $recordIds)
 	{
-		$focus = CRMEntity::getInstance($sourceModule);
+		$focus = \FreeCRM\CRMEntity::getInstance($sourceModule);
 		foreach (array_filter($recordIds) as $id) {
 			$focus->restore($sourceModule, $id);
 		}
@@ -214,7 +214,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 	public function getDeletedRecordsTotalCount()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$totalCount = $db->pquery('select count(*) as count from vtiger_crmentity where deleted=1', array());
 		return $db->query_result($totalCount, 0, 'count');
 	}

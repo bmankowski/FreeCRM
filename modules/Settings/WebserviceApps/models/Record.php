@@ -25,7 +25,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$model = new self();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE id = ? LIMIT 1', [$recordId]);
 		$data = $db->getRow($result);
 		$model->setData($data);

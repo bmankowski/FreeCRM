@@ -39,7 +39,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
 		if (!empty($searchValue)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? || last_name LIKE ?) && status = ?';
 			$params = array("%$searchValue%", "%$searchValue%", 'Active');
@@ -50,7 +50,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 			$matchingRecords = array();
 			for ($i = 0; $i < $noOfRows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
-				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
+				$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
@@ -78,7 +78,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	public function checkDuplicateUser($userName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'SELECT user_name FROM vtiger_users WHERE user_name = ?';
 		$result = $db->pquery($query, array($userName));
@@ -94,7 +94,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public function deleteRecord($recordModel)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $this->get('name');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?";
@@ -116,7 +116,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public function updateBaseCurrency($currencyName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
@@ -197,7 +197,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCurrenciesList()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
 		$result = $adb->pquery($currency_query, array());
@@ -216,7 +216,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getTimeZonesList()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
 		$result = $adb->pquery($timezone_query, array());
@@ -242,7 +242,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getLanguagesList()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$language_query = 'SELECT prefix, label FROM vtiger_language';
 		$result = $adb->query($language_query);

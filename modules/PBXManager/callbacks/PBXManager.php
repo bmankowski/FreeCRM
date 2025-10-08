@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . '/../../../');
-include_once 'include/main/WebUI.php';
-require_once 'include/http/Request.php';
+include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
+require_once ROOT_DIRECTORY . '/src/http/Request.php';
 
 class PBXManager_PBXManager_Callbacks
 {
@@ -36,4 +36,4 @@ class PBXManager_PBXManager_Callbacks
 }
 
 $pbxmanager = new PBXManager_PBXManager_Callbacks();
-$pbxmanager->process(AppRequest::init());
+$pbxmanager->process(\FreeCRM\Http\AppRequest::init());

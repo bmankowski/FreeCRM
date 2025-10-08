@@ -8,10 +8,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Contacts_Detail_View extends Vtiger_Detail_View
 {
 
-	public function showModuleDetailView(Vtiger_Request $request)
+	public function showModuleDetailView(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

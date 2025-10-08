@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Import_Main_View extends Vtiger_View_Controller
 {
 
@@ -16,7 +18,7 @@ class Import_Main_View extends Vtiger_View_Controller
 	public $user;
 	public $numberOfRecords;
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return;
 	}

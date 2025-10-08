@@ -11,6 +11,8 @@
 
 require_once ROOT_DIRECTORY . '/modules/Vtiger/helpers/ListUpdatedRecord.php';
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 {
 

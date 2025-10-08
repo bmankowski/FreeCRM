@@ -107,11 +107,11 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
+		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 
@@ -142,7 +142,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

@@ -64,7 +64,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getOwnerType($id)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_users WHERE id = ?', array($id));
 		if ($db->num_rows($result) > 0) {

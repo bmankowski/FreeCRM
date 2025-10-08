@@ -8,15 +8,17 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Calendar_SharedCalendar_View extends Calendar_Calendar_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -25,7 +27,7 @@ class Calendar_SharedCalendar_View extends Calendar_Calendar_View
 		$viewer->view('SharedCalendarView.tpl', $request->getModule());
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = array(

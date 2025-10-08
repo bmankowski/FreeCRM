@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class HelpDesk_Detail_View extends Vtiger_Detail_View
 {
 
@@ -23,7 +25,7 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -39,7 +41,7 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 		return $headerScriptInstances;
 	}
 
-	public function showCharts(Vtiger_Request $request)
+	public function showCharts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

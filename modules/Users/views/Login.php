@@ -9,6 +9,10 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+use FreeCRM\Runtime\Vtiger_View_Controller;
+use FreeCRM\Http\Vtiger_Request;
+use FreeCRM\AppConfig;
+
 class Users_Login_View extends Vtiger_View_Controller
 {
 
@@ -17,12 +21,12 @@ class Users_Login_View extends Vtiger_View_Controller
 		return false;
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -41,12 +45,12 @@ class Users_Login_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
@@ -60,7 +64,7 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer->view('Login.tpl', 'Users');
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 

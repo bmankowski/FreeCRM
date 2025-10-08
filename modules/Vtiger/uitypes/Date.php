@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Fields\DateTimeField;
+
 class Vtiger_Date_UIType extends Vtiger_Base_UIType
 {
 
@@ -62,7 +64,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getDBInsertedValue($value)
 	{
-		return DateTimeField::convertToDBFormat($value);
+		return \FreeCRM\Fields\DateTimeField::convertToDBFormat($value);
 	}
 
 	/**
@@ -85,12 +87,12 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 
 			//Special Condition for field 'support_end_date' in Contacts Module
 			if ($fieldName === 'support_end_date' && $moduleName === 'Contacts') {
-				$value = DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+1 year")));
+				$value = \FreeCRM\Fields\DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+1 year")));
 			} elseif ($fieldName === 'support_start_date' && $moduleName === 'Contacts') {
-				$value = DateTimeField::convertToUserFormat(date('Y-m-d'));
+				$value = \FreeCRM\Fields\DateTimeField::convertToUserFormat(date('Y-m-d'));
 			}
 		} else {
-			$value = DateTimeField::convertToUserFormat($value);
+			$value = \FreeCRM\Fields\DateTimeField::convertToUserFormat($value);
 		}
 		return $value;
 	}
@@ -102,7 +104,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getDisplayDateValue($date)
 	{
-		$date = new DateTimeField($date);
+		$date = new \FreeCRM\Fields\DateTimeField($date);
 		return $date->getDisplayDate();
 	}
 
@@ -113,7 +115,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getDisplayDateTimeValue($dateTime)
 	{
-		$date = new DateTimeField($dateTime);
+		$date = new \FreeCRM\Fields\DateTimeField($dateTime);
 		return $date->getDisplayDateTimeValue();
 	}
 

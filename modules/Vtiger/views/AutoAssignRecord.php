@@ -1,11 +1,14 @@
 <?php
 
+
 /**
  * Auto assign record View Class
  * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 {
 
@@ -15,7 +18,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 * @return boolean
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
@@ -32,7 +35,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -41,7 +44,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -65,7 +68,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_JsScript_Model[] - List of Vtiger_CssScript_Model instances
 	 */
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [

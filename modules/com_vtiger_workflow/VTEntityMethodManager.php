@@ -7,21 +7,21 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once("include/events/SqlResultIterator.php");
+require_once(ROOT_DIRECTORY . '/src/events/SqlResultIterator.php');
 
 class VTEntityMethodManager
 {
 
 	public function addEntityMethod($moduleName, $methodName, $functionPath, $functionName)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$id = $adb->getUniqueId("com_vtiger_workflowtasks_entitymethod");
 		$adb->pquery("insert into com_vtiger_workflowtasks_entitymethod (workflowtasks_entitymethod_id, module_name, function_path, function_name, method_name) values (?,?,?,?,?)", array($id, $moduleName, $functionPath, $functionName, $methodName));
 	}
 
 	public function executeMethod(Vtiger_Record_Model $recordModel, $methodName)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();
 		$result = $adb->pquery("select function_path, function_name from com_vtiger_workflowtasks_entitymethod where module_name=? and method_name=?", array($moduleName, $methodName));
 		if ($adb->num_rows($result) != 0) {
@@ -35,7 +35,7 @@ class VTEntityMethodManager
 
 	public function methodsForModule($moduleName)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->pquery("select method_name from com_vtiger_workflowtasks_entitymethod where module_name=?", array($moduleName));
 		$it = new SqlResultIterator($adb, $result);
 		$methodNames = array();
@@ -64,6 +64,6 @@ class VTEntityMethodManager
 	 */
 	public function removeEntityMethod($moduleName, $methodName)
 	{
-		PearDatabase::getInstance()->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
+		\FreeCRM\database\PearDatabase::getInstance()->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
 	}
 }

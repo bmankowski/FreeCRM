@@ -9,7 +9,7 @@
  *
  * ****************************************************************************** */
 
-class Vendors extends CRMEntity
+class Vendors extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_vendor';
@@ -114,7 +114,7 @@ class Vendors extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -241,7 +241,7 @@ class Vendors extends CRMEntity
 
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Contacts', 'Products', 'Campaigns'])) {

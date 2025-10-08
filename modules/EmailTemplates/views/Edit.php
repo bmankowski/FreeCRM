@@ -8,7 +8,7 @@ class EmailTemplates_Edit_View extends Vtiger_Edit_View
 	 * @param Vtiger_Request $request
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 		$fileNames = [

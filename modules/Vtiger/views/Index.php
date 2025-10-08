@@ -1,4 +1,5 @@
 <?php
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,6 +10,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_Index_View extends Vtiger_Basic_View
 {
 
@@ -17,11 +20,11 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		parent::__construct();
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 			if (!$permission) {
@@ -30,7 +33,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -46,7 +49,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 				return;
 			}
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
+			$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 			if (!$permission) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -63,18 +66,18 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		}
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request)
+	protected function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'IndexViewPreProcess.tpl';
 	}
 
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(Vtiger_Request $request) {
+	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -83,7 +86,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		parent::postProcess($request);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -95,7 +98,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -116,7 +119,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		return $headerScriptInstances;
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

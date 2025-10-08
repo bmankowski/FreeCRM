@@ -63,7 +63,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	public function __update()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_blocks SET blocklabel=?,display_status=? WHERE blockid=?';
 		$params = array($this->label, $this->display_status, $this->id);
@@ -142,11 +142,11 @@ class Vtiger_Block_Model extends vtlib\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{
-		$blockObjects = Vtiger_Cache::get('ModuleBlock', $moduleModel->getName());
+		$blockObjects = \FreeCRM\Runtime\Vtiger_Cache::get('ModuleBlock', $moduleModel->getName());
 
 		if (!$blockObjects) {
 			$blockObjects = parent::getAllForModule($moduleModel);
-			Vtiger_Cache::set('ModuleBlock', $moduleModel->getName(), $blockObjects);
+			\FreeCRM\Runtime\Vtiger_Cache::set('ModuleBlock', $moduleModel->getName(), $blockObjects);
 		}
 		$blockModelList = [];
 
@@ -173,7 +173,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	public static function getInstanceFromBlockObject(vtlib\Block $blockObject)
 	{
 		$objectProperties = get_object_vars($blockObject);
-		$blockClassName = Vtiger_Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);
+		$blockClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);
 		$blockModel = new $blockClassName();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$blockModel->$properName = $propertyValue;
@@ -183,7 +183,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	public static function updateSequenceNumber($sequenceList)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence = CASE blockid ';
 		foreach ($sequenceList as $blockId => $sequence) {
 			$query .= ' WHEN ' . $blockId . ' THEN ' . $sequence;
@@ -194,7 +194,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	public static function checkFieldsExists($blockId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'SELECT 1 FROM vtiger_field WHERE block=?';
 		$result = $db->pquery($query, array($blockId));
 		return ($db->num_rows($result) > 0) ? true : false;
@@ -206,14 +206,14 @@ class Vtiger_Block_Model extends vtlib\Block
 	 */
 	public static function pushDown($fromSequence, $sourceModuleTabId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence=sequence+1 WHERE sequence > ? and tabid=?';
 		$result = $db->pquery($query, array($fromSequence, $sourceModuleTabId));
 	}
 
 	public static function getAllBlockSequenceList($moduleTabId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'SELECT blockid,sequence FROM vtiger_blocks where tabid=?';
 		$result = $db->pquery($query, array($moduleTabId));
 		$response = [];

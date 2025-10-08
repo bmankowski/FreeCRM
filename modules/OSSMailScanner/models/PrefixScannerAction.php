@@ -15,7 +15,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 
 	public function findAndBind()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$mailId = $this->mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;
@@ -46,7 +46,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		if (\App\Cache::has('getRecordByPrefix', $this->prefix)) {
 			$crmId = \App\Cache::get('getRecordByPrefix', $this->prefix);
 		} else {
-			$moduleObject = CRMEntity::getInstance($this->moduleName);
+			$moduleObject = \FreeCRM\CRMEntity::getInstance($this->moduleName);
 			$tableIndex = $moduleObject->tab_name_index[$this->tableName];
 			$crmId = (new \App\Db\Query())
 				->select([$tableIndex])

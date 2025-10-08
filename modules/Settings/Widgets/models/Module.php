@@ -63,7 +63,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$action = str_replace('.php', "", $ff);
 			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
 				$folderFiles[$action] = $action;
-				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
+				$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
 				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
 					unset($folderFiles[$action]);
@@ -80,7 +80,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getRelatedModule($tabid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
 				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0';
 		$result = $adb->pquery($sql, array($tabid));
@@ -112,7 +112,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getCheckboxs($modules)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$checkboxs = [];
 		$tabid = [];
 		foreach ($modules as $key => $value) {
@@ -133,7 +133,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getFields($tabid, $uitype = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$fieldlabel = $fieldsList = [];
 		$params = [$tabid];
 		$sql = "SELECT fieldid,columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND displaytype <> '2' AND vtiger_field.presence in (0,2)";
@@ -199,13 +199,13 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function removeWidget($wid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_widgets WHERE id = ?;', array($wid));
 	}
 
 	public function getWidgetInfo($wid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
 		$result = $adb->pquery($sql, array($wid));
 		$resultrow = $adb->raw_query_result_rowdata($result);
@@ -215,7 +215,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getLastSequence($tabid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT MAX(sequence) as max FROM vtiger_widgets WHERE tabid = ?';
 		$result = $adb->pquery($sql, array($tabid));
 		return $adb->query_result($result, 0, 'max');
@@ -236,7 +236,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public function getWYSIWYGFields($tabid, $module)
 	{
 		$field = [];
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;";
 		$result = $adb->pquery($sql, [$tabid, '300']);
 		while ($row = $adb->fetch_array($result)) {

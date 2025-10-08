@@ -6,15 +6,17 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 {
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'modal-fullscreen';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -44,7 +46,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$jsFileNames = array(
 			'~libraries/leaflet/leaflet.js',
@@ -55,7 +57,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
-	public function getModalCss(Vtiger_Request $request)
+	public function getModalCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$cssFileNames = [
 			'~libraries/leaflet/leaflet.css',

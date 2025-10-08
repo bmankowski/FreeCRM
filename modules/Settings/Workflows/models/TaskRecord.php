@@ -95,7 +95,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 
 	public static function getAllForWorkflow($workflowModel, $active = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$tm = new VTTaskManager($db);
 		$tasks = $tm->getTasksForWorkflow($workflowModel->getId());
@@ -110,7 +110,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 
 	public static function getInstance($taskId, $workflowModel = null)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$tm = new VTTaskManager($db);
 		$task = $tm->retrieveTask($taskId);
 		if ($workflowModel === null) {
@@ -121,7 +121,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 
 	public static function getCleanInstance($workflowModel, $taskName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$tm = new VTTaskManager($db);
 		$task = $tm->createTask($taskName, $workflowModel->getId());
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);

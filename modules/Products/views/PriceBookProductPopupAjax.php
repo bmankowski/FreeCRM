@@ -8,10 +8,12 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Products_PriceBookProductPopupAjax_View extends Products_PriceBookProductPopup_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

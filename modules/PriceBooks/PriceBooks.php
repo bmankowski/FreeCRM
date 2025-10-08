@@ -9,7 +9,7 @@
  *
  * ****************************************************************************** */
 
-class PriceBooks extends CRMEntity
+class PriceBooks extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_pricebook';

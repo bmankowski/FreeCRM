@@ -5,8 +5,8 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once 'include/main/WebUI.php';
-$db = PearDatabase::getInstance();
+require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
+$db = \FreeCRM\database\PearDatabase::getInstance();
 $notifications = new Cron_Notification();
 $result = $db->query('SELECT * FROM u_yf_watchdog_schedule');
 while ($row = $db->getRow($result)) {
@@ -25,7 +25,7 @@ class Cron_Notification
 	 */
 	public function executeScheduled($row)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$currentTime = time();
 		$timestampEndDate = empty($row['last_execution']) ? $currentTime : strtotime($row['last_execution'] . ' +' . $row['frequency'] . 'min');
 		if ($currentTime >= $timestampEndDate) {

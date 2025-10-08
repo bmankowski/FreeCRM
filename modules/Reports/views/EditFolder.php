@@ -9,10 +9,12 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Reports_EditFolder_View extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -20,7 +22,7 @@ class Reports_EditFolder_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 
 		$viewer = $this->getViewer($request);

@@ -19,12 +19,12 @@ class ApiAddress
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
+		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$registerLink = false;
 		if ($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			$registerLink = true;
 
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");

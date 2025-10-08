@@ -153,7 +153,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 	{
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {
-			$modelClassName = Vtiger_Loader::getComponentClassName('Reader', $componentName, 'Import');
+			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Reader', $componentName, 'Import');
 			return new $modelClassName($request, $user);
 		}
 		return null;

@@ -17,6 +17,10 @@
  * ******************************************************************************
  * Contributor(s): YetiForce.com */
 
+use FreeCRM\Http\Vtiger_Request;
+use FreeCRM\AppConfig;
+use FreeCRM\Runtime\Vtiger_Language_Handler;
+
 abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 {
 
@@ -25,13 +29,13 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		parent::__construct();
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 
 		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
@@ -50,10 +54,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-		if (AppConfig::performance('GLOBAL_SEARCH')) {
+		if (\FreeCRM\AppConfig::performance('GLOBAL_SEARCH')) {
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 		}
-		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
+		if (\FreeCRM\AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
 		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
@@ -68,18 +72,18 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return Vtiger_Menu_Model::getAll(true);
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request)
+	protected function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'BasicHeader.tpl';
 	}
 
 	//Note: To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(Vtiger_Request $request) {
+	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		parent::postProcess($request);
@@ -90,14 +94,14 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . Vtiger_Language_Handler::getShortLanguageName() . '.js',
+			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \FreeCRM\Runtime\Vtiger_Language_Handler::getShortLanguageName() . '.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
@@ -130,7 +134,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return $headerScriptInstances;
 	}
 
-	public function getGuiderModels(Vtiger_Request $request)
+	public function getGuiderModels(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return [];
 	}

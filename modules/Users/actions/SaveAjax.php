@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once 'include/Webservices/Custom/ChangePassword.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Custom/ChangePassword.php';
 
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
@@ -187,7 +187,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel->set('status', 'Active');
 		$recordModel->save();
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", array(0, $record));
 
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);

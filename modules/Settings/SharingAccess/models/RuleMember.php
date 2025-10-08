@@ -12,7 +12,7 @@
 /**
  * Sharng Access Vtiger Module Model Class
  */
-class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
+class Settings_SharingAccess_RuleMember_Model extends Vtiger_Record_Model
 {
 
 	const RULE_MEMBER_TYPE_GROUPS = 'Groups';
@@ -82,7 +82,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 
 	public static function getInstance($qualifiedId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$idComponents = self::getIdComponentsFromQualifiedId($qualifiedId);
 		$type = $idComponents[0];

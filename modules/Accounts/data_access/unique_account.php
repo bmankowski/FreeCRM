@@ -18,7 +18,7 @@ Class DataAccess_unique_account
 
 	public function process($moduleName, $ID, $recordForm, $config)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$params = [];
 		$hierarchyAll = [];
 		$save = true;
@@ -150,7 +150,7 @@ Class DataAccess_unique_account
 	public function getHierarchy($id, $moduleName, $recordId)
 	{
 		$hierarchyAll = [];
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		$hierarchy = $focus->getAccountHierarchy($id);
 		unset($hierarchy['entries'][$recordId]);
 		foreach ($hierarchy['entries'] as $hId => $value) {

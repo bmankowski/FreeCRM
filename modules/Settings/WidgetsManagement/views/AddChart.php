@@ -12,7 +12,7 @@ class Settings_WidgetsManagement_AddChart_View extends Settings_Vtiger_BasicModa
 	public function getReports()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? AND owner = ?';
 		$params = ['chart', $currentUser->getId()];
 		$result = $db->pquery($query, $params);

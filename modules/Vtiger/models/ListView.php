@@ -12,7 +12,7 @@
 /**
  * Vtiger ListView Model Class
  */
-class Vtiger_ListView_Model extends Vtiger_Base_Model
+class Vtiger_ListView_Model extends Vtiger_Record_Model
 {
 
 	/**
@@ -36,7 +36,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (\App\Cache::staticHas('ListView_Model', $cacheName)) {
 			return \App\Cache::staticGet('ListView_Model', $cacheName);
 		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
@@ -59,7 +59,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceForPopup($value, $sourceModule = false)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($value);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
@@ -83,7 +83,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
+		if (\FreeCRM\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
 			$class = 'btn-default';
 			if ($watchdog->isWatchingModule()) {
@@ -199,7 +199,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			);
 		}
-		if ($moduleModel->isTrackingEnabled() && AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
+		if ($moduleModel->isTrackingEnabled() && \FreeCRM\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
@@ -368,7 +368,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -399,7 +399,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -435,7 +435,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {

@@ -1,4 +1,5 @@
 <?php
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -8,10 +9,12 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, $mode)) {
@@ -22,7 +25,7 @@ class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 	 * Function to get listView count
 	 * @param Vtiger_Request $request
 	 */
-	/* function getListViewCount(Vtiger_Request $request){
+	/* function getListViewCount(\FreeCRM\Http\Vtiger_Request $request){
 	  $moduleName = $request->getModule();
 	  $cvId = $request->get('viewname');
 	  if(empty($cvId)) {
@@ -48,7 +51,7 @@ class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	/* function getPageCount(Vtiger_Request $request){
+	/* function getPageCount(\FreeCRM\Http\Vtiger_Request $request){
 	  $listViewCount = $this->getListViewCount($request);
 	  $pagingModel = new Vtiger_Paging_Model();
 	  $pageLimit = $pagingModel->getPageLimit();

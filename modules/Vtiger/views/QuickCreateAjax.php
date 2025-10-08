@@ -1,4 +1,5 @@
 <?php
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,19 +10,21 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!(Users_Privileges_Model::isPermitted($moduleName, 'CreateView'))) {
+		if (!(\Users_Privileges_Model::isPermitted($moduleName, 'CreateView'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -82,7 +85,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
@@ -95,7 +98,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		return $jsScriptInstances;
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -24,9 +24,9 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function init($module = 'Vtiger', $data = [])
 	{
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
 		$moduleInstance = new $modelClassName();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 		$instance = new $modelClassName();
 		$instance->setModule($moduleInstance);
 		foreach ($data as $key => $value) {

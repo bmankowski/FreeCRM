@@ -15,7 +15,7 @@ class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
 		$fieldIdList = array();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_field SET ';
 		$query .=' quickcreatesequence= CASE ';

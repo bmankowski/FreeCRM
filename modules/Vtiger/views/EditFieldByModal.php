@@ -1,30 +1,33 @@
 <?php
 
+
 /**
  * EditFieldByModal View Class
  * @package YetiForce.View
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 {
 
 	protected $showFields = [];
 	protected $restrictItems = [];
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		$recordPermission = \Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
+class Vtiger_ModuleMeta_Model extends Vtiger_Record_Model
 {
 
 	public $moduleName = false;
@@ -131,7 +131,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	public function getMandatoryImportableFields()
 	{
 
-		$focus = CRMEntity::getInstance($this->moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
@@ -152,7 +152,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	 */
 	public function getImportableFields($blocks = false)
 	{
-		$focus = CRMEntity::getInstance($this->moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getImportableFields')) {
 			$importableFields = $focus->getImportableFields();
 		} else {
@@ -223,7 +223,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	 */
 	public function getMandatoryFields()
 	{
-		$focus = CRMEntity::getInstance($this->moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_DetailView_Model extends Vtiger_Base_Model
+class Vtiger_DetailView_Model extends Vtiger_Record_Model
 {
 
 	protected $module = false;
@@ -75,7 +75,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$linkModelList = $detailViewLinks = [];
 
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
 			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
 			$wfs = new VTWorkflowManager($adb);
@@ -92,7 +92,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			}
 		}
 		if ($moduleModel->isPermitted('RecordMapping')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
 				$detailViewLinks[] = [
@@ -105,7 +105,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				];
 			}
 		}
-		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
+		if (\FreeCRM\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {
@@ -134,7 +134,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
-		$fieldToupdate = AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
+		$fieldToupdate = \FreeCRM\AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
 		if ($recordModel->isEditable() && !empty($fieldToupdate)) {
 			foreach ($fieldToupdate as $fieldLabel => $fieldName) {
 				if (App\Field::getFieldPermission($moduleName, $fieldName)) {
@@ -196,7 +196,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
 				$pdfLink = [
@@ -268,7 +268,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
@@ -279,7 +279,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'Updates',
-				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => \FreeCRM\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger'
 			];
 		}
@@ -389,7 +389,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -410,7 +410,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				$filename = explode('.', $fileinfo->getFilename());
 				$name = reset($filename);
 
-				$modelClassName = Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
+				$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
 				$instance = new $modelClassName;
 				if (method_exists($instance, 'checkPermission') && !$instance->checkPermission()) {
 					continue;

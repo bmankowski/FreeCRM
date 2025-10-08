@@ -12,7 +12,7 @@
  * Vtiger Settings MenuItem Model Class
  */
 
-class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
+class Settings_Vtiger_MenuItem_Model extends Vtiger_Record_Model
 {
 
 	protected static $itemsTable = 'vtiger_settings_field';
@@ -178,7 +178,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($name, $menuModel = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE name = ?', self::$itemsTable);
 		$params = [$name];
@@ -210,7 +210,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($id, $menuModel = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$itemsTable, self::$itemId);
 		$params = array($id);

@@ -16,7 +16,7 @@ class OSSMailScanner
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		$registerLink = false;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			$this->turn_on($moduleName);
@@ -51,7 +51,7 @@ class OSSMailScanner
 		} else if ($eventType == 'module.preupdate') {
 
 		} else if ($eventType == 'module.postupdate') {
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
@@ -78,7 +78,7 @@ class OSSMailScanner
 
 	public function turn_off($moduleName)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Scanner'));
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Logs'));
 	}

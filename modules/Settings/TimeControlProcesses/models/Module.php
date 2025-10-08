@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
+class Settings_TimeControlProcesses_Module_Model extends Vtiger_Record_Model
 {
 
 	public static function getCleanInstance()

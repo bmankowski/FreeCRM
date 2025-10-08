@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class ModComments_Detail_View extends Vtiger_Detail_View
 {
 

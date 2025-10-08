@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Services extends CRMEntity
+class Services extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_service';
@@ -265,7 +265,7 @@ class Services extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -439,8 +439,8 @@ class Services extends CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 
-		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
+		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -488,7 +488,7 @@ class Services extends CRMEntity
 		\App\Log::error('return_module:--' . $return_module);
 		\App\Log::error('return_id:---' . $return_id);
 		if ($return_module == 'Accounts') {
-			$focus = CRMEntity::getInstance($return_module);
+			$focus = \FreeCRM\CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
 			array_push($entityIds, $return_id);
 			$return_modules = ['Accounts', 'Contacts'];

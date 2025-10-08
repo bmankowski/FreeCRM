@@ -22,7 +22,7 @@ class SMSNotifier_CheckServerInfo_Action extends Vtiger_Action_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$response = new Vtiger_Response();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_smsnotifier_servers WHERE isactive = 1', array());

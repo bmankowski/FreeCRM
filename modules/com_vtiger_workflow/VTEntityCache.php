@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once 'include/runtime/Cache.php';
+require_once ROOT_DIRECTORY . '/src/runtime/Vtiger_Cache.php';
 
 class VTWorkflowEntity
 {
@@ -55,10 +55,10 @@ class VTWorkflowEntity
 	 */
 	function getModuleName()
 	{
-		$cache = Vtiger_Cache::getInstance();
+		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
 
 		if ($this->moduleName == null) {
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			$wsId = $this->data['id'];
 			$parts = explode('x', $wsId);
 			if ($cache->getModuleName($parts[0])) {

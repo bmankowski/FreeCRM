@@ -49,7 +49,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	public function isSubProduct($subProductId)
 	{
 		if (!empty($subProductId)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$result = $db->pquery('SELECT crmid FROM vtiger_seproductsrel WHERE crmid = ?', array($subProductId));
 			if ($db->num_rows($result) > 0) {
 				return true;

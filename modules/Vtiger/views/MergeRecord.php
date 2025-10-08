@@ -1,4 +1,5 @@
 <?php
+
 /* * ************************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -8,10 +9,12 @@
  * All Rights Reserved.
  * ************************************************************************************ */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_MergeRecord_View extends Vtiger_Popup_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$records = $request->get('records');
 		$records = explode(',', $records);

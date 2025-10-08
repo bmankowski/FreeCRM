@@ -17,7 +17,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 */
 	public function ExportData(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 
 		$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);

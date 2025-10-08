@@ -22,7 +22,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return Vtiger_Language_Handler::getLanguageLabel($value);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::getLanguageLabel($value);
 	}
 
 	/**
@@ -31,6 +31,6 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getPicklistValues()
 	{
-		return Vtiger_Language_Handler::getAllLanguages();
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::getAllLanguages();
 	}
 }

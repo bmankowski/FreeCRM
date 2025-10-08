@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class KnowledgeBase_Detail_View extends Vtiger_Detail_View
 {
 

@@ -46,7 +46,7 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	public function getInvities()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [(int) $this->getId()]);
 		$invitees = [];
 		while ($row = $db->getRow($result)) {
@@ -63,7 +63,7 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	public function getInviteUserMailData()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		return []; // To do
 		$return_id = $this->getId();
 		$cont_qry = "select * from vtiger_cntactivityrel where activityid=?";
@@ -104,12 +104,12 @@ class Events_Record_Model extends Calendar_Record_Model
 		$mail_data['group_name'] = \App\Fields\Owner::getGroupName($this->get('assigned_user_id'));
 		$mail_data['mode'] = $this->get('mode');
 
-		$value = getaddEventPopupTime(AppRequest::get('time_start'), AppRequest::get('time_end'), '24');
+		$value = getaddEventPopupTime(\FreeCRM\Http\AppRequest::get('time_start'), \FreeCRM\Http\AppRequest::get('time_end'), '24');
 		$start_hour = $value['starthour'] . ':' . $value['startmin'] . '' . $value['startfmt'];
-		if (AppRequest::get('activity_mode') != 'Task')
+		if (\FreeCRM\Http\AppRequest::get('activity_mode') != 'Task')
 			$end_hour = $value['endhour'] . ':' . $value['endmin'] . '' . $value['endfmt'];
-		$startDate = new DateTimeField(AppRequest::get('date_start') . ' ' . $start_hour);
-		$endDate = new DateTimeField(AppRequest::get('due_date') . ' ' . $end_hour);
+		$startDate = new DateTimeField(\FreeCRM\Http\AppRequest::get('date_start') . ' ' . $start_hour);
+		$endDate = new DateTimeField(\FreeCRM\Http\AppRequest::get('due_date') . ' ' . $end_hour);
 		$mail_data['st_date_time'] = $startDate->getDBInsertDateTimeValue();
 		$mail_data['end_date_time'] = $endDate->getDBInsertDateTimeValue();
 		$mail_data['location'] = $this->get('location');

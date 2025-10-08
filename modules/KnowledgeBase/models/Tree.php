@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
+class KnowledgeBase_Tree_Model extends Vtiger_Record_Model
 {
 
 	private $lastIdinTree;
@@ -19,7 +19,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 	public function getFolders()
 	{
 		$folders = [];
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
 		while ($row = $db->getRow($result)) {
@@ -56,7 +56,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);

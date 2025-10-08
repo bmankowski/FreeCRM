@@ -10,6 +10,11 @@
  * ********************************************************************************** */
 namespace vtlib;
 
+use FreeCRM\Http\AppRequest;
+use FreeCRM\Http\Vtiger_Response;
+use FreeCRM\AppConfig;
+use FreeCRM\Runtime\FreeCRM_Viewer;
+
 class Functions
 {
 
@@ -698,12 +703,12 @@ class Functions
 		if (defined('REQUEST_MODE') && REQUEST_MODE === 'API') {
 			throw new \APIException($message, 401);
 		}
-		$request = \AppRequest::init();
+		$request = AppRequest::init();
 		if ($request->isAjax()) {
-			$response = new \Vtiger_Response();
-			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
+			$response = new Vtiger_Response();
+			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 			$trace = '';
-			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
 			if (is_object($e)) {
@@ -713,7 +718,7 @@ class Functions
 			}
 			$response->emit();
 		} else {
-			$viewer = new \FreeCRM_Viewer();
+			$viewer = new FreeCRM_Viewer();
 			$viewer->assign('MESSAGE', $message);
 			$viewer->view($tpl, 'Vtiger');
 		}
@@ -729,7 +734,7 @@ class Functions
 
 	public static function removeHtmlTags(array $tags, $html)
 	{
-		$crmUrl = \AppConfig::main('site_URL');
+		$crmUrl = AppConfig::main('site_URL');
 
 		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);
@@ -897,10 +902,10 @@ class Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = \AppConfig::developer('MINIMIZE_JS');
+				$return = AppConfig::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = \AppConfig::developer('MINIMIZE_CSS');
+				$return = AppConfig::developer('MINIMIZE_CSS');
 				break;
 		}
 		return $return;
@@ -928,12 +933,12 @@ class Functions
 	public static function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
-			$length = \AppConfig::main('listview_max_textlength');
+			$length = AppConfig::main('listview_max_textlength');
 		}
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, \AppConfig::main('default_charset'));
+				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, AppConfig::main('default_charset'));
 				if ($addDots) {
 					$newText .= '...';
 				}

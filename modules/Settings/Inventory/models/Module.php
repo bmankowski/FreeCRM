@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_Inventory_Module_Model extends Vtiger_Base_Model
+class Settings_Inventory_Module_Model extends Vtiger_Record_Model
 {
 
 	public static function getCleanInstance()

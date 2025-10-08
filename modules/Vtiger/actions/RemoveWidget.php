@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View
 {
 

@@ -24,15 +24,15 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/utils/UserInfoUtil.php');
-require_once 'include/Webservices/Utils.php';
+require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
+require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once('modules/Users/UserTimeZonesArray.php');
 
 // User is used to store customer information.
 /** Main class for the user module
  *
  */
-class Users extends CRMEntity
+class Users extends \FreeCRM\CRMEntity
 {
 
 	// Stored fields
@@ -104,7 +104,7 @@ class Users extends CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->db = PearDatabase::getInstance();
+		$this->db = \FreeCRM\database\PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Users');
 		$this->column_fields['currency_name'] = '';
 		$this->column_fields['currency_code'] = '';
@@ -121,8 +121,8 @@ class Users extends CRMEntity
 	{
 
 		\App\Log::trace("Entering getSortOrder() method ...");
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (\FreeCRM\Http\AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder method ...");
@@ -143,8 +143,8 @@ class Users extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (\FreeCRM\Http\AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -438,7 +438,7 @@ class Users extends CRMEntity
 				return $users[$userName]['id'];
 			}
 		}
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
 		if ($row && $row['deleted'] == '0') {
@@ -478,7 +478,7 @@ class Users extends CRMEntity
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+				$files['original_name'] = \FreeCRM\Http\AppRequest::get($fileindex . '_hidden');
 				$this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -492,7 +492,7 @@ class Users extends CRMEntity
 	 */
 	public function retrieve_entity_info($record, $module)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 
@@ -612,7 +612,7 @@ class Users extends CRMEntity
 	 */
 	public function getHomeStuffOrder($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if (!is_array($this->homeorder_array)) {
 			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'CVLVT', 'HLT',
 				'GRT', 'MNL', 'LTFAQ');
@@ -651,7 +651,7 @@ class Users extends CRMEntity
 	{
 		$homeModComptVisibility = 1;
 		if ($inVal == 'postinstall') {
-			if (AppRequest::get($home_string) != '') {
+			if (\FreeCRM\Http\AppRequest::get($home_string) != '') {
 				$homeModComptVisibility = 0;
 			} else if (in_array($home_string, $this->default_widgets)) {
 				$homeModComptVisibility = 0;
@@ -662,7 +662,7 @@ class Users extends CRMEntity
 
 	public function insertUserdetails($inVal)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$uid = $this->id;
 		$s1 = $adb->getUniqueID("vtiger_homestuff");
 		$visibility = $this->getDefaultHomeModuleVisibility('ALVT', $inVal);
@@ -743,14 +743,14 @@ class Users extends CRMEntity
 	 */
 	public function saveHomeStuffOrder($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {
 			$countHomeorderArray = count($this->homeorder_array);
 			for ($i = 0; $i < $countHomeorderArray; $i++) {
-				if (AppRequest::get($this->homeorder_array[$i]) != '') {
+				if (\FreeCRM\Http\AppRequest::get($this->homeorder_array[$i]) != '') {
 					$save_array[] = $this->homeorder_array[$i];
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
@@ -832,7 +832,7 @@ class Users extends CRMEntity
 	 */
 	public function mark_deleted($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
@@ -846,8 +846,8 @@ class Users extends CRMEntity
 	 */
 	public static function getActiveAdminId()
 	{
-		$db = PearDatabase::getInstance();
-		$cache = Vtiger_Cache::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
 		} else {
@@ -878,7 +878,7 @@ class Users extends CRMEntity
 	public static function getActiveAdminUser()
 	{
 		$adminId = self::getActiveAdminId();
-		$user = CRMEntity::getInstance('Users');
+		$user = \FreeCRM\CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
 	}

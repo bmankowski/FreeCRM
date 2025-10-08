@@ -52,7 +52,7 @@ class Rss_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRssSources()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'Select *from vtiger_rss';
 		$result = $db->pquery($sql, array());

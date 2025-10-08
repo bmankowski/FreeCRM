@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+use FreeCRM\Http\Vtiger_Request;
+
 class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 {
 
@@ -31,7 +33,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$sql .= ' ORDER BY vtiger_entity_stats.crmactivity IS NULL, vtiger_entity_stats.crmactivity  ASC  LIMIT ? OFFSET ?';
 		$params[] = $pagingModel->getPageLimit();
 		$params[] = $pagingModel->getStartIndex();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery($sql, $params);
 		$accounts = [];
 		while ($row = $db->getRow($result)) {

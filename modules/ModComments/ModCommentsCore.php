@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once('include/CRMEntity.php');
+require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
 
-class ModCommentsCore extends CRMEntity
+class ModCommentsCore extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_modcomments';
@@ -81,7 +81,7 @@ class ModCommentsCore extends CRMEntity
 	public function __construct()
 	{
 		$this->column_fields = getColumnFields('ModComments');
-		$this->db = PearDatabase::getInstance();
+		$this->db = \FreeCRM\database\PearDatabase::getInstance();
 	}
 
 	public function getSortOrder()
@@ -89,8 +89,8 @@ class ModCommentsCore extends CRMEntity
 		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
-		if (!AppRequest::isEmpty('sorder'))
-			$sortorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (!\FreeCRM\Http\AppRequest::isEmpty('sorder'))
+			$sortorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
@@ -107,8 +107,8 @@ class ModCommentsCore extends CRMEntity
 		}
 
 		$orderby = $use_default_order_by;
-		if (!AppRequest::isEmpty('order_by'))
-			$orderby = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (!\FreeCRM\Http\AppRequest::isEmpty('order_by'))
+			$orderby = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
@@ -157,7 +157,7 @@ class ModCommentsCore extends CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = CRMEntity::getInstance($related_module);
+			$other = \FreeCRM\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -254,7 +254,7 @@ class ModCommentsCore extends CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = CRMEntity::getInstance($related_module);
+			$other = \FreeCRM\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";

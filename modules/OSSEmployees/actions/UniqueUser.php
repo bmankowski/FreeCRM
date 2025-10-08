@@ -17,7 +17,7 @@ class OSSEmployees_UniqueUser_Action extends Vtiger_Action_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 
 		$userId = $request->get('userId');

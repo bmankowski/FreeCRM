@@ -132,7 +132,7 @@ class Settings_Menu_Module_Model
 				$fileFilters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
 				foreach ($fileFilters as $filter) {
 					$name = str_replace('.php', '', $filter->getFilename());
-					$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $module->get('name'));
+					$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Filter', $name, $module->get('name'));
 					if (class_exists($handlerClass)) {
 						$filters[] = [
 							'viewname' => (new $handlerClass())->getViewName(),

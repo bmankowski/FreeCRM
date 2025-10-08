@@ -1,23 +1,26 @@
 <?php
 
+
 /**
  * Tree Category Modal Class
  * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
 		}
 
-		if (!Users_Privileges_Model::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
+		if (!\Users_Privileges_Model::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -27,12 +30,12 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -51,21 +54,21 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SELECTABLE_CATEGORY', AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+		$viewer->assign('SELECTABLE_CATEGORY', \FreeCRM\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 		$viewer->assign('RELATION_TYPE', $this->relationType);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreeCategoryModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js'
 		];
-		if (AppConfig::relation('SELECTABLE_CATEGORY')) {
+		if (\FreeCRM\AppConfig::relation('SELECTABLE_CATEGORY')) {
 			$scripts[] = '~libraries/jquery/jstree/jstree.category.js';
 			$scripts[] = '~libraries/jquery/jstree/jstree.checkbox.js';
 		}
@@ -79,7 +82,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		return $scriptInstances;
 	}
 
-	public function getModalCss(Vtiger_Request $request)
+	public function getModalCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentCssInstances = parent::getModalCss($request);
 		$cssFileNames = [

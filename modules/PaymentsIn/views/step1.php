@@ -12,12 +12,12 @@
 Class PaymentsIn_step1_View extends Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();

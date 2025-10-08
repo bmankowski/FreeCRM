@@ -13,7 +13,7 @@
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
-class Leads extends CRMEntity
+class Leads extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = "vtiger_leaddetails";
@@ -123,7 +123,7 @@ class Leads extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

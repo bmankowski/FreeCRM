@@ -19,7 +19,7 @@ class Campaigns_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getSelectedIdsList($relatedModuleName, $excludedIds = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'SELECT vtiger_campaign_records.crmid FROM vtiger_campaign_records
 					INNER JOIN vtiger_crmentity ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = ?

@@ -23,7 +23,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 
 	public static function lock($importId, $module, $user)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			vtlib\Utils::CreateTable(
@@ -39,7 +39,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 
 	public static function unLock($user, $module = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$query = 'DELETE FROM vtiger_import_locks WHERE userid=?';
 			$params = array(method_exists($user, 'get') ? $user->get('id') : $user->id);
@@ -53,7 +53,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 
 	public static function isLockedForModule($module)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?', array(\App\Module::getModuleId($module)));

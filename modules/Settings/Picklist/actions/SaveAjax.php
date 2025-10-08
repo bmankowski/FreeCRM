@@ -32,7 +32,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		if ($pickListFieldName == 'activitytype')
 			$defaultFieldName = 'defaultactivitytype';
 		else

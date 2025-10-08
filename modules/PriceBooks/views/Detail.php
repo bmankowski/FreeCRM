@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class PriceBooks_Detail_View extends Vtiger_Detail_View
 {
 
@@ -17,7 +19,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	public function showRelatedList(Vtiger_Request $request)
+	public function showRelatedList(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -37,7 +39,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = CRMEntity::getInstance($relatedModuleName);
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}

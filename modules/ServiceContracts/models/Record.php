@@ -15,10 +15,10 @@ class ServiceContracts_Record_Model extends Vtiger_Record_Model
 	public function saveToDb()
 	{
 		parent::saveToDb();
-		$forModule = AppRequest::get('return_module');
-		$forCrmid = AppRequest::get('return_id');
-		if (AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'HelpDesk') {
-			CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, AppRequest::get('module'), $this->getId());
+		$forModule = \FreeCRM\Http\AppRequest::get('return_module');
+		$forCrmid = \FreeCRM\Http\AppRequest::get('return_id');
+		if (\FreeCRM\Http\AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'HelpDesk') {
+			\FreeCRM\CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \FreeCRM\Http\AppRequest::get('module'), $this->getId());
 		}
 	}
 }

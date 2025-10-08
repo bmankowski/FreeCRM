@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_Base_UIType extends Vtiger_Base_Model
+class Vtiger_Base_UIType extends \FreeCRM\Runtime\Vtiger_Base_Model
 {
 
 	public function isAjaxEditable()
@@ -78,8 +78,8 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
 
-		$moduleSpecificFilePath = Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeFilePath = Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
+		$moduleSpecificFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
+		$completeFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
 
 		if (file_exists($moduleSpecificFilePath)) {
 			$instance = new $moduleSpecificUiTypeClassName();

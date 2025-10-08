@@ -9,6 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class OSSEmployees_Detail_View extends Vtiger_Detail_View
 {
 
@@ -23,7 +25,7 @@ class OSSEmployees_Detail_View extends Vtiger_Detail_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 

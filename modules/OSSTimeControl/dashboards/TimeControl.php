@@ -9,6 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
 

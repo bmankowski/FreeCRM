@@ -6,15 +6,17 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 {
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'modal-fullscreen';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');

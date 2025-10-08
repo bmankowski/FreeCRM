@@ -36,7 +36,7 @@ class Vtiger_ShortURL_Helper
 
 	static function generate(array $options)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$uid = uniqid("", true);
 
@@ -58,7 +58,7 @@ class Vtiger_ShortURL_Helper
 
 	static function handle($uid)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
 		if ($rs && $db->num_rows($rs)) {
@@ -93,7 +93,7 @@ class Vtiger_ShortURL_Helper
 
 	public function getInstance($id)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$self = new self();
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($id));
 		if ($rs && $db->num_rows($rs)) {
@@ -126,7 +126,7 @@ class Vtiger_ShortURL_Helper
 
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($this->id));
 	}
 }

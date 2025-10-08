@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_TreeView_Model extends Vtiger_Base_Model
+class Vtiger_TreeView_Model extends Vtiger_Record_Model
 {
 
 	static $_cached_instance;
@@ -106,7 +106,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 		if (isset(self::$_cached_instance[$moduleName])) {
 			return self::$_cached_instance[$moduleName];
 		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeView', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'TreeView', $moduleName);
 		$instance = new $modelClassName();
 		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		return self::$_cached_instance[$moduleName];
@@ -119,7 +119,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 	public function getTreeList()
 	{
 		$tree = [];
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
 		while ($row = $db->getRow($result)) {

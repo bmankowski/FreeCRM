@@ -9,10 +9,12 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Users_PreferenceDetail_View extends Vtiger_Detail_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
@@ -32,7 +34,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	 * @param <type> $request
 	 * @return string
 	 */
-	public function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'PreferenceDetailViewPreProcess.tpl';
 	}
@@ -41,12 +43,12 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView(Vtiger_Request $request)
+	public function showModuleBasicView(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		if ($this->checkPermission($request)) {
 			$viewer = $this->getViewer($request);
@@ -105,13 +107,13 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		}
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request)
+	protected function preProcessDisplay(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -126,7 +128,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		return parent::process($request);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

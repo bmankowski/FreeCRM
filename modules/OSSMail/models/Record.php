@@ -12,7 +12,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$param = $users = [];
 		$sql = 'SELECT * FROM roundcube_users';
@@ -119,7 +119,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if (count($users) == 0) {
 			return false;
 		}
@@ -152,7 +152,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
 		$account = [];
@@ -226,7 +226,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			return self::$usersCache[$userid];
 		}
 		$user = false;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM roundcube_users where user_id = ?', [$userid]);
 		if ($adb->getRowCount($result)) {
 			$user = $adb->getRow($result);
@@ -616,7 +616,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
 		if ($dbupdate) {
-			$adb = PearDatabase::getInstance();
+			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			$adb->pquery("update roundcube_users set language=?", array($param['language']));
 		}
 		return vtranslate('JS_save_config_info', 'OSSMailScanner');
@@ -676,7 +676,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function getAccountByHash($hash)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM roundcube_users WHERE preferences LIKE \'%s\'', "%:\"$hash\";%");
 		$result = $db->query($query);
 		if ($db->getRowCount($result) > 0) {

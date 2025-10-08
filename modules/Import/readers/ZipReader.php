@@ -15,7 +15,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 
 	public function __construct(Vtiger_Request $request, $user)
 	{
-		$instance = Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
 		if (!empty($instance)) {
 			$this->setInstanceProperties($instance);
 			$this->request = $request;
@@ -25,7 +25,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		$this->extension = $request->get('extension');
 		parent::__construct($request, $user);
 		$this->initialize($request, $user);
-		Vtiger_Cache::set('ZipReader', $this->moduleName . $user->id, $this);
+		\FreeCRM\Runtime\Vtiger_Cache::set('ZipReader', $this->moduleName . $user->id, $this);
 	}
 
 	public function setInstanceProperties($instance)

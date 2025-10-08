@@ -36,20 +36,22 @@ if ($isPublicDir) {
 
 define('REQUEST_MODE', 'WebUI');
 
-require 'include/RequirementsValidation.php';
+require ROOT_DIRECTORY . '/src/RequirementsValidation.php';
 
 // Bootstrap: Load autoloaders
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer PSR-4 autoloader
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
-require_once ROOT_DIRECTORY . '/include/Loader.php';
-Vtiger_Loader::register();
+require_once ROOT_DIRECTORY . '/config/api.php';
+require_once ROOT_DIRECTORY . '/config/config.php';
+\FreeCRM\AppConfig::init($API_CONFIG);
+\FreeCRM\Vtiger_Loader::register();
 
 // Initialize WebUI services (cache, debugger, error handlers)
 \FreeCRM\EntryPoint\WebUI::initialize();
 
 $webUI = new \FreeCRM\EntryPoint\WebUI();
-$request = AppRequest::init();
-if ($request instanceof Vtiger_Request) {
+$request = \FreeCRM\Http\AppRequest::init();
+if ($request instanceof \FreeCRM\Http\Vtiger_Request) {
 	$webUI->process($request);
 }
 

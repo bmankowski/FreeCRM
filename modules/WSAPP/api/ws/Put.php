@@ -7,9 +7,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'include/Webservices/Create.php';
-require_once 'include/Webservices/Update.php';
-require_once 'include/Webservices/Delete.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Create.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Update.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Delete.php';
 require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
 
 function wsapp_put($key, $element, $user)

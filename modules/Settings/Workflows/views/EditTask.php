@@ -42,7 +42,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$taskObject = $taskModel->getTaskObject();
 		$taskType = get_class($taskObject);
 		if ($taskType === 'VTCreateEntityTask') {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
 			if ($taskObject->entity_type && $taskObject->field_value_mapping) {

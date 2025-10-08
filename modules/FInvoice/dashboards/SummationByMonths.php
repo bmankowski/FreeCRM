@@ -7,6 +7,8 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+use FreeCRM\Http\Vtiger_Request;
+
 class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 {
 

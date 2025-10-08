@@ -61,7 +61,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	{
 		$imageIcons = '<div class="multiImageContenDiv">';
 		if ($recordId) {
-			if (!AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
+			if (!\FreeCRM\AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
 				$images = $this->getMultiImageQuery($value, ['name'], false)->column('name');
 				return implode(', ', $images);
 			}
@@ -99,7 +99,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$images = $this->getDisplayValue($value, $record, $recordInstance, true);
-		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
+		return !\FreeCRM\AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$query->from('u_#__attachments')
 			->where(['attachmentid' => explode(',', $value)]);
 		if ($limit) {
-			$query->limit(AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
+			$query->limit(\FreeCRM\AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
 		}
 		return $query;
 	}

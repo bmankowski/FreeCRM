@@ -89,7 +89,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', 'Import');
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'ListView', 'Import');
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));

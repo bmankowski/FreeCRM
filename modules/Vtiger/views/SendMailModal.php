@@ -1,11 +1,14 @@
 <?php
 
+
 /**
  * Send mail modal class
  * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 {
 
@@ -17,10 +20,10 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -33,7 +36,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	 * Pocess function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -56,7 +59,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return int[]
 	 */
-	public function getRecordsListFromRequest(Vtiger_Request $request)
+	public function getRecordsListFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$dataReader = $this->getQuery($request)->createCommand()->query();
 		$count = ['all' => 0, 'emails' => 0];
@@ -80,7 +83,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(Vtiger_Request $request)
+	public function getQuery(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');

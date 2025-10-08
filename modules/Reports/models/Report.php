@@ -20,7 +20,7 @@ class Vtiger_Report_Model extends Reports
 
 	public function Reports($reportId = "")
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 
@@ -37,7 +37,7 @@ class Vtiger_Report_Model extends Reports
 							WHERE vtiger_report.reportid = ?";
 				$params = array($reportId);
 
-				require_once('include/utils/GetUserGroups.php');
+				require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_' . $userId . '.php');
 
 				$userGroups = new GetUserGroups();

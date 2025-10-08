@@ -45,7 +45,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 
 	public function getRecord($recordId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', array($recordId));
 
@@ -62,7 +62,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 
 	public function getWebsiteUrl($recordId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', array($recordId));
 
 		return $db->query_result($result, 0, 'portalurl');
@@ -70,7 +70,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 
 	public function getAllRecords()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$record = array();
 
 		$result = $db->pquery('SELECT portalid, portalname FROM vtiger_portal', array());
@@ -91,7 +91,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'DELETE FROM vtiger_portal';
 		$params = array();

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once 'include/fields/DateTimeField.php';
+require_once ROOT_DIRECTORY . '/src/fields/DateTimeField.php';
 require_once ROOT_DIRECTORY . '/modules/WSAPP/SyncServer.php';
 require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/SyncHandler.php';
 require_once ROOT_DIRECTORY . '/modules/WSAPP/OutlookSyncServer.php';

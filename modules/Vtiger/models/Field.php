@@ -12,6 +12,9 @@
 /**
  * Vtiger Field Model Class
  */
+
+use FreeCRM\Webservices\WebserviceField;
+
 class Vtiger_Field_Model extends vtlib\Field
 {
 
@@ -186,7 +189,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getWebserviceFieldObject()
 	{
 		if ($this->webserviceField === false) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$row = [];
 			$row['uitype'] = $this->get('uitype');
@@ -613,7 +616,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
-		$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
+		$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
 		$fieldModel = new $className();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;
@@ -761,14 +764,14 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(AppRequest::get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || AppRequest::get('mode') === 'showAdvancedSearch') {
+				if (!\FreeCRM\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\FreeCRM\Http\AppRequest::get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || \FreeCRM\Http\AppRequest::get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
 					$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 					$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
-					if (AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+					if (\FreeCRM\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				} else {
@@ -793,22 +796,22 @@ class Vtiger_Field_Model extends vtlib\Field
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
 				break;
 			case 'email':
-				if (AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
+				if (\FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(\FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
 					$validate = false;
-					if (empty(AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
+					if (empty(\FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
 						$validate = true;
 					}
-					if (in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
+					if (in_array($this->getModuleName(), \FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
 						$validate = false;
 					}
 					if ($validate) {
-						$this->fieldInfo['restrictedDomains'] = AppConfig::security('RESTRICTED_DOMAINS_VALUES');
+						$this->fieldInfo['restrictedDomains'] = \FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_VALUES');
 					}
 				}
 				break;
 		}
 
-		if (in_array($fieldDataType, Vtiger_Field_Model::$referenceTypes) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (in_array($fieldDataType, Vtiger_Field_Model::$referenceTypes) && \FreeCRM\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
 		return $this->fieldInfo;
@@ -845,7 +848,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getAllForModule($moduleModel)
 	{
-		$fieldModelList = Vtiger_Cache::get('ModuleFields', $moduleModel->id);
+		$fieldModelList = \FreeCRM\Runtime\Vtiger_Cache::get('ModuleFields', $moduleModel->id);
 		if (!$fieldModelList) {
 			$fieldObjects = parent::getAllForModule($moduleModel);
 
@@ -859,11 +862,11 @@ class Vtiger_Field_Model extends vtlib\Field
 				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
 				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
 				$fieldModelList[$block][] = $fieldModelObject;
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+				\FreeCRM\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
+				\FreeCRM\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
 			}
 
-			Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
+			\FreeCRM\Runtime\Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
 		}
 		return $fieldModelList;
 	}
@@ -878,12 +881,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$fieldObject = null;
 		if ($module) {
-			$fieldObject = Vtiger_Cache::get('field-' . $module->getId(), $value);
+			$fieldObject = \FreeCRM\Runtime\Vtiger_Cache::get('field-' . $module->getId(), $value);
 		}
 		if (!$fieldObject) {
 			$fieldObject = parent::getInstance($value, $module);
 			if ($module) {
-				Vtiger_Cache::set('field-' . $module->getId(), $value, $fieldObject);
+				\FreeCRM\Runtime\Vtiger_Cache::set('field-' . $module->getId(), $value, $fieldObject);
 			}
 		}
 
@@ -899,7 +902,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getDocumentFolders()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 
@@ -1162,15 +1165,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$fieldModel = Vtiger_Cache::get('FieldModel', $fieldId);
+		$fieldModel = \FreeCRM\Runtime\Vtiger_Cache::get('FieldModel', $fieldId);
 		if ($fieldModel) {
 			return $fieldModel;
 		}
 		$field = \App\Field::getFieldInfo($fieldId);
-		$className = Vtiger_Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
+		$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field);
-		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
+		\FreeCRM\Runtime\Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
 		return $fieldModel;
 	}
 

@@ -8,7 +8,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_PDF_Model extends Vtiger_Base_Model
+class Vtiger_PDF_Model extends Vtiger_Record_Model
 {
 
 	public static $baseTable = 'a_yf_pdf';
@@ -155,7 +155,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 				->createCommand()->query();
 		$templates = [];
 		while ($row = $dataReader->read()) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdf = new $handlerClass();
 			$pdf->setData($row);
 			$templates[] = $pdf;
@@ -171,7 +171,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		$pdf = Vtiger_Cache::get('PDFModel', $recordId);
+		$pdf = \FreeCRM\Runtime\Vtiger_Cache::get('PDFModel', $recordId);
 		if ($pdf) {
 			return $pdf;
 		}
@@ -183,10 +183,10 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			$moduleName = $row['module_name'];
 		}
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
-		Vtiger_Cache::set('PDFModel', $recordId, $pdf);
+		\FreeCRM\Runtime\Vtiger_Cache::set('PDFModel', $recordId, $pdf);
 		return $pdf;
 	}
 
@@ -209,7 +209,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	public function deleteConditions()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->update(self::$baseTable, [
 			'conditions' => ''
 			], self::$baseIndex . ' = ? LIMIT 1', [$this->getId()]
@@ -408,7 +408,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}

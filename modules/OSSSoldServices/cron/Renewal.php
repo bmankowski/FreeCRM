@@ -6,8 +6,8 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once 'include/main/WebUI.php';
-$db = PearDatabase::getInstance();
+require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
+$db = \FreeCRM\database\PearDatabase::getInstance();
 
 $renewal = ['PLL_PLANNED', 'PLL_WAITING_FOR_RENEWAL', ''];
 $query = sprintf('SELECT 

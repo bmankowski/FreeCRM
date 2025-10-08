@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Services_PriceBookProductPopupAjax_View extends Products_PriceBookProductPopupAjax_View
 {
 	

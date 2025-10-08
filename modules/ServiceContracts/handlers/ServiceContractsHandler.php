@@ -17,7 +17,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 	{
 		$moduleName = $eventHandler->getModuleName();
 		// Update Used Units for the Service Contract, everytime the status of a ticket related to the Service Contract changes
-		if ($moduleName === 'HelpDesk' && AppRequest::get('return_module') !== 'ServiceContracts') {
+		if ($moduleName === 'HelpDesk' && \FreeCRM\Http\AppRequest::get('return_module') !== 'ServiceContracts') {
 			$recordModel = $eventHandler->getRecordModel();
 			$ticketId = $recordModel->getId();
 			$status = $recordModel->get('ticketstatus');
@@ -41,7 +41,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 							)
 							->createCommand()->query();
 					while ($contractId = $dataReader->readColumn(0)) {
-						$scFocus = CRMEntity::getInstance('ServiceContracts');
+						$scFocus = \FreeCRM\CRMEntity::getInstance('ServiceContracts');
 						$scFocus->id = $contractId;
 						$scFocus->retrieve_entity_info($contractId, 'ServiceContracts');
 
@@ -65,7 +65,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 		if ($moduleName === 'ServiceContracts') {
 			$recordModel = $eventHandler->getRecordModel();
 			$contractId = $recordModel->getId();
-			$scFocus = CRMEntity::getInstance('ServiceContracts');
+			$scFocus = \FreeCRM\CRMEntity::getInstance('ServiceContracts');
 			if ($recordModel->get('tracking_unit') !== $recordModel->getPreviousValue('tracking_unit')) { // Need to recompute used_units based when tracking_unit changes.
 				$scFocus->updateServiceContractState($contractId);
 			} else {

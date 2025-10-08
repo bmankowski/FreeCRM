@@ -22,7 +22,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 			$relatedModuleName = $this->getRelationModuleModel()->getName();
 
 			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-				$db = PearDatabase::getInstance();
+				$db = \FreeCRM\database\PearDatabase::getInstance();
 
 				$updateQuery = 'UPDATE vtiger_campaign_records SET campaignrelstatusid = CASE crmid ';
 				foreach ($statusDetails as $relatedRecordId => $status) {

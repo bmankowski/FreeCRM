@@ -10,6 +10,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 {
 

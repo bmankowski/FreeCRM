@@ -16,7 +16,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 	{
 		$settingsLinks = parent::getSettingLinks();
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' AND description =  'OSSMailView'", true);
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
@@ -38,7 +38,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 	public function getMailCount($owner, $dateFilter)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!$owner) {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();

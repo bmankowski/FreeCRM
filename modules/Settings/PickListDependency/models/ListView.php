@@ -47,7 +47,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 		$dependentPicklists = Vtiger_DependencyPicklist::getDependentPicklistFields($forModule);
 
 		$noOfRecords = count($dependentPicklists);
-		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
+		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
 
 		$listViewRecordModels = array();
 		for ($i = 0; $i < $noOfRecords; $i++) {

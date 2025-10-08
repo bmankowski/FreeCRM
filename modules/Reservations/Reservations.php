@@ -96,10 +96,10 @@ class Reservations extends Vtiger_CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		$registerLink = false;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('Reservations');
+			$moduleInstance = \FreeCRM\CRMEntity::getInstance('Reservations');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
 			$moduleInstance = vtlib\Module::getInstance($modulename);

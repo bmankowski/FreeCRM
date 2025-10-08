@@ -1,4 +1,5 @@
 <?php
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,10 +10,12 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_TooltipAjax_View extends Vtiger_PopupAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -22,7 +25,7 @@ class Vtiger_TooltipAjax_View extends Vtiger_PopupAjax_View
 		echo $viewer->view('TooltipContents.tpl', $moduleName, true);
 	}
 
-	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 

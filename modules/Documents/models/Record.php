@@ -87,7 +87,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function updateDownloadCount()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$notesId = $this->get('id');
 
 		$result = $db->pquery("SELECT filedownloadcount FROM vtiger_notes WHERE notesid = ?", array($notesId));
@@ -103,7 +103,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public static function getReferenceModuleByDocId($record)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT DISTINCT vtiger_crmentity.setype 
 			   FROM vtiger_crmentity INNER JOIN vtiger_senotesrel 
 				   ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid 
@@ -197,7 +197,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				$file = $this->file;
 			}
 			if ($file['name'] != '' && $file['size'] > 0) {
-				$file['original_name'] = AppRequest::get('0_hidden');
+				$file['original_name'] = \FreeCRM\Http\AppRequest::get('0_hidden');
 				$this->uploadAndSaveFile($file);
 			}
 		} else {

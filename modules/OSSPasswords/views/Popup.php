@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class OSSPasswords_Popup_View extends Vtiger_Popup_View
 {
 	/*
@@ -14,7 +16,7 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 	 * @param FreeCRM_Viewer $viewer
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');

@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Reports_ExportReport_View extends Vtiger_View_Controller
 {
 
@@ -20,7 +22,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		$this->exposeMethod('GetCSV');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
@@ -37,12 +39,12 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * @param boolean $display
 	 * @return boolean
 	 */
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		return false;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return false;
 	}
@@ -59,7 +61,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function exports the report in a Excel sheet
 	 * @param Vtiger_Request $request
 	 */
-	public function GetXLS(Vtiger_Request $request)
+	public function GetXLS(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -71,7 +73,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function exports report in a CSV file
 	 * @param Vtiger_Request $request
 	 */
-	public function GetCSV(Vtiger_Request $request)
+	public function GetCSV(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -83,7 +85,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function displays the report in printable format
 	 * @param Vtiger_Request $request
 	 */
-	public function GetPrintReport(Vtiger_Request $request)
+	public function GetPrintReport(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

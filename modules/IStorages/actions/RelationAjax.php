@@ -19,7 +19,7 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		$sourceModule = $request->getModule();
 		$recordId = $request->get('record');
-		$focus = CRMEntity::getInstance($sourceModule);
+		$focus = \FreeCRM\CRMEntity::getInstance($sourceModule);
 		$hierarchy = $focus->getHierarchy($recordId);
 		$response = new Vtiger_Response();
 		$response->setResult(count($hierarchy['entries']) - 1);

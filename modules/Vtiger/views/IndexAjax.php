@@ -1,4 +1,5 @@
 <?php
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -8,6 +9,8 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_IndexAjax_View extends Vtiger_Index_View
 {
 
@@ -17,17 +20,17 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 		$this->exposeMethod('showActiveRecords');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -39,7 +42,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 	 * Function to show the recently modified or active records for the given module
 	 */
 
-	public function showActiveRecords(Vtiger_Request $request)
+	public function showActiveRecords(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -53,7 +56,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 		echo $viewer->view('RecordNamesList.tpl', $moduleName, true);
 	}
 
-	public function getRecordsListFromRequest(Vtiger_Request $request)
+	public function getRecordsListFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('cvid');
 		$selectedIds = $request->get('selected_ids');

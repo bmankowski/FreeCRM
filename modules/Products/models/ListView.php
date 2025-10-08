@@ -94,7 +94,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	{
 		$flag = false;
 		if (!empty($subProductId)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$result = $db->pquery("SELECT vtiger_seproductsrel.crmid from vtiger_seproductsrel INNER JOIN
                 vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid 
 					AND vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.setype=? 

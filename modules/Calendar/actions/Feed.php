@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once 'include/Webservices/Query.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Query.php';
 
 class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 {
@@ -37,7 +37,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 
 	public function getGroupsIdsForUsers($userId)
 	{
-		require_once 'include/utils/GetUserGroups.php';
+		require_once ROOT_DIRECTORY . '/src/utils/GetUserGroups.php';
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);

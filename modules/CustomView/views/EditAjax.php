@@ -9,10 +9,12 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->get('source_module');

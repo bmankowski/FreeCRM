@@ -36,7 +36,7 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 				$mailId = $sourceRecordId;
 				$crmid = $relatedRecordId;
 			}
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
 				return true;
 			} else {
@@ -51,7 +51,7 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
 			}
-			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
+			$destinationModuleFocus = \FreeCRM\CRMEntity::getInstance($destinationModuleName);
 			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 			return true;

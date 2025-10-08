@@ -20,7 +20,7 @@ class TotalComments
 	{
 		
 		\App\Log::trace("Entering TotalComments::process() method ...");
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$modcomments = 'SELECT COUNT(modcommentsid) AS comments FROM vtiger_modcomments
 			WHERE vtiger_modcomments.related_to = ?';
 		$result_modcomments = $adb->pquery($modcomments, array($instance->getId()));

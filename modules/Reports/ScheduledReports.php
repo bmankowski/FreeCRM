@@ -37,7 +37,7 @@ class VTScheduledReport extends Reports
 
 	public function getReportScheduleInfo()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!empty($this->id)) {
 			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
@@ -98,7 +98,7 @@ class VTScheduledReport extends Reports
 
 
 			if (!empty($recipientsInfo['groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
+				require_once ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php';
 				foreach ($recipientsInfo['groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);

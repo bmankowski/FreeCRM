@@ -14,7 +14,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	public static function getNameByReference($refModuleName)
 	{
-		$fieldName = Vtiger_Cache::get('NameRelatedField', $refModuleName . '-Calendar');
+		$fieldName = \FreeCRM\Runtime\Vtiger_Cache::get('NameRelatedField', $refModuleName . '-Calendar');
 		if (!empty($fieldName)) {
 			return $fieldName;
 		}
@@ -23,7 +23,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
 		if ($relationModel && $relationModel->getRelationField()) {
 			$fieldName = $relationModel->getRelationField()->getFieldName();
-			Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
+			\FreeCRM\Runtime\Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
 		}
 		return $fieldName;
 	}
@@ -76,7 +76,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function setActivityReminder($reminderSent = 0, $recurId = '', $reminderMode = '')
 	{
-		$moduleInstance = CRMEntity::getInstance($this->getModuleName());
+		$moduleInstance = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
 		$moduleInstance->activity_reminder($this->getId(), $this->get('reminder_time'), $reminderSent, $recurId, $reminderMode);
 	}
 
@@ -106,8 +106,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function saveToDb()
 	{
 		//Time should changed to 24hrs format
-		AppRequest::set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_start')));
-		AppRequest::set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_end')));
+		\FreeCRM\Http\AppRequest::set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(\FreeCRM\Http\AppRequest::get('time_start')));
+		\FreeCRM\Http\AppRequest::set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(\FreeCRM\Http\AppRequest::get('time_end')));
 		parent::saveToDb();
 		$this->updateActivityReminder();
 		$this->insertIntoInviteTable();
@@ -168,13 +168,13 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function insertIntoInviteTable()
 	{
-		if (!AppRequest::has('inviteesid')) {
+		if (!\FreeCRM\Http\AppRequest::has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = App\Db::getInstance();
-		$inviteesRequest = AppRequest::get('inviteesid');
+		$inviteesRequest = \FreeCRM\Http\AppRequest::get('inviteesid');
 		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $this->getId()])->createCommand()->query();
 		$invities = [];
 		while ($row = $dataReader->read()) {

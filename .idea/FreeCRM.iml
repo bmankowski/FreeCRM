@@ -3,9 +3,9 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/api/webservice" isTestSource="false" packagePrefix="Api\" />
-      <sourceFolder url="file://$MODULE_DIR$/include" isTestSource="false" packagePrefix="includes\" />
-      <sourceFolder url="file://$MODULE_DIR$/include/exceptions" isTestSource="false" packagePrefix="Exception\" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="FreeCRM\" />
       <sourceFolder url="file://$MODULE_DIR$/src/Rector" isTestSource="false" packagePrefix="App\Rector\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/exceptions" isTestSource="false" packagePrefix="Exception\" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/php-debugbar/src/DebugBar" isTestSource="false" packagePrefix="DebugBar\" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/yetiforce" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/vtlib/Vtiger" isTestSource="false" packagePrefix="vtlib\" />

@@ -9,6 +9,12 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+use FreeCRM\Runtime\Vtiger_Action_Controller;
+use FreeCRM\Http\Vtiger_Request;
+use FreeCRM\CRMEntity;
+use FreeCRM\AppConfig;
+use FreeCRM\Http\Vtiger_Session;
+
 class Users_Login_Action extends Vtiger_Action_Controller
 {
 
@@ -40,7 +46,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			header('Location: index.php?module=Users&view=Login&error=2');
 			return false;
 		}
-		$user = CRMEntity::getInstance('Users');
+		$user = \FreeCRM\CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $username;
 		if (!empty($password) && $user->doLogin($password)) {
 			if (AppConfig::main('session_regenerate_id')) {

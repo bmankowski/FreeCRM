@@ -9,6 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class OSSTimeControl_RightPanel_View extends Vtiger_IndexAjax_View
 {
 
@@ -19,7 +21,7 @@ class OSSTimeControl_RightPanel_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getTypesList');
 	}
 
-	public function getUsersList(Vtiger_Request $request)
+	public function getUsersList(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -31,7 +33,7 @@ class OSSTimeControl_RightPanel_View extends Vtiger_IndexAjax_View
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 
-	public function getTypesList(Vtiger_Request $request)
+	public function getTypesList(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

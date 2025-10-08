@@ -19,7 +19,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$transferOwnerId = $request->get('transferOwnerId');
 		$record = $request->get('record');
 		$relatedModules = $request->get('related_modules');
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
 
 		if (empty($record))

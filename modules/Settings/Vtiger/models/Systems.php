@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
+class Settings_Vtiger_Systems_Model extends Vtiger_Record_Model
 {
 
 	const tableName = 'vtiger_systems';
@@ -26,7 +26,7 @@ class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
 
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$id = $this->getId();
 		$params = array();
@@ -48,12 +48,12 @@ class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
 
 	public static function getInstanceFromServerType($type, $componentName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE server_type = ?', self::tableName);
 		$params = [$type];
 		$result = $db->pquery($query, $params);
 		try {
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, 'Settings:Vtiger');
+			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', $componentName, 'Settings:Vtiger');
 		} catch (Exception $e) {
 			$modelClassName = self;
 		}

@@ -82,7 +82,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getAllLanguages();
 		} else if ($this->get('uitype') == '115') {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$query = 'SELECT %s FROM vtiger_%s';
 			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());

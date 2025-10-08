@@ -12,7 +12,7 @@ define('REQUEST_MODE', 'TEST');
 define('ROOT_DIRECTORY', getcwd());
 
 if (!class_exists('Vtiger_WebUI')) {
-	require_once 'include/main/WebUI.php';
+	require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
 }
 
 //fix phpunit console for windows

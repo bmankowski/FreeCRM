@@ -18,9 +18,10 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function includes class instances
+	 * @param string $moduleName Optional module name for compatibility
 	 * @return Settings_BruteForce_Module_Model
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName = null)
 	{
 		$instance = new self();
 		$instance->setData(self::getBruteForceSettings());

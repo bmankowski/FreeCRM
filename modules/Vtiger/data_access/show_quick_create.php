@@ -17,7 +17,7 @@ Class DataAccess_show_quick_create
 
 	public function process($moduleName, $id, $record_form, $config)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission($config['modules'], 'CreateView')) {
 			return ['save_record' => true];
@@ -37,7 +37,7 @@ Class DataAccess_show_quick_create
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$modulesQuickCreate = Vtiger_Module_Model::getQuickCreateModules(true);
 		$modules = [];
 		foreach ($modulesQuickCreate as $moduleName => $moduleModel) {

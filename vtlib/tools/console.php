@@ -10,8 +10,8 @@
  * ********************************************************************************** */
 
 chdir(dirname(__FILE__) . '/../..');
-include_once 'include/main/WebUI.php';
-include_once 'include/Webservices/Utils.php';
+include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
+include_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 
 class Vtiger_Tools_Console_Controller
 {

@@ -11,7 +11,7 @@
 /**
  * Vtiger JS Script Model Class
  */
-class Vtiger_JsScript_Model extends Vtiger_Base_Model
+class Vtiger_JsScript_Model extends Vtiger_Record_Model
 {
 
 	const DEFAULT_TYPE = 'text/javascript';

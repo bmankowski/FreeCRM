@@ -42,7 +42,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			} else {
 				$qualifiedName = "languages.$lang.$mod";
 			}
-			$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
+			$fileName = \FreeCRM\Vtiger_Loader::resolveNameToPath($qualifiedName);
 			if (file_exists($fileName)) {
 				$fileContent = file($fileName);
 				foreach ($fileContent as $key => $file_row) {
@@ -95,7 +95,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
+		$fileName = \FreeCRM\Vtiger_Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require $fileName;
@@ -156,7 +156,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
+		$fileName = \FreeCRM\Vtiger_Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require($fileName);

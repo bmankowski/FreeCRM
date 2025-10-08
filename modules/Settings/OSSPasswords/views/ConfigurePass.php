@@ -41,7 +41,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 	public function process(Vtiger_Request $request)
 	{
 		
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
 		// config

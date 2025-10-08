@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Export_Model extends Vtiger_Base_Model
+class Vtiger_Export_Model extends Vtiger_Record_Model
 {
 
 	protected $moduleInstance;
@@ -27,7 +27,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		if ('xml' === $request->get('export_type')) {
 			$componentName = 'ExportToXml';
 		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
 		$exportModel = new $modelClassName();
 		$exportModel->initialize($request);
 		return $exportModel;
@@ -40,7 +40,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			$this->moduleName = $moduleName;
 			$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 			$this->moduleFieldInstances = $this->moduleInstance->getFields();
-			$this->focus = CRMEntity::getInstance($moduleName);
+			$this->focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		}
 	}
 
@@ -50,7 +50,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 */
 	public function exportData(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 		$query = $this->getExportQuery($request);
 

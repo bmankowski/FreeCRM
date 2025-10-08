@@ -8,13 +8,13 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Chart_Model extends Vtiger_Base_Model
+class Reports_Chart_Model extends Vtiger_Record_Model
 {
 
 	public static function getInstanceById($reportModel)
 	{
 		$self = new self();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if (!empty($data)) {
@@ -72,7 +72,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 	}
 }
 
-abstract class Base_Chart extends Vtiger_Base_Model
+abstract class Base_Chart extends Vtiger_Record_Model
 {
 
 	public function __construct($parent)
@@ -460,7 +460,7 @@ class PieChart extends Base_Chart
 
 	public function generateData()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$values = [];
 		$chartSQL = $this->getQuery();
 		$result = $db->pquery($chartSQL, array());
@@ -545,7 +545,7 @@ class VerticalbarChart extends Base_Chart
 
 	public function generateData()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$chartSQL = $this->getQuery();
 
 		$result = $db->pquery($chartSQL, array());

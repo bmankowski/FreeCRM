@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+use FreeCRM\Http\Vtiger_Request;
+
 class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
 
@@ -38,7 +40,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$accessibleUsers[$user] = Users_Record_Model::getInstanceById($user, 'Users')->getName();
 			$user = [$user];
 		}
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT timecontrol_type, color FROM vtiger_timecontrol_type";
 		$result = $db->query($sql);
 		while ($row = $db->fetch_array($result)) {

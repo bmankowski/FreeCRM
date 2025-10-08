@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_MappedFields_Model extends Vtiger_Base_Model
+class Vtiger_MappedFields_Model extends Vtiger_Record_Model
 {
 
 	public static $baseTable = 'a_yf_mapped_config';
@@ -106,7 +106,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		}
 		$templates = [];
 		foreach ($rows as $row) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mf = new $handlerClass();
 			$mf->setData($row);
 			$templates[$mf->getId()] = $mf;
@@ -140,7 +140,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			return false;
 		}
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($row);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -150,7 +150,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
-		$mf = Vtiger_Cache::get('MappedFieldsModel', $recordId);
+		$mf = \FreeCRM\Runtime\Vtiger_Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return $mf;
@@ -162,10 +162,10 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return false;
 		}
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$mf->setData($row);
-		Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
+		\FreeCRM\Runtime\Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $mf;
 	}
@@ -185,7 +185,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
 			$result = $db->pquery($query, [$this->getId()]);
 			$mapping = $db->getArray($result);

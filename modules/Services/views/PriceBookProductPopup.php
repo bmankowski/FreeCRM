@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Services_PriceBookProductPopup_View extends Products_PriceBookProductPopup_View
 {
 	

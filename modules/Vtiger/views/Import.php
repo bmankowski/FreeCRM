@@ -1,4 +1,5 @@
 <?php
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,6 +10,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_Import_View extends Vtiger_Index_View
 {
 
@@ -27,9 +30,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$this->exposeMethod('checkImportStatus');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Import')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -39,7 +42,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -59,7 +62,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
@@ -76,9 +79,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 * First step to import records
 	 * @param Vtiger_Request $request
 	 */
-	public function importBasicStep(Vtiger_Request $request)
+	public function importBasicStep(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$uploadMaxSize = AppConfig::main('upload_maxsize');
+		$uploadMaxSize = \FreeCRM\AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
 
 		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
@@ -103,7 +106,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 * Function verifies, validates and uploads data for import
 	 * @param Vtiger_Request $request
 	 */
-	public function uploadAndParse(Vtiger_Request $request)
+	public function uploadAndParse(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		if (Import_Utils_Helper::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
@@ -160,7 +163,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		}
 	}
 
-	public function import(Vtiger_Request $request)
+	public function import(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		Import_Main_View::import($request, $user);
@@ -170,12 +173,12 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 * Continue import
 	 * @param Vtiger_Request $request
 	 */
-	public function continueImport(Vtiger_Request $request)
+	public function continueImport(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$this->checkImportStatus($request);
 	}
 
-	public function undoImport(Vtiger_Request $request)
+	public function undoImport(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
 		$viewer = new FreeCRM_Viewer();
@@ -225,25 +228,25 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		return [$noOfRecords, $noOfRecordsDeleted];
 	}
 
-	public function lastImportedRecords(Vtiger_Request $request)
+	public function lastImportedRecords(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$importList = new Import_List_View();
 		$importList->process($request);
 	}
 
-	public function deleteMap(Vtiger_Request $request)
+	public function deleteMap(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		Import_Main_View::deleteMap($request);
 	}
 
-	public function clearCorruptedData(Vtiger_Request $request)
+	public function clearCorruptedData(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		Import_Module_Model::clearUserImportInfo($user);
 		$this->importBasicStep($request);
 	}
 
-	public function cancelImport(Vtiger_Request $request)
+	public function cancelImport(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$importId = $request->get('import_id');
 		$user = Users_Record_Model::getCurrentUserModel();
@@ -260,7 +263,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		}
 	}
 
-	public function checkImportStatus(Vtiger_Request $request)
+	public function checkImportStatus(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$user = Users_Record_Model::getCurrentUserModel();

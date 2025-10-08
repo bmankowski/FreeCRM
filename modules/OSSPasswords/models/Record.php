@@ -19,7 +19,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 
 	public function getPassword($recordId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = '';
 		// check if passwords are encrypted
@@ -84,7 +84,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 
 	public function getConfiguration()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_passwords_config;';
 

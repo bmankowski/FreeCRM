@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Services_QuickCreateAjax_View extends Products_QuickCreateAjax_View
 {
 
@@ -17,7 +19,7 @@ class Services_QuickCreateAjax_View extends Products_QuickCreateAjax_View
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = ['modules.Products.resources.Edit'];

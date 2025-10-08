@@ -19,7 +19,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public static function getInstance($moduleName, $sourceModule = 0)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);

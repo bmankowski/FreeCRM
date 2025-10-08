@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Folder_Model extends Vtiger_Base_Model
+class Reports_Folder_Model extends Vtiger_Record_Model
 {
 
 	/**
@@ -52,7 +52,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$folderId = $this->getId();
 		if (!empty($folderId)) {
@@ -71,7 +71,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_reportfolder WHERE folderid = ?', array($this->getId()));
 	}
 
@@ -174,9 +174,9 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($folderId)
 	{
-		$folderModel = Vtiger_Cache::get('reportsFolder', $folderId);
+		$folderModel = \FreeCRM\Runtime\Vtiger_Cache::get('reportsFolder', $folderId);
 		if (!$folderModel) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$folderModel = Reports_Folder_Model::getInstance();
 
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", array($folderId));
@@ -185,7 +185,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 				$values = $db->query_result_rowdata($result, 0);
 				$folderModel->setData($values);
 			}
-			Vtiger_Cache::set('reportsFolder', $folderId, $folderModel);
+			\FreeCRM\Runtime\Vtiger_Cache::set('reportsFolder', $folderId, $folderModel);
 		}
 		return $folderModel;
 	}
@@ -196,8 +196,8 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public static function getAll()
 	{
-		$db = PearDatabase::getInstance();
-		$folders = Vtiger_Cache::get('reports', 'folders');
+		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$folders = \FreeCRM\Runtime\Vtiger_Cache::get('reports', 'folders');
 		if (!$folders) {
 			$folders = array();
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder ORDER BY foldername ASC", array());
@@ -207,10 +207,10 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 					$folderModel = Reports_Folder_Model::getInstance();
 					$values = $db->query_result_rowdata($result, $i);
 					$folders[$values['folderid']] = $folderModel->setData($values);
-					Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
+					\FreeCRM\Runtime\Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
 				}
 			}
-			Vtiger_Cache::set('reports', 'folders', $folders);
+			\FreeCRM\Runtime\Vtiger_Cache::set('reports', 'folders', $folders);
 		}
 		return $folders;
 	}
@@ -221,7 +221,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public function checkDuplicate()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'SELECT 1 FROM vtiger_reportfolder WHERE foldername = ?';
 		$params = array($this->getName());
@@ -246,7 +246,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public function hasReports()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_report WHERE folderid = ?', array($this->getId()));
 
@@ -312,7 +312,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public function getReportsCount()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$params = array();
 
 		// To get the report ids which are permitted for the user
@@ -398,7 +398,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public function getRecordIds($skipRecords = false, $module)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$baseTableName = "vtiger_report";
 		$baseTableId = "reportid";
 		$folderId = $this->getId();

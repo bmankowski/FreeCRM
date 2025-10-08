@@ -61,7 +61,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 				return $name;
 			}
 			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';
@@ -86,7 +86,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 				return $name;
 			}
 			$name = vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';
@@ -115,7 +115,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ($fieldName === 'modifiedby') {
 			return 'uitypes/OwnerFieldSearchView.tpl';
 		}
-		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (\FreeCRM\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'uitypes/ReferenceSearchView.tpl';
 		}
 		return parent::getListSearchTemplateName();

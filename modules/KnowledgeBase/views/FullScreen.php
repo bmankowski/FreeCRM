@@ -6,10 +6,12 @@
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class KnowledgeBase_FullScreen_View extends Vtiger_Popup_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$previewView = new KnowledgeBase_PreviewContent_View();
 		$previewView->process($request, false);

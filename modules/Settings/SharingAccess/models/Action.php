@@ -12,7 +12,7 @@
 /**
  * Sharing Access Action Model Class
  */
-class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
+class Settings_SharingAccess_Action_Model extends Vtiger_Record_Model
 {
 
 	static $nonConfigurableActions = array('Hide Details', 'Hide Details and Add Events', 'Show Details', 'Show Details and Add Events');
@@ -41,7 +41,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 
 	public static function getInstanceFromQResult($result, $rowNo = 0)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$row = $db->query_result_rowdata($result, $rowNo);
 		$actionModel = new self();
 		return $actionModel->setData($row);
@@ -49,7 +49,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 
 	public static function getInstance($value)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
@@ -67,7 +67,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 
 	public static function getAll($configurable = true)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
 		$params = [];

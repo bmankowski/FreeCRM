@@ -11,7 +11,7 @@ class OSSMailScanner_EmailScannerAction_Model
 
 	public function process(OSSMail_Mail_Model $mail, $moduleName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$mailId = $mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;

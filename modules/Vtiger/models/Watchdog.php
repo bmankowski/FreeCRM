@@ -7,7 +7,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Watchdog_Model extends Vtiger_Base_Model
+class Vtiger_Watchdog_Model extends Vtiger_Record_Model
 {
 
 	const RECORD_ACTIVE = 1;
@@ -25,7 +25,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 	 * @param int $userId
 	 * @return Vtiger_Watchdog_Model
 	 */
-	public static function getInstanceById($record, $moduleName, $userId = false)
+	public static function getInstanceById($record, $moduleName = null, $userId = false)
 	{
 		$instance = self::getInstance($moduleName, $userId);
 		$instance->set('record', $record);
@@ -52,7 +52,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if (\App\Cache::staticHas('WatchdogModel', $cacheName)) {
 			return \App\Cache::staticGet('WatchdogModel', $cacheName);
 		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
 		$instance->set('moduleId', $moduleId ? $moduleId : \App\Module::getModuleId($moduleName));
@@ -60,7 +60,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
+		if (\FreeCRM\AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->isActive = false;
 		}
 		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);

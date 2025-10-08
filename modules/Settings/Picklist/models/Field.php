@@ -36,7 +36,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			$intersectionMode = true;
 		}
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
 		$idColName = $fieldName . 'id';

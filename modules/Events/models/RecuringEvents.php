@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Events_RecuringEvents_Model extends Vtiger_Base_Model
+class Events_RecuringEvents_Model extends Vtiger_Record_Model
 {
 
 	public $recordModel;

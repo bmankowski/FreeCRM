@@ -360,10 +360,10 @@ class Vtiger_Link_Model extends vtlib\Link
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$links = Vtiger_Cache::get('links-' . $tabid, $type);
+		$links = \FreeCRM\Runtime\Vtiger_Cache::get('links-' . $tabid, $type);
 		if (!$links) {
 			$links = parent::getAllByType($tabid, $type, $parameters);
-			Vtiger_Cache::set('links-' . $tabid, $type, $links);
+			\FreeCRM\Runtime\Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
 
 		$linkModels = [];

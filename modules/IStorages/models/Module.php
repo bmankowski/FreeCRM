@@ -38,7 +38,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$adb = App\Db::getInstance();
 		$productRecords = [];
 		foreach ($data as $product) {
@@ -93,7 +93,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 
 	public static function getAllQtyInStocks()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sumProduct = [];
 		$sumProductInStorage = [];
 		foreach (self::$modulesToCalculate as $type => $modules) {
@@ -103,7 +103,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 					continue;
 				}
 				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();
-				$focus = CRMEntity::getInstance($moduleName);
+				$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.id LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 && cr.`deleted` = 0 && %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid', $inventoryTableName, $focus->table_name, $inventoryTableName, $focus->table_name, $inventoryTableName, $inventoryTableName, $focus->table_name, $focus->table_index, $inventoryTableName, $focus->table_name, $focus->table_index, $focus->table_name, strtolower($moduleName));
 			}
 			if (!empty($sql)) {
@@ -126,7 +126,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 
 	public static function setQtyInStocks($stock)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		list($sumProduct, $sumProductInStorage) = $stock;
 		if (empty($sumProduct)) {
 			$db->update('vtiger_products', ['qtyinstock' => 0]);

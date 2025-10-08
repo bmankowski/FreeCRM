@@ -7,8 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once 'include/Webservices/Utils.php';
-require_once 'include/Webservices/DescribeObject.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 function vtJsonFields($adb, Vtiger_Request $request)
@@ -87,8 +87,8 @@ function vtJsonOwnersList($adb)
 
 	echo \App\Json::encode($ownersList);
 }
-$adb = PearDatabase::getInstance();
-$request = AppRequest::init();
+$adb = \FreeCRM\database\PearDatabase::getInstance();
+$request = \FreeCRM\Http\AppRequest::init();
 $mode = $request->get('mode');
 
 if ($mode == 'getfieldsjson') {

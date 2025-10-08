@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Adrian Koń  <a.kon@yetiforce.com>
  */
+use FreeCRM\Http\Vtiger_Request;
+
 class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 {
 

@@ -9,8 +9,8 @@
  * ****************************************************************************** */
 
 require_once('modules/Calendar/CalendarCommon.php');
-require_once('include/utils/UserInfoUtil.php');
-require_once('include/database/PearDatabase.php');
+require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
+require_once(ROOT_DIRECTORY . '/src/database/PearDatabase.php');
 require_once('modules/Calendar/Activity.php');
 require_once('modules/Calendar/Date.php');
 

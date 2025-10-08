@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 {
 

@@ -12,7 +12,7 @@
 /**
  * CustomView Record Model Class
  */
-class CustomView_Record_Model extends Vtiger_Base_Model
+class CustomView_Record_Model extends Vtiger_Record_Model
 {
 
 	protected $isFeatured = false;
@@ -283,7 +283,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($lockRecords) {
-			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
+			$lockFields = Vtiger_\FreeCRM\CRMEntity::getInstance($moduleName)->getLockFields();
 			if (is_array($lockFields)) {
 				foreach ($lockFields as $fieldName => $fieldValues) {
 					$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
@@ -298,7 +298,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
@@ -379,7 +379,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function setConditionsForFilter()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
@@ -538,7 +538,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function getNextSeq($moduleName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$moduleName]);
 		$id = (int) $db->getSingleValue($result) + 1;
 		return $id;
@@ -590,7 +590,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getStandardCriteria()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$cvId = $this->getId();
 		if (empty($cvId)) {
@@ -634,7 +634,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getAdvancedCriteria()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$default_charset = vglobal('default_charset');
 
 		$cvId = $this->getId();
@@ -796,13 +796,13 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function approve()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PUBLIC, $this->getId()));
 	}
 
 	public function deny()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PRIVATE, $this->getId()));
 	}
 
@@ -839,7 +839,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if (App\Cache::has('getAllFilters', $cacheName)) {
 			return App\Cache::get('getAllFilters', $cacheName);
 		}
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_customview';
 		$params = [];
 		if (!empty($moduleName)) {
@@ -874,7 +874,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$filters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
 			foreach ($filters as $filter) {
 				$name = str_replace('.php', '', $filter->getFilename());
-				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $moduleName);
+				$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Filter', $name, $moduleName);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$view['viewname'] = $handler->getViewName();
@@ -893,9 +893,10 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	/**
 	 * Function to get the instance of Custom View module, given custom view id
 	 * @param int $cvId
+	 * @param string $module (unused, for parent compatibility)
 	 * @return CustomView_Record_Model instance, if exists. Null otherwise
 	 */
-	public static function getInstanceById($cvId)
+	public static function getInstanceById($cvId, $module = null)
 	{
 		if (\App\Cache::has('CustomView_Record_ModelgetInstanceById', $cvId)) {
 			$row = \App\Cache::get('CustomView_Record_ModelgetInstanceById', $cvId);
@@ -955,9 +956,10 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Clean instance of this record
+	 * @param string $moduleName
 	 * @return self
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName = null)
 	{
 		return new self();
 	}
@@ -1058,7 +1060,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getAllFilterByModule($module)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = "SELECT cvid FROM vtiger_customview WHERE viewname='All' AND entitytype = ?";
 		$result = $db->pquery($query, array($module));
 		$viewId = $db->query_result($result, 0, 'cvid');

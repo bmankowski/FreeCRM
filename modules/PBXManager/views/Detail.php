@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class PBXManager_Detail_View extends Vtiger_Detail_View
 {
 
@@ -23,7 +25,7 @@ class PBXManager_Detail_View extends Vtiger_Detail_View
 	 * Overided to convert totalduration to minutes
 	 */
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

@@ -14,7 +14,7 @@ class OSSMail_Autologin_Model
 
 	public static function getAutologinUsers()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$user_id = $currentUserModel->getId();
 		$users = [];

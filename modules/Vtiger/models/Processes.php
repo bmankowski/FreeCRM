@@ -16,12 +16,12 @@ class Vtiger_Processes_Model
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__ . " | Process: $process, Type: $type");
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$processList = [
 			'marketing' => 'yetiforce_proc_marketing',
 			'sales' => 'yetiforce_proc_sales',
 		];
-		$cache = Vtiger_Cache::get('ProcessesModel', $process . $type);
+		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('ProcessesModel', $process . $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
@@ -42,12 +42,12 @@ class Vtiger_Processes_Model
 				$config[$param] = $value;
 			}
 			if ($procesParam != false && $param == $procesParam) {
-				Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
+				\FreeCRM\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
 				\App\Log::trace('End ' . __METHOD__);
 				return $value;
 			}
 		}
-		Vtiger_Cache::set('ProcessesModel', $process . $type, $config);
+		\FreeCRM\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

@@ -197,7 +197,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 			->where(['id' => $recordId])
 			->one();
 		if ($row) {
-			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($row)->setModule($moduleModel);

@@ -18,7 +18,7 @@ class DataAccess_check_day_tasks
 			return ['save_record' => true];
 		}
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$typeInfo = 'info';
 		$statusType = $config['statusType'];
 		switch ($statusType) {

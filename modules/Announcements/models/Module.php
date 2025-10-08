@@ -13,7 +13,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 
 	public function checkActive()
 	{
-		if (AppRequest::get('view') == 'Login' || !$this->isActive()) {
+		if (\FreeCRM\Http\AppRequest::get('view') == 'Login' || !$this->isActive()) {
 			return false;
 		}
 		$this->loadAnnouncements();
@@ -81,7 +81,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function checkStatus($record)
 	{
 		$archive = true;
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$users = $this->getUsers(true);
 		foreach ($users as $userId => $name) {
 			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ? && status = ?', [$record, $userId, 1]);
@@ -109,7 +109,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 
 	public function getMarkInfo($record, $userId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?', [$record, $userId]);
 		while ($row = $db->getRow($result)) {
 			return $row;

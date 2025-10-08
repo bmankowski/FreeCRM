@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
+class Vtiger_TreeCategoryModal_Model extends Vtiger_Record_Model
 {
 
 	static $_cached_instance;
@@ -38,7 +38,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);
@@ -56,7 +56,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 		if (isset(self::$_cached_instance[$moduleName])) {
 			return self::$_cached_instance[$moduleName];
 		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
 		self::$_cached_instance[$moduleName] = $instance;
@@ -93,7 +93,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 	private function getTreeList()
 	{
 		$trees = [];
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$isDeletable = $this->isDeletable();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
@@ -131,7 +131,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 
 	private function getSelectedTreeList()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tree FROM u_yf_crmentity_rel_tree WHERE crmid = ? AND relmodule = ?', [$this->get('srcRecord'), $this->get('module')->getId()]);
 		return $db->getArrayColumn($result);
 	}

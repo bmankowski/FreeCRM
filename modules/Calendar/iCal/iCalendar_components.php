@@ -1,6 +1,6 @@
 <?php
 // $Id: iCalendar_components.php,v 1.8 2005/07/21 22:31:44 defacer Exp $
-require_once('include/utils/utils.php');
+require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
 
 class iCalendar_component
 {
@@ -524,7 +524,7 @@ class iCalendar_event extends iCalendar_component
 
 	public function iCalendar_event_attendee($activity)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', array($activity['id']));
 		while ($row = $adb->getRow($result)) {
 			if (!empty($row['email'])) {

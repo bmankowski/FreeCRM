@@ -18,7 +18,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getAccountHierarchy()
 	{
-		$focus = CRMEntity::getInstance($this->getModuleName());
+		$focus = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getAccountHierarchy($this->getId());
 		$i = 0;
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {

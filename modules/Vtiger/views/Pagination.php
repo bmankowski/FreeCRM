@@ -1,6 +1,9 @@
 <?php
+
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 {
 
@@ -11,7 +14,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getRelationPagination');
 	}
 
-	public function getRelationPagination(Vtiger_Request $request)
+	public function getRelationPagination(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
@@ -43,7 +46,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$cvId = $request->get('viewname');
@@ -63,7 +66,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 
 		$totalCount = (int) $request->get('totalCount');
 		$operator = '';
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
+		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');

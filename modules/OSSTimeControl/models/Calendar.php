@@ -9,12 +9,12 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
+class OSSTimeControl_Calendar_Model extends Vtiger_Record_Model
 {
 
 	public function getEntity()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$module = 'OSSTimeControl';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = getListQuery($module);
@@ -88,10 +88,10 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance()
 	{
-		$instance = Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;

@@ -9,8 +9,8 @@
  * *********************************************************************************** */
 
 require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
-require_once 'include/database/PearDatabase.php';
-require_once 'include/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
+require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
 class OutlookSyncServer extends SyncServer
 {
@@ -32,7 +32,7 @@ class OutlookSyncServer extends SyncServer
 	public function put($key, $element, $user)
 	{
 		
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$appid = parent::appid_with_key($key);
 		if (empty($appid)) {
 			throw new WebServiceException('WSAPP04', "Access restricted to app");

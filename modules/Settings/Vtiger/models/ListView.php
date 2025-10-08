@@ -13,7 +13,7 @@
  * Settings List View Model Class
  */
 
-class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
+class Settings_Vtiger_ListView_Model extends Vtiger_Record_Model
 {
 
 	/**
@@ -27,7 +27,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 
 	public function setModule($name)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
 		return $this;
 	}
@@ -68,7 +68,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listQuery = $this->getBasicListQuery();
 
 		$startIndex = $pagingModel->getStartIndex();
@@ -155,7 +155,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $name);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'ListView', $name);
 		$instance = new $modelClassName();
 		return $instance->setModule($name);
 	}

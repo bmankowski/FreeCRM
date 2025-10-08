@@ -26,7 +26,7 @@ class Vtiger_Kpi_Helper
 
 	public function getKpiList()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$list = [];
 		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? && discontinued = ?;";
 		$params = array(0, 1);
@@ -65,7 +65,7 @@ class Vtiger_Kpi_Helper
 		$reference = 30;
 		$tolerance = '1.00%';
 		$maxValue = 100;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
@@ -103,7 +103,7 @@ class Vtiger_Kpi_Helper
 	{
 		$reference = 30;
 		$tolerance = '1 dzień';
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
@@ -140,7 +140,7 @@ class Vtiger_Kpi_Helper
 		$reference = 12;
 		$tolerance = '2.00%';
 		$maxValue = 100;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
@@ -179,7 +179,7 @@ class Vtiger_Kpi_Helper
 		$reference = 12;
 		$tolerance = '2 godziny';
 		$maxValue = 100;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
@@ -215,7 +215,7 @@ class Vtiger_Kpi_Helper
 	{
 		$reference = 12;
 		$tolerance = '2 godziny';
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
@@ -251,7 +251,7 @@ class Vtiger_Kpi_Helper
 	{
 		$reference = 2;
 		$tolerance = '0';
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = "SELECT COUNT(ticketid) 
 			FROM vtiger_troubletickets 

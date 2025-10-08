@@ -116,7 +116,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getAllNonMapped($includedIds = array())
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		if (!is_array($includedIds)) {
 			if (!empty($includedIds)) {
 				$includedIds = array($includedIds);

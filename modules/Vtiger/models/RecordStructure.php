@@ -11,7 +11,7 @@
 /**
  * Vtiger Record Structure Model
  */
-class Vtiger_RecordStructure_Model extends Vtiger_Base_Model
+class Vtiger_RecordStructure_Model extends Vtiger_Record_Model
 {
 
 	protected $record = false;
@@ -111,7 +111,7 @@ class Vtiger_RecordStructure_Model extends Vtiger_Base_Model
 	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{
 		$moduleModel = $recordModel->getModule();
-		$className = Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->getName(true));
+		$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->getName(true));
 		$instance = new $className();
 		$instance->setModule($moduleModel)->setRecord($recordModel);
 		return $instance;
@@ -124,7 +124,7 @@ class Vtiger_RecordStructure_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{
-		$className = Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->get('name'));
+		$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->get('name'));
 		$instance = new $className();
 		$instance->setModule($moduleModel);
 		return $instance;

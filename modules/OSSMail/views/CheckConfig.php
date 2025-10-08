@@ -9,20 +9,22 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class OSSMail_CheckConfig_View extends Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		require_once ROOT_DIRECTORY . '/modules/OSSMail/views/CheckConfigCore.php';
 	}

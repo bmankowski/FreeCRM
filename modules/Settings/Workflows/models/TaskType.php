@@ -13,7 +13,7 @@
  */
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
 
-class Settings_Workflows_TaskType_Model extends Vtiger_Base_Model
+class Settings_Workflows_TaskType_Model extends Vtiger_Record_Model
 {
 
 	public function getId()
@@ -44,7 +44,7 @@ class Settings_Workflows_TaskType_Model extends Vtiger_Base_Model
 
 	public static function getInstanceFromClassName($taskClass)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT * FROM com_vtiger_workflow_tasktypes where classname=?", array($taskClass));
 		$row = $db->query_result_rowdata($result, 0);
 		$taskTypeObject = VTTaskType::getInstance($row);

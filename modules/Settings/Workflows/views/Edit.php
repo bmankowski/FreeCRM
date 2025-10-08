@@ -57,7 +57,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 			}
 		}
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$workflowManager = new VTWorkflowManager($db);
 		$viewer->assign('MAX_ALLOWED_SCHEDULED_WORKFLOWS', $workflowManager->getMaxAllowedScheduledWorkflows());
 		$viewer->assign('SCHEDULED_WORKFLOW_COUNT', $workflowManager->getScheduledWorkflowsCount());

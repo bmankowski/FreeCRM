@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
+class Vtiger_TransferOwnership_Model extends Vtiger_Record_Model
 {
 
 	protected $skipModules = [];
@@ -13,7 +13,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 
 	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [], $relModData)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$basicModule = $request->getModule();
 		$parentModuleModel = Vtiger_Module_Model::getInstance($basicModule);
 		$relatedIds = [];
@@ -35,7 +35,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 			case 1:
 
 				$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-				$instance = CRMEntity::getInstance($relatedModule);
+				$instance = \FreeCRM\CRMEntity::getInstance($relatedModule);
 				$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel);
 				$fieldModel = $relationModel->getRelationField();
 				$tablename = $fieldModel->get('table');
@@ -100,12 +100,12 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 
 	public static function getInstance($module)
 	{
-		$instance = Vtiger_Cache::get('transferOwnership', $module);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('transferOwnership', $module);
 		if (!$instance) {
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
+			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 			$instance = new $modelClassName();
 			$instance->set('module', $module);
-			Vtiger_Cache::set('transferOwnership', $module, $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('transferOwnership', $module, $instance);
 		}
 		return $instance;
 	}

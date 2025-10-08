@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-include_once 'include/main/WebUI.php';
+include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
 include_once 'modules/com_vtiger_workflow/include.php';
 include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 include_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
@@ -373,7 +373,7 @@ class Oss_Tool
 	 */
 	private static function generateFieldName()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$id = $db->getUniqueID("vtiger_field");
 
 		return 'cf_' . $id;

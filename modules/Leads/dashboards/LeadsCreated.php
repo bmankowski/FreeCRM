@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 {
 

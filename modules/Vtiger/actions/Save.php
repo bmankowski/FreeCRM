@@ -89,7 +89,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			vglobal('current_user', $currentUser);
 			App\User::setCurrentUserId($userId);
 		}
-		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $request->getModule());
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('View', 'Detail', $request->getModule());
 		$handler = new $handlerClass();
 		if ($handler) {
 			$handler->preProcess($request);

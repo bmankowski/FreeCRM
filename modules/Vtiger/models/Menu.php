@@ -10,6 +10,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
+
+use FreeCRM\Runtime\Vtiger_Language_Handler;
 class Vtiger_Menu_Model
 {
 
@@ -48,7 +50,7 @@ class Vtiger_Menu_Model
 	public static function getBreadcrumbs($pageTitle = false)
 	{
 		$breadcrumbs = false;
-		$request = AppRequest::init();
+		$request = \FreeCRM\Http\AppRequest::init();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
@@ -78,23 +80,23 @@ class Vtiger_Menu_Model
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			if ($moduleModel && $moduleModel->getDefaultUrl()) {
 				$breadcrumbs[] = [
-					'name' => vtranslate($moduleName, $moduleName),
+					'name' => \vtranslate($moduleName, $moduleName),
 					'url' => $moduleModel->getDefaultUrl()
 				];
 			} else {
 				$breadcrumbs[] = [
-					'name' => vtranslate($moduleName, $moduleName)
+					'name' => \vtranslate($moduleName, $moduleName)
 				];
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => \vtranslate($pageTitle, $moduleName)];
 			} elseif ($view == 'Edit' && $request->get('record') == '') {
-				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
+				$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+				$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 			} elseif ($view == '') {
-				$breadcrumbs[] = ['name' => vtranslate('LBL_HOME', $moduleName)];
+				$breadcrumbs[] = ['name' => \vtranslate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
 				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
@@ -105,7 +107,7 @@ class Vtiger_Menu_Model
 		} elseif ($parent === 'Settings') {
 			$qualifiedModuleName = $request->getModule(false);
 			$breadcrumbs[] = [
-				'name' => vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
+				'name' => \vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
 			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
@@ -115,8 +117,8 @@ class Vtiger_Menu_Model
 					if (empty($fieldId)) {
 						if ($menuModel->getModule() == $moduleName) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => \vtranslate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => \vtranslate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -124,8 +126,8 @@ class Vtiger_Menu_Model
 					} else {
 						if ($fieldId == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => \vtranslate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => \vtranslate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -139,11 +141,11 @@ class Vtiger_Menu_Model
 					}
 				} else {
 					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
+						$breadcrumbs[] = ['name' => \vtranslate($pageTitle, $moduleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-						$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
-						$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));

@@ -26,7 +26,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		$this->exposeMethod('undoImport');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -34,7 +34,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -44,7 +44,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		echo $this->import($request);
 	}
 
-	public function postprocess(Vtiger_Request $request)
+	public function postprocess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -56,7 +56,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 * Function to show import UI in Calendar Module
 	 * @param Vtiger_Request $request
 	 */
-	public function import(Vtiger_Request $request)
+	public function import(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -71,7 +71,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 * Function to show result of import
 	 * @param Vtiger_Request $request
 	 */
-	public function importResult(Vtiger_Request $request)
+	public function importResult(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
@@ -175,7 +175,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 * Function to show result of undo import
 	 * @param Vtiger_Request $request
 	 */
-	public function undoImport(Vtiger_Request $request)
+	public function undoImport(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();

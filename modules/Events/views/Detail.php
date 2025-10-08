@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Events_Detail_View extends Calendar_Detail_View
 {
 	

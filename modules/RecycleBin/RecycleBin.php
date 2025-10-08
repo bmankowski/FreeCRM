@@ -19,8 +19,8 @@ class RecycleBin
 	public function vtlib_handler($moduleName, $eventType)
 	{
 
-		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
+		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			// Mark the module as Standard module

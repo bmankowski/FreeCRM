@@ -27,7 +27,7 @@ class VTAddressBookTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();
 		$entityId = $recordModel->getId();
 

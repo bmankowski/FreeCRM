@@ -36,7 +36,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getFieldFromModule()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * from vtiger_field WHERE uitype NOT IN ('15','16','52','53','56','70','120')");
 		$fields = array();
 		while ($row = $adb->fetch_array($result)) {
@@ -88,7 +88,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getFromClauseByColumn($moduleName, $moduleInfoExtend, $columns)
 	{
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		$tableBase = $focus->table_name;
 		$leftJoinTables = [$tableBase];
 		$leftJoin = '  LEFT JOIN ' . $tableBase . ' ON vtiger_crmentity.crmid = ' . $tableBase . '.' . $focus->table_index;
@@ -109,7 +109,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		
 		\App\Log::trace("Entering Settings_Search_Module_Model::updateSequenceNumber(" . $modulesSequence . ") method ...");
 		$tabIdList = array();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_entityname SET ';
 		$query .=' sequence= CASE ';

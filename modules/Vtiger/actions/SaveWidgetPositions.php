@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View
 {
 

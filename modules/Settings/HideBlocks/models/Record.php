@@ -155,7 +155,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$rowData = [];
 		if (!empty($recordId)) {
-			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$rowData = (new \App\Db\Query())
 				->from('vtiger_blocks_hide')
@@ -171,7 +171,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	static public function getCleanInstance($qualifiedModuleName)
 	{
-		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$recordModel = new $recordModelClass();
 		return $recordModel;
 	}

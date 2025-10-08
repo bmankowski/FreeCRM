@@ -99,7 +99,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+				$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 				$pdf = new $handlerClass();
 				$styles = '';
 				$headers = '';
@@ -174,7 +174,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				$origLanguage = vglobal('default_language');
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+						$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 						$pdf = new $handlerClass();
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);

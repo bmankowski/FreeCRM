@@ -22,7 +22,7 @@
  */
 
 // Contact is used to store customer information.
-class Contacts extends CRMEntity
+class Contacts extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = "vtiger_contactdetails";
@@ -168,7 +168,7 @@ class Contacts extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

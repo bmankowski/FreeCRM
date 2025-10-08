@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 {
 

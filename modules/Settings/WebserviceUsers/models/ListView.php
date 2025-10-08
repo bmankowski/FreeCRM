@@ -16,9 +16,9 @@ class Settings_WebserviceUsers_ListView_Model extends Settings_Vtiger_ListView_M
 	 */
 	public function setModule($name)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
-		$this->module->typeApi = \AppRequest::get('typeApi');
+		$this->module->typeApi = \\FreeCRM\Http\AppRequest::get('typeApi');
 		return $this;
 	}
 

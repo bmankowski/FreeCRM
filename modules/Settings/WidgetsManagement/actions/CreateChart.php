@@ -11,7 +11,7 @@ class Settings_WidgetsManagement_CreateChart_Action extends Settings_Vtiger_Inde
 
 	public function process(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$linkId = $request->get('linkId');
 		$chartName = $request->get('chartName');
 		$blockid = $request->get('blockid');

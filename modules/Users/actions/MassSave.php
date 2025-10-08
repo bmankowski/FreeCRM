@@ -49,7 +49,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 		$recordIds = $this->getRecordsListFromRequest($request);
 
 		if (empty($recordIds) && $request->get('selected_ids') == 'all') {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$sql = "SELECT `id` FROM `vtiger_users`";
 			$result = $db->query($sql, true);

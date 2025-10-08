@@ -9,10 +9,12 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Products_Detail_View extends Vtiger_Detail_View
 {
 
-	public function showModuleDetailView(Vtiger_Request $request)
+	public function showModuleDetailView(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -27,12 +29,12 @@ class Products_Detail_View extends Vtiger_Detail_View
 		return parent::showModuleDetailView($request);
 	}
 
-	public function showModuleBasicView(Vtiger_Request $request)
+	public function showModuleBasicView(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

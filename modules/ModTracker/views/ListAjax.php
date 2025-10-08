@@ -8,10 +8,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class ModTracker_ListAjax_View extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentRecordId = $request->get('parent_id');
 		$pageNumber = $request->get('page');

@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Project_Detail_View extends Vtiger_Detail_View
 {
 
@@ -19,7 +21,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showGantt');
 	}
 
-	public function showCharts(Vtiger_Request $request)
+	public function showCharts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -33,7 +35,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$viewer->view('charts/ShowTimeProjectUsers.tpl', $moduleName);
 	}
 
-	public function showGantt(Vtiger_Request $request)
+	public function showGantt(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -46,7 +48,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
@@ -57,7 +59,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		return $headerCssInstances;
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

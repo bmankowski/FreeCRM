@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMail_Mail_Model extends Vtiger_Base_Model
+class OSSMail_Mail_Model extends Vtiger_Record_Model
 {
 
 	protected $mailAccount = [];
@@ -81,7 +81,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public static function findEmailUser($emails)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$return = [];
 		$notFound = 0;
 		if (!empty($emails)) {
@@ -108,7 +108,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 		if ($this->mailCrmId != false) {
 			return $this->mailCrmId;
 		}
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? && rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
 		if ($db->getRowCount($result) > 0) {
 			$this->mailCrmId = $db->getSingleValue($result);
@@ -142,7 +142,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public function findEmailAdress($field, $searchModule = false, $returnArray = true)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$return = [];
 		$emails = $this->get($field);
 		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
@@ -166,14 +166,14 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 				}
 
 				if ($enableFind) {
-					$instance = CRMEntity::getInstance($moduleName);
+					$instance = \FreeCRM\CRMEntity::getInstance($moduleName);
 					$table_index = $instance->table_index;
 					foreach ($emails as $email) {
 						if (empty($email)) {
 							continue;
 						}
 						$name = 'MSFindEmail_' . $moduleName . '_' . $row[1];
-						$cache = Vtiger_Cache::get($name, $email);
+						$cache = \FreeCRM\Runtime\Vtiger_Cache::get($name, $email);
 						if ($cache !== false) {
 							if ($cache != 0) {
 								$return = array_merge($return, $cache);
@@ -188,7 +188,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 							if (empty($ids)) {
 								$ids = 0;
 							}
-							Vtiger_Cache::set($name, $email, $ids);
+							\FreeCRM\Runtime\Vtiger_Cache::set($name, $email, $ids);
 						}
 					}
 				}

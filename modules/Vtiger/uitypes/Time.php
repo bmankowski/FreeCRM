@@ -28,7 +28,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getDisplayTimeValue($time)
 	{
-		$date = new DateTimeField($time);
+		$date = new \FreeCRM\Fields\DateTimeField($time);
 		return $date->getDisplayTime();
 	}
 
@@ -98,8 +98,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
-		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
+		$userModel = \Users_Privileges_Model::getCurrentUserModel();
+		$value = \FreeCRM\Fields\DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');
 		if ($userModel->get('hour_format') == '12') {
 			return self::getTimeValueInAMorPM($value);
@@ -124,7 +124,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 
 	public static function getDBTimeFromUserValue($value)
 	{
-		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
+		$time = \FreeCRM\Fields\DateTimeField::convertToDBTimeZone(date(\FreeCRM\Fields\DateTimeField::getPHPDateFormat()) . ' ' . $value);
 		$value = $time->format('H:i:s');
 		return $value;
 	}

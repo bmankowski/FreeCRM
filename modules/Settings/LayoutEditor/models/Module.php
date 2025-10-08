@@ -165,7 +165,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			throw new Exception(vtranslate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		$moduleName = $this->getName();
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		if ($type == 0) {
 			$columnName = $name;
 			$tableName = $focus->table_name;

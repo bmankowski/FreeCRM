@@ -124,7 +124,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 
 		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::checkIfHoliday(" . $date . ") method ...");
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT COUNT(1) as num FROM `vtiger_publicholiday` WHERE `holidaydate` = ?;';
 		$params = array($date);
 

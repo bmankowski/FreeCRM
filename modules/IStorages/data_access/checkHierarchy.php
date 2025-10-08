@@ -14,7 +14,7 @@ class DataAccess_checkHierarchy
 	public function process($moduleName, $id, $recordData, $config)
 	{
 		$parentId = $recordData['parentid'];
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		$storages = [];
 
 		if ($id > 0) {

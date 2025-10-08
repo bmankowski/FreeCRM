@@ -12,11 +12,11 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 	public function addRelation($mailId, $crmid, $date = false)
 	{
 		$return = false;
-		$db = PearDatabase::getInstance();
-		CRMEntity::trackLinkedInfo($crmid);
+		$db = \FreeCRM\database\PearDatabase::getInstance();
+		\FreeCRM\CRMEntity::trackLinkedInfo($crmid);
 		$destinationModuleName = \App\Record::getType($crmid);
 		$data = [
-			'CRMEntity' => CRMEntity::getInstance($destinationModuleName),
+			'CRMEntity' => \FreeCRM\CRMEntity::getInstance($destinationModuleName),
 			'sourceModule' => $destinationModuleName,
 			'sourceRecordId' => $crmid,
 			'destinationModule' => 'OSSMailView',

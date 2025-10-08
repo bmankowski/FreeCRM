@@ -17,7 +17,7 @@ class OSSEmployees_GetHoliday_Action extends Vtiger_Action_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 
 		$id = $request->get('id');

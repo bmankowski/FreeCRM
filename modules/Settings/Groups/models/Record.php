@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'include/events/include.php';
+require_once ROOT_DIRECTORY . '/src/events/include.php';
 
 /**
  * Roles Record Model Class

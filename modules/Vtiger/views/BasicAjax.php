@@ -1,4 +1,5 @@
 <?php
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,6 +10,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
 
@@ -24,17 +27,17 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -47,7 +50,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 * Function to display the UI for advance search on any of the module
 	 * @param Vtiger_Request $request
 	 */
-	public function showAdvancedSearch(Vtiger_Request $request)
+	public function showAdvancedSearch(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		//Modules for which search is excluded
 		$excludedModuleForSearch = array('Vtiger', 'Reports');
@@ -100,7 +103,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 * Function to display the Search Results
 	 * @param Vtiger_Request $request
 	 */
-	public function showSearchResults(Vtiger_Request $request)
+	public function showSearchResults(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -134,7 +137,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
 			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
-			if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
+			if (\FreeCRM\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
 				$matchingRecordsList = [];
 				foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
 					if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
@@ -145,7 +148,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			}
 		}
 		$curentModule = $request->get('curentModule');
-		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
+		if (\FreeCRM\AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
 			$pushTop = $matchingRecords[$curentModule];
 			unset($matchingRecords[$curentModule]);
 			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;

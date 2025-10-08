@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once 'include/Webservices/Custom/DeleteUser.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Custom/DeleteUser.php';
 
 class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 {

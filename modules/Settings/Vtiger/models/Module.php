@@ -12,7 +12,7 @@
  * Settings Module Model Class
  */
 
-class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
+class Settings_Vtiger_Module_Model extends Vtiger_Record_Model
 {
 
 	public $baseTable = 'vtiger_settings_field';
@@ -120,7 +120,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		return new $modelClassName();
 	}
 
@@ -212,7 +212,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 
 	public static function deleteSettingsField($block, $name)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
 		$db->delete('vtiger_settings_field', 'name = ? && blockid=?', [$name, $blockId]);
 	}

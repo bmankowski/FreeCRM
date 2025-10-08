@@ -38,9 +38,9 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 	public function changeActiveStatus($tabid, $status)
 	{
 		if ($status) {
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule($tabid);
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule($tabid);
 		} else {
-			CRMEntity::getInstance('ModTracker')->disableTrackingForModule($tabid);
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->disableTrackingForModule($tabid);
 		}
 	}
 }

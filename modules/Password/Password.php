@@ -14,7 +14,7 @@ class Password
 
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 
 		} else if ($eventType == 'module.disabled') {

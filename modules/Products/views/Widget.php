@@ -9,6 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Products_Widget_View extends Vtiger_Index_View
 {
 
@@ -18,7 +20,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		$this->exposeMethod('showProductsServices');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -27,7 +29,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		}
 	}
 
-	public function showProductsServices(Vtiger_Request $request)
+	public function showProductsServices(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fromModule = $request->get('fromModule');

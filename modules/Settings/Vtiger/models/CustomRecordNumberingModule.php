@@ -18,7 +18,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	public function getFocus()
 	{
 		if (!isset($this->focus)) {
-			$this->focus = CRMEntity::getInstance($this->getName());
+			$this->focus = \FreeCRM\CRMEntity::getInstance($this->getName());
 		}
 		return $this->focus;
 	}
@@ -44,7 +44,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	 */
 	public static function getSupportedModules()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? AND presence = ? AND tabid IN (SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = ?);';
 		$result = $db->pquery($sql, [1, 0, 4]);

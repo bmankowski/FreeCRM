@@ -8,10 +8,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Events_SharedCalendar_View extends Calendar_SharedCalendar_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		header("Location: index.php?module=Calendar&view=SharedCalendar");
 	}

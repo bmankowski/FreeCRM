@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('include/events/include.php');
+require_once(ROOT_DIRECTORY . '/src/events/include.php');
 require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
 
 class WSAPP
@@ -72,7 +72,7 @@ class WSAPP
 
 	public function registerCustomWebservices($operations)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		foreach ($operations as $operation_name => $operation_info) {
 			$checkres = $adb->pquery("SELECT operationid FROM vtiger_ws_operation WHERE name=?", array($operation_name));
@@ -103,7 +103,7 @@ class WSAPP
 
 	public function registerHandlers()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$handlerDetails = array();
 
@@ -125,7 +125,7 @@ class WSAPP
 
 	public function registerVtigerCRMApp()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$appName = "vtigerCRM";
 		$type = "user";
 		$uid = uniqid();

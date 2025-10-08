@@ -18,7 +18,7 @@ Class DataAccess_unique_value
 
 	public function process($moduleName, $ID, $record_form, $config)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleNameID = vtlib\Functions::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
@@ -56,7 +56,7 @@ Class DataAccess_unique_value
 			foreach ($wheres1 as $where) {
 				$where = explode('=', $where);
 				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
-				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
+				$ModuleInstance = \FreeCRM\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array($value1);
@@ -97,7 +97,7 @@ Class DataAccess_unique_value
 			foreach ($wheres2 as $where) {
 				$where = explode('=', $where);
 				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
-				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
+				$ModuleInstance = \FreeCRM\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array($value2);
@@ -186,7 +186,7 @@ Class DataAccess_unique_value
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' && vtiger_field.displaytype IN ('1','10') ORDER BY name", [], true);
 		$fields = [];
 		$ModuleFields = [];

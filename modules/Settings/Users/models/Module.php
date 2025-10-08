@@ -20,7 +20,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getConfig($type)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM yetiforce_auth WHERE type = ?;', [$type]);
 		if ($db->num_rows($result) == 0) {
@@ -102,7 +102,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			return self::$usersID[$data];
 		}
 		if (substr($data, 0, 1) === 'H') {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$return = [];
 			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? AND deleted=0 AND status <> ?', [$data, 'Inactive']);
 			while ($userid = $db->getSingleValue($result)) {

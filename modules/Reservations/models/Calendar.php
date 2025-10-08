@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Reservations_Calendar_Model extends Vtiger_Base_Model
+class Reservations_Calendar_Model extends Vtiger_Record_Model
 {
 
 	public function getEntity()
@@ -103,10 +103,10 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance()
 	{
-		$instance = Vtiger_Cache::get('reservationsModels', 'Calendar');
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('reservationsModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			Vtiger_Cache::set('reservationsModels', 'Calendar', clone $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('reservationsModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;
@@ -115,7 +115,7 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 
 	public static function getCalendarTypes()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?;", ['type', 'vtiger_reservations']);
 		$templateId = $db->query_result($result, 0, 'fieldparams');
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', [$templateId]);

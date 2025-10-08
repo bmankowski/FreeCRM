@@ -107,7 +107,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getRecordValues(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$params = $this->get('field')->getFieldParams();
 		$fieldModel = $this->get('field');
 		// Get current value
@@ -230,7 +230,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$relModuleName = \vtlib\Functions::getModuleName($fieldInfo['tabid']);
 			$values = array_filter(explode(self::COMMA, $value));
 			foreach ($values as &$value) {
-				$value = \LanguageTranslator::translate($value, $relModuleName);
+				$value = \FreeCRM\LanguageTranslator::translate($value, $relModuleName);
 			}
 			$values = implode(', ', $values);
 		} else {

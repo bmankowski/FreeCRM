@@ -9,6 +9,8 @@
 /**
  * Class for Notifications reminders
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Notification_Reminders_View extends Vtiger_IndexAjax_View
 {
 
@@ -16,7 +18,7 @@ class Notification_Reminders_View extends Vtiger_IndexAjax_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

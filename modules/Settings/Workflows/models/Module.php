@@ -97,7 +97,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getExpressions()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$mem = new VTExpressionsManager($db);
 		return $mem->expressionFunctions();
@@ -127,7 +127,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
 			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
 			WHERE `module_name` =?', [$moduleInstance->name]);
@@ -172,7 +172,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function exportTaskMethod($methodName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'SELECT workflowtasks_entitymethod_id, module_name, method_name, function_path, function_name FROM com_vtiger_workflowtasks_entitymethod WHERE method_name = ?;';
 		$result = $db->pquery($query, [$methodName]);
@@ -190,7 +190,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);

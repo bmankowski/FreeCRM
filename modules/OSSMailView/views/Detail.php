@@ -9,6 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class OSSMailView_Detail_View extends Vtiger_Detail_View
 {
 
@@ -23,7 +25,7 @@ class OSSMailView_Detail_View extends Vtiger_Detail_View
 		return false;
 	}
 
-	public function showSummary(Vtiger_Request $request)
+	public function showSummary(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$viewer = $this->getViewer($request);

@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+use FreeCRM\Http\Vtiger_Request;
+
 class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 {
 

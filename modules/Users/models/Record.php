@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+ use FreeCRM\Http\Vtiger_Session;
 class Users_Record_Model extends Vtiger_Record_Model
 {
 
@@ -366,7 +367,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getAll($onlyActive = true)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users';
 		$params = [];
@@ -522,7 +523,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getImageDetails()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$imageDetails = [];
 		$recordId = $this->getId();
@@ -593,7 +594,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
 		$smId = $db->query_result($checkResult, 0, 'smid');
@@ -710,7 +711,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getInstanceByName($userName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
 
 		if ($db->num_rows($result)) {
@@ -729,7 +730,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function isAccountOwner()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT is_owner FROM vtiger_users WHERE id = ?', [$this->getId()]);
 		$isOwner = $db->getSingleValue($result);
 		if ($isOwner == 1) {
@@ -740,7 +741,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function getActiveAdminUsers()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));

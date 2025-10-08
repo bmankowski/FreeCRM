@@ -5,10 +5,12 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request, $display = true)
+	public function process(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

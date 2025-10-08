@@ -13,7 +13,7 @@
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
 
-class Campaigns extends CRMEntity
+class Campaigns extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = "vtiger_campaign";

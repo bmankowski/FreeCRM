@@ -138,7 +138,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getAllChildren()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$parentRoleString = $this->getParentRoleString();
 
@@ -161,7 +161,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	public function getProfileIdList()
 	{
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
 
 		$result = $db->pquery($query, array($this->getId()));
@@ -185,7 +185,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$query = 'SELECT directly_related_to_role, vtiger_profile.profileid FROM vtiger_role2profile 
                   INNER JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_role2profile.profileid 
@@ -348,7 +348,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)->execute();
 		}
 		$profileIds = $this->get('profileIds');
-		$oldRole = Vtiger_Cache::get('RolesArray', $roleId);
+		$oldRole = \FreeCRM\Runtime\Vtiger_Cache::get('RolesArray', $roleId);
 		if ($oldRole !== false) {
 			$oldProfileIds = array_keys($this->getProfiles());
 			if ($profileIds === false || !empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))) ||
@@ -384,7 +384,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete($transferToRole)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$roleId = $this->getId();
 		$transferRoleId = $transferToRole->getId();
 
@@ -467,7 +467,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAll($baseRole = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$params = [];
 
 		$sql = 'SELECT * FROM vtiger_role';
@@ -495,7 +495,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($roleId)
 	{
-		$instance = Vtiger_Cache::get('Settings_Roles_Record_Model', $roleId);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('Settings_Roles_Record_Model', $roleId);
 		if ($instance !== false) {
 			return $instance;
 		}
@@ -503,8 +503,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
-			Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);
-			Vtiger_Cache::set('RolesArray', $roleId, $row);
+			\FreeCRM\Runtime\Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('RolesArray', $roleId, $row);
 			return $instance;
 		}
 		return $instance;
@@ -516,7 +516,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getBaseRole()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$result = $db->query('SELECT * FROM vtiger_role WHERE depth=0 LIMIT 1');
 		if ($db->getRowCount($result) > 0) {
@@ -552,7 +552,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getUsers()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($this->getId()));
 		$numOfRows = $db->num_rows($result);
 

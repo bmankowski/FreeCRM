@@ -8,10 +8,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
@@ -29,7 +31,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('editPasswords');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -38,7 +40,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function changePassword(Vtiger_Request $request)
+	public function changePassword(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->get('module');
@@ -50,7 +52,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->view('ChangePassword.tpl', $moduleName);
 	}
 
-	public function editPasswords(Vtiger_Request $request)
+	public function editPasswords(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->get('module');

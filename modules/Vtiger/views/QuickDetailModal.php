@@ -1,11 +1,14 @@
 <?php
 
+
 /**
  * Quick detail modal view class
  * @package YetiForce.Modal
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 {
 
@@ -15,31 +18,31 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!is_numeric($recordId)) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = Users_Privileges_Model::isPermitted($request->getModule(), 'DetailView', $recordId);
+		$recordPermission = \Users_Privileges_Model::isPermitted($request->getModule(), 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return 'modalRightSiteBar';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->get('record'));
 		$recordModel = $detailModel->getRecord();
 		$detailModel->getWidgets();
-		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
 
 		$widgets = [];
@@ -53,10 +56,10 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 					if ($detailView->isMethodExposed($method)) {
 						$label = '';
 						if (!empty($widget['label'])) {
-							$label = LanguageTranslator::translate($widget['label'], $moduleName);
+							$label = \FreeCRM\LanguageTranslator::translate($widget['label'], $moduleName);
 						} elseif ($widget['type'] === 'RelatedModule') {
 							$relatedModule = App\Module::getModuleName($widget['data']['relatedmodule']);
-							$label = LanguageTranslator::translate($relatedModule, $relatedModule);
+							$label = \FreeCRM\LanguageTranslator::translate($relatedModule, $relatedModule);
 						}
 						$widgets[] = ['title' => $label, 'content' => $detailView->$method($widgetRequest)];
 					}

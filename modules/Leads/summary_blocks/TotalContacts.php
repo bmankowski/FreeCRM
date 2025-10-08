@@ -20,7 +20,7 @@ class TotalContacts
 	{
 		
 		\App\Log::trace("Entering TotalContacts::process() method ...");
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$contact = 'SELECT COUNT(contactid) as count FROM vtiger_contactdetails
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_contactdetails.contactid
 			WHERE vtiger_crmentity.deleted=0 &&  vtiger_contactdetails.parentid = ?';

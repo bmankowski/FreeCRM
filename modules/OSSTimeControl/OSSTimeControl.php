@@ -97,7 +97,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	{
 		$registerLink = false;
 		$displayLabel = 'Time Control';
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
 
@@ -164,7 +164,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($currentModule)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
+				$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -178,7 +178,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		}
 		foreach ($results as $row) {
 			App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, \FreeCRM\CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
 		}
 	}
 
@@ -190,7 +190,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		} else {
 			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+				$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -204,7 +204,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			}
 		}
 		foreach ($results as $result) {
-			$focusObj = CRMEntity::getInstance($row['name']);
+			$focusObj = \FreeCRM\CRMEntity::getInstance($row['name']);
 			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
 			$where = "$columnName = ? && $focusObj->table_index = ?";

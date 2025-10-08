@@ -22,7 +22,7 @@
  * ****************************************************************************** */
 
 // Faq is used to store vtiger_faq information.
-class Faq extends CRMEntity
+class Faq extends \FreeCRM\CRMEntity
 {
 
 	public $table_name = 'vtiger_faq';

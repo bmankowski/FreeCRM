@@ -36,7 +36,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		$moduleName = $this->get('field')->getModuleName();
 		$countValue = count($value);
 		for ($i = 0; $i < $countValue; $i++) {
-			$trValue[] = Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);
+			$trValue[] = \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);
 		}
 		$trValue = implode(' |##| ', $trValue);
 

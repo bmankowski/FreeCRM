@@ -6,12 +6,12 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
+class Vtiger_RelatedCommentModal_Model extends Vtiger_Record_Model
 {
 
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
 		$instance = new $modelClassName();
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
@@ -48,7 +48,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 
 	public function getRelationTable()
 	{
-		$instance = CRMEntity::getInstance($this->get('moduleName'));
+		$instance = \FreeCRM\CRMEntity::getInstance($this->get('moduleName'));
 		if (method_exists($instance, 'setRelationTables')) {
 			$relationTable = $instance->setRelationTables($this->get('relatedModuleName'));
 		}

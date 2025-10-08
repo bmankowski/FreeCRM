@@ -95,7 +95,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getGlobalPermissions()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!isset($this->global_permissions)) {
 			$globalPermissions = [];
@@ -256,7 +256,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getProfileTabPermissions()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_tab_permissions)) {
 			$profile2TabPermissions = [];
@@ -294,7 +294,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getProfileActionPermissions()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_action_permissions)) {
 			$profile2ActionPermissions = [];
@@ -317,7 +317,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getProfileUtilityPermissions()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_utility_permissions)) {
 			$profile2UtilityPermissions = [];
@@ -390,7 +390,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function delete($transferToRecord)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$profileId = $this->getId();
 		$transferProfileId = $transferToRecord->getId();
 
@@ -425,7 +425,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$adb = App\Db::getInstance();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$modulePermissions = $this->getModulePermissions();
 
 		$profileName = $this->get('profilename');
@@ -509,7 +509,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	protected function saveModulePermissions($moduleModel, $permissions)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$adb = App\Db::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
@@ -713,7 +713,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAllByRole($roleId)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT vtiger_profile.*
 					FROM vtiger_profile
@@ -738,7 +738,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAll()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_profile';
 		$result = $db->query($sql);
 		$profiles = [];
@@ -757,12 +757,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($profileId)
 	{
-		$instance = Vtiger_Cache::get('ProfilesRecordModelById', $profileId);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('ProfilesRecordModelById', $profileId);
 		if ($instance) {
 			return $instance;
 		}
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_profile WHERE profileid = ?';
 		$result = $db->pquery($sql, [$profileId]);
 		if ($db->getRowCount($result) > 0) {
@@ -770,7 +770,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile = new self();
 			$profile->setData($row);
 		}
-		Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $profile);
+		\FreeCRM\Runtime\Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $profile);
 		return $profile;
 	}
 
@@ -839,7 +839,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getUsersList($profileId = false)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$params = [0];
 		$query = 'SELECT id FROM vtiger_users
 					INNER JOIN vtiger_user2role ON vtiger_user2role.userid = vtiger_users.id
@@ -863,7 +863,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$profileId = $this->getId();
 		if (!empty($profileId)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$userRecordModel = Users_Record_Model::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Module::getModuleId($module);

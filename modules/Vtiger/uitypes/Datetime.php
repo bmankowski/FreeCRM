@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Models\Users_Privileges_Model;
+use FreeCRM\Fields\DateTimeField;
 class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 {
 
@@ -44,7 +46,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($date) || $date === '0000-00-00' || $date === '0000-00-00 00:00:00') {
 			return '';
 		}
-		$date = new DateTimeField($date);
+		$date = new \FreeCRM\Fields\DateTimeField($date);
 		return $date->getDisplayDateTimeValue();
 	}
 
@@ -55,7 +57,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public static function getDBDateTimeValue($date)
 	{
-		$date = new DateTimeField($date);
+		$date = new \FreeCRM\Fields\DateTimeField($date);
 		return $date->getDBInsertDateTimeValue();
 	}
 

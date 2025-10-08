@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class IGDNC_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 {
 

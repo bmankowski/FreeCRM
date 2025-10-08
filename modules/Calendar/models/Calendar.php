@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Calendar_Calendar_Model extends Vtiger_Base_Model
+class Calendar_Calendar_Model extends Vtiger_Record_Model
 {
 
 	public $moduleName = 'Calendar';
@@ -88,7 +88,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
-				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
+				$filterClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
 				$filterInstance = new $filterClassName();
 				if ($filterInstance->checkPermissions() && $conditions = $filterInstance->getCondition($filter['value'])) {
 					$query->andWhere($conditions);
@@ -234,7 +234,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	public function getEntityCount()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
@@ -284,10 +284,10 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getCleanInstance()
 	{
-		$instance = Vtiger_Cache::get('calendarModels', 'Calendar');
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('calendarModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;

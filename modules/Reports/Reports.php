@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/utils/UserInfoUtil.php');
+require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once ROOT_DIRECTORY . '/modules/Reports/ReportUtils.php';
 global $calpath;
 global $app_list_strings;
@@ -27,7 +27,7 @@ $old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
 
 $related_modules = [];
 
-class Reports extends CRMEntity
+class Reports extends \FreeCRM\CRMEntity
 {
 
 	/**
@@ -81,7 +81,7 @@ class Reports extends CRMEntity
 				$ssql .= " where vtiger_report.reportid = ?";
 				$params = array($reportid);
 
-				require_once('include/utils/GetUserGroups.php');
+				require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_' . $current_user->id . '.php');
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($current_user->id);
@@ -140,10 +140,10 @@ class Reports extends CRMEntity
 	// Update the module list for listing columns for report creation.
 	public function updateModuleList($module)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if (!isset($module))
 			return;
-		require_once('include/utils/utils.php');
+		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
 		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
@@ -168,7 +168,7 @@ class Reports extends CRMEntity
 	{
 		global $old_related_modules;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$restricted_modules = array('Events');
 		$restricted_blocks = array('LBL_COMMENTS', 'LBL_COMMENT_INFORMATION');
 
@@ -287,7 +287,7 @@ class Reports extends CRMEntity
 	{
 
 		global $mod_strings;
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
@@ -334,7 +334,7 @@ class Reports extends CRMEntity
 	 */
 	public function sgetAllRpt($fldrId, $paramsList)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$returndata = [];
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
@@ -384,13 +384,13 @@ class Reports extends CRMEntity
 	public function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
 	{
 		$srptdetails = "";
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
 		$mod_strings = vglobal('mod_strings');
 		$returndata = [];
 
-		require_once('include/utils/UserInfoUtil.php');
+		require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
 		$sql .= " inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
@@ -404,7 +404,7 @@ class Reports extends CRMEntity
 		}
 
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
-		require_once('include/utils/GetUserGroups.php');
+		require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
 		$userGroups = new GetUserGroups();
 		$userGroups->getAllUserGroups($currentUser->getId());
 		$user_groups = $userGroups->user_groups;
@@ -568,7 +568,7 @@ class Reports extends CRMEntity
 	 */
 	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (is_string($block))
@@ -654,7 +654,7 @@ class Reports extends CRMEntity
 	 */
 	public function getSelectedStandardCriteria($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
 		$result = $adb->pquery($sSQL, array($reportid));
 		$selectedstdfilter = $adb->fetch_array($result);
@@ -727,7 +727,7 @@ class Reports extends CRMEntity
 	public function getaccesfield($module)
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$access_fields = [];
 
 		$profileList = $currentUser->getProfiles();
@@ -767,7 +767,7 @@ class Reports extends CRMEntity
 	public function getSelctedSortingColumns($reportid)
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
@@ -795,7 +795,7 @@ class Reports extends CRMEntity
 	 */
 	public function getSelectedColumnsList($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$current_user = vglobal('current_user');
 
@@ -853,7 +853,7 @@ class Reports extends CRMEntity
 
 	public function getAdvancedFilterList($reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
 		$current_user = vglobal('current_user');
@@ -951,7 +951,7 @@ class Reports extends CRMEntity
 	 */
 	public function sgetRptFldrSaveReport()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
@@ -991,7 +991,7 @@ class Reports extends CRMEntity
 	 */
 	public function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$options = [];
 		if ($reportid != "") {
@@ -1026,7 +1026,7 @@ class Reports extends CRMEntity
 	public function sgetColumnstoTotalHTML($module)
 	{
 		//retreive the vtiger_tabid
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$tabid = \App\Module::getModuleId($module);
@@ -1089,7 +1089,7 @@ class Reports extends CRMEntity
 							$selectedcolumn1[$selectedcolumnarray[4]] = $this->columnssummary[$i];
 						}
 					}
-					if (!AppRequest::isEmpty('record')) {
+					if (!\FreeCRM\Http\AppRequest::isEmpty('record')) {
 						$options['label'][] = LanguageTranslator::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . LanguageTranslator::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					}
 
@@ -1139,7 +1139,7 @@ class Reports extends CRMEntity
  */
 function getReportsModuleList($focus)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
 		if (isPermitted($key, 'index') == "yes") {
@@ -1175,7 +1175,7 @@ function getReportRelatedModules($module, $focus)
 function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_groups)
 {
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 
 	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";

@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Calendar_ViewTypes_View extends Vtiger_IndexAjax_View
 {
 
@@ -18,7 +20,7 @@ class Calendar_ViewTypes_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getSharedUsersList');
 	}
 
-	public function getViewTypes(Vtiger_Request $request)
+	public function getViewTypes(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -34,7 +36,7 @@ class Calendar_ViewTypes_View extends Vtiger_IndexAjax_View
 	 * Function to get Shared Users
 	 * @param Vtiger_Request $request
 	 */
-	public function getSharedUsersList(Vtiger_Request $request)
+	public function getSharedUsersList(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();

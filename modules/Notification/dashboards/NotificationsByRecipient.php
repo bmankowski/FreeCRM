@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+use FreeCRM\Http\Vtiger_Request;
+
 class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_View
 {
 

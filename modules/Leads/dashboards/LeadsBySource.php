@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 {
 

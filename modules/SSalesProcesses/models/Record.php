@@ -15,7 +15,7 @@ class SSalesProcesses_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getHierarchy()
 	{
-		$focus = CRMEntity::getInstance($this->getModuleName());
+		$focus = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getHierarchy($this->getId());
 		foreach ($hierarchy['entries'] as $storageId => $storageInfo) {
 			preg_match('/<a href="+/', $storageInfo[0], $matches);

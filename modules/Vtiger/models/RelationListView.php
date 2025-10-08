@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_RelationListView_Model extends Vtiger_Base_Model
+class Vtiger_RelationListView_Model extends Vtiger_Record_Model
 {
 
 	protected $relationModel = false;
@@ -81,7 +81,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
 	{
 		$parentModuleName = $parentRecordModel->getModule()->get('name');
-		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
+		$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
 		$instance = new $className();
 
 		$parentModuleModel = $parentRecordModel->getModule();
@@ -100,7 +100,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			foreach ($referenceFieldOfParentModule as $fieldName => $fieldModel) {
 				$refredModulesOfReferenceField = $fieldModel->getReferenceList();
 				if (in_array($relatedModuleName, $refredModulesOfReferenceField)) {
-					$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
+					$relationModelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 					$relationModel = new $relationModelClassName();
 					$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 					$parentModuleModel->set('directRelatedFieldName', $fieldModel->get('column'));
@@ -334,11 +334,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parentName = '';
 			if ($row['depth'] > 0) {
 				$treeDetail = App\Fields\Tree::getValueByTreeId($template, $parent);
-				$parentName = '(' . LanguageTranslator::translate($treeDetail['name'], $relModuleName) . ') ';
+				$parentName = '(' . \FreeCRM\LanguageTranslator::translate($treeDetail['name'], $relModuleName) . ') ';
 			}
 			$tree = [
 				'id' => $row['tree'],
-				'name' => $parentName . LanguageTranslator::translate($row['name'], $relModuleName),
+				'name' => $parentName . \FreeCRM\LanguageTranslator::translate($row['name'], $relModuleName),
 				'parent' => $parent == 0 ? '#' : $parent
 			];
 			if ($showCreatorDetail) {
@@ -362,7 +362,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	 */
 	public function getRelatedTreeEntriesCount()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$recordId = $this->getParentRecordModel()->getId();
 		$relModuleId = $this->getRelatedModuleModel()->getId();
 		$treeViewModel = $this->getTreeViewModel();
@@ -487,14 +487,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($relatedModel->get('label') == 'Calendar') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => LanguageTranslator::translate('LBL_ADD_EVENT'),
+				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => LanguageTranslator::translate('LBL_ADD_TASK'),
+				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -504,7 +504,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
 				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-				'linklabel' => LanguageTranslator::translate('LBL_ADD_RELATION'),
+				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -513,7 +513,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($relatedModel->get('label') === 'Documents') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => LanguageTranslator::translate('LBL_MASS_ADD', 'Documents'),
+				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'glyphicon glyphicon-plus',
 			];
@@ -526,7 +526,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 	public function getCurrencySymbol($recordId, $fieldModel)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $fieldModel->getModuleName();
 		$fieldName = $fieldModel->get('name');
 		$tableName = $fieldModel->get('table');

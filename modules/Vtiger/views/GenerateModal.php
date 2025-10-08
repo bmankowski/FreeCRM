@@ -1,19 +1,22 @@
 <?php
 
+
 /**
  * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		echo '<div class="generateMappingModal modal fade"><div class="modal-dialog"><div class="modal-content">';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
@@ -22,7 +25,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 		$recordId = $request->get('record');
 		$view = $request->get('fromview');
 		$viewer = $this->getViewer($request);
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mfModel = new $handlerClass();
 		if ($view == 'List') {
 			$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);

@@ -7,23 +7,23 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('include/events/SqlResultIterator.php');
+require_once(ROOT_DIRECTORY . '/src/events/SqlResultIterator.php');
 require_once('VTWorkflowManager.php');
 require_once('VTEntityCache.php');
 
-require_once 'include/Webservices/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once("modules/Users/Users.php");
 require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/utils/utils.php';
-require_once 'include/Webservices/ModuleTypes.php';
-require_once('include/Webservices/Retrieve.php');
-require_once('include/Webservices/Update.php');
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
+require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
+require_once(ROOT_DIRECTORY . '/src/Webservices/Retrieve.php');
+require_once(ROOT_DIRECTORY . '/src/Webservices/Update.php');
+require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
+require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
 require_once('VTWorkflowUtils.php');
 
 /*
@@ -42,7 +42,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 	{
 		$util = new VTWorkflowUtils();
 		$user = $util->adminUser();
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$isNew = $entityData->isNew();
 
 		if (!$entityCache) {

@@ -8,10 +8,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-require 'include/events/include.php';
-require_once 'include/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/events/include.php';
+require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
-class PBXManager extends CRMEntity
+class PBXManager extends \FreeCRM\CRMEntity
 {
 
 	protected $incominglinkLabel = 'Incoming Calls';
@@ -203,7 +203,7 @@ class PBXManager extends CRMEntity
 	public function addSettingsLinks()
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
 		$integrationBlockCount = $adb->num_rows($integrationBlock);
 
@@ -233,7 +233,7 @@ class PBXManager extends CRMEntity
 	public function removeSettingsLinks()
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
 		\App\Log::info('Settings Field Removed');
 	}
@@ -244,7 +244,7 @@ class PBXManager extends CRMEntity
 	public function addActionMapping()
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 
@@ -275,7 +275,7 @@ class PBXManager extends CRMEntity
 	public function removeActionMapping()
 	{
 
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 

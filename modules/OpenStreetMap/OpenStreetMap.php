@@ -16,7 +16,7 @@ class OpenStreetMap
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$db->update('vtiger_tab', ['customized' => 0], 'name = ?', [$moduleName]);
 			App\EventHandler::registerHandler('EntityAfterSave', 'OpenStreetMap_OpenStreetMapHandler_Handler', 'Accounts,Leads,Partners,Vendors,Competition,Contacts', '', 3);

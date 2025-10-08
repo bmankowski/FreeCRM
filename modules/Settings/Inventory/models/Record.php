@@ -6,7 +6,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_Inventory_Record_Model extends Vtiger_Base_Model
+class Settings_Inventory_Record_Model extends Vtiger_Record_Model
 {
 
 	public function __construct($values = [])

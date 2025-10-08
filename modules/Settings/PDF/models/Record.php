@@ -83,7 +83,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$data = [];
 		$fields = Settings_PDF_Module_Model::getFieldsByStep();

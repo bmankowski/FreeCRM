@@ -1,15 +1,18 @@
 <?php
 
+
 /**
  * Basic TreeView View Class
  * @package YetiForce.TreeView
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Vtiger_TreeRecords_View extends Vtiger_Index_View
 {
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -18,7 +21,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		return $pageTitle;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
@@ -32,7 +35,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request, $display = true)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -43,13 +46,13 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
-	protected function postProcessDisplay(Vtiger_Request $request)
+	protected function postProcessDisplay(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
@@ -79,7 +82,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
 
@@ -95,7 +98,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		return $scriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

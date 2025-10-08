@@ -61,7 +61,7 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
+		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
 		$instance = new $modelClassName();
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		return $instance->setModule($recordModel->getModule())->setRecord($recordModel);

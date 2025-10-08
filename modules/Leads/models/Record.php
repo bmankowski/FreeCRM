@@ -83,7 +83,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		$mappingFields = $this->get('mappingFields');
 
 		if (!$mappingFields) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$mappingFields = array();
 
 			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', array());

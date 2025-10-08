@@ -12,7 +12,7 @@
 /**
  * Sharng Access Vtiger Module Model Class
  */
-class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
+class Settings_SharingAccess_Rule_Model extends Vtiger_Record_Model
 {
 
 	const RULE_TYPE_GROUPS = 'GRP';
@@ -166,7 +166,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 	protected function getRuleComponents()
 	{
 		if (!isset($this->rule_details) && $this->getId()) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
 			$sourceType = $relationTypeComponents[0];
@@ -398,7 +398,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$ruleId = $this->getId();
 
 		$relationTypeComponents = explode('::', $this->get('relationtype'));
@@ -433,7 +433,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 	 */
 	public static function getAllByModule($moduleModel)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ?';
 		$params = array($moduleModel->getId());

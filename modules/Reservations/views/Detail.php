@@ -6,6 +6,8 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Reservations_Detail_View extends Vtiger_Detail_View
 {
 

@@ -16,7 +16,7 @@
  */
 function getSharedCalendarId($sharedid)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$query = "SELECT * from vtiger_sharedcalendar where sharedid=?";
 	$result = $adb->pquery($query, array($sharedid));
 	if ($adb->num_rows($result) != 0) {
@@ -77,8 +77,8 @@ function getActivityDetails($description, $user_id, $from = '')
 {
 	
 	$currentUser = vglobal('current_user');
-	$adb = PearDatabase::getInstance();
-	require_once 'include/utils/utils.php';
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 	$current_language = vglobal('current_language');
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
 	\App\Log::trace("Entering getActivityDetails(" . $description . ") method ...");
@@ -94,7 +94,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	$name = \App\Fields\Owner::getUserLabel($user_id);
 
 	// Show the start date and end date in the users date format and in his time zone
-	$inviteeUser = CRMEntity::getInstance('Users');
+	$inviteeUser = \FreeCRM\CRMEntity::getInstance('Users');
 	$inviteeUser->retrieveCurrentUserInfoFromFile($user_id);
 	$startDate = new DateTimeField($description['st_date_time']);
 	$endDate = new DateTimeField($description['end_date_time']);
@@ -143,7 +143,7 @@ function twoDigit($no)
 function calendarview_getSelectedUserId()
 {
 	$currentUser = Users_Privileges_Model::getCurrentUserModel();
-	$onlyForUser = htmlspecialchars(strip_tags(AppRequest::getForSql('onlyforuser')), ENT_QUOTES, AppConfig::main('default_charset'));
+	$onlyForUser = htmlspecialchars(strip_tags(\FreeCRM\Http\AppRequest::getForSql('onlyforuser')), ENT_QUOTES, AppConfig::main('default_charset'));
 	if ($onlyForUser == '')
 		$onlyForUser = $currentUser->id;
 	return $onlyForUser;
@@ -152,7 +152,7 @@ function calendarview_getSelectedUserId()
 function calendarview_getSelectedUserFilterQuerySuffix()
 {
 	$currentUser = Users_Privileges_Model::getCurrentUserModel();
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$onlyForUser = calendarview_getSelectedUserId();
 	$qcondition = '';
 	if (!empty($onlyForUser)) {

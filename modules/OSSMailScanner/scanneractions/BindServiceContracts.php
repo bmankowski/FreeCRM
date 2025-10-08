@@ -27,7 +27,7 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 		}
 
 		if (!empty($accountnumbers)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 
 			$query = 'SELECT servicecontractsid FROM vtiger_servicecontracts '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '

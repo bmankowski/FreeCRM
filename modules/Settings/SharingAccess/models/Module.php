@@ -84,7 +84,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';
 		$params = [$this->get('permission'), $this->getId()];
 		$db->pquery($sql, $params);
@@ -96,7 +96,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getInstance($value)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$instance = false;
 		$query = false;
 		if (vtlib\Utils::isNumber($value)) {
@@ -159,7 +159,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$phpMaxExecutionTime = vglobal('php_max_execution_time');
 		set_time_limit($phpMaxExecutionTime);
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);

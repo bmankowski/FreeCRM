@@ -200,8 +200,8 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
 		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
-		require_once ROOT_DIRECTORY . '/include/Webservices/Retrieve.php';
-		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		require_once ROOT_DIRECTORY . '/src/Webservices/Retrieve.php';
+		$workflows = (new VTWorkflowManager(\FreeCRM\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
@@ -246,7 +246,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$saveFull = true;
 
 		$db = \App\Db::getInstance();
-		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::has('field') && AppRequest::get('field') != 'shownerid') {
+		if (\FreeCRM\Http\AppRequest::get('action') == 'SaveAjax' && \FreeCRM\Http\AppRequest::has('field') && \FreeCRM\Http\AppRequest::get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {
@@ -278,7 +278,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$modulesSchema = [];
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
@@ -361,7 +361,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
@@ -397,7 +397,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
 			$query = sprintf($query, $relationInfo['rel'], $relationInfo['table'], $relationInfo['base']);

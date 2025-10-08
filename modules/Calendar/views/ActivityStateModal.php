@@ -7,10 +7,12 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Http\Vtiger_Request;
 class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
@@ -31,7 +33,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getScripts(Vtiger_Request $request)
+	public function getScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = array(

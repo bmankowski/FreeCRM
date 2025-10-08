@@ -19,12 +19,12 @@ class Vtiger_Inventory_Model
 	 */
 	public static function getInstance($moduleName)
 	{
-		$instance = Vtiger_Cache::get('Inventory', $moduleName);
+		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('Inventory', $moduleName);
 		if (!$instance) {
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Inventory', $moduleName);
+			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Inventory', $moduleName);
 			$instance = new $modelClassName();
 			$instance->initialize($moduleName);
-			Vtiger_Cache::set('Inventory', $moduleName, $instance);
+			\FreeCRM\Runtime\Vtiger_Cache::set('Inventory', $moduleName, $instance);
 		}
 		return $instance;
 	}
@@ -182,7 +182,7 @@ class Vtiger_Inventory_Model
 	public function createInventoryTables()
 	{
 		$db = \App\Db::getInstance();
-		$focus = CRMEntity::getInstance($this->name);
+		$focus = \FreeCRM\CRMEntity::getInstance($this->name);
 		$moduleLowerCase = strtolower($this->name);
 		$basetable = $focus->table_name;
 		$importer = new \App\Db\Importers\Base();

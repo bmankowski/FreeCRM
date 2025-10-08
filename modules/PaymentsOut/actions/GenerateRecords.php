@@ -18,7 +18,7 @@ class PaymentsOut_GenerateRecords_Action extends Vtiger_Action_Controller
 		$bag = false;
 		$paymentsOut = $request->get('paymentsOut');
 		foreach ($paymentsOut as $fields) {
-			$ossPaymentsOut = CRMEntity::getInstance($moduleName);
+			$ossPaymentsOut = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$ossPaymentsOut->column_fields['paymentsname'] = 'Name';
 			$ossPaymentsOut->column_fields['paymentsvalue'] = $fields['amount'];
 			$ossPaymentsOut->column_fields['paymentscurrency'] = $fields['third_letter_currency_code'];

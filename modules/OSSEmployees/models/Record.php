@@ -18,7 +18,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getEmployeeHierarchy()
 	{
-		$focus = CRMEntity::getInstance($this->getModuleName());
+		$focus = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getEmployeeHierarchy($this->getId());
 		$i = 0;
 		foreach ($hierarchy['entries'] as $employeeId => $employeeInfo) {
@@ -37,7 +37,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 
 	public function getHolidaysEntitlement($recordId, $year, $list = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		if (!$list)
 			$sql .= "AND year = $year;";
@@ -56,7 +56,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 
 	public function yearExist($recordId, $year)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT year FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		$parametry = array();
 		$result = $adb->pquery($sql, $parametry, true);
@@ -72,7 +72,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 
 	public function getHoliday($recordId, $year)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossholidays WHERE ossemployeesid= $recordId;";
 		$parametry = array();
 		$result = $adb->pquery($sql, $parametry, true);
@@ -127,7 +127,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 
 	public function checkUser($userId, $return_id = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_crmentity WHERE smownerid = ? && setype = ? && deleted = ?;";
 		$result = $adb->pquery($sql, array($userId, 'OSSEmployees', 0), true);
 		$num = $adb->num_rows($result);
@@ -150,7 +150,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 			return '';
 		}
 		$moduleModel = Vtiger_Record_Model::getInstanceById($employeeID, 'OSSEmployees');
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? ";

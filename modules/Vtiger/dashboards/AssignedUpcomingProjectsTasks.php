@@ -10,6 +10,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
+use FreeCRM\Http\Vtiger_Request;
+
 class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_View
 {
 

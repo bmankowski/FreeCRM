@@ -15,10 +15,10 @@
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
-AppConfig::iniSet('memory_limit', '512M');
+\FreeCRM\AppConfig::iniSet('memory_limit', '512M');
 
 // lifetime of session
-AppConfig::iniSet('session.gc_maxlifetime', '21600');
+\FreeCRM\AppConfig::iniSet('session.gc_maxlifetime', '21600');
 
 // show or hide calendar, world clock, calculator, chat and CKEditor 
 // Do NOT remove the quotes if you set these to false! 

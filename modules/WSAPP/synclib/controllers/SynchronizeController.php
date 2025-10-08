@@ -13,7 +13,7 @@ require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/TargetModel.php';
 
 require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/connectors/VtigerConnector.php';
 
-require_once 'include/database/PearDatabase.php';
+require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
 
 require_once ROOT_DIRECTORY . '/modules/WSAPP/api/ws/Register.php';
 
@@ -38,7 +38,7 @@ abstract class WSAPP_SynchronizeController
 	{
 		$this->targetConnector = $this->getTargetConnector();
 		$this->sourceConnector = $this->getSourceConnector();
-		$this->db = PearDatabase::getInstance();
+		$this->db = \FreeCRM\database\PearDatabase::getInstance();
 		$this->user = $user;
 	}
 

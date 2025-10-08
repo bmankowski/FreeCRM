@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class PBXManager_Server_Model extends Vtiger_Base_Model
+class PBXManager_Server_Model extends Vtiger_Record_Model
 {
 
 	const tableName = 'vtiger_pbxmanager_gateway';
@@ -41,7 +41,7 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 
 	public static function checkPermissionForOutgoingCall()
 	{
-		$permission = Vtiger_Cache::get('outgoingCall', 'PBXManager');
+		$permission = \FreeCRM\Runtime\Vtiger_Cache::get('outgoingCall', 'PBXManager');
 		if ($permission !== false) {
 			return $permission ? true : false;
 		}
@@ -52,10 +52,10 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 		$gateway = $serverModel->get('gateway');
 
 		if ($permission && $gateway) {
-			Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
+			\FreeCRM\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
 			return true;
 		} else {
-			Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
+			\FreeCRM\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
 			return false;
 		}
 	}

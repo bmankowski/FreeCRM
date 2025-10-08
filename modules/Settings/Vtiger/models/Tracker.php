@@ -21,7 +21,7 @@ class Settings_Vtiger_Tracker_Model
 	static function addBasic($type)
 	{
 		$db = App\Db::getInstance('log');
-		if ($type == 'view' && AppRequest::isAjax()) {
+		if ($type == 'view' && \FreeCRM\Http\AppRequest::isAjax()) {
 			self::lockTracking();
 		}
 		if (self::$id != false || self::$lockTrack) {
@@ -30,7 +30,7 @@ class Settings_Vtiger_Tracker_Model
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
 				'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId(),
 				'type' => self::$types[$type],
-				'module_name' => AppRequest::get('module'),
+				'module_name' => \FreeCRM\Http\AppRequest::get('module'),
 				'record_id' => self::$recordId ? self::$recordId : 0,
 				'date' => date('Y-m-d H:i:s'),
 				'action' => _PROCESS_NAME

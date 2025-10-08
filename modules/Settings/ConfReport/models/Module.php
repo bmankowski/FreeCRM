@@ -247,7 +247,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$directiveValues['mysql.connect_timeout']['status'] = true;
 			$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
 
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
 			if ($maxAllowedPacket < 16777216) {
@@ -360,7 +360,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$permissions = array();
-		require_once ROOT_DIRECTORY . '/include/utils/VtlibUtils.php';
+		require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
 			$isWriteable = vtlib_isWriteable($value);
 			if (!$isWriteable || !$onlyError) {

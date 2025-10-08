@@ -9,8 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('VTJsonCondition.php');
-require_once 'include/utils/ConfigReader.php';
-require_once 'include/runtime/Cache.php';
+require_once ROOT_DIRECTORY . '/src/utils/ConfigReader.php';
+require_once ROOT_DIRECTORY . '/src/runtime/Vtiger_Cache.php';
 
 class VTWorkflowManager
 {
@@ -426,7 +426,7 @@ class Workflow
 	public function setNextTriggerTime($time)
 	{
 		if ($time) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$db->pquery("UPDATE com_vtiger_workflows SET nexttrigger_time=? WHERE workflow_id=?", array($time, $this->id));
 			$this->nexttrigger_time = $time;
 		}

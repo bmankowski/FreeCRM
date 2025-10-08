@@ -29,9 +29,9 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes' || true === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->get('field')->getModuleName());
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->get('field')->getModuleName());
 		} else if ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
 		}
 
 		return $value;

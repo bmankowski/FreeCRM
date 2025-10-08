@@ -8,6 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+
+use FreeCRM\Http\Vtiger_Request;
 class Services_MoreCurrenciesList_View extends Products_MoreCurrenciesList_View
 {
 	
