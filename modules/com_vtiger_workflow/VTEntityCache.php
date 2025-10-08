@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/runtime/Vtiger_Cache.php';
+require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 
 class VTWorkflowEntity
 {

@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 require_once('VTJsonCondition.php');
 require_once ROOT_DIRECTORY . '/src/utils/ConfigReader.php';
-require_once ROOT_DIRECTORY . '/src/runtime/Vtiger_Cache.php';
+require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 
 class VTWorkflowManager
 {
