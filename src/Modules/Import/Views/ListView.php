@@ -12,9 +12,10 @@ namespace FreeCRM\Modules\Import\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-
 use FreeCRM\Http\Vtiger_Request;
-class List extends View
+use FreeCRM\Modules\Vtiger\Views\Popup;
+
+class ListView extends Popup
 {
 
 	protected $listViewEntries = false;

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import;
+namespace FreeCRM\Modules\Import\readers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Import;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Reader {
+class FileReader {
 
 	public $temp_status = 'success';
 	public $numberOfRecordsRead = 0;

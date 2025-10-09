@@ -1,6 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Import;
+namespace FreeCRM\Modules\Import\readers;
+
+use FreeCRM\Modules\Import\readers\FileReader;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +14,7 @@ namespace FreeCRM\Modules\Import;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Reader extends Reader
+class VCardReader extends FileReader
 {
 
 	protected $vCardPattern = '/BEGIN:VCARD.*?END:VCARD/si';

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import;
+namespace FreeCRM\Modules\Import\helpers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Import;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Helper {
+class Utils {
 
 	static $AUTO_MERGE_NONE = 0;
 	static $AUTO_MERGE_IGNORE = 1;

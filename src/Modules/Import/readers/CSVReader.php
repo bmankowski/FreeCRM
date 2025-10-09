@@ -1,6 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Import;
+namespace FreeCRM\Modules\Import\readers;
+
+use FreeCRM\Modules\Import\readers\FileReader;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +15,7 @@ namespace FreeCRM\Modules\Import;
  * *********************************************************************************** */
 AppConfig::iniSet("auto_detect_line_endings", true);
 
-class Reader extends Reader
+class CSVReader extends FileReader
 {
 
 	/**

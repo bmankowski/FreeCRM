@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import;
+namespace FreeCRM\Modules\Import\readers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Import;
 
 require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/ical-parser-class.php';
 
-class Reader extends iCal
+class ICSReader extends iCal
 {
 
 	/**

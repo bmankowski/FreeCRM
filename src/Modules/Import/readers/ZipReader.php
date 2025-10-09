@@ -1,6 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Import;
+namespace FreeCRM\Modules\Import\readers;
+
+use FreeCRM\Modules\Import\readers\FileReader;
 
 /**
  * ZipReader Class
@@ -8,7 +10,7 @@ namespace FreeCRM\Modules\Import;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Reader extends Reader
+class ZipReader extends FileReader
 {
 
 	protected $moduleName;

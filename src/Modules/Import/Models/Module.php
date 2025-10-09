@@ -156,7 +156,7 @@ class Module extends Model
 	{
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {
-			$modelClassName = \FreeCRM\\FreeCRM\Loader::getComponentClassName('Reader', $componentName, 'Import');
+			$modelClassName = \FreeCRM\Loader::getComponentClassName('Reader', $componentName, 'Import');
 			return new $modelClassName($request, $user);
 		}
 		return null;
