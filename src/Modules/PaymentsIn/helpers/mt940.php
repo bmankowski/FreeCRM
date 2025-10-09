@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PaymentsIn;
+namespace FreeCRM\Modules\PaymentsIn\helpers;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -44,7 +44,7 @@ class mt940 {
 	{
 		$xml = "<mt940>\n";
 		foreach (get_object_vars($this) as $key => $value) {
-			if ($key{0} != '_') {
+			if ($key[0] != '_') {
 				$xml .= $this->createXML($key, $value, 0);
 			}
 		}
@@ -188,7 +188,7 @@ class mt940 {
 		$tags = array();
 		$tmp = '';
 		foreach ($tab as $line) {
-			if ($line{0} == ':' && $tmp != '') {
+			if ($line[0] == ':' && $tmp != '') {
 				$tags[] = $tmp;
 				$tmp = '';
 			}
