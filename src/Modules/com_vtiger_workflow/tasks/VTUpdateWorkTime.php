@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
 
 class VTUpdateWorkTime extends VTTask
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
 
 /**
  * Watchdog Task Class
