@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar;
+namespace FreeCRM\Modules\Calendar\iCal;
 
-class iCal {
+class ICalParser {
 
 	public $folders;
 

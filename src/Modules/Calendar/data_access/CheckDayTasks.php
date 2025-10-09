@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar;
+namespace FreeCRM\Modules\Calendar\data_access;
 
 /**
  * Lock saving events after exceeding the limit
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Calendar;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class tasks {
+class CheckDayTasks {
 
 	public $config = true;
 

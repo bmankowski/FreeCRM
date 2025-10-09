@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Calendar;
  *
  * ****************************************************************************** */
 
-class DateTime {
+class Date {
 
 	public $second = 0;
 	public $minute = 0;

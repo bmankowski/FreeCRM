@@ -1,4 +1,6 @@
 <?php
+
+namespace FreeCRM\Modules\Calendar\iCal;
 // $Id: iCalendar_rfc2445.php,v 1.7 2005/07/21 23:23:48 defacer Exp $
 
 /*
@@ -113,9 +115,9 @@ function rfc2445_is_valid_value($value, $type)
 			}
 
 			if ($scheme === 'mailto') {
-				$regexp = '/^[a-zA-Z0-9]+[_a-zA-Z0-9\-]*(\.[_a-z0-9\-]+)*@(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.){3}[0-9]{1,3})$/';
+				$regexp = '/^[a-zA-Z0-9]+[_a-zA-Z0-9\-]*(\.[_a-z0-9\-]+)*@(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.)[3][0-9]{1,3})$/';
 			} else {
-				$regexp = '/^//(.+(:.*)?@)?(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.){3}[0-9]{1,3})(:[0-9]{1,5})?(/.*)?$/';
+				$regexp = '/^//(.+(:.*)?@)?(([0-9a-zA-Z\-]+\.)+[a-zA-Z][0-9a-zA-Z\-]+|([0-9]{1,3}\.)[3][0-9]{1,3})(:[0-9]{1,5})?(/.*)?$/';
 			}
 
 			return preg_match($regexp, $remain);
@@ -133,7 +135,7 @@ function rfc2445_is_valid_value($value, $type)
 			}
 
 			for ($i = 0; $i < $len; ++$i) {
-				$ch = $value{$i};
+				$ch = $value[$i];
 				if (!($ch >= 'a' && $ch <= 'z' || $ch >= 'A' && $ch <= 'Z' || $ch >= '0' && $ch <= '9' || $ch == '-' || $ch == '+')) {
 					if ($ch == '=' && $len - $i <= 2) {
 						continue;
@@ -181,7 +183,7 @@ function rfc2445_is_valid_value($value, $type)
 				return false;
 			}
 
-			return($value{8} == 'T' &&
+			return($value[8] == 'T' &&
 				rfc2445_is_valid_value(substr($value, 0, 8), RFC2445_TYPE_DATE) &&
 				rfc2445_is_valid_value(substr($value, 9), RFC2445_TYPE_TIME));
 			break;
@@ -198,12 +200,12 @@ function rfc2445_is_valid_value($value, $type)
 				return false;
 			}
 
-			if ($value{0} == '+' || $value{0} == '-') {
+			if ($value[0] == '+' || $value[0] == '-') {
 				$value = substr($value, 1);
 				--$len; // Don't forget to update this!
 			}
 
-			if ($value{0} != 'P') {
+			if ($value[0] != 'P') {
 				return false;
 			}
 
@@ -212,7 +214,7 @@ function rfc2445_is_valid_value($value, $type)
 			$allowed = 'WDT';
 
 			for ($i = 1; $i < $len; ++$i) {
-				$ch = $value{$i};
+				$ch = $value[$i];
 				if ($ch >= '0' && $ch <= '9') {
 					$num .= $ch;
 					continue;
@@ -278,7 +280,7 @@ function rfc2445_is_valid_value($value, $type)
 			$int = false;
 			$len = strlen($value);
 			for ($i = 0; $i < $len; ++$i) {
-				switch ($value{$i}) {
+				switch ($value[$i]) {
 					case '-': case '+':
 						// A sign can only be seen at position 0 and cannot be the only char
 						if ($i != 0 || $len == 1) {
@@ -318,7 +320,7 @@ function rfc2445_is_valid_value($value, $type)
 				return false;
 			}
 
-			if ($value{0} == '+' || $value{0} == '-') {
+			if ($value[0] == '+' || $value[0] == '-') {
 				if (strlen($value) == 1) {
 					return false;
 				}
@@ -352,7 +354,7 @@ function rfc2445_is_valid_value($value, $type)
 				return ($parts[1] > $parts[0]);
 			} else if (rfc2445_is_valid_value($parts[1], RFC2445_TYPE_DURATION)) {
 				// The period MUST NOT be negative
-				return ($parts[1]{0} != '-');
+				return ($parts[1][0] != '-');
 			}
 
 			// It seems to be illegal
@@ -714,7 +716,7 @@ function rfc2445_is_valid_value($value, $type)
 				return false;
 			}
 
-			if ($value{0} != '+' && $value{0} != '-') {
+			if ($value[0] != '+' && $value[0] != '-') {
 				return false;
 			}
 

@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Calendar\Handlers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Handler {
+class CalendarHandler {
 
 	const UPDATE_FIELDS = ['link', 'process', 'subprocess'];
 

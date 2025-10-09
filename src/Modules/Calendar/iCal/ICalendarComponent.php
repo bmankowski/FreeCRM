@@ -1,11 +1,11 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar;
+namespace FreeCRM\Modules\Calendar\iCal;
 
 // $Id: iCalendar_components.php,v 1.8 2005/07/21 22:31:44 defacer Exp $
 require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
 
-class component {
+class ICalendarComponent {
 
 	public $name = NULL;
 	public $properties = NULL;

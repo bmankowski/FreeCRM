@@ -1,4 +1,6 @@
 <?php
+
+namespace FreeCRM\Modules\Calendar\cron;
 /**
  * @package YetiForce.Cron
  * @license licenses/License.html
