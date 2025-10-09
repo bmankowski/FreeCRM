@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP;
+namespace FreeCRM\Modules\WSAPP\synclib\connectors;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
