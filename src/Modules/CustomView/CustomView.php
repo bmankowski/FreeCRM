@@ -235,7 +235,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \FreeCRM\\FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$columnlist = $handler->getColumnList();
@@ -274,7 +274,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		} else {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \FreeCRM\\FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$stdfilterrow = $handler->getStdCriteria();
@@ -327,7 +327,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		if (!is_numeric($cvid)) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \FreeCRM\\FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$advftCriteria = $handler->getAdvftCriteria($this);

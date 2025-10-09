@@ -1,4 +1,7 @@
 <?php
+
+namespace FreeCRM\Modules\CustomView\Views;
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -11,7 +14,7 @@
 
 use FreeCRM\Http\Vtiger_Request;
 
-Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
+class EditAjax extends \FreeCRM\Modules\Vtiger\Views\IndexAjax
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)

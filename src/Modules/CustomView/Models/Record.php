@@ -2,6 +2,8 @@
 
 namespace FreeCRM\Modules\CustomView\Models;
 
+use FreeCRM\Modules\Vtiger\Models\CustomView as Model;
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -877,7 +879,7 @@ class Record extends Model
 			$filters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
 			foreach ($filters as $filter) {
 				$name = str_replace('.php', '', $filter->getFilename());
-				$handlerClass = \FreeCRM\\FreeCRM\Loader::getComponentClassName('Filter', $name, $moduleName);
+				$handlerClass = \FreeCRM\Loader::getComponentClassName('Filter', $name, $moduleName);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$view['viewname'] = $handler->getViewName();
