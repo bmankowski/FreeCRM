@@ -1,0 +1,40 @@
+<?php
+
+namespace FreeCRM\Modules\OpenStreetMap\Models;
+
+/**
+ * Module Model
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
+
+use FreeCRM\AppConfig;
+class Module extends Model
+{
+
+	/**
+	 * Check if module is allowed
+	 * @param string $moduleName
+	 * @return boolean
+	 */
+	public function isAllowModules($moduleName)
+	{
+		return in_array($moduleName, \FreeCRM\AppConfig::module($this->getName(), 'ALLOW_MODULES'));
+	}
+
+	/**
+	 * Function to get allow modules with checking permissions
+	 * @return array
+	 */
+	public function getAllowedModules()
+	{
+		$allAllowedModules = \FreeCRM\AppConfig::module($this->getName(), 'ALLOW_MODULES');
+		foreach ($allAllowedModules as $key => $moduleName) {
+			if (!\App\Privilege::isPermitted($moduleName)) {
+				unset($allAllowedModules[$key]);
+			}
+		}
+		return $allAllowedModules;
+	}
+}
