@@ -34,31 +34,31 @@ class Vtiger_Save_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
-		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
-			$baseUserId = Vtiger_Session::get('baseUserId');
-			$user = new Users();
+		if (\FreeCRM\Http\Vtiger_Session::has('baseUserId') && !empty(\FreeCRM\Http\Vtiger_Session::get('baseUserId'))) {
+			$baseUserId = \FreeCRM\Http\Vtiger_Session::get('baseUserId');
+			$user = new \Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($baseUserId);
+			\App\User::setCurrentUserId($baseUserId);
 		}
 	}
 
-	public function preProcessAjax(Vtiger_Request $request)
+	public function preProcessAjax(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		parent::preProcessAjax($request);
-		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
-			$baseUserId = Vtiger_Session::get('baseUserId');
-			$user = new Users();
+		if (\FreeCRM\Http\Vtiger_Session::has('baseUserId') && !empty(\FreeCRM\Http\Vtiger_Session::get('baseUserId'))) {
+			$baseUserId = \FreeCRM\Http\Vtiger_Session::get('baseUserId');
+			$user = new \Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($baseUserId);
+			\App\User::setCurrentUserId($baseUserId);
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->get('relationOperation')) {
@@ -76,18 +76,18 @@ class Vtiger_Save_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		define('_PROCESS_TYPE', 'View');
 		define('_PROCESS_NAME', 'Detail');
 		$request->set('view', 'Detail');
 		$request->delete('action');
-		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
-			$userId = Vtiger_Session::get('authenticated_user_id');
-			$user = new Users();
+		if (\FreeCRM\Http\Vtiger_Session::has('baseUserId') && !empty(\FreeCRM\Http\Vtiger_Session::get('baseUserId'))) {
+			$userId = \FreeCRM\Http\Vtiger_Session::get('authenticated_user_id');
+			$user = new \Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($userId);
+			\App\User::setCurrentUserId($userId);
 		}
 		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('View', 'Detail', $request->getModule());
 		$handler = new $handlerClass();
@@ -103,10 +103,10 @@ class Vtiger_Save_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to save record
-	 * @param Vtiger_Request $request - values of the record
+	 * @param \FreeCRM\Http\Vtiger_Request $request - values of the record
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(Vtiger_Request $request)
+	public function saveRecord(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
@@ -133,10 +133,10 @@ class Vtiger_Save_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \FreeCRM\Http\Vtiger_Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	protected function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -164,7 +164,7 @@ class Vtiger_Save_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return $recordModel;
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return $request->validateWriteAccess();
 	}
