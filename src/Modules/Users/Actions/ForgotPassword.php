@@ -19,7 +19,7 @@ include_once ROOT_DIRECTORY . "/src/Webservices/Custom/ChangePassword.php";
 include_once ROOT_DIRECTORY . "/src/Webservices/Utils.php";
 include_once 'modules/Vtiger/helpers/ShortURL.php';
 
-class Action {
+class ForgotPassword {
 
 	public function changePassword(Vtiger_Request $request)
 	{

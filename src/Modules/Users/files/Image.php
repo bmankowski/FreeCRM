@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users;
+namespace FreeCRM\Modules\Users\files;
 
 /*
  * Basic class to handle files
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users;
 /**
  * Basic class to handle files
  */
-class File {
+class Image {
 
 	public function getCheckPermission(Vtiger_Request $request)
 	{

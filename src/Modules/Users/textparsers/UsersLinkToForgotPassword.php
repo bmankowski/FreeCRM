@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users;
+namespace FreeCRM\Modules\Users\textparsers;
 
 /**
  * Users link to forgot password parser class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Users;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TextParser extends \App\TextParser\Base
+class UsersLinkToForgotPassword extends \App\TextParser\Base
 {
 
 	/** @var string Class name */

@@ -12,9 +12,10 @@ namespace FreeCRM\Modules\Users\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-
 use FreeCRM\Http\Vtiger_Request;
-class List extends View
+use FreeCRM\Modules\Settings\Vtiger\Views\ListView as SettingsListView;
+
+class ListView extends SettingsListView
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)

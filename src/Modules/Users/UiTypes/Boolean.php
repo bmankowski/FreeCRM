@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Users\UiTypes;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class UIType extends UIType
+class Boolean extends \FreeCRM\Modules\Vtiger\UiTypes\Base
 {
 
 	public function getDBValue($value, $recordModel = false)

@@ -53,7 +53,7 @@ class Module extends Model
 			$matchingRecords = array();
 			for ($i = 0; $i < $noOfRows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
-				$modelClassName = \FreeCRM\\FreeCRM\Loader::getComponentClassName('Model', 'Record', 'Users');
+				$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users\Handlers;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Handler {
+class ForgotPassword {
 
 	public function changePassword($data)
 	{
