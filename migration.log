@@ -1,0 +1,4 @@
+=== FreeCRM Universal PSR-4 Migration Log v2.0 ===
+[0;34m[2025-10-03 12:55:53][0m Migrating: include/main/WebUI.php
+[0;34m[2025-10-03 12:55:53][0m Class: WebUI  -> Namespace: Vtiger\Core, New name: WebUI 
+[0;34m[2025-10-03 12:55:53][0m DRY RUN: Would migrate WebUI  to Vtiger\Core\WebUI 

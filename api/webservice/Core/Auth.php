@@ -1,6 +1,6 @@
 <?php
 namespace Api\Core;
-
+use FreeCRM\AppConfig;
 /**
  * API Authorization class
  * @package YetiForce.WebserviceAuth
@@ -14,7 +14,7 @@ class Auth
 
 	public static function init($self)
 	{
-		$method = \AppConfig::api('AUTH_METHOD');
+		$method = AppConfig::api('AUTH_METHOD');
 		$class = "Api\Core\Auth\\$method";
 		$intance = new $class();
 		$intance->setApi($self);

@@ -1,0 +1,67 @@
+---
+title: FreeCRM Architecture Guidelines
+apply: agent-requested
+---
+
+# FreeCRM Architecture
+
+## Directory Structure
+
+### `/src/` - FreeCRM Core
+Main application code using `FreeCRM\` namespace:
+- `/src/EntryPoint/` - Application entry points (WebUI, API, etc.)
+- `/src/Rector/` - Code refactoring rules
+- Follow domain-driven design principles for new features
+
+### `/include/` - Legacy Runtime
+Legacy runtime files and utilities:
+- Core runtime files (autoloaded via composer.json)
+- CRMEntity and other base classes
+- Maintain for backward compatibility
+
+### `/vtlib/` - Legacy Compatibility Layer
+Vtiger compatibility layer:
+- Namespace: `vtlib\`
+- Keep for module compatibility
+- Do not extend for new features
+
+### `/modules/` - CRM Modules
+Business logic modules (Accounts, Contacts, etc.):
+- Each module is a separate directory
+- Contains models, views, and controllers
+- Legacy structure but still actively used
+
+### `/api/` - Web Services
+REST and SOAP APIs:
+- Namespace: `Api\`
+- Modern API implementations should go here
+
+## Design Principles
+
+1. **Separation of Concerns**: Keep business logic, presentation, and data access separate
+2. **Dependency Injection**: Use Yii2's DI container for service management
+3. **Event-Driven**: Leverage Yii2 events for extensibility
+4. **Database Agnostic**: Use Yii2's ActiveRecord or Query Builder
+5. **Security First**: Validate and sanitize all inputs
+
+## Framework Integration
+
+### Yii2 Framework
+- Primary framework for new development
+- Use Yii2 components (validators, helpers, etc.)
+- Follow Yii2 conventions and best practices
+
+### Smarty Templates
+- Legacy template engine (still in use)
+- New UI components should consider modern alternatives
+- Located in `/layouts/` directory
+
+## Module Development
+
+When creating new modules:
+1. Use FreeCRM namespace for core logic
+2. Follow existing module structure for compatibility
+3. Register via vtlib for CRM integration
+4. Provide proper permissions and access control
+5. Document module dependencies
+

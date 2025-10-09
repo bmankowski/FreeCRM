@@ -74,6 +74,7 @@ class ComposerStaticInitYT
         ),
         'F' => 
         array (
+            'FreeCRM\\Modules\\' => 16,
             'FreeCRM\\' => 8,
         ),
         'E' => 
@@ -135,6 +136,10 @@ class ComposerStaticInitYT
         'Linfo\\' => 
         array (
             0 => __DIR__ . '/..' . '/linfo/linfo/src/Linfo',
+        ),
+        'FreeCRM\\Modules\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Modules',
         ),
         'FreeCRM\\' => 
         array (

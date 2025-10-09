@@ -16,6 +16,7 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Linfo\\' => array($vendorDir . '/linfo/linfo/src/Linfo'),
+    'FreeCRM\\Modules\\' => array($baseDir . '/src/Modules'),
     'FreeCRM\\' => array($baseDir . '/src'),
     'Exception\\' => array($baseDir . '/src/exceptions'),
     'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/src'),

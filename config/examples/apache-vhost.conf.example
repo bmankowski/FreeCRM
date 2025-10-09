@@ -1,0 +1,79 @@
+# Apache VirtualHost Configuration for FreeCRM
+# Copy this file and customize for your environment
+# 
+# On Debian/Ubuntu: /etc/apache2/sites-available/freecrm.conf
+# Then run: sudo a2ensite freecrm && sudo systemctl reload apache2
+
+<VirtualHost *:80>
+    ServerName localhost
+    ServerAdmin admin@localhost
+    
+    # Document root points to the public directory ONLY
+    DocumentRoot /home/bmankowski/projects/FreeCRM/public
+    
+    # Public directory configuration
+    <Directory /home/bmankowski/projects/FreeCRM/public>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+        
+        # Enable .htaccess for rewrites and settings
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+        </IfModule>
+    </Directory>
+    
+    # Explicitly deny access to all parent directories
+    <Directory /home/bmankowski/projects/FreeCRM>
+        Require all denied
+    </Directory>
+    
+    # Re-enable access to public directory (overrides parent deny)
+    <Directory /home/bmankowski/projects/FreeCRM/public>
+        Require all granted
+    </Directory>
+    
+    # Deny access to git and other sensitive files
+    <DirectoryMatch "\.git">
+        Require all denied
+    </DirectoryMatch>
+    
+    # Logging
+    ErrorLog ${APACHE_LOG_DIR}/freecrm_error.log
+    CustomLog ${APACHE_LOG_DIR}/freecrm_access.log combined
+    
+    # Optional: Increase timeout for long-running requests
+    TimeOut 300
+</VirtualHost>
+
+# SSL Configuration (recommended for production)
+# Uncomment and configure after obtaining SSL certificate
+#<VirtualHost *:443>
+#    ServerName freecrm.local
+#    ServerAdmin admin@freecrm.local
+#    
+#    DocumentRoot /home/bmankowski/projects/FreeCRM/public
+#    
+#    <Directory /home/bmankowski/projects/FreeCRM/public>
+#        Options -Indexes +FollowSymLinks
+#        AllowOverride All
+#        Require all granted
+#    </Directory>
+#    
+#    <Directory /home/bmankowski/projects/FreeCRM>
+#        Require all denied
+#    </Directory>
+#    
+#    <Directory /home/bmankowski/projects/FreeCRM/public>
+#        Require all granted
+#    </Directory>
+#    
+#    SSLEngine on
+#    SSLCertificateFile /path/to/certificate.crt
+#    SSLCertificateKeyFile /path/to/private.key
+#    SSLCertificateChainFile /path/to/chain.crt
+#    
+#    ErrorLog ${APACHE_LOG_DIR}/freecrm_ssl_error.log
+#    CustomLog ${APACHE_LOG_DIR}/freecrm_ssl_access.log combined
+#</VirtualHost>
+
