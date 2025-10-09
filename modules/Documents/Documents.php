@@ -88,7 +88,7 @@ class Documents extends \FreeCRM\CRMEntity
 		\App\Log::trace('Entering getOrderBy() method ...');
 
 		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -124,7 +124,7 @@ class Documents extends \FreeCRM\CRMEntity
 	public function getOrderByForFolder($folderId)
 	{
 		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 		if (\FreeCRM\Http\AppRequest::has('order_by') && \FreeCRM\Http\AppRequest::get('folderid') == $folderId) {

@@ -20,7 +20,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 		$this->exposeMethod('deleteRecords');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		if ($request->get('mode') == 'emptyRecycleBin') {
 			//we dont check for permissions since recylebin axis will not be there for non admin users

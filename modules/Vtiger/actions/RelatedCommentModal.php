@@ -6,10 +6,10 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
+class Vtiger_RelatedCommentModal_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

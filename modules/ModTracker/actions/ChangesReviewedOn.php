@@ -6,10 +6,10 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
+class ModTracker_ChangesReviewedOn_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$sourceModule = $request->get('sourceModule');
@@ -70,7 +70,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$request->set('module', $sourceModule);
 		$result = false;
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		if (is_array($recordsList) && count($recordsList) > AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
+		if (is_array($recordsList) && count($recordsList) > \FreeCRM\AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
 			$params = $request->get('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params'] : ['selected_ids'];
 			foreach ($params as $variable) {
 				if ($request->has($variable)) {

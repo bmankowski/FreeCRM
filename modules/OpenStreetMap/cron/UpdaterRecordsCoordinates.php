@@ -6,7 +6,7 @@
  */
 $db = App\Db::getInstance();
 $dataReader = (new App\Db\Query())->from('u_#__openstreetmap_record_updater')
-		->limit(AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+		->limit(\FreeCRM\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$typeAddress = $row['type'];

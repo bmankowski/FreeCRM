@@ -12,7 +12,7 @@
 class Users_MassSave_Action extends Vtiger_MassSave_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {

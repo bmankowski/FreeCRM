@@ -321,7 +321,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		createUserPrivilegesfile($recordModel->getId());
 		createUserSharingPrivilegesfile($recordModel->getId());
 
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\FreeCRM\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
 		}
 		return $recordModel;

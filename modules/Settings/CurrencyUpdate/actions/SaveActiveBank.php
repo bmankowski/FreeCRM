@@ -5,10 +5,10 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class Settings_CurrencyUpdate_SaveActiveBank_Action extends Vtiger_Action_Controller
+class Settings_CurrencyUpdate_SaveActiveBank_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}

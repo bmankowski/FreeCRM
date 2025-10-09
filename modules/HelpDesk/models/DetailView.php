@@ -62,7 +62,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
 			];
 		}
 		return $relatedLinks;

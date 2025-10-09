@@ -112,7 +112,7 @@ class IStorages extends Vtiger_CRMEntity
 		$listviewHeader = [];
 		$listviewEntries = [];
 
-		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \FreeCRM\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -157,7 +157,7 @@ class IStorages extends Vtiger_CRMEntity
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
-		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \FreeCRM\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -213,7 +213,7 @@ class IStorages extends Vtiger_CRMEntity
 
 		\App\Log::trace('Entering getParentIStorages(' . $id . ') method ...');
 
-		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \FreeCRM\AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParentIStorages method ... - exceeded maximum depth of hierarchy');
 			return $parentIStorages;
 		}
@@ -247,7 +247,7 @@ class IStorages extends Vtiger_CRMEntity
 			}
 
 			$parentIStorageInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = \FreeCRM\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
@@ -280,7 +280,7 @@ class IStorages extends Vtiger_CRMEntity
 
 		\App\Log::trace('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 
-		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \FreeCRM\AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
 			return $childIStorages;
 		}
@@ -297,7 +297,7 @@ class IStorages extends Vtiger_CRMEntity
 			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
 
 		$res = $adb->pquery($query, [$id]);
-		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \FreeCRM\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;

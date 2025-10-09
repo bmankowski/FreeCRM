@@ -13,7 +13,7 @@ if ($lastUpdatedCrmId !== false) {
 	$dataReader = (new App\Db\Query())->select(['crmid', 'setype', 'deleted'])
 			->from('vtiger_crmentity')
 			->where(['>', 'crmid', $lastUpdatedCrmId])
-			->limit(AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+			->limit(\FreeCRM\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 			->createCommand()->query();
 	$moduleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
 	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();

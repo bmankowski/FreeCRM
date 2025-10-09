@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Import_Lock_Action extends Vtiger_Action_Controller
+class Import_Lock_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()

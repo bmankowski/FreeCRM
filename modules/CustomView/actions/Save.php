@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CustomView_Save_Action extends Vtiger_Action_Controller
+class CustomView_Save_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function process(Vtiger_Request $request)

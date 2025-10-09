@@ -48,7 +48,7 @@ class API_CalDAV_Model
 			$accessibleGroups = \App\Fields\Owner::getInstance(false, $user)->getAccessibleGroups();
 			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || isset($accessibleGroups[$this->record['smownerid']])) {
 				$sync = true;
-				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
+				$exclusion = \FreeCRM\AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($this->record[$key] == $value) {
@@ -122,8 +122,8 @@ class API_CalDAV_Model
 		if (!empty($record['description'])) {
 			$component->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
 		}
-		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
-			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
+		if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
 		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
@@ -191,8 +191,8 @@ class API_CalDAV_Model
 			$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
 			$vcalendar->add($vTimeZone);
 		}
-		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
-			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
+		if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
@@ -321,7 +321,7 @@ class API_CalDAV_Model
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
-				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
+				$exclusion = \FreeCRM\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
@@ -330,8 +330,8 @@ class API_CalDAV_Model
 						}
 					}
 				}
-				if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
-					$record->set('visibility', AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
+				if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
+					$record->set('visibility', \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
 
@@ -383,7 +383,7 @@ class API_CalDAV_Model
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
-				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
+				$exclusion = \FreeCRM\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
@@ -392,8 +392,8 @@ class API_CalDAV_Model
 						}
 					}
 				}
-				if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
-					$record->set('visibility', AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
+				if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
+					$record->set('visibility', \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
 				$db = \FreeCRM\database\PearDatabase::getInstance();

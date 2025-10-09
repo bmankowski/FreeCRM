@@ -9,10 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller
+class PriceBooks_ProductListPrice_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {

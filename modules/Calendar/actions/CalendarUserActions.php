@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
+class Calendar_CalendarUserActions_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -19,7 +19,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('addCalendarView');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

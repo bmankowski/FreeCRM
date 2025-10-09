@@ -105,7 +105,7 @@ class Settings_ModuleManager_Library_Model
 			return false;
 		}
 		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.zip';
-		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
+		$mode = \FreeCRM\AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
 			stream_context_set_default([

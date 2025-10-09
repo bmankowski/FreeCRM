@@ -17,7 +17,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

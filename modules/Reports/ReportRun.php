@@ -693,7 +693,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 		global $ogReport;
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
-		$default_charset = AppConfig::main('default_charset');
+		$default_charset = \FreeCRM\AppConfig::main('default_charset');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
 		$value_len = strlen($value);
 		$is_field = false;

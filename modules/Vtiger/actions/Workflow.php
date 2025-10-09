@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Vtiger_Workflow_Action extends Vtiger_Action_Controller
+class Vtiger_Workflow_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -18,7 +18,7 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('execute');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

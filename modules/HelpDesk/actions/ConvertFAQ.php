@@ -8,10 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
+class HelpDesk_ConvertFAQ_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordPermission = Users_Privileges_Model::isPermitted('Faq', 'EditView');
 

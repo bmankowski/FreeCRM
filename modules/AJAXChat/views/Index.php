@@ -27,7 +27,7 @@ class AJAXChat_Index_View extends Vtiger_Basic_View
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$shortURL = str_replace('index.php', '', AppConfig::main('site_URL'));
+		$shortURL = str_replace('index.php', '', \FreeCRM\AppConfig::main('site_URL'));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('URLCSS', $shortURL . Yeti_Layout::getLayoutFile('modules/AJAXChat/Chat.css'));
 		$viewer->assign('URL', $shortURL . "libraries/AJAXChat/index.php");

@@ -147,7 +147,7 @@ class Vtiger_Export_Model extends Vtiger_Record_Model
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($mode) {
 			case 'ExportAllData' :
-				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(\FreeCRM\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 
 			case 'ExportCurrentPage' :
@@ -175,7 +175,7 @@ class Vtiger_Export_Model extends Vtiger_Record_Model
 				} else {
 					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->get('excluded_ids')]);
 				}
-				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(\FreeCRM\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 		}
 		return $query;

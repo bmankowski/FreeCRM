@@ -12,7 +12,7 @@
 class Settings_DataAccess_DeleteTemplate_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return;
 	}

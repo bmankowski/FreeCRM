@@ -13,7 +13,7 @@ use FreeCRM\Http\Vtiger_Request;
 class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('source_module');
 		$recordId = $request->get('record');

@@ -29,12 +29,12 @@ class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 			$fields = array_merge($fields, $fildsInBlock);
 		}
 		$showFields = array_keys($recordModel->getModule()->getQuickCreateFields());
-		$configureFields = AppConfig::module($moduleName, 'SHOW_FIELD_IN_MODAL');
+		$configureFields = \FreeCRM\AppConfig::module($moduleName, 'SHOW_FIELD_IN_MODAL');
 		if($configureFields){
 			$showFields = array_merge($showFields, $configureFields);
 		}
 
-		$relationData = AppConfig::module($moduleName, 'SHOW_RELATION_IN_MODAL');
+		$relationData = \FreeCRM\AppConfig::module($moduleName, 'SHOW_RELATION_IN_MODAL');
 		$relationsModules = [];
 		$relationModels = [];
 		if ($relationData) {
@@ -53,7 +53,7 @@ class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 				}
 			}
 		}
-		$hierarchy = AppConfig::module($moduleName, 'SHOW_HIERARCHY_IN_MODAL');
+		$hierarchy = \FreeCRM\AppConfig::module($moduleName, 'SHOW_HIERARCHY_IN_MODAL');
 		$hierarchyId = '';
 		if ($hierarchy !== false) {
 			$hierarchyModuleName = 'Accounts';

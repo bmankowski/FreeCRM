@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Queue_Action extends Vtiger_Action_Controller
+class Import_Queue_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	static $IMPORT_STATUS_NONE = 0;

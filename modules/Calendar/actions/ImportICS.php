@@ -15,10 +15,10 @@ require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_parameters.php';
 require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/ical-parser-class.php';
 require_once ROOT_DIRECTORY . '/modules/Calendar/iCalLastImport.php';
 
-class Calendar_ImportICS_Action extends Vtiger_Action_Controller
+class Calendar_ImportICS_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

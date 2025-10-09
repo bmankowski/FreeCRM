@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
+class ModTracker_LastRelation_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -14,12 +14,12 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 		$records = $request->get('recordsId');
 		if (!empty($sourceModule)) {
-			if (!in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			if (!in_array($sourceModule, \FreeCRM\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 			foreach ($records as $key => $recordId) {

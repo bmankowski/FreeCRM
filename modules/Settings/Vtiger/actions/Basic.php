@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
+class Settings_Vtiger_Basic_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -17,7 +17,7 @@ class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('updateFieldPinnedStatus');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {

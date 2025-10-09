@@ -41,7 +41,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$focus = \FreeCRM\CRMEntity::getInstance($hierarchyModuleName);
 		$hierarchy = $focus->getAccountHierarchy($recordId, $fields);
 
-		$classFunction = AppConfig::module($moduleName, 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = \FreeCRM\AppConfig::module($moduleName, 'RENEWAL_CUSTOMER_FUNCTION');
 		$accountIds = [];
 		$check = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['hierarchy'])) {

@@ -9,10 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class PBXManager_OutgoingCall_Action extends Vtiger_Action_Controller
+class PBXManager_OutgoingCall_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());

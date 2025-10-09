@@ -9,10 +9,10 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
+class Vtiger_ProcessDuplicates_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$records = $request->get('records');

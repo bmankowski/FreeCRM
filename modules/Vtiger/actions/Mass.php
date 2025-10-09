@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
+abstract class Vtiger_Mass_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public static function getRecordsListFromRequest(Vtiger_Request $request)

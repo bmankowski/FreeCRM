@@ -59,7 +59,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$value = App\Purifier::purify(vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPreValue', $value);
@@ -77,7 +77,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = vtlib\Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$value = App\Purifier::purify(vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPostValue', $value);

@@ -7,10 +7,10 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
-class Notification_Notification_Action extends Vtiger_Action_Controller
+class Notification_Notification_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('id');
 		if (!empty($id)) {

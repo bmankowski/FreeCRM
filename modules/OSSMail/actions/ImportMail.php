@@ -9,10 +9,10 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSMail_ImportMail_Action extends Vtiger_Action_Controller
+class OSSMail_ImportMail_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');

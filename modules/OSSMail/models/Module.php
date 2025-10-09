@@ -106,7 +106,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		}
 		if (!empty($moduleName)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$moduleConfig = AppConfig::module($moduleName);
+			$moduleConfig = \FreeCRM\AppConfig::module($moduleName);
 			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
 				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
 			}
@@ -238,7 +238,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
-		$mailtoLimit = AppConfig::module('Mail', 'MAILTO_LIMIT');
+		$mailtoLimit = \FreeCRM\AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
 			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;

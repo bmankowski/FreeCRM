@@ -50,7 +50,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$listInstance->getQueryGenerator()->addCondition('id', $excludedIds, 'n');
 		}
 		$query = $listInstance->getQueryGenerator()->createQuery();
-		$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+		$query->limit(\FreeCRM\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 		$fields = array_values($query->select);
 		$query->select($fields);
 		return $query;

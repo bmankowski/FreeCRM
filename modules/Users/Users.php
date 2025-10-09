@@ -139,7 +139,7 @@ class Users extends \FreeCRM\CRMEntity
 		\App\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -346,7 +346,7 @@ class Users extends \FreeCRM\CRMEntity
 	public function getCryptType()
 	{
 		$crypt_res = null;
-		$crypt_type = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$crypt_type = \FreeCRM\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if (isset($this->id)) {
 			// Get the type of crypt used on password before actual comparision
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where id=?";
@@ -390,7 +390,7 @@ class Users extends \FreeCRM\CRMEntity
 			}
 		}
 		//set new password
-		$crypt_type = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$crypt_type = \FreeCRM\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		$encryptedNewPassword = $this->encrypt_password($newPassword, $crypt_type);
 
 		\App\Db::getInstance()->createCommand()->update($this->table_name, [
@@ -432,7 +432,7 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function retrieve_user_id($userName)
 	{
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\FreeCRM\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('userName');
 			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
 				return $users[$userName]['id'];
@@ -851,7 +851,7 @@ class Users extends \FreeCRM\CRMEntity
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
 		} else {
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\FreeCRM\AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
 					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {

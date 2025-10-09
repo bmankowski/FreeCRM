@@ -15,7 +15,7 @@ use FreeCRM\CRMEntity;
 use FreeCRM\AppConfig;
 use FreeCRM\Http\Vtiger_Session;
 
-class Users_Login_Action extends Vtiger_Action_Controller
+class Users_Login_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function loginRequired()
@@ -23,7 +23,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		return false;
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
@@ -49,16 +49,16 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		$user = \FreeCRM\CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $username;
 		if (!empty($password) && $user->doLogin($password)) {
-			if (AppConfig::main('session_regenerate_id')) {
+			if (\FreeCRM\AppConfig::main('session_regenerate_id')) {
 				Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 			}
 			$userId = $user->column_fields['id'];
 			Vtiger_Session::set('authenticated_user_id', $userId);
-			Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
+			Vtiger_Session::set('app_unique_key', \FreeCRM\AppConfig::main('application_unique_key'));
 			Vtiger_Session::set('user_name', $username);
 			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 
-			if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
+			if ($request->has('loginLanguage') && \FreeCRM\AppConfig::main('langInLoginView')) {
 				Vtiger_Session::set('language', $request->get('loginLanguage'));
 			}
 			if ($request->has('layout')) {
@@ -73,7 +73,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-				if (AppConfig::performance('SHOW_ADMIN_PANEL') && App\User::getUserModel($userId)->isAdmin()) {
+				if (\FreeCRM\AppConfig::performance('SHOW_ADMIN_PANEL') && App\User::getUserModel($userId)->isAdmin()) {
 					header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 				} else {
 					header('Location: index.php');

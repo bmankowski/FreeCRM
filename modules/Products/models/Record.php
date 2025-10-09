@@ -193,7 +193,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$query .= sprintf(' ORDER BY %s', $orderWhere);
 			}
 			if (!$limit) {
-				$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+				$limit = \FreeCRM\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 			}
 			if ($limit) {
 				$query .= ' LIMIT ';

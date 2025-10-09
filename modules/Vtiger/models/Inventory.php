@@ -228,7 +228,7 @@ class Vtiger_Inventory_Model
 				'charset' => 'utf8'
 		]];
 		$base = new \App\Db\Importer();
-		$base->dieOnError = AppConfig::debug('SQL_DIE_ON_ERROR');
+		$base->dieOnError = \FreeCRM\AppConfig::debug('SQL_DIE_ON_ERROR');
 		foreach ($tables as $postFix => $data) {
 			$tableName = $basetable . $postFix;
 			if (!$db->isTableExists($tableName)) {

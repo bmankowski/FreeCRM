@@ -33,7 +33,7 @@ class CronReviewed
 
 	public function __construct()
 	{
-		$this->limit = AppConfig::module('ModTracker', 'REVIEWED_SCHEDULE_LIMIT');
+		$this->limit = \FreeCRM\AppConfig::module('ModTracker', 'REVIEWED_SCHEDULE_LIMIT');
 		$this->displayed = ModTracker_Record_Model::DISPLAYED;
 	}
 

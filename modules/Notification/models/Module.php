@@ -20,7 +20,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.smownerid' => Users_Record_Model::getCurrentUserModel()->getId(), 'vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
 			->count();
-		$max = AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
+		$max = \FreeCRM\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
 		return $count > $max ? $max : $count;
 	}
 

@@ -19,7 +19,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$this->exposeMethod('updateRecordsWithSequenceNumber');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		parent::checkPermission($request);
 		$qualifiedModuleName = $request->getModule(false);

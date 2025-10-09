@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_SwitchUsers_Action extends Vtiger_Action_Controller
+class Users_SwitchUsers_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -14,7 +14,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$userId = $request->get('id');
 		require('user_privileges/switchUsers.php');

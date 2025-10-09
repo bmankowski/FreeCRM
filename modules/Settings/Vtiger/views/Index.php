@@ -23,7 +23,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->exposeMethod('getWarningsList');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {

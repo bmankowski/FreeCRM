@@ -8,10 +8,10 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Users_Logout_Action extends Vtiger_Action_Controller
+class Users_Logout_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
@@ -20,7 +20,7 @@ class Users_Logout_Action extends Vtiger_Action_Controller
 	{
 		$eventHandler = new App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
-		if (AppConfig::main('session_regenerate_id')) {
+		if (\FreeCRM\AppConfig::main('session_regenerate_id')) {
 			Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 		}
 		Vtiger_Session::destroy();

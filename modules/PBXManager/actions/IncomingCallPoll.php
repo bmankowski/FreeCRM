@@ -11,7 +11,7 @@
 include_once ROOT_DIRECTORY . '/src/Webservices/Create.php';
 include_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
-class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
+class PBXManager_IncomingCallPoll_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -32,7 +32,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());

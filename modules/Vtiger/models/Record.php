@@ -555,7 +555,7 @@ class Vtiger_Record_Model extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public static function getSearchResult($searchKey, $module = false, $limit = false, $operator = false)
 	{
 		if (!$limit) {
-			$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+			$limit = \FreeCRM\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
 		$recordSearch = new \App\RecordSearch($searchKey, $module, $limit);
 		if ($operator) {

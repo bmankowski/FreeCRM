@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class CustomView_Delete_Action extends Vtiger_Action_Controller
+class CustomView_Delete_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function process(Vtiger_Request $request)

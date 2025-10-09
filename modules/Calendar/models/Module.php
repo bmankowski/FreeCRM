@@ -109,7 +109,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linkicon' => '',
 			],
 		];
-		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && \FreeCRM\AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
@@ -417,7 +417,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$recordModels = [];
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('Calendar');
-		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
+		$permissionToSendEmail = $permission && \FreeCRM\AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
 		if (!empty($activityReminder)) {
 			$currentTime = time();
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));

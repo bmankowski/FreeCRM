@@ -6,10 +6,10 @@
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
-class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
+class KnowledgeBase_ImageUploadAjax_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -22,9 +22,9 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$fileTypeSettings = AppConfig::module($moduleName, 'fileTypeSettings');
-		$allowedFileTypes = AppConfig::module($moduleName, 'allowedFileTypes');
-		$rename = AppConfig::module($moduleName, 'rename');
+		$fileTypeSettings = \FreeCRM\AppConfig::module($moduleName, 'fileTypeSettings');
+		$allowedFileTypes = \FreeCRM\AppConfig::module($moduleName, 'allowedFileTypes');
+		$rename = \FreeCRM\AppConfig::module($moduleName, 'rename');
 		$iConf = &$fileTypeSettings['img'];
 		$aConf = &$fileTypeSettings['audio'];
 		$vConf = &$fileTypeSettings['video'];

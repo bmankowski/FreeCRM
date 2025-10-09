@@ -143,7 +143,7 @@ function twoDigit($no)
 function calendarview_getSelectedUserId()
 {
 	$currentUser = Users_Privileges_Model::getCurrentUserModel();
-	$onlyForUser = htmlspecialchars(strip_tags(\FreeCRM\Http\AppRequest::getForSql('onlyforuser')), ENT_QUOTES, AppConfig::main('default_charset'));
+	$onlyForUser = htmlspecialchars(strip_tags(\FreeCRM\Http\AppRequest::getForSql('onlyforuser')), ENT_QUOTES, \FreeCRM\AppConfig::main('default_charset'));
 	if ($onlyForUser == '')
 		$onlyForUser = $currentUser->id;
 	return $onlyForUser;

@@ -55,8 +55,8 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('CURRENT_VERSION', \App\Version::get());
-		$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
-		$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
+		$viewer->assign('LANGUAGE_SELECTION', \FreeCRM\AppConfig::main('langInLoginView'));
+		$viewer->assign('LAYOUT_SELECTION', \FreeCRM\AppConfig::main('layoutInLoginView'));
 		$viewer->assign('ERROR', $request->get('error'));
 		$viewer->assign('FPERROR', $request->get('fpError'));
 		$viewer->assign('STATUS', $request->get('status'));

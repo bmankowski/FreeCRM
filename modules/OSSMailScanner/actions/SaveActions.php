@@ -9,10 +9,10 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSMailScanner_SaveActions_Action extends Vtiger_Action_Controller
+class OSSMailScanner_SaveActions_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {

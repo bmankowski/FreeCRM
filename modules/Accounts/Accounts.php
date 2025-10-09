@@ -202,7 +202,7 @@ class Accounts extends \FreeCRM\CRMEntity
 		$listview_header = [];
 		$listview_entries = [];
 
-		$listColumns = $listColumns ? $listColumns : AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = $listColumns ? $listColumns : \FreeCRM\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -303,7 +303,7 @@ class Accounts extends \FreeCRM\CRMEntity
 
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
 
-		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \FreeCRM\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parent_accounts;
 		}
@@ -367,7 +367,7 @@ class Accounts extends \FreeCRM\CRMEntity
 
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 
-		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \FreeCRM\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $child_accounts;
 		}

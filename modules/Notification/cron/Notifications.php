@@ -90,7 +90,7 @@ class Cron_Notification
 				->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
 				->createCommand()->queryAllByGroup(2);
 		foreach ($notifications as $userId => $noticesByUser) {
-			$noticesByUser = array_slice($noticesByUser, 0, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
+			$noticesByUser = array_slice($noticesByUser, 0, \FreeCRM\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
 				$notice = Vtiger_Record_Model::getInstanceById($noticeId);
 				$notice->setMarked();

@@ -9,10 +9,10 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSMail_SetUser_Action extends Vtiger_Action_Controller
+class OSSMail_SetUser_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		if (!Users_Privileges_Model::isPermitted('OSSMail')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');

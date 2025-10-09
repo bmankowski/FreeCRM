@@ -12,11 +12,11 @@
 class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
-		if ($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && AppConfig::security('SHOW_MY_PREFERENCES'))) {
+		if ($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \FreeCRM\AppConfig::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		} else {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');

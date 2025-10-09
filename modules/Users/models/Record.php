@@ -296,7 +296,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	protected function transformValues($values)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
-		$cryptType = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$cryptType = \FreeCRM\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
 			$this->set('confirm_password', $entityInstance->encrypt_password($this->get('confirm_password'), $cryptType));
 		}

@@ -248,7 +248,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getMinimumFrequency()
 	{
-		$frequency = AppConfig::main('MINIMUM_CRON_FREQUENCY');
+		$frequency = \FreeCRM\AppConfig::main('MINIMUM_CRON_FREQUENCY');
 		if (!empty($frequency)) {
 			return $frequency * 60;
 		}

@@ -96,7 +96,7 @@ class Users_ForgotPassword_Action
 	{
 		$instance = new self();
 		if ($request->has('user_name') && $request->has('emailId')) {
-			if (AppConfig::security('RESET_LOGIN_PASSWORD')) {
+			if (\FreeCRM\AppConfig::security('RESET_LOGIN_PASSWORD')) {
 				$instance->requestForgotPassword($request);
 			} else {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');

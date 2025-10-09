@@ -9,7 +9,7 @@
 class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$mode = $request->get('mode');

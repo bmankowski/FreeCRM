@@ -54,7 +54,7 @@ class WorkFlowScheduler
 
 	public function queueScheduledWorkflowTasks()
 	{
-		$default_timezone = AppConfig::main('default_timezone');
+		$default_timezone = \FreeCRM\AppConfig::main('default_timezone');
 		$adb = $this->db;
 
 		$vtWorflowManager = new VTWorkflowManager($adb);

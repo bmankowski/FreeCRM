@@ -8,10 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
+class Vtiger_BasicAjax_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return;
 	}

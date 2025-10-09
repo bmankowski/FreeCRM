@@ -9,7 +9,7 @@
 class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -83,7 +83,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 
 		if (vtlib\Functions::getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
 			$date->add(new DateInterval('P1D'));
-			while (in_array(date_format($date, 'w'), AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
+			while (in_array(date_format($date, 'w'), \FreeCRM\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));
 			}
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'));

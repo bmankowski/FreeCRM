@@ -85,7 +85,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 			$pagingModel->set('totalCount', (int) $totalCount);
 			$viewer->assign('TOTAL_ENTRIES', $totalCount);

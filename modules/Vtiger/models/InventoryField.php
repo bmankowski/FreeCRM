@@ -603,7 +603,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Record_Model
 	 */
 	public function getCustomAutoComplete($sourceModuleName, $sourceFieldName, Vtiger_Record_Model $recordModel)
 	{
-		$inventoryMap = AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
+		$inventoryMap = \FreeCRM\AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
 		$values = [];
 		if ($inventoryMap) {
 			foreach ($inventoryMap as $fieldToComplete => $mapping) {

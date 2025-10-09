@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class CustomView_DeleteAjax_Action extends Vtiger_Action_Controller
+class CustomView_DeleteAjax_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function preProcess(Vtiger_Request $request)

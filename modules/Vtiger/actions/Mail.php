@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Mail_Action extends Vtiger_Action_Controller
+class Vtiger_Mail_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -14,7 +14,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return boolean
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName)) {
@@ -55,7 +55,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	public function checkSmtp(Vtiger_Request $request)
 	{
 		$result = false;
-		if (AppConfig::main('isActiveSendingMails')) {
+		if (\FreeCRM\AppConfig::main('isActiveSendingMails')) {
 			$result = !empty(App\Mail::getAll());
 		}
 		$response = new Vtiger_Response();

@@ -12,7 +12,7 @@
 Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -23,7 +23,7 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 			}
 		}
-		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && AppConfig::security('SHOW_MY_PREFERENCES')))) {
+		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \FreeCRM\AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');

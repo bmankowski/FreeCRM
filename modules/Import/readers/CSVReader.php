@@ -111,7 +111,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	 */
 	public function read()
 	{
-		$defaultCharset = AppConfig::main('default_charset');
+		$defaultCharset = \FreeCRM\AppConfig::main('default_charset');
 		$fileHandler = $this->getFileHandler();
 		$this->createTable();
 

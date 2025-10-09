@@ -23,7 +23,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 
 	public function getFirstRowData($hasHeader = true)
 	{
-		$default_charset = AppConfig::main('default_charset');
+		$default_charset = \FreeCRM\AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		if (empty(self::$fileContents)) {
@@ -53,7 +53,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 	 */
 	public function read()
 	{
-		$defaultCharset = AppConfig::main('default_charset');
+		$defaultCharset = \FreeCRM\AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		$this->createTable();
