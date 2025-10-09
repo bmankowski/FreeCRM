@@ -61,6 +61,7 @@
 	"autoload": {
 		"psr-4": {
 			"FreeCRM\\": "src/",
+			"FreeCRM\\Modules\\": "src/Modules/",
 			"vtlib\\": "vtlib/Vtiger/",
 			"App\\": "vendor/yetiforce/",
 			"App\\Rector\\": "src/Rector/",

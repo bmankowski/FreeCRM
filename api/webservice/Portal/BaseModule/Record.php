@@ -138,7 +138,7 @@ class Record extends \Api\Core\BaseAction
 	public function put()
 	{
 		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$modelClassName = \FreeCRM\Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
 		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];
@@ -151,7 +151,7 @@ class Record extends \Api\Core\BaseAction
 	public function post()
 	{
 		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$modelClassName = \FreeCRM\Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
 		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];
