@@ -1,4 +1,6 @@
 <?php
+
+namespace FreeCRM\Modules\OSSMailScanner\cron;
 /**
  * Refreshing relationships mail cron file
  * @package YetiForce.Cron

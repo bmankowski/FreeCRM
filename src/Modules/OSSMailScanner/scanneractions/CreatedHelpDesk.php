@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner;
+namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
 
 /**
  * Mail scanner action creating HelpDesk
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OSSMailScanner;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ScannerAction {
+class CreatedHelpDesk {
 
 	public function process(OSSMail_Mail_Model $mail)
 	{

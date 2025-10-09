@@ -1,12 +1,14 @@
 <?php
 
+namespace FreeCRM\Modules\OSSMailScanner\Models;
+
 /**
  * Base for action creating relations on the basis of prefix
  * @package YetiForce.MailScanner
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-abstract class OSSMailScanner_PrefixScannerAction_Model
+abstract class PrefixScannerAction
 {
 
 	public $prefix, $moduleName, $mail, $tableName, $tableColumn;
