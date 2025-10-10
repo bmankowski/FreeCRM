@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Views;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -36,7 +37,7 @@ class DashBoard extends \Vtiger_Index_View
 		}
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$dashBoardModel = \FreeCRM\Modules\Vtiger\Models\DashBoard::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
@@ -57,7 +58,7 @@ class DashBoard extends \Vtiger_Index_View
 		}
 		$modulesWithWidget = \FreeCRM\Modules\Vtiger\Models\DashBoard::getModulesWithWidgets($sourceModule, $currentDashboard);
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
-		$viewer->assign('DASHBOARD_TYPES', \Settings_WidgetsManagement_Module_Model::getDashboardTypes());
+		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
@@ -75,7 +76,7 @@ class DashBoard extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$dashBoardModel = \FreeCRM\Modules\Vtiger\Models\DashBoard::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
@@ -96,7 +97,7 @@ class DashBoard extends \Vtiger_Index_View
 		}
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
-		$viewer->assign('DASHBOARD_TYPES', \Settings_WidgetsManagement_Module_Model::getDashboardTypes());
+		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
@@ -118,7 +119,7 @@ class DashBoard extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$dashBoardModel = \FreeCRM\Modules\Vtiger\Models\DashBoard::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);

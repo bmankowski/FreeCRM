@@ -65,7 +65,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'related' => 'Charts'
 			];
 		}
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('Gantt')) {
+		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('Gantt')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_GANTT', $moduleName),

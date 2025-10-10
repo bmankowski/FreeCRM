@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Users\Models;
+use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

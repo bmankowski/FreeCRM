@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Rss\Models;
+use FreeCRM\Modules\Settings\SMSNotifierModels\Record as Settings_SMSNotifier_Record_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

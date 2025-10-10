@@ -9,6 +9,8 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class SharedOwner extends Base
 {
 

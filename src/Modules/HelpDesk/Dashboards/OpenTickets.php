@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\HelpDesk\Dashboards;
+use FreeCRM\Modules\Settings\SupportProcessesModels\Module as Settings_SupportProcesses_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -25,7 +26,7 @@ class OpenTickets extends \Vtiger_Index_View
 	public function getOpenTickets()
 	{
 
-		$ticketStatus = \Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$moduleName = 'HelpDesk';
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$query = new \App\Db\Query();
@@ -62,11 +63,11 @@ class OpenTickets extends \Vtiger_Index_View
 
 	public function getSearchParams($value)
 	{
-		$openTicketsStatus = \Settings_SupportProcesses_Module_Model::getOpenTicketStatus();
+		$openTicketsStatus = Settings_SupportProcesses_Module_Model::getOpenTicketStatus();
 		if ($openTicketsStatus)
 			$openTicketsStatus = implode(',', $openTicketsStatus);
 		else {
-			$allTicketStatus = \Settings_SupportProcesses_Module_Model::getAllTicketStatus();
+			$allTicketStatus = Settings_SupportProcesses_Module_Model::getAllTicketStatus();
 			$openTicketsStatus = implode(',', $allTicketStatus);
 		}
 

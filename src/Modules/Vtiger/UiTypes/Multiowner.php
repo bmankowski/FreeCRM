@@ -11,6 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class Multiowner extends Base
 {
 

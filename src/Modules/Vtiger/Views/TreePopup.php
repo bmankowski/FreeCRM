@@ -6,6 +6,8 @@
 namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\Http\Vtiger_Request;
+
+use FreeCRM\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class TreePopup extends \Vtiger_Index_View
 {
 

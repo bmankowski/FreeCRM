@@ -182,7 +182,7 @@
 						</div>
 					</div>
 				{/if}
-				{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
+				{if !\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('roundcube')}
 					<div class="pull-right">
 						{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 						{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}

@@ -30,7 +30,7 @@ require_once ROOT_DIRECTORY . '/src/fields/CurrencyField.php';
 require_once ROOT_DIRECTORY . '/src/CRMEntity.php';
 include_once ROOT_DIRECTORY . '/src/Modules/Vtiger/CRMEntity.php';
 require_once ROOT_DIRECTORY . '/src/Modules/Vtiger/helpers/Util.php';
-require_once ROOT_DIRECTORY . '/src/Modules/PickList/DependentPickListUtils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/PickList/PickListUtils.php';
 require_once ROOT_DIRECTORY . '/src/Modules/Users/Users.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 

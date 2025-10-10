@@ -92,7 +92,7 @@ class RelatedList extends \Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$colorList = array();
 		foreach ($models as &$record) {
-			$colorList[$record->getId()] = \Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+			$colorList[$record->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
 		}
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('RELATED_RECORDS', $models);

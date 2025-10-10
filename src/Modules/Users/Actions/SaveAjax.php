@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Users\Actions;
+use FreeCRM\Modules\Settings\PasswordModels\Record as Settings_Password_Record_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -62,7 +63,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		}
 
 		$recordModel = $this->saveRecord($request);
-		$settingsModuleModel = \Settings_Users_Module_Model::getInstance();
+		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];

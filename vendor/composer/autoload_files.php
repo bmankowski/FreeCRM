@@ -20,5 +20,5 @@ return array(
     'cff73e1eeb4c0b11a9564c8c66df0d83' => $baseDir . '/src/Modules/Vtiger/Views/VtigerHeaderView.php',
     '267ad84d76d7600b3ae9ef83b8b79bf4' => $baseDir . '/src/Modules/Vtiger/Views/VtigerFooterView.php',
     'd58d069933f30adffe4a0eac15dad0fb' => $baseDir . '/src/Modules/Vtiger/Views/VtigerBasicView.php',
-    '4d4504efed8a3f5676e8b3e9c0329bf6' => $baseDir . '/src/Modules/Vtiger/Views/VtigerIndexView.php',
+    '8791a3209a96e056aac84f6a098c83b0' => $baseDir . '/src/Modules/Vtiger/Views/Vtiger_Index_View.php',
 );

@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -32,7 +33,7 @@ class AssignedUpcomingCalendarTasks extends \Vtiger_Index_View
 
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
@@ -54,7 +55,7 @@ class AssignedUpcomingCalendarTasks extends \Vtiger_Index_View
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_upcoming', $pagingModel, $owner, false, $params);
 		$colorList = [];
 		foreach ($calendarActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = \Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+			$colorList[$activityModel->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');

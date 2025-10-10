@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Models;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -138,7 +139,7 @@ class DashBoard extends Model
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$blockId = \Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
+		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
 		if (count($blockId) == 0) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 			return;

@@ -51,7 +51,7 @@ class Loader
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
 
 		// Build fully qualified PSR-4 class name
-		$className = "FreeCRM\\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
+		$className = "FreeCRM\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
 
 		// Check if module-specific class exists
 		if (class_exists($className)) {
@@ -59,7 +59,7 @@ class Loader
 		}
 
 		// Fallback to Vtiger base class (inheritance pattern)
-		$fallbackClass = "FreeCRM\\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
+		$fallbackClass = "FreeCRM\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
 		if (class_exists($fallbackClass)) {
 			return $fallbackClass;
 		}

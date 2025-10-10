@@ -78,7 +78,7 @@
 			"src/Modules/Vtiger/Views/VtigerHeaderView.php",
 			"src/Modules/Vtiger/Views/VtigerFooterView.php",
 			"src/Modules/Vtiger/Views/VtigerBasicView.php",
-			"src/Modules/Vtiger/Views/VtigerIndexView.php"
+			"src/Modules/Vtiger/Views/Vtiger_Index_View.php"
 		]
 	},
 	"repositories": {

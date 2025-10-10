@@ -89,7 +89,7 @@ class CRMEntity
 		}
 
 		// Build namespaced class name for PSR-4 migrated modules
-		$namespacedClassName = "\\FreeCRM\\Modules\\{$module}\\{$modName}";
+		$namespacedClassName = "\\FreeCRM\Modules\\{$module}\\{$modName}";
 		
 		// File access security check
 		if (!class_exists($namespacedClassName) && !class_exists($modName)) {

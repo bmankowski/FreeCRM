@@ -1,6 +1,8 @@
 <?php
 
 namespace FreeCRM\Modules\OSSTimeControl\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module as Settings_TimeControlProcesses_Module_Model;
 
 /**
  * Wdiget to show work time
@@ -122,7 +124,7 @@ class AllTimeControl extends \Vtiger_Index_View
 		$time = $request->get('time');
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
-			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = \vtlib\Functions::currentUserDisplayDateNew();
 				$time['end'] = \vtlib\Functions::currentUserDisplayDateNew();
@@ -132,10 +134,10 @@ class AllTimeControl extends \Vtiger_Index_View
 			}
 		}
 		if (empty($user)) {
-			$user = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
-		$TCPModuleModel = \Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());

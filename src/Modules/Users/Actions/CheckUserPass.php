@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Users\Actions;
+use FreeCRM\Modules\Settings\PasswordModels\Record as Settings_Password_Record_Model;
 
 class CheckUserPass extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {

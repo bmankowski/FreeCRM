@@ -29,7 +29,7 @@ class Reminders extends \Vtiger_Index_View
 		$colorList = [];
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
-			$colorList[$record->getId()] = \Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $record->getId(), $record);
+			$colorList[$record->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $record->getId(), $record);
 		}
 		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);

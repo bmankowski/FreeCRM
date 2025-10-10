@@ -1,6 +1,8 @@
 <?php
 
 namespace FreeCRM\Modules\HelpDesk\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+use FreeCRM\Modules\Settings\SupportProcessesModels\Module as Settings_SupportProcesses_Module_Model;
 
 /**
  * Widget showing ticket which have closed. We can filter by date 
@@ -44,7 +46,7 @@ class ClosedTicketsByUser extends \Vtiger_Index_View
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$ticketStatus = \Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$query = (new \App\Db\Query())->select([
 			'count' => new \yii\db\Expression('COUNT(*)'),
@@ -91,7 +93,7 @@ class ClosedTicketsByUser extends \Vtiger_Index_View
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$time = $request->get('time');
 		if (empty($time)) {
-			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));

@@ -117,30 +117,39 @@ class FreeCRM_Viewer extends \Smarty
 			// Register LanguageTranslator modifier 't'
 			$this->registerPlugin('modifier', 't', '\FreeCRM\\LanguageTranslator::translate');
 			
-			// Register static classes for template use
-			$this->registerClass('AppConfig', '\FreeCRM\\AppConfig');
-			$this->registerClass('AppRequest', '\FreeCRM\\Http\\AppRequest');
-			$this->registerClass('Vtiger_Util_Helper', '\FreeCRM\\Modules\\Vtiger\\Util');
-			$this->registerClass('Vtiger_Menu_Model', '\FreeCRM\\Modules\\Vtiger\\Models\\Menu');
-			$this->registerClass('Vtiger_Module_Model', '\FreeCRM\\Modules\\Vtiger\\Models\\Module');
-			$this->registerClass('Vtiger_Language_Handler', '\FreeCRM\\Runtime\\Vtiger_Language_Handler');
-			$this->registerClass('Users_Privileges_Model', '\FreeCRM\\Modules\\Users\\Models\\Privileges');
-			$this->registerClass('Yeti_Layout', '\FreeCRM\\Runtime\\Yeti_Layout');
-			$this->registerClass('\\App\\Json', '\\App\\Json');
-			$this->registerClass('\\App\\Debugger', '\\App\\Debugger');
-			$this->registerClass('App\\Company', '\\App\\Company');
+		// Register static classes for template use
+		$this->registerClass('AppConfig', '\FreeCRM\\AppConfig');
+		$this->registerClass('AppRequest', '\FreeCRM\\Http\\AppRequest');
+		$this->registerClass('Vtiger_Util_Helper', '\FreeCRM\Modules\\Vtiger\\Util');
+		$this->registerClass('Vtiger_Menu_Model', '\FreeCRM\Modules\\Vtiger\Models\\Menu');
+		$this->registerClass('Vtiger_Module_Model', '\FreeCRM\Modules\\Vtiger\Models\\Module');
+		$this->registerClass('Vtiger_Widget_Model', '\FreeCRM\Modules\\Vtiger\Models\\Widget');
+		$this->registerClass('Vtiger_Language_Handler', '\FreeCRM\\Runtime\\Vtiger_Language_Handler');
+		$this->registerClass('Users_Privileges_Model', '\FreeCRM\Modules\\Users\Models\\Privileges');
+		$this->registerClass('Users_Colors_Model', '\FreeCRM\Modules\\Users\Models\\Colors');
+		$this->registerClass('Settings_WidgetsManagement_Module_Model', '\FreeCRM\Modules\\Settings\\WidgetsManagement\Models\\Module');
+		$this->registerClass('Yeti_Layout', '\FreeCRM\\Runtime\\Yeti_Layout');
+		$this->registerClass('\\App\\Json', '\\App\\Json');
+		$this->registerClass('\\App\\Debugger', '\\App\\Debugger');
+		$this->registerClass('App\\Company', '\\App\\Company');
 
-			// Register PHP functions that are used in templates
-			$this->registerPlugin('modifier', 'strrpos', 'strrpos');
-			$this->registerPlugin('modifier', 'stripos', 'stripos');
-			$this->registerPlugin('modifier', 'array_flip', 'array_flip');
-			$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
-			$this->registerPlugin('modifier', 'explode', 'explode');
-			$this->registerPlugin('modifier', 'htmlspecialchars', 'htmlspecialchars');
-			$this->registerPlugin('modifier', 'file_exists', 'file_exists');
-			$this->registerPlugin('function', 'explode', 'explode');
-			$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
-			$this->registerPlugin('function', 'file_exists', 'file_exists');
+		// Register PHP functions that are used in templates
+		$this->registerPlugin('modifier', 'strrpos', 'strrpos');
+		$this->registerPlugin('modifier', 'stripos', 'stripos');
+		$this->registerPlugin('modifier', 'strtoupper', 'strtoupper');
+		$this->registerPlugin('modifier', 'array_flip', 'array_flip');
+		$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
+		$this->registerPlugin('modifier', 'explode', 'explode');
+		$this->registerPlugin('modifier', 'htmlspecialchars', 'htmlspecialchars');
+		$this->registerPlugin('modifier', 'file_exists', 'file_exists');
+		$this->registerPlugin('modifier', 'intval', 'intval');
+		$this->registerPlugin('modifier', 'decode_html', 'decode_html');
+		$this->registerPlugin('function', 'explode', 'explode');
+		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
+		$this->registerPlugin('function', 'file_exists', 'file_exists');
+		$this->registerPlugin('function', 'intval', 'intval');
+		$this->registerPlugin('function', 'strtoupper', 'strtoupper');
+		$this->registerPlugin('function', 'decode_html', 'decode_html');
 
 
 

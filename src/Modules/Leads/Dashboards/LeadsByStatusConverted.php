@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Leads\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -42,7 +43,7 @@ class LeadsByStatusConverted extends \Vtiger_Index_View
 
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
@@ -55,7 +56,7 @@ class LeadsByStatusConverted extends \Vtiger_Index_View
 			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		} else {
-			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if($time !== false){
 				$dates = $time;
 			}

@@ -12,6 +12,9 @@ namespace FreeCRM\Modules\Vtiger;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+
+use FreeCRM\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class Util {
 
 	/**

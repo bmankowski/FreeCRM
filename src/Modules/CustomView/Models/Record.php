@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\CustomView\Models;
+use FreeCRM\Modules\Settings\CustomView\Models\Module as Settings_CustomView_Module_Model;
 
 use FreeCRM\Modules\Vtiger\Models\CustomView as Model;
 
@@ -327,13 +328,13 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 		$userId = 'Users:' . $currentUserModel->getId();
 		if (!empty($featured) && empty($cvIdOrg)) {
-			\Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
-			\Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
 			$isExists = (new \App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $cvId, 'user' => $userId])->exists();
 			if (!$isExists) {
-				\Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
+				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 			}
 		}
 		if (empty($setDefault) && !empty($cvIdOrg)) {

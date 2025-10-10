@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\FInvoice\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * FInvoice Summation By User Dashboard Class
@@ -27,7 +28,7 @@ class SummationByUser extends \Vtiger_Index_View
 		if ($request->has('time')) {
 			$time = $request->get('time');
 		} else {
-			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-01');
 				$time['end'] = date('Y-m-t');

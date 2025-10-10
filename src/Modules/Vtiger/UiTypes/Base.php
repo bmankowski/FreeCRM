@@ -75,9 +75,9 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 		$fieldDataType = $fieldModel->getFieldDataType();
 		$uiTypeClassSuffix = ucfirst($fieldDataType);
 		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = '\\FreeCRM\\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
-		$uiTypeClassName = '\\FreeCRM\\Modules\\Vtiger\\UiTypes\\' . $uiTypeClassSuffix;
-		$fallBackClassName = '\\FreeCRM\\Modules\\Vtiger\\UiTypes\\Base';
+		$moduleSpecificUiTypeClassName = '\\FreeCRM\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
+		$uiTypeClassName = '\\FreeCRM\Modules\\Vtiger\\UiTypes\\' . $uiTypeClassSuffix;
+		$fallBackClassName = '\\FreeCRM\Modules\\Vtiger\\UiTypes\\Base';
 
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;

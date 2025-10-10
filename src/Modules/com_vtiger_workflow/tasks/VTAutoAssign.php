@@ -8,6 +8,8 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
 require_once('src/Modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
@@ -23,7 +25,7 @@ class VTAutoAssign extends VTTask
 
 	public function doTask($recordModel)
 	{
-		\Settings_AutomaticAssignment_Module_Model::autoAssignExecute($recordModel);
+		Settings_AutomaticAssignment_Module_Model::autoAssignExecute($recordModel);
 	}
 
 	public function getAutoAssignEntries($moduleName)

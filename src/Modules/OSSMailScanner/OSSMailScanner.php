@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\OSSMailScanner;
+use FreeCRM\Modules\Settings\PicklistModels\Field as Settings_Picklist_Field_Model;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -14,6 +15,8 @@ namespace FreeCRM\Modules\OSSMailScanner;
  * *********************************************************************************************************************************** */
 
 use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+
+use FreeCRM\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
 class OSSMailScanner {
 
 	public function vtlib_handler($moduleName, $eventType)
@@ -33,7 +36,7 @@ class OSSMailScanner {
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('cron', 'email', ''));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('cron', 'time', ''));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'changeTicketStatus', 'false'));
-			$moduleModel = \Settings_Picklist_Module_Model::getInstance('HelpDesk');
+			$moduleModel = Settings_Picklist_Module_Model::getInstance('HelpDesk');
 			$fieldModel = Settings_Picklist_Field_Model::getInstance('ticketstatus', $moduleModel);
 			$id = $moduleModel->addPickListValues($fieldModel, 'Answered');
 			$Module = vtlib\Module::getInstance($moduleName);

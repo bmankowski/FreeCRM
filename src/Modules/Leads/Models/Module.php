@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Leads\Models;
+use FreeCRM\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -229,7 +230,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public static function getConversionAvaibleStatuses()
 	{
-		$leadConfig = \Settings_MarketingProcesses_Module_Model::getConfig('lead');
+		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
 
 		return $leadConfig['convert_status'];
 	}
@@ -241,7 +242,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public static function checkIfAllowedToConvert($status)
 	{
-		$leadConfig = \Settings_MarketingProcesses_Module_Model::getConfig('lead');
+		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
 
 		if (empty($leadConfig['convert_status'])) {
 			return true;

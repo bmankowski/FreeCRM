@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -33,7 +34,7 @@ class MiniList extends \Vtiger_Index_View
 
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 

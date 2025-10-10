@@ -18,6 +18,8 @@ use FreeCRM\CRMEntity;
 use FreeCRM\AppConfig;
 use FreeCRM\Http\Vtiger_Session;
 
+use FreeCRM\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
+
 class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
@@ -40,7 +42,7 @@ class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
 		$moduleModel = \FreeCRM\Modules\Users\Models\Module::getInstance('Users');
-		$bfInstance = class_exists('\\Settings_BruteForce_Module_Model') ? \Settings_BruteForce_Module_Model::getCleanInstance() : null;
+		$bfInstance = class_exists('Settings_BruteForce_Module_Model') ? Settings_BruteForce_Module_Model::getCleanInstance() : null;
 		if ($bfInstance && $bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			if ($moduleModel) {

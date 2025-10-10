@@ -31,7 +31,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			);
 		}
 
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -47,7 +47,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 		}
 
 		$quickExportToExcelPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
-		if ($quickExportToExcelPermission && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
+		if ($quickExportToExcelPermission && !\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -66,7 +66,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

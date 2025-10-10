@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Accounts\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * Wdiget to show new accounts
@@ -61,7 +62,7 @@ class NewAccounts extends \Vtiger_Index_View
 		}
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
-			$user = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();

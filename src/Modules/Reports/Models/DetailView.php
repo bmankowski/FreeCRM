@@ -63,7 +63,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'fa fa-file-text-o'
 			);
 
-			if (!Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
+			if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
 				$detailViewLinks[] = array(
 					'linklabel' => vtranslate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 					'linkurl' => $recordModel->getReportExcelURL(),

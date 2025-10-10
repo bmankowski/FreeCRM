@@ -1,6 +1,9 @@
 <?php
 
 namespace FreeCRM\Modules\OSSTimeControl\Dashboards;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module as Settings_TimeControlProcesses_Module_Model;
+use FreeCRM\Modules\Settings\PublicHolidayModels\Module as Settings_PublicHoliday_Module_Model;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -160,7 +163,7 @@ class TimeControl extends \Vtiger_Index_View
 		$time = $request->get('time');
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
-			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
@@ -179,14 +182,14 @@ class TimeControl extends \Vtiger_Index_View
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($user, $data['days'][$i]);
 		}
 
-		$publicHolidays = \Settings_PublicHoliday_Module_Model::getHolidayGroupType([$time['start'], $time['end']]);
+		$publicHolidays = Settings_PublicHoliday_Module_Model::getHolidayGroupType([$time['start'], $time['end']]);
 		if ($publicHolidays) {
 			foreach ($publicHolidays as $key => $value) {
 				$upperCase = strtoupper($key);
 				$viewer->assign($upperCase, $value);
 			}
 		}
-		$TCPModuleModel = \Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
@@ -215,8 +218,8 @@ class TimeControl extends \Vtiger_Index_View
 
 	public function getDays($startDate, $endDate)
 	{
-		$holidayDays = \Settings_PublicHoliday_Module_Model::getHolidays([$startDate, $endDate]);
-		$notWorkingDaysType = \Settings_Calendar_Module_Model::getNotWorkingDays();
+		$holidayDays = Settings_PublicHoliday_Module_Model::getHolidays([$startDate, $endDate]);
+		$notWorkingDaysType = Settings_Calendar_Module_Model::getNotWorkingDays();
 		$begin = strtotime($startDate);
 		$end = strtotime($endDate);
 		$workDays = 0;

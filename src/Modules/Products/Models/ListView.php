@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Products\Models;
+use FreeCRM\Modules\Settings\SalesProcessesModels\Module as Settings_SalesProcesses_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -41,7 +42,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 		$queryGenerator = $this->get('query_generator');
 		$query = $queryGenerator->createQuery();
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - last step.
-		if (\Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($this->get('src_module'))) {
+		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($this->get('src_module'))) {
 			$salesProcessId = $this->get('salesprocessid');
 			if (empty($salesProcessId)) {
 				$salesProcessId = -1;
@@ -80,7 +81,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 		$listViewRecordModels = [];
 		foreach ($rows as &$row) {
 			$recordModel = $moduleModel->getRecordFromArray($row);
-			$recordModel->colorList = \Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $row['id'], $recordModel);
+			$recordModel->colorList = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $row['id'], $recordModel);
 			$listViewRecordModels[$row['id']] = $recordModel;
 		}
 		unset($rows);

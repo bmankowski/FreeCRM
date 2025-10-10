@@ -44,7 +44,7 @@ class CompanySelect extends Base
 	 */
 	public function getPicklistValues()
 	{
-		return \Settings_Companies_Module_Model::getAllCompanies();
+		return Settings_Companies_Module_Model::getAllCompanies();
 	}
 
 	/**

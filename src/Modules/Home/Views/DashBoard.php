@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Home\Views;
+use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -24,7 +25,7 @@ class DashBoard extends VtigerDashBoard
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$viewer = $this->getViewer($request);
 		$modulesWithWidget = \FreeCRM\Modules\Vtiger\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);

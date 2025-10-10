@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Models;
+use FreeCRM\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
 
 /**
  * Basic MappedFields Model Class

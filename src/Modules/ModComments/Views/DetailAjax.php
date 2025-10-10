@@ -14,14 +14,15 @@ namespace FreeCRM\Modules\ModComments\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class View extends \Vtiger_Index_View
+use FreeCRM\Modules\Vtiger\Views\Index as Vtiger_Index_View;
+class View extends Vtiger_Index_View
 {
 
 	/**
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$moduleName = $request->getModule();

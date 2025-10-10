@@ -102,7 +102,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		$viewer->assign('NO_PAGINATION', true);
-		$viewer->assign('COLORLISTHANDLERS', \Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel));
+		$viewer->assign('COLORLISTHANDLERS', \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $recordId, $recordModel));
 
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
@@ -649,7 +649,7 @@ class Detail extends \Vtiger_Index_View
 
 			$colorList = [];
 			foreach ($relatedActivities as $activityModel) {
-				$colorList[$activityModel->getId()] = \Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+				$colorList[$activityModel->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 			}
 			$viewer = $this->getViewer($request);
 			$viewer->assign('RECORD', $recordModel);
@@ -735,7 +735,7 @@ class Detail extends \Vtiger_Index_View
 	}
 	$colorList = [];
 	foreach ($models as $record) {
-		$colorList[$record->getId()] = \Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+		$colorList[$record->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
 	}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_LIST', $colorList);

@@ -78,7 +78,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
-			$settingsModuleModel = \\Settings_Users_Module_Model::getInstance();
+			$settingsModuleModel = \Settings_Users_Module_Model::getInstance();
 			$settingsModuleModel->refreshSwitchUsers();
 
 			$sharedIds = $request->get('sharedusers');

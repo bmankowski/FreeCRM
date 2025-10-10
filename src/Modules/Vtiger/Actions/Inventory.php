@@ -1,6 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Actions;
+use FreeCRM\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
 
 /**
  * Basic Inventory Action Class

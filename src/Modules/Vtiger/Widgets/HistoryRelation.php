@@ -9,6 +9,8 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class HistoryRelation extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
