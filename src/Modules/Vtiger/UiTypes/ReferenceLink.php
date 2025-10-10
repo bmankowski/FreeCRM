@@ -8,6 +8,8 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
 class ReferenceLink extends Base
 {
 

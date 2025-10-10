@@ -7,9 +7,11 @@ namespace FreeCRM\Modules\Partners;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Partners extends \Vtiger_CRMEntity
+class Partners extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_partners';

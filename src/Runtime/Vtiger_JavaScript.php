@@ -11,7 +11,10 @@
 
 namespace FreeCRM\Runtime;
 
-class Vtiger_JavaScript extends FreeCRM_Viewer
+use FreeCRM\Modules\Vtiger\Models\JsScript;
+
+
+class Vtiger_JavaScript extends JsScript
 {
 
 	/**

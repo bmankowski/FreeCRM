@@ -18,6 +18,8 @@ namespace FreeCRM\Modules\Vtiger\Models;
 
 use FreeCRM\Webservices\WebserviceField;
 
+use FreeCRM\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
+
 class Field extends \vtlib\Field
 {
 
@@ -363,12 +365,12 @@ class Field extends \vtlib\Field
 
 	/**
 	 * Function to get the UI Type model for the uitype of the current field
-	 * @return \Vtiger_Base_UIType or UI Type specific model instance
+	 * @return Vtiger_Base_UIType or UI Type specific model instance
 	 */
 	public function getUITypeModel()
 	{
 		if (!$this->get('uitypeModel')) {
-			$this->set('uitypeModel', \Vtiger_Base_UIType::getInstanceFromField($this));
+			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
 		}
 		return $this->get('uitypeModel');
 	}

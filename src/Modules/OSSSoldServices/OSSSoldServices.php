@@ -11,9 +11,11 @@ namespace FreeCRM\Modules\OSSSoldServices;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
+
+use FreeCRM\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class OSSSoldServices extends \Vtiger_CRMEntity
+class OSSSoldServices extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_osssoldservices';

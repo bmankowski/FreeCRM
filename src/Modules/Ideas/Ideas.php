@@ -12,9 +12,10 @@ namespace FreeCRM\Modules\Ideas;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+use FreeCRM\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Ideas extends \Vtiger_CRMEntity
+class Ideas extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_ideas';

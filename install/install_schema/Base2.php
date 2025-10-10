@@ -7,6 +7,10 @@ namespace Importers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
+
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowEventHandler as Vtiger_Workflow_Handler;
 class Base2 extends \App\Db\Importers\Base
 {
 

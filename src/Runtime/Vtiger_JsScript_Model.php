@@ -13,7 +13,9 @@ namespace FreeCRM\Runtime;
 /**
  * JavaScript Script Model - extends Vtiger_JavaScript with model functionality
  */
-class Vtiger_JsScript_Model extends Vtiger_JavaScript
+
+use FreeCRM\Modules\Vtiger\Models\JsScript;
+class Vtiger_JsScript_Model extends JsScript
 {
 	protected $data = [];
 	

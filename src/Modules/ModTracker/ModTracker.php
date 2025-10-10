@@ -13,6 +13,8 @@ namespace FreeCRM\Modules\ModTracker;
  * ********************************************************************************** */
 
 use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+
+use FreeCRM\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
 include_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
 
 class ModTracker {

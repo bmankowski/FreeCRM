@@ -11,6 +11,10 @@
 use FreeCRM\Runtime\Vtiger_View_Controller;
 use FreeCRM\Http\Vtiger_Request;
 use FreeCRM\Runtime\Vtiger_Theme;
+
+use FreeCRM\Runtime\Vtiger_JsScript_Model;
+use FreeCRM\Runtime\Vtiger_CssScript_Model;
+
 use FreeCRM\AppConfig;
 
 abstract class Vtiger_Header_View extends Vtiger_View_Controller
@@ -124,14 +128,14 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$headerScripts = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
-		foreach ($headerScripts as $headerType => $headerScripts) {
-			foreach ($headerScripts as $headerScript) {
+		foreach ($headerScripts as $headerType => $headerScriptsValue) {
+			foreach ($headerScriptsValue as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
-					$headerScriptInstances[] = \FreeCRM\Runtime\Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
+					$headerScriptInstances[] = Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
 				}
 			}
 		}
@@ -143,7 +147,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
 	 */
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$baseStyleCssPath = Vtiger_Theme::getBaseStylePath();
@@ -152,13 +156,13 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 
 		$headerCss = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
-		$cssScriptModel = new \FreeCRM\Runtime\Vtiger_CssScript_Model();
+		$cssScriptModel = new Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
 		foreach ($headerCss as $headerType => $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($cssLink->linkurl)) {
-					$headerCssInstances[] = \FreeCRM\Runtime\Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
+					$headerCssInstances[] = Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
 				}
 			}
 		}

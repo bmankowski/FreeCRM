@@ -13,9 +13,11 @@ namespace FreeCRM\Modules\PaymentsOut;
  * *********************************************************************************************************************************** */
 
 use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+
+use FreeCRM\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class PaymentsOut extends \Vtiger_CRMEntity
+class PaymentsOut extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_paymentsout';

@@ -20,8 +20,7 @@ use FreeCRM\Runtime\Vtiger_Theme;
 use FreeCRM\Runtime\Yeti_Layout;
 use FreeCRM\Runtime\Vtiger_Language_Handler;
 use FreeCRM\Vtiger_Loader;
-
-
+use FreeCRM\Runtime\Vtiger_CssScript_Model;
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
 

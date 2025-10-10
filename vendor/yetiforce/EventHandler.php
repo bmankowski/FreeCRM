@@ -23,6 +23,15 @@ class EventHandler
 	private static $handlersInstance;
 	private $exceptions;
 	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
+	
+	/**
+	 * Map of legacy class names to modern namespaced class names
+	 * @var array
+	 */
+	private static $classNameMap = [
+		'ModTracker_ModTrackerHandler_Handler' => '\FreeCRM\Modules\ModTracker\Handlers\Handler',
+		'Vtiger_RecordLabelUpdater_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\RecordLabelUpdater',
+	];
 
 	/**
 	 * Get all event handlers
@@ -278,7 +287,12 @@ class EventHandler
 			if (isset(static::$handlersInstance[$handler['handler_class']])) {
 				$handlerInstance = static::$handlersInstance[$handler['handler_class']];
 			} else {
-				$handlerInstance = new $handler['handler_class']();
+				// Map legacy class names to modern namespaced class names
+				$className = $handler['handler_class'];
+				if (isset(static::$classNameMap[$className])) {
+					$className = static::$classNameMap[$className];
+				}
+				$handlerInstance = new $className();
 				static::$handlersInstance[$handler['handler_class']] = $handlerInstance;
 			}
 			$function = lcfirst($name);

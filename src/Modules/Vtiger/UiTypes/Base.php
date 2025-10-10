@@ -12,6 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
 class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 {
 
@@ -74,9 +75,9 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 		$fieldDataType = $fieldModel->getFieldDataType();
 		$uiTypeClassSuffix = ucfirst($fieldDataType);
 		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
-		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
-		$fallBackClassName = 'Vtiger_Base_UIType';
+		$moduleSpecificUiTypeClassName = '\\FreeCRM\\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
+		$uiTypeClassName = '\\FreeCRM\\Modules\\Vtiger\\UiTypes\\' . $uiTypeClassSuffix;
+		$fallBackClassName = '\\FreeCRM\\Modules\\Vtiger\\UiTypes\\Base';
 
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
@@ -84,9 +85,9 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 		$moduleSpecificFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
 		$completeFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
 
-		if (file_exists($moduleSpecificFilePath)) {
+		if (file_exists($moduleSpecificFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
 			$instance = new $moduleSpecificUiTypeClassName();
-		} else if (file_exists($completeFilePath)) {
+		} else if (file_exists($completeFilePath) && class_exists($uiTypeClassName)) {
 			$instance = new $uiTypeClassName();
 		} else {
 			$instance = new $fallBackClassName();

@@ -8,9 +8,11 @@ namespace FreeCRM\Modules\Notification;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+use FreeCRM\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Notification extends \Vtiger_CRMEntity
+class Notification extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_notification';

@@ -8,9 +8,11 @@ namespace FreeCRM\Modules\Announcements;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use FreeCRM\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Announcements extends \Vtiger_CRMEntity
+class Announcements extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_announcement';

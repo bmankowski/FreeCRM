@@ -13,6 +13,7 @@ namespace FreeCRM\Runtime;
 /**
  * CSS Script Model - extends Vtiger_JavaScript
  */
+
 class Vtiger_CssScript_Model extends Vtiger_JavaScript
 {
 	protected $data = [];
