@@ -11,6 +11,7 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Modules\Users\Models\Module as Users_Module_Model;
 class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 

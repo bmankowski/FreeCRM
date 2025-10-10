@@ -9,6 +9,8 @@ namespace FreeCRM\Modules\SSalesProcesses\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 

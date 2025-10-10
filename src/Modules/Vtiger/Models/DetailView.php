@@ -12,6 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class DetailView extends Model
 {
 
@@ -81,8 +82,8 @@ class DetailView extends Model
 			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
-			$wfs = new \VTWorkflowManager($adb);
-			$workflows = $wfs->getWorkflowsForModule($moduleName, \VTWorkflowManager::$TRIGGER);
+			$wfs = new VTWorkflowManager($adb);
+			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',

@@ -14,6 +14,8 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
+
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class WorkflowTrigger extends \Vtiger_Index_View
 {
 

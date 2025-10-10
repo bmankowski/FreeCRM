@@ -11,6 +11,7 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 

@@ -15,6 +15,8 @@ namespace FreeCRM\Modules\Users\Models;
 /**
  * User Privileges Model Class
  */
+
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
@@ -204,7 +206,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
 		require_once ROOT_DIRECTORY . '/src/Webservices/Retrieve.php';
-		$workflows = (new \VTWorkflowManager(\FreeCRM\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new VTWorkflowManager(\FreeCRM\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {

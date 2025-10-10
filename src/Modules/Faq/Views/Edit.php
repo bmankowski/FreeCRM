@@ -14,6 +14,8 @@ namespace FreeCRM\Modules\Faq\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
+
+use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class Edit extends \Vtiger_Index_View
 {
 

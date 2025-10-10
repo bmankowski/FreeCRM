@@ -13,6 +13,7 @@ namespace FreeCRM\Modules\OSSMailScanner;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
+use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class OSSMailScanner {
 
 	public function vtlib_handler($moduleName, $eventType)
@@ -64,13 +65,13 @@ class OSSMailScanner {
 
 	public function turn_on($moduleName)
 	{
-		\Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
 			'name' => 'Mail Scanner',
 			'iconpath' => 'adminIcon-mail-scanner',
 			'description' => 'LBL_MAIL_SCANNER_DESCRIPTION',
 			'linkto' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index'
 		]);
-		\Settings_Vtiger_Module_Model::addSettingsField('LBL_SECURITY_MANAGEMENT', [
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_SECURITY_MANAGEMENT', [
 			'name' => 'Mail Logs',
 			'iconpath' => 'adminIcon-mail-download-history',
 			'description' => 'LBL_MAIL_LOGS_DESCRIPTION',

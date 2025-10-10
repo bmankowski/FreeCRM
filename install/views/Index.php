@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
+use FreeCRM\Modules\Users\Models\Module as Users_Module_Model;
 class Install_Index_view extends Vtiger_View_Controller
 {
 

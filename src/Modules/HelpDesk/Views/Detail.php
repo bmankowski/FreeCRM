@@ -13,6 +13,8 @@ namespace FreeCRM\Modules\HelpDesk\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
+
+use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -21,6 +23,7 @@ class Detail extends \Vtiger_Index_View
 		parent::__construct();
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showCharts');
+		$this->exposeMethod('showRelatedProductsServices');
 	}
 
 	/**
@@ -56,5 +59,27 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->view('charts/ShowTimeHelpDesk.tpl', $moduleName);
+	}
+
+	public function showRelatedProductsServices(\FreeCRM\Http\Vtiger_Request $request)
+	{
+		$recordId = $request->get('record');
+		$moduleName = $request->getModule();
+
+		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		$recordModel = $detailViewModel->getRecord();
+		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
+
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORDID', $recordId);
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('LIMIT', 'no_limit');
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		
+		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 }

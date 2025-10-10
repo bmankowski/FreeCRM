@@ -13,6 +13,7 @@ namespace FreeCRM\Modules\OSSPasswords;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
+use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class OSSPasswords extends \FreeCRM\CRMEntity
 {
 
@@ -327,7 +328,7 @@ class OSSPasswords extends \FreeCRM\CRMEntity
 		$displayLabel = 'OSSPassword Configuration';
 
 		if ($registerLink) {
-			\Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-passwords-encryption',
 				'description' => 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION',

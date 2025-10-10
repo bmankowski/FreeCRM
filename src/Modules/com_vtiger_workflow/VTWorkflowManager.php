@@ -11,6 +11,8 @@ namespace FreeCRM\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
+use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 require_once('VTJsonCondition.php');
 require_once ROOT_DIRECTORY . '/src/utils/ConfigReader.php';
 require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';

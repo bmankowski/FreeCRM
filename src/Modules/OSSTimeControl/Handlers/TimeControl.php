@@ -9,6 +9,8 @@ namespace FreeCRM\Modules\OSSTimeControl\Handlers;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityCache.php';
 require_once ROOT_DIRECTORY . '/include/Webservices/Utils.php';

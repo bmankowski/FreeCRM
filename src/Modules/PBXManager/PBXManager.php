@@ -11,6 +11,8 @@ namespace FreeCRM\Modules\PBXManager;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
+
+use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 require_once ROOT_DIRECTORY . '/src/events/include.php';
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
@@ -221,7 +223,7 @@ class PBXManager extends \FreeCRM\CRMEntity
 			}
 			$adb->pquery("INSERT INTO vtiger_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
 		}
-		\Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
 			'name' => 'LBL_PBXMANAGER',
 			'iconpath' => 'adminIcon-pbx-manager',
 			'description' => 'LBL_PBXMANAGER_DESCRIPTION',

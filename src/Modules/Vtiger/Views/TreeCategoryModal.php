@@ -10,6 +10,8 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
+
+use FreeCRM\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
 class TreeCategoryModal extends \Vtiger_Index_View
 {
 

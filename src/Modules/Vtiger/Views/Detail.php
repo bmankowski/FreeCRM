@@ -15,6 +15,10 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\Http\Vtiger_Request;
 use FreeCRM\AppConfig;
+
+use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+
+use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -70,7 +74,7 @@ class Detail extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (!$this->record) {
-			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		$this->recordStructure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -184,7 +188,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
-		$picklistDependencyDatasource = \Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 
 		if ($display) {
@@ -207,7 +211,7 @@ class Detail extends \Vtiger_Index_View
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
-			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode == 'showDetailViewByMode') {
@@ -227,7 +231,7 @@ class Detail extends \Vtiger_Index_View
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
-			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
@@ -290,7 +294,7 @@ class Detail extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		if (!$this->recordStructure) {
@@ -318,7 +322,7 @@ class Detail extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
@@ -349,7 +353,7 @@ class Detail extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
@@ -636,7 +640,7 @@ class Detail extends \Vtiger_Index_View
 				$pagingModel->set('limit', 10);
 			}
 			if (!$this->record) {
-				$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+				$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 			}
 			$recordModel = $this->record->getRecord();
 			$moduleModel = $recordModel->getModule();
@@ -808,7 +812,7 @@ class Detail extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 

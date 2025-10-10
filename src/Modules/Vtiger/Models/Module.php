@@ -21,6 +21,8 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Module Model Class
  */
+
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class Module extends \vtlib\Module
 {
 

@@ -11,6 +11,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * ****************************************************************************** */
 
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class VTWorkflowTemplateManager {
 
 	public function __construct($adb)

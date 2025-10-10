@@ -16,9 +16,9 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li><a data-toggle="tab" href="#Permissions">{vtranslate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
-			{if \App\Module::isModuleActive('OSSMail')}
-			<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
-			{/if}
+		{if $ACTIVE_MODULES.OSSMail}
+		<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
+		{/if}
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
@@ -173,7 +173,7 @@
 
         </div>
 		{* check config module *}
-		{if \App\Module::isModuleActive('OSSMail')}
+		{if $ACTIVE_MODULES.OSSMail}
 			<div class='editViewContainer tab-pane' id="check_config">
 				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
 			</div>

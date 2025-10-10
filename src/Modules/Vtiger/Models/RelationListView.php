@@ -12,6 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
 class RelationListView extends Model
 {
 
@@ -291,11 +292,11 @@ class RelationListView extends Model
 
 	/**
 	 * Get tree view model
-	 * @return \Vtiger_TreeCategoryModal_Model
+	 * @return Vtiger_TreeCategoryModal_Model
 	 */
 	public function getTreeViewModel()
 	{
-		return \Vtiger_TreeCategoryModal_Model::getInstance($this->getRelatedModuleModel());
+		return Vtiger_TreeCategoryModal_Model::getInstance($this->getRelatedModuleModel());
 	}
 
 	/**

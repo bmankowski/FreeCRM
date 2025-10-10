@@ -13,6 +13,7 @@ namespace FreeCRM\Modules\OSSMailView;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
+use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class OSSMailView extends \FreeCRM\CRMEntity
 {
 
@@ -334,7 +335,7 @@ class OSSMailView extends \FreeCRM\CRMEntity
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
-			\Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-oss_mailview',
 				'description' => 'LBL_MAIL_VIEW_DESCRIPTION',

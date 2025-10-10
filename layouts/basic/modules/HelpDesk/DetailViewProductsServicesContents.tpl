@@ -12,7 +12,7 @@
 {strip}
 	<div>
 		{* Summary View Products Widget*}
-		{if \App\Module::isModuleActive('Products')}
+		{if $ACTIVE_MODULES.Products}
 			<div class="summaryWidgetContainer">
 				<div class="widgetContainer_products hideActionImages" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_PRODUCTS">
 					<div class="widget_header row">
@@ -39,7 +39,7 @@
 			</div>
 		{/if}
 		{* Summary View Assets Widget*}
-		{if \App\Module::isModuleActive('Assets')}
+		{if $ACTIVE_MODULES.Assets}
 			<div class="summaryWidgetContainer">
 				<div class="widgetContainer_assets2" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Assets&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_ASSETS">
 					<div class="widget_header row">
@@ -59,7 +59,7 @@
 			</div>
 		{/if}
 		{* Summary View Services Widget Ends Here*}
-		{if \App\Module::isModuleActive('Services')}
+		{if $ACTIVE_MODULES.Services}
 			<div class="summaryWidgetContainer">
 				<div class="widgetContainer_service hideActionImages" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Services&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_SERVICES">
 					<div class="widget_header row">
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 		{/if}
-		{if \App\Module::isModuleActive('OSSSoldServices')}
+		{if $ACTIVE_MODULES.OSSSoldServices}
 			<div class="summaryWidgetContainer">
 				<div class="widgetContainer_service" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSSoldServices&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_OSSSS">
 					<div class="widget_header row">

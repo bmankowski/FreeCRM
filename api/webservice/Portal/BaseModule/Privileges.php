@@ -8,6 +8,8 @@ namespace Api\Portal\BaseModule;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
 class Privileges extends \Api\Core\BaseAction
 {
 

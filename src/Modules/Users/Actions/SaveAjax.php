@@ -11,6 +11,8 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
+
+use FreeCRM\Modules\Users\Models\Module as Users_Module_Model;
 require_once ROOT_DIRECTORY . '/src/Webservices/Custom/ChangePassword.php';
 
 class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save

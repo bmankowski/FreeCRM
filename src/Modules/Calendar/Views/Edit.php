@@ -11,6 +11,7 @@ namespace FreeCRM\Modules\Calendar\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 Class Calendar_Edit_View extends Vtiger_Edit_View
 {
 

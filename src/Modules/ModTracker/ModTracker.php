@@ -11,6 +11,8 @@ namespace FreeCRM\Modules\ModTracker;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
+use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 include_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
 
 class ModTracker {
@@ -51,7 +53,7 @@ class ModTracker {
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
-			\Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => 'ModTracker',
 				'iconpath' => 'adminIcon-modules-track-chanegs',
 				'description' => 'LBL_MODTRACKER_DESCRIPTION',

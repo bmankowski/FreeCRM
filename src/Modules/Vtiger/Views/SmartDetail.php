@@ -4,6 +4,8 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\Http\Vtiger_Request;
 
+use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+
 class SmartDetail extends \Vtiger_Index_View
 {
 

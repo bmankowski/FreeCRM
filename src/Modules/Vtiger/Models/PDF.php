@@ -10,6 +10,8 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 class PDF extends Model
 {
 

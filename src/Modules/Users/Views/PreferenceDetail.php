@@ -14,6 +14,8 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
+
+use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class PreferenceDetail extends \Vtiger_Index_View
 {
 

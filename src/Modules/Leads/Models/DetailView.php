@@ -12,6 +12,7 @@ namespace FreeCRM\Modules\Leads\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
+use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
@@ -23,7 +24,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$linkModelList = \Vtiger_DetailView_Model::getDetailViewLinks($linkParams);
+		$linkModelList = Vtiger_DetailView_Model::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();

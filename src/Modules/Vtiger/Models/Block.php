@@ -12,6 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 class Block extends \vtlib\Block
 {
 

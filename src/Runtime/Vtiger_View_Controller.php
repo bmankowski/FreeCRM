@@ -95,6 +95,16 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
 	   $viewer->assign('MODULE_NAME', $moduleName);
 	   $viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
+	   
+	   // Build array of all module active statuses for templates
+	   $activeModules = [];
+	   $allModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 
+	                  'OSSOutsourcedServices', 'OSSSoldServices', 'OSSMail'];
+	   foreach ($allModules as $module) {
+		   $activeModules[$module] = \App\Module::isModuleActive($module);
+	   }
+	   $viewer->assign('ACTIVE_MODULES', $activeModules);
+	   
 	   if ($display) {
 		   $this->preProcessDisplay($vtigerRequest);
 	   }

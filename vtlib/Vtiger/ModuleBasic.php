@@ -14,6 +14,8 @@ namespace vtlib;
  * Provides API to work with vtiger CRM Module
  * @package vtlib
  */
+
+use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class ModuleBasic
 {
 

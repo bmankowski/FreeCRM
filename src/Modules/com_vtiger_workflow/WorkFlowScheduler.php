@@ -11,6 +11,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * *********************************************************************************** */
 
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ('src/Modules/com_vtiger_workflow/WorkflowSchedulerInclude.php');
 require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once ROOT_DIRECTORY . '/src/Modules/Users/Users.php';

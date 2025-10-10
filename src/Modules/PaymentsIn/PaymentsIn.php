@@ -11,6 +11,8 @@ namespace FreeCRM\Modules\PaymentsIn;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
+
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class PaymentsIn extends \Vtiger_CRMEntity

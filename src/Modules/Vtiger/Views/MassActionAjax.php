@@ -13,6 +13,8 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
+
+use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class MassActionAjax extends \Vtiger_Index_View
 {
 

@@ -106,8 +106,11 @@ class FreeCRM_Viewer extends \Smarty
 			// Register plugins - these are in global namespace from TemplateHelpers.php
 			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
+			$this->registerPlugin('modifier', 'vimage_path', 'vimage_path'); // Also as modifier
 			$this->registerPlugin('function', 'vtemplate_path', 'vtemplate_path');
+			$this->registerPlugin('modifier', 'vtemplate_path', 'vtemplate_path'); // Also as modifier
 			$this->registerPlugin('function', 'vresource_url', 'vresource_url');
+			$this->registerPlugin('modifier', 'vresource_url', 'vresource_url'); // Also as modifier
 			$this->registerPlugin('function', 'vglobal', 'vglobal');
 			$this->registerPlugin('modifier', 'vglobal', 'vglobal'); // Also register as modifier for compatibility
 
@@ -116,15 +119,28 @@ class FreeCRM_Viewer extends \Smarty
 			
 			// Register static classes for template use
 			$this->registerClass('AppConfig', '\FreeCRM\\AppConfig');
-		$this->registerClass('AppRequest', '\FreeCRM\\Http\\AppRequest');
-
-
+			$this->registerClass('AppRequest', '\FreeCRM\\Http\\AppRequest');
+			$this->registerClass('Vtiger_Util_Helper', '\FreeCRM\\Modules\\Vtiger\\Util');
+			$this->registerClass('Vtiger_Menu_Model', '\FreeCRM\\Modules\\Vtiger\\Models\\Menu');
+			$this->registerClass('Vtiger_Module_Model', '\FreeCRM\\Modules\\Vtiger\\Models\\Module');
+			$this->registerClass('Vtiger_Language_Handler', '\FreeCRM\\Runtime\\Vtiger_Language_Handler');
+			$this->registerClass('Users_Privileges_Model', '\FreeCRM\\Modules\\Users\\Models\\Privileges');
+			$this->registerClass('Yeti_Layout', '\FreeCRM\\Runtime\\Yeti_Layout');
+			$this->registerClass('\\App\\Json', '\\App\\Json');
+			$this->registerClass('\\App\\Debugger', '\\App\\Debugger');
+			$this->registerClass('App\\Company', '\\App\\Company');
 
 			// Register PHP functions that are used in templates
 			$this->registerPlugin('modifier', 'strrpos', 'strrpos');
 			$this->registerPlugin('modifier', 'stripos', 'stripos');
 			$this->registerPlugin('modifier', 'array_flip', 'array_flip');
 			$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
+			$this->registerPlugin('modifier', 'explode', 'explode');
+			$this->registerPlugin('modifier', 'htmlspecialchars', 'htmlspecialchars');
+			$this->registerPlugin('modifier', 'file_exists', 'file_exists');
+			$this->registerPlugin('function', 'explode', 'explode');
+			$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
+			$this->registerPlugin('function', 'file_exists', 'file_exists');
 
 
 

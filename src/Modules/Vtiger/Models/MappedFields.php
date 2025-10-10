@@ -8,6 +8,8 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 class MappedFields extends Model
 {
 
@@ -247,7 +249,7 @@ class MappedFields extends Model
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
-		$conditionStrategy = new \VTJsonCondition();
+		$conditionStrategy = new VTJsonCondition();
 		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $recordModel);
 		\App\Cache::staticSave(__METHOD__, $key, $test);

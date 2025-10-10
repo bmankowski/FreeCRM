@@ -2,6 +2,7 @@
 
 namespace FreeCRM\Modules\Vtiger\Handlers;
 
+use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManager.php';
 
 /**
