@@ -1,6 +1,8 @@
 <?php
 namespace App\SystemWarnings\SystemRequirements;
 
+use FreeCRM\Modules\Settings\ModuleManager\Models\Library as Settings_ModuleManager_Library_Model;
+
 /**
  * Privilege File basic class
  * @package YetiForce.SystemWarnings
@@ -19,11 +21,11 @@ class LibraryRoundcube extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		$this->status = \Settings_ModuleManager_Library_Model::checkLibrary('roundcube') ? 0 : 1;
+		$this->status = Settings_ModuleManager_Library_Model::checkLibrary('roundcube') ? 0 : 1;
 		if ($this->status === 0) {
 			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
 			$this->linkTitle = vtranslate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
-			$this->description = vtranslate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
+			$this->description = vtranslate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', Settings_ModuleManager_Library_Model::TEMP_DIR);
 		}
 	}
 }

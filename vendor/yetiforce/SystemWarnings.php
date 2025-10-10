@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use FreeCRM\LanguageTranslator;
+
 /**
  * System warnings basic class
  * @package YetiForce.App
@@ -27,7 +29,7 @@ class SystemWarnings
 				$fileName = $item->getFilename();
 				$subPath = str_replace(DIRECTORY_SEPARATOR, '/', $subPath);
 				$parent = rtrim(rtrim($subPath, $fileName), '/');
-				$folder = ['id' => $i, 'text' => \LanguageTranslator::translate($fileName, 'Settings:SystemWarnings'), 'subPath' => $subPath, 'parent' => '#'];
+				$folder = ['id' => $i, 'text' => LanguageTranslator::translate($fileName, 'Settings:SystemWarnings'), 'subPath' => $subPath, 'parent' => '#'];
 				if (isset($folders[$parent])) {
 					$folder['parent'] = $folders[$parent]['id'];
 				}

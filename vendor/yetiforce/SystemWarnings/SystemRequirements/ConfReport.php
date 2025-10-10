@@ -1,6 +1,9 @@
 <?php
 namespace App\SystemWarnings\SystemRequirements;
 
+use FreeCRM\Modules\Settings\ConfReport\Models\Module as Settings_ConfReport_Module_Model;
+use FreeCRMLanguageTranslator;
+
 /**
  * Privilege File basic class
  * @package YetiForce.SystemWarnings
@@ -20,12 +23,12 @@ class ConfReport extends \App\SystemWarnings\Template
 	public function process()
 	{
 		$status = 2;
-		$permissionsFiles = \Settings_ConfReport_Module_Model::getPermissionsFiles(true);
+		$permissionsFiles = Settings_ConfReport_Module_Model::getPermissionsFiles(true);
 		if (!empty($permissionsFiles)) {
 			$status = 2;
 		}
 		if ($status) {
-			$library = \Settings_ConfReport_Module_Model::getConfigurationLibrary();
+			$library = Settings_ConfReport_Module_Model::getConfigurationLibrary();
 			foreach ($library as $key => $value) {
 				if ($value['status'] === 'LBL_NO') {
 					$status = 2;
@@ -33,7 +36,7 @@ class ConfReport extends \App\SystemWarnings\Template
 			}
 		}
 		if ($status) {
-			$directiveValues = \Settings_ConfReport_Module_Model::getConfigurationValue();
+			$directiveValues = Settings_ConfReport_Module_Model::getConfigurationValue();
 			foreach ($directiveValues as $key => $value) {
 				if (isset($value['status']) && $value['status']) {
 					$status = 2;
@@ -45,8 +48,8 @@ class ConfReport extends \App\SystemWarnings\Template
 		} else {
 			$this->status = 0;
 			$this->link = 'index.php?parent=Settings&module=ConfReport&view=Index';
-			$this->linkTitle = \LanguageTranslator::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
-			$this->description = \LanguageTranslator::translate('LBL_CONFIG_REPORT_DESC', 'Settings:SystemWarnings');
+			$this->linkTitle = LanguageTranslator::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
+			$this->description = LanguageTranslator::translate('LBL_CONFIG_REPORT_DESC', 'Settings:SystemWarnings');
 		}
 	}
 }

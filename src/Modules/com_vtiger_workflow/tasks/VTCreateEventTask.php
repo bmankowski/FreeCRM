@@ -11,10 +11,10 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/Webservices/Utils.php');
-require_once("include/Webservices/VtigerCRMObject.php");
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
-require_once("include/Webservices/WebServiceError.php");
+require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObject.php");
+require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObjectMeta.php");
+require_once(ROOT_DIRECTORY . '/src/Webservices/DataTransform.php");
+require_once(ROOT_DIRECTORY . '/src/Webservices/WebServiceError.php");
 require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
 require_once(ROOT_DIRECTORY . '/src/Webservices/Create.php');
 require_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
