@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
+class RelationListView extends Model
 {
 
 	protected $relationModel = false;

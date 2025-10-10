@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ModuleMeta extends \FreeCRM\Modules\Vtiger\Models\Model
+class ModuleMeta extends Model
 {
 
 	public $moduleName = false;

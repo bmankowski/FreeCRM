@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger EditView Model Class
  */
-class EditView extends \FreeCRM\Modules\Vtiger\Models\Model
+class EditView extends Model
 {
 
 	/**

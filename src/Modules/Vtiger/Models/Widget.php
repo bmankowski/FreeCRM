@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Widget Model Class
  */
-class Widget extends \FreeCRM\Modules\Vtiger\Models\Model
+class Widget extends Model
 {
 
 	public function getWidth()

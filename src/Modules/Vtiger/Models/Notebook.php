@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Notebook extends \FreeCRM\Modules\Vtiger\Models\Model
+class Notebook extends Model
 {
 
 	public function getContent()

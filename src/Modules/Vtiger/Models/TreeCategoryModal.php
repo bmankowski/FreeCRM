@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeCategoryModal extends \FreeCRM\Modules\Vtiger\Models\Model
+class TreeCategoryModal extends Model
 {
 
 	static $_cached_instance;

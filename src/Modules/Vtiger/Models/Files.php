@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Files Model Class
  */
-class Files extends \FreeCRM\Modules\Vtiger\Models\Model
+class Files extends Model
 {
 
 	const ATTACHMENT_ACTIVE = 1;

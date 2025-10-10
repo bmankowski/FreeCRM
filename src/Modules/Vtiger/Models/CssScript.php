@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * CSS Script Model Class
  */
-class CssScript extends \FreeCRM\Modules\Vtiger\Models\Model
+class CssScript extends Model
 {
 
 	const DEFAULT_REL = 'stylesheet';

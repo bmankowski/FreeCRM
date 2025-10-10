@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger JS Script Model Class
  */
-class JsScript extends \FreeCRM\Modules\Vtiger\Models\Model
+class JsScript extends Model
 {
 
 	const DEFAULT_TYPE = 'text/javascript';

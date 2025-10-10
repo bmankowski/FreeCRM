@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RelatedCommentModal extends \FreeCRM\Modules\Vtiger\Models\Model
+class RelatedCommentModal extends Model
 {
 
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)

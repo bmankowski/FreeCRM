@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class InventoryField extends \FreeCRM\Modules\Vtiger\Models\Model
+class InventoryField extends Model
 {
 
 	protected $fields = false;

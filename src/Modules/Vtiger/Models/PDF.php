@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class PDF extends \FreeCRM\Modules\Vtiger\Models\Model
+class PDF extends Model
 {
 
 	public static $baseTable = 'a_yf_pdf';

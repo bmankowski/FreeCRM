@@ -4,7 +4,7 @@
 
 namespace FreeCRM\Modules\Vtiger\Models;
 
-class TransferOwnership extends \FreeCRM\Modules\Vtiger\Models\Model
+class TransferOwnership extends Model
 {
 
 	protected $skipModules = [];

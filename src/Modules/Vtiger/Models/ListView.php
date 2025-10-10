@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends \FreeCRM\Modules\Vtiger\Models\Model
+class ListView extends Model
 {
 
 	/**

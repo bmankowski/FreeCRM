@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class FindDuplicate extends \FreeCRM\Modules\Vtiger\Models\Model
+class FindDuplicate extends Model
 {
 
 	public function setModule($moduleModel)

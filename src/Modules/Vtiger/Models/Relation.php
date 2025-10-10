@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends \FreeCRM\Modules\Vtiger\Models\Model
+class Relation extends Model
 {
 
 	protected static $cachedInstances = [];

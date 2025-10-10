@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class DashBoard extends \FreeCRM\Modules\Vtiger\Models\Model
+class DashBoard extends Model
 {
 
 	/**

@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Paging Model Class
  */
-class Paging extends \FreeCRM\Modules\Vtiger\Models\Model
+class Paging extends Model
 {
 
 	const DEFAULT_PAGE = 1;

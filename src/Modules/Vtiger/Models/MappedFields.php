@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class MappedFields extends \FreeCRM\Modules\Vtiger\Models\Model
+class MappedFields extends Model
 {
 
 	public static $baseTable = 'a_yf_mapped_config';

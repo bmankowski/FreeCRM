@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class ChartFilter extends \FreeCRM\Modules\Vtiger\Models\Model
+class ChartFilter extends Model
 {
 
 	private $widgetModel;

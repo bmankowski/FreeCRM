@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Record Structure Model
  */
-class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
+class RecordStructure extends Model
 {
 
 	protected $record = false;

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class TooltipView extends \FreeCRM\Modules\Vtiger\Models\Model
+class TooltipView extends Model
 {
 
 	protected $fields = false;

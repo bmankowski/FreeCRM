@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Action Model Class
  */
-class Action extends \FreeCRM\Modules\Vtiger\Models\Model
+class Action extends Model
 {
 
 	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');

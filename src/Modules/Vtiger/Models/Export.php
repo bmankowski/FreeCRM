@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Export extends \FreeCRM\Modules\Vtiger\Models\Model
+class Export extends Model
 {
 
 	protected $moduleInstance;
