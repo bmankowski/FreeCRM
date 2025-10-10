@@ -15,12 +15,12 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class AssignedUpcomingProjectsTasks extends View
+class AssignedUpcomingProjectsTasks extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -28,17 +28,17 @@ class AssignedUpcomingProjectsTasks extends View
 		$linkId = $request->get('linkid');
 		$data = $request->getAll();
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		else
 			$owner = $request->get('owner');
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$projectsTasks = ($owner === false) ? [] : $moduleModel->getAssignedProjectsTasks('upcoming', $pagingModel, $owner);
 		$currentDate = date('Y-m-d');
 

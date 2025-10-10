@@ -226,7 +226,7 @@ class WebUI extends EntryPoint
 			throw new \Exception\AppException($message);
 		}
 
-		$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$hasPermission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$hasPermission) {

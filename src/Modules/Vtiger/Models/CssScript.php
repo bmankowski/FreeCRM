@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * CSS Script Model Class
  */
-class CssScript extends Model
+class CssScript extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	const DEFAULT_REL = 'stylesheet';
@@ -75,11 +75,11 @@ class CssScript extends Model
 	}
 
 	/**
-	 * Function to get the instance of CSS Script model from a given vtlib\Link object
-	 * @param vtlib\Link $linkObj
-	 * @return Vtiger_CssScript_Model instance
+	 * Function to get the instance of CSS Script model from a given \vtlib\Link object
+	 * @param \vtlib\Link $linkObj
+	 * @return \FreeCRM\Modules\Vtiger\Models\CssScript instance
 	 */
-	public static function getInstanceFromLinkObject(vtlib\Link $linkObj)
+	public static function getInstanceFromLinkObject(\vtlib\Link $linkObj)
 	{
 		$objectProperties = get_object_vars($linkObj);
 		$linkModel = new self();

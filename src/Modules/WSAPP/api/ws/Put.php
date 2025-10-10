@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\WSAPP\api\ws;
 require_once ROOT_DIRECTORY . '/src/Webservices/Create.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Update.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Delete.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 
 function wsapp_put($key, $element, $user)
 {

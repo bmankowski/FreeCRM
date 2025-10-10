@@ -21,6 +21,6 @@ $query = 'SELECT
 $query = sprintf($query, $db->generateQuestionMarks($renewal));
 $result = $db->pquery($query, $renewal);
 while (($recordId = $db->getSingleValue($result)) !== false) {
-	$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Assets');
+	$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Assets');
 	$recordModel->updateRenewal();
 }

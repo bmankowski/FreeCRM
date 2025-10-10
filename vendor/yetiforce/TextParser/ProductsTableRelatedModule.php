@@ -30,12 +30,12 @@ class ProductsTableRelatedModule extends Base
 	{
 		$html = '';
 		$relatedModuleRecordId = $this->textParser->recordModel->get($this->relatedModulesFields[$this->textParser->moduleName]);
-		$relatedModuleRecordModel = \Vtiger_Record_Model::getInstanceById($relatedModuleRecordId);
+		$relatedModuleRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedModuleRecordId);
 		if (!$relatedModuleRecordModel->getModule()->isInventory()) {
 			return $html;
 		}
 		$relatedModuleName = $relatedModuleRecordModel->getModuleName();
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($relatedModuleName);
+		$inventoryField = \FreeCRM\Modules\Vtiger\Models\InventoryField::getInstance($relatedModuleName);
 		$fields = $inventoryField->getFields(true);
 		$inventoryRows = $relatedModuleRecordModel->getInventoryData();
 		$html .= '<style>' .

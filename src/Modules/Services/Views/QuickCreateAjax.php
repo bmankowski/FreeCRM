@@ -14,13 +14,13 @@ namespace FreeCRM\Modules\Services\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class QuickCreateAjax extends View
+class QuickCreateAjax extends \Vtiger_Index_View
 {
 
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return Vtiger_JsScript_Model[]
+	 * @return \FreeCRM\Modules\Vtiger\Models\JsScript[]
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

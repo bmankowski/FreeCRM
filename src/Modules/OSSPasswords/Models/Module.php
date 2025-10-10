@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSPasswords\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -21,7 +21,7 @@ class Module extends Model
 	 */
 	public function getSettingLinks()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$settingLinks = parent::getSettingLinks();
 
 		if ($currentUserModel->isAdminUser()) {

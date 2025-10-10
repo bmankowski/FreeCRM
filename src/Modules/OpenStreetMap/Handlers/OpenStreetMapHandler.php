@@ -12,9 +12,9 @@ class Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$fieldAddress = [
 			'addresslevel', 'buildingnumber', 'localnumber', 'pobox'
@@ -35,20 +35,20 @@ class Handler {
 		}
 		foreach (['a', 'b', 'c'] as &$typeAddress) {
 			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->getEntity()->mode !== 'edit' || in_array($typeAddress, $typeAddressToUpdate))) {
-				$isCoordinateExists = (new App\Db\Query())
+				$isCoordinateExists = (new \App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')
 					->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])
 					->exists();
 				$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 				$address = $coordinatesModel->getUrlParamsToSearching($recordModel, $typeAddress);
 				if (!$isCoordinateExists) {
-					App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
+					\App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
 						'crmid' => $recordModel->getId(),
 						'type' => $typeAddress,
 						'address' => \App\Json::encode($address)
 					])->execute();
 				} else {
-					App\Db::getInstance()->createCommand()
+					\App\Db::getInstance()->createCommand()
 						->update('u_#__openstreetmap_record_updater', ['address' => \App\Json::encode($address)], ['crmid' => $recordModel->getId(), 'type' => $typeAddress])
 						->execute();
 				}

@@ -6,7 +6,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
 		$page = $request->get('page');
@@ -15,20 +15,20 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$orderBy = $request->get('orderby');
 		$data = $request->getAll();
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$params = [];
-		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		$params['status'] = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 		$params['user'] = $currentUser->getId();
 		$conditions = [
 			'condition' => [
@@ -39,7 +39,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 			]
 		];
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
 
 		$viewer = $this->getViewer($request);

@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Import\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
@@ -39,10 +39,10 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$moduleModel = $this->getModule();
 		$this->loadListViewCondition();
@@ -65,7 +65,7 @@ class ListView extends Model
 		$listViewRecordModels = [];
 		foreach ($rows as &$row) {
 			$recordModel = $moduleModel->getRecordFromArray($row);
-			$recordModel->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleModel->get('name'), $row['id'], $recordModel);
+			$recordModel->colorList = \Settings_DataAccess_Module_Model::executeColorListHandlers($moduleModel->get('name'), $row['id'], $recordModel);
 			$listViewRecordModels[$row['id']] = $recordModel;
 		}
 		unset($rows);
@@ -88,13 +88,13 @@ class ListView extends Model
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
 	 * @param string $moduleName - Module Name
 	 * @param int $viewId - Custom View Id
-	 * @return Vtiger_ListView_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\ListView instance
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
 	{
 		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'ListView', 'Import');
 		$instance = new $modelClassName();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		$queryGenerator->initForDefaultCustomView(true);
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
@@ -109,7 +109,7 @@ class ListView extends Model
 	{
 		$moduleModel = $this->getModule();
 		$user = \App\User::getCurrentUserId();
-		$userDBTableName = Import_Module_Model::getDbTableName($user);
+		$userDBTableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($user);
 		$query->innerJoin($userDBTableName, $moduleModel->basetable . '.' . $moduleModel->basetableid . " = $userDBTableName.recordid");
 		$query->where(['and', ['not', [$userDBTableName . '.temp_status' => [Import_Data_Action::IMPORT_RECORD_FAILED, Import_Data_Action::IMPORT_RECORD_SKIPPED]]], ['not', [$userDBTableName . '.recordid' => null]]]);
 		return $query;

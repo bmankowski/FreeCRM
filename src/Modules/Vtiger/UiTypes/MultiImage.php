@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
 /**
  * UIType MultiImage Field Class
  */
-class MultiImage extends UIType
+class MultiImage extends Base
 {
 
 	/**
@@ -56,7 +56,7 @@ class MultiImage extends UIType
 	 * Function to get the Display Value
 	 * @param string $value
 	 * @param int $recordId
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $noLimit
 	 * @return string
 	 */
@@ -95,7 +95,7 @@ class MultiImage extends UIType
 	 * Function to get the List Display Value
 	 * @param string $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -126,7 +126,7 @@ class MultiImage extends UIType
 	public function getMultiImageQuery($value, $fields = [], $limit = true)
 	{
 		$field = $this->getFieldModel();
-		$query = (new App\Db\Query());
+		$query = (new \App\Db\Query());
 		if ($fields) {
 			$query->select($fields);
 		}

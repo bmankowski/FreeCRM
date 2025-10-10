@@ -14,15 +14,15 @@ namespace FreeCRM\Modules\Reports\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ChartDetail extends View
+class ChartDetail extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
-		$reportModel = Reports_Record_Model::getCleanInstance($record);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
 
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -44,8 +44,8 @@ class ChartDetail extends View
 		$primaryModule = $reportModel->getPrimaryModule();
 		$secondaryModules = $reportModel->getSecondaryModules();
 
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 		$permission = $userPrivilegesModel->hasModulePermission($primaryModule);
 
 		if (!$permission) {
@@ -70,7 +70,7 @@ class ChartDetail extends View
 		if (($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== false)) {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \FreeCRM\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -104,7 +104,7 @@ class ChartDetail extends View
 
 		$record = $request->get('record');
 
-		$reportModel = Reports_Record_Model::getInstanceById($record);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($record);
 		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
 		$secondaryModules = $reportModel->getSecondaryModules();
 		if (empty($secondaryModules)) {
@@ -133,7 +133,7 @@ class ChartDetail extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -169,7 +169,7 @@ class ChartDetail extends View
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_CssScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{

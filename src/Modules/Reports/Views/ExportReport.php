@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Reports\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ExportReport extends Controller
+class ExportReport extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	public function __construct()
@@ -28,9 +28,9 @@ class ExportReport extends Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
-		$reportModel = Reports_Record_Model::getCleanInstance($record);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
 
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -67,7 +67,7 @@ class ExportReport extends Controller
 	public function GetXLS(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
-		$reportModel = Reports_Record_Model::getInstanceById($recordId);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportXLS();
 	}
@@ -79,7 +79,7 @@ class ExportReport extends Controller
 	public function GetCSV(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
-		$reportModel = Reports_Record_Model::getInstanceById($recordId);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportCSV();
 	}
@@ -94,7 +94,7 @@ class ExportReport extends Controller
 		$moduleName = $request->getModule();
 
 		$recordId = $request->get('record');
-		$reportModel = Reports_Record_Model::getInstanceById($recordId);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$printData = $reportModel->getReportPrint();
 

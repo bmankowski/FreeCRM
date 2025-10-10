@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Import\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Main extends Controller
+class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	public $request;
@@ -155,7 +155,7 @@ class Main extends Controller
 		$mapName = $this->request->get('save_map_as');
 		if ($saveMap && !empty($mapName)) {
 			$fieldMapping = $this->request->get('field_mapping');
-			$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
+			$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($this->request, $this->user);
 			if ($fileReader === null) {
 				return false;
 			}
@@ -184,7 +184,7 @@ class Main extends Controller
 
 	public function copyFromFileToDB()
 	{
-		$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
+		$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($this->request, $this->user);
 		$fileReader->read();
 		$fileReader->deleteFile();
 		if ($fileReader->getStatus() === 'success') {

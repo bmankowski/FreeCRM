@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class FindDuplicate extends Model
+class FindDuplicate extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public function setModule($moduleModel)
@@ -29,7 +29,7 @@ class FindDuplicate extends Model
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$listViewHeaders = [];
-		$listViewHeaders[] = new Vtiger_Base_Model(array('name' => 'recordid', 'label' => 'ID'));
+		$listViewHeaders[] = new \FreeCRM\Modules\Vtiger\Models\Base(array('name' => 'recordid', 'label' => 'ID'));
 		$headers = $db->getFieldsArray($this->result);
 		foreach ($headers as $header) {
 			$fieldModel = $moduleModel->getFieldByColumn($header);
@@ -42,7 +42,7 @@ class FindDuplicate extends Model
 
 	/**
 	 * Function to get query which searching duplicate records
-	 * @return App\Db\Query $query 
+	 * @return \App\Db\Query $query 
 	 */
 	public function getQuery()
 	{
@@ -55,7 +55,7 @@ class FindDuplicate extends Model
 		foreach ($mandatoryFieldsModels as $fieldModel) {
 			$mandatoryFields [] = $fieldModel->getFieldName();
 		}
-		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setFields(array_merge($mandatoryFields, $fields));
 
 		$ignoreEmpty = $this->get('ignoreEmpty');
@@ -75,7 +75,7 @@ class FindDuplicate extends Model
 		return $query;
 	}
 
-	public function getListViewEntries(Vtiger_Paging_Model $paging)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $paging)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
@@ -165,7 +165,7 @@ class FindDuplicate extends Model
 	public static function getInstance($module)
 	{
 		$self = new self();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 		$self->setModule($moduleModel);
 		return $self;
 	}
@@ -215,7 +215,7 @@ class FindDuplicate extends Model
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 
 		$fields = $request->get('fields');
 		$ignoreEmpty = $request->get('ignoreEmpty');

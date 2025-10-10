@@ -12,27 +12,27 @@ namespace FreeCRM\Modules\ModComments\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Action extends Action
+class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$request->set('assigned_user_id', App\User::getCurrentUserId());
+		$request->set('assigned_user_id', \App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
 		$responseFieldsToSent = array('reasontoedit', 'commentcontent');
 		$fieldModelList = $recordModel->getModule()->getFields();
 		foreach ($responseFieldsToSent as &$fieldName) {
 			$fieldModel = $fieldModelList[$fieldName];
 			$fieldValue = $recordModel->get($fieldName);
-			$result[$fieldName] = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
+			$result[$fieldName] = \Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
 		}
 
 		$result['success'] = true;
-		$result['modifiedtime'] = Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime'));
-		$result['modifiedtimetitle'] = Vtiger_Util_Helper::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
+		$result['modifiedtime'] = \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime'));
+		$result['modifiedtimetitle'] = \Vtiger_Util_Helper::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

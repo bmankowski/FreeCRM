@@ -29,7 +29,7 @@ namespace FreeCRM\Modules\Users;
  * ****************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once('modules/Users/UserTimeZonesArray.php');
+require_once ROOT_DIRECTORY . '/src/Modules/Users/UserTimeZones.php';
 
 // User is used to store customer information.
 /** Main class for the user module
@@ -281,7 +281,7 @@ class Users extends \FreeCRM\CRMEntity
 	public function doLogin($userPassword)
 	{
 		$userName = $this->column_fields['user_name'];
-		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
+		$userInfo = (new \App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
 			return false;
@@ -457,7 +457,7 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function retrieveCurrentUserInfoFromFile($userid)
 	{
-		$userPrivileges = App\User::getPrivilegesFile($userid);
+		$userPrivileges = \App\User::getPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->column_fields as $field => $value_iter) {
 			if (isset($userInfo[$field])) {
@@ -509,7 +509,7 @@ class Users extends \FreeCRM\CRMEntity
 					->from($tableName)
 					->where([$index => $record])->one();
 		}
-		$fields = vtlib\Functions::getModuleFieldInfos($module);
+		$fields = \vtlib\Functions::getModuleFieldInfos($module);
 		foreach ($fields as $fieldName => &$fieldRow) {
 			if (isset($result[$fieldRow['tablename']][$fieldRow['columnname']])) {
 				$value = $result[$fieldRow['tablename']][$fieldRow['columnname']];
@@ -561,7 +561,7 @@ class Users extends \FreeCRM\CRMEntity
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
 		$currentUserId = \App\User::getCurrentUserId();
 		$dateVar = date('Y-m-d H:i:s');
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		//to get the owner id
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if (!isset($ownerid) || $ownerid == '')
@@ -811,19 +811,19 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function transformOwnerShipAndDelete($userId, $transformToUserId)
 	{
-		$eventHandler = new App\EventHandler();
+		$eventHandler = new \App\EventHandler();
 		$eventHandler->setParams(['userId' => $userId, 'transformToUserId' => $transformToUserId]);
 		$eventHandler->setModuleName('Users');
 		$eventHandler->trigger('UsersBeforeDelete');
 
 		vtws_transferOwnership($userId, $transformToUserId);
 		//updating the vtiger_users table;
-		App\Db::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_users', [
 				'status' => 'Inactive',
 				'deleted' => 1,
 				'date_modified' => date('Y-m-d H:i:s'),
-				'modified_user_id' => App\User::getCurrentUserRealId()
+				'modified_user_id' => \App\User::getCurrentUserRealId()
 				], ['id' => $userId])->execute();
 
 		$eventHandler->trigger('UsersAfterDelete');

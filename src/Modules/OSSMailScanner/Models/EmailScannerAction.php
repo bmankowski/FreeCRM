@@ -23,10 +23,10 @@ class EmailScannerAction {
 		$crmidsCcaddress = $mail->findEmailAdress('ccaddress', $moduleName, true);
 		$crmidsBccaddress = $mail->findEmailAdress('bccaddress', $moduleName, true);
 		$crmidsReplyToaddress = $mail->findEmailAdress('reply_toaddress', $moduleName, true);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsToaddress);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsCcaddress);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsBccaddress);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsReplyToaddress);
+		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsToaddress);
+		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsCcaddress);
+		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsBccaddress);
+		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsReplyToaddress);
 		$returnIds = [];
 
 		if (!empty($crmIds)) {

@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Contacts\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Popup extends View
+class Popup extends \Vtiger_Index_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -30,7 +30,7 @@ class Popup extends View
 		$relParentModule = 'Accounts';
 		//list of records is narrowed to contacts related to help desks account, only in Help Desk Contacts relation view
 		if ($moduleName == 'Contacts' && $sourceModule == 'HelpDesk' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=HelpDesk') === 0) {
-			$helpDeskRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'HelpDesk');
+			$helpDeskRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'HelpDesk');
 			$relId = $helpDeskRecord->get('parent_id');
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
@@ -40,7 +40,7 @@ class Popup extends View
 			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'SSalesProcesses' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=SSalesProcesses') === 0) {
-			$moduleRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'SSalesProcesses');
+			$moduleRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'SSalesProcesses');
 			$relId = $moduleRecord->get('related_to');
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
@@ -50,7 +50,7 @@ class Popup extends View
 			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'Project' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=Project') === 0) {
-			$moduleRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'Project');
+			$moduleRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'Project');
 			$relId = $moduleRecord->get('linktoaccountscontacts');
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);

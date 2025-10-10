@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vendors\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -21,7 +21,7 @@ class Module extends Model
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule == 'Campaigns') {
-			$subQuery = (new App\Db\Query())
+			$subQuery = (new \App\Db\Query())
 				->select(['crmid'])
 				->from('vtiger_campaign_records')
 				->where(['campaignid' => $record]);

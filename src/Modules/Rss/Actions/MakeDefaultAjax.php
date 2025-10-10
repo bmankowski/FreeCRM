@@ -19,21 +19,21 @@ class MakeDefaultAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'ListView', $record)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Rss_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Rss\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordModel->makeDefault();
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array('message' => 'JS_RSS_MADE_AS_DEFAULT', 'record' => $recordId, 'module' => $moduleName));
 		$response->emit();
 	}

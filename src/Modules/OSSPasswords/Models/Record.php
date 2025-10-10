@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSPasswords\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 	/*
 	 * Funkcja odszyfrowywująca i przekazująca dalej hasło
@@ -26,8 +26,8 @@ class Record extends Model
 
 		$sql = '';
 		// check if passwords are encrypted
-		if (file_exists('modules/OSSPasswords/config.ini.php')) {
-			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
+		if (file_exists('src/Modules/OSSPasswords/config.ini.php')) {
+			$config = parse_ini_file('src/Modules/OSSPasswords/config.ini.php');
 			$sql = "SELECT AES_DECRYPT(`password`, '{$config['key']}') AS `password` 
                 FROM `vtiger_osspasswords` 
                 WHERE `osspasswordsid` = ? LIMIT 1;";

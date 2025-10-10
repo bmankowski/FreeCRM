@@ -12,13 +12,13 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends Action
+class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -33,7 +33,7 @@ class Calendar extends Action
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -41,7 +41,7 @@ class Calendar extends Action
 		}
 	}
 
-	public function getEvents(Vtiger_Request $request)
+	public function getEvents(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->get('user'));
@@ -61,12 +61,12 @@ class Calendar extends Action
 			$entity = $record->getEntity();
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
 	}
 
-	public function updateEvent(Vtiger_Request $request)
+	public function updateEvent(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');
@@ -82,7 +82,7 @@ class Calendar extends Action
 			$succes = false;
 			if (!empty($recordId)) {
 				try {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 					$recordData = $recordModel->entity->column_fields;
 					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
 					$due_date = $end['date'];
@@ -106,7 +106,7 @@ class Calendar extends Action
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($succes);
 		$response->emit();
 	}

@@ -6,7 +6,7 @@
 namespace FreeCRM\Modules\Portal\Views;
 
 use FreeCRM\Http\Vtiger_Request;
-class Pagination extends View
+class Pagination extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -37,7 +37,7 @@ class Pagination extends View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		$listViewModel = new Portal_ListView_Model();

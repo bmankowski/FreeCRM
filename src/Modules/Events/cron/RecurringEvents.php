@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-$dataReader = (new App\Db\Query())->select(['followup'])
+$dataReader = (new \App\Db\Query())->select(['followup'])
 		->from('vtiger_activity')
 		->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 		->where([

@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\HelpDesk\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DashBoard extends Model
+class DashBoard extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 	
 }

@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\WSAPP\api\ws;
  * All Rights Reserved.
  * *********************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 
 function wsapp_get($key, $module, $token, $user)
 {

@@ -8,12 +8,12 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TotalTime extends UIType
+class TotalTime extends Base
 {
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$return = vtlib\Functions::decimalTimeFormat($value);
+		$return = \vtlib\Functions::decimalTimeFormat($value);
 		return $return['short'];
 	}
 }

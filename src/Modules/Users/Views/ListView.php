@@ -20,7 +20,7 @@ class ListView extends SettingsListView
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -78,14 +78,14 @@ class ListView extends SettingsListView
 			$status = 'Active';
 
 		if (!$this->listViewModel) {
-			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+			$this->listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$this->listViewModel->set('status', $status);
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 
@@ -169,7 +169,7 @@ class ListView extends SettingsListView
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	}
 
@@ -201,7 +201,7 @@ class ListView extends SettingsListView
 	public function getListViewCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = App\CustomView::getInstance($moduleName)->getViewId();
+		$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
 		if (empty($cvId)) {
 			$cvId = '0';
 		}
@@ -210,7 +210,7 @@ class ListView extends SettingsListView
 		$searchValue = $request->get('search_value');
 		$searchParmams = $request->get('search_params');
 		$operator = $request->get('operator');
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
@@ -235,7 +235,7 @@ class ListView extends SettingsListView
 	public function getPageCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

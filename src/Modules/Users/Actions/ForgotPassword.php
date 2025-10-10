@@ -17,11 +17,11 @@ require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
 include_once ROOT_DIRECTORY . "/src/utils/VtlibUtils.php";
 include_once ROOT_DIRECTORY . "/src/Webservices/Custom/ChangePassword.php";
 include_once ROOT_DIRECTORY . "/src/Webservices/Utils.php";
-include_once 'modules/Vtiger/helpers/ShortURL.php';
+include_once 'src/Modules/Vtiger/helpers/ShortURL.php';
 
 class ForgotPassword {
 
-	public function changePassword(Vtiger_Request $request)
+	public function changePassword(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = FreeCRM_Viewer::getInstance();
 		$userName = $request->get('username');
@@ -51,10 +51,10 @@ class ForgotPassword {
 		$viewer->view('FPLogin.tpl', 'Users');
 	}
 
-	public function requestForgotPassword(Vtiger_Request $request)
+	public function requestForgotPassword(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$username = App\Purifier::purify($request->get('user_name'));
+		$username = \App\Purifier::purify($request->get('user_name'));
 		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
 		if ($adb->num_rows($result) > 0) {
 			$email = $adb->query_result($result, 0, 'email1');
@@ -63,7 +63,7 @@ class ForgotPassword {
 			$userId = $adb->query_result($result, 0, 'id');
 			$time = time();
 			$options = [
-				'handler_path' => 'modules/Users/handlers/ForgotPassword.php',
+				'handler_path' => 'src/Modules/Users/handlers/ForgotPassword.php',
 				'handler_class' => 'Users_ForgotPassword_Handler',
 				'handler_function' => 'changePassword',
 				'handler_data' => array(
@@ -73,7 +73,7 @@ class ForgotPassword {
 					'hash' => md5($username . $time)
 				)
 			];
-			if (App\Mail::getDefaultSmtp()) {
+			if (\App\Mail::getDefaultSmtp()) {
 				$status = \App\Mailer::sendFromTemplate([
 						'template' => 'UsersForgotPassword',
 						'moduleName' => 'Users',
@@ -94,7 +94,7 @@ class ForgotPassword {
 		}
 	}
 
-	public static function run(Vtiger_Request $request)
+	public static function run(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$instance = new self();
 		if ($request->has('user_name') && $request->has('emailId')) {

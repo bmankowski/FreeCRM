@@ -246,10 +246,10 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 		}
 		if (\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$role = $userPrivilegesModel->getRoleDetail();
 			if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
-				$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
+				$parentRecord = \FreeCRM\Modules\Users\Models\Privileges::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
 				if ($parentRecord) {
 					$recordMetaData = vtlib\Functions::getCRMRecordMetadata($parentRecord);
 					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
@@ -295,7 +295,7 @@ function isPermitted($module, $actionname, $record_id = '')
 
 function isPermittedBySharing($module, $tabid, $actionid, $record_id)
 {
-	$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 	$defaultOrgSharingPermission = $userPrivilegesModel->get('defaultOrgSharingPermission');
 	//Retreiving the default Organisation sharing Access
 	$othersPermissionId = $defaultOrgSharingPermission[$tabid];
@@ -1452,7 +1452,7 @@ function RecalculateSharingRules()
 
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
 	$adb = PearDatabase::getInstance();
-	require_once('modules/Users/CreateUserPrivilegeFile.php');
+	require_once('src/Modules/Users/CreateUserPrivilegeFile.php');
 	$query = "select id from vtiger_users where deleted=0";
 	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);

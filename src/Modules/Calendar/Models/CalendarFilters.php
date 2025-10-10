@@ -8,10 +8,10 @@ namespace FreeCRM\Modules\Calendar\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class CalendarFilters extends Model
+class CalendarFilters extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
-	protected $filterPath = 'modules/Calendar/calendarfilters';
+	protected $filterPath = 'src/Modules/Calendar/calendarfilters';
 	protected $filters = false;
 
 	public static function getCleanInstance()

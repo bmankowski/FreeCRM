@@ -12,35 +12,35 @@ namespace FreeCRM\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassDelete extends Action
+class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentModule = 'Reports';
-		$recordIds = Reports_Record_Model::getRecordsListFromRequest($request);
+		$recordIds = \FreeCRM\Modules\Reports\Models\Record::getRecordsListFromRequest($request);
 
 		$reportsDeleteDenied = array();
 		foreach ($recordIds as $recordId) {
-			$recordModel = Reports_Record_Model::getInstanceById($recordId);
+			$recordModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
 			if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 				$success = $recordModel->delete();
 				if (!$success) {
@@ -51,7 +51,7 @@ class MassDelete extends Action
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (empty($reportsDeleteDenied)) {
 			$response->setResult(array(vtranslate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)));
 		} else {

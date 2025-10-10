@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Actions;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class GetData extends View
+class GetData extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -21,23 +21,23 @@ class GetData extends View
 		$sourceModule = $request->get('source_module');
 		$recordId = $request->get('record');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$sourceModule = $request->get('source_module');
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 
-		$permitted = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $record);
+		$permitted = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $record);
 		if ($permitted) {
 			vglobal('showsAdditionalLabels', true);
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $sourceModule);
 			$data = $recordModel->getData();
 			$response->setResult(array('success' => true, 'data' => array_map('decode_html', $data)));
 		} else {

@@ -10,18 +10,18 @@ class SaveRcConfig extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('updatedFields');
-		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 		$result = ['success' => true, 'data' => $recordModel->setConfigData($param)];
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

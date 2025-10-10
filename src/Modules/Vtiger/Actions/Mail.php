@@ -42,7 +42,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Process function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -54,13 +54,13 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Check if smtps are active
 	 * @param Vtiger_Request $request
 	 */
-	public function checkSmtp(Vtiger_Request $request)
+	public function checkSmtp(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$result = false;
 		if (\FreeCRM\AppConfig::main('isActiveSendingMails')) {
-			$result = !empty(App\Mail::getAll());
+			$result = !empty(\App\Mail::getAll());
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -69,7 +69,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Send mails
 	 * @param Vtiger_Request $request
 	 */
-	public function sendMails(Vtiger_Request $request)
+	public function sendMails(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$field = $request->get('field');
@@ -93,7 +93,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -103,15 +103,15 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(Vtiger_Request $request)
+	public function getQuery(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $sourceModule);
-			$listView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
+			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
+			$listView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
-			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->get('viewname'));
+			$listView = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $request->get('viewname'));
 		}
 		$searchResult = $request->get('searchResult');
 		if (!empty($searchResult)) {

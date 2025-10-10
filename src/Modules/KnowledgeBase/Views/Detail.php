@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function __construct()

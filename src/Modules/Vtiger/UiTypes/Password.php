@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Password extends UIType
+class Password extends Base
 {
 
 	/**

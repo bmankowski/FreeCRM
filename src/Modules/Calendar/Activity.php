@@ -23,7 +23,7 @@ namespace FreeCRM\Modules\Calendar;
  * ****************************************************************************** 
  * Contributor(s): YetiForce.com
  */
-require_once('modules/Calendar/CalendarCommon.php');
+require_once('src/Modules/Calendar/CalendarCommon.php');
 
 // Task is used to store customer information.
 class Activity extends \FreeCRM\CRMEntity
@@ -249,11 +249,11 @@ class Activity extends \FreeCRM\CRMEntity
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
 		}
-		$moduleLevel = App\ModuleHierarchy::getModuleLevel($module);
+		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($module);
 		if ($moduleLevel === false) {
 			$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
 		} else {
-			$field = App\ModuleHierarchy::getMappingRelatedField($module);
+			$field = \App\ModuleHierarchy::getMappingRelatedField($module);
 			$query = " LEFT JOIN vtiger_activity ON vtiger_activity.$field = vtiger_crmentity.crmid";
 		}
 
@@ -397,7 +397,7 @@ class Activity extends \FreeCRM\CRMEntity
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
 					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($module)])
+					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Module::getModuleId($module)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$className = \FreeCRM\Loader::getComponentClassName('Model', 'Field', $module);
@@ -414,7 +414,7 @@ class Activity extends \FreeCRM\CRMEntity
 			}
 		}
 		foreach ($results as $row) {
-			App\Db::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, \FreeCRM\CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}

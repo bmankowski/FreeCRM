@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Calendar\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
@@ -24,7 +24,7 @@ class Detail extends View
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
@@ -115,7 +115,7 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
@@ -133,7 +133,7 @@ class Detail extends View
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStrucure);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 

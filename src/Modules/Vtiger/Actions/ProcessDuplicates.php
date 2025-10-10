@@ -21,7 +21,7 @@ class ProcessDuplicates extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$records = $request->get('records');
 		if ($records) {
 			foreach ($records as $record) {
-				$recordPermission = Users_Privileges_Model::isPermitted($module, 'EditView', $record);
+				$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($module, 'EditView', $record);
 				if (!$recordPermission) {
 					throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 				}
@@ -29,13 +29,13 @@ class ProcessDuplicates extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$records = $request->get('records');
 		$primaryRecord = $request->get('primaryRecord');
-		$primaryRecordModel = Vtiger_Record_Model::getInstanceById($primaryRecord, $moduleName);
+		$primaryRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($primaryRecord, $moduleName);
 
 		$fields = $moduleModel->getFields();
 		foreach ($fields as $field) {
@@ -48,19 +48,19 @@ class ProcessDuplicates extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$deleteRecords = array_diff($records, array($primaryRecord));
 		foreach ($deleteRecords as $deleteRecord) {
-			$record = Vtiger_Record_Model::getInstanceById($deleteRecord, $moduleName);
+			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($deleteRecord, $moduleName);
 			if ($record->isDeletable()) {
 				$primaryRecordModel->transferRelationInfoOfRecords([$deleteRecord]);
 				$record->delete();
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

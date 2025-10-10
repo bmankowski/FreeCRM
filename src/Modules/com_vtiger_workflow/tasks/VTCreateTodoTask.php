@@ -23,7 +23,7 @@ require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
 
-require_once("modules/Users/Users.php");
+require_once("src/Modules/Users/Users.php");
 
 class VTCreateTodoTask extends VTTask
 {
@@ -46,7 +46,7 @@ class VTCreateTodoTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -66,7 +66,7 @@ class VTCreateTodoTask extends VTTask
 		if ($this->doNotDuplicate == 'true') {
 
 			$entityId = $recordModel->getId();
-			$query = (new App\Db\Query())->from('vtiger_activity')
+			$query = (new \App\Db\Query())->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where([
 				'and',
@@ -75,7 +75,7 @@ class VTCreateTodoTask extends VTTask
 				['vtiger_activity.activitytype' => 'Task'],
 				['vtiger_activity.subject' => $this->todo]
 			]);
-			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
+			$status = \vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
 				$query->andWhere(['not in', 'vtiger_activity.status', $status]);
 			}
@@ -92,13 +92,13 @@ class VTCreateTodoTask extends VTTask
 		} else if ($this->assigned_user_id === 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
-			$userExists = (new App\Db\Query())->from('vtiger_users')
+			$userExists = (new \App\Db\Query())->from('vtiger_users')
 				->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
 				->exists();
 			if ($userExists) {
 				$userId = $this->assigned_user_id;
 			} else {
-				$groupExist = (new App\Db\Query())->from('vtiger_groups')
+				$groupExist = (new \App\Db\Query())->from('vtiger_groups')
 					->where(['groupid' => $this->assigned_user_id])
 					->exists();
 				if ($groupExist) {
@@ -138,7 +138,7 @@ class VTCreateTodoTask extends VTTask
 
 		$timeEnd = explode(' ', $baseDateEnd);
 		if (count($timeEnd) < 2) {
-			$row = (new App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->one();
+			$row = (new \App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->one();
 			if ($row) {
 				$timeEnd = $row['end_hour'];
 				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
@@ -177,7 +177,7 @@ class VTCreateTodoTask extends VTTask
 		if ($field) {
 			$fields[$field] = $recordModel->getId();
 		}
-		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
+		$newRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
@@ -185,7 +185,7 @@ class VTCreateTodoTask extends VTTask
 		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 
 		if ($this->updateDates == 'true') {
-			App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [
+			\App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [
 				'activityid' => $newRecordModel->getId(),
 				'parent' => $recordModel->getId(),
 				'task_id' => $this->id,

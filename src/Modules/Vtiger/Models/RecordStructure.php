@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Record Structure Model
  */
-class RecordStructure extends Model
+class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $record = false;
@@ -41,7 +41,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to get the record
-	 * @return <Vtiger_Record_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\Record>
 	 */
 	public function getRecord()
 	{
@@ -108,7 +108,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to retieve the instance from record model
-	 * @param <Vtiger_Record_Model> $recordModel - record instance
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordModel - record instance
 	 * @return Vtiger_RecordStructure_Model
 	 */
 	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
@@ -122,7 +122,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to retieve the instance from module model
-	 * @param Vtiger_Module_Model $moduleModel - module instance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleModel - module instance
 	 * @return Vtiger_RecordStructure_Model
 	 */
 	public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)

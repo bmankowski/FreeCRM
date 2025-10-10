@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\PaymentsIn\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class PaymentsImport extends View
+class PaymentsImport extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class PaymentsImport extends View
 
 		$type = array();
 		$bank = array();
-		foreach (new DirectoryIterator('modules/PaymentsIn/helpers') as $file) {
+		foreach (new DirectoryIterator('src/Modules/PaymentsIn/helpers') as $file) {
 			if (!$file->isDot()) {
 				if (strpos($file->getFilename(), '.php') !== false) {
 					$type[] = str_replace(".php", "", $file->getFilename());
@@ -30,7 +30,7 @@ class PaymentsImport extends View
 			}
 		}
 		$bank[] = 'Default';
-		foreach (new DirectoryIterator('modules/PaymentsIn/helpers/subclass') as $file) {
+		foreach (new DirectoryIterator('src/Modules/PaymentsIn/helpers/subclass') as $file) {
 			if (!$file->isDot()) {
 				if (strpos($file->getFilename(), '.php') !== false) {
 					$banks = explode('_', str_replace(".php", "", $file->getFilename()));

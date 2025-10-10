@@ -9,14 +9,14 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class PreviewContent extends View
+class PreviewContent extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		// Exctracts type from record field 'views'
 		$type = str_replace('PLL_', '', $recordModel->get('knowledgebase_view'));
 		// Changes views type to template name 

@@ -101,22 +101,22 @@ class FreeCRM_Viewer extends \Smarty
 		}
 
 		// Register custom functions for Smarty 4.5 compatibility
+		// Functions in global namespace (from TemplateHelpers.php) can be called directly in templates
 		try {
-			// Register plugins
-
+			// Register plugins - these are in global namespace from TemplateHelpers.php
 			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
-			$this->registerPlugin('function', 'vimage_path', '\\FreeCRM\\Runtime\\vimage_path');
+			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
 			$this->registerPlugin('function', 'vtemplate_path', 'vtemplate_path');
-			$this->registerPlugin('modifier', 'vresource_url', '\\FreeCRM\\Runtime\\vresource_url');
+			$this->registerPlugin('function', 'vresource_url', 'vresource_url');
 			$this->registerPlugin('function', 'vglobal', 'vglobal');
 			$this->registerPlugin('modifier', 'vglobal', 'vglobal'); // Also register as modifier for compatibility
 
 			// Register LanguageTranslator modifier 't'
-			$this->registerPlugin('modifier', 't', '\\FreeCRM\\LanguageTranslator::translate');
+			$this->registerPlugin('modifier', 't', '\FreeCRM\\LanguageTranslator::translate');
 			
 			// Register static classes for template use
-			$this->registerClass('AppConfig', '\\FreeCRM\\AppConfig');
-		$this->registerClass('AppRequest', '\\FreeCRM\\Http\\AppRequest');
+			$this->registerClass('AppConfig', '\FreeCRM\\AppConfig');
+		$this->registerClass('AppRequest', '\FreeCRM\\Http\\AppRequest');
 
 
 
@@ -131,6 +131,7 @@ class FreeCRM_Viewer extends \Smarty
 		} catch (Exception $exception) {
 			// Log error but don't break the application
 			Log::error('Smarty plugin registration error: ' . $exception->getMessage());
+			throw $exception;
 		}
 	}
 
@@ -283,20 +284,3 @@ class FreeCRM_Viewer extends \Smarty
 	}
 }
 
-function vtemplate_path($templateName, $moduleName = '')
-{
-	$freeCRMViewer = FreeCRM_Viewer::getInstance();
-	return $freeCRMViewer->getTemplatePath($templateName, $moduleName);
-}
-
-/**
- * Generated cache friendly resource URL linked with version of Vtiger
- */
-function vresource_url(string $url)
-{
-	if (stripos($url, '://') === false && $fs = @filemtime($url)) {
-        return $url . '?s=' . $fs;
-    }
-
-	return $url;
-}

@@ -342,8 +342,8 @@ class Project extends \FreeCRM\CRMEntity
 			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('SELECT'), 'getRelatedList');
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Project'));
 			}
@@ -365,8 +365,8 @@ class Project extends \FreeCRM\CRMEntity
 
 			// Add Comments widget to Project module
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Project'));
 			}
@@ -428,8 +428,8 @@ class Project extends \FreeCRM\CRMEntity
 					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $return_module])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, \FreeCRM\CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+				\App\Db::getInstance()->createCommand()
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, \FreeCRM\CRMEntity::getInstance(\App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}

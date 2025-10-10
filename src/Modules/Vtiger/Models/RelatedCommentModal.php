@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RelatedCommentModal extends Model
+class RelatedCommentModal extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)
@@ -16,7 +16,7 @@ class RelatedCommentModal extends Model
 		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
 		$instance = new $modelClassName();
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModuleName);
 		$instance->set('relationListView', $relationListView)
 			->set('record', $record)
@@ -64,7 +64,7 @@ class RelatedCommentModal extends Model
 	{
 		return (new \App\Db\Query())->select(['rel_comment'])
 				->from('u_#__crmentity_rel_tree')
-				->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]);
+				->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => \App\Module::getModuleId($this->get('relatedModuleName'))]);
 	}
 
 	public function isEditable()
@@ -74,11 +74,11 @@ class RelatedCommentModal extends Model
 
 	public function save($comment)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
 			$db->createCommand()->update('u_#__crmentity_rel_tree', [
 				'rel_comment' => $comment
-				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]
+				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => \App\Module::getModuleId($this->get('relatedModuleName'))]
 			)->execute();
 		} else {
 			$relationTable = $this->getRelationTable();

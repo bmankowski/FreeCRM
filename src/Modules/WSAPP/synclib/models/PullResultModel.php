@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\WSAPP\synclib\models;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/BaseModel.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/BaseModel.php';
 
 class PullResultModel extends WSAPP_BaseModel
 {

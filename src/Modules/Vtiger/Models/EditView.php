@@ -14,26 +14,26 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger EditView Model Class
  */
-class EditView extends Model
+class EditView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <Vtiger_DetailView_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\DetailView>
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
 		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'EditView', $moduleName);
 		$instance = new $modelClassName();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $instance->set('module', $moduleModel);
 	}
 
 	/**
 	 * Function to get the Module Model
-	 * @return Vtiger_Module_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module instance
 	 */
 	public function getModule()
 	{
@@ -43,11 +43,11 @@ class EditView extends Model
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getEditViewLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
+		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
 		return $links;
 	}
 }

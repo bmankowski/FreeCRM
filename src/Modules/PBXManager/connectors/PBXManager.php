@@ -126,15 +126,15 @@ class Connector {
 		$caller = $details->get('callerid1');
 
 		// For Inbound call, answered by will be the user, we should fill the user field
-		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($callid);
+		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getInstanceBySourceUUID($callid);
 		$direction = $recordModel->get('direction');
 		if ($direction == self::INCOMING_TYPE) {
 			// For Incoming call, we should fill the user field if he answered that call 
-			$user = PBXManager_Record_Model::getUserInfoWithNumber($answeredby);
+			$user = \FreeCRM\Modules\PBXManager\Models\Record::getUserInfoWithNumber($answeredby);
 			$params['user'] = $user['id'];
 			$recordModel->updateAssignedUser($user['id']);
 		} else {
-			$user = PBXManager_Record_Model::getUserInfoWithNumber($caller);
+			$user = \FreeCRM\Modules\PBXManager\Models\Record::getUserInfoWithNumber($caller);
 			if ($user) {
 				$params['user'] = $user['id'];
 				$recordModel->updateAssignedUser($user['id']);
@@ -152,7 +152,7 @@ class Connector {
 	public function handleEndCall($details)
 	{
 		$callid = $details->get('callUUID');
-		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($callid);
+		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getInstanceBySourceUUID($callid);
 
 		$params['starttime'] = $details->get('starttime');
 		$params['endtime'] = $details->get('endtime');
@@ -169,7 +169,7 @@ class Connector {
 	public function handleHangupCall($details)
 	{
 		$callid = $details->get('callUUID');
-		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($callid);
+		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getInstanceBySourceUUID($callid);
 		$hangupcause = $details->get('causetxt');
 
 		switch ($hangupcause) {
@@ -206,7 +206,7 @@ class Connector {
 	public function handleRecording($details)
 	{
 		$callid = $details->get('callUUID');
-		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($callid);
+		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getInstanceBySourceUUID($callid);
 		$params['recordingurl'] = $details->get('recordinglink');
 		$recordModel->updateCallDetails($params);
 	}
@@ -237,7 +237,7 @@ class Connector {
 		$user = \FreeCRM\CRMEntity::getInstance('Users');
 		$current_user = $user->getActiveAdminUser();
 
-		$recordModel = PBXManager_Record_Model::getCleanInstance();
+		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getCleanInstance();
 		$recordModel->saveRecordWithArrray($params);
 
 		if ($direction == self::INCOMING_TYPE)
@@ -253,7 +253,7 @@ class Connector {
 	public function respondToIncomingCall($details)
 	{
 		$current_user = vglobal('current_user');
-		self::$NUMBERS = PBXManager_Record_Model::getUserNumbers();
+		self::$NUMBERS = \FreeCRM\Modules\PBXManager\Models\Record::getUserNumbers();
 
 		header("Content-type: text/xml; charset=utf-8");
 		$response = '<?xml version="1.0" encoding="utf-8"?>';
@@ -263,9 +263,9 @@ class Connector {
 		if (self::$NUMBERS) {
 
 			foreach (self::$NUMBERS as $userId => $number) {
-				$userInstance = Users_Privileges_Model::getInstanceById($userId);
+				$userInstance = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($userId);
 				$current_user = $userInstance;
-				$callPermission = Users_Privileges_Model::isPermitted('PBXManager', 'ReceiveIncomingCalls');
+				$callPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 				if ($number != $details->get('callerIdNumber') && $callPermission) {
 					if (preg_match("/sip/", $number) || preg_match("/@/", $number)) {
@@ -286,7 +286,7 @@ class Connector {
 			$params['callstatus'] = 'no-answer';
 			$params['starttime'] = $date;
 			$params['endtime'] = $date;
-			$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($details->get('callUUID'));
+			$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getInstanceBySourceUUID($details->get('callUUID'));
 			$recordModel->updateCallDetails($params);
 		}
 		$response .= '</Dial></Response>';
@@ -329,7 +329,7 @@ class Connector {
 	 */
 	public function call($number, $record)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$extension = $user->phone_crm_extension;
 
 		$webappurl = $this->getServer();

@@ -1037,7 +1037,7 @@ class PackageImport extends PackageExport
 			Functions::recurseCopy($dirName . '/files', '', true);
 		}
 		$adb->insert('yetiforce_updates', [
-			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),
+			'user' => \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name'),
 			'name' => $modulenode->label,
 			'from_version' => $modulenode->from_version,
 			'to_version' => $modulenode->to_version,

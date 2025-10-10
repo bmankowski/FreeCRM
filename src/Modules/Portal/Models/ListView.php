@@ -15,13 +15,13 @@ namespace FreeCRM\Modules\Portal\Models;
 /**
  * Portal ListView Model Class
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$moduleModel = Vtiger_Module_Model::getInstance('Portal');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Portal');
 
 		$query = $this->getQuery();
 
@@ -47,7 +47,7 @@ class ListView extends Model
 			$listViewEntries[$row['portalid']] = array();
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
-			$listViewEntries[$row['portalid']]['createdtime'] = Vtiger_Date_UIType::getDisplayDateValue($row['createdtime']);
+			$listViewEntries[$row['portalid']]['createdtime'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row['createdtime']);
 		}
 		$index = 0;
 		foreach ($listViewEntries as $recordId => $record) {

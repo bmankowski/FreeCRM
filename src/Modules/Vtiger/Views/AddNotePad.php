@@ -13,12 +13,12 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class AddNotePad extends View
+class AddNotePad extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 

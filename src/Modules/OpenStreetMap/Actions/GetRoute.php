@@ -8,10 +8,10 @@ namespace FreeCRM\Modules\OpenStreetMap\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class GetRoute extends Action
+class GetRoute extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$flon = $request->get('flon');
 		$flat = $request->get('flat');
@@ -80,7 +80,7 @@ class GetRoute extends Action
 				'distance' => $distance
 			]
 		];
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

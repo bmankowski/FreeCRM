@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	public function getAdvancedLinks()
@@ -70,14 +70,14 @@ class ListView extends Model
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		//Opensource fix to make documents module mass editable
 		$massActionLinks = [];
@@ -123,7 +123,7 @@ class ListView extends Model
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $links;
 	}

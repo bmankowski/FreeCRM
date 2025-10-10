@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Events\Models;
 /**
  * Events Record Model Class
  */
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -127,14 +127,14 @@ class Record extends Model
 	{
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $this->getModule();
 			if ($relatedModule->getName() == 'Events') {
-				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+				$relatedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
 			}
 			$relatedRecordId = $this->getId();
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 	}

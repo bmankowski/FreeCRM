@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Image Model Class
  */
-class Image extends Model
+class Image extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**

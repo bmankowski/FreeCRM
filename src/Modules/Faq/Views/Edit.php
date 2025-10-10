@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Faq\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Edit extends View
+class Edit extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -24,21 +24,21 @@ class Edit extends View
 		$record = $request->get('record');
 
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
 		} else if (!empty($record)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
 
 			$parentId = $request->get('parentId');
 			$parentModule = $request->get('parentModule');
 			if ($parentId && $parentModule === 'HelpDesk') {
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $parentModule);
-				$recordModel = Faq_Record_Model::getInstanceFromHelpDesk($parentRecordModel);
+				$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $parentModule);
+				$recordModel = \FreeCRM\Modules\Faq\Models\Record::getInstanceFromHelpDesk($parentRecordModel);
 			}
 		}
 
@@ -91,8 +91,8 @@ class Edit extends View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}

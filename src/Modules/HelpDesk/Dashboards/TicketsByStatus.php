@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\HelpDesk\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class TicketsByStatus extends View
+class TicketsByStatus extends \Vtiger_Index_View
 {
 
 	private $conditions = false;
@@ -39,7 +39,7 @@ class TicketsByStatus extends View
 	{
 
 		$moduleName = 'HelpDesk';
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$ticketStatus = \Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$query = new \App\Db\Query();
 		$query->select(['priority', 'vtiger_ticketpriorities.color',
 				'count' => new \yii\db\Expression('COUNT(*)'),
@@ -106,16 +106,16 @@ class TicketsByStatus extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
@@ -124,11 +124,11 @@ class TicketsByStatus extends View
 
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getTicketsByStatus($owner);
 
 		$listViewUrl = $moduleModel->getListViewUrl();

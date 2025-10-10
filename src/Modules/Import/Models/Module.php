@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Import\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -131,7 +131,7 @@ class Module extends Model
 	public static function getListTplForXmlType($moduleName)
 	{
 		$output = [];
-		$path = 'modules/Import/tpl/';
+		$path = 'src/Modules/Import/tpl/';
 		if (is_dir($path)) {
 			$list = new DirectoryIterator($path);
 			foreach ($list as $singleFile) {
@@ -164,7 +164,7 @@ class Module extends Model
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return Vtiger_Field_Model[] - list of field models
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -214,7 +214,7 @@ class Module extends Model
 		if ($this->importModuleModel) {
 			return $this->importModuleModel;
 		}
-		return $this->importModuleModel = Vtiger_Module_Model::getInstance($this->getImportModule());
+		return $this->importModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getImportModule());
 	}
 
 	/**
@@ -253,7 +253,7 @@ class Module extends Model
 	public static function isUserImportBlocked($user)
 	{
 		$tableName = self::getDbTableName($user);
-		if (vtlib\Utils::CheckTable($tableName)) {
+		if (\vtlib\Utils::CheckTable($tableName)) {
 			return (new \App\Db\Query())->from($tableName)->where(['temp_status' => Import_Data_Action::IMPORT_RECORD_NONE])->exists();
 		}
 		return false;

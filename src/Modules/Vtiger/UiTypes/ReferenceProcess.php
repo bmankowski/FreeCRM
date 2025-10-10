@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ReferenceProcess extends UIType
+class ReferenceProcess extends Base
 {
 
 	public function getReferenceList()

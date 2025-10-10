@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ModTracker\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -62,9 +62,9 @@ class Field extends Model
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
-			$value = App\Purifier::purify(vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
+			$value = \App\Purifier::purify(\vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPreValue', $value);
 		}
 		return $teaser;
@@ -80,9 +80,9 @@ class Field extends Model
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
-			$value = App\Purifier::purify(vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
+			$value = \App\Purifier::purify(\vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPostValue', $value);
 		}
 		return $teaser;

@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Import extends View
+class Import extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -34,7 +34,7 @@ class Import extends View
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Import')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -62,7 +62,7 @@ class Import extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -86,16 +86,16 @@ class Import extends View
 		$uploadMaxSize = \FreeCRM\AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
 
-		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
+		$importModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Import')->setImportModule($moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
-		$viewer->assign('XML_IMPORT_TPL', Import_Module_Model::getListTplForXmlType($moduleName));
-		$viewer->assign('SUPPORTED_FILE_TYPES', Import_Module_Model::getSupportedFileExtensions($moduleName));
-		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', Import_Module_Model::getSupportedFileExtensionsDescription($moduleName));
-		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Module_Model::getSupportedFileEncoding());
-		$viewer->assign('SUPPORTED_DELIMITERS', Import_Module_Model::getSupportedDelimiters());
-		$viewer->assign('AUTO_MERGE_TYPES', Import_Module_Model::getAutoMergeTypes());
+		$viewer->assign('XML_IMPORT_TPL', \FreeCRM\Modules\Import\Models\Module::getListTplForXmlType($moduleName));
+		$viewer->assign('SUPPORTED_FILE_TYPES', \FreeCRM\Modules\Import\Models\Module::getSupportedFileExtensions($moduleName));
+		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', \FreeCRM\Modules\Import\Models\Module::getSupportedFileExtensionsDescription($moduleName));
+		$viewer->assign('SUPPORTED_FILE_ENCODING', \FreeCRM\Modules\Import\Models\Module::getSupportedFileEncoding());
+		$viewer->assign('SUPPORTED_DELIMITERS', \FreeCRM\Modules\Import\Models\Module::getSupportedDelimiters());
+		$viewer->assign('AUTO_MERGE_TYPES', \FreeCRM\Modules\Import\Models\Module::getAutoMergeTypes());
 		$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 		$viewer->assign('FOR_MODULE_MODEL', $importModule->getImportModuleModel());
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
@@ -112,8 +112,8 @@ class Import extends View
 	{
 		if (Import_Utils_Helper::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
-			$user = Users_Record_Model::getCurrentUserModel();
-			$fileReader = Import_Module_Model::getFileReader($request, $user);
+			$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($request, $user);
 			if ($fileReader === null) {
 				$this->importBasicStep($request);
 				return;
@@ -130,7 +130,7 @@ class Import extends View
 			}
 
 			$moduleName = $request->getModule();
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			$moduleMeta = $moduleModel->getModuleMeta();
 
 			$viewer->assign('DATE_FORMAT', $user->date_format);
@@ -152,7 +152,7 @@ class Import extends View
 				$viewer->assign('INVENTORY_BLOCKS', $inventoryFieldsBlock);
 				$viewer->assign('INVENTORY', true);
 			}
-			$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
+			$importModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Import')->setImportModule($moduleName);
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
@@ -167,7 +167,7 @@ class Import extends View
 
 	public function import(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		Import_Main_View::import($request, $user);
 	}
 
@@ -187,7 +187,7 @@ class Import extends View
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('foruser');
 		$type = $request->get('type');
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		if (!$user->isAdminUser() && $user->id != $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
@@ -210,16 +210,16 @@ class Import extends View
 
 	public function undoRecords($type, $moduleName)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$dbTableName = Import_Module_Model::getDbTableName($user);
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$dbTableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($user);
 		$dataReader = (new \App\Db\Query())->select(['recordid'])
 				->from($dbTableName)
 				->where(['and', ['temp_status' => Import_Data_Action::IMPORT_RECORD_CREATED], ['not', ['recordid' => null]]])
 				->createCommand()->query();
 		$noOfRecords = $noOfRecordsDeleted = 0;
 		while ($recordId = $dataReader->readColumn(0)) {
-			if (App\Record::isExists($recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			if (\App\Record::isExists($recordId)) {
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 				if ($recordModel->isDeletable()) {
 					$recordModel->delete();
 					$noOfRecordsDeleted++;
@@ -243,20 +243,20 @@ class Import extends View
 
 	public function clearCorruptedData(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		Import_Module_Model::clearUserImportInfo($user);
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		\FreeCRM\Modules\Import\Models\Module::clearUserImportInfo($user);
 		$this->importBasicStep($request);
 	}
 
 	public function cancelImport(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$importId = $request->get('import_id');
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$importInfo = Import_Queue_Action::getImportInfoById($importId);
 		if ($importInfo != null) {
 			if ($importInfo['user_id'] == $user->id || $user->isAdminUser()) {
-				$importUser = Users_Record_Model::getInstanceById($importInfo['user_id'], 'Users');
+				$importUser = \FreeCRM\Modules\Users\Models\Record::getInstanceById($importInfo['user_id'], 'Users');
 				$importDataController = new Import_Data_Action($importInfo, $importUser);
 				$importStatusCount = $importDataController->getImportStatusCount();
 				$importDataController->finishImport();
@@ -268,7 +268,7 @@ class Import extends View
 	public function checkImportStatus(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$mode = $request->getMode();
 
 		// Check if import on the module is locked
@@ -286,7 +286,7 @@ class Import extends View
 					$importInfo = Import_Queue_Action::getImportInfoById($lockInfo['importid']);
 					$lockOwner = $user;
 					if ($user->id != $lockedBy) {
-						$lockOwner = Users_Record_Model::getInstanceById($lockInfo['userid'], 'Users');
+						$lockOwner = \FreeCRM\Modules\Users\Models\Record::getInstanceById($lockInfo['userid'], 'Users');
 					}
 					Import_Main_View::showImportStatus($importInfo, $lockOwner);
 				}
@@ -294,7 +294,7 @@ class Import extends View
 			}
 		}
 
-		if (Import_Module_Model::isUserImportBlocked($user)) {
+		if (\FreeCRM\Modules\Import\Models\Module::isUserImportBlocked($user)) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
 			if ($importInfo != null) {
 				Import_Main_View::showImportStatus($importInfo, $user);
@@ -304,6 +304,6 @@ class Import extends View
 				return;
 			}
 		}
-		Import_Module_Model::clearUserImportInfo($user);
+		\FreeCRM\Modules\Import\Models\Module::clearUserImportInfo($user);
 	}
 }

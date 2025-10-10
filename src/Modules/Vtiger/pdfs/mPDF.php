@@ -319,7 +319,7 @@ class mPDF extends Pdf
 	 */
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
+		$template = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($recordId);
 
 		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';

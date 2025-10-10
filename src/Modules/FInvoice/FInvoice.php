@@ -8,9 +8,9 @@ namespace FreeCRM\Modules\FInvoice;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class FInvoice extends Vtiger_CRMEntity
+class FInvoice extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_finvoice';

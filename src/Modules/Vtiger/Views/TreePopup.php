@@ -6,12 +6,12 @@
 namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\Http\Vtiger_Request;
-class TreePopup extends View
+class TreePopup extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -44,10 +44,10 @@ class TreePopup extends View
 		if (!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+			\vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if (!$recordModel)
-			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+			\vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
 		if ($request->get('multiple')) {
 			$type = 'category';
 		}
@@ -59,7 +59,7 @@ class TreePopup extends View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('IS_MULTIPLE', $request->get('multiple'));
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 
@@ -74,7 +74,7 @@ class TreePopup extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

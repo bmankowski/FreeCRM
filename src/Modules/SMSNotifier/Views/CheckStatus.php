@@ -13,14 +13,14 @@ namespace FreeCRM\Modules\SMSNotifier\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class CheckStatus extends View
+class CheckStatus extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -30,7 +30,7 @@ class CheckStatus extends View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$notifierRecordModel = Vtiger_Record_Model::getInstanceById($request->get('record'), $moduleName);
+		$notifierRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		$notifierRecordModel->checkStatus();
 
 		$viewer->assign('RECORD', $notifierRecordModel);

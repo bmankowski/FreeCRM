@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Import\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Map extends Model
+class Map extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	static $tableName = 'vtiger_import_maps';
@@ -106,7 +106,7 @@ class Map extends Model
 	public static function getAllByModule($moduleName)
 	{
 		$current_user = vglobal('current_user');
-		$dataReader = (new App\Db\Query())->from(self::$tableName)
+		$dataReader = (new \App\Db\Query())->from(self::$tableName)
 				->where(['deleted' => 0, 'module' => $moduleName])
 				->createCommand()->query();
 		$savedMaps = [];

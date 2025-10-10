@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Action Model Class
  */
-class Utility extends Model
+class Utility extends \FreeCRM\Modules\Vtiger\Models\Action
 {
 
 	public function isUtilityTool()
@@ -29,7 +29,7 @@ class Utility extends Model
 				return false;
 		}
 		$tabId = $module->getId();
-		return (new App\Db\Query())->from('vtiger_profile2utility')
+		return (new \App\Db\Query())->from('vtiger_profile2utility')
 				->where(['tabid' => $tabId, 'activityid' => $this->getId()])
 				->exists();
 	}

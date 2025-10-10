@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\PriceBooks\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class PopupAjax extends View
+class PopupAjax extends \Vtiger_Index_View
 {
 
 	public function __construct()

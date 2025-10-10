@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -29,20 +29,20 @@ class DetailView extends Model
 
 		$detailViewLink = array();
 
-		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$linkModelListDetails = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.
 		//Since ui will be look ugly if you need many basic links
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
-		if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
+		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		}
 
 		if (!empty($detailViewBasiclinks)) {

@@ -20,7 +20,7 @@ class SwitchUsers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$userId = $request->get('id');
 		require('user_privileges/switchUsers.php');
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getRealId();
 		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
 			$db = \App\Db::getInstance('log');
@@ -42,9 +42,9 @@ class SwitchUsers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function proccess
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();
 		$userId = $request->get('id');
 		$user = new Users();

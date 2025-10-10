@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends Model
+class Relation extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected static $cachedInstances = [];
@@ -38,8 +38,8 @@ class Relation extends Model
 
 	/**
 	 * Function sets the relation's parent module model
-	 * @param Vtiger_Module_Model $moduleModel
-	 * @return Vtiger_Relation_Model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleModel
+	 * @return \FreeCRM\Modules\Vtiger\Models\Relation
 	 */
 	public function setParentModuleModel($moduleModel)
 	{
@@ -54,14 +54,14 @@ class Relation extends Model
 	public function getParentModuleModel()
 	{
 		if (empty($this->parentModule)) {
-			$this->parentModule = Vtiger_Module_Model::getInstance($this->get('tabid'));
+			$this->parentModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('tabid'));
 		}
 		return $this->parentModule;
 	}
 
 	/**
 	 * Set relation's parent module model
-	 * @param Vtiger_Module_Model $relationModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $relationModel
 	 * @return $this
 	 */
 	public function setRelationModuleModel($relationModel)
@@ -77,7 +77,7 @@ class Relation extends Model
 	public function getRelationModuleModel()
 	{
 		if (!$this->relatedModule) {
-			$this->relatedModule = Vtiger_Module_Model::getInstance($this->get('related_tabid'));
+			$this->relatedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('related_tabid'));
 		}
 		return $this->relatedModule;
 	}
@@ -196,8 +196,8 @@ class Relation extends Model
 
 	/**
 	 * Get relation list model instance
-	 * @param Vtiger_Module_Model $parentModuleModel
-	 * @param Vtiger_Module_Model $relatedModuleModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $parentModuleModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $relatedModuleModel
 	 * @param string|boolean $label
 	 * @return \self|boolean
 	 */
@@ -249,7 +249,7 @@ class Relation extends Model
 		if (method_exists($this, $functionName)) {
 			$this->$functionName();
 		} else {
-			App\Log::error("Not exist relation: $functionName in " . __METHOD__);
+			\App\Log::error("Not exist relation: $functionName in " . __METHOD__);
 			throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
 		}
 		if ($this->showCreatorDetail()) {
@@ -267,7 +267,7 @@ class Relation extends Model
 
 	/**
 	 * Get query fields
-	 * @return Vtiger_Field_Model[] with field name as key
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field[] with field name as key
 	 */
 	public function getQueryFields()
 	{
@@ -277,7 +277,7 @@ class Relation extends Model
 		$relatedListFields = [];
 		$relatedModuleModel = $this->getRelationModuleModel();
 		// Get fields from panel
-		foreach (App\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
+		foreach (\App\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
 			$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 		}
 		if ($relatedListFields) {
@@ -321,7 +321,7 @@ class Relation extends Model
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$parentModuleName = $this->getParentModuleModel()->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
-		$fieldRel = App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
+		$fieldRel = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
 		if (isset($fieldRel['fieldid'])) {
 			foreach ($relatedModelFields as &$fieldModel) {
@@ -424,10 +424,10 @@ class Relation extends Model
 		}
 		switch (\FreeCRM\Http\AppRequest::get('time')) {
 			case 'current':
-				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
+				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 				break;
 			case 'history':
-				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('history')]);
+				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')]);
 				break;
 		}
 	}
@@ -459,7 +459,7 @@ class Relation extends Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$relatedModuleName = $this->getRelationModuleName();
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
+		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
 		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = vtiger_crmentity.crmid']);
 		$queryGenerator->addNativeCondition([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()]);
 	}
@@ -556,7 +556,7 @@ class Relation extends Model
 				'destinationModule' => $moduleName,
 				'destinationRecordId' => $mailId
 			];
-			$eventHandler = new App\EventHandler();
+			$eventHandler = new \App\EventHandler();
 			$eventHandler->setModuleName($destinationModuleName);
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeUnLink');
@@ -569,7 +569,7 @@ class Relation extends Model
 			}
 		} else {
 			if ($destinationModuleName === 'ModComments') {
-				include_once('modules/ModTracker/ModTracker.php');
+				include_once('src/Modules/ModTracker/ModTracker.php');
 				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
 				return true;
 			}
@@ -585,19 +585,19 @@ class Relation extends Model
 
 	public function addRelTree($crmid, $tree)
 	{
-		App\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
+		\App\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
 			'crmid' => $crmid,
 			'tree' => $tree,
 			'module' => $this->getParentModuleModel()->getId(),
 			'relmodule' => $this->getRelationModuleModel()->getId(),
-			'rel_created_user' => App\User::getCurrentUserId(),
+			'rel_created_user' => \App\User::getCurrentUserId(),
 			'rel_created_time' => date('Y-m-d H:i:s')
 		])->execute();
 	}
 
 	public function deleteRelTree($crmid, $tree)
 	{
-		App\Db::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
 			->execute();
 	}
@@ -629,7 +629,7 @@ class Relation extends Model
 		}
 		$relationModels = [];
 		$relationModelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
-		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		foreach ($relationList as &$row) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
@@ -772,7 +772,7 @@ class Relation extends Model
 				])->execute();
 			}
 		}
-		App\Cache::delete('getFieldsFromRelation', $relationId);
+		\App\Cache::delete('getFieldsFromRelation', $relationId);
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)
@@ -838,7 +838,7 @@ class Relation extends Model
 
 	public function updateFavoriteForRecord($action, $data)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$moduleName = $this->getParentModuleModel()->get('name');
 		$result = false;
 		if ('add' === $action) {
@@ -847,7 +847,7 @@ class Relation extends Model
 					'module' => $moduleName,
 					'relcrmid' => $data['relcrmid'],
 					'relmodule' => $this->getRelationModuleName(),
-					'userid' => App\User::getCurrentUserId()
+					'userid' => \App\User::getCurrentUserId()
 				])->execute();
 		} elseif ('delete' === $action) {
 			$result = $db->createCommand()->delete('u_#__favorites', [
@@ -855,7 +855,7 @@ class Relation extends Model
 					'module' => $moduleName,
 					'relcrmid' => $data['relcrmid'],
 					'relmodule' => $this->getRelationModuleName(),
-					'userid' => App\User::getCurrentUserId()
+					'userid' => \App\User::getCurrentUserId()
 				])->execute();
 		}
 		return $result;

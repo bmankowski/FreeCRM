@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTUpdateRelatedFieldTask extends VTTask
 {
@@ -22,7 +22,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -43,7 +43,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 						$fieldValue = $recordModel->get($fieldValue);
 						break;
 					case 'expression':
-						require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
+						require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/include.php';
 
 						$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 						$expression = $parser->expression();
@@ -81,7 +81,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$dataReader = $targetModel->getRelationQuery()->select(['vtiger_crmentity.crmid'])
 				->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedModuleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $relatedModuleName);
 			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
 			$recordModel->set($relatedFieldName, $fieldValue);
 			$recordModel->save();

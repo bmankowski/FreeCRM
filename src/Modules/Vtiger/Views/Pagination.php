@@ -6,7 +6,7 @@
 namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\Http\Vtiger_Request;
-class Pagination extends View
+class Pagination extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -25,13 +25,13 @@ class Pagination extends View
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$totalCount = (int) $relationListView->getRelatedEntriesCount();
 		if (!empty($totalCount)) {
@@ -56,12 +56,12 @@ class Pagination extends View
 		$searchResult = $request->get('searchResult');
 		$moduleName = $request->getModule();
 		if (empty($cvId)) {
-			$cvId = App\CustomView::getInstance($moduleName)->getViewId();
+			$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = App\CustomView::getCurrentPage($moduleName, $cvId);
+			$pageNumber = \App\CustomView::getCurrentPage($moduleName, $cvId);
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
@@ -69,7 +69,7 @@ class Pagination extends View
 		$totalCount = (int) $request->get('totalCount');
 		$operator = '';
 		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
-			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');
 			$operator = $request->get('operator');

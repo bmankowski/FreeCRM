@@ -35,11 +35,11 @@ class SummaryWidget {
 		if (!empty($request->get('limit'))) {
 			$limit = $request->get('limit');
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', 0);
 		$pagingModel->set('limit', $limit);
 
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($record, $fromModule);
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $fromModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $mod);
 		$recordsModels = $relationListView->getEntries($pagingModel);
 		$recordsHeader = $relationListView->getHeaders();
@@ -55,10 +55,10 @@ class SummaryWidget {
 
 	/**
 	 * Get related modules record counts
-	 * @param Vtiger_Record_Model $parentRecordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $parentRecordModel
 	 * @return type
 	 */
-	public static function getModulesAndCount(Vtiger_Record_Model $parentRecordModel)
+	public static function getModulesAndCount(\FreeCRM\Modules\Vtiger\Models\Record $parentRecordModel)
 	{
 		$modules = [];
 		foreach (self::MODULES as &$moduleName) {

@@ -10,7 +10,7 @@ class GetHoliday extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -18,7 +18,7 @@ class GetHoliday extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
@@ -28,7 +28,7 @@ class GetHoliday extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$sourceData = array();
 
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 
 		$holiday['workDay'] = $recordModel->getHoliday($id, $year);
 		$holiday['entitlement'] = $recordModel->getHolidaysEntitlement($id, $year);
@@ -39,7 +39,7 @@ class GetHoliday extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$result = array('success' => true, 'holiday' => $holiday);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

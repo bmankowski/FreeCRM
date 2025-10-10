@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\ModComments\Models;
 /**
  * ModComments Record Model
  */
-class Model extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -52,7 +52,7 @@ class Model extends Model
 			$customer = $this->get('customer');
 			$isMailConverterType = $this->get('from_mailconverter');
 			if (!empty($customer) && $isMailConverterType != 1) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($customer);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($customer);
 				$imageDetails = $recordModel->getImageDetails();
 				if (!empty($imageDetails)) {
 					return $imageDetails[0]['path'] . '_' . $imageDetails[0]['name'];
@@ -78,53 +78,53 @@ class Model extends Model
 	{
 		$forSave = parent::getValuesForSave();
 		if (empty($forSave['vtiger_modcomments']['userid'])) {
-			$forSave['vtiger_modcomments']['userid'] = App\User::getCurrentUserId();
+			$forSave['vtiger_modcomments']['userid'] = \App\User::getCurrentUserId();
 		}
 		return $forSave;
 	}
 
 	/**
 	 * Function returns the parent Comment Model
-	 * @return <Vtiger_Record_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\Record>
 	 */
 	public function getParentCommentModel()
 	{
 		$recordId = $this->get('parent_comments');
 		if (!empty($recordId))
-			return Vtiger_Record_Model::getInstanceById($recordId, 'ModComments');
+			return \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'ModComments');
 
 		return false;
 	}
 
 	/**
 	 * Function returns the parent Record Model(Contacts, Accounts etc)
-	 * @return <Vtiger_Record_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\Record>
 	 */
 	public function getParentRecordModel()
 	{
 		$parentRecordId = $this->get('related_to');
 		if (!empty($parentRecordId))
-			return Vtiger_Record_Model::getInstanceById($parentRecordId);
+			return \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId);
 
 		return false;
 	}
 
 	/**
 	 * Function returns the commentor Model (Users Model)
-	 * @return Vtiger_Record_Model|false
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record|false
 	 */
 	public function getCommentedByModel()
 	{
 		$customer = $this->get('customer');
 		if (!empty($customer)) {
-			return Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
+			return \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($customer, 'Contacts');
 		} else {
 			$commentedBy = $this->get('assigned_user_id');
 			if ($commentedBy) {
-				$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
+				$commentedByModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($commentedBy, 'Users');
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
 					$activeAdmin = Users::getActiveAdminUser();
-					$commentedByModel = Vtiger_Record_Model::getInstanceById($activeAdmin->id, 'Users');
+					$commentedByModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($activeAdmin->id, 'Users');
 				}
 				return $commentedByModel;
 			}
@@ -155,7 +155,7 @@ class Model extends Model
 	/**
 	 * Function returns latest comments for parent record
 	 * @param int $parentRecordId - parent record for which latest comment need to retrieved
-	 * @param Vtiger_Paging_Model - paging model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging - paging model
 	 * @return ModComments_Record_Model if exits or null
 	 */
 	public static function getRecentComments($parentRecordId, $pagingModel)

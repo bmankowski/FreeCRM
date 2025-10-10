@@ -13,9 +13,9 @@ class SharingPrivileges {
 
 	/**
 	 * EntityAfterSave function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		if (!\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			return false;
@@ -24,7 +24,7 @@ class SharingPrivileges {
 		$removeUser = $recordModel->getPreviousValue('assigned_user_id');
 		if ($removeUser) {
 			$addUser = $recordModel->get('assigned_user_id');
-			$recordsByModule = Users_Privileges_Model::getSharedRecordsRecursively($recordModel->getId(), $recordModel->getModuleName());
+			$recordsByModule = \FreeCRM\Modules\Users\Models\Privileges::getSharedRecordsRecursively($recordModel->getId(), $recordModel->getModuleName());
 			if (!$recordsByModule) {
 				return false;
 			}

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends Model
+class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 {
 
 	/**
@@ -26,7 +26,7 @@ class Relation extends Model
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
 		if (($sourceModuleName == 'Products' || $sourceModuleName == 'Services') && $relatedModuleName == 'PriceBooks') {
 			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service 
-			return Vtiger_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName)->deleteListPrice($sourceRecordId);
+			return \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedRecordId, $relatedModuleName)->deleteListPrice($sourceRecordId);
 		} else if ($sourceModuleName == $relatedModuleName) {
 			return $this->deleteProductToProductRelation($sourceRecordId, $relatedRecordId);
 		} else {
@@ -43,7 +43,7 @@ class Relation extends Model
 	public function deleteProductToProductRelation($sourceRecordId, $relatedRecordId)
 	{
 		if (!empty($sourceRecordId) && !empty($relatedRecordId)) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $relatedRecordId, 'productid' => $sourceRecordId])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $relatedRecordId, 'productid' => $sourceRecordId])->execute();
 			return true;
 		}
 		return false;
@@ -70,9 +70,9 @@ class Relation extends Model
 	{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
-		$relationModuleModel = Vtiger_Record_Model::getInstanceById($destinationRecordId, $relatedModuleName);
+		$relationModuleModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($destinationRecordId, $relatedModuleName);
 
-		$productModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
+		$productModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
 		$productModel->updateListPrice($destinationRecordId, $listPrice, $relationModuleModel->get('currency_id'));
 	}
 

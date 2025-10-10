@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSMailView\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	protected $modules_email_actions_widgets = [];
@@ -32,7 +32,7 @@ class Record extends Model
 	{
 		$value = parent::get($key);
 		if ($key === 'content' && \FreeCRM\Http\AppRequest::get('view') == 'Detail') {
-			return vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), vtlib\Functions::getHtmlOrPlainText($value));
+			return \vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \vtlib\Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {
 			return decode_html($value);
@@ -101,11 +101,11 @@ class Record extends Model
 				$from = ($from && $from != '') ? $from : $row['from_email'];
 				$to = $this->findRecordsById($row['to_id']);
 				$to = ($to && $to != '') ? $to : $row['to_email'];
-				$content = vtlib\Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], vtlib\Functions::getHtmlOrPlainText($row['content']));
+				$content = \vtlib\Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], \vtlib\Functions::getHtmlOrPlainText($row['content']));
 				$return[] = [
 					'id' => $row['ossmailviewid'],
 					'date' => $row['date'],
-					'firstLetter' => strtoupper(vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
+					'firstLetter' => strtoupper(\vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
 					'subjectRaw' => $row['subject'],
 					'subject' => '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>',
 					'attachments' => $row['attachments_exist'],
@@ -116,7 +116,7 @@ class Record extends Model
 					'to' => $to,
 					'url' => "index.php?module=OSSMailView&view=preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 					'type' => $row['type'],
-					'teaser' => vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
+					'teaser' => \vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
 					'body' => $content,
 					'bodyRaw' => $row['content'],
 				];
@@ -129,7 +129,7 @@ class Record extends Model
 	{
 		$return = false;
 		if (!empty($ids) && $ids != '0') {
-			$recordModelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+			$recordModelMailScanner = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 			$config = $recordModelMailScanner->getConfig('email_list');
 			if (strpos($ids, ',')) {
 				$idsArray = explode(",", $ids);
@@ -137,8 +137,8 @@ class Record extends Model
 				$idsArray[0] = $ids;
 			}
 			foreach ($idsArray as $id) {
-				$module = vtlib\Functions::getCRMRecordType($id);
-				$label = vtlib\Functions::getCRMRecordLabel($id);
+				$module = \vtlib\Functions::getCRMRecordType($id);
+				$label = \vtlib\Functions::getCRMRecordLabel($id);
 				$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . $config['target'] . '"> ' . $label . '</a>,';
 			}
 		}
@@ -152,7 +152,7 @@ class Record extends Model
 		$returnEmail = '';
 		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
 			$accountId = '';
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
 			switch ($module) {
 				case 'HelpDesk':
 					$accountId = $recordModel->get('parent_id');
@@ -165,13 +165,13 @@ class Record extends Model
 					break;
 			}
 			if (isRecordExists($accountId)) {
-				$setype = vtlib\Functions::getCRMRecordType($accountId);
+				$setype = \vtlib\Functions::getCRMRecordType($accountId);
 				$returnEmail = $this->findEmail($accountId, $setype);
 			}
 		} else {
-			$emailFields = OSSMailScanner_Record_Model::getEmailSearch($module);
+			$emailFields = \FreeCRM\Modules\OSSMailScanner\Models\Record::getEmailSearch($module);
 			if (count($emailFields) > 0) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
 				foreach ($emailFields as $emailField) {
 					$email = $recordModel->get($emailField['columnname']);
 					if (!empty($email)) {
@@ -228,7 +228,7 @@ class Record extends Model
 	public function addLog($action, $info)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
+		$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 		$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?); ", array($action, $info, $user_id), true);
 	}
 
@@ -287,7 +287,7 @@ class Record extends Model
 	public static function addRelated($params)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$crmid = $params['crmid'];
 		$newModule = $params['newModule'];

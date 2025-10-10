@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Project\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class ProjectWidget extends View
+class ProjectWidget extends \Vtiger_Index_View
 {
 
 	/**
@@ -36,7 +36,7 @@ class ProjectWidget extends View
 		$conditions = array();
 		array_push($conditions, array("sales_stage", "e", $stage));
 		if ($assignedto == '') {
-			$currenUserModel = Users_Record_Model::getCurrentUserModel();
+			$currenUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$assignedto = $currenUserModel->getId();
 		}
 		if ($assignedto != 'all') {
@@ -57,7 +57,7 @@ class ProjectWidget extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -67,11 +67,11 @@ class ProjectWidget extends View
 
 		//Date conversion from user to database format
 		if (!empty($dates)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($dates['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($dates['end']);
+			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['start']);
+			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['end']);
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getProjectWidget($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
@@ -79,7 +79,7 @@ class ProjectWidget extends View
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dates);
 		}
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

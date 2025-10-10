@@ -43,6 +43,6 @@ Class DataAccess_check_taskstatus
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		return ['status' => (new App\Db\Query())->select(['projecttaskstatus'])->from('vtiger_projecttaskstatus')->orderBy('sortorderid')->column()];
+		return ['status' => (new \App\Db\Query())->select(['projecttaskstatus'])->from('vtiger_projecttaskstatus')->orderBy('sortorderid')->column()];
 	}
 }

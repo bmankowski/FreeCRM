@@ -2,14 +2,14 @@
 
 namespace FreeCRM\Modules\Partners\Models;
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

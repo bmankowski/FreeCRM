@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Users;
  * ****************************************************************************** */
 
 require_once('config/config.php');
-require_once('modules/Users/Users.php');
+require_once('src/Modules/Users/Users.php');
 require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
 require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
@@ -68,7 +68,7 @@ function createUserPrivilegesfile($userid)
 		fputs($handle, $newbuf);
 		fclose($handle);
 		\App\PrivilegeFile::createUserPrivilegesFile($userid);
-		Users_Privileges_Model::clearCache($userid);
+		\FreeCRM\Modules\Users\Models\Privileges::clearCache($userid);
 		\App\User::clearCache($userid);
 	}
 }
@@ -102,7 +102,7 @@ function createUserSharingPrivilegesfile($userid)
 			$newbuf .= "\$related_module_share=" . constructTwoDimensionalValueArray($relatedModuleShare) . ";\n";
 			$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
 			//Constructing Account Sharing Rules
-			$account_share_per_array = App\PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
+			$account_share_per_array = \App\PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
 			$account_share_read_per = $account_share_per_array['read'];
 			$account_share_write_per = $account_share_per_array['write'];
 			$account_sharingrule_members = $account_share_per_array['sharingrules'];
@@ -127,7 +127,7 @@ function createUserSharingPrivilegesfile($userid)
 
 			$custom_modules = \App\Module::getSharingModuleList(['Accounts', 'Contacts']);
 			foreach ($custom_modules as &$module_name) {
-				$mod_share_perm_array = App\PrivilegeUtil::getUserModuleSharingObjects($module_name, $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
+				$mod_share_perm_array = \App\PrivilegeUtil::getUserModuleSharingObjects($module_name, $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
 
 				$mod_share_read_perm = $mod_share_perm_array['read'];
 				$mod_share_write_perm = $mod_share_perm_array['write'];

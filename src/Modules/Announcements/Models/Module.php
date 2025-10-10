@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Announcements\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	protected $announcements = [];
@@ -92,7 +92,7 @@ class Module extends Model
 			}
 		}
 		if ($archive) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $this->getName());
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $this->getName());
 			$recordModel->set('announcementstatus', 'PLL_ARCHIVES');
 			$recordModel->save();
 		}
@@ -100,7 +100,7 @@ class Module extends Model
 
 	public function getUsers($showAll = true)
 	{
-		$userModel = Users_Record_Model::getCurrentUserModel();
+		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($showAll) {
 			$users = \App\Fields\Owner::getInstance()->getAccessibleUsers('Public');
 		} else {

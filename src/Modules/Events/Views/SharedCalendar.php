@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Events\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class SharedCalendar extends View
+class SharedCalendar extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)

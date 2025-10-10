@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Vtiger Detail View Record Structure Model
  */
-class DetailRecordStructure extends Model
+class DetailRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**

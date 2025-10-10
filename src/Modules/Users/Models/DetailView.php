@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -22,7 +22,7 @@ class DetailView extends Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 
@@ -46,7 +46,7 @@ class DetailView extends Model
 				);
 			}
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 			$detailViewPreferenceLinks = array();
 			if (vglobal('systemMode') != 'demo') {
@@ -65,7 +65,7 @@ class DetailView extends Model
 			);
 
 			foreach ($detailViewPreferenceLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWPREFERENCE'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWPREFERENCE'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 
 			$detailViewActionLinks = [];
@@ -84,7 +84,7 @@ class DetailView extends Model
 				'linkicon' => ''
 			);
 			foreach ($detailViewActionLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 			return $linkModelList;
 		}

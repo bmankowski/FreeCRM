@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\OSSMail\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	public function getDefaultViewName()
@@ -19,7 +19,7 @@ class Module extends Model
 
 	public function getSettingLinks()
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
@@ -68,13 +68,13 @@ class Module extends Model
 		$type = $request->get('type');
 
 		$return = [];
-		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
+		if (!empty($record) && isRecordExists($record) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
+			$recordModel_OSSMailView = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$return['to'] = $email;
 			}
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName === 'Campaigns') {
 				$subject = '';
@@ -107,7 +107,7 @@ class Module extends Model
 			$return['filePath'] = $request->get('pdf_path');
 		}
 		if (!empty($moduleName)) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$moduleConfig = \FreeCRM\AppConfig::module($moduleName);
 			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
 				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
@@ -152,14 +152,14 @@ class Module extends Model
 	public static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
-		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
+		if (!empty($record) && isRecordExists($record) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
+			$recordModel_OSSMailView = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$url .= $email;
 			}
 			$url .= '?';
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
@@ -207,7 +207,7 @@ class Module extends Model
 		}
 
 		if (!empty($srecord) && !empty($smoduleName)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {

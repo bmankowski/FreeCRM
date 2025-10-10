@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ChangePassword extends View
+class ChangePassword extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
@@ -30,7 +30,7 @@ class ChangePassword extends View
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);

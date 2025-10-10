@@ -18,16 +18,16 @@ class DownloadFile extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
 			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('record'), $moduleName);
+		$documentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		//Download the file
 		$documentRecordModel->downloadFile();
 		//Update the Download Count

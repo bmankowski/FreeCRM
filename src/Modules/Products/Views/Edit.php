@@ -19,9 +19,9 @@ Class Products_Edit_View extends Vtiger_Edit_View
 		$recordModel = $this->record;
 		if (!$recordModel) {
 			if (!empty($recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			} else {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			}
 		}
 
@@ -38,7 +38,7 @@ Class Products_Edit_View extends Vtiger_Edit_View
 
 	public function getDuplicate($record, $moduleName)
 	{
-		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		$recordModel->set('id', '');
 		$recordModel->set('qtyinstock', null);
 		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
@@ -57,7 +57,7 @@ Class Products_Edit_View extends Vtiger_Edit_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

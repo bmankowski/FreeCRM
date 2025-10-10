@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class UserRole extends UIType
+class UserRole extends Base
 {
 
 	/**
 	 * Function to get display value
 	 * @param string $value
 	 * @param int $recordId
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -56,7 +56,7 @@ class UserRole extends UIType
 	 */
 	public function getSearchValues($value)
 	{
-		$roles = (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
+		$roles = (new \App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
 				->createCommand()->queryAllByGroup();
 		return $roles;
 	}

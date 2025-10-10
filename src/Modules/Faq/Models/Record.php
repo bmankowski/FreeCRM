@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Faq\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -22,8 +22,8 @@ class Record extends Model
 	 */
 	public static function getInstanceFromHelpDesk($parentRecordModel)
 	{
-		$recordModel = Vtiger_Record_Model::getCleanInstance('Faq');
-		$fieldMappingList = Faq_Record_Model::getTicketToFAQMappingFields();
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Faq');
+		$fieldMappingList = \FreeCRM\Modules\Faq\Models\Record::getTicketToFAQMappingFields();
 
 		foreach ($fieldMappingList as $fieldMapping) {
 			$ticketField = $fieldMapping['ticketField'];

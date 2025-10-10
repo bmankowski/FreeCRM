@@ -27,7 +27,7 @@ class Currency extends InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		return vtlib\Functions::getCurrencyName($value, false);
+		return \vtlib\Functions::getCurrencyName($value, false);
 	}
 
 	public function getCurrencyParam($currencies, $param = false)
@@ -36,7 +36,7 @@ class Currency extends InventoryField
 			return \App\Json::decode($param);
 		} else {
 			foreach ($currencies as $currency) {
-				$return[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);
+				$return[$currency['id']] = \vtlib\Functions::getConversionRateInfo($currency['id']);
 			}
 		}
 		return $return;

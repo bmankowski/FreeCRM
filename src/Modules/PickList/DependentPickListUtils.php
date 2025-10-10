@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\PickList;
  * ******************************************************************************* */
 
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-require_once ROOT_DIRECTORY . '/modules/PickList/PickListUtils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/PickList/PickListUtils.php';
 
 class DependencyPicklist {
 
@@ -83,7 +83,7 @@ class DependencyPicklist {
 
 	static function savePickListDependencies($module, $dependencyMap)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$tabId = \App\Module::getModuleId($module);
 		$sourceField = $dependencyMap['sourcefield'];
 		$targetField = $dependencyMap['targetfield'];
@@ -109,11 +109,11 @@ class DependencyPicklist {
 			}
 			//to handle Accent Sensitive search in MySql
 			//reference Links http://dev.mysql.com/doc/refman/5.0/en/charset-convert.html , http://stackoverflow.com/questions/500826/how-to-conduct-an-accent-sensitive-search-in-mysql
-			$dependencyId = (new App\Db\Query())->select(['id'])->from('vtiger_picklist_dependency')
+			$dependencyId = (new \App\Db\Query())->select(['id'])->from('vtiger_picklist_dependency')
 					->where(['tabid' => $tabId, 'sourcefield' => $sourceField, 'targetfield' => $targetField, 'sourcevalue' => $sourceValue])
 					->scalar();
 			if ($dependencyId) {
-				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
+				\App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
 					'targetvalues' => $serializedTargetValues,
 					'criteria' => $serializedCriteria,
 				], ['id' => $dependencyId])->execute();
@@ -133,7 +133,7 @@ class DependencyPicklist {
 
 	static function deletePickListDependencies($module, $sourceField, $targetField)
 	{
-		App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
+		\App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
 			'tabid' => \App\Module::getModuleId($module),
 			'sourcefield' => $sourceField,
 			'targetfield' => $targetField
@@ -144,7 +144,7 @@ class DependencyPicklist {
 	{
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
-		$dataReader = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+		$dataReader = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
 			->createCommand()->query();
 		$valueMapping = [];
 		while ($row = $dataReader->read()) {
@@ -187,7 +187,7 @@ class DependencyPicklist {
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
 			}
 			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
-				foreach (App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
+				foreach (\App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
 					$pickArray[] = decode_html($picklistValue);
 				}
 				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
@@ -205,7 +205,7 @@ class DependencyPicklist {
 	static function checkCyclicDependency($module, $sourceField, $targetField)
 	{
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
-		return (new App\Db\Query())->from('vtiger_picklist_dependency')
+		return (new \App\Db\Query())->from('vtiger_picklist_dependency')
 				->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
 				->exists();
 	}

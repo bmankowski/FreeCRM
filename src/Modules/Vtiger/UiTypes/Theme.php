@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Theme extends UIType
+class Theme extends Base
 {
 
 	/**

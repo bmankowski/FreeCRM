@@ -20,13 +20,13 @@ class ForgotPassword {
 		$request = new Vtiger_Request($data);
 		$userName = $request->get('username');
 		$viewer = FreeCRM_Viewer::getInstance();
-		$companyModel = App\Company::getInstanceById();
+		$companyModel = \App\Company::getInstanceById();
 		$logo = $companyModel->getLogo();
 		$moduleName = 'Users';
 		$viewer->assign('LOGOURL', $logo->get('imageUrl'));
 		$viewer->assign('TITLE', $logo->get('title'));
 		$viewer->assign('USERNAME', $userName);
-		$changePasswordTrackUrl = $site_URL . "/modules/Users/actions/ForgotPassword.php";
+		$changePasswordTrackUrl = $site_URL . "/modules/Users/Actions/ForgotPassword.php";
 		$viewer->assign('TRACKURL', $changePasswordTrackUrl);
 		$expiryTime = (int) $request->get('time') + (24 * 60 * 60);
 		$currentTime = time();
@@ -34,7 +34,7 @@ class ForgotPassword {
 			$secretToken = uniqid();
 			$secretHash = md5($userName . $secretToken);
 			$options = array(
-				'handler_path' => 'modules/Users/handlers/ForgotPassword.php',
+				'handler_path' => 'src/Modules/Users/handlers/ForgotPassword.php',
 				'handler_class' => 'Users_ForgotPassword_Handler',
 				'handler_function' => 'changePassword',
 				'onetime' => 1,

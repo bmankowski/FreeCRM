@@ -10,19 +10,19 @@ class getContactMail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$ids = $request->get('ids');
 		$mod = $request->get('mod');
 		$emailFields = [];
-		$searchList = OSSMailScanner_Record_Model::getEmailSearch($mod);
-		$recordModel = Vtiger_Record_Model::getInstanceById($ids, $mod);
+		$searchList = \FreeCRM\Modules\OSSMailScanner\Models\Record::getEmailSearch($mod);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ids, $mod);
 		$name = $recordModel->getName();
 		foreach ($searchList as &$emailField) {
 			$email = $recordModel->get($emailField['fieldname']);
@@ -31,7 +31,7 @@ class getContactMail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$emailFields[] = array('name' => $name, 'fieldlabel' => $fieldlabel, 'email' => $email);
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($emailFields);
 		$response->emit();
 	}

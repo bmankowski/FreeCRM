@@ -78,7 +78,7 @@ class PrivilegeAdvanced
 				continue;
 			}
 			static::$webservice = false;
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$test = (new \VTJsonCondition())->evaluate($privilege['conditions'], $recordModel);
 			static::$webservice = true;
 			if ($test) {

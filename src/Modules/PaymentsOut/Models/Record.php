@@ -12,19 +12,19 @@ namespace FreeCRM\Modules\PaymentsOut\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public function getSummary($type, $bank, $file)
 	{
 		$adres = vglobal('cache_dir');
 		if ($bank == 'Default') {
-			require_once 'modules/PaymentsOut/helpers/' . $type . '.php';
+			require_once 'src/Modules/PaymentsOut/helpers/' . $type . '.php';
 			$records = new $type($adres . $file);
 			return $records;
 		}
 
-		require_once 'modules/PaymentsOut/helpers/subclass/' . $type . '_' . $bank . '.php';
+		require_once 'src/Modules/PaymentsOut/helpers/subclass/' . $type . '_' . $bank . '.php';
 		$class = $type . '_' . $bank;
 		$records = new $class($adres . $file);
 

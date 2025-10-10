@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class RightPanel extends View
+class RightPanel extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -28,7 +28,7 @@ class RightPanel extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers());
 		$viewer->assign('ALL_ACTIVEGROUP_LIST', \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups());
@@ -40,7 +40,7 @@ class RightPanel extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('ALL_ACTIVETYPES_LIST', OSSTimeControl_Calendar_Model::getCalendarTypes());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $currentUser);

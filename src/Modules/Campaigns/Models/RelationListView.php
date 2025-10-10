@@ -11,12 +11,12 @@ namespace FreeCRM\Modules\Campaigns\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationListView extends Model
+class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <Vtiger_Link_Model>
+	 * @return <Array> List of action models <\FreeCRM\Modules\Vtiger\Models\Link>
 	 */
 	public function getLinks()
 	{
@@ -25,8 +25,8 @@ class RelationListView extends Model
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relatedModuleName = $relatedModuleModel->getName();
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			if ($relatedModuleModel->isPermitted('MassComposeEmail') && \FreeCRM\AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
-				$emailLink = Vtiger_Link_Model::getInstanceFromValues(array(
+			if ($relatedModuleModel->isPermitted('MassComposeEmail') && \FreeCRM\AppConfig::main('isActiveSendingMails') && \App\Mail::getDefaultSmtp()) {
+				$emailLink = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => vtranslate('LBL_SEND_EMAIL', $relatedModuleName),
 						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",

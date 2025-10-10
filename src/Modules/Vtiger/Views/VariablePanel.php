@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class VariablePanel extends Controller
+class VariablePanel extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	/**
@@ -23,7 +23,7 @@ class VariablePanel extends Controller
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}

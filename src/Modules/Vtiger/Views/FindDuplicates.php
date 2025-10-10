@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class FindDuplicates extends View
+class FindDuplicates extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
@@ -32,7 +32,7 @@ class FindDuplicates extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('FindDuplicateContents.tpl', $moduleName);
@@ -41,7 +41,7 @@ class FindDuplicates extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -65,7 +65,7 @@ class FindDuplicates extends View
 		$currentUser = vglobal('current_user');
 		$viewer = $this->getViewer($request);
 		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 
 		$massActionLink = array(
 			'linktype' => 'LISTVIEWBASIC',
@@ -73,7 +73,7 @@ class FindDuplicates extends View
 			'linkurl' => 'Javascript:Vtiger_FindDuplicates_Js.massDeleteRecords("index.php?module=' . $module . '&action=MassDelete")',
 			'linkicon' => ''
 		);
-		$massActionLinks[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		$massActionLinks[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		$viewer->assign('LISTVIEW_LINKS', $massActionLinks);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 
@@ -81,7 +81,7 @@ class FindDuplicates extends View
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pageLimit = $pagingModel->getPageLimit();
 
@@ -135,7 +135,7 @@ class FindDuplicates extends View
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('DUPLICATE_SEARCH_FIELDS', $duplicateSearchFields);
 
-		$customViewModel = CustomView_Record_Model::getAllFilterByModule($module);
+		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getAllFilterByModule($module);
 		$viewer->assign('VIEW_NAME', $customViewModel->getId());
 	}
 

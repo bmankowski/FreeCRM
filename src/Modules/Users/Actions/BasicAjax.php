@@ -11,18 +11,18 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class BasicAjax extends Action
+class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
@@ -30,7 +30,7 @@ class BasicAjax extends Action
 		$parentRecordId = $request->get('parent_id');
 		$parentModuleName = $request->get('parent_module');
 
-		$searchModuleModel = Users_Module_Model::getInstance($searchModule);
+		$searchModuleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
 
 		$result = array();
@@ -42,7 +42,7 @@ class BasicAjax extends Action
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

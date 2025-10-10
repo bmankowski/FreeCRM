@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\SSalesProcesses\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -25,7 +25,7 @@ class Record extends Model
 				preg_match('/[.\s]+/', $storageInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $storageInfo[0], $name);
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance('SSalesProcesses');
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('SSalesProcesses');
 				$recordModel->setId($storageId);
 				$hierarchy['entries'][$storageId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}

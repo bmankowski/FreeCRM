@@ -104,7 +104,7 @@ class QueryGenerator
 	public function __construct($moduleName, $userId = false)
 	{
 		$this->moduleName = $moduleName;
-		$this->moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$this->moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$this->entityModel = \FreeCRM\CRMEntity::getInstance($moduleName);
 		$this->user = User::getUserModel($userId ? $userId : User::getCurrentUserId());
 	}
@@ -381,7 +381,7 @@ class QueryGenerator
 		}
 		$moduleFields = $this->moduleModel->getFields();
 		if ($this->moduleName === 'Calendar') {
-			$eventModuleFieldList = \Vtiger_Module_Model::getInstance('Events')->getFields();
+			$eventModuleFieldList = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events')->getFields();
 			$moduleFields = array_merge($moduleFields, $eventModuleFieldList);
 		}
 		foreach ($moduleFields as $fieldName => &$fieldModel) {
@@ -836,7 +836,7 @@ class QueryGenerator
 	 */
 	protected function addRelatedJoin($fieldDetail)
 	{
-		$relatedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
+		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($fieldDetail['relatedModule']);
 		$relatedFieldModel = $relatedModuleModel->getField($fieldDetail['relatedField']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
 			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");

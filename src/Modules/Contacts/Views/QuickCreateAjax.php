@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Contacts\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class QuickCreateAjax extends View
+class QuickCreateAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -21,8 +21,8 @@ class QuickCreateAjax extends View
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$salutationFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('salutationtype', $moduleModel);
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
 		parent::process($request);
 	}

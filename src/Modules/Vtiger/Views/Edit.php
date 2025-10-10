@@ -27,10 +27,10 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$record = $request->get('record');
 
 		if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$isPermited = $recordModel->isEditable() || ($request->getBoolean('isDuplicate') === true && $recordModel->isCreateable() && $recordModel->isViewable());
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$isPermited = $recordModel->isCreateable();
 		}
 		if (!$isPermited) {
@@ -61,14 +61,14 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('RECORD_ID', '');
 			$recordModel = $this->getDuplicate($record, $moduleName);
 		} else if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $record);
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$referenceId = $request->get('reference_id');
 			if ($referenceId) {
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
+				$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($referenceId);
 				$recordModel->setRecordFieldValues($parentRecordModel);
 			}
 			$viewer->assign('MODE', '');
@@ -103,7 +103,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
 				$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue . " " . $startTime);
 				list($startDate, $startTime) = explode(' ', $startDateTime);
-				$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($startDate);
+				$fieldValue = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
 			}
 			if ($fieldModel->isEditable() || $specialField) {
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
@@ -143,17 +143,17 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
-		$viewer->assign('APIADDRESS_ACTIVE', Settings_ApiAddress_Module_Model::isActive());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('APIADDRESS', \Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
+		$viewer->assign('APIADDRESS_ACTIVE', \Settings_ApiAddress_Module_Model::isActive());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
 	public function getDuplicate($record, $moduleName)
 	{
-		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		$recordModel->set('id', '');
 		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
 		$mandatoryFieldModels = $recordModel->getModule()->getMandatoryFieldModels();
@@ -171,14 +171,14 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 
 		$moduleName = $request->getModule();
-		if (Vtiger_Module_Model::getInstance($moduleName)->isInventory()) {
+		if (\FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName)->isInventory()) {
 			$fileNames = [
 				'modules.Vtiger.resources.Inventory',
 				'modules.' . $moduleName . '.resources.Inventory',

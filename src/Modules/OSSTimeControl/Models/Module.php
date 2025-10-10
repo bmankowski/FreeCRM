@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	public function getCalendarViewUrl()
@@ -40,7 +40,7 @@ class Module extends Model
 			],
 		];
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		if ($linkParams['ACTION'] == 'Calendar') {
@@ -58,7 +58,7 @@ class Module extends Model
 				'linkicon' => ''
 			];
 			foreach ($quickWidgets as $quickWidget) {
-				$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+				$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 			}
 		}
 
@@ -76,10 +76,10 @@ class Module extends Model
 
 	/**
 	 * Function to get data of charts
-	 * @param App\Db\Query $query
+	 * @param \App\Db\Query $query
 	 * @return array
 	 */
-	public function getRelatedSummary(App\Db\Query $query)
+	public function getRelatedSummary(\App\Db\Query $query)
 	{
 	
 		// Calculate total working time
@@ -92,10 +92,10 @@ class Module extends Model
 		$userTime = [];
 		$count = 1;
 		while ($row = $dataReader->read()) {
-			$smownerid = App\Fields\Owner::getLabel($row['smownerid']);
+			$smownerid = \App\Fields\Owner::getLabel($row['smownerid']);
 			$userTime[] = [
 				'name' => [$count, $smownerid],
-				'initial' => [$count, vtlib\Functions::getInitials($smownerid)],
+				'initial' => [$count, \vtlib\Functions::getInitials($smownerid)],
 				'data' => [$count, $row['sumtime']]
 			];
 			$count++;
@@ -113,15 +113,15 @@ class Module extends Model
 				'vtiger_crmentity.smownerid',
 				'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')
 			])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::recalculateStatus])
+					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => \FreeCRM\Modules\OSSTimeControl\Models\Record::recalculateStatus])
 					->groupBy('smownerid');
-			App\PrivilegeQuery::getConditions($query, $this->getName());
+			\App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();
 			$data = [];
 			$ticks = [];
 			$i = 0;
 			while ($row = $dataReader->read()) {
-				$name = App\Fields\Owner::getLabel($row['smownerid']);
+				$name = \App\Fields\Owner::getLabel($row['smownerid']);
 				$data[$i]['label'] = $name;
 				$ticks[$i][0] = $i;
 				$ticks[$i][1] = $name;

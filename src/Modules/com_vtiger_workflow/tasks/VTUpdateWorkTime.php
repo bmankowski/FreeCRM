@@ -16,7 +16,7 @@ class VTUpdateWorkTime extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -26,7 +26,7 @@ class VTUpdateWorkTime extends VTTask
 		$globalIds = vglobal('workflowIdsAlreadyDone');
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$referenceIds = [];
-		$referenceName = OSSTimeControl_Record_Model::$referenceFieldsToTime;
+		$referenceName = \FreeCRM\Modules\OSSTimeControl\Models\Record::$referenceFieldsToTime;
 
 		foreach ($referenceName as $name) {
 			if ($recordModel->get($name)) {
@@ -48,11 +48,11 @@ class VTUpdateWorkTime extends VTTask
 		}
 
 		$referenceIds = array_diff_key($referenceIds, array_flip($globalIds));
-		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
-		$modulesHierarchy = array_keys(App\ModuleHierarchy::getModulesHierarchy());
+		$metasData = \vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
+		$modulesHierarchy = array_keys(\App\ModuleHierarchy::getModulesHierarchy());
 		foreach ($metasData as $referenceId => $metaData) {
 			if (((int) $metaData['delete']) === 0 && in_array($metaData['setype'], $modulesHierarchy)) {
-				OSSTimeControl_Record_Model::recalculateTimeControl($referenceId, $referenceIds[$referenceId]);
+				\FreeCRM\Modules\OSSTimeControl\Models\Record::recalculateTimeControl($referenceId, $referenceIds[$referenceId]);
 				$globalIds[] = $referenceId;
 			}
 		}
@@ -61,13 +61,13 @@ class VTUpdateWorkTime extends VTTask
 
 	/**
 	 * Function to get contents of this task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return <String> contents
 	 */
 	public function getContents($recordModel)
 	{
 		if (!$this->contents && is_object($recordModel)) {
-			$delta = array_intersect_key($recordModel->getPreviousValue(), array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
+			$delta = array_intersect_key($recordModel->getPreviousValue(), array_flip(\FreeCRM\Modules\OSSTimeControl\Models\Record::$referenceFieldsToTime));
 
 			$this->contents = \App\Json::encode($delta);
 		}

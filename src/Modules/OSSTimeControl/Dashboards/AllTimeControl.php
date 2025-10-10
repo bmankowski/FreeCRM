@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class AllTimeControl extends View
+class AllTimeControl extends \Vtiger_Index_View
 {
 
 	public function getSearchParams($assignedto = '', $dateStart, $dateEnd)
@@ -33,13 +33,13 @@ class AllTimeControl extends View
 		}
 		$timeDatabase['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($user == 'all') {
 			$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 			$user = array_keys($accessibleUsers);
 		}
 		if (!is_array($user)) {
-			$accessibleUsers[$user] = Users_Record_Model::getInstanceById($user, 'Users')->getName();
+			$accessibleUsers[$user] = \FreeCRM\Modules\Users\Models\Record::getInstanceById($user, 'Users')->getName();
 			$user = [$user];
 		}
 		$db = \FreeCRM\database\PearDatabase::getInstance();
@@ -51,7 +51,7 @@ class AllTimeControl extends View
 		$module = 'OSSTimeControl';
 		$param[] = $module;
 		$param = array_merge($param, $user);
-		$query = (new App\Db\Query())->select(['daytime' => 'sum_time', 'due_date', 'timecontrol_type', 'vtiger_crmentity.smownerid'])
+		$query = (new \App\Db\Query())->select(['daytime' => 'sum_time', 'due_date', 'timecontrol_type', 'vtiger_crmentity.smownerid'])
 			->from('vtiger_osstimecontrol')
 			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.setype' => $module, 'vtiger_crmentity.smownerid' => $user]);
@@ -113,29 +113,29 @@ class AllTimeControl extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
 		$time = $request->get('time');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
-				$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
+				$time['start'] = \vtlib\Functions::currentUserDisplayDateNew();
+				$time['end'] = \vtlib\Functions::currentUserDisplayDateNew();
 			} else {
 				$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
 				$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
 			}
 		}
 		if (empty($user)) {
-			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$user = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
-		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+		$TCPModuleModel = \Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());

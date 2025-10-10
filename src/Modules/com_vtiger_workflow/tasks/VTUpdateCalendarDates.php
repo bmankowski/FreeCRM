@@ -20,7 +20,7 @@ class VTUpdateCalendarDates extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -35,7 +35,7 @@ class VTUpdateCalendarDates extends VTTask
 			. 'WHERE vtiger_activity_update_dates.parent = ?', [$entityId]);
 		while ($row = $adb->fetch_array($result)) {
 			$task = new \ArrayObject(unserialize($row['task']));
-			$rowRecordModel = Vtiger_Record_Model::getInstanceById($row['activityid'], 'Calendar');
+			$rowRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($row['activityid'], 'Calendar');
 
 			if ($task['datefield_start'] == 'wfRunTime') {
 				$baseDateStart = date('Y-m-d H:i:s');

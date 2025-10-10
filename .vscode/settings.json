@@ -24,5 +24,6 @@
         "strings": true
     },
     "editor.suggest.snippetsPreventQuickSuggestions": false,
-    "editor.wordBasedSuggestions": "off"
+    "editor.wordBasedSuggestions": "off",
+    "php.version": "7.4"
 }

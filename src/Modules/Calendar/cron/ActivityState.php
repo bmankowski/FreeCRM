@@ -3,8 +3,8 @@
 namespace FreeCRM\Modules\Calendar\cron;
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel();
-$dataReader = (new App\Db\Query())->select(['vtiger_activity.activityid', 'vtiger_activity.due_date', 'vtiger_activity.time_end',
+$statusActivity = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel();
+$dataReader = (new \App\Db\Query())->select(['vtiger_activity.activityid', 'vtiger_activity.due_date', 'vtiger_activity.time_end',
 			'vtiger_activity.date_start', 'vtiger_activity.time_start', 'activitystatus' => 'vtiger_activity.status'])
 		->from('vtiger_activity')
 		->innerJoin(['crm' => 'vtiger_crmentity'], 'crm.crmid = vtiger_activity.activityid')
@@ -12,9 +12,9 @@ $dataReader = (new App\Db\Query())->select(['vtiger_activity.activityid', 'vtige
 		->limit(\FreeCRM\AppConfig::module('Calendar', 'CRON_MAX_NUMBERS_ACTIVITY_STATE'))
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
-	$state = Calendar_Module_Model::getCalendarState($row);
+	$state = \FreeCRM\Modules\Calendar\Models\Module::getCalendarState($row);
 	if ($state && $state != $row['activitystatus']) {
-		$recordModel = Vtiger_Record_Model::getInstanceById($row['activityid']);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($row['activityid']);
 		$recordModel->set('id', $row['activityid']);
 		$recordModel->set('activitystatus', $state);
 		$recordModel->save();

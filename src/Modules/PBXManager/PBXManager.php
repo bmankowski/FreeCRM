@@ -93,19 +93,19 @@ class PBXManager extends \FreeCRM\CRMEntity
 			$this->addUserExtensionField();
 		} else if ($event_type === 'module.disabled') {
 			$this->removeLinksForPBXManager();
-			App\EventHandler::setInActive('PBXManager_PBXManagerHandler_Handler');
+			\App\EventHandler::setInActive('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
 		} else if ($event_type === 'module.enabled') {
 			$this->addLinksForPBXManager();
-			App\EventHandler::setActive('PBXManager_PBXManagerHandler_Handler');
+			\App\EventHandler::setActive('PBXManager_PBXManagerHandler_Handler');
 			$this->addSettingsLinks();
 			$this->addActionMapping();
 			$this->setModuleRelatedDependencies();
 		} else if ($event_type === 'module.preuninstall') {
 			$this->removeLinksForPBXManager();
-			App\EventHandler::deleteHandler('PBXManager_PBXManagerHandler_Handler');
+			\App\EventHandler::deleteHandler('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
@@ -141,9 +141,9 @@ class PBXManager extends \FreeCRM\CRMEntity
 	{
 		$className = 'PBXManager_PBXManagerHandler_Handler';
 
-		App\EventHandler::registerHandler('EntityAfterSave', $className, 'Contacts,Accounts,Leads');
-		App\EventHandler::registerHandler('EntityAfterDelete', $className, 'Contacts,Accounts,Leads');
-		App\EventHandler::registerHandler('EntityAfterRestore', $className, 'Contacts,Accounts,Leads');
+		\App\EventHandler::registerHandler('EntityAfterSave', $className, 'Contacts,Accounts,Leads');
+		\App\EventHandler::registerHandler('EntityAfterDelete', $className, 'Contacts,Accounts,Leads');
+		\App\EventHandler::registerHandler('EntityAfterRestore', $className, 'Contacts,Accounts,Leads');
 		\App\Log::info('Lookup Events Registered');
 	}
 
@@ -181,11 +181,11 @@ class PBXManager extends \FreeCRM\CRMEntity
 	public function addLinksForPBXManager()
 	{
 
-		$handlerInfo = array('path' => 'modules/PBXManager/PBXManager.php',
+		$handlerInfo = array('path' => 'src/Modules/PBXManager/PBXManager.php',
 			'class' => 'PBXManager',
 			'method' => 'checkLinkPermission');
 
-		vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
+		\vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'src/Modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
 		\App\Log::info('Links added');
 	}
 
@@ -196,7 +196,7 @@ class PBXManager extends \FreeCRM\CRMEntity
 	{
 
 		//Deleting Headerscripts links
-		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
+		\vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'src/Modules/PBXManager/resources/PBXManagerJS.js');
 		\App\Log::info('Links Removed');
 	}
 
@@ -221,7 +221,7 @@ class PBXManager extends \FreeCRM\CRMEntity
 			}
 			$adb->pquery("INSERT INTO vtiger_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
 		}
-		Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+		\Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
 			'name' => 'LBL_PBXMANAGER',
 			'iconpath' => 'adminIcon-pbx-manager',
 			'description' => 'LBL_PBXMANAGER_DESCRIPTION',

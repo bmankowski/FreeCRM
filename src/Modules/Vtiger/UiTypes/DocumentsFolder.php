@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DocumentsFolder extends UIType
+class DocumentsFolder extends Base
 {
 
 	/**
@@ -30,14 +30,14 @@ class DocumentsFolder extends UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return (new App\Db\Query())->select(['foldername'])->from('vtiger_attachmentsfolder')
+		return (new \App\Db\Query())->select(['foldername'])->from('vtiger_attachmentsfolder')
 				->where(['folderid' => $value])->scalar();
 	}
 
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

@@ -21,9 +21,9 @@ class Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$moduleName = $eventHandler->getModuleName();
 		$recordModel = $eventHandler->getRecordModel();

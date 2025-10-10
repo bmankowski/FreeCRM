@@ -11,16 +11,16 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends Action
+class Delete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$ajaxDelete = $request->get('ajaxDelete');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$moduleModel = $recordModel->getModule();
 		$recordModel->delete();
 
@@ -35,7 +35,7 @@ class Delete extends Action
 		$recurringEvents->delete();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		if ($ajaxDelete) {
-			$response = new Vtiger_Response();
+			$response = new \FreeCRM\Http\Vtiger_Response();
 			$response->setResult($listViewUrl);
 			return $response;
 		} else {

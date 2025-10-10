@@ -13,14 +13,14 @@ class MultiReferenceUpdater {
 
 	/**
 	 * EntityAfterLink handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterLink(App\EventHandler $eventHandler)
+	public function entityAfterLink(\App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
 		foreach ($fields as &$field) {
-			$fieldModel = new Vtiger_Field_Model();
+			$fieldModel = new \FreeCRM\Modules\Vtiger\Models\Field();
 			$fieldModel->initialize($field);
 			$uitypeModel = $fieldModel->getUITypeModel();
 			$uitypeModel->addValue($params['CRMEntity'], $params['sourceRecordId'], $params['destinationRecordId']);
@@ -29,14 +29,14 @@ class MultiReferenceUpdater {
 
 	/**
 	 * EntityAfterUnLink handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterUnLink(App\EventHandler $eventHandler)
+	public function entityAfterUnLink(\App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
 		foreach ($fields as &$field) {
-			$fieldModel = new Vtiger_Field_Model();
+			$fieldModel = new \FreeCRM\Modules\Vtiger\Models\Field();
 			$fieldModel->initialize($field);
 			$uitypeModel = $fieldModel->getUITypeModel();
 			$uitypeModel->reloadValue($params['sourceModule'], $params['sourceRecordId']);
@@ -45,9 +45,9 @@ class MultiReferenceUpdater {
 
 	/**
 	 * EntityAfterSave function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$moduleName = $eventHandler->getModuleName();

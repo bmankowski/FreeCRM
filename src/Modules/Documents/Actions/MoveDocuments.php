@@ -12,19 +12,19 @@ namespace FreeCRM\Modules\Documents\Actions;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class MoveDocuments extends Action
+class MoveDocuments extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$documentIdsList = $this->getRecordsListFromRequest($request);
@@ -32,8 +32,8 @@ class MoveDocuments extends Action
 
 		if (!empty($documentIdsList)) {
 			foreach ($documentIdsList as $documentId) {
-				$documentModel = Vtiger_Record_Model::getInstanceById($documentId, $moduleName);
-				if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $documentId)) {
+				$documentModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($documentId, $moduleName);
+				if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $documentId)) {
 					$documentModel->set('folderid', $folderId);
 					$documentModel->save();
 				} else {
@@ -47,7 +47,7 @@ class MoveDocuments extends Action
 			$result = array('success' => false, 'message' => vtranslate('LBL_DENIED_DOCUMENTS', $moduleName), 'LBL_RECORDS_LIST' => $documentsMoveDenied);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

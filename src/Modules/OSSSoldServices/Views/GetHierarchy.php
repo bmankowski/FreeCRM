@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OSSSoldServices\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class GetHierarchy extends View
+class GetHierarchy extends \Vtiger_Index_View
 {
 	
 }

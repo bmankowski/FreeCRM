@@ -19,26 +19,26 @@ class Delete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'Delete', $record)) {
 			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$ajaxDelete = $request->get('ajaxDelete');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$recordModel->delete();
 
 		$listViewUrl = $moduleModel->getListViewUrl();
 		if ($ajaxDelete) {
-			$response = new Vtiger_Response();
+			$response = new \FreeCRM\Http\Vtiger_Response();
 			$response->setResult($listViewUrl);
 			return $response;
 		} else {
@@ -46,7 +46,7 @@ class Delete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

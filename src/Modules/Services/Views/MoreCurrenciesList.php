@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Services\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class MoreCurrenciesList extends View
+class MoreCurrenciesList extends \Vtiger_Index_View
 {
 	
 }

@@ -19,19 +19,19 @@ class SubProducts extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$productId = $request->get('record');
 		$values = [];
 		if (isRecordExists($productId)) {
-			$productModel = Vtiger_Record_Model::getInstanceById($productId);
+			$productModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($productId);
 			$subProducts = $productModel->getSubProducts();
 
 			foreach ($subProducts as $subProduct) {
@@ -39,7 +39,7 @@ class SubProducts extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($values);
 		$response->emit();
 	}

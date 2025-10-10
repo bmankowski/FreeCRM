@@ -10,9 +10,9 @@ namespace FreeCRM\Modules\WSAPP\Handlers;
  * All Rights Reserved.
  * *********************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/fields/DateTimeField.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/SyncServer.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/SyncHandler.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/OutlookSyncServer.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/SyncServer.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Handlers/SyncHandler.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/OutlookSyncServer.php';
 
 Class OutlookHandler extends SyncHandler
 {

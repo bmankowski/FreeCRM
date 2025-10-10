@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSEmployees\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -30,7 +30,7 @@ class Record extends Model
 				preg_match('/[.\s]+/', $employeeInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $employeeInfo[0], $name);
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSEmployees');
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSEmployees');
 				$recordModel->setId($employeeId);
 				$hierarchy['entries'][$employeeId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}
@@ -152,7 +152,7 @@ class Record extends Model
 		if (!$employeeID) {
 			return '';
 		}
-		$moduleModel = Vtiger_Record_Model::getInstanceById($employeeID, 'OSSEmployees');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($employeeID, 'OSSEmployees');
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Accounts\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -47,7 +47,7 @@ class Module extends Model
 	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of Vtiger_Record_Model>
+	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Record>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{

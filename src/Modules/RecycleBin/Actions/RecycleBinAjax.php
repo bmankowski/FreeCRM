@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\RecycleBin\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class RecycleBinAjax extends Action
+class RecycleBinAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -30,23 +30,23 @@ class RecycleBinAjax extends Action
 			return true;
 		}
 		$targetModuleName = $request->get('sourceModule', $request->get('module'));
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($targetModuleName, 'Delete')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 
@@ -61,13 +61,13 @@ class RecycleBinAjax extends Action
 	 * @param type $sourceModule
 	 * @param type $recordIds
 	 */
-	public function restoreRecords(Vtiger_Request $request)
+	public function restoreRecords(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$recycleBinModule = new RecycleBin_Module_Model();
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($recordIds) {
 			$recycleBinModule->restore($sourceModule, $recordIds);
 			$response->setResult(array(true));
@@ -79,14 +79,14 @@ class RecycleBinAjax extends Action
 	/**
 	 * Function to delete the records permanently in vitger CRM database
 	 */
-	public function emptyRecycleBin(Vtiger_Request $request)
+	public function emptyRecycleBin(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recycleBinModule = new RecycleBin_Module_Model();
 
 		$status = $recycleBinModule->emptyRecycleBin();
 
 		if ($status) {
-			$response = new Vtiger_Response();
+			$response = new \FreeCRM\Http\Vtiger_Response();
 			$response->setResult(array($status));
 			$response->emit();
 		}
@@ -96,12 +96,12 @@ class RecycleBinAjax extends Action
 	 * Function to deleted the records permanently in CRM
 	 * @param type $reocrdIds
 	 */
-	public function deleteRecords(Vtiger_Request $request)
+	public function deleteRecords(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$recycleBinModule = new RecycleBin_Module_Model();
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($recordIds) {
 			$recycleBinModule->deleteRecords($recordIds);
 			$response->setResult(array(true));

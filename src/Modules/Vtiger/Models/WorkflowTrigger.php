@@ -23,8 +23,8 @@ class WorkflowTrigger {
 	 */
 	public static function execute($moduleName, $record, $ids, $userId)
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		if ($userId) {
 			$recordModel->executeUser = $userId;
 		}

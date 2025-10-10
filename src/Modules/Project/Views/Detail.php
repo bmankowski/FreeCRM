@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Project\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -30,7 +30,7 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($moduleModel)
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -44,7 +44,7 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getGanttProject($recordId);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', \App\Json::encode($data));

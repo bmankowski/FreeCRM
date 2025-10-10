@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Accounts\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -34,7 +34,7 @@ class DetailView extends Model
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => 'glyphicon glyphicon-user'
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $linkModelList;
 	}
@@ -84,7 +84,7 @@ class DetailView extends Model
 				'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
@@ -107,7 +107,7 @@ class DetailView extends Model
 				'badgeClass' => 'bgDanger'
 			];
 		}
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

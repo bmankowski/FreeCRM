@@ -14,10 +14,10 @@ namespace FreeCRM\Modules\Calendar\Actions;
 
 require_once ROOT_DIRECTORY . '/src/Webservices/Query.php';
 
-class Feed extends Action
+class Feed extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		try {
 			$result = array();
@@ -49,7 +49,7 @@ class Feed extends Action
 
 	public function queryForRecords($query, $onlymine = true)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($onlymine) {
 			$groupIds = $this->getGroupsIdsForUsers($user->getId());
 			$groupWsIds = array();

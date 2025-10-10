@@ -28,10 +28,10 @@ require_once ROOT_DIRECTORY . '/src/fields/DateTimeField.php';
 require_once ROOT_DIRECTORY . '/src/fields/DateTimeRange.php';
 require_once ROOT_DIRECTORY . '/src/fields/CurrencyField.php';
 require_once ROOT_DIRECTORY . '/src/CRMEntity.php';
-include_once ROOT_DIRECTORY . '/modules/Vtiger/CRMEntity.php';
-require_once ROOT_DIRECTORY . '/modules/Vtiger/helpers/Util.php';
-require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
-require_once ROOT_DIRECTORY . '/modules/Users/Users.php';
+include_once ROOT_DIRECTORY . '/src/Modules/Vtiger/CRMEntity.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Vtiger/helpers/Util.php';
+require_once ROOT_DIRECTORY . '/src/Modules/PickList/DependentPickListUtils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Users/Users.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 
 /**
@@ -548,7 +548,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 
 		$eventHandler->trigger('EntityAfterUnLink');
 	} else {
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
 			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}

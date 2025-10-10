@@ -3,12 +3,12 @@
 
 namespace FreeCRM\Modules\Calendar\Models;
 
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_rfc2445.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_components.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_properties.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_parameters.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_rfc2445.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_components.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_properties.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_parameters.php';
 
-class Export extends Model
+class Export extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**
@@ -20,7 +20,7 @@ class Export extends Model
 	{
 		$moduleName = $request->get('source_module');
 		$cvId = $request->get('viewname');
-		$listInstance = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$listInstance = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');
@@ -76,7 +76,7 @@ class Export extends Model
 	public function exportData(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
 
@@ -89,7 +89,7 @@ class Export extends Model
 	 * Function that create the exported file
 	 * @param Vtiger_Request $request
 	 * @param array $dataReader
-	 * @param Vtiger_Module_Model $moduleModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleModel
 	 */
 	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{

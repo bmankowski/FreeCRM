@@ -15,14 +15,14 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
+		$createPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
 		if ($createPermission) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
@@ -51,9 +51,9 @@ class ListView extends Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView') && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'EditView');
 		$advancedLinks = [];
-		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
+		$importPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
@@ -63,7 +63,7 @@ class ListView extends Model
 			);
 		}
 
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
@@ -78,12 +78,12 @@ class ListView extends Model
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param array $linkParams
-	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return array - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$moduleModel = $this->getModule();
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
+		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
@@ -104,7 +104,7 @@ class ListView extends Model
 		}
 
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
@@ -112,10 +112,10 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setField(['visibility', 'assigned_user_id', 'activitystatus']);

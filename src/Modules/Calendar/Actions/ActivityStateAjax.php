@@ -9,19 +9,19 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ActivityStateAjax extends Action
+class ActivityStateAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$state = $request->get('state');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$recordModel->set('activitystatus', $state);
 		$recordModel->save();
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
 	}

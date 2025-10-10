@@ -11,18 +11,18 @@ namespace FreeCRM\Modules\Rss\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends Action
+class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Rss_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Rss\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordModel->delete();
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array('record' => $recordId, 'module' => $moduleName));
 		$response->emit();
 	}

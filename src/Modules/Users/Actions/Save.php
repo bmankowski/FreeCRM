@@ -11,18 +11,18 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends Action
+class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		// Check for operation access.
-		$allowed = Users_Privileges_Model::isPermitted($moduleName, 'Save', $record);
+		$allowed = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record);
 
 		if ($allowed) {
 			// Deny access if not administrator or account-owner or self
@@ -42,9 +42,9 @@ class Save extends Action
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	protected function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ($recordModel->isNew()) {
@@ -69,21 +69,21 @@ class Save extends Action
 	 * @param Vtiger_Request $request
 	 * @return boolean
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
+		$result = \Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
-		$moduleModel = Vtiger_Module_Model::getInstance('Users');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
-			$settingsModuleModel = Settings_Users_Module_Model::getInstance();
+			$settingsModuleModel = \\Settings_Users_Module_Model::getInstance();
 			$settingsModuleModel->refreshSwitchUsers();
 
 			$sharedIds = $request->get('sharedusers');
 			$sharedType = $request->get('calendarsharedtype');
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+			$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
 			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
@@ -105,7 +105,7 @@ class Save extends Action
 				}
 			}
 			if ($request->get('relationOperation')) {
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
+				$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
 				$loadUrl = $parentRecordModel->getDetailViewUrl();
 			} else if ($request->get('isPreference')) {
 				$loadUrl = $recordModel->getPreferenceDetailViewUrl();
@@ -113,7 +113,7 @@ class Save extends Action
 				$loadUrl = $recordModel->getDetailViewUrl();
 			}
 		} else {
-			App\Log::error('USER_MAIL_EXIST');
+			\App\Log::error('USER_MAIL_EXIST');
 			header('Location: index.php?module=Users&parent=Settings&view=Edit');
 			return false;
 		}

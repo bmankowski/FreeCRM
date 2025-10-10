@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class TooltipAjax extends View
+class TooltipAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)

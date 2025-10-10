@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Calendar\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Time extends UIType
+class Time extends Base
 {
 
 	public function getEditViewDisplayValue($value, $record = false)
@@ -40,7 +40,7 @@ class Time extends UIType
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
+		$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$date = new DateTime($value);
 
 		if ($fieldName == 'time_end' && empty($value)) {

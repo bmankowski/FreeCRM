@@ -22,7 +22,7 @@ Class DataAccess_check_assigneduser
 		if (!is_array($allowedUsers))
 			$allowedUsers = array($allowedUsers);
 		if (in_array("currentUser", $allowedUsers)) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$allowedUsers[] = $currentUser->get('id');
 			foreach ($allowedUsers as $key => $value) {
 				if ($value == "currentUser") {

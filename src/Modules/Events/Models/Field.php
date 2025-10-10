@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Events\Models;
 /**
  * Events Field Model Class
  */
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	public function get($propertyName)

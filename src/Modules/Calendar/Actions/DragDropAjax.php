@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DragDropAjax extends Action
+class DragDropAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -20,7 +20,7 @@ class DragDropAjax extends Action
 		$this->exposeMethod('updateDeltaOnDrop');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -29,7 +29,7 @@ class DragDropAjax extends Action
 		}
 	}
 
-	public function updateDeltaOnResize(Vtiger_Request $request)
+	public function updateDeltaOnResize(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$activityType = $request->get('activitytype');
@@ -38,14 +38,14 @@ class DragDropAjax extends Action
 		$minuteDelta = $request->get('minuteDelta');
 		$actionname = 'EditView';
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (isPermitted($moduleName, $actionname, $recordId) === 'no') {
 			$result = array('ispermitted' => false, 'error' => false);
 			$response->setResult($result);
 			$response->emit();
 		} else {
 			$result = array('ispermitted' => true, 'error' => false);
-			$record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 
 			$oldDateTime[] = $record->get('due_date');
 			$oldDateTime[] = $record->get('time_end');
@@ -76,7 +76,7 @@ class DragDropAjax extends Action
 		}
 	}
 
-	public function updateDeltaOnDrop(Vtiger_Request $request)
+	public function updateDeltaOnDrop(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$activityType = $request->get('activitytype');
@@ -85,14 +85,14 @@ class DragDropAjax extends Action
 		$minuteDelta = $request->get('minuteDelta');
 		$actionname = 'EditView';
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (isPermitted($moduleName, $actionname, $recordId) === 'no') {
 			$result = ['ispermitted' => false];
 			$response->setResult($result);
 			$response->emit();
 		} else {
 			$result = array('ispermitted' => true);
-			$record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 
 			$oldStartDateTime[] = $record->get('date_start');
 			$oldStartDateTime[] = $record->get('time_start');

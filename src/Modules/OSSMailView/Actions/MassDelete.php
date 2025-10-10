@@ -8,28 +8,28 @@ namespace FreeCRM\Modules\OSSMailView\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class MassDelete extends Action
+class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
@@ -40,8 +40,8 @@ class MassDelete extends Action
 
 		$permission = true;
 		foreach ($recordIds as $recordId) {
-			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName); // fixme: not 100% sure thats whats expected
+			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName); // fixme: not 100% sure thats whats expected
 				$recordModel->delete_rel($recordId);
 				$recordModel->delete();
 			} else {
@@ -54,7 +54,7 @@ class MassDelete extends Action
 		}
 
 		$cvId = $request->get('viewname');
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
 		$response->emit();
 	}

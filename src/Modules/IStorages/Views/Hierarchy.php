@@ -11,13 +11,13 @@ namespace FreeCRM\Modules\IStorages\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Hierarchy extends Controller
+class Hierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -36,7 +36,7 @@ class Hierarchy extends Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getHierarchy();
 
 		$viewer->assign('MODULE', $moduleName);

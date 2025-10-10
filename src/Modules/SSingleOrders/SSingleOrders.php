@@ -7,9 +7,9 @@ namespace FreeCRM\Modules\SSingleOrders;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class SSingleOrders extends Vtiger_CRMEntity
+class SSingleOrders extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_ssingleorders';
@@ -93,12 +93,12 @@ class SSingleOrders extends Vtiger_CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSingleOrders']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SSingleOrders'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

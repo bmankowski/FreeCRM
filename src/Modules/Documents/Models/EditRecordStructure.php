@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class EditRecordStructure extends Model
+class EditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**

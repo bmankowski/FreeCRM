@@ -13,13 +13,13 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Index extends View
+class Index extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser()) {
 			$settingsIndexView = new Settings_Vtiger_Index_View();
 			$settingsIndexView->preProcessSettings($request);
@@ -28,7 +28,7 @@ class Index extends View
 
 	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser()) {
 			$settingsIndexView = new Settings_Vtiger_Index_View();
 			$settingsIndexView->postProcessSettings($request);
@@ -44,7 +44,7 @@ class Index extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

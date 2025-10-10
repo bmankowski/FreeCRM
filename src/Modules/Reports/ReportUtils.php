@@ -155,7 +155,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$date = new DateTimeField($value);
 			$fieldvalue = $date->getDisplayTime();
 		} else {
-			$userModel = Users_Privileges_Model::getCurrentUserModel();
+			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 			if ($userModel->get('hour_format') == '12') {
 				$value = Vtiger_Time_UIType::getTimeValueInAMorPM($value);
 			}

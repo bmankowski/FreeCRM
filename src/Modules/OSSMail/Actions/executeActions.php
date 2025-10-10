@@ -10,17 +10,17 @@ class executeActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		$params = $request->get('params');
-		$instance = Vtiger_Record_Model::getCleanInstance('OSSMailView');
+		$instance = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
 
 		if ($mode == 'addRelated')
 			$data = $instance->addRelated($params);
@@ -29,7 +29,7 @@ class executeActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$data = $instance->removeRelated($params);
 
 		$result = array('success' => true, 'data' => $data);
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

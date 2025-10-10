@@ -2,13 +2,13 @@
 
 namespace FreeCRM\Modules\EmailTemplates\Views;
 
-class Edit extends View
+class Edit extends \Vtiger_Index_View
 {
 
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return array - List of Vtiger_JsScript_Model instances
+	 * @return array - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

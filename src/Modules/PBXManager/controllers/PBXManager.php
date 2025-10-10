@@ -64,12 +64,12 @@ class Controller {
 		$temp = explode("/", $temp[0]);
 
 		$callerNumber = $request->get('callerIdNumber');
-		$userInfo = PBXManager_Record_Model::getUserInfoWithNumber($callerNumber);
+		$userInfo = \FreeCRM\Modules\PBXManager\Models\Record::getUserInfoWithNumber($callerNumber);
 
 		if (!$userInfo) {
 			$callerNumber = $temp[1];
 			if (is_numeric($callerNumber)) {
-				$userInfo = PBXManager_Record_Model::getUserInfoWithNumber($callerNumber);
+				$userInfo = \FreeCRM\Modules\PBXManager\Models\Record::getUserInfoWithNumber($callerNumber);
 			}
 		}
 
@@ -86,12 +86,12 @@ class Controller {
 			}
 
 			$request->set('to', $to);
-			$customerInfo = PBXManager_Record_Model::lookUpRelatedWithNumber($to);
+			$customerInfo = \FreeCRM\Modules\PBXManager\Models\Record::lookUpRelatedWithNumber($to);
 			$connector->handleStartupCall($request, $userInfo, $customerInfo);
 		} else {
 			// Inbound Call
 			$request->set('Direction', 'inbound');
-			$customerInfo = PBXManager_Record_Model::lookUpRelatedWithNumber($request->get('callerIdNumber'));
+			$customerInfo = \FreeCRM\Modules\PBXManager\Models\Record::lookUpRelatedWithNumber($request->get('callerIdNumber'));
 			$request->set('from', $request->get('callerIdNumber'));
 			$connector->handleStartupCall($request, $userInfo, $customerInfo);
 		}

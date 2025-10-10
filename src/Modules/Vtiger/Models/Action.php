@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Action Model Class
  */
-class Action extends Model
+class Action extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');
@@ -60,10 +60,10 @@ class Action extends Model
 
 	public static function getInstanceFromRow($row)
 	{
-		$className = 'Vtiger_Action_Model';
+		$className = '\FreeCRM\Modules\Vtiger\Models\Action';
 		$actionName = $row['actionname'];
 		if (!in_array($actionName, self::$standardActions)) {
-			$className = 'Vtiger_Utility_Model';
+			$className = '\FreeCRM\Modules\Vtiger\Models\Utility';
 		}
 		$actionModel = new $className();
 		return $actionModel->setData($row);
@@ -77,7 +77,7 @@ class Action extends Model
 			self::$cachedInstances = self::getAll();
 		}
 		if (self::$cachedInstances) {
-			$actionid = vtlib\Utils::isNumber($value) ? $value : false;
+			$actionid = \vtlib\Utils::isNumber($value) ? $value : false;
 			if ($actionid === false && isset(self::$cachedInstances[$value])) {
 				return self::$cachedInstances[$value];
 			}
@@ -94,7 +94,7 @@ class Action extends Model
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 
-		if (vtlib\Utils::isNumber($value)) {
+		if (\vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
 		} else {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionname=?';

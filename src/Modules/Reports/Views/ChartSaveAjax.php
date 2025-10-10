@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Reports\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ChartSaveAjax extends View
+class ChartSaveAjax extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -23,9 +23,9 @@ class ChartSaveAjax extends View
 		if (!$record) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		$reportModel = Reports_Record_Model::getCleanInstance($record);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
 
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -38,7 +38,7 @@ class ChartSaveAjax extends View
 		$moduleName = $request->getModule();
 
 		$record = $request->get('record');
-		$reportModel = Reports_Record_Model::getInstanceById($record);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($record);
 		$reportModel->setModule('Reports');
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 

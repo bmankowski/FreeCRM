@@ -14,49 +14,49 @@ namespace FreeCRM\Modules\Leads\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ConvertLead extends View
+class ConvertLead extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('ConvertLead')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
 		$recordId = $request->get('record');
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		if (!\FreeCRM\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligeModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$viewer = $this->getViewer($request);
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$moduleModel = $recordModel->getModule();
 		$marketingProcessConfig = Vtiger_Processes_Model::getConfig('marketing', 'conversion');
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('CURRENT_USER_PRIVILEGE', $currentUserPriviligeModel);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('CONVERT_LEAD_FIELDS', $recordModel->getConvertLeadFields());
 
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
 		if ($marketingProcessConfig['change_owner'] === 'true') {
-			$assignedToFieldModel->set('fieldvalue', App\User::getCurrentUserId());
+			$assignedToFieldModel->set('fieldvalue', \App\User::getCurrentUserId());
 		} else {
 			$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
 		}

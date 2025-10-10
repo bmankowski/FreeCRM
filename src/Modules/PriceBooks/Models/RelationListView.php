@@ -11,14 +11,14 @@ namespace FreeCRM\Modules\PriceBooks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationListView extends Model
+class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
 		//Added to support List Price
-		$field = new Vtiger_Field_Model();
+		$field = new \FreeCRM\Modules\Vtiger\Models\Field();
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');

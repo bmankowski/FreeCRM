@@ -26,7 +26,7 @@ class Queue extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return;
 	}
@@ -52,7 +52,7 @@ class Queue extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public static function remove($importId)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', array($importId));
 		}
 	}
@@ -60,7 +60,7 @@ class Queue extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public static function removeForUser($user)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($user->id));
 		}
 	}
@@ -69,7 +69,7 @@ class Queue extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
 
 			if ($queueResult && $db->num_rows($queueResult) > 0) {
@@ -99,7 +99,7 @@ class Queue extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', array($importId));
 
 			if ($queueResult && $db->num_rows($queueResult) > 0) {

@@ -45,14 +45,14 @@ class ApiAddress {
 		}
 		$displayLabel = 'LBL_API_ADDRESS';
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+			\Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
 				'name' => $displayLabel,
 				'iconpath' => '',
 				'description' => 'LBL_API_ADDRESS_DESCRIPTION',
 				'linkto' => 'index.php?module=ApiAddress&parent=Settings&view=Configuration'
 			]);
 		} else {
-			Settings_Vtiger_Module_Model::deleteSettingsField('LBL_INTEGRATION', $displayLabel);
+			\Settings_Vtiger_Module_Model::deleteSettingsField('LBL_INTEGRATION', $displayLabel);
 		}
 	}
 }

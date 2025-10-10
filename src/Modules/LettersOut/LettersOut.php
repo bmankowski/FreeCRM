@@ -317,12 +317,12 @@ class LettersOut extends \FreeCRM\CRMEntity
 			$ModuleInstance = \FreeCRM\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, 'LI', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('LettersOut'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($modulename));
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersout', 'title'));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersout', 'smownerid'));

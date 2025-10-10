@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Calendar\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class QuickCreateAjax extends View
+class QuickCreateAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -27,7 +27,7 @@ class QuickCreateAjax extends View
 		foreach ($moduleList as $module) {
 			$info = [];
 
-			$recordModel = Vtiger_Record_Model::getCleanInstance($module);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($module);
 			$moduleModel = $recordModel->getModule();
 
 			$fieldList = $moduleModel->getFields();
@@ -68,7 +68,7 @@ class QuickCreateAjax extends View
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('QUICKCREATE_LINKS', Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
+		$viewer->assign('QUICKCREATE_LINKS', \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
@@ -82,7 +82,7 @@ class QuickCreateAjax extends View
 		$viewer->assign('THREEDAYSLATER', date('Y-n-j', strtotime('+3 day')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('QuickCreate.tpl', $moduleName);
 	}

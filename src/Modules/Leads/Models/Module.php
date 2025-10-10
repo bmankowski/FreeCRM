@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Leads\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -26,13 +26,13 @@ class Module extends Model
 	/**
 	 * Function to get the list of recently visisted records
 	 * @param <Number> $limit
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instances
 	 */
 	public function getRecentRecords($limit = 10)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
 		$query = 'SELECT * FROM vtiger_crmentity ' .
 			' INNER JOIN vtiger_leaddetails ON
@@ -170,17 +170,17 @@ class Module extends Model
 			}
 
 			if ($sourceModule === 'Services') {
-				$subQuery = (new App\Db\Query())
+				$subQuery = (new \App\Db\Query())
 					->select(['relcrmid'])
 					->from('vtiger_crmentityrel')
 					->where(['crmid' => $record]);
-				$secondSubQuery = (new App\Db\Query())
+				$secondSubQuery = (new \App\Db\Query())
 					->select(['crmid'])
 					->from('vtiger_crmentityrel')
 					->where(['relcrmid' => $record]);
 				$condition = ['and', ['not in', 'vtiger_leaddetails.leadid', $subQuery], ['not in', 'vtiger_leaddetails.leadid', $secondSubQuery]];
 			} else {
-				$condition = ['not in', 'vtiger_leaddetails.leadid', (new App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record])];
+				$condition = ['not in', 'vtiger_leaddetails.leadid', (new \App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record])];
 			}
 			$queryGenerator->addNativeCondition($condition);
 		}
@@ -229,7 +229,7 @@ class Module extends Model
 	 */
 	public static function getConversionAvaibleStatuses()
 	{
-		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
+		$leadConfig = \Settings_MarketingProcesses_Module_Model::getConfig('lead');
 
 		return $leadConfig['convert_status'];
 	}
@@ -241,7 +241,7 @@ class Module extends Model
 	 */
 	public static function checkIfAllowedToConvert($status)
 	{
-		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
+		$leadConfig = \Settings_MarketingProcesses_Module_Model::getConfig('lead');
 
 		if (empty($leadConfig['convert_status'])) {
 			return true;

@@ -13,7 +13,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -22,7 +22,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$srecord = $request->get('srecord');
 		$smodule = $request->get('smodule');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
@@ -37,8 +37,8 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$mode = $request->get('mode');
 		$record = $request->get('record');
 		$mailFilter = $request->get('mailFilter');
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-		$config = OSSMail_Module_Model::getComposeParameters();
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$config = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParameters();
 		$config['widget_limit'] = '';
 
 		$viewer = $this->getViewer($request);
@@ -50,7 +50,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SRECORD', $srecord);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('POPUP', $config['popup']);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('MailsPreview.tpl', 'OSSMailView');
 	}
 }

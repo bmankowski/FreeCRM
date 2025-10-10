@@ -6,7 +6,7 @@
 namespace FreeCRM\Modules\RecycleBin\Views;
 
 use FreeCRM\Http\Vtiger_Request;
-class Pagination extends View
+class Pagination extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -36,7 +36,7 @@ class Pagination extends View
 			$pageNumber = '1';
 		}
 
-		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\RecycleBin\Models\Module::getInstance($moduleName);
 		//If sourceModule is empty, pick the first module name from the list
 		if (empty($sourceModule)) {
 			foreach ($moduleModel->getAllModuleList() as $model) {
@@ -49,7 +49,7 @@ class Pagination extends View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);

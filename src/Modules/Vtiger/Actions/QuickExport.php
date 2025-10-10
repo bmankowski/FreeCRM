@@ -4,12 +4,12 @@
 
 namespace FreeCRM\Modules\Vtiger\Actions;
 
-class QuickExport extends Action
+class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -20,7 +20,7 @@ class QuickExport extends Action
 		$this->exposeMethod('ExportToExcel');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -29,7 +29,7 @@ class QuickExport extends Action
 		}
 	}
 
-	public function ExportToExcel(Vtiger_Request $request)
+	public function ExportToExcel(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		require_once 'libraries/PHPExcel/PHPExcel.php';
 		$module = $request->getModule(false); //this is the type of things in the current view
@@ -48,7 +48,7 @@ class QuickExport extends Action
 		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($filter);
 		$headers = $queryGenerator->getListViewFields();
-		$customView = CustomView_Record_Model::getInstanceById($filter);
+		$customView = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($filter);
 		//get the column headers, they go in row 0 of the spreadsheet
 		foreach ($headers as &$fieldsModel) {
 			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(LanguageTranslator::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
@@ -61,7 +61,7 @@ class QuickExport extends Action
 		//so lets just itterate across the list of IDs we have and get the field values
 		foreach ($recordIds as $id) {
 			$col = 0;
-			$record = Vtiger_Record_Model::getInstanceById($id, $module);
+			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $module);
 			foreach ($headers as &$fieldsModel) {
 				//depending on the uitype we might want the raw value, the display value or something else.
 				//we might also want the display value sans-links so we can use strip_tags for that
@@ -126,7 +126,7 @@ class QuickExport extends Action
 		unlink($tempFileName);
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

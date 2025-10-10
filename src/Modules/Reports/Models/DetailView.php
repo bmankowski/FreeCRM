@@ -11,22 +11,22 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <Vtiger_DetailView_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\DetailView>
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
 		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recordModel = Reports_Record_Model::getCleanInstance($recordId, $moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($recordId, $moduleName);
 
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
@@ -39,14 +39,14 @@ class DetailView extends Model
 	 */
 	public function getDetailViewLinks($linkParams = '')
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$moduleModel = $this->getModule();
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();
 
 		$detailViewLinks = array();
-		$printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
+		$printPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
 			$detailViewLinks[] = array(
 				'linklabel' => vtranslate('LBL_REPORT_PRINT', $moduleName),
@@ -55,7 +55,7 @@ class DetailView extends Model
 			);
 		}
 
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$detailViewLinks[] = array(
 				'linklabel' => vtranslate('LBL_REPORT_CSV', $moduleName),
@@ -74,7 +74,7 @@ class DetailView extends Model
 
 		$linkModelList = array();
 		foreach ($detailViewLinks as $detailViewLinkEntry) {
-			$linkModelList[] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinkEntry);
+			$linkModelList[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLinkEntry);
 		}
 
 		return $linkModelList;
@@ -100,7 +100,7 @@ class DetailView extends Model
 
 		$widgetLinks = array();
 		foreach ($widgets as $widgetDetails) {
-			$widgetLinks[] = Vtiger_Link_Model::getInstanceFromValues($widgetDetails);
+			$widgetLinks[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($widgetDetails);
 		}
 		return $widgetLinks;
 	}

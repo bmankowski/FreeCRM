@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ExportToXml extends Model
+class ExportToXml extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
@@ -96,7 +96,7 @@ class ExportToXml extends Model
 					$valueData = $field->getCurrencyParam([], $value);
 					$valueNewData = [];
 					foreach ($valueData as $currencyId => &$data) {
-						$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+						$currencyName = \vtlib\Functions::getCurrencyName($currencyId, false);
 						$data['value'] = $currencyName;
 						$valueNewData[$currencyName] = $data;
 					}

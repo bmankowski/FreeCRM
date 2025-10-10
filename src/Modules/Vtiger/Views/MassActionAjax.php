@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class MassActionAjax extends View
+class MassActionAjax extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -48,7 +48,7 @@ class MassActionAjax extends View
 
 		$viewer = $this->getViewer($request);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_MASSEDIT);
 		$fieldInfo = [];
 		$fieldList = $moduleModel->getFields();
@@ -68,7 +68,7 @@ class MassActionAjax extends View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MASS_EDIT_FIELD_DETAILS', $fieldInfo);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$searchKey = $request->get('search_key');
@@ -105,7 +105,7 @@ class MassActionAjax extends View
 		$viewer->assign('CVID', $cvId);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
@@ -137,14 +137,14 @@ class MassActionAjax extends View
 		$excludedIds = $request->get('excluded_ids');
 		$cvId = $request->get('viewname');
 
-		$user = Users_Record_Model::getCurrentUserModel();
-		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$phoneFields = $moduleModel->getFieldsByType('phone');
 		$viewer = $this->getViewer($request);
 
 		if (count($selectedIds) == 1) {
 			$recordId = $selectedIds[0];
-			$selectedRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModule);
+			$selectedRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $sourceModule);
 			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
 		}
 		$viewer->assign('VIEWNAME', $cvId);
@@ -194,11 +194,11 @@ class MassActionAjax extends View
 		$sourceRecord = $request->get('sourceRecord');
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceRecord && $sourceModule) {
-			$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			$sourceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			return $sourceRecordModel->getSelectedIdsList($module, $excludedIds);
 		}
 
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');
@@ -242,7 +242,7 @@ class MassActionAjax extends View
 	public function showDuplicatesSearchForm(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 		$fields = $moduleModel->getFields();
 
 		$viewer = $this->getViewer($request);
@@ -261,7 +261,7 @@ class MassActionAjax extends View
 		$viewer->assign('REL_BY_FIELDS', $transferModel->getRelationsByFields());
 		$viewer->assign('REL_BY_RELATEDLIST', $transferModel->getRelationsByRelatedList());
 		$viewer->assign('SKIP_MODULES', $transferModel->getSkipModules());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('TransferRecordOwnership.tpl', $module);
 	}
 }

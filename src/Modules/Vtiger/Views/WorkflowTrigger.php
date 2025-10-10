@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class WorkflowTrigger extends View
+class WorkflowTrigger extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!(\Users_Privileges_Model::isPermitted($request->getModule(), 'WorkflowTrigger', $request->get('record')))) {
+		if (!(\FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'WorkflowTrigger', $request->get('record')))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -28,10 +28,10 @@ class WorkflowTrigger extends View
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 		$workflows = (new VTWorkflowManager(\FreeCRM\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 		foreach ($workflows as $id => $workflow) {
-			if (!$workflow->evaluate(Vtiger_Record_Model::getInstanceById($record))) {
+			if (!$workflow->evaluate(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record))) {
 				unset($workflows[$id]);
 			}
 		}
@@ -39,7 +39,7 @@ class WorkflowTrigger extends View
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('WORKFLOWS', $workflows);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('WorkflowTrigger.tpl', $moduleName);
 	}
 }

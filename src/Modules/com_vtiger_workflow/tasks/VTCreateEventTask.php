@@ -22,7 +22,7 @@ require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
 
-require_once("modules/Users/Users.php");
+require_once("src/Modules/Users/Users.php");
 
 class VTCreateEventTask extends VTTask
 {
@@ -48,7 +48,7 @@ class VTCreateEventTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -74,13 +74,13 @@ class VTCreateEventTask extends VTTask
 		} else if ($this->assigned_user_id === 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
-			$userExists = (new App\Db\Query())->from('vtiger_users')
+			$userExists = (new \App\Db\Query())->from('vtiger_users')
 				->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
 				->exists();
 			if ($userExists) {
 				$userId = $this->assigned_user_id;
 			} else {
-				$groupExist = (new App\Db\Query())->from('vtiger_groups')
+				$groupExist = (new \App\Db\Query())->from('vtiger_groups')
 					->where(['groupid' => $this->assigned_user_id])
 					->exists();
 				if ($groupExist) {
@@ -107,7 +107,7 @@ class VTCreateEventTask extends VTTask
 		if ($field) {
 			$fields[$field] = $id;
 		}
-		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
+		$newRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();

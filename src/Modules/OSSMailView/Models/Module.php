@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSMailView\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	public function getSettingLinks()
@@ -35,7 +35,7 @@ class Module extends Model
 		if ($actionName == 'EditView' || $actionName == 'CreateView') {
 			return false;
 		} else {
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
 		}
 	}
 
@@ -44,7 +44,7 @@ class Module extends Model
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		if (!$owner) {
-			$currenUserModel = Users_Record_Model::getCurrentUserModel();
+			$currenUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$owner = $currenUserModel->getId();
 		} else if ($owner === 'all') {
 			$owner = '';
@@ -63,7 +63,7 @@ class Module extends Model
 
 		$result = $db->pquery('SELECT COUNT(*) count, ossmailview_sendtype FROM vtiger_ossmailview
 						INNER JOIN vtiger_crmentity ON vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid
-						AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
+						AND deleted = 0 ' . \FreeCRM\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
 
 		$response = array();
 

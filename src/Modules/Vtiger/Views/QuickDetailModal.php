@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class QuickDetailModal extends View
+class QuickDetailModal extends \Vtiger_Index_View
 {
 
 	/**
@@ -25,7 +25,7 @@ class QuickDetailModal extends View
 		if (!is_numeric($recordId)) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = \Users_Privileges_Model::isPermitted($request->getModule(), 'DetailView', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
@@ -59,7 +59,7 @@ class QuickDetailModal extends View
 						if (!empty($widget['label'])) {
 							$label = \FreeCRM\LanguageTranslator::translate($widget['label'], $moduleName);
 						} elseif ($widget['type'] === 'RelatedModule') {
-							$relatedModule = App\Module::getModuleName($widget['data']['relatedmodule']);
+							$relatedModule = \App\Module::getModuleName($widget['data']['relatedmodule']);
 							$label = \FreeCRM\LanguageTranslator::translate($relatedModule, $relatedModule);
 						}
 						$widgets[] = ['title' => $label, 'content' => $detailView->$method($widgetRequest)];

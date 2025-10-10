@@ -12,10 +12,10 @@ namespace FreeCRM\Modules\OSSPasswords\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends Action
+class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 
@@ -28,8 +28,8 @@ class SaveAjax extends Action
 
 		// check if encryption is enabled
 		$config = false;
-		if (file_exists('modules/OSSPasswords/config.ini.php')) {
-			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
+		if (file_exists('src/Modules/OSSPasswords/config.ini.php')) {
+			$config = parse_ini_file('src/Modules/OSSPasswords/config.ini.php');
 		}
 
 		// force updateing password
@@ -83,7 +83,7 @@ class SaveAjax extends Action
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() !== 'currency' && $fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'time' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
@@ -105,8 +105,8 @@ class SaveAjax extends Action
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

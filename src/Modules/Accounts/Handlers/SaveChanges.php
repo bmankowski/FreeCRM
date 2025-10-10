@@ -12,9 +12,9 @@ class Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->getPreviousValue('active') !== $recordModel->get('active')) {
@@ -22,13 +22,13 @@ class Handler {
 				->where(['crmid' => $recordModel->getId(), 'fieldname' => 'active'])
 				->exists();
 			if ($isExists) {
-				App\Db::getInstance()->createCommand()->update('u_#__crmentity_last_changes', [
+				\App\Db::getInstance()->createCommand()->update('u_#__crmentity_last_changes', [
 					'date_updated' => date('Y-m-d H:i:s'),
-					'user_id' => App\User::getCurrentUserId(),
+					'user_id' => \App\User::getCurrentUserId(),
 					], ['crmid' => $recordModel->getId(), 'fieldname' => 'active'])->execute();
 			} else {
-				App\Db::getInstance()->createCommand()->insert('u_#__crmentity_last_changes', [
-					'user_id' => App\User::getCurrentUserId(),
+				\App\Db::getInstance()->createCommand()->insert('u_#__crmentity_last_changes', [
+					'user_id' => \App\User::getCurrentUserId(),
 					'crmid' => $recordModel->getId(),
 					'fieldname' => 'active',
 					'date_updated' => date('Y-m-d H:i:s'),

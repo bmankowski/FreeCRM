@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
 
 use FreeCRM\Models\Users_Privileges_Model;
 use FreeCRM\Fields\DateTimeField;
-class Datetime extends UIType
+class Datetime extends Base
 {
 
 	/**
@@ -67,7 +67,7 @@ class Datetime extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -83,6 +83,6 @@ class Datetime extends UIType
 	 */
 	public static function getDateTimeValue($dateTime)
 	{
-		return Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($dateTime);
+		return \Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($dateTime);
 	}
 }

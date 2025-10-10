@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\OSSMailView\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class sview extends View
+class sview extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class sview extends View
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
@@ -40,7 +40,7 @@ class sview extends View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 
 		$from = $recordModel->get('from_email');
 		$to = $recordModel->get('to_email');

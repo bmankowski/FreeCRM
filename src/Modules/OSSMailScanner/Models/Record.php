@@ -17,13 +17,13 @@ namespace FreeCRM\Modules\OSSMailScanner\Models;
  * removed deprecated function getTypeFolder
  */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public static function getActionsList()
 	{
 		$accountsPriority = ['CreatedEmail', 'CreatedHelpDesk', 'BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindSSalesProcesses'];
-		$moduleModel = Vtiger_Module_Model::getInstance('OSSMailScanner');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSMailScanner');
 		$iterator = new DirectoryIterator($moduleModel->actionsDir);
 		$actions = [];
 		foreach ($iterator as $i => $fileInfo) {
@@ -158,7 +158,7 @@ class Record extends Model
 		if ($value === null || $value == 'null') {
 			$value = null;
 		}
-		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
 		return LanguageTranslator::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
@@ -216,12 +216,12 @@ class Record extends Model
 
 	public function manualScanMail($params)
 	{
-		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
+		$account = \FreeCRM\Modules\OSSMail\Models\Record::getAccountByHash($params['rcId']);
 		if (!$account) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$params['folder'] = urldecode($params['folder']);
-		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
+		$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$mail = $mailModel->getMail($mbox, $params['uid']);
 		if (!$mail) {
@@ -268,7 +268,7 @@ class Record extends Model
 
 		if ($get_emails) {
 			for ($i = $msgno; $i <= $num_msg; $i++) {
-				$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
+				$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 
 				$uid = imap_uid($mbox, $i);
 				$mail = $mailModel->getMail($mbox, $uid, $i);
@@ -293,7 +293,7 @@ class Record extends Model
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$return = [];
 		$queryParams = ['Users'];
-		$query = (new App\Db\Query())->from('vtiger_field')
+		$query = (new \App\Db\Query())->from('vtiger_field')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['and', ['or', ['uitype' => 13], ['uitype' => 14]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
 		if ($module) {
@@ -334,13 +334,13 @@ class Record extends Model
 
 	public static function setEmailSearchList($value)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		if ($value === null || $value == 'null') {
 			$db->createCommand()
 				->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])
 				->execute();
 		} else {
-			$isExists = (new App\Db\Query())
+			$isExists = (new \App\Db\Query())
 				->from('vtiger_ossmailscanner_config')
 				->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])
 				->exists();
@@ -392,11 +392,11 @@ class Record extends Model
 			\App\Log::info(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
-		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+		$scannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$countEmails = 0;
 		$scanId = 0;
-		$accounts = OSSMail_Record_Model::getAccountsList();
+		$accounts = \FreeCRM\Modules\OSSMail\Models\Record::getAccountsList();
 		if (!$accounts) {
 			\App\Log::info('There are no accounts to be scanned');
 			return false;
@@ -453,7 +453,7 @@ class Record extends Model
 	{
 		$limit = 30;
 		$endNumber = $startNumber + $limit;
-		$dataReader = (new App\Db\Query())->from('vtiger_ossmails_logs')
+		$dataReader = (new \App\Db\Query())->from('vtiger_ossmails_logs')
 				->orderBy(['id' => SORT_DESC])
 				->limit($endNumber)
 				->offset($startNumber)
@@ -536,7 +536,7 @@ class Record extends Model
 	 */
 	public function setCronStatus($status)
 	{
-		App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => (int) $status], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => (int) $status], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 	}
 
 	public function checkCronStatus()
@@ -579,7 +579,7 @@ class Record extends Model
 	 */
 	public function runRestartCron()
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
 		$db->createCommand()->update('vtiger_cron_task', ['status' => 1], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 		$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => $userName, 'end_time' => date('Y-m-d H:i:s')], ['status' => 1])->execute();

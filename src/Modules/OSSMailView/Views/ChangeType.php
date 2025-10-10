@@ -10,13 +10,13 @@ namespace FreeCRM\Modules\OSSMailView\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class ChangeType extends View
+class ChangeType extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$type_list = OSSMailView_Record_Model::getMailType();
+		$type_list = \FreeCRM\Modules\OSSMailView\Models\Record::getMailType();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('TYPE_LIST', $type_list);

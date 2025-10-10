@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Leads\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Relation extends Model
+class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 {
 
 	/**

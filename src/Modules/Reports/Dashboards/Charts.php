@@ -10,23 +10,23 @@ namespace FreeCRM\Modules\Reports\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class Charts extends View
+class Charts extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$widgetId = $request->get('widgetid');
-		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
 		$data = [];
 		$typeChart = '';
 		$reportId = json_decode($widget->get('data'), true);
 		$reportId = $reportId['reportId'];
 		if (!empty($reportId)) {
-			$reportModel = Reports_Record_Model::getInstanceById($reportId);
+			$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($reportId);
 			$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
 			$typeChart = $reportChartModel->getChartType();
 			$data = $reportChartModel->getData();

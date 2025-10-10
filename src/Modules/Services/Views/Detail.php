@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Services\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)

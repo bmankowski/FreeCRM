@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\ModTracker\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends Model
+class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 {
 
 	public function getValue()
@@ -42,7 +42,7 @@ class Relation extends Model
 		$noOfRows = $db->num_rows($result);
 		$moduleModels = [];
 		if ($noOfRows) {
-			$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($targetModule);
 			$row = $db->getRow($result);
 			$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();
@@ -61,7 +61,7 @@ class Relation extends Model
 	public static function reviewChangesQueue($data, $module)
 	{
 		$db = \App\Db::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$id = (new \App\Db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
 		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,
@@ -80,8 +80,8 @@ class Relation extends Model
 	public static function reviewChanges($recordsList, $userId = false)
 	{
 		foreach ($recordsList as $record) {
-			$result = ModTracker_Record_Model::setLastReviewed($record);
-			ModTracker_Record_Model::unsetReviewed($record, $userId, $result);
+			$result = \FreeCRM\Modules\ModTracker\Models\Record::setLastReviewed($record);
+			\FreeCRM\Modules\ModTracker\Models\Record::unsetReviewed($record, $userId, $result);
 		}
 	}
 }

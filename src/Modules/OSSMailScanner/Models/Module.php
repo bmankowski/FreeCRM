@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\OSSMailScanner\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	public $actionsDir = false;
 
 	public function __construct()
 	{
-		$this->actionsDir = ROOT_DIRECTORY . '/modules/OSSMailScanner/scanneractions';
+		$this->actionsDir = ROOT_DIRECTORY . '/src/Modules/OSSMailScanner/scanneractions';
 	}
 
 	public function getDefaultViewName()
@@ -29,7 +29,7 @@ class Module extends Model
 
 	public function getSettingLinks()
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 		$db = \FreeCRM\database\PearDatabase::getInstance();

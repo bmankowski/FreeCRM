@@ -32,3 +32,12 @@ if (!function_exists('vtemplate_path')) {
 		return $viewer->getTemplatePath($templateName, $moduleName);
 	}
 }
+
+if (!function_exists('vresource_url')) {
+	function vresource_url($url) {
+		if (stripos($url, '://') === false && $fs = @filemtime($url)) {
+			return $url . '?s=' . $fs;
+		}
+		return $url;
+	}
+}

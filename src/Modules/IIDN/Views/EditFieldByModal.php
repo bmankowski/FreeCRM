@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\IIDN\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class EditFieldByModal extends View
+class EditFieldByModal extends \Vtiger_Index_View
 {
 
 	protected $restrictItems = ['PLL_ACCEPTED' => 'btn-success'];

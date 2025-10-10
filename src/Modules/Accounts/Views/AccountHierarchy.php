@@ -14,13 +14,13 @@ namespace FreeCRM\Modules\Accounts\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class AccountHierarchy extends Controller
+class AccountHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -46,7 +46,7 @@ class AccountHierarchy extends Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getAccountHierarchy();
 		$listColumns = \FreeCRM\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		$lastModifiedField = [];
@@ -54,7 +54,7 @@ class AccountHierarchy extends Controller
 			foreach ($hierarchy['entries'] as $crmId => $entry) {
 				$lastModified = $this->getLastModified($crmId);
 				if ($lastModified) {
-					$lastModifiedField[$crmId]['active']['userModel'] = Vtiger_Record_Model::getInstanceById($lastModified['user_id'], 'Users');
+					$lastModifiedField[$crmId]['active']['userModel'] = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($lastModified['user_id'], 'Users');
 					$lastModifiedField[$crmId]['active']['changedon'] = (new DateTimeField($lastModified['date_updated']))->getFullcalenderDateTimevalue();
 				}
 			}

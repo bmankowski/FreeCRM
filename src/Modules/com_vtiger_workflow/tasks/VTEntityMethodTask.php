@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityMethodManager.php');
+require_once('src/Modules/com_vtiger_workflow/VTEntityMethodManager.php');
 
 class VTEntityMethodTask extends VTTask
 {
@@ -25,7 +25,7 @@ class VTEntityMethodTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{

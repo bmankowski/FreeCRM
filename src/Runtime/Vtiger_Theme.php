@@ -171,14 +171,3 @@ class Vtiger_Theme extends FreeCRM_Viewer
 	}
 }
 
-function vimage_path($imageName)
-{
-	$args = func_get_args();
-	return call_user_func_array(['FreeCRM\\Runtime\\Vtiger_Theme', 'getImagePath'], $args);
-}
-
-function vimage_path_default($imageName, $defaultImageName)
-{
-	$args = func_get_args();
-	return call_user_func_array(['FreeCRM\\Runtime\\Vtiger_Theme', 'getOrignOrDefaultImgPath'], $args);
-}

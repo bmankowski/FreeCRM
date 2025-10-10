@@ -16,23 +16,23 @@ class ConvertFAQ extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$recordPermission = Users_Privileges_Model::isPermitted('Faq', 'EditView');
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted('Faq', 'EditView');
 
 		if (!$recordPermission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
 		$result = array();
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 
-			$faqRecordModel = Faq_Record_Model::getInstanceFromHelpDesk($recordModel);
+			$faqRecordModel = \FreeCRM\Modules\Faq\Models\Record::getInstanceFromHelpDesk($recordModel);
 
 			$answer = $faqRecordModel->get('faq_answer');
 			if ($answer) {

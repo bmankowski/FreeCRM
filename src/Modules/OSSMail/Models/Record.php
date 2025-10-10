@@ -9,13 +9,13 @@ namespace FreeCRM\Modules\OSSMail\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$param = $users = [];
 		$sql = 'SELECT * FROM roundcube_users';
 		$where = false;
@@ -47,7 +47,7 @@ class Record extends Model
 
 	public static function load_roundcube_config()
 	{
-		include 'modules/OSSMail/roundcube/config/defaults.inc.php';
+		include 'src/Modules/OSSMail/roundcube/config/defaults.inc.php';
 		include 'config/modules/OSSMail.php';
 		return $config;
 	}
@@ -57,7 +57,7 @@ class Record extends Model
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
 
-		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
+		\App\Log::trace("Entering \FreeCRM\Modules\OSSMail\Models\Record::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
 		$cacheName = $user . $host . $folder;
 		if (isset(self::$imapConnectCache[$cacheName])) {
@@ -106,15 +106,15 @@ class Record extends Model
 			self::imapThrowError(imap_last_error());
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
-		\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
+		\App\Log::trace('Exit \FreeCRM\Modules\OSSMail\Models\Record::imapConnect() method ...');
 		return $mbox;
 	}
 
 	public static function imapThrowError($error)
 	{
 
-		\App\Log::error("Error OSSMail_Record_Model::imapConnect(): " . $error);
-		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
+		\App\Log::error("Error \FreeCRM\Modules\OSSMail\Models\Record::imapConnect(): " . $error);
+		\vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
@@ -437,7 +437,7 @@ class Record extends Model
 	 */
 	public static function _SaveAttachments($relID, OSSMail_Mail_Model $mail)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$attachments = $mail->get('attachments');
 		$userid = $mail->getAccountOwner();
 		$useTime = $mail->get('udate_formated');
@@ -462,7 +462,7 @@ class Record extends Model
 				$attachId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
 				$isSaved = self::saveAttachmentFile($attachId, $fileName, $fileContent);
 				if ($isSaved) {
-					$record = Vtiger_Record_Model::getCleanInstance('Documents');
+					$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Documents');
 					$record->set('assigned_user_id', $userid);
 					$record->set('notes_title', $fileName);
 					$record->set('filename', $fileName);
@@ -482,14 +482,14 @@ class Record extends Model
 						], ['crmid' => $record->getId()]
 					)->execute();
 					if (!empty($relID)) {
-						$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
+						$dirName = \vtlib\Functions::initStorageFileDirectory('OSSMailView');
 						$urlToImage = "$dirName{$attachId}_$fileName";
 						$db->createCommand()->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
 							'documentsid' => $record->getId(),
 							'attachmentsid' => $attachId
 						])->execute();
-						$content = (new App\Db\Query())->select(['content'])->from('vtiger_ossmailview')->where(['ossmailviewid' => $relID])->scalar();
+						$content = (new \App\Db\Query())->select(['content'])->from('vtiger_ossmailview')->where(['ossmailviewid' => $relID])->scalar();
 						preg_match_all('/src="cid:(.*)"/Uims', $content, $matches);
 						if (count($matches)) {
 							$search = [];
@@ -522,7 +522,7 @@ class Record extends Model
 	 */
 	public static function saveAttachmentFile($attachId, $fileName, $fileContent)
 	{
-		$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
+		$dirName = \vtlib\Functions::initStorageFileDirectory('OSSMailView');
 		if (!is_dir($dirName)) {
 			mkdir($dirName);
 		}

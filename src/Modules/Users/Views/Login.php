@@ -16,7 +16,7 @@ use FreeCRM\Runtime\Vtiger_View_Controller;
 use FreeCRM\Http\Vtiger_Request;
 use FreeCRM\AppConfig;
 
-class Login extends Controller
+class Login extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	public function loginRequired()
@@ -35,14 +35,14 @@ class Login extends Controller
 		$viewer = $this->getViewer($request);
 
 		$selectedModule = $request->getModule();
-		$companyDetails = App\Company::getInstanceById();
+		$companyDetails = \App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
 		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

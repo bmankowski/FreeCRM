@@ -15,7 +15,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	/**
-	 * @var Vtiger_Record_Model 
+	 * @var \FreeCRM\Modules\Vtiger\Models\Record 
 	 */
 	protected $record = false;
 
@@ -25,12 +25,12 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$record = $request->get('record');
 
 		if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable()) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			if (!$recordModel->isCreateable()) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
@@ -67,7 +67,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
+			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
@@ -107,7 +107,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to save record
 	 * @param \FreeCRM\Http\Vtiger_Request $request - values of the record
-	 * @return Vtiger_Record_Model - record Model of saved record
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record - record Model of saved record
 	 */
 	public function saveRecord(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -115,12 +115,12 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$recordModel->save();
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			if ($relationModel) {
 				$relationModel->addRelation($parentRecordId, $relatedRecordId);
 			}
@@ -137,16 +137,16 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param \FreeCRM\Http\Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
 	protected function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		} else {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		}
 		$fieldModelList = $recordModel->getModule()->getFields();
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {

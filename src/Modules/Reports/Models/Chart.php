@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Chart extends Model
+class Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public static function getInstanceById($reportModel)
@@ -75,7 +75,7 @@ class Chart extends Model
 	}
 }
 
-abstract class Base_Chart extends Model
+abstract class Base_Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public function __construct($parent)
@@ -133,7 +133,7 @@ abstract class Base_Chart extends Model
 		$fieldName = $fieldInfo[3];
 
 		if ($moduleName && $fieldName) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			return $moduleModel->getField($fieldName);
 		}
 		return false;
@@ -320,7 +320,7 @@ abstract class Base_Chart extends Model
 	public function getBaseModuleListViewURL()
 	{
 		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
+		$primaryModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($primaryModule);
 		$listURL = $primaryModuleModel->getListViewUrlWithAllFilter();
 
 		return $listURL;
@@ -405,7 +405,7 @@ abstract class Base_Chart extends Model
 				$value = date('Y-m-d H:i:s', strtotime('first day of JANUARY ' . $value)) . ',' . date('Y-m-d', strtotime('last day of DECEMBER ' . $value)) . ' 23:59:59';
 			}
 		} elseif ($dataFieldInfo[4] == 'DT') {
-			$value = Vtiger_Date_UIType::getDisplayDateTimeValue($value);
+			$value = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($value);
 		}
 
 		if (empty($value)) {
@@ -490,7 +490,7 @@ class PieChart extends Base_Chart
 			}
 		}
 
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {
@@ -521,9 +521,9 @@ class PieChart extends Base_Chart
 					}
 					$label = implode(',', $labelList);
 				} else if ($fieldDataType == 'date') {
-					$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else if ($fieldDataType == 'datetime') {
-					$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
 					$label = $row[$legend];
 				}
@@ -564,7 +564,7 @@ class VerticalbarChart extends Base_Chart
 
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
 
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 		$links = array();
 
@@ -599,7 +599,7 @@ class VerticalbarChart extends Base_Chart
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType == 'date') {
-						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
+						$label = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));

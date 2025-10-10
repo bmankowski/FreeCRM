@@ -9,8 +9,8 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once('src/Modules/com_vtiger_workflow/VTEntityCache.php');
+require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTWatchdog extends VTTask
 {
@@ -25,7 +25,7 @@ class VTWatchdog extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -52,7 +52,7 @@ class VTWatchdog extends VTTask
 			unset($users[$key]);
 		}
 		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
-		$notification = Vtiger_Record_Model::getCleanInstance('Notification');
+		$notification = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
 		$notification->set('shownerid', implode(',', $users));
 		$notification->set($relatedField, $recordId);
 		$notification->set('title', $this->title);

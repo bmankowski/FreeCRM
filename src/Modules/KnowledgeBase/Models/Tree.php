@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Tree extends Model
+class Tree extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	private $lastIdinTree;
@@ -59,7 +59,7 @@ class Tree extends Model
 			return $this->get('fieldTemp');
 		}
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
+		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, \vtlib\Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
@@ -67,7 +67,7 @@ class Tree extends Model
 
 	public function getAllRecords()
 	{
-		$queryGenerator = new App\QueryGenerator($this->getModuleName());
+		$queryGenerator = new \App\QueryGenerator($this->getModuleName());
 		$queryGenerator->setFields(['id', 'category', 'knowledgebase_view', 'subject']);
 		return $queryGenerator->createQuery()->all();
 	}

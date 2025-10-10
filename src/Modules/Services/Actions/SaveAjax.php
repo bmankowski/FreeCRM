@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Services\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SaveAjax extends Action
+class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 {
 	
 }

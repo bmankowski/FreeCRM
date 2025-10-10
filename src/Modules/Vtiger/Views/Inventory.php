@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Inventory extends View
+class Inventory extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -36,7 +36,7 @@ class Inventory extends View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('GLOBAL_DISCOUNTS', $inventoryModel->getGlobalDiscounts());
-		$viewer->assign('CURRENCY_SYMBOL', vtlib\Functions::getCurrencySymbolandRate($currency)['symbol']);
+		$viewer->assign('CURRENCY_SYMBOL', \vtlib\Functions::getCurrencySymbolandRate($currency)['symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('DISCOUNT_TYPE', $discountType);
@@ -70,7 +70,7 @@ class Inventory extends View
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODULE', $recordModule);
 		$viewer->assign('GLOBAL_TAXES', Vtiger_Inventory_Model::getGlobalTaxes());
-		$viewer->assign('CURRENCY_SYMBOL', vtlib\Functions::getCurrencySymbolandRate($currency)['symbol']);
+		$viewer->assign('CURRENCY_SYMBOL', \vtlib\Functions::getCurrencySymbolandRate($currency)['symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('TAX_TYPE', $taxType);

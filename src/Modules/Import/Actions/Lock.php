@@ -19,7 +19,7 @@ class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return false;
 	}
@@ -28,8 +28,8 @@ class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
-		if (!vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			vtlib\Utils::CreateTable(
+		if (!\vtlib\Utils::CheckTable('vtiger_import_locks')) {
+			\vtlib\Utils::CreateTable(
 				'vtiger_import_locks', "(vtiger_import_lock_id INT NOT NULL PRIMARY KEY,
 				userid INT NOT NULL,
 				tabid INT NOT NULL,
@@ -43,7 +43,7 @@ class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public static function unLock($user, $module = false)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
+		if (\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$query = 'DELETE FROM vtiger_import_locks WHERE userid=?';
 			$params = array(method_exists($user, 'get') ? $user->get('id') : $user->id);
 			if ($module != false) {
@@ -58,7 +58,7 @@ class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
-		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
+		if (\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?', array(\App\Module::getModuleId($module)));
 
 			if ($lockResult && $adb->num_rows($lockResult) > 0) {

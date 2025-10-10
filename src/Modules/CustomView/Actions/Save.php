@@ -15,16 +15,16 @@ namespace FreeCRM\Modules\CustomView\Actions;
 class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($request->get('source_module'));
 		$customViewModel = $this->getCVModelFromRequest($request);
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
-			\App\Cache::delete('CustomView_Record_ModelgetInstanceById', $cvId);
+			\App\Cache::delete('\FreeCRM\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
 			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
 		} else {
 			$response->setError(vtranslate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
@@ -36,16 +36,16 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to get the custom view model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return CustomView_Record_Model or Module specific Record Model instance
+	 * @return \FreeCRM\Modules\CustomView\Models\Record or Module specific Record Model instance
 	 */
-	private function getCVModelFromRequest(Vtiger_Request $request)
+	private function getCVModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('record');
 
 		if (!empty($cvId)) {
-			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+			$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
 		} else {
-			$customViewModel = CustomView_Record_Model::getCleanInstance();
+			$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getCleanInstance();
 			$customViewModel->setModule($request->get('source_module'));
 		}
 		$setmetrics = empty($request->get('setmetrics')) ? 0 : $request->get('setmetrics');
@@ -61,12 +61,12 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		);
 		$selectedColumnsList = $request->get('columnslist');
 		if (empty($selectedColumnsList)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($request->get('source_module'));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvId = App\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();
+				$cvId = \App\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();
 			}
-			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
+			$defaultCustomViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
 		}
 		$customViewData['columnslist'] = $selectedColumnsList;
@@ -82,7 +82,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return $customViewModel->setData($customViewData);
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

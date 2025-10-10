@@ -22,7 +22,7 @@ Class PaymentsOut_step1_View extends Vtiger_Index_View
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$paymentsOut = array();
-		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);

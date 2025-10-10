@@ -72,11 +72,11 @@ class ListView extends Popup
 			$pageNumber = '1';
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$listViewModel = Import_ListView_Model::getInstance($moduleName, $cvId);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		if (!empty($orderBy)) {
@@ -108,7 +108,7 @@ class ListView extends Popup
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 	}
 
 	public function getImportDetails(\FreeCRM\Http\Vtiger_Request $request)
@@ -116,7 +116,7 @@ class ListView extends Popup
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$forModule = $request->get('forModule');
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$importRecords = Import_Data_Action::getImportDetails($user, $forModule);
 		$viewer->assign('IMPORT_RECORDS', $importRecords);
 		$viewer->assign('TYPE', $request->get('type'));

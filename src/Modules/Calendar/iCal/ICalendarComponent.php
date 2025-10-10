@@ -530,7 +530,7 @@ class iCalendar_event extends iCalendar_component
 		$result = $adb->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', array($activity['id']));
 		while ($row = $adb->getRow($result)) {
 			if (!empty($row['email'])) {
-				$this->add_property('ATTENDEE', 'mailto:' . $row['email'], ['CN' => vtlib\Functions::getCRMRecordLabel($row['crmid'])]);
+				$this->add_property('ATTENDEE', 'mailto:' . $row['email'], ['CN' => \vtlib\Functions::getCRMRecordLabel($row['crmid'])]);
 			}
 		}
 		return true;
@@ -538,7 +538,7 @@ class iCalendar_event extends iCalendar_component
 
 	public function icalendar_event_organizer($activity)
 	{
-		$email = App\Fields\Email::getUserMail($activity['assigned_user_id']);
+		$email = \App\Fields\Email::getUserMail($activity['assigned_user_id']);
 		$this->add_property('ORGANIZER', 'mailto:' . $email);
 		return true;
 	}

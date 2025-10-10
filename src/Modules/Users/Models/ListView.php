@@ -12,18 +12,18 @@ namespace FreeCRM\Modules\Users\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
 		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
+		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
 
 		$basicLinks = array(
 			array(
@@ -34,12 +34,12 @@ class ListView extends Model
 			)
 		);
 		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
 		}
 
 		$advancedLinks = $this->getAdvancedLinks();
 		foreach ($advancedLinks as $advancedLink) {
-			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
+			$links['LISTVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($advancedLink);
 		}
 		return $links;
 	}
@@ -47,15 +47,15 @@ class ListView extends Model
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$links = parent::getListViewMassActions($linkParams);
-		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = [];
-		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && vtlib\Functions::userIsAdministrator($privilegesModel)) {
+		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && \vtlib\Functions::userIsAdministrator($privilegesModel)) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_PWD_EDIT',
@@ -64,7 +64,7 @@ class ListView extends Model
 			);
 		}
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		$countLinks = count($links['LISTVIEWMASSACTION']);
 		for ($i = 0; $i < $countLinks; $i++) {
@@ -90,10 +90,10 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel, $status (Active or Inactive User). Default false
+	 * @return <Array> - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 		// Added as Users module do not have custom filters and id column is added by querygenerator.
@@ -118,7 +118,7 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view header
-	 * @return Vtiger_Field_Model[] - List of Vtiger_Field_Model instances
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field[] - List of \FreeCRM\Modules\Vtiger\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -149,9 +149,9 @@ class ListView extends Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
+		$createPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = array();
-		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
+		$importPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',

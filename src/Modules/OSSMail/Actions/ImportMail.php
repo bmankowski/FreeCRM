@@ -17,20 +17,20 @@ class ImportMail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$scannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$mailScanMail = $scannerModel->manualScanMail($request->get('params'));
 		$return = false;
 		if ($mailScanMail['CreatedEmail']) {
 			$return = $mailScanMail['CreatedEmail'];
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($return);
 		$response->emit();
 	}

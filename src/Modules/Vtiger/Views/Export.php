@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Export extends View
+class Export extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
 			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
 		}
@@ -42,7 +42,7 @@ class Export extends View
 		$viewer->assign('PAGE', $page);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE', 'Export');
-		$viewer->assign('XML_TPL_LIST', Import_Module_Model::getListTplForXmlType($sourceModule));
+		$viewer->assign('XML_TPL_LIST', \FreeCRM\Modules\Import\Models\Module::getListTplForXmlType($sourceModule));
 		$viewer->assign('EXPORT_TYPE', ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');

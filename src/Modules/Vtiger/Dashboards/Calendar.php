@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class Calendar extends View
+class Calendar extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
@@ -27,13 +27,13 @@ class Calendar extends View
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 
@@ -52,7 +52,7 @@ class Calendar extends View
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('VIEW', $request->get('view'));
 
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 
 		$content = $request->get('content');

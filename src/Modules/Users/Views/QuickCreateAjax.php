@@ -13,12 +13,12 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class QuickCreateAjax extends View
+class QuickCreateAjax extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -29,7 +29,7 @@ class QuickCreateAjax extends View
 	{
 		$moduleName = $request->getModule();
 
-		$recordModel = Users_Record_Model::getCleanInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$fieldList = $moduleModel->getFields();
@@ -51,7 +51,7 @@ class QuickCreateAjax extends View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 

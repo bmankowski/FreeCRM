@@ -12,16 +12,16 @@ namespace FreeCRM\Modules\OSSPasswords\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends Action
+class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
+			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
@@ -34,9 +34,9 @@ class Save extends Action
 	/**
 	 * Function to save record
 	 * @param Vtiger_Request $request - values of the record
-	 * @return Vtiger_Record_Model - record Model of saved record
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record - record Model of saved record
 	 */
-	public function saveRecord(Vtiger_Request $request)
+	public function saveRecord(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$recordModel = $this->getRecordModelFromRequest($request);
@@ -46,8 +46,8 @@ class Save extends Action
 
 		// check if encryption is enabled
 		$config = false;
-		if (file_exists('modules/OSSPasswords/config.ini.php')) {
-			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
+		if (file_exists('src/Modules/OSSPasswords/config.ini.php')) {
+			$config = parse_ini_file('src/Modules/OSSPasswords/config.ini.php');
 		}
 
 		//check if password was edited with hidden password
@@ -86,12 +86,12 @@ class Save extends Action
 
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 		return $recordModel;

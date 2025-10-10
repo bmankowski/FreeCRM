@@ -11,13 +11,13 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class PDF extends View
+class PDF extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!\Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'ExportPdf')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

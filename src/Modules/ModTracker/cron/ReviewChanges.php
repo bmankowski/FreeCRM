@@ -36,7 +36,7 @@ class CronReviewed {
 	public function __construct()
 	{
 		$this->limit = \FreeCRM\AppConfig::module('ModTracker', 'REVIEWED_SCHEDULE_LIMIT');
-		$this->displayed = ModTracker_Record_Model::DISPLAYED;
+		$this->displayed = \FreeCRM\Modules\ModTracker\Models\Record::DISPLAYED;
 	}
 
 	/**
@@ -121,7 +121,7 @@ class CronReviewed {
 					} elseif (strtotime($row['time']) >= strtotime($this->get('changedon'))) {
 						$changed = $this->setReviewed($row['id'], $row['u']);
 						if ($changed) {
-							ModTracker_Record_Model::unsetReviewed($crmId, $userId, $row['id']);
+							\FreeCRM\Modules\ModTracker\Models\Record::unsetReviewed($crmId, $userId, $row['id']);
 						}
 						break;
 					}

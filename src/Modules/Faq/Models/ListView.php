@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Faq\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 	/*
 	 * Function to give advance links of a module

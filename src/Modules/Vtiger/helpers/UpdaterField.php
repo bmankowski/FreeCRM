@@ -23,9 +23,9 @@ class UpdaterField {
 
 	/**
 	 * Function to set field model
-	 * @param Vtiger_Field_Model $fieldModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldModel
 	 */
-	public function setFieldModel(Vtiger_Field_Model $fieldModel)
+	public function setFieldModel(\FreeCRM\Modules\Vtiger\Models\Field $fieldModel)
 	{
 		$this->fieldModel = $fieldModel;
 	}

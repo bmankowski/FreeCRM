@@ -19,7 +19,7 @@ Class DataAccess_unique_value
 	public function process($moduleName, $ID, $record_form, $config)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$moduleNameID = vtlib\Functions::getModuleId($moduleName);
+		$moduleNameID = \vtlib\Functions::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
 		$save_record2 = true;
@@ -29,7 +29,7 @@ Class DataAccess_unique_value
 		$info = false;
 		$searchTrash = ['query' => '', 'params' => ''];
 		if ($ID != 0 && $ID != '' && !array_key_exists($config['what1'], $record_form)) {
-			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
+			$Record_Model = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$value1 = $Record_Model->get($config['what1']);
 		} else {
 			if (array_key_exists($config['what1'], $record_form))
@@ -37,7 +37,7 @@ Class DataAccess_unique_value
 		}
 
 		if ($ID != 0 && $ID != '' && !array_key_exists($config['what2'], $record_form)) {
-			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
+			$Record_Model = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$value2 = $Record_Model->get($config['what2']);
 		} else {
 			if (array_key_exists($config['what2'], $record_form))
@@ -55,7 +55,7 @@ Class DataAccess_unique_value
 		if ($value1 != '') {
 			foreach ($wheres1 as $where) {
 				$where = explode('=', $where);
-				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
+				$DestModuleName = \vtlib\Functions::getModuleName($where[2]);
 				$ModuleInstance = \FreeCRM\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
@@ -84,11 +84,11 @@ Class DataAccess_unique_value
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
-					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
+					$metadata = \vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
 			}
@@ -96,7 +96,7 @@ Class DataAccess_unique_value
 		if ($value2 != '') {
 			foreach ($wheres2 as $where) {
 				$where = explode('=', $where);
-				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
+				$DestModuleName = \vtlib\Functions::getModuleName($where[2]);
 				$ModuleInstance = \FreeCRM\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
@@ -125,11 +125,11 @@ Class DataAccess_unique_value
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
-					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
+					$metadata = \vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
 			}
@@ -149,7 +149,7 @@ Class DataAccess_unique_value
 		}
 		if ($config['locksave'] == 3 && !$save_record) {
 			$type = $config['locksave'];
-			$permission = Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord');
+			$permission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DuplicateRecord');
 			$text = '<div class="marginLeft10">' . vtranslate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {

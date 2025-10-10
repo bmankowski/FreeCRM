@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class InRelation extends View
+class InRelation extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -29,10 +29,10 @@ class InRelation extends View
 			$requestedPage = 1;
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $requestedPage);
 
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
@@ -115,7 +115,7 @@ class InRelation extends View
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->get('view'));
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');

@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Notification\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class NotificationsBySender extends View
+class NotificationsBySender extends \Vtiger_Index_View
 {
 
 	/**
@@ -42,7 +42,7 @@ class NotificationsBySender extends View
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
-		$listView = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$listView = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName)->getListViewUrl();
 
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
@@ -76,10 +76,10 @@ class NotificationsBySender extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($request->get('linkid'), Users_Record_Model::getCurrentUserModel()->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->getId());
 		$time = $request->get('time');
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));

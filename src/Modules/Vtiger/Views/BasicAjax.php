@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class BasicAjax extends View
+class BasicAjax extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -76,18 +76,18 @@ class BasicAjax extends View
 		}
 		$module = $request->getModule();
 
-		$customViewModel = new CustomView_Record_Model();
+		$customViewModel = new \FreeCRM\Modules\CustomView\Models\Record();
 		$customViewModel->setModule($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
-		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+		$viewer->assign('SEARCHABLE_MODULES', \FreeCRM\Modules\Vtiger\Models\Module::getSearchableModules());
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
 
 		if ($moduleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \FreeCRM\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -97,7 +97,7 @@ class BasicAjax extends View
 		$viewer->assign('SOURCE_MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SAVE_FILTER_PERMITTED', $saveFilterPermitted);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		echo $viewer->view('AdvanceSearch.tpl', $moduleName, true);
 	}
 
@@ -123,7 +123,7 @@ class BasicAjax extends View
 			$rows = $query->limit(100)->all();
 			foreach ($rows as &$row) {
 				$recordId = current($row);
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 				$recordModel->set('permitted', true);
 				$matchingRecords[$moduleName][$recordId] = $recordModel;
 			}
@@ -138,7 +138,7 @@ class BasicAjax extends View
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
-			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
+			$matchingRecords = \FreeCRM\Modules\Vtiger\Models\Record::getSearchResult($searchKey, $searchModule, $limit, $operator);
 			if (\FreeCRM\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
 				$matchingRecordsList = [];
 				foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {

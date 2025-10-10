@@ -11,21 +11,21 @@ namespace FreeCRM\Modules\Reports\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends Action
+class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 	
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$response = new Vtiger_Response();
-		$recordModel = Reports_Record_Model::getInstanceById($request->get('record'), $moduleName);
+		$response = new \FreeCRM\Http\Vtiger_Response();
+		$recordModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 			$recordModel->delete();
 			$response->setResult([LanguageTranslator::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);

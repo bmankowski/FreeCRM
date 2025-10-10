@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class FastEdit extends Widget
+class FastEdit extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public function getUrl()

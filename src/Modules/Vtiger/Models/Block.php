@@ -20,7 +20,7 @@ class Block extends \vtlib\Block
 	public function getFields()
 	{
 		if (empty($this->fields)) {
-			$moduleFields = Vtiger_Field_Model::getAllForModule($this->module);
+			$moduleFields = \FreeCRM\Modules\Vtiger\Models\Field::getAllForModule($this->module);
 			$this->fields = [];
 			// if block does not contains any fields 
 			if (!isset($moduleFields[$this->id])) {
@@ -75,7 +75,7 @@ class Block extends \vtlib\Block
 
 	/**
 	 * Function to check whether the current block is hide
-	 * @param Vtiger_Record_Model $record
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $record
 	 * @param string $view
 	 * @return boolean
 	 */
@@ -89,7 +89,7 @@ class Block extends \vtlib\Block
 		$query = (new \App\Db\Query())->from('vtiger_blocks_hide')->where(['enabled' => 1, 'blockid' => $this->get('id')])->andWhere(['like', 'view', $view]);
 		$hideBlocks = $query->all();
 		if ($hideBlocks) {
-			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTJsonCondition.php';
+			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
 			$conditionStrategy = new VTJsonCondition();
 			foreach ($hideBlocks as $hideBlock) {
 				$expr = \App\Json::decode($hideBlock['conditions']);
@@ -141,7 +141,7 @@ class Block extends \vtlib\Block
 	/**
 	 * Function to retrieve block instances for a module
 	 * @param <type> $moduleModel - module instance
-	 * @return <array> - list of Vtiger_Block_Model
+	 * @return <array> - list of \FreeCRM\Modules\Vtiger\Models\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{
@@ -171,9 +171,9 @@ class Block extends \vtlib\Block
 	/**
 	 * Function to retrieve block instance from vtlib\Block object
 	 * @param vtlib\Block $blockObject - vtlib block object
-	 * @return Vtiger_Block_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Block
 	 */
-	public static function getInstanceFromBlockObject(vtlib\Block $blockObject)
+	public static function getInstanceFromBlockObject(\vtlib\Block $blockObject)
 	{
 		$objectProperties = get_object_vars($blockObject);
 		$blockClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);

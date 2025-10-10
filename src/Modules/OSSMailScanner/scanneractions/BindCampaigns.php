@@ -24,9 +24,9 @@ class BindCampaigns extends Model
 			$crmidsToaddress = $mail->findEmailAdress('toaddress', false, true);
 			$crmidsCcaddress = $mail->findEmailAdress('ccaddress', false, true);
 			$crmidsBccaddress = $mail->findEmailAdress('bccaddress', false, true);
-			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsToaddress);
-			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsCcaddress);
-			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsBccaddress);
+			$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsToaddress);
+			$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsCcaddress);
+			$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsBccaddress);
 
 			$db = \FreeCRM\database\PearDatabase::getInstance();
 			foreach ($campaignIds as $campaignId) {

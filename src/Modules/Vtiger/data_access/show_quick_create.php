@@ -18,12 +18,12 @@ Class DataAccess_show_quick_create
 	public function process($moduleName, $id, $record_form, $config)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission($config['modules'], 'CreateView')) {
 			return ['save_record' => true];
 		}
 		$title = '';
-		$instance = Vtiger_Record_Model::getInstanceById($id, $moduleName);
+		$instance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
 		if ($instance) {
 			$title = $instance->getName();
 		}
@@ -38,7 +38,7 @@ Class DataAccess_show_quick_create
 	public function getConfig($id, $module, $baseModule)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$modulesQuickCreate = Vtiger_Module_Model::getQuickCreateModules(true);
+		$modulesQuickCreate = \FreeCRM\Modules\Vtiger\Models\Module::getQuickCreateModules(true);
 		$modules = [];
 		foreach ($modulesQuickCreate as $moduleName => $moduleModel) {
 			$quickCreateModule = $moduleModel->isQuickCreateSupported();

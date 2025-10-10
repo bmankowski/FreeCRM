@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ('modules/com_vtiger_workflow/WorkflowSchedulerInclude.php');
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once ROOT_DIRECTORY . '/modules/Users/Users.php';
+require_once ('src/Modules/com_vtiger_workflow/WorkflowSchedulerInclude.php');
+require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once ROOT_DIRECTORY . '/src/Modules/Users/Users.php';
 
 class WorkFlowScheduler {
 
@@ -78,7 +78,7 @@ class WorkFlowScheduler {
 			if ($tasks) {
 				$records = $this->getEligibleWorkflowRecords($workflow);
 				foreach ($records as &$recordId) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 					$data = $recordModel->getData();
 					foreach ($tasks as $task) {
 						if ($task->active) {

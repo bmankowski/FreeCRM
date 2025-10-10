@@ -10,16 +10,16 @@ namespace FreeCRM\Modules\OSSPasswords\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class QuickCreateAjax extends View
+class QuickCreateAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		// get min, max, allow_chars from vtiger_passwords_config
-		$passwordConfig = (new App\Db\Query())->from('vtiger_passwords_config')->one();
+		$passwordConfig = (new \App\Db\Query())->from('vtiger_passwords_config')->one();
 
 		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$fieldList = $moduleModel->getFields();
@@ -49,7 +49,7 @@ class QuickCreateAjax extends View
 		$relatedModule = 'OSSPasswords';
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('QUICKCREATE_LINKS', Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
+		$viewer->assign('QUICKCREATE_LINKS', \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('RELATEDMODULE', $relatedModule);
 		$viewer->assign('GENERATEPASS', 'Generate Password');
 		$viewer->assign('VIEW', $request->get('view'));
@@ -71,7 +71,7 @@ class QuickCreateAjax extends View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('passLengthMin', $passwordConfig['pass_length_min']);
 		$viewer->assign('passLengthMax', $passwordConfig['pass_length_max']);
 		$viewer->assign('allowChars', $passwordConfig['pass_allow_chars']);

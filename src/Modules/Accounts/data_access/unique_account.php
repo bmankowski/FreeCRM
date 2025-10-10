@@ -25,27 +25,27 @@ Class DataAccess_unique_account
 		$where = '';
 		$hierarchyCheck = false;
 		if ($ID != 0 && $ID != '' && !array_key_exists('vat_id', $recordForm)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$vatId = $recordModel->get('vat_id');
 		} else {
 			if (array_key_exists('vat_id', $recordForm))
 				$vatId = $recordForm['vat_id'];
 		}
 		if ($ID != 0 && $ID != '' && !array_key_exists('accountname', $recordForm)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$accountName = $recordModel->get('accountname');
 		} else {
 			if (array_key_exists('accountname', $recordForm))
 				$accountName = $recordForm['accountname'];
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$hierarchyField = Vtiger_Field_Model::getInstance('account_id', $moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$hierarchyField = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('account_id', $moduleModel);
 		if ($hierarchyField->isActiveField()) {
 			if (array_key_exists('account_id', $recordForm))
 				$hierarchyValue = $recordForm['account_id'];
 			elseif ($ID != 0 && $ID != '' && !array_key_exists('account_id', $recordForm)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 				$hierarchyValue = $recordModel->get('account_id');
 			}
 			if ($hierarchyValue) {
@@ -77,9 +77,9 @@ Class DataAccess_unique_account
 			}
 			while ($row = $db->getRow($result)) {
 				if ($row['accountname'] == $accountName) {
-					$metaData = vtlib\Functions::getCRMRecordMetadata($row['accountid']);
+					$metaData = \vtlib\Functions::getCRMRecordMetadata($row['accountid']);
 					$save = false;
-					$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $row['accountid'] . '"><strong>' . vtlib\Functions::getCRMRecordLabel($row['accountid']) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . '),</li>';
+					$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $row['accountid'] . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($row['accountid']) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . '),</li>';
 				}
 			}
 		}
@@ -87,14 +87,14 @@ Class DataAccess_unique_account
 			$sql = "SELECT accountid FROM vtiger_account WHERE $where;";
 			$result = $db->pquery($sql, $params);
 			while ($id = $db->getSingleValue($result)) {
-				$metaData = vtlib\Functions::getCRMRecordMetadata($id);
+				$metaData = \vtlib\Functions::getCRMRecordMetadata($id);
 				$save = false;
 				$deletedLabel = $metaData['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
+				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
 			}
 		}
 		if ($save === true && empty($recordForm['account_id']) === false && $ID > 0) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$hierarchyValueOld = $recordModel->get('account_id');
 			if ($hierarchyValueOld != $recordForm['account_id']) {
 				$hierarchyAll = $this->getHierarchy($recordForm['account_id'], $moduleName, '');
@@ -112,7 +112,7 @@ Class DataAccess_unique_account
 			}
 		}
 		if ($save === false) {
-			$permission = Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord');
+			$permission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DuplicateRecord');
 			$text = '<div class="marginLeft10">' . vtranslate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {

@@ -20,7 +20,7 @@ class iCalLastImport {
 	public function clearRecords($userId)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable($this->tableName)) {
+		if (\vtlib\Utils::CheckTable($this->tableName)) {
 			$query = sprintf('DELETE FROM %s WHERE userid = ?', $this->tableName);
 			$adb->pquery($query, array($userId));
 		}
@@ -42,8 +42,8 @@ class iCalLastImport {
 		if (count($this->fieldData) == 0)
 			return;
 
-		if (!vtlib\Utils::CheckTable($this->tableName)) {
-			vtlib\Utils::CreateTable(
+		if (!\vtlib\Utils::CheckTable($this->tableName)) {
+			\vtlib\Utils::CreateTable(
 				$this->tableName, "(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 					userid INT NOT NULL,
 					entitytype VARCHAR(200) NOT NULL,
@@ -58,7 +58,7 @@ class iCalLastImport {
 	public function undo($moduleName, $userId)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable($this->tableName)) {
+		if (\vtlib\Utils::CheckTable($this->tableName)) {
 			$query = sprintf('UPDATE vtiger_crmentity SET deleted=1 WHERE crmid IN (SELECT crmid FROM %s WHERE userid = ? && entitytype = ?)', $this->tableName);
 			$result = $adb->pquery($query, [$userId, $moduleName]);
 			return $adb->getAffectedRowCount($result);

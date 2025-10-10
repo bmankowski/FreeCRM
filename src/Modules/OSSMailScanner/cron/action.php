@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\OSSMailScanner\cron;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 $user_name = '';
 if (PHP_SAPI == 'cgi-fcgi') {
-	$user_name = Users_Record_Model::getCurrentUserModel()->user_name;
+	$user_name = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->user_name;
 }
 $recordModel->executeCron(PHP_SAPI . ' - ' . $user_name);

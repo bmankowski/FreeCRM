@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RecordStructure extends Model
+class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 	
 }

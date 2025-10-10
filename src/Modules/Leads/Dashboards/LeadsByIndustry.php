@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Leads\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class LeadsByIndustry extends View
+class LeadsByIndustry extends \Vtiger_Index_View
 {
 
 	public function getSearchParams($value, $assignedto, $dates)
@@ -75,16 +75,16 @@ class LeadsByIndustry extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
@@ -96,16 +96,16 @@ class LeadsByIndustry extends View
 		$dates = [];
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if($time !== false){
 				$dates = $time;
 			}
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getLeadsByIndustry($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$leadSIndustryAmount = count($data['name']);

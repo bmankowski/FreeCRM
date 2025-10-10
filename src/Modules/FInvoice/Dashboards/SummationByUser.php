@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\FInvoice\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class SummationByUser extends View
+class SummationByUser extends \Vtiger_Index_View
 {
 
 	/**
@@ -21,13 +21,13 @@ class SummationByUser extends View
 	public function process(Vtiger_Request $request)
 	{
 		$linkId = $request->get('linkid');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
 		if ($request->has('time')) {
 			$time = $request->get('time');
 		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-01');
 				$time['end'] = date('Y-m-t');

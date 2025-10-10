@@ -10,9 +10,9 @@ namespace FreeCRM\Modules\SMSNotifier\Models;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/SMSNotifier/SMSNotifier.php';
+require_once ROOT_DIRECTORY . '/src/Modules/SMSNotifier/SMSNotifier.php';
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public static function SendSMS($message, $toNumbers, $currentUserId, $recordIds, $moduleName)

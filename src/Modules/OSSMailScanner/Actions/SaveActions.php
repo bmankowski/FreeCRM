@@ -17,13 +17,13 @@ class SaveActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$userid = $request->get('userid');
 		$vale = $request->get('vale');
@@ -31,7 +31,7 @@ class SaveActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			if ($vale != 'null') {
 				$vale = implode(',', $vale);
 			}
-			$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+			$OSSMailScannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 			$OSSMailScannerModel->setActions($userid, $vale);
 			$success = true;
 			$data = vtranslate('JS_save_info', 'OSSMailScanner');
@@ -40,7 +40,7 @@ class SaveActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$data = 'Error: Brak userid';
 		}
 		$result = array('success' => $success, 'data' => $data);
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

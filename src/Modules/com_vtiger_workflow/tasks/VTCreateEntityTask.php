@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTCreateEntityTask extends VTTask
 {
@@ -25,7 +25,7 @@ class VTCreateEntityTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -41,7 +41,7 @@ class VTCreateEntityTask extends VTTask
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
-			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
+			$newRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($entityType);
 			$entityModuleHandler = vtws_getModuleHandlerFromName($entityType, $current_user);
 			$handlerMeta = $entityModuleHandler->getMeta();
 			$ownerFields = $handlerMeta->getOwnerFields();
@@ -58,7 +58,7 @@ class VTCreateEntityTask extends VTTask
 						$fieldValue = $recordModel->get($fieldValue);
 					}
 				} elseif ($fieldValueType === 'expression') {
-					require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
+					require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/include.php';
 
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
@@ -95,8 +95,8 @@ class VTCreateEntityTask extends VTTask
 			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {
 			$saveContinue = true;
-			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$newRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($entityType);
+			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			$newRecordModel->setRecordFieldValues($parentRecordModel);
 			if ($newRecordModel->getModule()->isInventory()) {
 				$newRecordModel = $this->setInventoryDataToRequest($newRecordModel);
@@ -138,7 +138,7 @@ class VTCreateEntityTask extends VTTask
 					$fieldValue = $parentRecordModel->get($fieldValue);
 				}
 			} elseif ($fieldValueType == 'expression') {
-				require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
+				require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/include.php';
 
 				$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 				$expression = $parser->expression();
@@ -192,7 +192,7 @@ class VTCreateEntityTask extends VTTask
 				$invDat[$name . $i] = $value;
 			}
 		}
-		$recordModel->setInventoryRawData(new Vtiger_Base_Model($invDat));
+		$recordModel->setInventoryRawData(new \FreeCRM\Modules\Vtiger\Models\Base($invDat));
 		return $recordModel;
 	}
 }

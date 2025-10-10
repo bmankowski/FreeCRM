@@ -91,7 +91,7 @@ class ZipReader extends FileReader
 		$data = $this->request->getAll();
 		$newRequest = new Vtiger_Request($data);
 		$newRequest->set('type', $this->extension);
-		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
+		$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
 			return false;
 		}
@@ -126,7 +126,7 @@ class ZipReader extends FileReader
 		$data = $this->request->getAll();
 		$newRequest = new Vtiger_Request($data);
 		$newRequest->set('type', $this->extension);
-		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
+		$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
 			return false;
 		}

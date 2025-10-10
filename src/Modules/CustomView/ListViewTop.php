@@ -33,7 +33,7 @@ namespace FreeCRM\Modules\CustomView;
 function getMetricList($filters = [])
 {
 	$db = \FreeCRM\database\PearDatabase::getInstance();
-	$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 	$ssql = 'select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype where vtiger_customview.setmetrics = 1 ';
 	$sparams = [];
@@ -53,7 +53,7 @@ function getMetricList($filters = [])
 	$metriclists = [];
 	while ($row = $db->getRow($result)) {
 		if (\App\Module::isModuleActive($row['entitytype'])) {
-			if (Users_Privileges_Model::isPermitted($row['entitytype'])) {
+			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($row['entitytype'])) {
 				$metriclists[] = [
 					'id' => $row['cvid'],
 					'name' => $row['viewname'],

@@ -10,14 +10,14 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class CategoryMultipicklist extends UIType
+class CategoryMultipicklist extends Base
 {
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $tree
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param boolean $rawText
 	 * @return string
 	 */
@@ -66,7 +66,7 @@ class CategoryMultipicklist extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return string
 	 */
 	public function getDBValue($value, $recordModel = false)

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	/**

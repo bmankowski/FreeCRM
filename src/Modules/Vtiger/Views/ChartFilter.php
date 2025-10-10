@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class ChartFilter extends View
+class ChartFilter extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -21,7 +21,7 @@ class ChartFilter extends View
 		$viewer->assign('WIZARD_STEP', $request->get('step'));
 		switch ($request->get('step')) {
 			case 'step1':
-				$modules = vtlib\Functions::getAllModules(true, false, 0);
+				$modules = \vtlib\Functions::getAllModules(true, false, 0);
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
 					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
@@ -36,12 +36,12 @@ class ChartFilter extends View
 				break;
 			case 'step2':
 				$selectedModule = $request->get('selectedModule');
-				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
+				$filters = \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':
 				$selectedModuleName = $request->get('selectedModule');
-				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
+				$selectedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
 				$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFields());
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;

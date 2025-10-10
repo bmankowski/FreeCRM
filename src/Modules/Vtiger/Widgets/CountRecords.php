@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class CountRecords extends Widget
+class CountRecords extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public $allowedModules = ['Campaigns'];
@@ -41,7 +41,7 @@ class CountRecords extends Widget
 	static public function getCountRecords($modules, $recordId)
 	{
 		$countRecords = [];
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		foreach ($modules as $relatedModuleName) {
 			$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 			if (!\App\Module::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {

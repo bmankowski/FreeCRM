@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\WSAPP\Handlers;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/vtigerCRMHandler.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Handlers/vtigerCRMHandler.php';
 require_once ROOT_DIRECTORY . '/src/utils/GetUserGroups.php';
 
 class OutlookVtigerCRMHandler extends vtigerCRMHandler

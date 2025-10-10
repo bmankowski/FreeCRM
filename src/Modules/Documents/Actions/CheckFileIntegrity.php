@@ -19,17 +19,17 @@ class CheckFileIntegrity extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
 			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$documentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$documentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$resultVal = $documentRecordModel->checkFileIntegrity();
 
 		$result = array('success' => $resultVal);
@@ -41,7 +41,7 @@ class CheckFileIntegrity extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$result['message'] = LanguageTranslator::translate('LBL_FILE_NOT_AVAILABLE', $moduleName);
 		}
 		$result['url'] = $documentRecordModel->getDetailViewUrl();
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

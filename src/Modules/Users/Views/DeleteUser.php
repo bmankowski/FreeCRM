@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class DeleteUser extends View
+class DeleteUser extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -30,7 +30,7 @@ class DeleteUser extends View
 		$moduleName = $request->getModule();
 		$userid = $request->get('record');
 
-		$userRecordModel = Users_Record_Model::getInstanceById($userid, $moduleName);
+		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($userid, $moduleName);
 		$viewer = $this->getViewer($request);
 		$usersList = $userRecordModel->getAll(true);
 

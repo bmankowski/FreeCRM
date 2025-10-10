@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SummaryCategory extends Widget
+class SummaryCategory extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public function getWidget()

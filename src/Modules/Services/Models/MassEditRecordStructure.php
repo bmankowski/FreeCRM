@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Services\Models;
 /**
  * Mass Edit Record Structure Model
  */
-class MassEditRecordStructure extends Model
+class MassEditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 	
 }

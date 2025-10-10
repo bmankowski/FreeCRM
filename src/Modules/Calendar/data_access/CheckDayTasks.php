@@ -18,16 +18,16 @@ class CheckDayTasks {
 		if (!in_array($moduleName, ['Calendar', 'Events'])) {
 			return ['save_record' => true];
 		}
-		$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$typeInfo = 'info';
 		$statusType = $config['statusType'];
 		switch ($statusType) {
 			case 1:
-				$status = Calendar_Module_Model::getComponentActivityStateLabel('current');
+				$status = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 				break;
 			case 2:
-				$status = Calendar_Module_Model::getComponentActivityStateLabel('history');
+				$status = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history');
 				break;
 			default:
 				$status = empty($config['status']) ? [] : $config['status'];

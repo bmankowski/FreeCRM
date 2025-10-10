@@ -19,20 +19,20 @@ class DeleteImage extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->get('id');
 
-		if (!(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record) && Users_Privileges_Model::isPermitted($moduleName, 'Delete', $record))) {
+		if (!(\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $record))) {
 			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$imageId = $request->get('imageid');
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
 			$status = $recordModel->deleteImage($imageId);
 			if ($status) {
 				$response->setResult(array(vtranslate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));

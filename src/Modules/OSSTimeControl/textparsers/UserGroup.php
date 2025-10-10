@@ -40,7 +40,7 @@ class TextParser extends \App\TextParser\Base
 			$html .= '<tr>';
 			$html .= '<td>' . $user . '</td>';
 			$html .= '<td class="center">' . $data['role'] . '</td>';
-			$time = vtlib\Functions::decimalTimeFormat($data['time']);
+			$time = \vtlib\Functions::decimalTimeFormat($data['time']);
 			$html .= '<td class="center">' . $time['short'] . '</td>';
 			$html .= '</tr>';
 		}
@@ -56,7 +56,7 @@ class TextParser extends \App\TextParser\Base
 			$ids = [$ids];
 		}
 		foreach ($ids as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
 			$time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');
 			$users[$user] = [

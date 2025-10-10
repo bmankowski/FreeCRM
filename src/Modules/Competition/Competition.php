@@ -7,9 +7,9 @@ namespace FreeCRM\Modules\Competition;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Competition extends Vtiger_CRMEntity
+class Competition extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_competition';
@@ -95,12 +95,12 @@ class Competition extends Vtiger_CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Competition']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Competition'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId('Competition'));
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId('Competition'));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -172,7 +172,7 @@ class Competition extends Vtiger_CRMEntity
 		if (empty($returnModule) || empty($returnId))
 			return;
 		if ($returnModule === 'Campaigns') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
@@ -184,7 +184,7 @@ class Competition extends Vtiger_CRMEntity
 			$withCrmids = [$withCrmids];
 		foreach ($withCrmids as $withCrmid) {
 			if ($withModule === 'Campaigns') {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0

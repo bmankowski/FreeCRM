@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\PriceBooks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		if ($this->get('src_field') === 'productsRelatedList') {
 			$pagingModel->set('limit', 'no_limit');

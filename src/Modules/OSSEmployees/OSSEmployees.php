@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\OSSEmployees;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class OSSEmployees extends Vtiger_CRMEntity
+class OSSEmployees extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_ossemployees';
@@ -130,7 +130,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		foreach ($rows_list as $employees_id => $account_info) {
 			$account_info_data = array();
 
-			$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($current_user)) || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
+			$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($current_user)) || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';
@@ -149,7 +149,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 						$account_depth = str_repeat(" .. ", $account_info['depth'] * 2);
 						$data = $account_depth . $data;
 					} else if ($colname == 'parentid' || $colname == 'projectid' || $colname == 'ticketid' || $colname == 'relategid') {
-						$data = '<a href="index.php?module=' . vtlib\Functions::getCRMRecordType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
+						$data = '<a href="index.php?module=' . \vtlib\Functions::getCRMRecordType($data) . '&action=DetailView&record=' . $data . '">' . \vtlib\Functions::getCRMRecordLabel($data) . '</a>';
 					}
 					$account_info_data[] = $data;
 				}
@@ -267,8 +267,8 @@ class OSSEmployees extends Vtiger_CRMEntity
 			\App\Fields\RecordNumber::setNumber($modulename, 'P', '1');
 			// block with comments
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('OSSEmployees'));
 			}

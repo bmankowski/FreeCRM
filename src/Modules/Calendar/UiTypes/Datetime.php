@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Calendar\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Datetime extends UIType
+class Datetime extends Base
 {
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

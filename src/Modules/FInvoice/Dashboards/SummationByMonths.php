@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\FInvoice\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class SummationByMonths extends View
+class SummationByMonths extends \Vtiger_Index_View
 {
 
 	private $conditions = false;
@@ -24,14 +24,14 @@ class SummationByMonths extends View
 	{
 		$linkId = $request->get('linkid');
 
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 		$data = $this->getWidgetData($moduleName, $owner);

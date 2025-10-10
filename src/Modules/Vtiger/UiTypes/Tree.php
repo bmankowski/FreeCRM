@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Tree extends UIType
+class Tree extends Base
 {
 
 	public function isAjaxEditable()
@@ -38,7 +38,7 @@ class Tree extends UIType
 			return $name;
 		}
 
-		$row = (new App\Db\Query())
+		$row = (new \App\Db\Query())
 			->from('vtiger_trees_templates_data')
 			->where(['templateid' => $template, 'tree' => $tree])
 			->one();
@@ -51,7 +51,7 @@ class Tree extends UIType
 				$pieces = explode('::', $parenttrre);
 				end($pieces);
 				$parent = prev($pieces);
-				$parentName = (new App\Db\Query())
+				$parentName = (new \App\Db\Query())
 					->select('name')
 					->from('vtiger_trees_templates_data')
 					->where(['templateid' => $template, 'tree' => $parent])
@@ -112,7 +112,7 @@ class Tree extends UIType
 	public static function getDisplayValueByField($tree, $field, $module)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? && fieldname = ?', array(vtlib\Functions::getModuleId($module), $field));
+		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? && fieldname = ?', array(\vtlib\Functions::getModuleId($module), $field));
 		if ($adb->num_rows($result) == 0) {
 			return false;
 		}

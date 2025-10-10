@@ -25,7 +25,7 @@ class LastRelation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 			foreach ($records as $key => $recordId) {
-				if (!App\Privilege::isPermitted($sourceModule, 'DetailView', $recordId)) {
+				if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $recordId)) {
 					throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 				}
 			}
@@ -38,11 +38,11 @@ class LastRelation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$records = $request->get('recordsId');
-		$result = ModTracker_Record_Model::getLastRelation($records, $request->get('sourceModule'));
-		$response = new Vtiger_Response();
+		$result = \FreeCRM\Modules\ModTracker\Models\Record::getLastRelation($records, $request->get('sourceModule'));
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -52,7 +52,7 @@ class LastRelation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return type
 	 */
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

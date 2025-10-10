@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSEmployees\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -28,7 +28,7 @@ class DetailView extends Model
 			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
 			'linkicon' => 'glyphicon glyphicon-user'
 		];
-		$linkModelLists['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
+		$linkModelLists['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($linkModel);
 		return $linkModelLists;
 	}
 }

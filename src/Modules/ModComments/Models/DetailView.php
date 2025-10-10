@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ModComments\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Model extends Model
+class Model extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**

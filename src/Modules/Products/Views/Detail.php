@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Products\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function showModuleDetailView(\FreeCRM\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class Detail extends View
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
 		$viewer = $this->getViewer($request);

@@ -59,7 +59,7 @@ class XmlReader extends FileReader
 	 */
 	public function createTable()
 	{
-		$tableName = Import_Module_Model::getDbTableName($this->user);
+		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($this->user);
 		if (!\vtlib\Utils::CheckTable($tableName)) {
 			parent::createTable();
 		}

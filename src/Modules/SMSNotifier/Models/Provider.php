@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Provider extends Model
+class Provider extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class EmailList extends Widget
+class EmailList extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public $dbParams = array();
@@ -30,7 +30,7 @@ class EmailList extends Widget
 	public function getWidget()
 	{
 		$widget = [];
-		$model = Vtiger_Module_Model::getInstance('OSSMailView');
+		$model = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSMailView');
 		if ($model->isPermitted('DetailView')) {
 			$this->Config['tpl'] = 'EmailList.tpl';
 			$this->Config['url'] = $this->getUrl();

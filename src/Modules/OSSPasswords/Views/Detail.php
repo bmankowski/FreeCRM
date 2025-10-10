@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OSSPasswords\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	protected $record = false;
@@ -33,7 +33,7 @@ class Detail extends View
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param Vtiger_Record_Model record model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

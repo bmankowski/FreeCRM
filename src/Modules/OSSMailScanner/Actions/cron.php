@@ -17,17 +17,17 @@ class cron extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$response = new Vtiger_Response();
-		$response->setResult($recordModel->executeCron(Users_Record_Model::getCurrentUserModel()->user_name));
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response->setResult($recordModel->executeCron(\FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->user_name));
 		$response->emit();
 	}
 }

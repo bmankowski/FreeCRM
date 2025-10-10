@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -42,7 +42,7 @@ class Module extends Model
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$queryGenerator->addNativeCondition(['and',
-			['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
+			['not in', 'vtiger_notes.notesid', (new \App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
 			['vtiger_notes.filestatus' => 1]
 		]);
 	}
@@ -58,7 +58,7 @@ class Module extends Model
 		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
 		foreach ($reqPopUpFields as &$fieldName) {
 			if (!isset($popupFields[$fieldName])) {
-				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
+				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
 				if ($fieldModel->getPermissions()) {
 					$popupFields[$fieldName] = $fieldName;
 				}
@@ -77,7 +77,7 @@ class Module extends Model
 
 	public function getSettingLinks()
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');

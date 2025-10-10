@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Users\Models;
 /**
  * User Field Model Class
  */
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -23,7 +23,7 @@ class Field extends Model
 	 */
 	public function isReadOnly()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}

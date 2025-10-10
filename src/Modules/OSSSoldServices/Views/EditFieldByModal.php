@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OSSSoldServices\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class EditFieldByModal extends View
+class EditFieldByModal extends \Vtiger_Index_View
 {
 
 	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)

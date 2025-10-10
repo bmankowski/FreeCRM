@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Paging Model Class
  */
-class Paging extends Model
+class Paging extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	const DEFAULT_PAGE = 1;
@@ -140,7 +140,7 @@ class Paging extends Model
 	/**
 	 * calculates page range
 	 * @param int $recordCount
-	 * @return Vtiger_Paging_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Paging
 	 */
 	public function calculatePageRange($recordCount)
 	{

@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\WSAPP\api\ws;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/WSAPP/SyncServer.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/SyncServer.php';
 
 function wsapp_deregister($type, $key, $user)
 {

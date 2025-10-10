@@ -10,12 +10,12 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class ChartFilter extends View
+class ChartFilter extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -26,7 +26,7 @@ class ChartFilter extends View
 			$widgetId = $request->get('widgetid');
 		}
 
-		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$data = $chartFilterWidgetModel->getChartData();

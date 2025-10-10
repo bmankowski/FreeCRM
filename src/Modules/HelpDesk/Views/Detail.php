@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\HelpDesk\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -26,7 +26,7 @@ class Detail extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -50,7 +50,7 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($moduleModel)
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);

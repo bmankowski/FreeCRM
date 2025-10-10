@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Boolean extends UIType
+class Boolean extends Base
 {
 
 	/**
@@ -48,7 +48,7 @@ class Boolean extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

@@ -13,14 +13,14 @@ namespace FreeCRM\Modules\Documents\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class MoveDocuments extends View
+class MoveDocuments extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -28,7 +28,7 @@ class MoveDocuments extends View
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('MODULE', $moduleName);

@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class UserReference extends UIType
+class UserReference extends Base
 {
 
 	/**
@@ -45,9 +45,9 @@ class UserReference extends UIType
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
 		$displayValue = $this->getEditViewDisplayValue($value);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser() && $rawText === false) {
-			$recordModel = Users_Record_Model::getCleanInstance('Users');
+			$recordModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance('Users');
 			$recordModel->set('id', $value);
 			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
 		}

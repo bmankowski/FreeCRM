@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Portal\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class EditAjax extends View
+class EditAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -24,7 +24,7 @@ class EditAjax extends View
 		$viewer = $this->getViewer($request);
 
 		if (!empty($recordId)) {
-			$data = Portal_Module_Model::getRecord($recordId);
+			$data = \FreeCRM\Modules\Portal\Models\Module::getRecord($recordId);
 
 			$viewer->assign('RECORD', $recordId);
 			$viewer->assign('BOOKMARK_NAME', $data['bookmarkName']);

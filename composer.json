@@ -72,26 +72,13 @@
 		"files": [
 			"src/Runtime/Globals.php",
 			"src/Runtime/TemplateHelpers.php",
-			"src/LanguageTranslator.php",
-			"src/http/Vtiger_Request.php",
-			"src/http/AppRequest.php",
-			"src/http/Vtiger_Response.php",
-			"src/http/Vtiger_Session.php",
-			"src/Runtime/Vtiger_Base_Model.php",
-			"src/Runtime/FreeCRM_Viewer.php",
-			"src/Runtime/Vtiger_JavaScript.php",
-			"src/Runtime/Vtiger_JsScript_Model.php",
-			"src/Runtime/Vtiger_CssScript_Model.php",
-			"src/Runtime/Vtiger_Language_Handler.php",
-			"src/Runtime/Vtiger_Theme.php",
-			"src/Runtime/Yeti_Layout.php",
-			"src/Runtime/Vtiger_Controller.php",
-			"src/Runtime/Vtiger_Action_Controller.php",
-			"src/Runtime/Vtiger_View_Controller.php",
-			"src/Runtime/Vtiger_Cache.php",
 			"src/utils/VTCacheUtils.php",
 			"src/utils/utils.php",
-			"vtlib/Vtiger/Deprecated.php"
+			"vtlib/Vtiger/Deprecated.php",
+			"src/Modules/Vtiger/Views/VtigerHeaderView.php",
+			"src/Modules/Vtiger/Views/VtigerFooterView.php",
+			"src/Modules/Vtiger/Views/VtigerBasicView.php",
+			"src/Modules/Vtiger/Views/VtigerIndexView.php"
 		]
 	},
 	"repositories": {

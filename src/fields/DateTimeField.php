@@ -101,7 +101,7 @@ class DateTimeField
 	public static function convertToDBFormat($date, $user = null)
 	{
 
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		Log::trace('Start ' . __METHOD__ . ' ' . serialize($date));
 		if (empty($user)) {
 			$user = $current_user;
@@ -280,7 +280,7 @@ class DateTimeField
 	public static function convertToUserTimeZone($value, $user = null)
 	{
 
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		Log::trace('Start ' . __METHOD__ . "($value) method ...");
 		if (empty($user)) {
 			$user = $current_user;
@@ -300,7 +300,7 @@ class DateTimeField
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)
 	{
 
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		Log::trace('Start ' . __METHOD__ . "($value)");
 		if (empty($user)) {
 			$user = $current_user;

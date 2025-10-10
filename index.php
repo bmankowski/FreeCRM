@@ -44,10 +44,13 @@ require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require_once ROOT_DIRECTORY . '/config/api.php';
 require_once ROOT_DIRECTORY . '/config/config.php';
 \FreeCRM\AppConfig::init($API_CONFIG);
-\FreeCRM\Vtiger_Loader::register();
+\FreeCRM\Vtiger_Loader::register();  // For Settings modules in old_modules
 
 // Initialize WebUI services (cache, debugger, error handlers)
 \FreeCRM\EntryPoint\WebUI::initialize();
+
+// Load global class aliases for legacy code
+require_once ROOT_DIRECTORY . '/src/GlobalAliases.php';
 
 $webUI = new \FreeCRM\EntryPoint\WebUI();
 $request = \FreeCRM\Http\AppRequest::init();

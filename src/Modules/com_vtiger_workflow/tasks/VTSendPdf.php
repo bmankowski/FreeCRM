@@ -25,7 +25,7 @@ class VTSendPdf extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -51,12 +51,12 @@ class VTSendPdf extends VTTask
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
-			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdfTemplate);
-			$fileName = vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
+			$templateRecord = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($this->pdfTemplate);
+			$fileName = \vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
+			\FreeCRM\Modules\Vtiger\Models\PDF::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
 			if (!file_exists($pdfFile)) {
-				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
+				\App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
 				return false;
 			}
 			if (!$templateRecord->isEmpty('filename')) {

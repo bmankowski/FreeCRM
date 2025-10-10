@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Calendar\UiTypes;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Picklist extends UIType
+class Picklist extends Base
 {
 
 	public function getListSearchTemplateName()

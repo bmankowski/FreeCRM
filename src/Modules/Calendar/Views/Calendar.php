@@ -14,13 +14,13 @@ namespace FreeCRM\Modules\Calendar\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Calendar extends View
+class Calendar extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -77,14 +77,14 @@ class Calendar extends View
 	{
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('EVENT_LIMIT', \FreeCRM\AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_VIEW', \FreeCRM\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', \FreeCRM\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
-				'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
-				'history' => Calendar_Module_Model::getComponentActivityStateLabel('history')
+				'current' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
+				'history' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')
 		]));
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}

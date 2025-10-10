@@ -314,10 +314,10 @@ class OSSMailView extends \FreeCRM\CRMEntity
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'widget_limit', '10'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'target', '_blank'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'permissions', 'vtiger'));
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 			$registerLink = true;
 			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
@@ -329,12 +329,12 @@ class OSSMailView extends \FreeCRM\CRMEntity
 			
 		} else if ($eventType == 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			\Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-oss_mailview',
 				'description' => 'LBL_MAIL_VIEW_DESCRIPTION',

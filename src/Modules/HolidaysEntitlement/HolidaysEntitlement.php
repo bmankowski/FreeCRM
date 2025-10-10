@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\HolidaysEntitlement;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class HolidaysEntitlement extends Vtiger_CRMEntity
+class HolidaysEntitlement extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_holidaysentitlement';

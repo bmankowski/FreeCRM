@@ -18,7 +18,7 @@ class VTEntityType
 	function __construct($adb, $setype)
 	{
 		$this->moduleName = $setype;
-		require_once("modules/" . $setype . "/" . $setype . ".php");
+		require_once("src/Modules/" . $setype . "/" . $setype . ".php");
 		$result = $adb->pquery("select tabid from vtiger_tab where name=?", array($setype));
 		$tabId = $adb->query_result($result, 0, "tabid");
 		$this->tabId = $tabId;

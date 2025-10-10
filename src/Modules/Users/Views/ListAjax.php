@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ListAjax extends View
+class ListAjax extends \Vtiger_Index_View
 {
 
 	public function __construct()

@@ -12,23 +12,23 @@ namespace FreeCRM\Modules\Rss\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends Action
+class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$moduleName = $request->getModule();
 		$url = $request->get('feedurl');
-		$recordModel = Rss_Record_Model::getCleanInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Rss\Models\Record::getCleanInstance($moduleName);
 		$result = $recordModel->validateRssUrl($url);
 		if ($result) {
 			$recordModel->saveRecord($url);

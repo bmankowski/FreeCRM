@@ -12,18 +12,18 @@ namespace FreeCRM\Modules\PaymentsIn\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public function getSummary($type, $bank, $file)
 	{
 		$adres = vglobal('cache_dir');
 		if ($bank == 'Default') {
-			require_once 'modules/PaymentsIn/helpers/' . $type . '.php';
+			require_once 'src/Modules/PaymentsIn/helpers/' . $type . '.php';
 			$records = new $type($adres . $file);
 			return $records;
 		}
-		require_once 'modules/PaymentsIn/helpers/subclass/' . $type . '_' . $bank . '.php';
+		require_once 'src/Modules/PaymentsIn/helpers/subclass/' . $type . '_' . $bank . '.php';
 		$class = $type . '_' . $bank;
 		$records = new $class($adres . $file);
 

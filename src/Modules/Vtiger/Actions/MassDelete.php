@@ -12,31 +12,31 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassDelete extends Action
+class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Delete')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		if ($request->get('selected_ids') == 'all' && $request->get('mode') == 'FindDuplicates') {
 			$recordIds = Vtiger_FindDuplicate_Model::getMassDeleteRecords($request);
@@ -44,8 +44,8 @@ class MassDelete extends Action
 			$recordIds = $this->getRecordsListFromRequest($request);
 		}
 		foreach ($recordIds as $recordId) {
-			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
 				if ($recordModel->isDeletable()) {
 					$recordModel->delete();
 				}
@@ -59,7 +59,7 @@ class MassDelete extends Action
 		}
 
 		$cvId = $request->get('viewname');
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array('viewname' => $cvId, 'module' => $moduleName));
 		$response->emit();
 	}

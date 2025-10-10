@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Services\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -24,10 +24,10 @@ class Module extends Model
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
-		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
+		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule)->isInventory()) {
 			$condition = ['and', ['vtiger_service.discontinued' => 1]];
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {
-				$subQuery = (new App\Db\Query())
+				$subQuery = (new \App\Db\Query())
 					->select(['productid'])
 					->from('vtiger_pricebookproductrel')
 					->where(['pricebookid' => $record]);

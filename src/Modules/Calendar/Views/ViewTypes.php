@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Calendar\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ViewTypes extends View
+class ViewTypes extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -27,8 +27,8 @@ class ViewTypes extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$calendarViews = Calendar_Module_Model::getCalendarViewTypes($currentUser->id);
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$calendarViews = \FreeCRM\Modules\Calendar\Models\Module::getCalendarViewTypes($currentUser->id);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEWTYPES', $calendarViews);
@@ -42,12 +42,12 @@ class ViewTypes extends View
 	public function getSharedUsersList(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 
 		$moduleName = $request->getModule();
-		$sharedUsers = Calendar_Module_Model::getSharedUsersOfCurrentUser($currentUser->id);
-		$sharedUsersInfo = Calendar_Module_Model::getSharedUsersInfoOfCurrentUser($currentUser->id);
+		$sharedUsers = \FreeCRM\Modules\Calendar\Models\Module::getSharedUsersOfCurrentUser($currentUser->id);
+		$sharedUsersInfo = \FreeCRM\Modules\Calendar\Models\Module::getSharedUsersInfoOfCurrentUser($currentUser->id);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SHAREDUSERS', $sharedUsers);

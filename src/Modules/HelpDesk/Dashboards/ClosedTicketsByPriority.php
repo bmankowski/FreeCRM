@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\HelpDesk\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class ClosedTicketsByPriority extends View
+class ClosedTicketsByPriority extends \Vtiger_Index_View
 {
 	/**
 	 * Return search params (use to in bulding address URL to listview)
@@ -45,10 +45,10 @@ class ClosedTicketsByPriority extends View
 		$moduleName = 'HelpDesk';
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$ticketStatus = \Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
-		$query = (new App\Db\Query())->select([
+		$query = (new \App\Db\Query())->select([
 			'count' => new \yii\db\Expression('COUNT(*)'),
 			'priority',
 			'vtiger_ticketpriorities.color'
@@ -87,18 +87,18 @@ class ClosedTicketsByPriority extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$time = $request->get('time');
 		$owner = $request->get('owner');
 		if (empty($owner)) {
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));

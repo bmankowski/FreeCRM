@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -26,22 +26,22 @@ class Module extends Model
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts');
-		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
+		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule)->isInventory()) {
 			$condition = ['and', ['vtiger_products.discontinued' => 1]];
 			if ($sourceModule === $this->getName()) {
-				$subQuery = (new App\Db\Query())
+				$subQuery = (new \App\Db\Query())
 					->select(['productid'])
 					->from('vtiger_seproductsrel')
 					->where(['setype' => $sourceModule]);
 				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
-				$subQuery = (new App\Db\Query())
+				$subQuery = (new \App\Db\Query())
 					->select(['crmid'])
 					->from('vtiger_seproductsrel')
 					->where(['productid' => $record]);
 				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
 				$condition [] = ['<>', 'vtiger_products.productid', $record];
 			} elseif ($sourceModule === 'PriceBooks') {
-				$subQuery = (new App\Db\Query())
+				$subQuery = (new \App\Db\Query())
 					->select(['productid'])
 					->from('vtiger_pricebookproductrel')
 					->where(['pricebookid' => $record]);
@@ -93,12 +93,12 @@ class Module extends Model
 	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of Vtiger_Record_Model>
+	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Record>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
 		if (!empty($searchValue) && empty($parentId) && empty($parentModule) && (in_array($relatedModule, getInventoryModules()))) {
-			$matchingRecords = Products_Record_Model::getSearchResult($searchValue, $this->getName());
+			$matchingRecords = \FreeCRM\Modules\Products\Models\Record::getSearchResult($searchValue, $this->getName());
 		} else {
 			return parent::searchRecord($searchValue);
 		}

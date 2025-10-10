@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ListAjax extends View
+class ListAjax extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -50,7 +50,7 @@ class ListAjax extends View
 	public function getPageCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 
@@ -72,7 +72,7 @@ class ListAjax extends View
 	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = App\CustomView::getInstance($moduleName)->getViewId();
+		$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
 		$count = $this->getListViewCount($request);
 
 		$result = [];
@@ -94,11 +94,11 @@ class ListAjax extends View
 	{
 		$moduleName = $request->getModule();
 		if (!$this->listViewModel) {
-			$cvId = App\CustomView::getInstance($moduleName)->getViewId();
+			$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
 			if (!$cvId) {
 				$cvId = 0;
 			}
-			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+			$this->listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 		}
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');

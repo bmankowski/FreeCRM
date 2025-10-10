@@ -12,26 +12,26 @@ namespace FreeCRM\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MoveReports extends Action
+class MoveReports extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentModule = 'Reports';
-		$reportIdsList = Reports_Record_Model::getRecordsListFromRequest($request);
+		$reportIdsList = \FreeCRM\Modules\Reports\Models\Record::getRecordsListFromRequest($request);
 		$folderId = $request->get('folderid');
 
 		if (!empty($reportIdsList)) {
 			foreach ($reportIdsList as $reportId) {
-				$reportModel = Reports_Record_Model::getInstanceById($reportId);
+				$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($reportId);
 				if (!$reportModel->isDefault() && $reportModel->isEditable()) {
 					$reportModel->move($folderId);
 				} else {
@@ -39,7 +39,7 @@ class MoveReports extends Action
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (empty($reportsMoveDenied)) {
 			$response->setResult(array(vtranslate('LBL_REPORTS_MOVED_SUCCESSFULLY', $parentModule)));
 		} else {

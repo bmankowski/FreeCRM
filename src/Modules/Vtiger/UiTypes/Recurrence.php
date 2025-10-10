@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Recurrence extends UIType
+class Recurrence extends Base
 {
 
 	public function isAjaxEditable()
@@ -64,7 +64,7 @@ class Recurrence extends UIType
 			}
 			if (isset($result['UNTIL'])) {
 				$displayDate = substr($result['UNTIL'], 0, 4) . '-' . substr($result['UNTIL'], 4, 2) . '-' . substr($result['UNTIL'], 6, 2);
-				$result['UNTIL'] = App\Fields\DateTime::currentUserDisplayDate($displayDate);
+				$result['UNTIL'] = \App\Fields\DateTime::currentUserDisplayDate($displayDate);
 			}
 			switch ($result['FREQ']) {
 				case 'DAILY':
@@ -89,7 +89,7 @@ class Recurrence extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param integer $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param boolean $rawText
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

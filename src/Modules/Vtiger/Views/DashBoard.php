@@ -15,12 +15,12 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\HttpVtiger_Request;
 
-class DashBoard extends View
+class DashBoard extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -36,13 +36,13 @@ class DashBoard extends View
 		}
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
-		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		$dashBoardModel = \FreeCRM\Modules\Vtiger\Models\DashBoard::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$moduleModel) {
 			$permission = false;
 			$widgets = [];
@@ -55,9 +55,9 @@ class DashBoard extends View
 		} else {
 			$widgets = [];
 		}
-		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule, $currentDashboard);
+		$modulesWithWidget = \FreeCRM\Modules\Vtiger\Models\DashBoard::getModulesWithWidgets($sourceModule, $currentDashboard);
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
-		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
+		$viewer->assign('DASHBOARD_TYPES', \Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
@@ -75,13 +75,13 @@ class DashBoard extends View
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
-		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		$dashBoardModel = \FreeCRM\Modules\Vtiger\Models\DashBoard::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$moduleModel) {
 			$permission = false;
 			$widgets = [];
@@ -96,7 +96,7 @@ class DashBoard extends View
 		}
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
-		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
+		$viewer->assign('DASHBOARD_TYPES', \Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
@@ -118,12 +118,12 @@ class DashBoard extends View
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
-		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		$dashBoardModel = \FreeCRM\Modules\Vtiger\Models\DashBoard::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
-		$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if ($permission) {
 			$widgets = $dashBoardModel->getDashboards();
@@ -143,7 +143,7 @@ class DashBoard extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -181,7 +181,7 @@ class DashBoard extends View
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_CssScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{

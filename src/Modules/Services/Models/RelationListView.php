@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Services\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationListView extends Model
+class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 	
 }

@@ -26,16 +26,16 @@ class EditAjax extends \FreeCRM\Modules\Vtiger\Views\IndexAjax
 		$duplicate = $request->get('duplicate');
 
 		if (is_numeric($moduleName)) {
-			$moduleName = vtlib\Functions::getModuleName($moduleName);
+			$moduleName = \vtlib\Functions::getModuleName($moduleName);
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		if (!empty($record)) {
-			$customViewModel = CustomView_Record_Model::getInstanceById($record);
+			$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($record);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$customViewModel = new CustomView_Record_Model();
+			$customViewModel = new \FreeCRM\Modules\CustomView\Models\Record();
 			$customViewModel->setModule($moduleName);
 			$viewer->assign('MODE', '');
 		}
@@ -47,7 +47,7 @@ class EditAjax extends \FreeCRM\Modules\Vtiger\Views\IndexAjax
 		if ($moduleName == 'Calendar') {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \FreeCRM\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -62,7 +62,7 @@ class EditAjax extends \FreeCRM\Modules\Vtiger\Views\IndexAjax
 		// Added to show event module custom fields
 		if ($moduleName == 'Calendar') {
 			$relatedModuleName = 'Events';
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
+			$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
 			$relatedRecordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($relatedModuleModel);
 			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
 			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
@@ -74,14 +74,14 @@ class EditAjax extends \FreeCRM\Modules\Vtiger\Views\IndexAjax
 		}
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SOURCE_MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		if ($customViewModel->get('viewname') == 'All') {
-			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_DEFAULT);
+			$viewer->assign('CV_PRIVATE_VALUE', \App\CustomView::CV_STATUS_DEFAULT);
 		} else {
-			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_PRIVATE);
+			$viewer->assign('CV_PRIVATE_VALUE', \App\CustomView::CV_STATUS_PRIVATE);
 		}
-		$viewer->assign('CV_PENDING_VALUE', App\CustomView::CV_STATUS_PENDING);
-		$viewer->assign('CV_PUBLIC_VALUE', App\CustomView::CV_STATUS_PUBLIC);
+		$viewer->assign('CV_PENDING_VALUE', \App\CustomView::CV_STATUS_PENDING);
+		$viewer->assign('CV_PUBLIC_VALUE', \App\CustomView::CV_STATUS_PUBLIC);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 
 		echo $viewer->view('EditView.tpl', $module, true);

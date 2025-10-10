@@ -10,8 +10,8 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once('src/Modules/com_vtiger_workflow/VTEntityCache.php');
+require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTSendNotificationTask extends VTTask
 {
@@ -26,7 +26,7 @@ class VTSendNotificationTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -43,7 +43,7 @@ class VTSendNotificationTask extends VTTask
 			$iCal = $exportData->output('', $result, $moduleModel, '', true);
 			$result_invitees = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid = ?', array($entityId));
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
-				$userModel = App\User::getUserModel($recordinfo['inviteeid']);
+				$userModel = \App\User::getUserModel($recordinfo['inviteeid']);
 				if ($userModel->getDetail('status') === 'Active') {
 					\App\Mailer::sendFromTemplate([
 						'template' => $this->template,

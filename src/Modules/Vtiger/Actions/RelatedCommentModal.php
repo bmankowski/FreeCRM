@@ -15,13 +15,13 @@ class RelatedCommentModal extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -34,7 +34,7 @@ class RelatedCommentModal extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 		$rcmModel->save($request->get('comment'));
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(vtranslate('LBL_SAVED_RELATION_COMMENT', $moduleName));
 		$response->emit();
 	}

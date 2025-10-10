@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Multiowner extends UIType
+class Multiowner extends Base
 {
 
 	/**
@@ -34,15 +34,15 @@ class Multiowner extends UIType
 			return;
 		foreach ($values as $value) {
 			if (self::getOwnerType($value) === 'User') {
-				$userModel = Users_Record_Model::getCleanInstance('Users');
+				$userModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance('Users');
 				$userModel->set('id', $value);
 				$detailViewUrl = $userModel->getDetailViewUrl();
-				$currentUser = Users_Record_Model::getCurrentUserModel();
+				$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
 					return \App\Fields\Owner::getLabel($value);
 				}
 			} else {
-				$currentUser = Users_Record_Model::getCurrentUserModel();
+				$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
 					return \App\Fields\Owner::getLabel($value);
 				}

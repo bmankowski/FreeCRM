@@ -144,7 +144,7 @@ function twoDigit($no)
  */
 function calendarview_getSelectedUserId()
 {
-	$currentUser = Users_Privileges_Model::getCurrentUserModel();
+	$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 	$onlyForUser = htmlspecialchars(strip_tags(\FreeCRM\Http\AppRequest::getForSql('onlyforuser')), ENT_QUOTES, \FreeCRM\AppConfig::main('default_charset'));
 	if ($onlyForUser == '')
 		$onlyForUser = $currentUser->id;
@@ -153,7 +153,7 @@ function calendarview_getSelectedUserId()
 
 function calendarview_getSelectedUserFilterQuerySuffix()
 {
-	$currentUser = Users_Privileges_Model::getCurrentUserModel();
+	$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$onlyForUser = calendarview_getSelectedUserId();
 	$qcondition = '';

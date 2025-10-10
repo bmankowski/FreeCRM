@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTEmailTask extends VTTask
 {
@@ -25,12 +25,12 @@ class VTEmailTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
 		$mailerContent = [
-			'smtp_id' => ($this->smtp) ? $this->smtp : App\Mail::getDefaultSmtp(),
+			'smtp_id' => ($this->smtp) ? $this->smtp : \App\Mail::getDefaultSmtp(),
 		];
 		$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 		$emailParser->emailoptout = $this->emailoptout ? true : false;

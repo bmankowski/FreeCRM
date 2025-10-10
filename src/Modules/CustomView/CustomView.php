@@ -166,7 +166,7 @@ class CustomView extends \FreeCRM\CRMEntity
 
 			$option = '';
 			$viewname = $cvrow['viewname'];
-			if ($cvrow['status'] == App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
+			if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
 				$disp_viewname = $viewname;
 			} else {
 				$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $cvrow);
@@ -186,13 +186,13 @@ class CustomView extends \FreeCRM\CRMEntity
 
 			// Add the option to combo box at appropriate section
 			if ($option != '') {
-				if ($cvrow['status'] == App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
+				if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
 					$shtml_user .= $option;
-				} elseif ($cvrow['status'] == App\CustomView::CV_STATUS_PUBLIC) {
+				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
 						$shtml_public = "<option disabled>--- " . \LanguageTranslator::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
-				} elseif ($cvrow['status'] == App\CustomView::CV_STATUS_PENDING) {
+				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
 						$shtml_pending = "<option disabled>--- " . \LanguageTranslator::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
@@ -965,11 +965,11 @@ class CustomView extends \FreeCRM\CRMEntity
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 		$status_details = [];
 		if ($is_admin) {
-			if ($status == App\CustomView::CV_STATUS_PENDING) {
-				$changed_status = App\CustomView::CV_STATUS_PUBLIC;
+			if ($status == \App\CustomView::CV_STATUS_PENDING) {
+				$changed_status = \App\CustomView::CV_STATUS_PUBLIC;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_APPROVE'];
-			} elseif ($status == App\CustomView::CV_STATUS_PUBLIC) {
-				$changed_status = App\CustomView::CV_STATUS_PENDING;
+			} elseif ($status == \App\CustomView::CV_STATUS_PUBLIC) {
+				$changed_status = \App\CustomView::CV_STATUS_PENDING;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_DENY'];
 			}
 			$status_details = Array('Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label);

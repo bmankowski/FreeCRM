@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Calendar\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public static function getNameByReference($refModuleName)
@@ -21,9 +21,9 @@ class Record extends Model
 		if (!empty($fieldName)) {
 			return $fieldName;
 		}
-		$parentModuleModel = Vtiger_Module_Model::getInstance($refModuleName);
-		$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
-		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+		$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($refModuleName);
+		$relatedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 		if ($relationModel && $relationModel->getRelationField()) {
 			$fieldName = $relationModel->getRelationField()->getFieldName();
 			\FreeCRM\Runtime\Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
@@ -46,7 +46,7 @@ class Record extends Model
 			$row = (new \App\Db\Query())->select(['vtiger_activity.status', 'vtiger_activity.date_start'])
 					->from('vtiger_activity')
 					->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid=vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])
+					->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')])
 					->orderBy(['date_start' => SORT_ASC])->limit(1)->one();
 			if ($row) {
 				$date = new DateTime(date('Y-m-d'));
@@ -176,7 +176,7 @@ class Record extends Model
 			return;
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$inviteesRequest = \FreeCRM\Http\AppRequest::get('inviteesid');
 		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $this->getId()])->createCommand()->query();
 		$invities = [];
@@ -214,8 +214,8 @@ class Record extends Model
 			$reminderid = (new \App\Db\Query())->select(['reminderid'])->from('vtiger_activity_reminder_popup')
 				->where(['recordid' => $cbrecord])
 				->scalar();
-			$currentStates = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$state = Calendar_Module_Model::getCalendarState($this->getData());
+			$currentStates = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
+			$state = \FreeCRM\Modules\Calendar\Models\Module::getCalendarState($this->getData());
 			if (in_array($state, $currentStates)) {
 				$status = 0;
 			} else {
@@ -284,10 +284,10 @@ class Record extends Model
 				'datetime' => date('Y-m-d H:i:s', $datatimeSTR),
 				], ['recordid' => $this->getId()])
 			->execute();
-		if ((new App\Db\Query())->select(['value'])->from('vtiger_calendar_config')
+		if ((new \App\Db\Query())->select(['value'])->from('vtiger_calendar_config')
 				->where(['type' => 'reminder', 'name' => 'update_event', 'value' => 1])
 				->exists()) {
-			$row = (new App\Db\Query())->select(['date_start', 'time_start', 'due_date', 'time_end'])
+			$row = (new \App\Db\Query())->select(['date_start', 'time_start', 'due_date', 'time_end'])
 					->from('vtiger_activity')
 					->where(['activityid' => $this->getId()])->one();
 			$dueDateRecord = $row['due_date'];
@@ -326,20 +326,20 @@ class Record extends Model
 	public function delete()
 	{
 		parent::delete();
-		App\Db::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_activity', ['deleted' => 1], ['activityid' => $this->getId()])
 			->execute();
 	}
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
+	 * @return \FreeCRM\Modules\Vtiger\Models\Link[] - Associate array of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordListViewLinksLeftSide()
 	{
 		$links = parent::getRecordListViewLinksLeftSide();
 		$recordLinks = [];
-		$statuses = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		$statuses = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 		if ($this->isEditable() && in_array($this->getValueByField('activitystatus'), $statuses)) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
@@ -351,7 +351,7 @@ class Record extends Model
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

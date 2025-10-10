@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Widget Model Class
  */
-class Widget extends Model
+class Widget extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public function getWidth()
@@ -106,7 +106,7 @@ class Widget extends Model
 	/**
 	 * Function to get the instance of Vtiger Widget Model from the given array of key-value mapping
 	 * @param <Array> $valueMap
-	 * @return Vtiger_Widget_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\Widget instance
 	 */
 	public static function getInstanceFromValues($valueMap)
 	{
@@ -152,16 +152,16 @@ class Widget extends Model
 				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
 				}
-				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
-				$minilistWidgetModel = new Vtiger_MiniList_Model();
+				$minilistWidget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$minilistWidgetModel = new \FreeCRM\Modules\Vtiger\Models\MiniList();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
 			} else if ($row['linklabel'] == 'ChartFilter') {
 				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
 				}
-				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
+				$chartFilterWidget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new \FreeCRM\Modules\Vtiger\Models\ChartFilter();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
 				$row['title'] = $chartFilterWidgetModel->getTitle();
 			}
@@ -176,7 +176,7 @@ class Widget extends Model
 	public function show()
 	{
 		if (0 == $this->get('active')) {
-			App\Db::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->update('vtiger_module_dashboard_widgets', ['active' => 1], ['id' => $this->get('widgetid')])
 				->execute();
 		}
@@ -189,7 +189,7 @@ class Widget extends Model
 	 */
 	public function remove($action = 'hide')
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		if ($action == 'delete') {
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['id' => $this->get('id'), 'blockid' => $this->get('blockid')])
 				->execute();
@@ -227,10 +227,10 @@ class Widget extends Model
 
 	/**
 	 * Process the UI Widget requested
-	 * @param vtlib\Link $widgetLink
+	 * @param \vtlib\Link $widgetLink
 	 * @param Current Smarty Context $context
 	 */
-	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
+	public function processWidget(\FreeCRM\Modules\Vtiger\Models\Link $widgetLink, \FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 	{
 		if (preg_match("/^block:\/\/(.*)/", $widgetLink->get('linkurl'), $matches)) {
 			list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);

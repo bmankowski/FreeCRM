@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Calendar\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -57,14 +57,14 @@ class DetailView extends Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
 		$status = $recordModel->get('activitystatus');
-		$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		$statusActivity = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 
 		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && isPermitted($moduleName, 'ActivityComplete', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityCancel', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityPostponed', $recordId) == 'yes' && in_array($status, $statusActivity)) {
 			$basicActionLink = [
@@ -75,16 +75,16 @@ class DetailView extends Model
 				'linkicon' => 'glyphicon glyphicon-ok',
 				'linkclass' => 'showModal closeCalendarRekord'
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
-		if (App\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
+		if (\App\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_SHOW_LOCATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(\'' . $recordModel->get('location') . '\')',
 				'linkicon' => 'glyphicon glyphicon-map-marker',
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 
 		if ($recordModel->isDeletable() && $recordModel->get('reapeat') === 1) {
@@ -100,7 +100,7 @@ class DetailView extends Model
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'title' => LanguageTranslator::translate('LBL_DELETE_RECORD')
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		}
 		return $linkModelList;
 	}

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class PreviewMail extends Widget
+class PreviewMail extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public $allowedModules = ['PreviewMail'];

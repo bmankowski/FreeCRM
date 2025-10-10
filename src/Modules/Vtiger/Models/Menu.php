@@ -20,12 +20,12 @@ class Menu {
 	/**
 	 * Static Function to get all the accessible menu models with/without ordering them by sequence
 	 * @param boolean $sequenced - true/false
-	 * @return <Array> - List of Vtiger_Menu_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Menu instances
 	 */
 	public static function getAll($sequenced = false, $restrictedModulesList = [])
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
@@ -53,7 +53,7 @@ class Menu {
 	{
 		$breadcrumbs = false;
 		$request = \FreeCRM\Http\AppRequest::init();
-		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
 			require($roleMenu);
@@ -79,7 +79,7 @@ class Menu {
 			if (count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			if ($moduleModel && $moduleModel->getDefaultUrl()) {
 				$breadcrumbs[] = [
 					'name' => \vtranslate($moduleName, $moduleName),
@@ -101,7 +101,7 @@ class Menu {
 				$breadcrumbs[] = ['name' => \vtranslate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
-				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
+				$recordLabel = \vtlib\Functions::getCRMRecordLabel($request->get('record'));
 				if ($recordLabel != '') {
 					$breadcrumbs[] = ['name' => $recordLabel];
 				}
@@ -182,7 +182,7 @@ class Menu {
 	 */
 	public static function getModuleNameFromUrl($url)
 	{
-		$params = vtlib\Functions::getQueryParams($url);
+		$params = \vtlib\Functions::getQueryParams($url);
 		if ($params['parent']) {
 			return ($params['parent'] . ':' . $params['module']);
 		}
@@ -192,7 +192,7 @@ class Menu {
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
-			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);
+			$title = \FreeCRM\Modules\Vtiger\Models\Menu::vtranslateMenu($menu['label']);
 		}
 		if (is_string($menu)) {
 			$iconName = vimage_path($menu);

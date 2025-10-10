@@ -42,6 +42,11 @@ class Loader
 			$moduleName = str_replace(':', '\\', $moduleName);
 		}
 
+		// Handle special case: view=List maps to ListView class (reserved keyword workaround)
+		if ($componentType === 'View' && $componentName === 'List') {
+			$componentName = 'ListView';
+		}
+
 		// Convert type to plural directory name: View → Views, Action → Actions, Model → Models
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
 

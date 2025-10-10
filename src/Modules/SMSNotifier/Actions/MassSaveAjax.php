@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\SMSNotifier\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassSaveAjax extends Action
+class MassSaveAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -27,17 +27,17 @@ class MassSaveAjax extends Action
 	 * Function that saves SMS records
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$phoneFieldList = $request->get('fields');
 		$message = $request->get('message');
 
 		foreach ($recordIds as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$numberSelected = false;
 			foreach ($phoneFieldList as $fieldname) {
 				$fieldValue = $recordModel->get($fieldname);
@@ -51,11 +51,11 @@ class MassSaveAjax extends Action
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 
 		if (!empty($toNumbers)) {
 			$sourceModule=$request->get('source_module');
-			SMSNotifier_Record_Model::SendSMS($message, $toNumbers, $currentUserModel->getId(), $recordIds, $sourceModule);
+			\FreeCRM\Modules\SMSNotifier\Models\Record::SendSMS($message, $toNumbers, $currentUserModel->getId(), $recordIds, $sourceModule);
 			$response->setResult(true);
 		} else {
 			$response->setResult(false);

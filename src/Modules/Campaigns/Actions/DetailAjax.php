@@ -12,13 +12,13 @@ namespace FreeCRM\Modules\Campaigns\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailAjax extends Action
+class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -32,7 +32,7 @@ class DetailAjax extends Action
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -46,23 +46,23 @@ class DetailAjax extends Action
 	 * @param Vtiger_Request $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
 
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$count = $relationListView->getRelatedEntriesCount();
 		$result = array();
 		$result['module'] = $moduleName;
 		$result['viewname'] = $request->get('viewname');
 		$result['count'] = $count;
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

@@ -27,6 +27,6 @@ class Quantity extends InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		return vtlib\Functions::formatDecimal($value);
+		return \vtlib\Functions::formatDecimal($value);
 	}
 }

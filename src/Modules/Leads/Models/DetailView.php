@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Leads\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -23,7 +23,7 @@ class DetailView extends Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$linkModelList = Vtiger_DetailView_Model::getDetailViewLinks($linkParams);
+		$linkModelList = \Vtiger_DetailView_Model::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
@@ -43,8 +43,8 @@ class DetailView extends Model
 			$index++;
 		}
 
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
-			$convert = !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
+		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
+			$convert = !\FreeCRM\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
@@ -53,7 +53,7 @@ class DetailView extends Model
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
 			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;
 	}

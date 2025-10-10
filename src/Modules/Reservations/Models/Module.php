@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Reservations\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	public function getCalendarViewUrl()
@@ -40,7 +40,7 @@ class Module extends Model
 			],
 		];
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		if ($linkParams['ACTION'] == 'Calendar') {
@@ -58,7 +58,7 @@ class Module extends Model
 				'linkicon' => ''
 			];
 			foreach ($quickWidgets as $quickWidget) {
-				$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+				$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 			}
 		}
 

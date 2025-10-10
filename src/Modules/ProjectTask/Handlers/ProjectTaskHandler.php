@@ -16,18 +16,18 @@ class Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+			\FreeCRM\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			foreach ($delta as $name => &$value) {
 				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
-					$moduledModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
+					$moduledModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone');
 					if ($name === 'projectmilestoneid') {
 						$moduledModel->updateProgressMilestone($recordModel->get($name));
 						$moduledModel->updateProgressMilestone($value);
@@ -41,19 +41,19 @@ class Handler {
 
 	/**
 	 * EntityAfterDelete handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterDelete(App\EventHandler $eventHandler)
+	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
-		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		\FreeCRM\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 
 	/**
 	 * EntityAfterRestore handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	public function entityAfterRestore(\App\EventHandler $eventHandler)
 	{
-		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		\FreeCRM\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 }

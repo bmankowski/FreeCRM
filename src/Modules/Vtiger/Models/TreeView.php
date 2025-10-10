@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeView extends Model
+class TreeView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	static $_cached_instance;
@@ -58,12 +58,12 @@ class TreeView extends Model
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$fieldTemp = (new App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldparams'])
+		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldparams'])
 				->from('vtiger_field')
 				->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
 				->one();
 		if (!$fieldTemp) {
-			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
+			\vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
 		}
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
@@ -100,7 +100,7 @@ class TreeView extends Model
 	/**
 	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model
 	 * @param string name of the module
-	 * @return Vtiger_TreeView_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\TreeView instance
 	 */
 	public static function getInstance($moduleModel)
 	{

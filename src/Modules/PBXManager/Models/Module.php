@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -37,7 +37,7 @@ class Module extends Model
 		if ($actionName == 'EditView' || $actionName == 'CreateView')
 			return false;
 		else
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Module extends Model
 		if (!$this->isEntityModule()) {
 			return array();
 		}
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');

@@ -301,10 +301,10 @@ class SMSNotifierManager
 	static function updateConfiguredServer($id, $frmvalues)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$providertype = App\Purifier::purify($frmvalues['smsserver_provider']);
-		$username = App\Purifier::purify($frmvalues['smsserver_username']);
-		$password = App\Purifier::purify($frmvalues['smsserver_password']);
-		$isactive = App\Purifier::purify($frmvalues['smsserver_isactive']);
+		$providertype = \App\Purifier::purify($frmvalues['smsserver_provider']);
+		$username = \App\Purifier::purify($frmvalues['smsserver_username']);
+		$password = \App\Purifier::purify($frmvalues['smsserver_password']);
+		$isactive = \App\Purifier::purify($frmvalues['smsserver_isactive']);
 
 		$provider = SMSNotifier_Provider_Model::getInstance($providertype);
 
@@ -315,7 +315,7 @@ class SMSNotifierManager
 			foreach ($providerParameters as $k => $v) {
 				$lookupkey = "smsserverparam_{$providertype}_{$v}";
 				if (isset($frmvalues[$lookupkey])) {
-					$inputServerParams[$v] = App\Purifier::purify($frmvalues[$lookupkey]);
+					$inputServerParams[$v] = \App\Purifier::purify($frmvalues[$lookupkey]);
 				}
 			}
 			$parameters = \App\Json::encode($inputServerParams);

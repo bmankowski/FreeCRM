@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MiniList extends Model
+class MiniList extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $widgetModel;
@@ -52,7 +52,7 @@ class MiniList extends Model
 	public function getTargetModuleModel()
 	{
 		if (!$this->targetModuleModel) {
-			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
+			$this->targetModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
 	}
@@ -112,7 +112,7 @@ class MiniList extends Model
 	{
 		$this->initListViewController();
 		if (!$user) {
-			$user = App\User::getCurrentUserId();
+			$user = \App\User::getCurrentUserId();
 		} else if ($user === 'all') {
 			$user = '';
 		}
@@ -123,7 +123,7 @@ class MiniList extends Model
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = \FreeCRM\CRMEntity::getInstance($targetModuleName);
 			$filterId = $this->widgetModel->get('filterid');
-			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
+			$filterModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($filterId);
 			if (!empty($filterModel->get('sort'))) {
 				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
 				$this->queryGenerator->setOrder($orderby, $sort);
@@ -145,7 +145,7 @@ class MiniList extends Model
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
-			$user = App\User::getCurrentUserId();
+			$user = \App\User::getCurrentUserId();
 		}
 		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
 	}
@@ -154,7 +154,7 @@ class MiniList extends Model
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
-			$user = App\User::getCurrentUserId();
+			$user = \App\User::getCurrentUserId();
 		}
 		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
 	}

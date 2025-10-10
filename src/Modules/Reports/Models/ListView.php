@@ -14,17 +14,17 @@ namespace FreeCRM\Modules\Reports\Models;
 /**
  * Reports ListView Model Class
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$privileges = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$basicLinks = array();
 		if ($currentUserModel->isAdminUser() || $privileges->hasModulePermission($this->getModule()->getId())) {
 			$basicLinks = array(
@@ -58,11 +58,11 @@ class ListView extends Model
 		}
 
 		foreach ($basicLinks as $basicLink) {
-			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			$headerLinkInstance = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
 			$headerLinkInstance->setChildLink([]);
 			if (!empty($basicLink['childlinks'])) {
 				foreach ($basicLink['childlinks'] as &$childLink) {
-					$headerLinkInstance->addChildLink(Vtiger_Link_Model::getInstanceFromValues($childLink));
+					$headerLinkInstance->addChildLink(\FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($childLink));
 				}
 			}
 			$links['LISTVIEWBASIC'][] = $headerLinkInstance;
@@ -74,11 +74,11 @@ class ListView extends Model
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = array();
 		if ($currentUserModel->hasModulePermission($this->getModule()->getId())) {
@@ -98,7 +98,7 @@ class ListView extends Model
 		}
 
 		foreach ($massActionLinks as $massActionLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
@@ -106,7 +106,7 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of Vtiger_Field_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -118,17 +118,17 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
 	{
 		$reportFolderModel = Reports_Folder_Model::getInstance();
 		$reportFolderModel->set('folderid', $this->get('folderid'));
 
 		$orderBy = $this->get('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}

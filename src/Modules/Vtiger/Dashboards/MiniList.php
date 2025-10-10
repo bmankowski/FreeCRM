@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class MiniList extends View
+class MiniList extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
@@ -31,13 +31,13 @@ class MiniList extends View
 			$widgetId = $request->get('widgetid');
 		}
 
-		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 
-		$minilistWidgetModel = new Vtiger_MiniList_Model();
+		$minilistWidgetModel = new \FreeCRM\Modules\Vtiger\Models\MiniList();
 		$minilistWidgetModel->setWidgetModel($widget);
 
 		$viewer->assign('WIDGET', $widget);

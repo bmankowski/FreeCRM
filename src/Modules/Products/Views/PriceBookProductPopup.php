@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Products\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class PriceBookProductPopup extends View
+class PriceBookProductPopup extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -24,7 +24,7 @@ class PriceBookProductPopup extends View
 
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('PriceBookProductPopup.tpl', 'Products');
 	}
@@ -32,7 +32,7 @@ class PriceBookProductPopup extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -75,11 +75,11 @@ class PriceBookProductPopup extends View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName);
 
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
@@ -95,7 +95,7 @@ class PriceBookProductPopup extends View
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
 			$listViewModel->set('src_record', $sourceRecord);
-			$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			$sourceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			$currencyId = $sourceRecordModel->get('currency_id');
 		}
 		if ((!empty($searchKey)) && (!empty($searchValue))) {

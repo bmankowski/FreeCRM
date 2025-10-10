@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OSSMail\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Mail extends Model
+class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $mailAccount = [];
@@ -57,7 +57,7 @@ class Mail extends Model
 		$ccEmailUser = $this->findEmailUser($this->get('ccaddress'));
 		$bccEmailUser = $this->findEmailUser($this->get('bccaddress'));
 		$notFound = $toEmailUser['notFound'] + $ccEmailUser['notFound'] + $bccEmailUser['notFound'];
-		$identities = OSSMailScanner_Record_Model::getIdentities($account['user_id']);
+		$identities = \FreeCRM\Modules\OSSMailScanner\Models\Record::getIdentities($account['user_id']);
 		$type = false;
 		foreach ($identities as $identitie) {
 			if ($identitie['email'] == $this->get('fromaddress')) {
@@ -147,7 +147,7 @@ class Mail extends Model
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$return = [];
 		$emails = $this->get($field);
-		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
+		$emailSearchList = \FreeCRM\Modules\OSSMailScanner\Models\Record::getEmailSearchList();
 
 		if (empty($emails)) {
 			return [];

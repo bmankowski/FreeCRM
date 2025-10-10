@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class MergeRecord extends View
+class MergeRecord extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -21,11 +21,11 @@ class MergeRecord extends View
 		$records = $request->get('records');
 		$records = explode(',', $records);
 		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 		$fieldModels = $moduleModel->getFields();
 
 		foreach ($records as $record) {
-			$recordModels[] = Vtiger_Record_Model::getInstanceById($record);
+			$recordModels[] = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORDS', $records);

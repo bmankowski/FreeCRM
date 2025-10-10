@@ -17,7 +17,7 @@ class Autologin {
 	public static function getAutologinUsers()
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$user_id = $currentUserModel->getId();
 		$users = [];
 		$sql = 'SELECT rcuser_id, crmuser_id, username, password FROM roundcube_users_autologin '

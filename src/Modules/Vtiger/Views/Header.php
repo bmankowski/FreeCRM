@@ -51,13 +51,13 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 
 	/**
 	 * Function to get the list of Header Links
-	 * @return <Array> - List of Vtiger_Link_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getMenuHeaderLinks(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userModel = Users_Record_Model::getCurrentUserModel();
+		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$headerLinks = [];
-		if (Users_Module_Model::getSwitchUsers()) {
+		if (\FreeCRM\Modules\Users\Models\Module::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
@@ -102,18 +102,18 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
-			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($headerLink);
+			$headerLinkInstance = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
 			if (isset($headerLink['childlinks'])) {
 				foreach ($headerLink['childlinks'] as $childLink) {
-					$headerLinkInstance->addChildLink(Vtiger_Link_Model::getInstanceFromValues($childLink));
+					$headerLinkInstance->addChildLink(\FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($childLink));
 				}
 			}
 			$headerLinkInstances[] = $headerLinkInstance;
 		}
-		$headerLinks = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
+		$headerLinks = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
 		foreach ($headerLinks as $headerType => $headerLinks) {
 			foreach ($headerLinks as $headerLink) {
-				$headerLinkInstances[] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
+				$headerLinkInstances[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromLinkObject($headerLink);
 			}
 		}
 		return $headerLinkInstances;
@@ -122,16 +122,16 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
+		$headerScripts = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
 		foreach ($headerScripts as $headerType => $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
-					$headerScriptInstances[] = Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
+					$headerScriptInstances[] = \FreeCRM\Runtime\Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
 				}
 			}
 		}
@@ -141,7 +141,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_CssScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -150,15 +150,15 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		$baseStyleCssPath = $this->checkAndConvertCssStyles(['~' . $baseStyleCssPath]);
 		$headerCssInstances = array_merge($headerCssInstances, $baseStyleCssPath);
 
-		$headerCss = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
+		$headerCss = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
-		$cssScriptModel = new Vtiger_CssScript_Model();
+		$cssScriptModel = new \FreeCRM\Runtime\Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
 		foreach ($headerCss as $headerType => $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($cssLink->linkurl)) {
-					$headerCssInstances[] = Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
+					$headerCssInstances[] = \FreeCRM\Runtime\Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
 				}
 			}
 		}

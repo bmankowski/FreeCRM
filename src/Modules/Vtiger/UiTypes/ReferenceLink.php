@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ReferenceLink extends UIType
+class ReferenceLink extends Base
 {
 
 	public function isAjaxEditable()

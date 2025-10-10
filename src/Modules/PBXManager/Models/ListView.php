@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
 /**
  * PBXManager ListView Model Class
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
@@ -30,11 +30,11 @@ class ListView extends Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
@@ -46,7 +46,7 @@ class ListView extends Model
 			);
 
 			foreach ($massActionLinks as $massActionLink) {
-				$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+				$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 			}
 		}
 
@@ -56,7 +56,7 @@ class ListView extends Model
 	/**
 	 * Overrided to add HTML content for callstatus irrespective of the filters
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
+	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setField('direction');

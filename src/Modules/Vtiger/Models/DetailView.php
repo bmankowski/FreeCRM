@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $module = false;
@@ -31,8 +31,8 @@ class DetailView extends Model
 
 	/**
 	 * Function to set the module instance
-	 * @param Vtiger_Module_Model $moduleInstance - module model
-	 * @return Vtiger_DetailView_Model>
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleInstance - module model
+	 * @return \FreeCRM\Modules\Vtiger\Models\DetailView>
 	 */
 	public function setModule($moduleInstance)
 	{
@@ -42,7 +42,7 @@ class DetailView extends Model
 
 	/**
 	 * Function to get the Record model
-	 * @return <Vtiger_Record_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\Record>
 	 */
 	public function getRecord()
 	{
@@ -79,10 +79,10 @@ class DetailView extends Model
 
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
 			$adb = \FreeCRM\database\PearDatabase::getInstance();
-			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
-			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
-			$wfs = new VTWorkflowManager($adb);
-			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
+			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
+			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
+			$wfs = new \VTWorkflowManager($adb);
+			$workflows = $wfs->getWorkflowsForModule($moduleName, \VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
@@ -109,7 +109,7 @@ class DetailView extends Model
 			}
 		}
 		if (\FreeCRM\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
-			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+			$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordId, $moduleName);
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {
 				$class = 'btn-info';
@@ -124,7 +124,7 @@ class DetailView extends Model
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
 			];
 		}
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
@@ -135,12 +135,12 @@ class DetailView extends Model
 			];
 		}
 		foreach ($detailViewLinks as $detailViewLink) {
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+			$linkModelList['DETAILVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 		}
 		$fieldToupdate = \FreeCRM\AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
 		if ($recordModel->isEditable() && !empty($fieldToupdate)) {
 			foreach ($fieldToupdate as $fieldLabel => $fieldName) {
-				if (App\Field::getFieldPermission($moduleName, $fieldName)) {
+				if (\App\Field::getFieldPermission($moduleName, $fieldName)) {
 					$editViewLinks = [
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
@@ -149,7 +149,7 @@ class DetailView extends Model
 						'linkhint' => LanguageTranslator::translate('LBL_UPDATE_FIELD', $moduleName) . ' ' . LanguageTranslator::translate($fieldLabel, $moduleName),
 						'linkclass' => 'btn-warning',
 					];
-					$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
+					$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($editViewLinks);
 				}
 			}
 		}
@@ -162,7 +162,7 @@ class DetailView extends Model
 				'linkclass' => 'btn',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($editViewLinks);
 		}
 
 		if (($recordModel->isEditable() && $recordModel->editFieldByModalPermission() ) || $recordModel->editFieldByModalPermission(true)) {
@@ -175,7 +175,7 @@ class DetailView extends Model
 				'linkicon' => 'glyphicon ' . $fieldByEditData['iconClass'],
 				'linkclass' => 'showModal ' . $fieldByEditData['addClass']
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 
 		if ($recordModel->isDeletable()) {
@@ -186,7 +186,7 @@ class DetailView extends Model
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'title' => vtranslate('LBL_DELETE_RECORD')
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {
 			$duplicateLinkModel = array(
@@ -196,9 +196,9 @@ class DetailView extends Model
 				'linkicon' => 'glyphicon glyphicon-duplicate',
 				'title' => vtranslate('LBL_DUPLICATE_RECORD')
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($duplicateLinkModel);
 		}
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+		if (!\Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
@@ -209,17 +209,17 @@ class DetailView extends Model
 					'linkicon' => 'glyphicon glyphicon-save-file',
 					'title' => vtranslate('LBL_EXPORT_PDF')
 				];
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfLink);
+				$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($pdfLink);
 			}
 		}
 
 		$relatedLinks = $this->getDetailViewRelatedLinks();
 		foreach ($relatedLinks as &$relatedLinkEntry) {
-			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
+			$relatedLink = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($relatedLinkEntry);
 			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
 
-		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAILVIEWTAB'], $linkParams);
+		$allLinks = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAILVIEWTAB'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => &$allLinksByType) {
 				foreach ($allLinksByType as &$linkModel) {
@@ -263,7 +263,7 @@ class DetailView extends Model
 			'related' => 'Details'
 		);
 
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
@@ -337,17 +337,17 @@ class DetailView extends Model
 	/**
 	 * Function to get the Quick Links for the Detail view of the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @return <Array> List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$moduleLinks = $this->getModule()->getSideBarLinks($linkTypes);
 
 		$listLinkTypes = array('DETAILVIEWSIDEBARLINK', 'DETAILVIEWSIDEBARWIDGET');
-		$listLinks = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $listLinkTypes);
+		$listLinks = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), $listLinkTypes);
 
 		if ($listLinks['DETAILVIEWSIDEBARLINK']) {
 			foreach ($listLinks['DETAILVIEWSIDEBARLINK'] as $link) {
@@ -388,15 +388,15 @@ class DetailView extends Model
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <Vtiger_DetailView_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\DetailView>
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
 		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
 

@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Announcements\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -25,7 +25,7 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$users = [];
 		foreach ($moduleModel->getUsers() as $userId => $name) {

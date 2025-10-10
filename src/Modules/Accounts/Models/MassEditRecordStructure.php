@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Accounts\Models;
 /**
  * Mass Edit Record Structure Model
  */
-class MassEditRecordStructure extends Model
+class MassEditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 	/*
 	 * Function that return Field Restricted are not

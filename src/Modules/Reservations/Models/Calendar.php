@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Reservations\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends Model
+class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public function getEntity()
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$module = 'Reservations';
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$query = (new \App\Db\Query())->from('vtiger_reservations')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_reservations.reservationsid')
 			->innerJoin('vtiger_reservationscf', 'vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid')

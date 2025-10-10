@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Accounts;
  */
 class HeaderField {
 
-	public function process(Vtiger_DetailView_Model $viewModel)
+	public function process(\FreeCRM\Modules\Vtiger\Models\DetailView $viewModel)
 	{
 		$row = (new \App\Db\Query())->select('MAX(saledate) AS date, SUM(sum_total) as total')->from('u_#__finvoice')
 			->innerJoin('vtiger_crmentity', 'u_#__finvoice.finvoiceid = vtiger_crmentity.crmid')

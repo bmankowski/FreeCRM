@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\PriceBooks\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ProductPriceBookPopupAjax extends View
+class ProductPriceBookPopupAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -23,7 +23,7 @@ class ProductPriceBookPopupAjax extends View
 		$this->initializeListViewContents($request, $viewer);
 
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		echo $viewer->view('ProductPriceBookPopupContents.tpl', 'PriceBooks', true);
 	}

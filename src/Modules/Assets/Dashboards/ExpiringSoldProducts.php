@@ -15,15 +15,15 @@ namespace FreeCRM\Modules\Assets\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class ExpiringSoldProducts extends View
+class ExpiringSoldProducts extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($request->get('linkid'), $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('RELATED_MODULE', 'Assets');
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -44,15 +44,15 @@ class ExpiringSoldProducts extends View
 		if (!empty($widget->get('limit'))) {
 			$limit = $widget->get('limit');
 		}
-		$queryGenerator = new App\QueryGenerator('Assets');
+		$queryGenerator = new \App\QueryGenerator('Assets');
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->createQuery();
 		$showtype = $request->get('showtype');
 		if ($showtype === 'common') {
-			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => App\User::getCurrentUserId()])->distinct('crmid');
+			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => \App\User::getCurrentUserId()])->distinct('crmid');
 			$query->andWhere(['in', 'vtiger_crmentity.smownerid', $subQuery]);
 		} else {
-			$query->andWhere(['vtiger_crmentity.smownerid' => App\User::getCurrentUserId()]);
+			$query->andWhere(['vtiger_crmentity.smownerid' => \App\User::getCurrentUserId()]);
 		}
 		$query->orderBy('vtiger_assets.dateinservice');
 		$query->limit($limit);

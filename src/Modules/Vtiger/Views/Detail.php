@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\Http\Vtiger_Request;
 use FreeCRM\AppConfig;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	protected $record = false;
@@ -50,7 +50,7 @@ class Detail extends View
 		if (!is_numeric($recordId)) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = \Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
@@ -70,10 +70,10 @@ class Detail extends View
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		$this->recordStructure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = [];
 		// Take first block information as summary information
 		$stucturedValues = $this->recordStructure->getStructure();
@@ -83,7 +83,7 @@ class Detail extends View
 			break;
 		}
 
-		$eventHandler = new App\EventHandler();
+		$eventHandler = new \App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('DetailViewBefore');
@@ -98,7 +98,7 @@ class Detail extends View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		$viewer->assign('NO_PAGINATION', true);
-		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel));
+		$viewer->assign('COLORLISTHANDLERS', \Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel));
 
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
@@ -136,7 +136,7 @@ class Detail extends View
 		if (!empty($nextRecordId)) {
 			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
 		}
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$selectedTabLabel = $request->get('tab_label');
 		$requestMode = $request->get('requestMode');
 		$mode = $request->getMode();
@@ -163,7 +163,7 @@ class Detail extends View
 		if (isset($detailViewLinks['DETAILVIEWTAB']) && is_array($detailViewLinks['DETAILVIEWTAB'])) {
 			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() == $selectedTabLabel) {
-					$params = vtlib\Functions::getQueryParams($link->getUrl());
+					$params = \vtlib\Functions::getQueryParams($link->getUrl());
 					$this->defaultMode = $params['mode'];
 					break;
 				}
@@ -184,7 +184,7 @@ class Detail extends View
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 
 		if ($display) {
@@ -207,11 +207,11 @@ class Detail extends View
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode == 'showDetailViewByMode') {
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
+			$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
@@ -227,7 +227,7 @@ class Detail extends View
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
@@ -290,11 +290,11 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		if (!$this->recordStructure) {
-			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+			$this->recordStructure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		}
 		$structuredValues = $this->recordStructure->getStructure();
 
@@ -305,7 +305,7 @@ class Detail extends View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
@@ -318,16 +318,16 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
+		$recordStrucure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
 
 		$moduleModel = $recordModel->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
@@ -349,7 +349,7 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
@@ -360,13 +360,13 @@ class Detail extends View
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW', $request->get('view'));
 
 		if (!$this->recordStructure) {
-			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+			$this->recordStructure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		}
 		$structuredValues = $this->recordStructure->getStructure();
 
@@ -399,7 +399,7 @@ class Detail extends View
 			$pageNumber = 1;
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
@@ -410,16 +410,16 @@ class Detail extends View
 		if (!empty($whereCondition)) {
 			$type = is_array($whereCondition) ? current($whereCondition) : $whereCondition;
 		}
-		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel, $type);
+		$recentActivities = \FreeCRM\Modules\ModTracker\Models\Record::getUpdates($parentRecordId, $pagingModel, $type);
 		$pagingModel->calculatePageRange(count($recentActivities));
 
-		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId, $type) / $pagingModel->getPageLimit())) {
+		if ($pagingModel->getCurrentPage() == ceil(\FreeCRM\Modules\ModTracker\Models\Record::getTotalRecordCount($parentRecordId, $type) / $pagingModel->getPageLimit())) {
 			$pagingModel->set('nextPageExists', false);
 		} else {
 			$pagingModel->set('nextPageExists', true);
 		}
 		if ($type == 'changes') {
-			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+			$newChange = $request->has('newChange') ? $request->get('newChange') : \FreeCRM\Modules\ModTracker\Models\Record::isNewChange($parentRecordId);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
@@ -427,7 +427,7 @@ class Detail extends View
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
+		$viewer->assign('MODULE_MODEL', \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName));
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
@@ -459,16 +459,16 @@ class Detail extends View
 			$pageNumber = 1;
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
 
-		$recentComments = ModComments_Record_Model::getRecentComments($parentId, $pagingModel);
+		$recentComments = \FreeCRM\Modules\ModComments\Models\Record::getRecentComments($parentId, $pagingModel);
 		$pagingModel->calculatePageRange(count($recentComments));
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COMMENTS', $recentComments);
@@ -513,10 +513,10 @@ class Detail extends View
 	public function showChildComments(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$parentCommentId = $request->get('commentid');
-		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
+		$parentCommentModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
@@ -537,9 +537,9 @@ class Detail extends View
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
 		$moduleName = $request->getModule();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
-		$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$parentCommentModels = \FreeCRM\Modules\ModComments\Models\Record::getAllParentComments($parentRecordId);
+		$currentCommentModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($commentRecordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
@@ -563,12 +563,12 @@ class Detail extends View
 			$hierarchy = explode(',', $request->get('hierarchy'));
 		}
 		$moduleName = $request->getModule();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
+		$parentCommentModels = \FreeCRM\Modules\ModComments\Models\Record::getAllParentComments($parentRecordId, $hierarchy);
 		$currentCommentModel = [];
 		if (!empty($commentRecordId)) {
-			$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
+			$currentCommentModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($commentRecordId);
 		}
 
 		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
@@ -595,7 +595,7 @@ class Detail extends View
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param Vtiger_Record_Model record model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)
@@ -611,7 +611,7 @@ class Detail extends View
 	public function getActivities(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = 'Calendar';
-		$currentUserPriviligesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			$moduleName = $request->getModule();
 			$recordId = $request->get('record');
@@ -623,7 +623,7 @@ class Detail extends View
 			if (empty($pageNumber)) {
 				$pageNumber = 1;
 			}
-			$pagingModel = new Vtiger_Paging_Model();
+			$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 			$pagingModel->set('page', $pageNumber);
 			$pagingModel->set('orderby', $orderBy);
 			$pagingModel->set('sortorder', $sortOrder);
@@ -636,7 +636,7 @@ class Detail extends View
 				$pagingModel->set('limit', 10);
 			}
 			if (!$this->record) {
-				$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+				$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 			}
 			$recordModel = $this->record->getRecord();
 			$moduleModel = $recordModel->getModule();
@@ -645,7 +645,7 @@ class Detail extends View
 
 			$colorList = [];
 			foreach ($relatedActivities as $activityModel) {
-				$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+				$colorList[$activityModel->getId()] = \Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 			}
 			$viewer = $this->getViewer($request);
 			$viewer->assign('RECORD', $recordModel);
@@ -681,7 +681,7 @@ class Detail extends View
 			$pageNumber = 1;
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
@@ -697,15 +697,15 @@ class Detail extends View
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			if (is_numeric($relatedModuleName))
-				$relatedModuleName = vtlib\Functions::getModuleName($relatedModuleName);
+				$relatedModuleName = \vtlib\Functions::getModuleName($relatedModuleName);
 			$relatedInstance = \FreeCRM\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$relationModel = $relationListView->getRelationModel();
-		if ($relationModel->isFavorites() && \Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
+		if ($relationModel->isFavorites() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
 				$relationListView->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $favorites]);
@@ -726,12 +726,13 @@ class Detail extends View
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 
-		if ($columns) {
-			$header = array_splice($header, 0, $columns);
-		}
-		foreach ($models as $record) {
-			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
-		}
+	if ($columns) {
+		$header = array_splice($header, 0, $columns);
+	}
+	$colorList = [];
+	foreach ($models as $record) {
+		$colorList[$record->getId()] = \Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+	}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
@@ -741,7 +742,7 @@ class Detail extends View
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
@@ -781,8 +782,8 @@ class Detail extends View
 		$parentId = $request->get('record');
 		$relatedModuleName = $request->get('relatedModule');
 
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$relationModel = $relationListView->getRelationModel();
 
 		$header = $relationListView->getTreeHeaders();
@@ -796,7 +797,7 @@ class Detail extends View
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('SHOW_CREATOR_DETAIL', (bool) $relationModel->get('creator_detail'));
 		$viewer->assign('SHOW_COMMENT', (bool) $relationModel->get('relation_comment'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, true);
 	}
@@ -807,7 +808,7 @@ class Detail extends View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 
@@ -819,12 +820,12 @@ class Detail extends View
 		$viewer->assign('RECORD', $recordModel);
 
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 'no_limit');
 		if (!$this->recordStructure) {
-			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+			$this->recordStructure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		}
 		$structuredValues = $this->recordStructure->getStructure();
 
@@ -853,10 +854,10 @@ class Detail extends View
 		if (empty($limitPage)) {
 			$limitPage = 10;
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
-		$config = OSSMail_Module_Model::getComposeParameters();
+		$config = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParameters();
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);

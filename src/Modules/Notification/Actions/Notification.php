@@ -17,17 +17,17 @@ class Notification extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$id = $request->get('id');
 		if (!empty($id)) {
 			$notice = Notification_NoticeEntries_Model::getInstanceById($id);
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		$mode = $request->getMode();
-		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Notification', 'CreateView')) {
+		if ($mode == 'createMessage' && !\FreeCRM\Modules\Users\Models\Privileges::isPermitted('Notification', 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
+		} elseif ($mode == 'createMail' && (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !\FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
+		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !\FreeCRM\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -43,7 +43,7 @@ class Notification extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('createMail');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -53,23 +53,23 @@ class Notification extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
-	public function setMark(Vtiger_Request $request)
+	public function setMark(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$ids = $request->get('ids');
 		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id);
 			$recordModel->setMarked();
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
-	public function saveWatchingModules(Vtiger_Request $request)
+	public function saveWatchingModules(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$selectedModules = $request->get('selctedModules');
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
@@ -91,7 +91,7 @@ class Notification extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		Vtiger_Watchdog_Model::reloadCache();
 	}
 
-	public function createMail(Vtiger_Request $request)
+	public function createMail(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$content = $request->get('message');
@@ -114,7 +114,7 @@ class Notification extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

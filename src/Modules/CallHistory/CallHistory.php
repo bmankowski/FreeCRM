@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\CallHistory;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class CallHistory extends Vtiger_CRMEntity
+class CallHistory extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_callhistory';

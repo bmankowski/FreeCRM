@@ -10,14 +10,14 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class TreeRecords extends View
+class TreeRecords extends \Vtiger_Index_View
 {
 
 	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$treeViewModel = \FreeCRM\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
 		$pageTitle = vtranslate($treeViewModel->getName(), $moduleName);
 		return $pageTitle;
 	}
@@ -26,8 +26,8 @@ class TreeRecords extends View
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$treeViewModel = \FreeCRM\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
 
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
@@ -40,7 +40,7 @@ class TreeRecords extends View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
+		$viewer->assign('CUSTOM_VIEWS', \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
 		if ($display) {
 			$this->postProcessDisplay($request);
 		}
@@ -63,12 +63,12 @@ class TreeRecords extends View
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$treeViewModel = \FreeCRM\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
+		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $filter);
 		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
 
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);

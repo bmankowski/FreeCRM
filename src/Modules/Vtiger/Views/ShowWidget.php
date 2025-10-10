@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ShowWidget extends View
+class ShowWidget extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
 		$componentName = $request->get('name');
@@ -30,7 +30,7 @@ class ShowWidget extends View
 			if (!empty($className)) {
 				$widget = NULL;
 				if (!empty($linkId)) {
-					$widget = new Vtiger_Widget_Model();
+					$widget = new \FreeCRM\Modules\Vtiger\Models\Widget();
 					$widget->set('linkid', $linkId);
 					$widget->set('userid', $currentUser->getId());
 					$widget->set('widgetid', $id);

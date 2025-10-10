@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\HelpDesk\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -58,9 +58,9 @@ class Record extends Model
 		}
 		$closedTime = $recordModel->get('closedtime');
 		if (!empty($closedTime) && $recordModel->has('report_time')) {
-			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($recordModel->get('createdtime'), $closedTime));
+			$timeMinutesRange = round(\vtlib\Functions::getDateTimeMinutesDiff($recordModel->get('createdtime'), $closedTime));
 			if (!empty($timeMinutesRange)) {
-				App\Db::getInstance()->createCommand()
+				\App\Db::getInstance()->createCommand()
 					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])
 					->execute();
 			}

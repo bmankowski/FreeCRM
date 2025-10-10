@@ -24,7 +24,7 @@ class TextParser extends \App\TextParser\Base
 	public function process()
 	{
 		$html = '';
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$relationModuleName = 'Products';
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
@@ -58,7 +58,7 @@ class TextParser extends \App\TextParser\Base
 			$storageIdsArray[] = $storageId;
 			if (is_array($storageInfo) && intval($storageId) && $storageId != $this->textParser->record) {
 				// Getting storage products if it is child of main storage
-				$storageRecordModel = Vtiger_Record_Model::getInstanceById($storageId);
+				$storageRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($storageId);
 				$storageRelationListView = Vtiger_RelationListView_Model::getInstance($storageRecordModel, $relationModuleName);
 				$allEntries[$storageId] = $storageRelationListView->getEntries($pagingModel);
 			}
@@ -130,7 +130,7 @@ class TextParser extends \App\TextParser\Base
 			foreach ($allEntries as $entries) {
 				foreach ($entries as $entry) {
 					$entryId = $entry->getId();
-					$entryRecordModel = Vtiger_Record_Model::getInstanceById($entryId, $relationModuleName);
+					$entryRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
 					$productId = $entryRecordModel->get('id');
 					if (isset($productsQty[$productId]) && in_array($productId, $productsInTable) === false) {
 						$storagesQtyString = '[';

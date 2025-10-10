@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Assets\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class GetHierarchy extends View
+class GetHierarchy extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -19,10 +19,10 @@ class GetHierarchy extends View
 		$hierarchyModuleName = 'Accounts';
 
 		if (!empty($moduleName)) {
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$permissionHierarchyModule = $userPrivilegesModel->hasModulePermission($hierarchyModuleName);
 
 			if (!$permission || !$permissionHierarchyModule) {
@@ -57,7 +57,7 @@ class GetHierarchy extends View
 				preg_match('/[.\s]+/', $link, $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance($hierarchyModuleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($hierarchyModuleName);
 				$recordModel->setId($accountId);
 				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . $name[2];
 			}

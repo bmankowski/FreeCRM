@@ -8,9 +8,9 @@ namespace FreeCRM\Modules\IStorages;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class IStorages extends Vtiger_CRMEntity
+class IStorages extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_istorages';
@@ -159,7 +159,7 @@ class IStorages extends Vtiger_CRMEntity
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
+		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
 		$listColumns = \FreeCRM\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {

@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Campaigns\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Relation extends Model
+class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 {
 
 	/**

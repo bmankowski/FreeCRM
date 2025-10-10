@@ -58,7 +58,7 @@ class Notification {
 	{
 		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule($userId, true);
 		$modules = $scheduleData['modules'];
-		return Notification_Module_Model::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
+		return \FreeCRM\Modules\Notification\Models\Module::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Notification {
 		foreach ($notifications as $userId => $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, 0, \FreeCRM\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
-				$notice = Vtiger_Record_Model::getInstanceById($noticeId);
+				$notice = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($noticeId);
 				$notice->setMarked();
 			}
 		}

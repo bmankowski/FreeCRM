@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\HelpDesk\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -27,8 +27,8 @@ class Module extends Model
 		if (in_array($sourceModule, array('Assets', 'Project', 'ServiceContracts', 'Services'))) {
 			$queryGenerator->addNativeCondition([
 				'and',
-				['not in', 'vtiger_troubletickets.ticketid', (new App\Db\Query())->select(['relcrmid'])->from('vtiger_crmentityrel')->where(['crmid' => $record])],
-				['not in', 'vtiger_troubletickets.ticketid', (new App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['relcrmid' => $record])],
+				['not in', 'vtiger_troubletickets.ticketid', (new \App\Db\Query())->select(['relcrmid'])->from('vtiger_crmentityrel')->where(['crmid' => $record])],
+				['not in', 'vtiger_troubletickets.ticketid', (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['relcrmid' => $record])],
 			]);
 		}
 	}

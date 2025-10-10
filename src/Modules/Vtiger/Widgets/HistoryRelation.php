@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class HistoryRelation extends Widget
+class HistoryRelation extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	/**
@@ -64,10 +64,10 @@ class HistoryRelation extends Widget
 	/**
 	 * Function gets records for timeline widget
 	 * @param Vtiger_Request $request
-	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return array - List of records
 	 */
-	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(Vtiger_Request $request, \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$db = \App\Db::getInstance();
 		$recordId = $request->get('record');
@@ -94,21 +94,21 @@ class HistoryRelation extends Widget
 				$row['userModel'] = $groups[$row['user']];
 			} else {
 				$row['isGroup'] = false;
-				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
+				$row['userModel'] = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($row['user']);
 			}
 			$row['class'] = self::$colors[$row['type']];
 			if (strpos($row['type'], 'OSSMailView') !== false) {
 				$row['type'] = 'OSSMailView';
-				$row['url'] = Vtiger_Module_Model::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
+				$row['url'] = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
 			} else {
-				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
+				$row['url'] = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
-			$body = trim(App\Purifier::purify($row['body']));
+			$body = trim(\App\Purifier::purify($row['body']));
 			if (!$request->getBoolean('isFullscreen')) {
-				$body = vtlib\Functions::textLength($body, 100);
+				$body = \vtlib\Functions::textLength($body, 100);
 			} else {
-				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], decode_html(App\Purifier::purify($body)));
-				$body = nl2br(vtlib\Functions::textLength($body, 500), false);
+				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], decode_html(\App\Purifier::purify($body)));
+				$body = nl2br(\vtlib\Functions::textLength($body, 500), false);
 			}
 			$row['body'] = $body;
 			$history[] = $row;
@@ -127,7 +127,7 @@ class HistoryRelation extends Widget
 	{
 		$queries = [];
 		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		if (in_array('Calendar', $type)) {
 			$query = (new \App\Db\Query())
 				->select([

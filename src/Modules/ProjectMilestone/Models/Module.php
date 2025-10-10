@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\ProjectMilestone\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param Vtiger_ListView_Model $listviewModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\ListView $listviewModel
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, \App\QueryGenerator $queryGenerator)
+	public function getQueryByRelatedField(\FreeCRM\Modules\Vtiger\Models\ListView $listviewModel, \App\QueryGenerator $queryGenerator)
 	{
 		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
@@ -31,10 +31,10 @@ class Module extends Model
 
 	public function updateProgressMilestone($id)
 	{
-		if (!App\Record::isExists($id)) {
+		if (!\App\Record::isExists($id)) {
 			return;
 		}
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'estimated_work_time' => 'estimated_work_time',
 			'projecttaskprogress' => 'projecttaskprogress',
@@ -51,7 +51,7 @@ class Module extends Model
 			return;
 		}
 		$projectMilestoneProgress = round((100 * $progressInHours) / $estimatedWorkTime);
-		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $this->getName());
 		$recordModel->set('projectmilestone_progress', $projectMilestoneProgress . '%');
 		$recordModel->save();
 	}

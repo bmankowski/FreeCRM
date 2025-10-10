@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\SSalesProcesses\Dashboards;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class TeamsEstimatedSales extends View
+class TeamsEstimatedSales extends \Vtiger_Index_View
 {
 
 	/**
@@ -89,7 +89,7 @@ class TeamsEstimatedSales extends View
 		$linkId = $request->get('linkid');
 		$time = $request->get('time');
 		$compare = $request->get('compare') === 'true';
-		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
 		if (empty($time)) {
 			$time = ['start' => ''];
 			$date = new \DateTime();

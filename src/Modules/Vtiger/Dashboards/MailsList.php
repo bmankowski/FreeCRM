@@ -15,22 +15,22 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class MailsList extends View
+class MailsList extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$user = $request->get('user');
 		$linkId = $request->get('linkid');
 		$data = $request->getAll();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('USER', $user);
-		$viewer->assign('ACCOUNTSLIST', OSSMail_Record_Model::getAccountsList(false, true));
+		$viewer->assign('ACCOUNTSLIST', \FreeCRM\Modules\OSSMail\Models\Record::getAccountsList(false, true));
 		$viewer->assign('DATA', $data);
 		$content = $request->get('content');
 		if (!empty($content)) {

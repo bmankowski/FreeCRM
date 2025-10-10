@@ -11,14 +11,14 @@ namespace FreeCRM\Modules\Calendar\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_rfc2445.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_components.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_properties.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/iCalendar_parameters.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCal/ical-parser-class.php';
-require_once ROOT_DIRECTORY . '/modules/Calendar/iCalLastImport.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_rfc2445.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_components.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_properties.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_parameters.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/ical-parser-class.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCalLastImport.php';
 
-class Import extends View
+class Import extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -76,7 +76,7 @@ class Import extends View
 	 */
 	public function importResult(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -96,7 +96,7 @@ class Import extends View
 
 			$requiredFields = array();
 			$modules = array($eventModule, $todoModule);
-			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
+			$calendarModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 			foreach ($modules as $module) {
 				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
@@ -130,7 +130,7 @@ class Import extends View
 						$activityFieldsList['taskpriority'] = $priorityMap[$priorityval];
 				}
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 
@@ -180,7 +180,7 @@ class Import extends View
 	 */
 	public function undoImport(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->getModule();
 
 		$lastImport = new iCalLastImport();

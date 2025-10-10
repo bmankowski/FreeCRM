@@ -11,12 +11,12 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/Reports/Reports.php';
-require_once ROOT_DIRECTORY . '/modules/Reports/ReportRun.php';
-require_once('modules/Reports/ReportUtils.php');
+require_once ROOT_DIRECTORY . '/src/Modules/Reports/Reports.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportRun.php';
+require_once('src/Modules/Reports/ReportUtils.php');
 require_once('Report.php');
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -145,7 +145,7 @@ class Record extends Model
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
 		if ($db->num_rows($reportResult)) {
 			$values = $db->query_result_rowdata($reportResult, 0);
-			$module = Vtiger_Module_Model::getInstance('Reports');
+			$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Reports');
 			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
 			$self->initialize();
 		}
@@ -165,7 +165,7 @@ class Record extends Model
 			$self = self::getInstanceById($recordId);
 		}
 		$self->initialize();
-		$module = Vtiger_Module_Model::getInstance('Reports');
+		$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Reports');
 		$self->setModuleFromInstance($module);
 		return $self;
 	}
@@ -409,7 +409,7 @@ class Record extends Model
 	public function save()
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$reportId = $this->getId();
 		if (empty($reportId)) {
@@ -719,7 +719,7 @@ class Record extends Model
 
 	/**
 	 * Function returns report's data
-	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Paging> $pagingModel
 	 * @param string $filterQuery
 	 * @return <Array>
 	 */
@@ -1025,7 +1025,7 @@ class Record extends Model
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return <Array>
 	 */
 	public function generateData($pagingModel = false)
@@ -1036,7 +1036,7 @@ class Record extends Model
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return <Array>
 	 */
 	public function generateCalculationData()
@@ -1181,7 +1181,7 @@ class Record extends Model
 	{
 		$fields = $this->getPrimaryModuleFields();
 		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
+		$primaryModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($primaryModule);
 		$primaryModuleFieldInstances = $primaryModuleModel->getFields();
 
 		if (is_array($fields))
@@ -1217,7 +1217,7 @@ class Record extends Model
 			$secondaryModuleFieldInstances = array();
 			foreach ($secondaryModules as $secondaryModule) {
 				if (!empty($secondaryModule)) {
-					$secondaryModuleModel = Vtiger_Module_Model::getInstance($secondaryModule);
+					$secondaryModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($secondaryModule);
 					$secondaryModuleFieldInstances[$secondaryModule] = $secondaryModuleModel->getFields();
 				}
 			}

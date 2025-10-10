@@ -13,10 +13,10 @@ Class ModComments_Edit_View extends Vtiger_Edit_View
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		if (!empty($record) || !Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
+		if (!empty($record) || !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

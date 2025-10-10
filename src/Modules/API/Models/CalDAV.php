@@ -58,8 +58,8 @@ class CalDAV {
 					}
 				}
 				if ($sync) {
-					$orgUserId = App\User::getCurrentUserId();
-					App\User::setCurrentUserId($user->get('id'));
+					$orgUserId = \App\User::getCurrentUserId();
+					\App\User::setCurrentUserId($user->get('id'));
 					$currentUser = vglobal('current_user');
 					vglobal('current_user', $user);
 
@@ -71,7 +71,7 @@ class CalDAV {
 						$this->davUpdate($vcalendar);
 					}
 					vglobal('current_user', $currentUser);
-					App\User::setCurrentUserId($orgUserId);
+					\App\User::setCurrentUserId($orgUserId);
 				}
 			}
 		}
@@ -282,7 +282,7 @@ class CalDAV {
 				$deletes++;
 			} else {
 				if (strtotime($row['modifiedtime']) < $row['lastmodified']) { // Updating
-					$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
+					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($row['crmid']);
 					if ($this->recordUpdate($recordModel, $row))
 						$updates++;
 					$skipped++;
@@ -302,7 +302,7 @@ class CalDAV {
 			$type = (string) $component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
-				$record = Vtiger_Record_Model::getCleanInstance('Calendar');
+				$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Calendar');
 				$record->set('assigned_user_id', $this->user->get('id'));
 				$record->set('subject', (string) $component->SUMMARY);
 				$record->set('location', (string) $component->LOCATION);
@@ -586,7 +586,7 @@ class CalDAV {
 
 	protected function recordMarkComplete()
 	{
-		App\Db::getInstance()->createCommand()->update('vtiger_activity', [
+		\App\Db::getInstance()->createCommand()->update('vtiger_activity', [
 			'dav_status' => 0
 			], ['activityid' => $this->record['crmid']]
 		)->execute();
@@ -761,7 +761,7 @@ class CalDAV {
 		return $vt;
 	}
 
-	protected function recordSaveAttendee(Vtiger_Record_Model $record, Sabre\VObject\Component\VEvent $component)
+	protected function recordSaveAttendee(\FreeCRM\Modules\Vtiger\Models\Record $record, Sabre\VObject\Component\VEvent $component)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record->getId()]);
@@ -778,13 +778,13 @@ class CalDAV {
 		foreach ($attendees as &$attendee) {
 			$value = ltrim($attendee->getValue(), 'mailto:');
 			if ($attendee['ROLE']->getValue() == 'CHAIR') {
-				$users = App\Fields\Email::findCrmidByEmail($value, ['Users']);
+				$users = \App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
 					continue;
 				}
 			}
 			$crmid = 0;
-			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(\App\ModuleHierarchy::getModulesByLevel()));
+			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(\App\ModuleHierarchy::getModulesByLevel()));
 			if (!empty($records)) {
 				$record = reset($records);
 				$crmid = $record['crmid'];
@@ -821,7 +821,7 @@ class CalDAV {
 	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$owner = Users_Privileges_Model::getInstanceById($record['smownerid']);
+		$owner = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($record['smownerid']);
 
 		$invities = [];
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record['activityid']]);
@@ -857,7 +857,7 @@ class CalDAV {
 		}
 		foreach ($invities as &$row) {
 			$attendee = $vcalendar->createProperty('ATTENDEE', 'mailto:' . $row['email']);
-			$attendee->add('CN', vtlib\Functions::getCRMRecordLabel($row['crmid']));
+			$attendee->add('CN', \vtlib\Functions::getCRMRecordLabel($row['crmid']));
 			$attendee->add('ROLE', 'REQ-PARTICIPANT');
 			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
 			$attendee->add('RSVP', $row['status'] == '0' ? 'true' : 'false');

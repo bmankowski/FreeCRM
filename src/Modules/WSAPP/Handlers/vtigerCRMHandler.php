@@ -11,14 +11,14 @@ namespace FreeCRM\Modules\WSAPP\Handlers;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/modules/WSAPP/WSAPP.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/WSAPP.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Update.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Revise.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Handlers/SyncHandler.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Handlers/SyncHandler.php';
 
 class vtigerCRMHandler extends SyncHandler
 {

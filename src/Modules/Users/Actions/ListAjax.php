@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ListAjax extends Action
+class ListAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -19,17 +19,17 @@ class ListAjax extends Action
 		parent::__construct();
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

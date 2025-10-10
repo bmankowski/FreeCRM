@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Calendar Module Model Class
  */
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -84,12 +84,12 @@ class Module extends Model
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @return <Array> List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
 		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
 			[
@@ -121,7 +121,7 @@ class Module extends Model
 			];
 		}
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = [];
@@ -165,10 +165,10 @@ class Module extends Model
 		);
 
 		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 		}
 		foreach ($quickWidgetsRight as $quickWidgetRight) {
-			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidgetRight);
+			$links['SIDEBARWIDGETRIGHT'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidgetRight);
 		}
 
 		return $links;
@@ -189,11 +189,11 @@ class Module extends Model
 	 */
 	public function getExportQuery($focus = '', $where = '')
 	{
-		return (new App\Db\Query())->select(['vtiger_activity.*', 'vtiger_crmentity.description', 'assigned_user_id' => 'vtiger_crmentity.smownerid', 'vtiger_activity_reminder.reminder_time'])
+		return (new \App\Db\Query())->select(['vtiger_activity.*', 'vtiger_crmentity.description', 'assigned_user_id' => 'vtiger_crmentity.smownerid', 'vtiger_activity_reminder.reminder_time'])
 				->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
 				->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid')
-				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => App\User::getCurrentUserId()]);
+				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => \App\User::getCurrentUserId()]);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Module extends Model
 		$keysValuesToReplace = array('taskpriority' => 'priority');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
+			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
@@ -230,7 +230,7 @@ class Module extends Model
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
+			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
@@ -386,9 +386,9 @@ class Module extends Model
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = parent::getDeletedRecordCondition();
-		$nonAdminQuery .= Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
+		$nonAdminQuery .= \FreeCRM\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName());
 
 		$query = 'SELECT * FROM vtiger_crmentity ';
 		if ($nonAdminQuery) {
@@ -415,12 +415,12 @@ class Module extends Model
 	public static function getCalendarReminder($allReminder = false)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('Calendar');
-		$permissionToSendEmail = $permission && \FreeCRM\AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
+		$permissionToSendEmail = $permission && \FreeCRM\AppConfig::main('isActiveSendingMails') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail');
 		if (!empty($activityReminder)) {
 			$currentTime = time();
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
@@ -437,15 +437,15 @@ class Module extends Model
 			} else {
 				$query->where(['vtiger_activity_reminder_popup.status' => 0]);
 			}
-			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
+			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time])->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC]);
 
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
-					$url = "index.php?module=OSSMail&view=compose&mod=" . vtlib\Functions::getCRMRecordType($link) . "&record=$link";
+					$url = "index.php?module=OSSMail&view=compose&mod=" . \vtlib\Functions::getCRMRecordType($link) . "&record=$link";
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . vtranslate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;
@@ -457,7 +457,7 @@ class Module extends Model
 	/**
 	 * Function gives fields based on the type
 	 * @param string $type - field type
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Field> - list of field models
 	 */
 	public function getFieldsByType($type)
 	{
@@ -488,7 +488,7 @@ class Module extends Model
 	 */
 	public function getSettingLinks()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$settingLinks = [];
 
 		if ($currentUserModel->isAdminUser()) {
@@ -523,7 +523,7 @@ class Module extends Model
 	public static function getCalendarTypes()
 	{
 		$calendarConfig = ['Task'];
-		$eventConfig = App\Fields\Picklist::getPickListValues('activitytype');
+		$eventConfig = \App\Fields\Picklist::getPickListValues('activitytype');
 		if (is_array($eventConfig)) {
 			$calendarConfig = array_merge($calendarConfig, $eventConfig);
 		}
@@ -534,7 +534,7 @@ class Module extends Model
 	{
 		if ($data) {
 			$activityStatus = $data['activitystatus'];
-			if (in_array($activityStatus, Calendar_Module_Model::getComponentActivityStateLabel('history'))) {
+			if (in_array($activityStatus, \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history'))) {
 				return false;
 			}
 
@@ -549,7 +549,7 @@ class Module extends Model
 				$dBFomatedDate = DateTimeField::convertToDBFormat($userFormatedString);
 				$dates[$key] = strtotime($dBFomatedDate . " " . $timeFormatedString);
 			}
-			$activityStatusLabels = Calendar_Module_Model::getComponentActivityStateLabel();
+			$activityStatusLabels = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel();
 			if (!empty($data['activitystatus']) && isset($activityStatusLabels[$data['activitystatus']])) {
 				$state = $activityStatusLabels[$data['activitystatus']];
 			} else {
@@ -574,7 +574,7 @@ class Module extends Model
 	 */
 	public static function getComponentActivityStateLabel($key = '')
 	{
-		$pickListValues = App\Fields\Picklist::getPickListValues('activitystatus');
+		$pickListValues = \App\Fields\Picklist::getPickListValues('activitystatus');
 		if (!is_array($pickListValues)) {
 			return [];
 		}

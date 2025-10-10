@@ -17,9 +17,10 @@ class Vtiger_Loader
 	protected static $includeCache = [];
 	protected static $includePathCache = [];
 	protected static $loaderDirs = [
-		'custom.modules.',
-		'modules.',
-		'admin.modules.',
+		'src.Modules.',        // PSR-4 migrated modules (new location, first priority)
+		'custom.modules.',     // Custom module overrides
+		'old_modules.',        // Settings subsystem only (unmigrated)
+		'admin.modules.',      // Admin modules
 	];
 
 	/**
@@ -133,8 +134,14 @@ class Vtiger_Loader
 			}
 		}
 		// Build module specific file path and class name
-		$moduleSpecificComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+		// Try PSR-4 location first (src/Modules/)
+		$psr4ComponentFilePath = Vtiger_Loader::resolveNameToPath('src.Modules.' . $moduleDir . '.' . ucfirst($componentTypeDirectory) . '.' . $componentName);
 		$moduleSpecificComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
+		if (file_exists($psr4ComponentFilePath)) {
+			return $moduleSpecificComponentClassName;
+		}
+		// Fallback to legacy location (src/Modules/)
+		$moduleSpecificComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
 		if (file_exists($moduleSpecificComponentFilePath)) {
 			return $moduleSpecificComponentClassName;
 		}
@@ -142,9 +149,14 @@ class Vtiger_Loader
 
 		// Build first intermediate fall back file path and class name
 		if (!empty($firstFallBackDir) && !empty($firstFallBackClassPath)) {
-			$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $firstFallBackDir . '.' . $componentTypeDirectory . '.' . $componentName);
+			// Try PSR-4 location first
+			$psr4FallbackPath = Vtiger_Loader::resolveNameToPath('src.Modules.' . $firstFallBackDir . '.' . ucfirst($componentTypeDirectory) . '.' . $componentName);
 			$fallBackComponentClassName = $firstFallBackClassPath . '_' . $componentName . '_' . $componentType;
-
+			if (file_exists($psr4FallbackPath)) {
+				return $fallBackComponentClassName;
+			}
+			// Fallback to legacy location
+			$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $firstFallBackDir . '.' . $componentTypeDirectory . '.' . $componentName);
 			if (file_exists($fallBackComponentFilePath)) {
 				return $fallBackComponentClassName;
 			}
@@ -152,17 +164,28 @@ class Vtiger_Loader
 
 		// Build intermediate fall back file path and class name
 		if (!empty($secondFallBackModuleDir) && !empty($secondFallBackModuleClassPath)) {
-			$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $secondFallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+			// Try PSR-4 location first
+			$psr4FallbackPath = Vtiger_Loader::resolveNameToPath('src.Modules.' . $secondFallBackModuleDir . '.' . ucfirst($componentTypeDirectory) . '.' . $componentName);
 			$fallBackComponentClassName = $secondFallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
-
+			if (file_exists($psr4FallbackPath)) {
+				return $fallBackComponentClassName;
+			}
+			// Fallback to legacy location
+			$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $secondFallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
 			if (file_exists($fallBackComponentFilePath)) {
 				return $fallBackComponentClassName;
 			}
 		}
 
-		// Build fall back file path and class name
-		$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $fallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+		// Build fall back file path and class name (Vtiger base)
+		// Try PSR-4 location first
+		$psr4FallbackPath = Vtiger_Loader::resolveNameToPath('src.Modules.' . $fallBackModuleDir . '.' . ucfirst($componentTypeDirectory) . '.' . $componentName);
 		$fallBackComponentClassName = $fallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
+		if (file_exists($psr4FallbackPath)) {
+			return $fallBackComponentClassName;
+		}
+		// Fallback to legacy location
+		$fallBackComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $fallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
 		if (file_exists($fallBackComponentFilePath)) {
 			return $fallBackComponentClassName;
 		}
@@ -192,7 +215,14 @@ class Vtiger_Loader
 
 				$fileName = $parts[$noOfParts - 2];
 				$fileComponentName = strtolower($parts[$noOfParts - 1]) . 's';
-				$filePath .= $fileComponentName . '.' . $fileName;
+				
+				// For PSR-4 locations (src.Modules.*), use capitalized component names (Views, Actions, Models)
+				if (strpos($filePath, 'src.Modules.') === 0) {
+					$fileComponentNameCapitalized = ucfirst($fileComponentName);
+					$filePath .= $fileComponentNameCapitalized . '.' . $fileName;
+				} else {
+					$filePath .= $fileComponentName . '.' . $fileName;
+				}
 
 				if (file_exists(self::resolveNameToPath($filePath))) {
 					return Vtiger_Loader::includeOnce($filePath);

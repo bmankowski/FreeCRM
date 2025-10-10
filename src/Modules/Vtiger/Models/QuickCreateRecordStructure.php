@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger QuickCreate Record Structure Model
  */
-class QuickCreateRecordStructure extends Model
+class QuickCreateRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**
@@ -37,12 +37,12 @@ class QuickCreateRecordStructure extends Model
 			if (!empty($recordModelFieldValue)) {
 				$fieldModel->set('fieldvalue', $recordModelFieldValue);
 			} else if ($fieldName == 'activitystatus') {
-				$currentUserModel = Users_Record_Model::getCurrentUserModel();
+				$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 				$fieldValue = $defaulteventstatus;
 				$fieldModel->set('fieldvalue', $fieldValue);
 			} else if ($fieldName == 'activitytype') {
-				$currentUserModel = Users_Record_Model::getCurrentUserModel();
+				$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 				$fieldValue = $defaultactivitytype;
 				$fieldModel->set('fieldvalue', $fieldValue);

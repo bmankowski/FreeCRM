@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Currency extends UIType
+class Currency extends Base
 {
 
 	protected $edit = false;
@@ -52,7 +52,7 @@ class Currency extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -113,7 +113,7 @@ class Currency extends UIType
 		if ($uiType === 72 && $recordId) {
 			$moduleName = $this->get('field')->getModuleName();
 			if (!$moduleName)
-				$moduleName = vtlib\Functions::getCRMRecordType($recordId);
+				$moduleName = \vtlib\Functions::getCRMRecordType($recordId);
 			if ($this->get('field')->getName() === 'unit_price') {
 				$currencyId = getProductBaseCurrency($recordId, $moduleName);
 				$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);

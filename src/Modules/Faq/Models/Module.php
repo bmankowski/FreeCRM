@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Faq\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**

@@ -163,7 +163,7 @@ class HelpDesk extends \FreeCRM\CRMEntity
 	public function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 
 		if ($mode != 'edit') {//this will be updated when we create new ticket
 			$updatelog = "Ticket created. Assigned to ";

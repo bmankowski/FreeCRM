@@ -14,9 +14,9 @@ class CalendarHandler {
 
 	/**
 	 * EntityAfterSave function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		if (vtlib\Cron::isCronAction()) {
 			return false;
@@ -31,14 +31,14 @@ class CalendarHandler {
 				$ids[$recordModel->getPreviousValue($fieldName)] = $fieldName;
 			}
 		}
-		Calendar_Record_Model::setCrmActivity($ids);
+		\FreeCRM\Modules\Calendar\Models\Record::setCrmActivity($ids);
 	}
 
 	/**
 	 * EntityAfterRestore handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	public function entityAfterRestore(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		foreach (static::UPDATE_FIELDS as &$fieldName) {
@@ -46,32 +46,32 @@ class CalendarHandler {
 				$ids[$recordModel->get($fieldName)] = $fieldName;
 			}
 		}
-		Calendar_Record_Model::setCrmActivity($ids);
+		\FreeCRM\Modules\Calendar\Models\Record::setCrmActivity($ids);
 	}
 
 	/**
 	 * EntityAfterUnLink handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterUnLink(App\EventHandler $eventHandler)
+	public function entityAfterUnLink(\App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 		$fieldName = \App\ModuleHierarchy::getMappingRelatedField($params['sourceModule']);
-		Calendar_Record_Model::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
+		\FreeCRM\Modules\Calendar\Models\Record::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
 	}
 
 	/**
 	 * EntityBeforeSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityBeforeSave(App\EventHandler $eventHandler)
+	public function entityBeforeSave(\App\EventHandler $eventHandler)
 	{
 		if (vtlib\Cron::isCronAction()) {
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();
 		$data = $recordModel->getData();
-		$state = Calendar_Module_Model::getCalendarState($data);
+		$state = \FreeCRM\Modules\Calendar\Models\Module::getCalendarState($data);
 		if ($state) {
 			$recordModel->set('activitystatus', $state);
 		}

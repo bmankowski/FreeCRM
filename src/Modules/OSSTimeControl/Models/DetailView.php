@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 	
 }

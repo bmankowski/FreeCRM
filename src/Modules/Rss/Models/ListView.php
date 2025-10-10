@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Rss\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 	
 }

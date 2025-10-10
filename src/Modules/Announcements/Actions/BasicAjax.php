@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Announcements\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class BasicAjax extends Action
+class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -16,7 +16,7 @@ class BasicAjax extends Action
 		$this->exposeMethod('mark');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -25,21 +25,21 @@ class BasicAjax extends Action
 		}
 	}
 
-	public function mark(Vtiger_Request $request)
+	public function mark(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$state = $request->get('type');
 
-		$announcements = Vtiger_Module_Model::getInstance($moduleName);
+		$announcements = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$announcements->setMark($record, $state);
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($state);
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

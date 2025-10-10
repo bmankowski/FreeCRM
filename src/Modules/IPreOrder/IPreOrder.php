@@ -8,9 +8,9 @@ namespace FreeCRM\Modules\IPreOrder;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class IPreOrder extends Vtiger_CRMEntity
+class IPreOrder extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_ipreorder';

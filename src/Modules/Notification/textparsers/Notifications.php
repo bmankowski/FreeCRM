@@ -28,8 +28,8 @@ class TextParser extends \App\TextParser\Base
 		$scheduleData = \Vtiger_Watchdog_Model::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
 		$modules = $scheduleData['modules'];
 
-		$notificationInstance = \Notification_Module_Model::getInstance('Notification');
-		$entries = \Notification_Module_Model::getEmailSendEntries($this->textParser->getParam('userId'), $modules, $this->textParser->getParam('startDate'), $this->textParser->getParam('endDate'));
+		$notificationInstance = \FreeCRM\Modules\Notification\Models\Module::getInstance('Notification');
+		$entries = \FreeCRM\Modules\Notification\Models\Module::getEmailSendEntries($this->textParser->getParam('userId'), $modules, $this->textParser->getParam('startDate'), $this->textParser->getParam('endDate'));
 		$pattern = "/(?<=href=(\"|'))[^\"']+(?=(\"|'))/";
 		foreach ($notificationInstance->getTypes() as $typeId => $type) {
 			if (isset($entries[$typeId])) {

@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class FindDuplicatesAjax extends View
+class FindDuplicatesAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -37,7 +37,7 @@ class FindDuplicatesAjax extends View
 	  $searchKey = $request->get('search_key');
 	  $searchValue = $request->get('search_value');
 
-	  $listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+	  $listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 	  $listViewModel->set('search_key', $searchKey);
 	  $listViewModel->set('search_value', $searchValue);
 	  $listViewModel->set('operator', $request->get('operator'));
@@ -55,7 +55,7 @@ class FindDuplicatesAjax extends View
 	 */
 	/* function getPageCount(\FreeCRM\Http\Vtiger_Request $request){
 	  $listViewCount = $this->getListViewCount($request);
-	  $pagingModel = new Vtiger_Paging_Model();
+	  $pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 	  $pageLimit = $pagingModel->getPageLimit();
 	  $pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

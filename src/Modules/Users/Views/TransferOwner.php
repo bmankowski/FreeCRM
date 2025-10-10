@@ -13,12 +13,12 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class TransferOwner extends View
+class TransferOwner extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -30,7 +30,7 @@ class TransferOwner extends View
 		$moduleName = $request->getModule();
 		$userid = $request->get('record');
 
-		$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$usersList = $userRecordModel->getActiveAdminUsers(true);
 

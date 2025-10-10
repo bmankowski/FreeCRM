@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\SSalesProcesses\Dashboards;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class EstimatedValueByStatus extends View
+class EstimatedValueByStatus extends \Vtiger_Index_View
 {
 
 	/**
@@ -39,7 +39,7 @@ class EstimatedValueByStatus extends View
 	private function getEstimatedValue($owner = false)
 	{
 		$moduleName = 'SSalesProcesses';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$query = (new \App\Db\Query())->select('SUM(u_#__ssalesprocesses.estimated) AS estimated, u_#__ssalesprocesses.ssalesprocesses_status')
 			->from('u_yf_ssalesprocesses')
 			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
@@ -52,7 +52,7 @@ class EstimatedValueByStatus extends View
 		$dataReader = $query->createCommand()->query();
 		$data = [];
 		$i = 1;
-		$currencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
+		$currencyInfo = \vtlib\Functions::getDefaultCurrencyInfo();
 		while ($row = $dataReader->read()) {
 			$data [] = [
 				\LanguageTranslator::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
@@ -69,14 +69,14 @@ class EstimatedValueByStatus extends View
 	 */
 	public function process(\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
+			$owner = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
 		else
 			$owner = $request->get('owner');
 		if ($owner == 'all')

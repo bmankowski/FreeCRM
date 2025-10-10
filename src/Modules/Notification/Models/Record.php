@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Notification\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -129,13 +129,13 @@ class Record extends Model
 			$relatedModule = $relatedRecord['module'];
 		}
 		$notificationType = $this->get('notification_type');
-		if (!Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
-			\App\Log::warning('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
+			\App\Log::warning('User ' . \vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($notificationType !== 'PLL_USERS' && !Users_Privileges_Model::isPermitted($relatedModule, 'DetailView', $relatedId)) {
-			\App\Log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
+		if ($notificationType !== 'PLL_USERS' && !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($relatedModule, 'DetailView', $relatedId)) {
+			\App\Log::error('User ' . \vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
@@ -178,7 +178,7 @@ class Record extends Model
 		$icon = false;
 		switch ($this->get('notification_type')) {
 			case 'PLL_USERS':
-				$userModel = Users_Privileges_Model::getInstanceById($this->get('smcreatorid'));
+				$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->get('smcreatorid'));
 				$icon = [
 					'type' => 'image',
 					'title' => $userModel->getName(),
@@ -200,7 +200,7 @@ class Record extends Model
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
+	 * @return \FreeCRM\Modules\Vtiger\Models\Link[] - Associate array of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordListViewLinksLeftSide()
 	{
@@ -216,7 +216,7 @@ class Record extends Model
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

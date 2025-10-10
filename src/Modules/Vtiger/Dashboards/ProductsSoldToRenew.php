@@ -10,12 +10,12 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class ProductsSoldToRenew extends View
+class ProductsSoldToRenew extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
@@ -27,7 +27,7 @@ class ProductsSoldToRenew extends View
 			$widgetId = $request->get('widgetid');
 		}
 
-		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
 		$this->setWidgetModel($widget);
 		$data = $this->setData($data);
@@ -70,7 +70,7 @@ class ProductsSoldToRenew extends View
 	public function getTargetModuleModel()
 	{
 		if (!$this->targetModuleModel) {
-			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
+			$this->targetModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
 	}

@@ -14,19 +14,19 @@ namespace FreeCRM\Modules\Vtiger\Actions;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class RemoveWidget extends View
+class RemoveWidget extends \Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$linkId = $request->get('linkid');
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 
 		if ($request->has('widgetid')) {
-			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->get('widgetid'), $currentUser->getId());
+			$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($request->get('widgetid'), $currentUser->getId());
 		} else {
-			$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+			$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		}
 
 		if (!$widget->isDefault()) {
@@ -44,7 +44,7 @@ class RemoveWidget extends View
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

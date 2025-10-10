@@ -14,7 +14,7 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -28,7 +28,7 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('searchValues');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -37,7 +37,7 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function getOwners(Vtiger_Request $request)
+	public function getOwners(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$searchValue = $request->get('value');
 		$type = $request->get('type');
@@ -48,11 +48,11 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		$moduleName = $request->getModule();
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
-			$owner = App\Fields\Owner::getInstance($moduleName);
+			$owner = \App\Fields\Owner::getInstance($moduleName);
 			$owner->find($searchValue);
 
 			$data = [];
@@ -83,17 +83,17 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function searches for value data 
 	 * @param Vtiger_Request $request
 	 */
-	public function searchValues(Vtiger_Request $request)
+	public function searchValues(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$searchValue = $request->get('value');
 		$fieldId = (int) $request->get('fld');
 		$moduleName = $request->getModule();
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
 			if (\App\Field::getFieldPermission($moduleName, $fieldId) || $moduleName === 'Users') {
-				$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstanceFromFieldId($fieldId);
 				$rows = $fieldModel->getUITypeModel()->getSearchValues($searchValue);
 				foreach ($rows as $key => $value) {
 					$data[] = ['id' => $key, 'name' => $value];
@@ -106,12 +106,12 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function searchReference(Vtiger_Request $request)
+	public function searchReference(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$fieldId = $request->get('fid');
 		$searchValue = $request->get('value');
 
-		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+		$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstanceFromFieldId($fieldId);
 		$reference = $fieldModel->getReferenceList();
 		$rows = (new \App\RecordSearch($searchValue, $reference))->search();
 		$data = $modules = $ids = [];
@@ -126,7 +126,7 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$data[] = ['id' => $id, 'name' => $labels[$id]];
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(['items' => $data]);
 		$response->emit();
 	}

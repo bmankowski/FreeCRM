@@ -9,12 +9,12 @@ namespace FreeCRM\Modules\Users\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class SwitchUsers extends View
+class SwitchUsers extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!Users_Module_Model::getSwitchUsers()) {
+		if (!\FreeCRM\Modules\Users\Models\Module::getSwitchUsers()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -27,7 +27,7 @@ class SwitchUsers extends View
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$users = Users_Module_Model::getSwitchUsers(true);
+		$users = \FreeCRM\Modules\Users\Models\Module::getSwitchUsers(true);
 		$userId = $request->get('id');
 		$baseUserId = $userId;
 		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {

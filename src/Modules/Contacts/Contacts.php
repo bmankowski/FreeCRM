@@ -305,11 +305,11 @@ class Contacts extends \FreeCRM\CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module === 'Accounts') {
-			App\Db::getInstance()->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
+			\App\Db::getInstance()->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
 		} elseif ($return_module === 'Campaigns') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} elseif ($return_module === 'Vendors') {
-			$db = App\Db::getInstance();
+			$db = \App\Db::getInstance();
 			$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
 			$db->createCommand()->delete('vtiger_vendorcontactrel', ['vendorid' => $return_id, 'contactid' => $id])->execute();
 		} else {
@@ -326,13 +326,13 @@ class Contacts extends \FreeCRM\CRMEntity
 		} else {
 			foreach ($withCrmid as $id) {
 				if ($withModule === 'Campaigns') {
-					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+					\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $id,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 0
 					])->execute();
 				} else if ($withModule === 'Vendors') {
-					App\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
+					\App\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
 						'vendorid' => $id,
 						'contactid' => $crmid
 					])->execute();

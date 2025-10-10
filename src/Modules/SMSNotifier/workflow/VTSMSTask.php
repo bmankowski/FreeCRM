@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\SMSNotifier;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('modules/SMSNotifier/SMSNotifier.php');
+require_once('src/Modules/SMSNotifier/SMSNotifier.php');
 
 class VTSMSTask extends VTTask
 {
@@ -25,7 +25,7 @@ class VTSMSTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{

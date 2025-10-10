@@ -10,15 +10,15 @@ namespace FreeCRM\Modules\Notification\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class Notifications extends View
+class Notifications extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($request->get('linkid'), $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
 		$limit = (int) $widget->get('limit');
 		if (empty($limit)) {
 			$limit = 10;
@@ -28,7 +28,7 @@ class Notifications extends View
 		if (!empty($type)) {
 			$condition = ['u_#__notification.notification_type' => $type];
 		}
-		$notificationModel = Notification_Module_Model::getInstance($moduleName);
+		$notificationModel = \FreeCRM\Modules\Notification\Models\Module::getInstance($moduleName);
 		$notifications = $notificationModel->getEntries($limit, $condition);
 
 		$typesNotification = $notificationModel->getTypes();

@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow;
  * **************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
+require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 function vtJsonFields($adb, Vtiger_Request $request)
 {

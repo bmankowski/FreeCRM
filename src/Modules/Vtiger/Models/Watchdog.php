@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Watchdog extends Model
+class Watchdog extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	const RECORD_ACTIVE = 1;
@@ -260,7 +260,7 @@ class Watchdog extends Model
 	 */
 	public function lock($state, $member)
 	{
-		return App\Db::getInstance()
+		return \App\Db::getInstance()
 				->createCommand()
 				->update('u_#__watchdog_module', ['lock' => $state], ['member' => $member, 'module' => $this->get('moduleId')])
 				->execute();
@@ -321,7 +321,7 @@ class Watchdog extends Model
 		if (!$this->watchingUsers) {
 			$users = $this->getModuleUsers();
 			if ($this->has('record')) {
-				$dataReader = (new App\Db\Query())->select(['userid', 'state'])
+				$dataReader = (new \App\Db\Query())->select(['userid', 'state'])
 						->from('u_#__watchdog_record')
 						->where(['record' => (int) $this->get('record')])
 						->createCommand()->query();
@@ -354,7 +354,7 @@ class Watchdog extends Model
 	 */
 	public function getWatchingMembers($getData = false)
 	{
-		$query = (new App\Db\Query())
+		$query = (new \App\Db\Query())
 			->select(['member', 'lock', 'exceptions'])
 			->from('u_#__watchdog_module')
 			->where(['module' => (int) $this->get('moduleId')]);
@@ -391,7 +391,7 @@ class Watchdog extends Model
 	 */
 	public function getWatchingExceptions($member)
 	{
-		$exceptions = (new App\Db\Query())
+		$exceptions = (new \App\Db\Query())
 				->select(['exceptions'])
 				->from('u_#__watchdog_module')
 				->where(['module' => \App\Module::getModuleId($this->get('module')), 'member' => $member])->scalar();
@@ -404,7 +404,7 @@ class Watchdog extends Model
 	public static function reloadCache()
 	{
 		$members = $users = [];
-		$dataReader = (new App\Db\Query())->from('u_#__watchdog_module')->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from('u_#__watchdog_module')->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$type = explode(':', $row['member']);
 			$exceptions = explode(',', $row['exceptions']);
@@ -459,6 +459,6 @@ class Watchdog extends Model
 	 */
 	public static function getSupportedModules()
 	{
-		return Vtiger_Module_Model::getAll([0], ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments', 'Notification'], true);
+		return \FreeCRM\Modules\Vtiger\Models\Module::getAll([0], ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 }

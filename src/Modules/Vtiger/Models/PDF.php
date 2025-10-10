@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class PDF extends Model
+class PDF extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public static $baseTable = 'a_yf_pdf';
@@ -44,7 +44,7 @@ class PDF extends Model
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return \Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
 	}
 
 	public function get($key)
@@ -92,7 +92,7 @@ class PDF extends Model
 
 	public function getModule()
 	{
-		return Vtiger_Module_Model::getInstance($this->get('module_name'));
+		return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('module_name'));
 	}
 
 	/**
@@ -120,7 +120,7 @@ class PDF extends Model
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
+			$moduleName = \vtlib\Functions::getCRMRecordType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -169,7 +169,7 @@ class PDF extends Model
 	 * Get PDF instance by id
 	 * @param int $recordId
 	 * @param string $moduleName
-	 * @return Vtiger_PDF_Model|boolean
+	 * @return \FreeCRM\Modules\Vtiger\Models\PDF|boolean
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
@@ -238,9 +238,9 @@ class PDF extends Model
 		if (\App\Cache::staticHas(__METHOD__, $key)) {
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTJsonCondition.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
 		$conditionStrategy = new VTJsonCondition();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
 		$test = $conditionStrategy->evaluate($conditions, $recordModel);
 		\App\Cache::staticSave(__METHOD__, $key, $test);
@@ -253,7 +253,7 @@ class PDF extends Model
 		if (empty($permissions)) {
 			return true;
 		}
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$permissions = explode(',', $permissions);
 		$getTypes = [];
 		foreach ($permissions as $name) {
@@ -311,7 +311,7 @@ class PDF extends Model
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
 		} else {
-			$companyDetails = App\Company::getInstanceById()->getData();
+			$companyDetails = \App\Company::getInstanceById()->getData();
 			$parameters['title'] = $this->get('primary_name');
 			$parameters['author'] = $companyDetails['organizationname'];
 			$parameters['creator'] = $companyDetails['organizationname'];

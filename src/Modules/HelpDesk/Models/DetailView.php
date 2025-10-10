@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\HelpDesk\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -25,7 +25,7 @@ class DetailView extends Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Faq');
+		$quotesModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Faq');
 		if ($quotesModuleModel->isPermitted('DetailView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -33,7 +33,7 @@ class DetailView extends Model
 				'linkurl' => $recordModel->getConvertFAQUrl(),
 				'showLabel' => 1,
 			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 
 		return $linkModelList;
@@ -45,7 +45,7 @@ class DetailView extends Model
 		$moduleName = $recordModel->getModuleName();
 
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$parentModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		$parentModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

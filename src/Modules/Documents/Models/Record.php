@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public function getDownloadFileURL()
@@ -85,7 +85,7 @@ class Record extends Model
 
 	public function updateFileStatus($status)
 	{
-		App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
 	}
 
 	public function updateDownloadCount()

@@ -15,7 +15,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return array - List of Vtiger_JsScript_Model instances
+	 * @return array - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{
@@ -36,8 +36,8 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 	{
 		$viewer = $this->getViewer($request);
 		// check if passwords are encrypted
-		if (file_exists('modules/OSSPasswords/config.ini')) {   // encryption key exists so passwords are encrypted
-			$config = parse_ini_file('modules/OSSPasswords/config.ini');
+		if (file_exists('src/Modules/OSSPasswords/config.ini')) {   // encryption key exists so passwords are encrypted
+			$config = parse_ini_file('src/Modules/OSSPasswords/config.ini');
 			// let smarty know that passwords are encrypted
 			$viewer->assign('ENCRYPTED', true);
 			$viewer->assign('ENC_KEY', $config['key']);
@@ -48,7 +48,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('VIEW', $request->get('view'));
 		// widget button
 		// get min, max, allow_chars from vtiger_passwords_config
-		$passwordConfig = (new App\Db\Query())->from('vtiger_passwords_config')->one();
+		$passwordConfig = (new \App\Db\Query())->from('vtiger_passwords_config')->one();
 		$GenerateButton = 'Generate Password';
 		$viewer->assign('GENERATEPASS', $GenerateButton);
 

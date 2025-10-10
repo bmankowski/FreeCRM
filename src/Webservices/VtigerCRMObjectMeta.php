@@ -102,7 +102,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 			$this->hasDeleteAccess = false;
 			return;
 		}
-		$currentUser = Users_Privileges_Model::getInstanceById($this->user->id);
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->user->id);
 		$profileGlobalPermission = $currentUser->get('profile_global_permission');
 		if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
 			$this->hasAccess = true;
@@ -352,7 +352,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	public function retrieveMeta()
 	{
 
-		require_once('modules/CustomView/CustomView.php');
+		require_once('src/Modules/CustomView/CustomView.php');
 		$current_user = vtws_preserveGlobal('current_user', $this->user);
 		$theme = vtws_preserveGlobal('theme', $this->user->theme);
 		$default_language = AppConfig::main('default_language');

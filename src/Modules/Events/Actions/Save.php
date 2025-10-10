@@ -12,15 +12,15 @@ namespace FreeCRM\Modules\Events\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends Action
+class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	/**
 	 * Function to save record
 	 * @param Vtiger_Request $request - values of the record
-	 * @return Vtiger_Record_Model - record Model of saved record
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record - record Model of saved record
 	 */
-	public function saveRecord(Vtiger_Request $request)
+	public function saveRecord(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$data = $recordModel->getData();
@@ -30,7 +30,7 @@ class Save extends Action
 		if ($request->get('reapeat') === 'on') {
 			$recurringEvents = Events_RecuringEvents_Model::getInstanceFromRequest($request);
 			if ($request->isEmpty('record')) {
-				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
+				\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
 				$data['followup'] = $recordModel->getId();
 			} else if (empty($data['followup'])) {
 				$data['followup'] = $recordModel->getId();
@@ -47,7 +47,7 @@ class Save extends Action
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Record_Model
 	 */
-	public function getRecordModelFromRequest(Vtiger_Request $request)
+	public function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ((int) $request->get('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {

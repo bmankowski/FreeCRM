@@ -27,12 +27,12 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record)) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -46,9 +46,9 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function deleteUserCalendar(Vtiger_Request $request)
+	public function deleteUserCalendar(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$sharedUserId = $request->get('userid');
 
@@ -61,7 +61,7 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		$result = array('userid' => $userId, 'sharedid' => $sharedUserId, 'username' => \App\Fields\Owner::getUserLabel($sharedUserId));
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -71,9 +71,9 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function addUserCalendar(Vtiger_Request $request)
+	public function addUserCalendar(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$sharedUserId = $request->get('selectedUser');
 		$color = $request->get('selectedColor');
@@ -88,7 +88,7 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$db->pquery('INSERT INTO vtiger_shareduserinfo (userid, shareduserid, color, visible) VALUES(?, ?, ?, ?)', array($userId, $sharedUserId, $color, '1'));
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array('success' => true));
 		$response->emit();
 	}
@@ -98,9 +98,9 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function deleteCalendarView(Vtiger_Request $request)
+	public function deleteCalendarView(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$viewmodule = $request->get('viewmodule');
 		$viewfieldname = $request->get('viewfieldname');
@@ -112,7 +112,7 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			SET vtiger_calendar_user_activitytypes.visible=? WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.module=? && vtiger_calendar_default_activitytypes.fieldname=?', array('0', $userId, $viewmodule, $viewfieldname));
 
 		$result = array('viewmodule' => $viewmodule, 'viewfieldname' => $viewfieldname, 'viewfieldlabel' => $request->get('viewfieldlabel'));
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -122,9 +122,9 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function addCalendarView(Vtiger_Request $request)
+	public function addCalendarView(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$viewmodule = $request->get('viewmodule');
 		$viewfieldname = $request->get('viewfieldname');
@@ -137,7 +137,7 @@ class CalendarUserActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 					SET vtiger_calendar_user_activitytypes.color=?, vtiger_calendar_user_activitytypes.visible=? 
 					WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.module=? && vtiger_calendar_default_activitytypes.fieldname=?', array($viewcolor, '1', $userId, $viewmodule, $viewfieldname));
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array('success' => true));
 		$response->emit();
 	}

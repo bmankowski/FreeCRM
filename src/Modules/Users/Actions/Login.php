@@ -35,13 +35,13 @@ class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function verifies application access
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
-		$moduleModel = Users_Module_Model::getInstance('Users');
-		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
-		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
+		$moduleModel = \FreeCRM\Modules\Users\Models\Module::getInstance('Users');
+		$bfInstance = class_exists('\\Settings_BruteForce_Module_Model') ? \Settings_BruteForce_Module_Model::getCleanInstance() : null;
+		if ($bfInstance && $bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			if ($moduleModel) {
 				$moduleModel->saveLoginHistory($username, 'Blocked IP');
@@ -76,22 +76,24 @@ class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-				if (\FreeCRM\AppConfig::performance('SHOW_ADMIN_PANEL') && App\User::getUserModel($userId)->isAdmin()) {
+				if (\FreeCRM\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\User::getUserModel($userId)->isAdmin()) {
 					header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 				} else {
 					header('Location: index.php');
 				}
 			}
 		} else {
-			$bfInstance->updateBlockedIp();
+			if ($bfInstance) {
+				$bfInstance->updateBlockedIp();
+			}
 			$error = 1;
-			if ($bfInstance->isBlockedIp()) {
+			if ($bfInstance && $bfInstance->isBlockedIp()) {
 				$bfInstance->sendNotificationEmail();
 				$error = 2;
 			}
 			//Track the login History
 			if ($moduleModel) {
-				$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
+				$moduleModel->saveLoginHistory(\App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 			}
 			header("Location: index.php?module=Users&view=Login&error=$error");
 		}

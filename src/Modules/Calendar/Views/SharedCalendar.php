@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Calendar\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class SharedCalendar extends View
+class SharedCalendar extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -24,7 +24,7 @@ class SharedCalendar extends View
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->view('SharedCalendarView.tpl', $request->getModule());

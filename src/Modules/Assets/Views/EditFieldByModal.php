@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Assets\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class EditFieldByModal extends View
+class EditFieldByModal extends \Vtiger_Index_View
 {
 
 	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
@@ -43,12 +43,12 @@ class EditFieldByModal extends View
 			$relatedModuleBasicName = $relationData['module'];
 			$relationsModuleName = $relationData['relatedModule'];
 			$relatedRecord = $recordModel->get($relationData['relationField']);
-			$metaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
-			if ($relatedRecord && $metaData && $metaData['setype'] == $relatedModuleBasicName && $metaData['deleted'] == 0 && Users_Privileges_Model::isPermitted($relatedModuleBasicName, 'DetailView', $relatedRecord)) {
-				$relatedModuleBasic = Vtiger_Module_Model::getInstance($relatedModuleBasicName);
+			$metaData = \vtlib\Functions::getCRMRecordMetadata($relatedRecord);
+			if ($relatedRecord && $metaData && $metaData['setype'] == $relatedModuleBasicName && $metaData['deleted'] == 0 && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($relatedModuleBasicName, 'DetailView', $relatedRecord)) {
+				$relatedModuleBasic = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModuleBasicName);
 				foreach ($relationsModuleName as $relationModuleName) {
-					$relatedModuleModel = Vtiger_Module_Model::getInstance($relationModuleName);
-					$relationModels[$relationModuleName] = Vtiger_Relation_Model::getInstance($relatedModuleBasic, $relatedModuleModel);
+					$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relationModuleName);
+					$relationModels[$relationModuleName] = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($relatedModuleBasic, $relatedModuleModel);
 					if (!empty($relationModels[$relationModuleName])) {
 						$relationsModules[] = $relationModuleName;
 					}

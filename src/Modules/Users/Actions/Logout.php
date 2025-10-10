@@ -19,9 +19,9 @@ class Logout extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$eventHandler = new App\EventHandler();
+		$eventHandler = new \App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
 		if (\FreeCRM\AppConfig::main('session_regenerate_id')) {
 			Vtiger_Session::regenerateId(true); // to overcome session id reuse.
@@ -30,7 +30,7 @@ class Logout extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		//Track the logout History
 		$moduleName = $request->getModule();
-		$moduleModel = Users_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($moduleName);
 		$moduleModel->saveLogoutHistory();
 		//End
 		header('Location: index.php');

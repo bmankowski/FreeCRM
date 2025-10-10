@@ -10,18 +10,18 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class TreeCategoryModal extends View
+class TreeCategoryModal extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
 		}
 
-		if (!\Users_Privileges_Model::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -44,7 +44,7 @@ class TreeCategoryModal extends View
 		$srcRecord = $request->get('src_record');
 		$srcModule = $request->get('src_module');
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$treeCategoryModel = Vtiger_TreeCategoryModal_Model::getInstance($moduleModel);
 		$treeCategoryModel->set('srcRecord', $srcRecord);
 		$treeCategoryModel->set('srcModule', $srcModule);
@@ -57,7 +57,7 @@ class TreeCategoryModal extends View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SELECTABLE_CATEGORY', \FreeCRM\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 		$viewer->assign('RELATION_TYPE', $this->relationType);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('TreeCategoryModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}

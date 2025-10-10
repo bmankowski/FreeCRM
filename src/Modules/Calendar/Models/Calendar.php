@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Calendar\Models;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Calendar extends Model
+class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public $moduleName = 'Calendar';
@@ -36,7 +36,7 @@ class Calendar extends Model
 	 */
 	public function getQuery()
 	{
-		$queryGenerator = new App\QueryGenerator($this->getModuleName());
+		$queryGenerator = new \App\QueryGenerator($this->getModuleName());
 		if ($this->has('customFilter')) {
 			$queryGenerator->initForCustomViewById($this->get('customFilter'));
 		}
@@ -78,10 +78,10 @@ class Calendar extends Model
 		}
 		switch ($this->get('time')) {
 			case 'current':
-				$query->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
+				$query->andWhere(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 				break;
 			case 'history':
-				$query->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('history')]);
+				$query->andWhere(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')]);
 				break;
 		}
 		$activityStatus = $this->get('activitystatus');
@@ -98,7 +98,7 @@ class Calendar extends Model
 			}
 		}
 		$conditions = [];
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
 		if ($calendarAlloRecords === 1) {
@@ -118,7 +118,7 @@ class Calendar extends Model
 
 	public function getEntity()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$return = $records = $ids = [];
 		while ($record = $dataReader->read()) {
@@ -149,7 +149,7 @@ class Calendar extends Model
 			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
-			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
+			$item['smownerid'] = \vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 
 			//translate
 			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
@@ -163,12 +163,12 @@ class Calendar extends Model
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
+			$item['procl'] = \vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
 			// / migoi
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
+			$item['subprocl'] = \vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
@@ -224,8 +224,8 @@ class Calendar extends Model
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
-			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
+			$hours = \vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
+			$item['hours'] = \vtlib\Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
 			$return[] = $item;
@@ -235,7 +235,7 @@ class Calendar extends Model
 
 	public function getEntityCount()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));

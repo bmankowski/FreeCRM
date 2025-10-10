@@ -4,7 +4,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class SmartDetail extends View
+class SmartDetail extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -12,7 +12,7 @@ class SmartDetail extends View
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = \Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
@@ -38,7 +38,7 @@ class SmartDetail extends View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', false);
 		$viewer->view('SmartDetail.tpl', $moduleName);

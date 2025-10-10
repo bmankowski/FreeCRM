@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\PriceBooks\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Popup extends View
+class Popup extends \Vtiger_Index_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -55,11 +55,11 @@ class Popup extends View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
@@ -84,7 +84,7 @@ class Popup extends View
 		}
 
 		if (empty($currencyId)) {
-			$defaultCurrency = vtlib\Functions::getDefaultCurrencyInfo();
+			$defaultCurrency = \vtlib\Functions::getDefaultCurrencyInfo();
 			$currencyId = $defaultCurrency['id'];
 		}
 		$listViewModel->set('currency_id', $currencyId);
@@ -92,7 +92,7 @@ class Popup extends View
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
 		//Added to support List Price
-		$field = new Vtiger_Field_Model();
+		$field = new \FreeCRM\Modules\Vtiger\Models\Field();
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');
@@ -162,6 +162,6 @@ class Popup extends View
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 	}
 }

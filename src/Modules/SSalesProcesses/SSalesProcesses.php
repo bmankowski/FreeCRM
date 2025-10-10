@@ -7,9 +7,9 @@ namespace FreeCRM\Modules\SSalesProcesses;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class SSalesProcesses extends Vtiger_CRMEntity
+class SSalesProcesses extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_ssalesprocesses';
@@ -93,12 +93,12 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSalesProcesses']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SSalesProcesses'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -154,7 +154,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
 
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
 		$listColumns = \FreeCRM\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
@@ -215,8 +215,8 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			return $parentSSalesProcesses;
 		}
 
-		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
-		$row = (new App\Db\Query())->select([
+		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
+		$row = (new \App\Db\Query())->select([
 				'u_#__ssalesprocesses.*',
 				new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name")
 			])->from('u_#__ssalesprocesses')
@@ -275,8 +275,8 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
 			return $childSalesProcesses;
 		}
-		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
-		$dataReader = (new App\Db\Query())->select([
+		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
+		$dataReader = (new \App\Db\Query())->select([
 					'u_#__ssalesprocesses.*',
 					new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name")
 				])->from('u_#__ssalesprocesses')

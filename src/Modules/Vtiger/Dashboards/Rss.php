@@ -10,13 +10,13 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class Rss extends View
+class Rss extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
 		require_once 'libraries/RSSFeeds/Feed.php';
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if ($widget && !$request->has('widgetid')) {
@@ -24,7 +24,7 @@ class Rss extends View
 		} else {
 			$widgetId = $request->get('widgetid');
 		}
-		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
 		$data = \App\Json::decode(decode_html($data));
 		$listSubjects = [];

@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Summary View Record Structure Model
  */
-class SummaryRecordStructure extends Model
+class SummaryRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**

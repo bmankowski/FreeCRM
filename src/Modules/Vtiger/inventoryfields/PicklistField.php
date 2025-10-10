@@ -28,7 +28,7 @@ class PicklistField extends InventoryField
 	public function getPicklist($moduleName)
 	{
 		$values = [];
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		foreach ($moduleModel->getFieldsByType(['picklist']) as $fieldName => $fieldModel) {
 			$values[$fieldName] = vtranslate($fieldModel->get('label'), $moduleName);
 		}
@@ -39,7 +39,7 @@ class PicklistField extends InventoryField
 	{
 		$modules = $this->getParamsConfig();
 		if (!empty($rowId)) {
-			$moduleName = vtlib\Functions::getCRMRecordType($rowId);
+			$moduleName = \vtlib\Functions::getCRMRecordType($rowId);
 			foreach ($modules as $module => $field) {
 				if ($module != $moduleName) {
 					unset($modules[$module]);
@@ -48,7 +48,7 @@ class PicklistField extends InventoryField
 		}
 		$values = [];
 		foreach ($modules as $module => $field) {
-			foreach (App\Fields\Picklist::getPickListValues($field) as $value) {
+			foreach (\App\Fields\Picklist::getPickListValues($field) as $value) {
 				$values[] = [
 					'module' => $module,
 					'value' => $value,

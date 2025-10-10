@@ -9,7 +9,7 @@ class CheckPass extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
@@ -17,12 +17,12 @@ class CheckPass extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$password = $request->get('password');
 
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 
 		$passOK = $recordModel->checkPassword($password);
 
@@ -32,7 +32,7 @@ class CheckPass extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$result = array('success' => true, 'message' => '');
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

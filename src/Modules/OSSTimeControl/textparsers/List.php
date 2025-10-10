@@ -26,7 +26,7 @@ class TextParser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($this->textParser->moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->textParser->moduleName);
 		$fields = $moduleModel->getFields();
 		$ids = $this->textParser->getParam('pdf')->getRecordIds();
 		if (!is_array($ids)) {
@@ -50,7 +50,7 @@ class TextParser extends \App\TextParser\Base
 		$summary = [];
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
 			foreach ($this->columnNames as $key => $column) {
 				$fieldModel = $fields[$column];
 				$class = '';
@@ -68,7 +68,7 @@ class TextParser extends \App\TextParser\Base
 		foreach ($this->columnNames as $key => $column) {
 			$class = $content = '';
 			if ($column == 'sum_time') {
-				$time = vtlib\Functions::decimalTimeFormat($summary['sum_time']);
+				$time = \vtlib\Functions::decimalTimeFormat($summary['sum_time']);
 				$content = '<strong>' . $time['short'] . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {

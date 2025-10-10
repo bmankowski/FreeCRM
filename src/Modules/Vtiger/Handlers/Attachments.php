@@ -16,9 +16,9 @@ class Attachments {
 
 	/**
 	 * EntityAfterSave function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$fields = $recordModel->getModule()->getFieldsByUiType(311);

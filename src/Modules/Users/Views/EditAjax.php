@@ -17,7 +17,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
@@ -50,7 +50,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USERID', $userId);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('ChangePassword.tpl', $moduleName);
 	}
 
@@ -62,7 +62,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USERIDS', json_encode($userIds));
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('EditPasswords.tpl', $moduleName);
 	}
 }

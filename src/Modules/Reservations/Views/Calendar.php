@@ -6,12 +6,12 @@
 namespace FreeCRM\Modules\Reservations\Views;
 
 use FreeCRM\Http\Vtiger_Request;
-class Calendar extends View
+class Calendar extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
@@ -31,7 +31,7 @@ class Calendar extends View
 	{
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('EVENT_LIMIT', \FreeCRM\AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_VIEW', \FreeCRM\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');

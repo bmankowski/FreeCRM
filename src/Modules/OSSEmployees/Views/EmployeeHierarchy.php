@@ -6,13 +6,13 @@
 namespace FreeCRM\Modules\OSSEmployees\Views;
 
 use FreeCRM\Http\Vtiger_Request;
-class EmployeeHierarchy extends Controller
+class EmployeeHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -29,7 +29,7 @@ class EmployeeHierarchy extends Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getEmployeeHierarchy();
 
 		$viewer->assign('MODULE', $moduleName);

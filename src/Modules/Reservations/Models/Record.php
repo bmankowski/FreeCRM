@@ -30,25 +30,25 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		self::recalculateServiceContracts($servicecontractsid);
 
 		if (self::checkID($projecttaskid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($projecttaskid, 'ProjectTask');
+			$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projecttaskid, 'ProjectTask');
 			$projectid = $ModuleNameInstance->get('projectid');
 			if (self::checkID($projectid)) {
 				self::recalculateProject($projectid);
-				$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($projectid, 'Project');
+				$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
 				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 			}
 		}
 		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($ticketid, 'HelpDesk');
+			$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
 			$projectid = $ModuleNameInstance->get('projectid');
 			if (self::checkID($projectid)) {
 				self::recalculateProject($projectid);
-				$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($projectid, 'Project');
+				$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
 				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 			}
 		}
 		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($ticketid, 'HelpDesk');
+			$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
 			self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 		}
 	}

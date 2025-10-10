@@ -19,7 +19,7 @@ class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
@@ -28,7 +28,7 @@ class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$parentModuleName = $request->get('parent_module');
 		$relatedModule = $request->get('module');
 
-		$searchModuleModel = Vtiger_Module_Model::getInstance($searchModule);
+		$searchModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName, $relatedModule);
 
 		$result = [];
@@ -40,7 +40,7 @@ class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

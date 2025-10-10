@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Calendar Edit View Record Structure Model
  */
-class EditRecordStructure extends Model
+class EditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**
@@ -49,16 +49,16 @@ class EditRecordStructure extends Model
 									$fieldValue = $fieldValue . ' ' . $recordModel->get('time_end');
 								}
 							} else if ($fieldName == 'visibility' && empty($fieldValue)) {
-								$currentUserModel = Users_Record_Model::getCurrentUserModel();
+								$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 								$sharedType = $currentUserModel->get('calendarsharedtype');
 								if ($sharedType == 'public' || $sharedType == 'selectedusers')
 									$fieldValue = 'Public';
 							} else if ($fieldName == 'activitystatus' && empty($fieldValue)) {
-								$currentUserModel = Users_Record_Model::getCurrentUserModel();
+								$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 								$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 								$fieldValue = $defaulteventstatus;
 							} else if ($fieldName == 'activitytype' && empty($fieldValue)) {
-								$currentUserModel = Users_Record_Model::getCurrentUserModel();
+								$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 								$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 								$fieldValue = $defaultactivitytype;
 							}

@@ -139,8 +139,8 @@ class Util {
 	 */
 	public static function formatDateIntoStrings($date, $time = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($date . ' ' . $time);
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$dateTimeInUserFormat = \Vtiger_Datetime_UIType::getDisplayDateTimeValue($date . ' ' . $time);
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
 		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
@@ -150,8 +150,8 @@ class Util {
 			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
 		}
 
-		$today = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
-		$tomorrow = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
+		$today = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d H:i:s'));
+		$tomorrow = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
 		$userDate = \FreeCRM\Fields\DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
 
 		if ($dateInUserFormat == $today) {
@@ -197,8 +197,8 @@ class Util {
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$dateTimeInUserFormat = explode(' ', \Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
 		if (count($dateTimeInUserFormat) == 3) {
 			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
@@ -255,7 +255,7 @@ class Util {
 			return $cache->getOwnerDbName($ownerId);
 		}
 
-		$ownerModel = Users_Record_Model::getInstanceById($ownerId, 'Users');
+		$ownerModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($ownerId, 'Users');
 		$userName = $ownerModel->get('user_name');
 		$ownerName = '';
 		if ($userName) {
@@ -296,7 +296,7 @@ class Util {
 	/**
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <DateTime> $dateTime
-	 * @param <Vtiger_Users_Model> $userObject
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Users> $userObject
 	 * @return string date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
@@ -304,9 +304,9 @@ class Util {
 		require_once ROOT_DIRECTORY . '/src/Runtime/LanguageHandler.php';
 		require_once ROOT_DIRECTORY . '/src/Runtime/Globals.php';
 		if ($userObject) {
-			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
+			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = Users_Privileges_Model::getCurrentUserModel();
+			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 		}
 
 		$date = new \DateTime($dateTime);
@@ -320,7 +320,7 @@ class Util {
 	/**
 	 * Function to get the time value in user preferred hour format
 	 * @param <Time> $time
-	 * @param <Vtiger_Users_Model> $userObject
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Users> $userObject
 	 * @return string time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
@@ -328,9 +328,9 @@ class Util {
 		require_once ROOT_DIRECTORY . '/src/Runtime/LanguageHandler.php';
 		require_once ROOT_DIRECTORY . '/src/Runtime/Globals.php';
 		if ($userObject) {
-			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
+			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = Users_Privileges_Model::getCurrentUserModel();
+			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 		}
 
 		if ($userModel->get('hour_format') == '12') {
@@ -347,7 +347,7 @@ class Util {
 	public static function getCurrentInfoOfUser()
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
 		if ($db->num_rows($result))
 			return $db->query_result_rowdata($result, 0);

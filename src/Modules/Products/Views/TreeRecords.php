@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Products\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class TreeRecords extends View
+class TreeRecords extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
@@ -38,9 +38,9 @@ class TreeRecords extends View
 			return;
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
+		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {
 			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
@@ -49,7 +49,7 @@ class TreeRecords extends View
 			$query = (new \App\Db\Query())
 				->select(['crmid'])
 				->from('u_#__crmentity_rel_tree')
-				->where(['module' => App\Module::getModuleId($baseModuleName), 'relmodule' => App\Module::getModuleId($moduleName), 'tree' => $category]);
+				->where(['module' => \App\Module::getModuleId($baseModuleName), 'relmodule' => \App\Module::getModuleId($moduleName), 'tree' => $category]);
 			$queryGenerator->addNativeCondition(['in', 'crmid', $query], false);
 		}
 		$listViewModel->set('query_generator', $queryGenerator);
@@ -69,7 +69,7 @@ class TreeRecords extends View
 	{
 		$viewer = $this->getViewer($request);
 		$baseModuleName = 'Accounts';
-		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($baseModuleName));
+		$viewer->assign('CUSTOM_VIEWS', \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName));
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 		parent::postProcess($request, false);
 	}

@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Documents\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Text extends UIType
+class Text extends Base
 {
 
 	/**

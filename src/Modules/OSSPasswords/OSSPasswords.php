@@ -300,7 +300,7 @@ class OSSPasswords extends \FreeCRM\CRMEntity
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
 		require_once(ROOT_DIRECTORY . '/src/events/include.php');
 
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$registerLink = false;
 		$addModTracker = false;
 
@@ -308,13 +308,13 @@ class OSSPasswords extends \FreeCRM\CRMEntity
 			
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
-			App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
+			\App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
 		} else if ($eventType == 'module.enabled') {
 			$registerLink = true;
-			App\EventHandler::setActive('OSSPasswords_Secure_Handler');
+			\App\EventHandler::setActive('OSSPasswords_Secure_Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			\App\Log::trace('Before starting uninstall script...');
-			require_once( 'modules/Settings/' . $moduleName . '/views/uninstall.php' );
+			require_once( 'src/Modules/Settings/' . $moduleName . '/Views/uninstall.php' );
 			\App\Log::trace('After uninstall script.');
 
 			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
@@ -327,7 +327,7 @@ class OSSPasswords extends \FreeCRM\CRMEntity
 		$displayLabel = 'OSSPassword Configuration';
 
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			\Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-passwords-encryption',
 				'description' => 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION',
@@ -339,7 +339,7 @@ class OSSPasswords extends \FreeCRM\CRMEntity
 
 		// register modtracker history updates
 		if ($addModTracker) {
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		}
 	}
 }

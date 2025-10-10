@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Contacts\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Edit extends View
+class Edit extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -23,9 +23,9 @@ class Edit extends View
 		$recordModel = $this->record;
 		if (!$recordModel) {
 			if (!empty($recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			} else {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			}
 			$this->record = $recordModel;
 		}
@@ -33,7 +33,7 @@ class Edit extends View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 
-		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $recordModel->getModule());
+		$salutationFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('salutationtype', $recordModel->getModule());
 		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
 		$salutationType = $request->get('salutationtype');
 		if (!empty($salutationType)) {

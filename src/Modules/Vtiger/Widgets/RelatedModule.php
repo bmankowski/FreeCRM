@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class RelatedModule extends Widget
+class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public function getUrl()
@@ -27,7 +27,7 @@ class RelatedModule extends Widget
 	public function getWidget()
 	{
 		$widget = [];
-		$model = Vtiger_Module_Model::getInstance($this->Data['relatedmodule']);
+		$model = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->Data['relatedmodule']);
 		if ($model->isPermitted('DetailView')) {
 			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
@@ -41,7 +41,7 @@ class RelatedModule extends Widget
 				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
 			}
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
-				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
+				$switchHeaderData = \Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
 				if ($switchHeaderData) {
 					switch ($switchHeaderData['type']) {
 						case 1:
@@ -60,7 +60,7 @@ class RelatedModule extends Widget
 					}
 				}
 			}
-			$this->Config['buttonHeader'] = Settings_Widgets_Module_Model::getHeaderButtons($this->Data['relatedmodule']);
+			$this->Config['buttonHeader'] = \Settings_Widgets_Module_Model::getHeaderButtons($this->Data['relatedmodule']);
 			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] !== '-') {
 				if (strpos($this->Data['checkbox'], '.') !== false) {
 					$separateData = explode('.', $this->Data['checkbox']);

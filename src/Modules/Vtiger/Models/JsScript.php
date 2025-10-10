@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger JS Script Model Class
  */
-class JsScript extends Model
+class JsScript extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	const DEFAULT_TYPE = 'text/javascript';
@@ -46,11 +46,11 @@ class JsScript extends Model
 	}
 
 	/**
-	 * Static Function to get an instance of Vtiger JsScript Model from a given vtlib\Link object
-	 * @param vtlib\Link $linkObj
-	 * @return Vtiger_JsScript_Model instance
+	 * Static Function to get an instance of Vtiger JsScript Model from a given \vtlib\Link object
+	 * @param \vtlib\Link $linkObj
+	 * @return \FreeCRM\Modules\Vtiger\Models\JsScript instance
 	 */
-	public static function getInstanceFromLinkObject(vtlib\Link $linkObj)
+	public static function getInstanceFromLinkObject(\vtlib\Link $linkObj)
 	{
 		$objectProperties = get_object_vars($linkObj);
 		$linkModel = new self();

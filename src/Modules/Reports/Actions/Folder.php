@@ -24,13 +24,13 @@ class Folder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -43,7 +43,7 @@ class Folder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function that saves/updates the Folder
 	 * @param Vtiger_Request $request
 	 */
-	public function save(Vtiger_Request $request)
+	public function save(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$folderModel = Reports_Folder_Model::getInstance();
@@ -63,7 +63,7 @@ class Folder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$folderModel->save();
 		$result = array('success' => true, 'message' => vtranslate('LBL_FOLDER_SAVED', $moduleName), 'info' => $folderModel->getInfoArray());
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -72,7 +72,7 @@ class Folder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function that deletes the Folder
 	 * @param Vtiger_Request $request
 	 */
-	public function delete(Vtiger_Request $request)
+	public function delete(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$folderId = $request->get('folderid');
 		$moduleName = $request->getModule();
@@ -94,13 +94,13 @@ class Folder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$result = array('success' => true, 'message' => vtranslate('LBL_FOLDER_DELETED', $moduleName));
 			}
 
-			$response = new Vtiger_Response();
+			$response = new \FreeCRM\Http\Vtiger_Response();
 			$response->setResult($result);
 			$response->emit();
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

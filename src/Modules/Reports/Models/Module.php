@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -20,7 +20,7 @@ class Module extends Model
 	 */
 	public function deleteRecord($reportModel)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$subOrdinateUsers = $currentUser->getSubordinateUsers();
 
 		$subOrdinates = array();
@@ -58,7 +58,7 @@ class Module extends Model
 
 	/**
 	 * Function returns quick links for the module
-	 * @return <Array of Vtiger_Link_Model>
+	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Link>
 	 */
 	public function getSideBarLinks($linkParams = '')
 	{
@@ -71,7 +71,7 @@ class Module extends Model
 			),
 		);
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = array(
@@ -83,7 +83,7 @@ class Module extends Model
 			),
 		);
 		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 		}
 
 		return $links;

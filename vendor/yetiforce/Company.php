@@ -43,7 +43,7 @@ class Company extends Base
 	 * Function to get the Company Logo
 	 * @return \Vtiger_Image_Model instance
 	 */
-	public function getLogo($type = false): ?\Vtiger_Image_Model
+	public function getLogo($type = false)
 	{
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
@@ -52,7 +52,7 @@ class Company extends Base
 		if (!$logoName) {
 			return null;
 		}
-		$logoModel = new \Vtiger_Image_Model();
+		$logoModel = new \FreeCRM\Modules\Vtiger\Models\Image();
 		$imagePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoStoragePath) . $logoName;
 		$imageURL = AppConfig::main('site_URL') . static::$logoURL . $logoName;
 		$logoModel->setData([

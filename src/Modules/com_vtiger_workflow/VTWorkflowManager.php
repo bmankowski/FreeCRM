@@ -42,7 +42,7 @@ class VTWorkflowManager {
 			$wf = $workflow;
 			if ($wf->filtersavedinnew == null)
 				$wf->filtersavedinnew = 5;
-			App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
+			\App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
 				'summary' => $wf->description,
 				'test' => $wf->test,
@@ -57,7 +57,7 @@ class VTWorkflowManager {
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time
 				], ['workflow_id' => $wf->id])->execute();
 		} else {
-			$db = App\Db::getInstance();
+			$db = \App\Db::getInstance();
 			$wf = $workflow;
 			if ($wf->filtersavedinnew == null)
 				$wf->filtersavedinnew = 5;
@@ -161,7 +161,7 @@ class VTWorkflowManager {
 
 	protected function getWorkflowInstance($type = 'basic')
 	{
-		$configReader = new ConfigReader('modules/com_vtiger_workflow/config.inc', 'workflowConfig');
+		$configReader = new ConfigReader('src/Modules/com_vtiger_workflow/config.inc', 'workflowConfig');
 		$workflowTypeConfig = $configReader->getConfig($type);
 		$workflowClassPath = $workflowTypeConfig['classpath'];
 		$workflowClass = $workflowTypeConfig['class'];
@@ -181,7 +181,7 @@ class VTWorkflowManager {
 	 */
 	public function retrieve($id)
 	{
-		$data = (new App\Db\Query())->from('com_vtiger_workflows')->where(['workflow_id' => $id])->one();
+		$data = (new \App\Db\Query())->from('com_vtiger_workflows')->where(['workflow_id' => $id])->one();
 		if ($data) {
 			$workflow = $this->getWorkflowInstance($data['type']);
 			$workflow->setup($data);
@@ -280,8 +280,8 @@ class VTWorkflowManager {
 	 */
 	public function getWorkflowsForModuleSupportingComments($moduleName)
 	{
-		if (App\Cache::staticHas('WorkflowsForModuleSupportingComments', $moduleName)) {
-			return App\Cache::staticGet('WorkflowsForModuleSupportingComments', $moduleName);
+		if (\App\Cache::staticHas('WorkflowsForModuleSupportingComments', $moduleName)) {
+			return \App\Cache::staticGet('WorkflowsForModuleSupportingComments', $moduleName);
 		}
 		$query = (new \App\Db\Query())
 			->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
@@ -303,7 +303,7 @@ class VTWorkflowManager {
 				}
 			}
 		}
-		App\Cache::staticSave('WorkflowsForModuleSupportingComments', $moduleName, $commentSupportedWorkflowModels);
+		\App\Cache::staticSave('WorkflowsForModuleSupportingComments', $moduleName, $commentSupportedWorkflowModels);
 		return $commentSupportedWorkflowModels;
 	}
 }
@@ -345,7 +345,7 @@ class Workflow
 
 	/**
 	 * Evaluate
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return boolean
 	 */
 	public function evaluate($recordModel)
@@ -383,12 +383,12 @@ class Workflow
 
 	/**
 	 * Perform tasks
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function performTasks($recordModel)
 	{
-		require_once('modules/com_vtiger_workflow/VTTaskManager.php');
-		require_once('modules/com_vtiger_workflow/VTTaskQueue.php');
+		require_once('src/Modules/com_vtiger_workflow/VTTaskManager.php');
+		require_once('src/Modules/com_vtiger_workflow/VTTaskQueue.php');
 
 		$tm = new VTTaskManager();
 		$taskQueue = new VTTaskQueue();

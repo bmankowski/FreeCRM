@@ -12,13 +12,13 @@
 abstract class Vtiger_Mass_Action extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public static function getRecordsListFromRequest(Vtiger_Request $request)
+	public static function getRecordsListFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('viewname');
 		$module = $request->get('module');
 		if (!empty($cvId) && $cvId == "undefined" && $request->get('source_module') != 'Users') {
 			$sourceModule = $request->get('sourceModule');
-			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
+			$cvId = \FreeCRM\Modules\CustomView\Models\Record::getAllFilterByModule($sourceModule)->getId();
 		}
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
@@ -29,7 +29,7 @@ abstract class Vtiger_Mass_Action extends \FreeCRM\Runtime\Vtiger_Action_Control
 			}
 		}
 
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');
@@ -45,7 +45,7 @@ abstract class Vtiger_Mass_Action extends \FreeCRM\Runtime\Vtiger_Action_Control
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

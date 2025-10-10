@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class Notebook extends View
+class Notebook extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)

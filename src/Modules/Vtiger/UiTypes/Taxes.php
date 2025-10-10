@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Taxes extends UIType
+class Taxes extends Base
 {
 
 	/**
@@ -24,7 +24,7 @@ class Taxes extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -109,7 +109,7 @@ class Taxes extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

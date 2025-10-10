@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Events\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Time extends UIType
+class Time extends Base
 {
 	
 }

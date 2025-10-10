@@ -20,7 +20,7 @@ class NoteBook extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('noteBookCreate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -29,9 +29,9 @@ class NoteBook extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function noteBookCreate(Vtiger_Request $request)
+	public function noteBookCreate(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userModel = Users_Record_Model::getCurrentUserModel();
+		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$dataValue['contents'] = $request->get('notePadContent');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 
@@ -52,12 +52,12 @@ class NoteBook extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$result = [];
 		$result['success'] = true;
 		$result['widgetId'] = $db->getLastInsertID('vtiger_module_dashboard_id_seq');
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

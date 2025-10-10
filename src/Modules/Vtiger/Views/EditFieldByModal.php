@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class EditFieldByModal extends View
+class EditFieldByModal extends \Vtiger_Index_View
 {
 
 	protected $showFields = [];
@@ -21,7 +21,7 @@ class EditFieldByModal extends View
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = \Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}

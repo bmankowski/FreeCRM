@@ -12,9 +12,9 @@ class RecordLabelUpdater {
 
 	/**
 	 * EntityAfterSave function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		\App\Record::updateLabelOnSave($eventHandler->getRecordModel());
 	}

@@ -14,15 +14,15 @@ namespace FreeCRM\Modules\CustomView\Actions;
 class Delete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$customViewModel = CustomView_Record_Model::getInstanceById($request->get('record'));
+		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($request->get('record'));
 		$customViewModel->delete();
 		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
 		header("Location: $listViewUrl");
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

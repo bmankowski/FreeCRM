@@ -12,9 +12,9 @@ class Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		if ($eventHandler->getRecordModel()->getPreviousValue('password')) {
 			$result = (new \App\Db\Query())->select(['basic.id'])->from('vtiger_modtracker_basic basic')
@@ -24,7 +24,7 @@ class Handler {
 					->orderBy(['basic.id' => SORT_DESC])->limit(1)->one();
 
 			if ($result) {
-				$conf = Vtiger_Record_Model::getCleanInstance($eventHandler->getModuleName())->getConfiguration();
+				$conf = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($eventHandler->getModuleName())->getConfiguration();
 				$where = ['id' => $result['id'], 'fieldname' => 'password'];
 				if ($conf['register_changes'] === 1)
 					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where)->execute();

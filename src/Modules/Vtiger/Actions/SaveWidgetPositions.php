@@ -13,12 +13,12 @@ namespace FreeCRM\Modules\Vtiger\Actions;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class SaveWidgetPositions extends View
+class SaveWidgetPositions extends \Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$positionsMap = $request->get('positionsmap');
 
@@ -26,14 +26,14 @@ class SaveWidgetPositions extends View
 			foreach ($positionsMap as $id => $position) {
 				list ($linkid, $widgetid) = explode('-', $id);
 				if ($widgetid) {
-					Vtiger_Widget_Model::updateWidgetPosition($position, NULL, $widgetid, $currentUser->getId());
+					\FreeCRM\Modules\Vtiger\Models\Widget::updateWidgetPosition($position, NULL, $widgetid, $currentUser->getId());
 				} else {
-					Vtiger_Widget_Model::updateWidgetPosition($position, $linkid, NULL, $currentUser->getId());
+					\FreeCRM\Modules\Vtiger\Models\Widget::updateWidgetPosition($position, $linkid, NULL, $currentUser->getId());
 				}
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array('Save' => 'OK'));
 		$response->emit();
 	}

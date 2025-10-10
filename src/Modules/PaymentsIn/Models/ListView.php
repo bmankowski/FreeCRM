@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\PaymentsIn\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	public function getAdvancedLinks()

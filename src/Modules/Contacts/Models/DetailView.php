@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Contacts\Models;
  * *********************************************************************************** */
 
 //Same as Accounts Detail View
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 	
 }

@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Events\Models;
 /**
  * Events Edit View Record Structure Model
  */
-class EditRecordStructure extends Model
+class EditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 	
 }

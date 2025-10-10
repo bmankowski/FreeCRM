@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class MiniListWizard extends View
+class MiniListWizard extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -26,14 +26,14 @@ class MiniListWizard extends View
 
 		switch ($request->get('step')) {
 			case 'step1':
-				$modules = vtlib\Functions::getAllModules(true, false, 0);
+				$modules = \vtlib\Functions::getAllModules(true, false, 0);
 				//Since comments is not treated as seperate module 
 				unset($modules['ModComments']);
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
 				$selectedModule = $request->get('selectedModule');
-				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
+				$filters = \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':

@@ -17,16 +17,16 @@ class SetUser extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!Users_Privileges_Model::isPermitted('OSSMail')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$user = $request->get('user');
 		$_SESSION['AutoLoginUser'] = $user;
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

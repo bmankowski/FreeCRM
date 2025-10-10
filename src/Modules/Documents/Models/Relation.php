@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Relation extends Model
+class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 {
 
 	public function setExceptionData()
@@ -25,7 +25,7 @@ class Relation extends Model
 
 	public function deleteRelation($relatedRecordId, $sourceRecordId)
 	{
-		include_once('modules/ModTracker/ModTracker.php');
+		include_once('src/Modules/ModTracker/ModTracker.php');
 		$sourceModule = $this->getParentModuleModel();
 		$destinationModuleName = $sourceModule->get('name');
 		$sourceModuleName = $this->getRelationModuleModel()->get('name');

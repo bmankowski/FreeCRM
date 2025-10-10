@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\SMSNotifier;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('modules/Vtiger/CRMEntity.php');
+require_once('src/Modules/Vtiger/CRMEntity.php');
 
 class SMSNotifierBase extends \FreeCRM\CRMEntity
 {
@@ -146,8 +146,8 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
-			require_once("modules/$related_module/$related_module.php");
+			\vtlib\Deprecated::checkFileAccessForInclusion("src/Modules/$related_module/$related_module.php");
+			require_once("src/Modules/$related_module/$related_module.php");
 			$other = new $related_module();
 			vtlib_setup_modulevars($related_module, $other);
 
@@ -243,8 +243,8 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
-			require_once("modules/$related_module/$related_module.php");
+			\vtlib\Deprecated::checkFileAccessForInclusion("src/Modules/$related_module/$related_module.php");
+			require_once("src/Modules/$related_module/$related_module.php");
 			$other = new $related_module();
 			vtlib_setup_modulevars($related_module, $other);
 
@@ -362,7 +362,7 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 		if ($unregisterLinks) {
 
 			$smsnotifierModuleInstance = vtlib\Module::getInstance('SMSNotifier');
-			$smsnotifierModuleInstance->deleteLink("HEADERSCRIPT", "SMSNotifierCommonJS", "modules/SMSNotifier/SMSNotifierCommon.js");
+			$smsnotifierModuleInstance->deleteLink("HEADERSCRIPT", "SMSNotifierCommonJS", "src/Modules/SMSNotifier/SMSNotifierCommon.js");
 
 			$leadsModuleInstance = vtlib\Module::getInstance('Leads');
 			$leadsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');

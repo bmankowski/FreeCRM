@@ -2,6 +2,8 @@
 
 namespace FreeCRM\Modules\com_vtiger_workflow;
 
+use FreeCRM\events\VTEventHandler;
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -15,7 +17,7 @@ require_once('VTWorkflowManager.php');
 require_once('VTEntityCache.php');
 
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once("modules/Users/Users.php");
+require_once("src/Modules/Users/Users.php");
 require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");

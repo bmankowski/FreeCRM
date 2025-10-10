@@ -9,7 +9,7 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -18,13 +18,13 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$srecord = $request->get('id');
 		$smodule = $request->get('sourceModule');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
@@ -35,22 +35,22 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$sourceData = array();
 
 		if (isRecordExists($id)) {
-			$record = Vtiger_Record_Model::getInstanceById($id, $sourceModule);
+			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $sourceModule);
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;
 			if ($sourceModule == 'HelpDesk') {
-				$sourceData['contact_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['contact_id']);
-				if (vtlib\Functions::getCRMRecordType($sourceData['parent_id']) != 'Accounts')
+				$sourceData['contact_label'] = \vtlib\Functions::getCRMRecordLabel($sourceData['contact_id']);
+				if (\vtlib\Functions::getCRMRecordType($sourceData['parent_id']) != 'Accounts')
 					unset($sourceData['parent_id']);
 				else
-					$sourceData['account_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['parent_id']);
+					$sourceData['account_label'] = \vtlib\Functions::getCRMRecordLabel($sourceData['parent_id']);
 			} else if ($sourceModule == 'Project') {
 				$query = sprintf("select * from vtiger_account where accountid = %s", $sourceData['linktoaccountscontacts']);
 				$ifExist = $adb->query($query, true, "Błąd podczas pobierania danych z vtiger_crmentityrel");
 				if ($adb->num_rows($ifExist) > 0)
-					$sourceData['account_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
+					$sourceData['account_label'] = \vtlib\Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
 				else
-					$sourceData['contact_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
+					$sourceData['contact_label'] = \vtlib\Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
 			}
 		}
 
@@ -60,7 +60,7 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$result = array('success' => true, 'sourceData' => $sourceData);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

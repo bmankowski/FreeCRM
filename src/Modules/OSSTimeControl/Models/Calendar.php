@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends Model
+class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public function getEntity()
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$module = 'OSSTimeControl';
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$query = getListQuery($module);
 		$params = array();
 		if ($this->get('start') && $this->get('end')) {

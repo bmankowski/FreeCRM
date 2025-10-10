@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Colors extends Model
+class Colors extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public static function getAllField()
@@ -109,15 +109,15 @@ class Colors extends Model
 
 	public static function updateColor($params)
 	{
-		$primaryKey = App\Fields\Picklist::getPickListId($params['field']);
-		App\Db::getInstance()->createCommand()
+		$primaryKey = \App\Fields\Picklist::getPickListId($params['field']);
+		\App\Db::getInstance()->createCommand()
 			->update($params['table'], ['color' => $params['color']], [$primaryKey => $params['id']])
 			->execute();
 	}
 
 	public static function getValuesFromField($fieldName)
 	{
-		$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
+		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query)->from('vtiger_' . $fieldName)->orderBy('sortorderid')->createCommand()->query();
 		$groupColors = [];
 		while ($row = $dataReader->read()) {

@@ -16,10 +16,10 @@ class TotalEmails {
 
 	/**
 	 * Function get number of emails
-	 * @param Vtiger_Record_Model $instance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $instance
 	 * @return int - Number of emails
 	 */
-	public function process(Vtiger_Record_Model $instance)
+	public function process(\FreeCRM\Modules\Vtiger\Models\Record $instance)
 	{
 		$relationListView = Vtiger_RelationListView_Model::getInstance($instance, $this->reference);
 		return (int) $relationListView->getRelatedEntriesCount();

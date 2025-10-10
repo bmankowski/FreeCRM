@@ -16,7 +16,7 @@ class Inventory {
 	/**
 	 * Get invnetory instance
 	 * @param string $moduleName Module name
-	 * @return Vtiger_Inventory_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\Inventory instance
 	 */
 	public static function getInstance($moduleName)
 	{
@@ -69,8 +69,8 @@ class Inventory {
 		if (\App\Cache::has('Inventory', 'Discounts')) {
 			return \App\Cache::get('Inventory', 'Discounts');
 		}
-		$discounts = (new App\Db\Query())->from('a_#__discounts_global')->where(['status' => 0])
-				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
+		$discounts = (new \App\Db\Query())->from('a_#__discounts_global')->where(['status' => 0])
+				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache::save('Inventory', 'Discounts', $discounts, \App\Cache::LONG);
 		return $discounts;
 	}
@@ -85,7 +85,7 @@ class Inventory {
 			return \App\Cache::get('Inventory', 'TaxConfiguration');
 		}
 		$config = [];
-		$dataReader = (new App\Db\Query())->from('a_#__taxes_config')->createCommand(App\Db::getInstance('admin'))->query();
+		$dataReader = (new \App\Db\Query())->from('a_#__taxes_config')->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$value = $row['value'];
 			if (in_array($row['param'], ['taxs'])) {
@@ -106,8 +106,8 @@ class Inventory {
 		if (\App\Cache::has('Inventory', 'Taxes')) {
 			return \App\Cache::get('Inventory', 'Taxes');
 		}
-		$taxes = (new App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
-				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
+		$taxes = (new \App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
+				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache::LONG);
 		return $taxes;
 	}
@@ -124,7 +124,7 @@ class Inventory {
 		$discountField = 'discount';
 		$name = '';
 		if (!empty($relatedRecord)) {
-			$accountRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecord);
+			$accountRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedRecord);
 			$discount = $accountRecordModel->get($discountField);
 			$name = $accountRecordModel->getName();
 		}
@@ -145,10 +145,10 @@ class Inventory {
 		$name = '';
 		$taxField = Vtiger_InventoryField_Model::getTaxField('Accounts');
 		if ($accountField != '' && $taxField != false) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$relationFieldValue = $recordModel->get($accountField);
 			if ($relationFieldValue != 0) {
-				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, 'Accounts');
+				$accountRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relationFieldValue, 'Accounts');
 				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField));
 				$name = $accountRecordModel->getName();
 			}

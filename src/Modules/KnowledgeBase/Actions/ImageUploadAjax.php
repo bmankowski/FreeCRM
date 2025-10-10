@@ -14,14 +14,14 @@ class ImageUploadAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fileTypeSettings = \FreeCRM\AppConfig::module($moduleName, 'fileTypeSettings');
@@ -139,7 +139,7 @@ class ImageUploadAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$response = 'alert("' . $response . '")';
 			}
 		}
-		$vtigerResponse = new Vtiger_Response();
+		$vtigerResponse = new \FreeCRM\Http\Vtiger_Response();
 		$vtigerResponse->setResult('<script type="text/javascript">' . $response . '</script>');
 		$vtigerResponse->setEmitType(2);
 		$vtigerResponse->emit();

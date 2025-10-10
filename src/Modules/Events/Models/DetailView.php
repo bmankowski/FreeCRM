@@ -4,7 +4,7 @@
 
 namespace FreeCRM\Modules\Events\Models;
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 	
 }

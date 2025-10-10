@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -22,7 +22,7 @@ class DetailView extends Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 
 		$linkModelList = parent::getDetailViewLinks($linkParams);

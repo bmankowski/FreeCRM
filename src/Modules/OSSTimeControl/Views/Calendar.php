@@ -14,14 +14,14 @@ namespace FreeCRM\Modules\OSSTimeControl\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Calendar extends View
+class Calendar extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('EVENT_LIMIT', \FreeCRM\AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_VIEW', \FreeCRM\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');

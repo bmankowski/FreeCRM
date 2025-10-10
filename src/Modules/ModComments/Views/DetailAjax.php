@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\ModComments\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class View extends View
+class View extends \Vtiger_Index_View
 {
 
 	/**
@@ -25,9 +25,9 @@ class View extends View
 	{
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($record);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record);
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);

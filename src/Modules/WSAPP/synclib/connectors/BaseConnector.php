@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\WSAPP\synclib\connectors;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/SyncStateModel.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/SyncStateModel.php';
 
 abstract class WSAPP_BaseConnector
 {

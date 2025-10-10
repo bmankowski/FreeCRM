@@ -26,7 +26,7 @@ class TableDiscountSummary extends Base
 			return '';
 		}
 		$html = '';
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
+		$inventoryField = \FreeCRM\Modules\Vtiger\Models\InventoryField::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 
 		if ($fields[0] != 0) {

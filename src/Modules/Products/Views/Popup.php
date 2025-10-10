@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Products\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Popup extends View
+class Popup extends \Vtiger_Index_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -49,12 +49,12 @@ class Popup extends View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (vglobal('popupAjax'))
 			$pagingModel->set('noLimit', true);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		if (!\App\Record::isExists($relatedParentId)) {
@@ -62,10 +62,10 @@ class Popup extends View
 			$relatedParentId = '';
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
+			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedParentId, $relatedParentModule);
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
 		} else {
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
+			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
@@ -103,7 +103,7 @@ class Popup extends View
 			}
 		}
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - second step.
-		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
+		if (\Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
 			$salesProcessId = $request->get('salesprocessid');
 			if (empty($salesProcessId))
 				$salesProcessId = -1;
@@ -125,7 +125,7 @@ class Popup extends View
 		if (!empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
 			$relatedParentModule = null;
 			$relatedParentId = null;
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
+			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 			$listViewModel->set('search_params', $transformedSearchParams);
 			if (!empty($orderBy)) {
 				$listViewModel->set('orderby', $orderBy);
@@ -203,7 +203,7 @@ class Popup extends View
 		}
 
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	}
 }

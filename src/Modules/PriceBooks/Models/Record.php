@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\PriceBooks\Models;
 /**
  * PriceBooks Record Model Class
  */
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -53,11 +53,11 @@ class Record extends Model
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])->exists();
 		if ($isExists) {
-			App\Db::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
 		} else {
-			App\Db::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
 					'pricebookid' => $this->getId(),
 					'productid' => $relatedRecordId,
@@ -73,7 +73,7 @@ class Record extends Model
 	 */
 	public function deleteListPrice($relatedRecordId)
 	{
-		return App\Db::getInstance()->createCommand()
+		return \App\Db::getInstance()->createCommand()
 				->delete('vtiger_pricebookproductrel', ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
 	}
@@ -88,14 +88,14 @@ class Record extends Model
 	{
 		\App\Log::trace('Entering function updateListPrices...');
 		$pricebookCurrency = $this->get('currency_id');
-		$dataReader = (new App\Db\Query())->from('vtiger_pricebookproductrel')
+		$dataReader = (new \App\Db\Query())->from('vtiger_pricebookproductrel')
 				->where(['and', ['pricebookid' => $this->getId()], ['<>', 'usedcurrency', $pricebookCurrency]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
 			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
 			$computedListPrice = $row['listprice'] * $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
-			App\Db::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->getId(), 'productid' => $row['productid']])
 				->execute();
 		}

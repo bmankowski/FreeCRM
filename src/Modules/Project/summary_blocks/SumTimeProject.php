@@ -22,7 +22,7 @@ class SumTimeProject {
 	{
 		
 		\App\Log::trace("Entering SumTimeProject::process() method ...");
-		$sum_time = vtlib\Functions::decimalTimeFormat($instance->get('sum_time'));
+		$sum_time = \vtlib\Functions::decimalTimeFormat($instance->get('sum_time'));
 		\App\Log::trace("Exiting SumTimeProject::process() method ...");
 		return $sum_time['short'];
 	}

@@ -9,13 +9,13 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Tree extends View
+class Tree extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getSideBarLinks($linkParams);
 		$viewer = $this->getViewer($request);

@@ -10,7 +10,7 @@ class UniqueUser extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -18,14 +18,14 @@ class UniqueUser extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 
 		$userId = $request->get('userId');
 
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 
 		$userExists = $recordModel->checkUser($userId);
 
@@ -35,7 +35,7 @@ class UniqueUser extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$result = array('success' => true);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

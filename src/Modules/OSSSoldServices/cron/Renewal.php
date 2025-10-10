@@ -20,6 +20,6 @@ $query = sprintf('SELECT
 					AND osssoldservices_renew IN (%s) OR osssoldservices_renew IS NULL', $db->generateQuestionMarks($renewal));
 $result = $db->pquery($query, $renewal);
 while (($recordId = $db->getSingleValue($result)) !== false) {
-	$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'OSSSoldServices');
+	$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'OSSSoldServices');
 	$recordModel->updateRenewal();
 }

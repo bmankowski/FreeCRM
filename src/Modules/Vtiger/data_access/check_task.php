@@ -41,6 +41,6 @@ Class DataAccess_check_task
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		return ['status' => (new App\Db\Query())->select(['activitystatus'])->from('vtiger_activitystatus')->orderBy('sortorderid')->column()];
+		return ['status' => (new \App\Db\Query())->select(['activitystatus'])->from('vtiger_activitystatus')->orderBy('sortorderid')->column()];
 	}
 }

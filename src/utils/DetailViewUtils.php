@@ -21,5 +21,5 @@
  * ****************************************************************************** */
 
 require_once(ROOT_DIRECTORY . '/src/database/PearDatabase.php');
-require_once('modules/PickList/PickListUtils.php');
+require_once('src/Modules/PickList/PickListUtils.php');
 

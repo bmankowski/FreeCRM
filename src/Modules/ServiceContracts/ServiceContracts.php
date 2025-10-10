@@ -253,7 +253,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		include("include/utils/ExportUtils.php");
 
@@ -380,9 +380,9 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 		} else if ($eventType == 'module.disabled') {
-			App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
+			\App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.enabled') {
-			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
+			\App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {
@@ -592,8 +592,8 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $returnModule])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, \FreeCRM\CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+				\App\Db::getInstance()->createCommand()
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, \FreeCRM\CRMEntity::getInstance(\App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}

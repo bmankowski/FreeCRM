@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Server extends Model
+class Server extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	const tableName = 'vtiger_pbxmanager_gateway';
@@ -48,8 +48,8 @@ class Server extends Model
 		if ($permission !== false) {
 			return $permission ? true : false;
 		}
-		Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = Users_Privileges_Model::isPermitted('PBXManager', 'MakeOutgoingCalls');
+		\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$permission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted('PBXManager', 'MakeOutgoingCalls');
 
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get('gateway');

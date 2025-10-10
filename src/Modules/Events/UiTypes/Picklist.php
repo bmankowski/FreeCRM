@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Events\UiTypes;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Picklist extends UIType
+class Picklist extends Base
 {
 	
 }

@@ -254,7 +254,7 @@ class Accounts extends \FreeCRM\CRMEntity
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
+		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
 			$rawData = '';
@@ -277,7 +277,7 @@ class Accounts extends \FreeCRM\CRMEntity
 				} else if ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
 					
 				} else {
-					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
+					$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
 					$data = $fieldModel->getDisplayValue($data);
 				}
@@ -344,7 +344,7 @@ class Accounts extends \FreeCRM\CRMEntity
 				} elseif ($fieldName == 'shownerid') {
 					$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($row['accountid']);
 					if (!empty($sharedOwners)) {
-						$sharedOwners = implode(',', array_map('vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
+						$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
 					}
 				} else {
@@ -400,7 +400,7 @@ class Accounts extends \FreeCRM\CRMEntity
 					} elseif ($fieldName == 'shownerid') {
 						$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($child_acc_id);
 						if (!empty($sharedOwners)) {
-							$sharedOwners = implode(',', array_map('vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
+							$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;
 						}
 					} else {
@@ -436,9 +436,9 @@ class Accounts extends \FreeCRM\CRMEntity
 			return;
 
 		if ($return_module === 'Campaigns') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} else if ($return_module === 'Products') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
@@ -453,7 +453,7 @@ class Accounts extends \FreeCRM\CRMEntity
 		} else {
 			foreach ($with_crmids as $with_crmid) {
 				if ($with_module == 'Products') {
-					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
+					\App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 						'crmid' => $crmid,
 						'productid' => $with_crmid,
 						'setype' => $module,
@@ -465,7 +465,7 @@ class Accounts extends \FreeCRM\CRMEntity
 					if ($checkResult) {
 						continue;
 					}
-					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+					\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $with_crmid,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 1

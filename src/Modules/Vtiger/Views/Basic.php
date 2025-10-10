@@ -35,13 +35,13 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$viewer = $this->getViewer($request);
 
 		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-			$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
-		$companyDetails = App\Company::getInstanceById();
+		$companyDetails = \App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
-		$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
+		$currentDate = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
 		$viewer->assign('CURRENTDATE', $currentDate);
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
@@ -51,11 +51,11 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
 
-		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
+		$homeModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 		if (\FreeCRM\AppConfig::performance('GLOBAL_SEARCH')) {
-			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+			$viewer->assign('SEARCHABLE_MODULES', \FreeCRM\Modules\Vtiger\Models\Module::getSearchableModules());
 		}
 		if (\FreeCRM\AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
@@ -69,7 +69,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 
 	protected function getMenu()
 	{
-		return Vtiger_Menu_Model::getAll(true);
+		return \FreeCRM\Modules\Vtiger\Models\Menu::getAll(true);
 	}
 
 	protected function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
@@ -92,7 +92,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

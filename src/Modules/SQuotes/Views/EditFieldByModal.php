@@ -10,13 +10,13 @@ namespace FreeCRM\Modules\SQuotes\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class EditFieldByModal extends View
+class EditFieldByModal extends \Vtiger_Index_View
 {
 
 	protected $restrictItems = ['PLL_CANCELLED' => 'btn-danger', 'PLL_ACCEPTED' => 'btn-success'];
 
 	public function getConditionToRestricts($moduleName, $ID)
 	{
-		return Users_Privileges_Model::isPermitted($moduleName, 'CloseRecord', $ID);
+		return \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CloseRecord', $ID);
 	}
 }

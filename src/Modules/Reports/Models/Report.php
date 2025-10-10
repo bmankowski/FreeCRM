@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Reports\Models;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/Reports/Reports.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Reports/Reports.php';
 
 class Report extends Reports
 {
@@ -24,7 +24,7 @@ class Report extends Reports
 	public function Reports($reportId = "")
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 
 		$this->initListOfModules();

@@ -26,7 +26,7 @@ class ProductsTableNew extends Base
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
+		$inventoryField = \FreeCRM\Modules\Vtiger\Models\InventoryField::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$html .= '<style>' .

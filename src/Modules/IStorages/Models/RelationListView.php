@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\IStorages\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class RelationListView extends Model
+class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $addRelatedFieldToEntries = [
@@ -22,8 +22,8 @@ class RelationListView extends Model
 	{
 		$headerFields = parent::getHeaders();
 		if ($this->getRelationModel()->get('modulename') == 'Products' && $this->getRelationModel()->get('name') == 'getManyToMany') {
-			$qtyInStock = new Vtiger_Field_Model();
-			$qtyInStock->setModule(Vtiger_Module_Model::getInstance('Products'));
+			$qtyInStock = new \FreeCRM\Modules\Vtiger\Models\Field();
+			$qtyInStock->setModule(\FreeCRM\Modules\Vtiger\Models\Module::getInstance('Products'));
 			$qtyInStock->set('name', 'qtyproductinstock');
 			$qtyInStock->set('column', 'qtyproductinstock');
 			$qtyInStock->set('label', 'FL_QTY_IN_STOCK');

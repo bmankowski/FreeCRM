@@ -245,7 +245,7 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Base_Model
 	 */
 	public function modulesValues()
 	{
-		$modules = Vtiger_Module_Model::getAll([0], [], true);
+		$modules = \FreeCRM\Modules\Vtiger\Models\Module::getAll([0], [], true);
 		foreach ($modules AS $module) {
 			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
 		}
@@ -271,8 +271,8 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Base_Model
 		if (isset($fields[$name])) {
 			$mapDetail = $fields[$name];
 			if ($returInstance) {
-				$moduleModel = Vtiger_Module_Model::getInstance($mapDetail['module']);
-				return Vtiger_Field_Model::getInstance($mapDetail['field'], $moduleModel);
+				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($mapDetail['module']);
+				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance($mapDetail['field'], $moduleModel);
 			} else {
 				return $mapDetail;
 			}

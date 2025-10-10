@@ -10,7 +10,7 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -22,7 +22,7 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('find');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -31,7 +31,7 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function find(Vtiger_Request $request)
+	public function find(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$value = $request->get('value');
 		$modules = array_keys(\App\ModuleHierarchy::getModulesByLevel(0));
@@ -46,12 +46,12 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
-		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
+		$convertedInfo = \FreeCRM\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
-			if (Users_Privileges_Model::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
+			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
 				$label = \App\Record::getLabel($row['crmid']);
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
@@ -62,7 +62,7 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				];
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($matchingRecords);
 		$response->emit();
 	}

@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\OSSTimeControl;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class OSSTimeControl extends Vtiger_CRMEntity
+class OSSTimeControl extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_osstimecontrol';
@@ -108,8 +108,8 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
 			\App\Fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('OSSTimeControl'));
 			}
@@ -164,7 +164,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
 					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($currentModule)])
+					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Module::getModuleId($currentModule)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$className = \FreeCRM\Loader::getComponentClassName('Model', 'Field', $currentModule);
@@ -180,8 +180,8 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			}
 		}
 		foreach ($results as $row) {
-			App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, \FreeCRM\CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
+			\App\Db::getInstance()->createCommand()
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, \FreeCRM\CRMEntity::getInstance(\App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
 		}
 	}
 
@@ -191,7 +191,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [\vtlib\Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = \FreeCRM\Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();

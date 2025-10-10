@@ -23,7 +23,7 @@ class ActivityReminder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -31,7 +31,7 @@ class ActivityReminder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -40,12 +40,12 @@ class ActivityReminder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function postpone(Vtiger_Request $request)
+	public function postpone(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$time = $request->get('time');
 		$module = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $module);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $module);
 		$recordModel->updateReminderPostpone($time);
 	}
 }

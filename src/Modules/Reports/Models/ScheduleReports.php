@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ScheduleReports extends Model
+class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public $scheduledFormat = 'CSV';
@@ -77,7 +77,7 @@ class ScheduleReports extends Model
 			$date = $this->get('schdate');
 			$dateDBFormat = DateTimeField::convertToDBFormat($date);
 			$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-			$currentTime = Vtiger_Util_Helper::getActiveAdminCurrentDateTime();
+			$currentTime = \Vtiger_Util_Helper::getActiveAdminCurrentDateTime();
 			if ($nextTriggerTime > $currentTime) {
 				$this->set('next_trigger_time', $nextTriggerTime);
 			} else {
@@ -176,7 +176,7 @@ class ScheduleReports extends Model
 		$recipientsEmails = [];
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				if (!Vtiger_Util_Helper::isUserDeleted($userId)) {
+				if (!\Vtiger_Util_Helper::isUserDeleted($userId)) {
 					$userName = \App\Fields\Owner::getUserLabel($userId);
 					$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {
@@ -197,18 +197,18 @@ class ScheduleReports extends Model
 	public function sendEmail()
 	{
 		$recipientEmails = $this->getRecipientEmails();
-		vtlib\Utils::ModuleLog('ScheduleReprots', $recipientEmails);
+		\vtlib\Utils::ModuleLog('ScheduleReprots', $recipientEmails);
 		$to = [];
 		foreach ($recipientEmails as $name => $email) {
 			$to[$email] = $name;
 		}
-		require_once ROOT_DIRECTORY . '/modules/Report/models/Record.php';
-		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
+		require_once ROOT_DIRECTORY . '/src/Modules/Report/Models/Record.php';
+		$reportRecordModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
-		vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
+		\vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
 		$reportname = decode_html($reportRecordModel->getName());
 		$subject = $reportname;
-		vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
+		\vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
 		$baseFileName = $reportname . '__' . $currentTime;
 		$fileName = $baseFileName . '.csv';
 
@@ -251,7 +251,7 @@ class ScheduleReports extends Model
 	 */
 	public function getNextTriggerTime()
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowManager.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManager.php';
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
@@ -287,9 +287,9 @@ class ScheduleReports extends Model
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
-		vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
+		\vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
-		vtlib\Utils::ModuleLog('ScheduleReprot', 'Next Trigger Time updated');
+		\vtlib\Utils::ModuleLog('ScheduleReprot', 'Next Trigger Time updated');
 	}
 
 	public static function getScheduledReports()
@@ -302,7 +302,7 @@ class ScheduleReports extends Model
 		@date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date("Y-m-d H:i:s");
 		@date_default_timezone_set($default_timezone);
-		$dataReader = (new App\Db\Query())->select(['reportid'])
+		$dataReader = (new \App\Db\Query())->select(['reportid'])
 				->from('vtiger_schedulereports')
 				->where(['or', ['next_trigger_time' => null], ['<=', 'next_trigger_time', $currentTimestamp]])
 				->createCommand()->query();
@@ -315,7 +315,7 @@ class ScheduleReports extends Model
 
 	public static function runScheduledReports()
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 
@@ -330,7 +330,7 @@ class ScheduleReports extends Model
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {
 			$status = $scheduledReport->sendEmail();
-			vtlib\Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);
+			\vtlib\Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);
 			if ($status)
 				$scheduledReport->updateNextTriggerTime();
 		}

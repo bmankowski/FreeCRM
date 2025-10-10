@@ -20,7 +20,7 @@ Class DataAccess_check_taskdate
 		if (!isset($projectmilestoneid) || $projectmilestoneid == 0 || $projectmilestoneid == '')
 			return Array('save_record' => true);
 
-		$moduleModel = Vtiger_Record_Model::getInstanceById($projectmilestoneid, 'ProjectMilestone');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projectmilestoneid, 'ProjectMilestone');
 		$projectMilestoneDate = $moduleModel->get('projectmilestonedate');
 		if (!isset($projectMilestoneDate) || $projectMilestoneDate == 0 || $projectMilestoneDate == '')
 			return Array('save_record' => true);

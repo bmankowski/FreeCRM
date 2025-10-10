@@ -15,19 +15,19 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class Kpi extends View
+class Kpi extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 
 		$kpiHelper = new Vtiger_Kpi_Helper($request);
 		$data = $kpiHelper->getData($request);
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$viewer->assign('KPILIST', $kpiHelper->getKpiList());
 		$viewer->assign('KPITYPES', $kpiHelper->getKpiTypes());
 		$viewer->assign('DTYPE', $request->get('type'));

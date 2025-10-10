@@ -11,5 +11,5 @@ namespace FreeCRM\Modules\OSSMailScanner\cron;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 $recordModel->verificationCron();

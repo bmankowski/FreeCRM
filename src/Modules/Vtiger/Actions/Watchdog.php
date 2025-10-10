@@ -17,11 +17,11 @@ class Watchdog extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (empty($recordId)) {
-			if (!Users_Privileges_Model::isPermitted($moduleName, 'WatchingModule')) {
+			if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingModule')) {
 				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		} else {
-			if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId) || !Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
+			if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId) || !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingRecords')) {
 				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
@@ -34,7 +34,7 @@ class Watchdog extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -51,7 +51,7 @@ class Watchdog extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$watchdog->changeRecordState($state);
 		}
 		Vtiger_Watchdog_Model::reloadCache();
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($state);
 		$response->emit();
 	}

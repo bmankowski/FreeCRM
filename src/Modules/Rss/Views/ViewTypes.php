@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Rss\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ViewTypes extends View
+class ViewTypes extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -40,7 +40,7 @@ class ViewTypes extends View
 	public function getRssWidget(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('module');
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 		$rssSources = $moduleModel->getRssSources();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
@@ -57,7 +57,7 @@ class ViewTypes extends View
 	public function getRssAddForm(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$this->preProcess($request);

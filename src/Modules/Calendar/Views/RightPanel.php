@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Calendar\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class RightPanel extends View
+class RightPanel extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -29,7 +29,7 @@ class RightPanel extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 		switch ($clendarallorecords) {
@@ -58,7 +58,7 @@ class RightPanel extends View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 
@@ -88,7 +88,7 @@ class RightPanel extends View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ACTIVITY_TYPE', Calendar_Module_Model::getCalendarTypes());
+		$viewer->assign('ACTIVITY_TYPE', \FreeCRM\Modules\Calendar\Models\Module::getCalendarTypes());
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 }

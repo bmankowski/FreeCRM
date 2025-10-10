@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\HelpDesk\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class OpenTickets extends View
+class OpenTickets extends \Vtiger_Index_View
 {
 
 	/**
@@ -25,11 +25,11 @@ class OpenTickets extends View
 	public function getOpenTickets()
 	{
 
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$ticketStatus = \Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$moduleName = 'HelpDesk';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$query = new \App\Db\Query();
-		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
 				'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
 				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
@@ -62,11 +62,11 @@ class OpenTickets extends View
 
 	public function getSearchParams($value)
 	{
-		$openTicketsStatus = Settings_SupportProcesses_Module_Model::getOpenTicketStatus();
+		$openTicketsStatus = \Settings_SupportProcesses_Module_Model::getOpenTicketStatus();
 		if ($openTicketsStatus)
 			$openTicketsStatus = implode(',', $openTicketsStatus);
 		else {
-			$allTicketStatus = Settings_SupportProcesses_Module_Model::getAllTicketStatus();
+			$allTicketStatus = \Settings_SupportProcesses_Module_Model::getAllTicketStatus();
 			$openTicketsStatus = implode(',', $allTicketStatus);
 		}
 
@@ -80,11 +80,11 @@ class OpenTickets extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$data = $this->getOpenTickets();
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

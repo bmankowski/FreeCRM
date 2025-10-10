@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Users\Models;
 /**
  * User Privileges Model Class
  */
-class Privileges extends Model
+class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**
@@ -39,7 +39,7 @@ class Privileges extends Model
 	protected function getGlobalReadPermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
-		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW];
+		return $profileGlobalPermissions[\Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW];
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Privileges extends Model
 	protected function getGlobalWritePermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
-		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT];
+		return $profileGlobalPermissions[\Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT];
 	}
 
 	/**
@@ -58,9 +58,9 @@ class Privileges extends Model
 	 */
 	public function hasGlobalReadPermission()
 	{
-		return ($this->isAdminUser() ||
-			$this->getGlobalReadPermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE ||
-			$this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+		return ($this->get("is_admin") == "on" ||
+			$this->getGlobalReadPermission() === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE ||
+			$this->getGlobalWritePermission() === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
 	}
 
 	/**
@@ -69,15 +69,15 @@ class Privileges extends Model
 	 */
 	public function hasGlobalWritePermission()
 	{
-		return ($this->isAdminUser() || $this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+		return ($this->get("is_admin") == "on" || $this->getGlobalWritePermission() === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
 	}
 
 	public function hasGlobalPermission($actionId)
 	{
-		if ($actionId == Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW) {
+		if ($actionId == \Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW) {
 			return $this->hasGlobalReadPermission();
 		}
-		if ($actionId == Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT) {
+		if ($actionId == \Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT) {
 			return $this->hasGlobalWritePermission();
 		}
 		return false;
@@ -91,8 +91,8 @@ class Privileges extends Model
 	public function hasModulePermission($mixed)
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
-		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return !empty($moduleModel) && $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()] === 0));
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($mixed);
+		return !empty($moduleModel) && $moduleModel->isActive() && (($this->get('is_admin') == 'on' || $profileTabsPermissions[$moduleModel->getId()] === 0));
 	}
 
 	/**
@@ -103,13 +103,13 @@ class Privileges extends Model
 	 */
 	public function hasModuleActionPermission($mixed, $action)
 	{
-		if (!is_a($action, 'Vtiger_Action_Model')) {
-			$action = Vtiger_Action_Model::getInstance($action);
+		if (!is_object($action) || !($action instanceof \FreeCRM\Modules\Vtiger\Models\Action)) {
+			$action = \FreeCRM\Modules\Vtiger\Models\Action::getInstance($action);
 		}
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
-		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE));
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($mixed);
+		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE));
 	}
 
 	/**
@@ -142,7 +142,7 @@ class Privileges extends Model
 		if (isset(self::$userPrivilegesModelCache[$userId])) {
 			return self::$userPrivilegesModelCache[$userId];
 		}
-		$valueMap = App\User::getPrivilegesFile($userId);
+		$valueMap = \App\User::getPrivilegesFile($userId);
 		if (is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
@@ -157,7 +157,7 @@ class Privileges extends Model
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
-		return self::getInstanceById(App\User::getCurrentUserId());
+		return self::getInstanceById(\App\User::getCurrentUserId());
 	}
 
 	/**
@@ -190,7 +190,7 @@ class Privileges extends Model
 
 	protected static $lockEditCache = [];
 
-	public static function checkLockEdit($moduleName, Vtiger_Record_Model $recordModel)
+	public static function checkLockEdit($moduleName, \FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$recordId = $recordModel->getId();
 		if (isset(self::$lockEditCache[$moduleName . $recordId])) {
@@ -201,10 +201,10 @@ class Privileges extends Model
 			self::$lockEditCache[$moduleName . $recordId] = $return;
 			return $return;
 		}
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
 		require_once ROOT_DIRECTORY . '/src/Webservices/Retrieve.php';
-		$workflows = (new VTWorkflowManager(\FreeCRM\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new \VTWorkflowManager(\FreeCRM\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
@@ -329,12 +329,12 @@ class Privileges extends Model
 		if (\App\Cache::staticHas('PrivilegesParentRecord', $cacheKey)) {
 			return \App\Cache::staticGet('PrivilegesParentRecord', $cacheKey);
 		}
-		$userModel = App\User::getCurrentUserModel();
+		$userModel = \App\User::getCurrentUserModel();
 		$currentUserId = $userModel->getId();
 		$currentUserGroups = $userModel->get('groups');
 		settype($currentUserGroups, 'array');
 		if (!$moduleName) {
-			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
+			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
 		}
 		if ($moduleName == 'Events') {
@@ -343,12 +343,12 @@ class Privileges extends Model
 
 		$parentRecord = false;
 		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
-			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
 			foreach ($parentModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField() && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($record);
+					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record);
 					$value = $recordModel->get($fieldName);
 					if ($value != '' && $value != 0) {
 						$parentRecord = $value;
@@ -369,7 +369,7 @@ class Privileges extends Model
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
-				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
+				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
@@ -407,7 +407,7 @@ class Privileges extends Model
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'];
-				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
+				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRelatedField = $role->get('permissionsrelatedfield') == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {
@@ -449,5 +449,44 @@ class Privileges extends Model
 	{
 		\App\Log::trace('Get profile list');
 		return $this->get('profiles');
+	}
+	
+	/**
+	 * Get role detail for this user
+	 * @return object Role details with get() method for compatibility
+	 */
+	public function getRoleDetail()
+	{
+		if ($this->get('roleDetail')) {
+			return $this->get('roleDetail');
+		}
+		$roleId = $this->get('roleid');
+		if ($roleId) {
+			$db = \App\Db::getInstance();
+			$roleData = (new \App\Db\Query())
+				->from('vtiger_role')
+				->where(['roleid' => $roleId])
+				->one($db);
+			if ($roleData) {
+				// Create simple model with get() method for compatibility
+				$roleModel = new class($roleData) {
+					private $data;
+					public function __construct($data) { $this->data = $data; }
+					public function get($key) { return $this->data[$key] ?? null; }
+				};
+				$this->set('roleDetail', $roleModel);
+				return $roleModel;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Check if user is admin
+	 * @return bool
+	 */
+	public function isAdminUser()
+	{
+		return $this->get('is_admin') === 'on' || $this->get('is_admin') === '1' || $this->get('is_admin') === 1;
 	}
 }

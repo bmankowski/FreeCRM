@@ -16,7 +16,7 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'ExportPdf')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -29,7 +29,7 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('generate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -38,7 +38,7 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function validateRecords(Vtiger_Request $request)
+	public function validateRecords(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$records = $request->get('records');
@@ -48,7 +48,7 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		if (!empty($templates) && count($templates) > 0) {
 			foreach ($templates as $templateId) {
-				$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
+				$templateRecord = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($templateId);
 				foreach ($records as $recordId) {
 					if (!$templateRecord->checkFiltersForRecord(intval($recordId))) {
 						if (($key = array_search($recordId, $records)) !== false) {
@@ -61,12 +61,12 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 			$output = ['valid_records' => $records, 'message' => vtranslate('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
 	}
 
-	public function generate(Vtiger_Request $request)
+	public function generate(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -81,24 +81,24 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$recordsAmount = count($recordId);
 		$selectedOneTemplate = $templateAmount == 1 ? true : false;
 		if ($selectedOneTemplate) {
-			$template = Vtiger_PDF_Model::getInstanceById($templateIds[0]);
+			$template = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($templateIds[0]);
 			$generateOnePdf = $template->get('one_pdf');
 		}
 
 		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if ($emailPdf) {
 				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
+				\FreeCRM\Modules\Vtiger\Models\PDF::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
 				if (file_exists($filePath)) {
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 				} else {
 					throw new \Exception\AppException(vtranslate('LBL_EXPORT_ERROR', 'Settings:PDF'));
 				}
 			} else {
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
+				\FreeCRM\Modules\Vtiger\Models\PDF::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
 			}
 		} else if ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
-			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
+			\FreeCRM\Modules\Vtiger\Models\PDF::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
 				$handlerClass = \FreeCRM\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
@@ -115,7 +115,7 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 					$pdf->setModuleName($moduleName);
 
 					$firstTemplate = array_shift($templateIdsTemp);
-					$template = Vtiger_PDF_Model::getInstanceById($firstTemplate);
+					$template = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
 					vglobal('default_language', $template->get('language'));
@@ -138,7 +138,7 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 					$body .= '<div class="page_' . $record . '_' . $firstTemplate . '">' . $template->getBody() . '</div>';
 
 					foreach ($templateIdsTemp as $id) {
-						$template = Vtiger_PDF_Model::getInstanceById($id);
+						$template = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						vglobal('default_language', $template->get('language'));
@@ -182,7 +182,7 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
 
-						$template = Vtiger_PDF_Model::getInstanceById($id);
+						$template = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
@@ -210,9 +210,9 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 				if (!empty($pdfFiles)) {
 					if (!empty($emailPdf)) {
-						Vtiger_PDF_Model::attachToEmail($postfix);
+						\FreeCRM\Modules\Vtiger\Models\PDF::attachToEmail($postfix);
 					} else {
-						Vtiger_PDF_Model::zipAndDownload($pdfFiles);
+						\FreeCRM\Modules\Vtiger\Models\PDF::zipAndDownload($pdfFiles);
 					}
 				}
 			}
@@ -224,18 +224,18 @@ class PDF extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return boolean true if valid template exists for this record
 	 */
-	public function hasValidTemplate(Vtiger_Request $request)
+	public function hasValidTemplate(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->get('modulename');
 		$view = $request->get('view');
 
-		$pdfModel = new Vtiger_PDF_Model();
+		$pdfModel = new \FreeCRM\Modules\Vtiger\Models\PDF();
 		$pdfModel->setMainRecordId($recordId);
 		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);
 		$output = ['valid' => $valid];
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
 	}

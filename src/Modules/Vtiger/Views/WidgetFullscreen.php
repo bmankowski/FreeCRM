@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class WidgetFullscreen extends View
+class WidgetFullscreen extends \Vtiger_Index_View
 {
 
 	/**
@@ -29,7 +29,7 @@ class WidgetFullscreen extends View
 		if (!is_numeric($recordId)) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = \Users_Privileges_Model::isPermitted($request->getModule(), 'DetailView', $recordId);
+		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}

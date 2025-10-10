@@ -12,27 +12,27 @@ namespace FreeCRM\Modules\Portal\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class SaveAjax extends Action
+class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$recordId = $request->get('record');
 		$bookmarkName = $request->get('bookmarkName');
 		$bookmarkUrl = $request->get('bookmarkUrl');
 
-		Portal_Module_Model::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
+		\FreeCRM\Modules\Portal\Models\Module::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$result = array('message' => vtranslate('LBL_BOOKMARK_SAVED_SUCCESSFULLY', $module));
 		$response->setResult($result);
 		$response->emit();

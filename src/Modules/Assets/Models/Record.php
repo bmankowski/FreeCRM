@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Assets\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];
@@ -39,7 +39,7 @@ class Record extends Model
 		if ($this->isEmpty('product')) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
-		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('product'), 'Products');
+		$productsRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($this->get('product'), 'Products');
 		$renewable = $productsRecordModel->get('renewable');
 		if (!$renewable) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';

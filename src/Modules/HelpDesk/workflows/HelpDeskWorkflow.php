@@ -24,8 +24,8 @@ function getContactsMailsFromTicket($id)
 	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
 	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
 	while ($contactId = $db->getSingleValue($result)) {
-		if (App\Record::isExists($contactId)) {
-			$contactRecord = Vtiger_Record_Model::getInstanceById($contactId, 'Contacts');
+		if (\App\Record::isExists($contactId)) {
+			$contactRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
 			if (($contactRecord->get('emailoptout') == 1 || !AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
 				$mails[] = $primaryEmail;
@@ -37,9 +37,9 @@ function getContactsMailsFromTicket($id)
 
 /**
  * Function to send mail to contacts. Function invoke by workflow
- * @param Vtiger_Record_Model $recordModel
+ * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskChangeNotifyContacts(Vtiger_Record_Model $recordModel)
+function HelpDeskChangeNotifyContacts(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskChangeNotifyContacts');
 	$recordId = $recordModel->getId();
@@ -57,9 +57,9 @@ function HelpDeskChangeNotifyContacts(Vtiger_Record_Model $recordModel)
 
 /**
  * Function to send mail to contacts. Function invoke by workflow
- * @param Vtiger_Record_Model $recordModel
+ * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
+function HelpDeskClosedNotifyContacts(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskClosedNotifyContacts');
 	$recordId = $recordModel->getId();
@@ -77,14 +77,14 @@ function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
 
 /**
  * Function to send mail to accounts. Function invoke by workflow
- * @param Vtiger_Record_Model $recordModel
+ * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
+function HelpDeskNewCommentAccount(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 {
 	$db = \FreeCRM\database\PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
-	$moduleName = vtlib\Functions::getCRMRecordType($relatedToId);
+	$moduleName = \vtlib\Functions::getCRMRecordType($relatedToId);
 	$mail = false;
 	if (!empty($relatedToId) && $moduleName == 'HelpDesk') {
 		if ($moduleName == 'HelpDesk') {
@@ -111,9 +111,9 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 
 /**
  * Function to send mail to contacts. Function invoke by workflow
- * @param Vtiger_Record_Model $recordModel
+ * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
+function HelpDeskNewCommentContacts(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$mails = getContactsMailsFromTicket($recordModel->get('related_to'));
@@ -130,9 +130,9 @@ function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 
 /**
  * Function to send mail to users. Function invoke by workflow
- * @param Vtiger_Record_Model $recordModel
+ * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
+function HelpDeskNewCommentOwner(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$db = \FreeCRM\database\PearDatabase::getInstance();

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CurrencyList extends UIType
+class CurrencyList extends Base
 {
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

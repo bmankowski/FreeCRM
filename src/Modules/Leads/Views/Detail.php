@@ -13,13 +13,13 @@ namespace FreeCRM\Modules\Leads\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \FreeCRM\Modules\Vtiger\Views\Detail
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(Leads_Module_Model::getConversionAvaibleStatuses()));
+		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\FreeCRM\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
 		parent::preProcess($request);
 	}
 }

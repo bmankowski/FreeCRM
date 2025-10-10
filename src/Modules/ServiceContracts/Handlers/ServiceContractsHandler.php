@@ -12,9 +12,9 @@ class Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$moduleName = $eventHandler->getModuleName();
 		// Update Used Units for the Service Contract, everytime the status of a ticket related to the Service Contract changes
@@ -30,12 +30,12 @@ class Handler {
 					} else {
 						$op = '+';
 					}
-					$dataReader = (new App\Db\Query())
+					$dataReader = (new \App\Db\Query())
 							->select(['crmid'])
 							->from('vtiger_crmentityrel')
 							->where(['module' => 'ServiceContracts', 'relmodule' => 'HelpDesk', 'relcrmid' => $ticketId])
 							->union(
-								(new App\Db\Query())
+								(new \App\Db\Query())
 								->select(['relcrmid'])
 								->from('vtiger_crmentityrel')
 								->where(['relmodule' => 'ServiceContracts', 'module' => 'HelpDesk', 'crmid' => $ticketId])

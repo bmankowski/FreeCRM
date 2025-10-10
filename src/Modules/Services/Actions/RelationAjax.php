@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Services\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationAjax extends Action
+class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 	
 }

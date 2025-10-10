@@ -9,15 +9,15 @@ namespace FreeCRM\Modules\WSAPP\synclib\controllers;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/SyncStateModel.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/VtigerModel.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/models/TargetModel.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/SyncStateModel.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/VtigerModel.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/TargetModel.php';
 
-require_once ROOT_DIRECTORY . '/modules/WSAPP/synclib/connectors/VtigerConnector.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/connectors/VtigerConnector.php';
 
 require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
 
-require_once ROOT_DIRECTORY . '/modules/WSAPP/api/ws/Register.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/api/ws/Register.php';
 
 abstract class WSAPP_SynchronizeController
 {

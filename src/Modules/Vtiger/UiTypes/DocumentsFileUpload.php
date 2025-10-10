@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DocumentsFileUpload extends UIType
+class DocumentsFileUpload extends Base
 {
 
 	/**
@@ -39,7 +39,7 @@ class DocumentsFileUpload extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param <Integer> $record
-	 * @param <Vtiger_Record_Model>
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Record>
 	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
@@ -49,7 +49,7 @@ class DocumentsFileUpload extends UIType
 			$fileStatus = $recordInstance->get('filestatus');
 			if (!empty($value) && $fileStatus) {
 				if ($fileLocationType == 'I') {
-					$fileId = (new App\Db\Query())->select(['attachmentsid'])
+					$fileId = (new \App\Db\Query())->select(['attachmentsid'])
 						->from('vtiger_seattachmentsrel')
 						->where(['crmid' => $record])
 						->scalar();
@@ -68,13 +68,13 @@ class DocumentsFileUpload extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value === null) {
-			$fileName = (new App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();
+			$fileName = (new \App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();
 			if ($fileName) {
 				return decode_html($fileName);
 			}

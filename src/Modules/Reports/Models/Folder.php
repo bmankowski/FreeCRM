@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Folder extends Model
+class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	/**
@@ -80,7 +80,7 @@ class Folder extends Model
 
 	/**
 	 * Function returns Report Models for the folder
-	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Paging> $pagingModel
 	 * @return <Reports_Record_Model>
 	 */
 	public function getReports($pagingModel)
@@ -91,7 +91,7 @@ class Folder extends Model
 			'orderBy' => $this->get('orderby'),
 			'sortBy' => $this->get('sortby'));
 
-		$reportClassInstance = Vtiger_Module_Model::getClassInstance('Reports');
+		$reportClassInstance = \FreeCRM\Modules\Vtiger\Models\Module::getClassInstance('Reports');
 
 		$fldrId = $this->getId();
 		if ($fldrId == 'All') {
@@ -125,7 +125,7 @@ class Folder extends Model
 			$pagingModel->set('nextPageExists', false);
 		}
 
-		$reportModuleModel = Vtiger_Module_Model::getInstance('Reports');
+		$reportModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Reports');
 
 		if ($fldrId === false) {
 			return $this->getAllReportModels($reportsList, $reportModuleModel);
@@ -345,7 +345,7 @@ class Folder extends Model
 				$sql .= " WHERE vtiger_reportfolder.folderid=?";
 				array_push($params, $fldrId);
 			}
-			$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			if (!$currentUserModel->isAdminUser()) {
 				$currentUserId = $currentUserModel->getId();
 
@@ -374,7 +374,7 @@ class Folder extends Model
 	/**
 	 * Function to get all Report Record Models
 	 * @param <Array> $allReportsList
-	 * @param Vtiger_Module_Model - Reports Module Model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module - Reports Module Model
 	 * @return <Array> Reports Record Models
 	 */
 	public function getAllReportModels($allReportsList, $reportModuleModel)

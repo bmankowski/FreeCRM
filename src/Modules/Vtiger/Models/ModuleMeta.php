@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ModuleMeta extends Model
+class ModuleMeta extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	public $moduleName = false;
@@ -28,7 +28,7 @@ class ModuleMeta extends Model
 	 */
 	public static function getInstance($name, $user)
 	{
-		$self = new Vtiger_ModuleMeta_Model();
+		$self = new \FreeCRM\Modules\Vtiger\Models\ModuleMeta();
 		$self->moduleName = $name;
 		$self->user = $user;
 

@@ -14,14 +14,14 @@ namespace FreeCRM\Modules\Products\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class QuickCreateAjax extends View
+class QuickCreateAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
 		$viewer = $this->getViewer($request);

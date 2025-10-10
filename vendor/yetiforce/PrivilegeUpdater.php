@@ -200,7 +200,7 @@ class PrivilegeUpdater
 		}
 		PrivilegeAdvanced::reloadCache();
 		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
-			\Vtiger_Watchdog_Model::reloadCache();
+			\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
 		\App\Cache::clear();
 	}

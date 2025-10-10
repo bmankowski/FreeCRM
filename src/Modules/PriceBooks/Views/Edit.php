@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\PriceBooks\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Edit extends View
+class Edit extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)

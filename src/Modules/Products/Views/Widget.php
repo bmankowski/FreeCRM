@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Products\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Widget extends View
+class Widget extends \Vtiger_Index_View
 {
 
 	public function __construct()

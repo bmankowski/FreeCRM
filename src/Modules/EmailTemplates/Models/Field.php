@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\EmailTemplates\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	public function isAjaxEditable()
@@ -23,10 +23,10 @@ class Field extends Model
 	public function getModulesListValues()
 	{
 		$modules = parent::getModulesListValues();
-		$modules[App\Module::getModuleId('Reports')] = ['name' => 'Reports', 'label' => \LanguageTranslator::translate('Reports', 'Reports')];
-		$modules[App\Module::getModuleId('Users')] = ['name' => 'Users', 'label' => \LanguageTranslator::translate('Users', 'Users')];
-		$modules[App\Module::getModuleId('Events')] = ['name' => 'Events', 'label' => \LanguageTranslator::translate('Events', 'Events')];
-		$modules[App\Module::getModuleId('ModComments')] = ['name' => 'ModComments', 'label' => \LanguageTranslator::translate('ModComments')];
+		$modules[\App\Module::getModuleId('Reports')] = ['name' => 'Reports', 'label' => \LanguageTranslator::translate('Reports', 'Reports')];
+		$modules[\App\Module::getModuleId('Users')] = ['name' => 'Users', 'label' => \LanguageTranslator::translate('Users', 'Users')];
+		$modules[\App\Module::getModuleId('Events')] = ['name' => 'Events', 'label' => \LanguageTranslator::translate('Events', 'Events')];
+		$modules[\App\Module::getModuleId('ModComments')] = ['name' => 'ModComments', 'label' => \LanguageTranslator::translate('ModComments')];
 		return $modules;
 	}
 }

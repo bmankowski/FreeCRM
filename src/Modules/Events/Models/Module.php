@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Events\Models;
 /**
  * Calendar Module Model Class
  */
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -32,7 +32,7 @@ class Module extends Model
 	 */
 	public function getNameFields()
 	{
-		$entityInfo = App\Module::getEntityInfo('Calendar');
+		$entityInfo = \App\Module::getEntityInfo('Calendar');
 		return $entityInfo['fieldnameArr'];
 	}
 }

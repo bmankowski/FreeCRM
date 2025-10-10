@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -93,7 +93,7 @@ class Module extends Model
 
 	/**
 	 * Function to delete a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function deleteRecord($recordModel)
 	{
@@ -176,7 +176,7 @@ class Module extends Model
 	 */
 	public function saveLogoutHistory()
 	{
-		$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
 		$outtime = date('Y-m-d H:i:s');
 
@@ -297,18 +297,18 @@ class Module extends Model
 
 	/**
 	 * Function to save a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @copyright Modyfikowane przez PWC
 	 */
-	public function saveRecord(\Vtiger_Record_Model $recordModel)
+	public function saveRecord(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
-			App\Log::info('ERR_NO_DATA');
+			\App\Log::info('ERR_NO_DATA');
 			return $recordModel;
 		}
 		$recordModel->validate();
-		$eventHandler = new App\EventHandler();
+		$eventHandler = new \App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		if ($recordModel->getHandlerExceptions()) {
@@ -316,8 +316,8 @@ class Module extends Model
 		}
 		$recordModel->saveToDb();
 		//After adding new user, set the default activity types for new user
-		Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($recordModel->getId());
-		if ($recordModel->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $recordModel->getId()) {
+		\Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		if ($recordModel->getPreviousValue('language') !== false && \App\User::getCurrentUserRealId() === $recordModel->getId()) {
 			Vtiger_Session::set('language', $recordModel->get('language'));
 		}
 		require_once '/modules/Users/CreateUserPrivilegeFile.php';
@@ -334,10 +334,10 @@ class Module extends Model
 	 * Function gives list fields for save
 	 * @return string[]
 	 */
-	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
+	public function getFieldsForSave(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$editFields = [];
-		foreach (App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+		foreach (\App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return $editFields;

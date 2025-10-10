@@ -17,7 +17,7 @@ class OutgoingCall extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
@@ -25,12 +25,12 @@ class OutgoingCall extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");
-		$response = new Vtiger_Response();
-		$user = Users_Record_Model::getCurrentUserModel();
+		$response = new \FreeCRM\Http\Vtiger_Response();
+		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userNumber = $user->phone_crm_extension;
 
 		if ($gateway && $userNumber) {

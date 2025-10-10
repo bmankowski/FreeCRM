@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\WSAPP;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
@@ -26,7 +26,7 @@ class OutlookSyncServer extends SyncServer
 	public function getDestinationHandleDetails()
 	{
 		return array('handlerclass' => 'OutlookVtigerCRMHandler',
-			'handlerpath' => 'modules/WSAPP/Handlers/OutlookVtigerCRMHandler.php');
+			'handlerpath' => 'src/Modules/WSAPP/Handlers/OutlookVtigerCRMHandler.php');
 	}
 	/*
 	 * Function overrided to deal duplication handling 

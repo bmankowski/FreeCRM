@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class TooltipView extends Model
+class TooltipView extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $fields = false;
 
 	/**
 	 * Function to set the module instance
-	 * @param Vtiger_Module_Model $moduleInstance - module model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleInstance - module model
 	 * @return \self
 	 */
 	public function setModule($moduleInstance)
@@ -66,7 +66,7 @@ class TooltipView extends Model
 	{
 		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
 		$instance = new $modelClassName();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		return $instance->setModule($recordModel->getModule())->setRecord($recordModel);
 	}
 }

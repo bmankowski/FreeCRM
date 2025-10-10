@@ -14,7 +14,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -24,13 +24,13 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function getEvent(Vtiger_Request $request)
+	public function getEvent(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('id');
@@ -44,12 +44,12 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 		$entity = $record->getEntity();
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
 	}
 
-	public function updateEvent(Vtiger_Request $request)
+	public function updateEvent(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');
@@ -62,7 +62,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			if (!empty($recordId)) {
 				try {
 					$delta = $request->get('delta');
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 					$recordData = $recordModel->entity->column_fields;
 					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
 					$due_date = $end['date'];
@@ -79,7 +79,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($succes);
 		$response->emit();
 	}

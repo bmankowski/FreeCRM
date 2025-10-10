@@ -14,18 +14,18 @@ namespace FreeCRM\Modules\ModComments\Models;
 /**
  * ModComments ListView Model Class
  */
-class Model extends Model
+class Model extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
 		$links = parent::getListViewLinks($linkParams);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleModel = $this->getModule();
 
 		unset($links['LISTVIEW']);
@@ -38,7 +38,7 @@ class Model extends Model
 				'linkurl' => 'index.php?parent=Settings&module=Workflow&sourceModule=' . $this->getName(),
 				'linkicon' => Vtiger_Theme::getImagePath('EditWorkflows.png')
 			);
-			$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
+			$links['LISTVIEWSETTING'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($settingsLink);
 		}
 
 		return $links;

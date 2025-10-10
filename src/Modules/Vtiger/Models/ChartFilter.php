@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class ChartFilter extends Model
+class ChartFilter extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	private $widgetModel;
@@ -95,7 +95,7 @@ class ChartFilter extends Model
 	{
 		$filterId = $this->widgetModel->get('filterid');
 		$groupField = $this->extraData['groupField'];
-		$groupFieldModel = Vtiger_Field_Model::getInstance($groupField, $this->getTargetModuleModel());
+		$groupFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($groupField, $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->get('name');
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
@@ -191,7 +191,7 @@ class ChartFilter extends Model
 	public function getTargetModuleModel()
 	{
 		if (!$this->targetModuleModel) {
-			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
+			$this->targetModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
 	}
@@ -206,7 +206,7 @@ class ChartFilter extends Model
 			if ($db->num_rows($customviewrs)) {
 				$customview = $db->fetch_array($customviewrs);
 				$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
-				$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+				$groupFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 				$suffix .= ' - ' . vtranslate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
 			}
 			return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;

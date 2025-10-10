@@ -8,10 +8,10 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class EditFieldByModal extends Action
+class EditFieldByModal extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
 		$moduleName = $request->getModule();
@@ -19,12 +19,12 @@ class EditFieldByModal extends Action
 		$state = $params['state'];
 		$fieldName = $params['fieldName'];
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordModel->set('id', $recordId);
 		$recordModel->set($fieldName, $state);
 		$recordModel->save();
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
 	}

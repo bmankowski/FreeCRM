@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\ModTracker\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ListAjax extends View
+class ListAjax extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -27,13 +27,13 @@ class ListAjax extends View
 			$pageNumber = 1;
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
 
-		$recentActivities = ModTracker_Record_Model::getRecentActivities($parentRecordId, $pagingModel);
+		$recentActivities = \FreeCRM\Modules\ModTracker\Models\Record::getRecentActivities($parentRecordId, $pagingModel);
 		$pagingModel->calculatePageRange($recentActivities);
 
 		$viewer = $this->getViewer($request);

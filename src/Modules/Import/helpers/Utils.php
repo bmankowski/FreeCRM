@@ -101,7 +101,7 @@ class Utils {
 	public static function getAssignedToUserList($module)
 	{
 		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
-		$current_user = Users_Record_Model::getCurrentUserModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($cache->getUserList($module, $current_user->id)) {
 			return $cache->getUserList($module, $current_user->id);
 		} else {
@@ -114,7 +114,7 @@ class Utils {
 	public static function getAssignedToGroupList($module)
 	{
 		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
-		$current_user = Users_Record_Model::getCurrentUserModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($cache->getGroupList($module, $current_user->id)) {
 			return $cache->getGroupList($module, $current_user->id);
 		} else {
@@ -139,7 +139,7 @@ class Utils {
 
 	public static function validateFileUpload($request)
 	{
-		$current_user = Users_Record_Model::getCurrentUserModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$uploadMaxSize = self::getMaxUploadSize();
 		$importDirectory = self::getImportDirectory();
@@ -168,7 +168,7 @@ class Utils {
 			$request->set('error_message', vtranslate('LBL_IMPORT_FILE_COPY_FAILED', 'Import'));
 			return false;
 		}
-		$fileReader = Import_Module_Model::getFileReader($request, $current_user);
+		$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($request, $current_user);
 
 		if ($fileReader === null) {
 			$request->set('error_message', vtranslate('LBL_INVALID_FILE', 'Import'));

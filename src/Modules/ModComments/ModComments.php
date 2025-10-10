@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ModComments;
  * All Rights Reserved.
  * ********************************************************************************** */
 include_once dirname(__FILE__) . '/ModCommentsCore.php';
-include_once dirname(__FILE__) . '/models/Comments.php';
+include_once dirname(__FILE__) . '/Models/Comments.php';
 
 require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
 
@@ -83,7 +83,7 @@ class ModComments extends ModCommentsCore
 		}
 		if (count($commentWidgetModules) > 0) {
 			$modCommentsModule = vtlib\Module::getInstance('ModComments');
-			$modCommentsModule->addLink('HEADERSCRIPT', 'ModCommentsCommonHeaderScript', 'modules/ModComments/ModCommentsCommon.js');
+			$modCommentsModule->addLink('HEADERSCRIPT', 'ModCommentsCommonHeaderScript', 'src/Modules/ModComments/ModCommentsCommon.js');
 			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule);
 			$modCommentsRelatedToField->setRelatedModules($commentWidgetModules);
 		}

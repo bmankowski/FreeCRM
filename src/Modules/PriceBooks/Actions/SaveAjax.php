@@ -11,26 +11,26 @@ namespace FreeCRM\Modules\PriceBooks\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SaveAjax extends Action
+class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 {
 
-	public function saveRecord(Vtiger_Request $request)
+	public function saveRecord(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 
 			//To store the relationship between Products/Services and PriceBooks
 			if ($parentRecordId && ($parentModuleName === 'Products' || $parentModuleName === 'Services')) {
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
+				$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
 				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
 			}
 		}

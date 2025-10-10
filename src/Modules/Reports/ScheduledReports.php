@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Reports;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/modules/Reports/Reports.php';
-require_once ROOT_DIRECTORY . '/modules/Reports/ReportRun.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Reports/Reports.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportRun.php';
 
 class VTScheduledReport extends Reports
 {
@@ -365,7 +365,7 @@ class VTScheduledReport extends Reports
 
 	public static function runScheduledReports($adb)
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowUtils.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 		$util = new VTWorkflowUtils();
 		$adminUser = $util->adminUser();
 

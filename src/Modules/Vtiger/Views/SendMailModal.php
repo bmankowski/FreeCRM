@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class SendMailModal extends View
+class SendMailModal extends \Vtiger_Index_View
 {
 
 	public $fields = [];
@@ -24,7 +24,7 @@ class SendMailModal extends View
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -50,7 +50,7 @@ class SendMailModal extends View
 		$viewer->assign('RECORDS', $this->getRecordsListFromRequest($request));
 		$viewer->assign('FIELDS', $this->fields);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('SendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
@@ -89,10 +89,10 @@ class SendMailModal extends View
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $sourceModule);
+			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
 			$listView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
-			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->get('viewname'));
+			$listView = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $request->get('viewname'));
 		}
 		$searchResult = $request->get('searchResult');
 		if (!empty($searchResult)) {

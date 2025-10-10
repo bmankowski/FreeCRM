@@ -12,9 +12,9 @@ class Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$moduleName = $eventHandler->getModuleName();
 		$correctionModules = ['IGRNC' => 'igrnid', 'IGDNC' => 'igdnid'];
@@ -24,7 +24,7 @@ class Handler {
 		if (isset($correctionModules[$moduleName])) {
 			$relatedModuleField = $correctionModules[$moduleName];
 			$relatedModuleRecordId = $recordModel->get($relatedModuleField);
-			$relatedModuleRecordModel = Vtiger_Record_Model::getInstanceById($relatedModuleRecordId);
+			$relatedModuleRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedModuleRecordId);
 		}
 		if ($recordModel->get($status) === 'PLL_ACCEPTED') {
 			if (isset($correctionModules[$moduleName])) {
@@ -42,12 +42,12 @@ class Handler {
 		}
 	}
 
-	public function getInventoryDataAndSend(Vtiger_Record_Model $recordModel, $action)
+	public function getInventoryDataAndSend(\FreeCRM\Modules\Vtiger\Models\Record $recordModel, $action)
 	{
 		$moduleName = $recordModel->getModuleName();
 		$inventoryData = $recordModel->getInventoryData();
 		if (!empty($inventoryData) && $recordModel->get('storageid')) {
-			IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
+			\FreeCRM\Modules\IStorages\Models\Module::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
 		}
 	}
 }

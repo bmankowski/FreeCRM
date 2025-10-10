@@ -219,7 +219,7 @@ class AdvancedFilter {
 				$referenceModules = array('Users');
 			}
 			foreach ($referenceModules as $refModule) {
-				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
+				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
 				foreach ($blockModelList as $blockLabel => $blockModel) {
 					$fieldModelList = $blockModel->getFields();

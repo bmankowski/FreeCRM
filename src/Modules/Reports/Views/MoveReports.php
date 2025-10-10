@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Reports\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class MoveReports extends View
+class MoveReports extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -28,7 +28,7 @@ class MoveReports extends View
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$folderList = $moduleModel->getFolders();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOLDERS', $folderList);

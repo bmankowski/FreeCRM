@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OSSMail\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class compose extends View
+class compose extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
@@ -20,14 +20,14 @@ class compose extends View
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (strpos($this->mainUrl, '?') !== false) {
 			$this->mainUrl .= '&';
 		} else {
 			$this->mainUrl .= '?';
 		}
 		$this->mainUrl .= '_task=mail&_action=compose&_extwin=1';
-		$params = OSSMail_Module_Model::getComposeParam($request);
+		$params = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParam($request);
 		$key = md5(count($params) . microtime());
 
 		$db = \FreeCRM\database\PearDatabase::getInstance();

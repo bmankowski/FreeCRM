@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Services\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class PriceBookProductPopup extends View
+class PriceBookProductPopup extends \Vtiger_Index_View
 {
 	
 }

@@ -40,7 +40,7 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -66,7 +66,7 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Static function to get the UIType object from Vtiger Field Model
-	 * @param Vtiger_Field_Model $fieldModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldModel
 	 * @return Vtiger_Base_UIType or UIType specific object instance
 	 */
 	public static function getInstanceFromField($fieldModel)
@@ -81,8 +81,8 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
 
-		$moduleSpecificFilePath = \FreeCRM\Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeFilePath = \FreeCRM\Loader::resolveNameToPath($uiTypeClassFileName);
+		$moduleSpecificFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
+		$completeFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
 
 		if (file_exists($moduleSpecificFilePath)) {
 			$instance = new $moduleSpecificUiTypeClassName();

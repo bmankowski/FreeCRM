@@ -12,17 +12,17 @@ namespace FreeCRM\Modules\Project\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordId = $recordModel->getId();
 
-		if (Users_Privileges_Model::isPermitted('ProjectTask', 'EditView')) {
+		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted('ProjectTask', 'EditView')) {
 			$viewLinks = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'Add Project Task',
@@ -30,9 +30,9 @@ class DetailView extends Model
 				'linkicon' => 'glyphicon glyphicon-tasks',
 				'linkhint' => 'Add Project Task',
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
 		}
-		if (Users_Privileges_Model::isPermitted('Documents', 'EditView')) {
+		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted('Documents', 'EditView')) {
 			$viewLinks = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'Add Note',
@@ -40,7 +40,7 @@ class DetailView extends Model
 				'linkicon' => 'glyphicon glyphicon-file',
 				'linkhint' => 'Add Note',
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
+			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
 		}
 		return $linkModelList;
 	}
@@ -54,7 +54,7 @@ class DetailView extends Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$parentModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		$parentModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

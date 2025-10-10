@@ -98,7 +98,7 @@ class CurrencyField
 	public function initialize($user = null)
 	{
 		$default_charset = \FreeCRM\AppConfig::main('default_charset');
-		$current_user = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (empty($user)) {
 			$user = $current_user;
 		}

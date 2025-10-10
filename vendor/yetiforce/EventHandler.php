@@ -159,7 +159,7 @@ class EventHandler
 	 * Set record model
 	 * @param \App\Vtiger_Record_Model $recordModel
 	 */
-	public function setRecordModel(\Vtiger_Record_Model $recordModel)
+	public function setRecordModel($recordModel)
 	{
 		$this->recordModel = $recordModel;
 	}

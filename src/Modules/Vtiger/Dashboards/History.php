@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class History extends View
+class History extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
@@ -24,7 +24,7 @@ class History extends View
 		$type = $request->get('type');
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
 		$limit = (int) $widget->get('limit');
 
 		if (empty($limit)) {
@@ -33,14 +33,14 @@ class History extends View
 		if (empty($page)) {
 			$page = 1;
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', $limit);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$history = $moduleModel->getHistory($pagingModel, $type);
 
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -14,11 +14,11 @@ namespace FreeCRM\Modules\CustomView\Actions;
 class Approve extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUser->isAdminUser()) {
-			$customViewModel = CustomView_Record_Model::getInstanceById($request->get('record'));
+			$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($request->get('record'));
 			$moduleModel = $customViewModel->getModule();
 
 			$customViewModel->approve();
@@ -27,7 +27,7 @@ class Approve extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		header("Location: $listViewUrl");
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

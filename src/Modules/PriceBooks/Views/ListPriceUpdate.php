@@ -14,13 +14,13 @@ namespace FreeCRM\Modules\PriceBooks\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ListPriceUpdate extends View
+class ListPriceUpdate extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
 		}
@@ -39,7 +39,7 @@ class ListPriceUpdate extends View
 		$viewer->assign('PRICEBOOK_ID', $priceBookId);
 		$viewer->assign('REL_ID', $relId);
 		$viewer->assign('CURRENT_PRICE', $currentPrice);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('ListPriceUpdate.tpl', $moduleName);
 		parent::postProcess($request);
 	}

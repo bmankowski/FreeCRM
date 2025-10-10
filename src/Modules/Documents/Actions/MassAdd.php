@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Documents\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class MassAdd extends Action
+class MassAdd extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -18,7 +18,7 @@ class MassAdd extends Action
 	 */
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!Users_Privileges_Model::isPermitted($request->getModule(), 'CreateView')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -27,7 +27,7 @@ class MassAdd extends Action
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$nameFiles = $request->get('nameFile');
@@ -41,16 +41,16 @@ class MassAdd extends Action
 					'error' => $file['error'][$i],
 					'size' => $file['size'][$i],
 				];
-				$recordeModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+				$recordeModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 				$recordeModel->set('notes_title', $nameFiles[$i]);
-				$recordeModel->set('assigned_user_id', App\User::getCurrentUserId());
+				$recordeModel->set('assigned_user_id', \App\User::getCurrentUserId());
 				$recordeModel->file = $originalFile;
 				$recordeModel->set('filelocationtype', 'I');
 				$recordeModel->set('filestatus', true);
 				$recordeModel->save();
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

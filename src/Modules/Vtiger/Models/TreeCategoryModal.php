@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeCategoryModal extends Model
+class TreeCategoryModal extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	static $_cached_instance;
@@ -41,7 +41,7 @@ class TreeCategoryModal extends Model
 			return $this->get('fieldTemp');
 		}
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
+		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, \vtlib\Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
@@ -50,9 +50,9 @@ class TreeCategoryModal extends Model
 	/**
 	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model
 	 * @param string name of the module
-	 * @return Vtiger_TreeView_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\TreeView instance
 	 */
-	public static function getInstance(Vtiger_Module_Model $moduleModel)
+	public static function getInstance(\FreeCRM\Modules\Vtiger\Models\Module $moduleModel)
 	{
 		$moduleName = $moduleModel->get('name');
 		if (isset(self::$_cached_instance[$moduleName])) {
@@ -70,16 +70,16 @@ class TreeCategoryModal extends Model
 		if ($this->has('relationType')) {
 			return $this->get('relationType');
 		}
-		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
-		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
+		$srcModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('srcModule'));
+		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($srcModuleModel, $this->get('module'));
 		$this->set('relationType', $relationModel->getRelationType());
 		return $this->get('relationType');
 	}
 
 	public function isDeletable()
 	{
-		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
-		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
+		$srcModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('srcModule'));
+		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($srcModuleModel, $this->get('module'));
 		return $relationModel->isDeletable();
 	}
 
@@ -143,9 +143,9 @@ class TreeCategoryModal extends Model
 		$currentModule = vglobal('currentModule');
 		vglobal('currentModule', $this->get('srcModule'));
 
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
+		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 
@@ -160,12 +160,12 @@ class TreeCategoryModal extends Model
 	private function getAllRecords()
 	{
 
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
+		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
 		if (!empty($this->get('srcModule'))) {
 			$listViewModel->set('src_module', $this->get('srcModule'));
 			$listViewModel->set('src_record', $this->get('srcRecord'));
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);

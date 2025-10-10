@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Reports;
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
-require_once ROOT_DIRECTORY . '/modules/Reports/ReportUtils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportUtils.php';
 global $calpath;
 global $app_list_strings;
 global $modules;
@@ -388,7 +388,7 @@ class Reports extends \FreeCRM\CRMEntity
 	{
 		$srptdetails = "";
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 
 		$mod_strings = vglobal('mod_strings');
 		$returndata = [];
@@ -572,7 +572,7 @@ class Reports extends \FreeCRM\CRMEntity
 	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		if (is_string($block))
 			$block = explode(',', $block);
@@ -729,7 +729,7 @@ class Reports extends \FreeCRM\CRMEntity
 
 	public function getaccesfield($module)
 	{
-		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$access_fields = [];
 
@@ -929,7 +929,7 @@ class Reports extends \FreeCRM\CRMEntity
 				}
 
 				//In vtiger6 report filter conditions, if the value has "(double quotes) then it is failed.
-				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = \Vtiger_Util_Helper::toSafeHTML(decode_html($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$advft_criteria[$relcriteriarow['groupid']]['columns'][$j] = $criteria;
@@ -1030,7 +1030,7 @@ class Reports extends \FreeCRM\CRMEntity
 	{
 		//retreive the vtiger_tabid
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$tabid = \App\Module::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');

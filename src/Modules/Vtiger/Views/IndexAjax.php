@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class IndexAjax extends View
+class IndexAjax extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -49,7 +49,7 @@ class IndexAjax extends View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recentRecords = $moduleModel->getRecentRecords();
 
 		$viewer->assign('MODULE', $moduleName);
@@ -71,10 +71,10 @@ class IndexAjax extends View
 		}
 		if (!empty($cvId) && $cvId == 'undefined') {
 			$sourceModule = $request->get('sourceModule');
-			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
+			$cvId = \FreeCRM\Modules\CustomView\Models\Record::getAllFilterByModule($sourceModule)->getId();
 		}
 
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');

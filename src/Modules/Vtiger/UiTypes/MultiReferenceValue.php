@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class MultiReferenceValue extends UIType
+class MultiReferenceValue extends Base
 {
 
 	const COMMA = '|#|';
@@ -60,15 +60,15 @@ class MultiReferenceValue extends UIType
 	public static function getFieldsByModules($sourceModule, $destinationModule)
 	{
 		$cacheKey = "$sourceModule,$destinationModule";
-		if (App\Cache::has('mrvfbm', $cacheKey)) {
-			return App\Cache::get('mrvfbm', $cacheKey);
+		if (\App\Cache::has('mrvfbm', $cacheKey)) {
+			return \App\Cache::get('mrvfbm', $cacheKey);
 		}
 		$fields = (new \App\Db\Query())
 				->from('vtiger_field')
-				->where(['tabid' => App\Module::getModuleId($sourceModule), 'uitype' => 305])
+				->where(['tabid' => \App\Module::getModuleId($sourceModule), 'uitype' => 305])
 				->andWhere(['<>', 'presence', 1])
 				->andWhere(['like', 'fieldparams', '{"module":"' . $destinationModule . '"%', false])->all();
-		App\Cache::get('mrvfbm', $cacheKey, $fields, App\Cache::LONG);
+		\App\Cache::get('mrvfbm', $cacheKey, $fields, \App\Cache::LONG);
 		return $fields;
 	}
 
@@ -79,12 +79,12 @@ class MultiReferenceValue extends UIType
 	 */
 	public static function getMultiReferenceModules($moduelName)
 	{
-		if (App\Cache::has('getMultiReferenceModules', $moduelName)) {
-			return App\Cache::get('getMultiReferenceModules', $moduelName);
+		if (\App\Cache::has('getMultiReferenceModules', $moduelName)) {
+			return \App\Cache::get('getMultiReferenceModules', $moduelName);
 		}
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 305])->andWhere(['<>', 'presence', 1])
 				->andWhere(['like', 'fieldparams', '{"module":"' . $moduelName . '"%', false])->distinct()->column();
-		App\Cache::get('getMultiReferenceModules', $moduelName, $moduleIds, App\Cache::LONG);
+		\App\Cache::get('getMultiReferenceModules', $moduelName, $moduleIds, \App\Cache::LONG);
 		return $moduleIds;
 	}
 
@@ -117,7 +117,7 @@ class MultiReferenceValue extends UIType
 		// Get value to added
 		$relatedValue = '';
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
-		$recordModel = Vtiger_Record_Model::getInstanceById($destRecord, $params['module']);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($destRecord, $params['module']);
 		if ($params['filterField'] === '-' || ($params['filterField'] !== '-' && $recordModel->get($params['filterField']) === $params['filterValue'])) {
 			$relatedValue = $recordModel->get($fieldInfo['fieldname']);
 		}
@@ -141,7 +141,7 @@ class MultiReferenceValue extends UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
+		\App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
 			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
 		)->execute();
@@ -156,7 +156,7 @@ class MultiReferenceValue extends UIType
 	{
 		$field = $this->get('field');
 		$params = $field->getFieldParams();
-		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+		$sourceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
@@ -172,7 +172,7 @@ class MultiReferenceValue extends UIType
 		if ($values) {
 			$values = self::COMMA . implode(self::COMMA, $values) . self::COMMA;
 		}
-		App\Db::getInstance()->createCommand()->update($field->get('table'), [
+		\App\Db::getInstance()->createCommand()->update($field->get('table'), [
 			$field->get('column') => $values
 			], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
 		)->execute();
@@ -202,7 +202,7 @@ class MultiReferenceValue extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param integer $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param string $rawText
 	 * @return string
 	 */
@@ -219,7 +219,7 @@ class MultiReferenceValue extends UIType
 	 * Function to get the Display Value in ListView
 	 * @param string $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */

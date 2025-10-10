@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\IGDN\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	public function isAjaxEditable()

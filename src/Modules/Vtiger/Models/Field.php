@@ -156,7 +156,7 @@ class Field extends \vtlib\Field
 			if (empty($moduleObj)) {
 				return false;
 			}
-			$this->module = Vtiger_Module_Model::getInstanceFromModuleObject($moduleObj);
+			$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstanceFromModuleObject($moduleObj);
 		}
 		return $this->module;
 	}
@@ -228,8 +228,8 @@ class Field extends \vtlib\Field
 			} else {
 				$cacheName = $uiType . '-' . $this->get('typeofdata');
 			}
-			if (App\Cache::has('FieldDataType', $cacheName)) {
-				$fieldDataType = App\Cache::get('FieldDataType', $cacheName);
+			if (\App\Cache::has('FieldDataType', $cacheName)) {
+				$fieldDataType = \App\Cache::get('FieldDataType', $cacheName);
 			} else {
 				switch ($uiType) {
 					case 4: $fieldDataType = 'recordNumber';
@@ -288,7 +288,7 @@ class Field extends \vtlib\Field
 						$fieldDataType = $webserviceField->getFieldDataType();
 						break;
 				}
-				App\Cache::save('FieldDataType', $cacheName, $fieldDataType);
+				\App\Cache::save('FieldDataType', $cacheName, $fieldDataType);
 			}
 			$this->fieldDataType = $fieldDataType;
 		}
@@ -363,12 +363,12 @@ class Field extends \vtlib\Field
 
 	/**
 	 * Function to get the UI Type model for the uitype of the current field
-	 * @return Vtiger_Base_UIType or UI Type specific model instance
+	 * @return \Vtiger_Base_UIType or UI Type specific model instance
 	 */
 	public function getUITypeModel()
 	{
 		if (!$this->get('uitypeModel')) {
-			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
+			$this->set('uitypeModel', \Vtiger_Base_UIType::getInstanceFromField($this));
 		}
 		return $this->get('uitypeModel');
 	}
@@ -394,10 +394,10 @@ class Field extends \vtlib\Field
 
 		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
-				$userModel = Users_Record_Model::getCurrentUserModel();
+				$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
 			} else {
-				$picklistValues = App\Fields\Picklist::getPickListValues($this->getName());
+				$picklistValues = \App\Fields\Picklist::getPickListValues($this->getName());
 			}
 
 			// Protection against deleting a value that does not exist on the list
@@ -614,9 +614,9 @@ class Field extends \vtlib\Field
 	/**
 	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
 	 * @param vtlib\Field $fieldObj - vtlib field object
-	 * @return Vtiger_Field_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field instance
 	 */
-	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
+	public static function getInstanceFromFieldObject(\vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
 		$className = \FreeCRM\Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
@@ -720,7 +720,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getFieldInfo()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$fieldDataType = $this->getFieldDataType();
 
 		$this->fieldInfo['mandatory'] = $this->isMandatory();
@@ -814,7 +814,7 @@ class Field extends \vtlib\Field
 				break;
 		}
 
-		if (in_array($fieldDataType, Vtiger_Field_Model::$referenceTypes) && \FreeCRM\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (in_array($fieldDataType, \FreeCRM\Modules\Vtiger\Models\Field::$referenceTypes) && \FreeCRM\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
 		return $this->fieldInfo;
@@ -846,7 +846,7 @@ class Field extends \vtlib\Field
 
 	/**
 	 * Function to retrieve field model for specific block and module
-	 * @param Vtiger_Module_Model $blockModel - block instance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Module $blockModel - block instance
 	 * @return <array> List of field model
 	 */
 	public static function getAllForModule($moduleModel)
@@ -878,7 +878,7 @@ class Field extends \vtlib\Field
 	 * Function to get instance
 	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
-	 * @return <Vtiger_Field_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\Field>
 	 */
 	public static function getInstance($value, $module = false)
 	{

@@ -21,7 +21,7 @@ class OSSMail {
 		if ($eventType == 'module.postinstall') {
 			$displayLabel = 'OSSMail';
 			$adb->pquery("UPDATE vtiger_tab SET customized=0 WHERE name=?", array($displayLabel), true);
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			\Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
 				'name' => 'Mail',
 				'iconpath' => 'adminIcon-mail-download-history',
 				'description' => 'LBL_OSSMAIL_DESCRIPTION',
@@ -40,17 +40,17 @@ class OSSMail {
 					  PRIMARY KEY (`id`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8");
 			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_DisabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.enabled') {
 			if (Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
 				throw new \Exception\NotAllowedMethod(vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
 			}
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();
+			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			\App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {
@@ -59,7 +59,7 @@ class OSSMail {
 			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			$OSSMail = vtlib\Module::getInstance('OSSMail');
 			if (version_compare($OSSMail->version, '1.39', '>')) {
-				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
+				$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 			}
 		}

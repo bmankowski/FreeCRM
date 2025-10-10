@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	/**

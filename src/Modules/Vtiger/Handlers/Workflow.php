@@ -2,7 +2,7 @@
 
 namespace FreeCRM\Modules\Vtiger\Handlers;
 
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTWorkflowManager.php';
+require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManager.php';
 
 /**
  * Workflow handler
@@ -14,16 +14,16 @@ class Workflow {
 
 	private $workflows;
 
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	public function entityAfterRestore(\App\EventHandler $eventHandler)
 	{
 		$this->entityAfterSave($eventHandler);
 	}
 
 	/**
 	 * EntityAfterSave function
-	 * @param App\EventHandler $eventHandler
+	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$recordId = $recordModel->getId();

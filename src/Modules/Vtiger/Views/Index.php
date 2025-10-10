@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Index extends View
+class Index extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -26,7 +26,7 @@ class Index extends View
 	{
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
-			$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 			if (!$permission) {
@@ -41,7 +41,7 @@ class Index extends View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			if (!$moduleModel) {
 				// Non-entity or unsupported module (e.g. Home); skip permission block
 				$viewer->assign('CURRENT_VIEW', $request->get('view'));
@@ -50,8 +50,8 @@ class Index extends View
 				}
 				return;
 			}
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($currentUser->getId());
+			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 			if (!$permission) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -98,7 +98,7 @@ class Index extends View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

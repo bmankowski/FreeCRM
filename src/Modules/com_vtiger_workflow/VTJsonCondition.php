@@ -17,7 +17,7 @@ class VTJsonCondition {
 	/**
 	 * Evaluate
 	 * @param array $condition
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return string
 	 */
 	public function evaluate($condition, $recordModel)
@@ -41,9 +41,9 @@ class VTJsonCondition {
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						if ($referenceModule === 'Users') {
-							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
+							$referenceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId, $referenceModule);
 						} else {
-							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
+							$referenceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId);
 						}
 						$cond['fieldname'] = $fieldname;
 						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
@@ -123,9 +123,9 @@ class VTJsonCondition {
 
 	/**
 	 * Check condition
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @param array $cond
-	 * @param null|Vtiger_Record_Model $referredRecordModel
+	 * @param null|\FreeCRM\Modules\Vtiger\Models\Record $referredRecordModel
 	 * @return boolean
 	 * @throws Exception
 	 */
@@ -156,7 +156,7 @@ class VTJsonCondition {
 				$value = $recordModel->get($value);
 			}
 		} elseif ($expressionType === 'expression') {
-			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
+			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/include.php';
 			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
 			$expression = $parser->expression();
 			$exprEvaluater = new VTFieldExpressionEvaluater($expression);

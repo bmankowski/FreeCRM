@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Calendar Field Model Class
  */
-class Field extends Model
+class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -95,7 +95,7 @@ class Field extends Model
 			if ($fieldName === 'date_start') {
 				return DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
-				$currentUser = Users_Record_Model::getCurrentUserModel();
+				$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				$minutes = $currentUser->get('callduration');
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}

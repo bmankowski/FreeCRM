@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\SMSNotifier\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Edit extends View
+class Edit extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)

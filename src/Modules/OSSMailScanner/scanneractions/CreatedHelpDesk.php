@@ -13,8 +13,8 @@ class CreatedHelpDesk {
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
-		$prefix = App\Fields\Email::findRecordNumber($mail->get('subject'), 'HelpDesk');
-		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
+		$prefix = \App\Fields\Email::findRecordNumber($mail->get('subject'), 'HelpDesk');
+		$exceptionsAll = \FreeCRM\Modules\OSSMailScanner\Models\Record::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);
 			foreach ($exceptions as $exception) {
@@ -44,7 +44,7 @@ class CreatedHelpDesk {
 	{
 		$contactId = (int) $mail->findEmailAdress('fromaddress', 'Contacts', false);
 		$parentId = (int) $mail->findEmailAdress('fromaddress', 'Accounts', false);
-		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
+		$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('HelpDesk');
 
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		if (empty($parentId) && !empty($contactId)) {
@@ -76,7 +76,7 @@ class CreatedHelpDesk {
 		$id = $record->getId();
 
 		if (!empty($contactId)) {
-			$relationModel = Vtiger_Relation_Model::getInstance($record->getModule(), Vtiger_Module_Model::getInstance('Contacts'));
+			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($record->getModule(), \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Contacts'));
 			$relationModel->addRelation($id, $contactId);
 		}
 

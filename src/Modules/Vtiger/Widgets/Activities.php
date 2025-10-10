@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Activities extends Widget
+class Activities extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public $allowedModules = ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees', 'Campaigns', 'HelpDesk', 'Project', 'ServiceContracts', 'SSalesProcesses', 'SQuoteEnquiries', 'SRequirementsCards', 'SCalculations', 'SQuotes', 'SSingleOrders', 'SRecurringOrders', 'SVendorEnquiries'];
@@ -30,7 +30,7 @@ class Activities extends Widget
 	public function getWidget()
 	{
 		$widget = [];
-		$model = Vtiger_Module_Model::getInstance('Calendar');
+		$model = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		if ($model->isPermitted('DetailView')) {
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Activities.tpl';

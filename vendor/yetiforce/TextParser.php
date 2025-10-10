@@ -103,7 +103,7 @@ class TextParser
 		$instance = new $class();
 		$instance->record = $record;
 		$instance->moduleName = $moduleName;
-		$instance->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$instance->recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		return $instance;
 	}
 
@@ -199,7 +199,7 @@ class TextParser
 	 */
 	public function setSourceRecord($record, $moduleName = false, $recordModel = false)
 	{
-		$this->sourceRecordModel = $recordModel ? $recordModel : \Vtiger_Record_Model::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
+		$this->sourceRecordModel = $recordModel ? $recordModel : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
 		return $this;
 	}
 
@@ -338,7 +338,7 @@ class TextParser
 		}
 		$value = '';
 		if ($employee) {
-			$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($employee, 'OSSEmployees');
+			$relatedRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($employee, 'OSSEmployees');
 			$instance = static::getInstanceByModel($relatedRecordModel);
 			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 				if (isset($this->$key)) {
@@ -474,7 +474,7 @@ class TextParser
 				return '';
 			}
 		}
-		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $moduleName);
+		$relatedRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedId, $moduleName);
 		$instance = static::getInstanceByModel($relatedRecordModel);
 		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 			if (isset($this->$key)) {
@@ -684,7 +684,7 @@ class TextParser
 				];
 			}
 		}
-		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->moduleName);
 		foreach ($moduleModel->getBlocks() as $blockModel) {
 			foreach ($blockModel->getFields() as $fieldModel) {
 				if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
@@ -718,7 +718,7 @@ class TextParser
 			];
 		}
 		foreach (\App\TextParser::$sourceModules[$this->moduleName] as $moduleName) {
-			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			foreach ($moduleModel->getBlocks() as $blockModel) {
 				foreach ($blockModel->getFields() as $fieldModel) {
 					if ($fieldModel->isViewable()) {
@@ -745,10 +745,10 @@ class TextParser
 		if (isset(static::$relatedVariable[$cacheKey])) {
 			return static::$relatedVariable[$cacheKey];
 		}
-		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = \LanguageTranslator::translate('LBL_ENTITY_VARIABLES');
-		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
+		foreach ($moduleModel->getFieldsByType(array_merge(\FreeCRM\Modules\Vtiger\Models\Field::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
 			if ($field->getFieldDataType() === 'owner') {
 				$relatedModules = ['Users'];
 			} else {
@@ -766,7 +766,7 @@ class TextParser
 			}
 			foreach ($relatedModules as $relatedModule) {
 				$relatedModuleLang = \LanguageTranslator::translate($relatedModule, $relatedModule);
-				$moduleModel = \Vtiger_Module_Model::getInstance($relatedModule);
+				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 				foreach ($moduleModel->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {

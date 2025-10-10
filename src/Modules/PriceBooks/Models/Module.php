@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PriceBooks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -26,11 +26,11 @@ class Module extends Model
 		if ($sourceModule === 'Products' || $sourceModule === 'Services') {
 			$condition = [];
 			if (isset($queryGenerator->currencyId) && ($field === 'productid' || $field === 'serviceid')) {
-				$subQuery = (new App\Db\Query())->select(['pricebookid'])
+				$subQuery = (new \App\Db\Query())->select(['pricebookid'])
 						->from('vtiger_pricebookproductrel')->where(['productid' => $record]);
 				$condition = ['and', ['vtiger_pricebook.pricebookid' => $subQuery], ['vtiger_pricebook.currency_id' => $queryGenerator->currencyId], ['vtiger_pricebook.active' => 1]];
 			} else if ($field === 'productsRelatedList') {
-				$subQuery = (new App\Db\Query())->select(['pricebookid'])
+				$subQuery = (new \App\Db\Query())->select(['pricebookid'])
 					->from('vtiger_pricebookproductrel')
 					->where(['productid' => $record]);
 				$condition = ['and', ['not in', 'vtiger_pricebook.pricebookid', $subQuery], ['vtiger_pricebook.active' => 1]];
@@ -57,7 +57,7 @@ class Module extends Model
 	{
 		$popupFields = parent::getPopupViewFieldsList($sourceModule);
 		if (!isset($popupFields['currency_id'])) {
-			$fieldModel = Vtiger_Field_Model::getInstance('currency_id', $this);
+			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('currency_id', $this);
 			if ($fieldModel->getPermissions()) {
 				$popupFields['currency_id'] = 'currency_id';
 			}

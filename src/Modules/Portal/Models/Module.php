@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Portal\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	public function getSideBarLinks($linkParams)
@@ -22,13 +22,13 @@ class Module extends Model
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => '',
 		);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+		$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		return $links;
 	}
 
 	public static function savePortalRecord($recordId, $bookmarkName, $bookmarkUrl)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		if (empty($recordId)) {
 			$db->createCommand()->insert('vtiger_portal', [
 				'portalname' => $bookmarkName,

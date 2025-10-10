@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users\Models;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class EditRecordStructure extends Model
+class EditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**
@@ -26,7 +26,7 @@ class EditRecordStructure extends Model
 		}
 
 		$values = array();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 		$moduleModel = $this->getModule();

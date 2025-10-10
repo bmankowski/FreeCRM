@@ -14,12 +14,12 @@ namespace FreeCRM\Modules\Users\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class DeleteAjax extends View
+class DeleteAjax extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
@@ -33,7 +33,7 @@ class DeleteAjax extends View
 		$moduleName = $request->getModule();
 		$userid = $request->get('record');
 
-		$userRecordModel = Users_Record_Model::getInstanceById($userid, $moduleName);
+		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($userid, $moduleName);
 		$viewer = $this->getViewer($request);
 		$usersList = $userRecordModel->getAll(true);
 

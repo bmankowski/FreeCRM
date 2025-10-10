@@ -229,9 +229,9 @@ class Leads extends \FreeCRM\CRMEntity
 			return;
 
 		if ($return_module === 'Campaigns') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} elseif ($return_module === 'Products') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
@@ -243,15 +243,15 @@ class Leads extends \FreeCRM\CRMEntity
 			$withCrmids = [$withCrmids];
 		foreach ($withCrmids as $withCrmid) {
 			if ($withModule === 'Products') {
-				App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 					'crmid' => $crmid,
 					'productid' => $withCrmid,
 					'setype' => $module,
-					'rel_created_user' => App\User::getCurrentUserId(),
+					'rel_created_user' => \App\User::getCurrentUserId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
 			} elseif ($withModule === 'Campaigns') {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0

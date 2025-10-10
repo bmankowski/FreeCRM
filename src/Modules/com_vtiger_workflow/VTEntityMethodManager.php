@@ -21,7 +21,7 @@ class VTEntityMethodManager {
 		$adb->pquery("insert into com_vtiger_workflowtasks_entitymethod (workflowtasks_entitymethod_id, module_name, function_path, function_name, method_name) values (?,?,?,?,?)", array($id, $moduleName, $functionPath, $functionName, $methodName));
 	}
 
-	public function executeMethod(Vtiger_Record_Model $recordModel, $methodName)
+	public function executeMethod(\FreeCRM\Modules\Vtiger\Models\Record $recordModel, $methodName)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();

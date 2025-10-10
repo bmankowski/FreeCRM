@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\ModComments\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Action extends Action
+class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\SaveAjax
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -22,14 +22,14 @@ class Action extends Action
 		if ($record) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
-		if(!App\Privilege::isPermitted($request->getModule(), 'CreateView')){
+		if(!\App\Privilege::isPermitted($request->getModule(), 'CreateView')){
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$request->set('assigned_user_id', App\User::getCurrentUserId());
+		$request->set('assigned_user_id', \App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
@@ -42,8 +42,8 @@ class Action extends Action
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

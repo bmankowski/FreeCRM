@@ -13,8 +13,8 @@ class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'RecordMappingList') ||
-			!Users_Privileges_Model::isPermitted($moduleName, 'CreateView')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'RecordMappingList') ||
+			!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -30,7 +30,7 @@ class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return false;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$records = $request->get('records');
@@ -43,8 +43,8 @@ class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			foreach ($records as $recordId) {
 				if ($templateRecord->checkFiltersForRecord(intval($recordId))) {
 					if ($method == 0) {
-						$recordModel = Vtiger_Record_Model::getCleanInstance($targetModuleName);
-						$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
+						$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($targetModuleName);
+						$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 						$recordModel->setRecordFieldValues($parentRecordModel);
 						if ($this->checkMandatoryFields($recordModel)) {
 							continue;
@@ -60,12 +60,12 @@ class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 		$output = ['all' => count($records), 'ok' => $success, 'fail' => array_diff($records, $success)];
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

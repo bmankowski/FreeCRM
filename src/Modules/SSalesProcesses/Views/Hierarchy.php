@@ -10,12 +10,12 @@ namespace FreeCRM\Modules\SSalesProcesses\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Hierarchy extends Controller
+class Hierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->get('record'))) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->get('record'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -31,7 +31,7 @@ class Hierarchy extends Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getHierarchy();
 
 		$viewer->assign('MODULE', $moduleName);

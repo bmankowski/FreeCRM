@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\RecycleBin\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -25,12 +25,12 @@ class Module extends Model
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of Link Type to List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getListViewLinks()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$privileges = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$basicLinks = array();
 		if ($currentUserModel->isAdminUser()) {
 			$basicLinks = array(
@@ -44,7 +44,7 @@ class Module extends Model
 		}
 
 		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
 		}
 
 		return $links;
@@ -53,11 +53,11 @@ class Module extends Model
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions()
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = array();
 		if ($currentUserModel->isAdminUser()) {
@@ -78,7 +78,7 @@ class Module extends Model
 
 
 		foreach ($massActionLinks as $massActionLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$links[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
@@ -87,12 +87,12 @@ class Module extends Model
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @return <Array> List of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = array(
 			array(
@@ -103,7 +103,7 @@ class Module extends Model
 			),
 		);
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 		return $links;
 	}
@@ -162,7 +162,7 @@ class Module extends Model
 	public function deletePerminently($recordIds)
 	{
 		foreach ($recordIds as &$recordId) {
-			$moduleName = App\Record::getType($recordId);
+			$moduleName = \App\Record::getType($recordId);
 			$entity = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$entity->deletePerminently($moduleName, $recordId);
 		}

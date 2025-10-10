@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Products\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class MoreCurrenciesList extends View
+class MoreCurrenciesList extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
@@ -22,10 +22,10 @@ class MoreCurrenciesList extends View
 		$record = $request->get('record');
 		$lockEdit = false;
 		if (empty($record) || $request->get('isDuplicate') == 'true') {
-			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+			$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView');
 		} else {
-			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record);
-			$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, Vtiger_Record_Model::getInstanceById($record, $moduleName));
+			$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record);
+			$lockEdit = \FreeCRM\Modules\Users\Models\Privileges::checkLockEdit($moduleName, \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName));
 		}
 		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
@@ -39,10 +39,10 @@ class MoreCurrenciesList extends View
 		$currencyName = $request->get('currency');
 
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 
 			foreach ($priceDetails as $key => $currencyDetails) {
@@ -68,7 +68,7 @@ class MoreCurrenciesList extends View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PRICE_DETAILS', $priceDetails);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('MoreCurrenciesList.tpl', 'Products');
 	}

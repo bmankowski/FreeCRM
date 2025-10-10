@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\Reservations;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Reservations extends Vtiger_CRMEntity
+class Reservations extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_reservations';

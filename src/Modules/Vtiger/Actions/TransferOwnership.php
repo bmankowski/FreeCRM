@@ -10,13 +10,13 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') || !$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$transferOwnerId = $request->get('transferOwnerId');
@@ -41,12 +41,12 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
-	protected function getBaseModuleRecordIds(Vtiger_Request $request)
+	protected function getBaseModuleRecordIds(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('viewname');
 		$module = $request->getModule();
@@ -56,7 +56,7 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		if (!empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				foreach ($selectedIds as $key => &$recordId) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 					if (!$recordModel->isEditable()) {
 						unset($selectedIds[$key]);
 					}
@@ -66,7 +66,7 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if ($selectedIds == 'all') {
-			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+			$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
 			if ($customViewModel) {
 				$searchKey = $request->get('search_key');
 				$searchValue = $request->get('search_value');
@@ -84,7 +84,7 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return [];
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

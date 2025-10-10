@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class TimeLineModal extends View
+class TimeLineModal extends \Vtiger_Index_View
 {
 
 	/**

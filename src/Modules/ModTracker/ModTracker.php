@@ -51,7 +51,7 @@ class ModTracker {
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			\Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => 'ModTracker',
 				'iconpath' => 'adminIcon-modules-track-chanegs',
 				'description' => 'LBL_MODTRACKER_DESCRIPTION',
@@ -78,10 +78,10 @@ class ModTracker {
 		$rows = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->all();
 		foreach ($rows as &$row) {
 			if ($row['visible'] === 1) {
-				App\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, App\Cache::LONG);
+				\App\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, \App\Cache::LONG);
 				$modules[] = \App\Module::getModuleName($row['tabid']);
 			} else {
-				App\Cache::save('isTrackingEnabledForModule', $row['tabid'], false, App\Cache::LONG);
+				\App\Cache::save('isTrackingEnabledForModule', $row['tabid'], false, \App\Cache::LONG);
 			}
 		}
 		return $modules;
@@ -106,7 +106,7 @@ class ModTracker {
 		$db->createCommand()
 			->update('vtiger_field', ['presence' => 1], ['tabid' => $tabid, 'fieldname' => 'was_read'])
 			->execute();
-		App\Cache::save('isTrackingEnabledForModule', $tabid, false, App\Cache::LONG);
+		\App\Cache::save('isTrackingEnabledForModule', $tabid, false, \App\Cache::LONG);
 	}
 
 	/**
@@ -123,9 +123,9 @@ class ModTracker {
 		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])->execute();
 		if (static::isModtrackerLinkPresent($tabid)) {
 			$moduleInstance = vtlib\Module::getInstance($tabid);
-			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
+			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'src/Modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 		}
-		App\Cache::save('isTrackingEnabledForModule', $tabid, true, App\Cache::LONG);
+		\App\Cache::save('isTrackingEnabledForModule', $tabid, true, \App\Cache::LONG);
 	}
 
 	/**
@@ -135,13 +135,13 @@ class ModTracker {
 	public static function isTrackingEnabledForModule($moduleName)
 	{
 		$tabId = \App\Module::getModuleId($moduleName);
-		if (App\Cache::has('isTrackingEnabledForModule', $tabId)) {
-			return App\Cache::get('isTrackingEnabledForModule', $tabId);
+		if (\App\Cache::has('isTrackingEnabledForModule', $tabId)) {
+			return \App\Cache::get('isTrackingEnabledForModule', $tabId);
 		}
 		$isExists = (new \App\Db\Query())->from('vtiger_modtracker_tabs')
 			->where(['vtiger_modtracker_tabs.visible' => 1, 'vtiger_modtracker_tabs.tabid' => $tabId])
 			->exists();
-		App\Cache::save('isTrackingEnabledForModule', $tabId, $isExists, App\Cache::LONG);
+		\App\Cache::save('isTrackingEnabledForModule', $tabId, $isExists, \App\Cache::LONG);
 		return $isExists;
 	}
 
@@ -151,10 +151,10 @@ class ModTracker {
 	 */
 	public static function isModulePresent($tabId)
 	{
-		if (!App\Cache::has('isTrackingEnabledForModule', $tabId)) {
+		if (!\App\Cache::has('isTrackingEnabledForModule', $tabId)) {
 			$row = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->where(['tabid' => $tabId])->one();
 			if ($row) {
-				App\Cache::save('isTrackingEnabledForModule', $tabId, (bool) $row['visible'], App\Cache::LONG);
+				\App\Cache::save('isTrackingEnabledForModule', $tabId, (bool) $row['visible'], \App\Cache::LONG);
 				return true;
 			} else {
 				return false;
@@ -182,7 +182,7 @@ class ModTracker {
 	 */
 	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$datetime = date('Y-m-d H:i:s', $mtime);
 
@@ -320,8 +320,8 @@ class ModTracker {
 
 	public static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
-		$db = App\Db::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = \App\Db::getInstance();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$currentTime = date('Y-m-d H:i:s');
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,
@@ -332,14 +332,14 @@ class ModTracker {
 			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
+		\FreeCRM\Modules\ModTracker\Models\Record::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
 		$db->createCommand()->insert('vtiger_modtracker_relations', [
 			'id' => $id,
 			'targetmodule' => $targetModule,
 			'targetid' => $targetId,
 			'changedon' => $currentTime,
 		])->execute();
-		$isMyRecord = (new App\Db\Query())->from('vtiger_crmentity')
+		$isMyRecord = (new \App\Db\Query())->from('vtiger_crmentity')
 			->where(['<>', 'smownerid', $currentUser->getRealId()])
 			->andWhere(['crmid' => $sourceId])
 			->exists();
@@ -361,7 +361,7 @@ class ModTracker {
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
 		if (in_array($sourceModule, \FreeCRM\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
-			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
+			\FreeCRM\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}
 
@@ -376,7 +376,7 @@ class ModTracker {
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
 		if (in_array($sourceModule, \FreeCRM\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
-			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
+			\FreeCRM\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SharedOwner extends UIType
+class SharedOwner extends Base
 {
 
 	/**
@@ -38,14 +38,14 @@ class SharedOwner extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (empty($values)) {
 			return '';
 		} elseif (!is_array($values)) {
@@ -93,7 +93,7 @@ class SharedOwner extends UIType
 	 * Function to get the Display Value in ListView
 	 * @param string $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -108,7 +108,7 @@ class SharedOwner extends UIType
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
-				$userModel = \Users_Privileges_Model::getInstanceById($shownerid);
+				$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($shownerid);
 				$userModel->setModule('Users');
 				$display[$key] = $userModel->getName();
 				if ($userModel->get('status') === 'Inactive') {
@@ -167,7 +167,7 @@ class SharedOwner extends UIType
 
 	public static function getSearchViewList($moduleName, $cvId)
 	{
-		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($cvId);
 		$queryGenerator->setFields([]);
 		$queryGenerator->setCustomColumn('u_#__crmentity_showners.userid');
@@ -194,7 +194,7 @@ class SharedOwner extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

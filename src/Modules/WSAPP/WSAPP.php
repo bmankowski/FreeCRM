@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\WSAPP;
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/events/include.php');
-require_once ROOT_DIRECTORY . '/modules/WSAPP/Utils.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 
 class WSAPP {
 
@@ -46,27 +46,27 @@ class WSAPP {
 
 		$wsapp_register_parameters = array('type' => 'string', 'synctype' => 'string');
 		$operations['wsapp_register'] = array(
-			'file' => 'modules/WSAPP/api/ws/Register.php', 'handler' => 'wsapp_register', 'reqtype' => 'POST', 'prelogin' => '0',
+			'file' => 'src/Modules/WSAPP/api/ws/Register.php', 'handler' => 'wsapp_register', 'reqtype' => 'POST', 'prelogin' => '0',
 			'parameters' => $wsapp_register_parameters);
 
 		$wsapp_deregister_parameters = array('type' => 'string', 'key' => 'string');
 		$operations['wsapp_deregister'] = array(
-			'file' => 'modules/WSAPP/api/ws/DeRegister.php', 'handler' => 'wsapp_deregister', 'reqtype' => 'POST', 'prelogin' => '0',
+			'file' => 'src/Modules/WSAPP/api/ws/DeRegister.php', 'handler' => 'wsapp_deregister', 'reqtype' => 'POST', 'prelogin' => '0',
 			'parameters' => $wsapp_deregister_parameters);
 
 		$wsapp_get_parameters = array('key' => 'string', 'module' => 'string', 'token' => 'string');
 		$operations['wsapp_get'] = array(
-			'file' => 'modules/WSAPP/api/ws/Get.php', 'handler' => 'wsapp_get', 'reqtype' => 'POST', 'prelogin' => '0',
+			'file' => 'src/Modules/WSAPP/api/ws/Get.php', 'handler' => 'wsapp_get', 'reqtype' => 'POST', 'prelogin' => '0',
 			'parameters' => $wsapp_get_parameters);
 
 		$wsapp_put_parameters = array('key' => 'string', 'element' => 'encoded');
 		$operations['wsapp_put'] = array(
-			'file' => 'modules/WSAPP/api/ws/Put.php', 'handler' => 'wsapp_put', 'reqtype' => 'POST', 'prelogin' => '0',
+			'file' => 'src/Modules/WSAPP/api/ws/Put.php', 'handler' => 'wsapp_put', 'reqtype' => 'POST', 'prelogin' => '0',
 			'parameters' => $wsapp_put_parameters);
 
 		$wsapp_put_parameters = array('key' => 'string', 'element' => 'encoded');
 		$operations['wsapp_map'] = array(
-			'file' => 'modules/WSAPP/api/ws/Map.php', 'handler' => 'wsapp_map', 'reqtype' => 'POST', 'prelogin' => '0',
+			'file' => 'src/Modules/WSAPP/api/ws/Map.php', 'handler' => 'wsapp_map', 'reqtype' => 'POST', 'prelogin' => '0',
 			'parameters' => $wsapp_put_parameters);
 
 		$this->registerCustomWebservices($operations);
@@ -96,9 +96,9 @@ class WSAPP {
 					);
 					++$parameter_index;
 				}
-				vtlib\Utils::Log("Opearation $operation_name enabled successfully.");
+				\vtlib\Utils::Log("Opearation $operation_name enabled successfully.");
 			} else {
-				vtlib\Utils::Log("Operation $operation_name already exists.");
+				\vtlib\Utils::Log("Operation $operation_name already exists.");
 			}
 		}
 	}
@@ -112,13 +112,13 @@ class WSAPP {
 		$appTypehandler = array();
 		$appTypehandler['type'] = "Outlook";
 		$appTypehandler['handlerclass'] = "OutlookHandler";
-		$appTypehandler['handlerpath'] = "modules/WSAPP/Handlers/OutlookHandler.php";
+		$appTypehandler['handlerpath'] = "src/Modules/WSAPP/Handlers/OutlookHandler.php";
 		$handlerDetails[] = $appTypehandler;
 
 		$appTypehandler = array();
 		$appTypehandler['type'] = "vtigerCRM";
 		$appTypehandler['handlerclass'] = "vtigerCRMHandler";
-		$appTypehandler['handlerpath'] = "modules/WSAPP/Handlers/vtigerCRMHandler.php";
+		$appTypehandler['handlerpath'] = "src/Modules/WSAPP/Handlers/vtigerCRMHandler.php";
 		$handlerDetails[] = $appTypehandler;
 
 		foreach ($handlerDetails as $appHandlerDetails)
@@ -137,7 +137,7 @@ class WSAPP {
 	public function registerSynclibEventHandler()
 	{
 		$className = 'WSAPP_VtigerSyncEventHandler';
-		$path = 'modules/WSAPP/synclib/handlers/VtigerSyncEventHandler.php';
+		$path = 'src/Modules/WSAPP/synclib/handlers/VtigerSyncEventHandler.php';
 		$type = 'vtigerSyncLib';
 		wsapp_RegisterHandler($type, $className, $path);
 	}

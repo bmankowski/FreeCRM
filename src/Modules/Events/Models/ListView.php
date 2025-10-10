@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Events\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 	
 }

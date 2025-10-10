@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Reports\Models;
 /**
  * Vtiger Edit View Record Structure Model
  */
-class RecordStructure extends Model
+class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $moduleName = false;
@@ -29,13 +29,13 @@ class RecordStructure extends Model
 		if (!empty($this->structuredValues[$moduleName])) {
 			return $this->structuredValues[$moduleName];
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if ($moduleName === 'Calendar') {
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = array();
 			$calendarRecordStructure = $recordStructureInstance->getStructure();
 
-			$eventsModel = Vtiger_Module_Model::getInstance('Events');
+			$eventsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($eventsModel);
 			$eventRecordStructure = $recordStructureInstance->getStructure();
 
@@ -58,7 +58,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function returns the Primary Module Record Structure
-	 * @return <Vtiger_RecordStructure_Model>
+	 * @return <\FreeCRM\Modules\Vtiger\Models\RecordStructure>
 	 */
 	public function getPrimaryModuleRecordStructure()
 	{
@@ -69,7 +69,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function returns the Secondary Modules Record Structure
-	 * @return <Array of Vtiger_RecordSructure_Models>
+	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\RecordSructures>
 	 */
 	public function getSecondaryModuleRecordStructure()
 	{

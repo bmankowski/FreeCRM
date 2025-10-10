@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OpenStreetMap\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class MapModal extends View
+class MapModal extends \Vtiger_Index_View
 {
 
 	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
@@ -21,10 +21,10 @@ class MapModal extends View
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		if (!$request->isEmpty('srcModule')) {
-			$srcModuleModel = Vtiger_Module_Model::getInstance($request->get('srcModule'));
+			$srcModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($request->get('srcModule'));
 			$fields = $srcModuleModel->getFields();
 			$fieldsToGroup = [];
 			foreach ($fields as &$fieldModel) {

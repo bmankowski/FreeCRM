@@ -88,7 +88,7 @@ class Mailer
 		if (empty($params['recordModel'])) {
 			$moduleName = isset($params['moduleName']) ? $params['moduleName'] : null;
 			if (isset($params['recordId'])) {
-				$recordModel = \Vtiger_Record_Model::getInstanceById($params['recordId'], $moduleName);
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($params['recordId'], $moduleName);
 			}
 		} else {
 			$recordModel = $params['recordModel'];

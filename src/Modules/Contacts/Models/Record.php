@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Contacts\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -20,7 +20,7 @@ class Record extends Model
 	 */
 	public function getCreateEventUrl()
 	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -30,7 +30,7 @@ class Record extends Model
 	 */
 	public function getCreateTaskUrl()
 	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -127,10 +127,10 @@ class Record extends Model
 	{
 		$module = \FreeCRM\Http\AppRequest::get('module');
 		$id = $this->getId();
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$fileSaved = false;
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
-		$oldAttachmentid = (new App\Db\Query())->select(['vtiger_crmentity.crmid'])->from('vtiger_seattachmentsrel')
+		$oldAttachmentid = (new \App\Db\Query())->select(['vtiger_crmentity.crmid'])->from('vtiger_seattachmentsrel')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_seattachmentsrel.attachmentsid')
 				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
 		if ($_FILES) {
@@ -145,7 +145,7 @@ class Record extends Model
 				}
 			}
 		}
-		$imageName = (new App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
+		$imageName = (new \App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
 				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
 				->leftJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid')
 				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
@@ -156,7 +156,7 @@ class Record extends Model
 		//This is to handle the delete image for contacts
 		if ($module === 'Contacts' && $fileSaved) {
 			if ($oldAttachmentid) {
-				$setype = (new App\Db\Query())->select(['setype'])
+				$setype = (new \App\Db\Query())->select(['setype'])
 					->from('vtiger_crmentity')
 					->where(['crmid' => $oldAttachmentid])
 					->scalar();

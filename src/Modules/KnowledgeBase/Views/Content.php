@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Content extends View
+class Content extends \Vtiger_Index_View
 {
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
@@ -20,9 +20,9 @@ class Content extends View
 			$previewContent->process($request);
 		} else {
 			$moduleName = $request->getModule();
-			$pagingModel = new Vtiger_Paging_Model();
+			$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 			$pagingModel->set('limit', 'no_limit');
-			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
+			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName);
 			$listEntries = $listViewModel->getListViewEntries($pagingModel);
 			$headers = $listViewModel->getListViewHeaders();
 

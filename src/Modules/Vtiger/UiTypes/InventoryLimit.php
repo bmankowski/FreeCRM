@@ -8,14 +8,14 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class InventoryLimit extends UIType
+class InventoryLimit extends Base
 {
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -45,8 +45,8 @@ class InventoryLimit extends UIType
 		if (\App\Cache::has('Inventory', 'CreditLimits')) {
 			return \App\Cache::get('Inventory', 'CreditLimits');
 		}
-		$limits = (new App\Db\Query())->from('a_#__inventory_limits')->where(['status' => 0])
-				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
+		$limits = (new \App\Db\Query())->from('a_#__inventory_limits')->where(['status' => 0])
+				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache::save('Inventory', 'CreditLimits', $limits, \App\Cache::LONG);
 		return $limits;
 	}
@@ -67,7 +67,7 @@ class InventoryLimit extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

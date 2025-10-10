@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class CompanySelect extends UIType
+class CompanySelect extends Base
 {
 
 	/**
@@ -24,7 +24,7 @@ class CompanySelect extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $tree
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param boolean $rawText
 	 * @return string
 	 */
@@ -44,7 +44,7 @@ class CompanySelect extends UIType
 	 */
 	public function getPicklistValues()
 	{
-		return Settings_Companies_Module_Model::getAllCompanies();
+		return \Settings_Companies_Module_Model::getAllCompanies();
 	}
 
 	/**

@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Notification\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class NotificationConfig extends View
+class NotificationConfig extends \Vtiger_Index_View
 {
 
 	/**
@@ -59,7 +59,7 @@ class NotificationConfig extends View
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return array - List of Vtiger_CssScript_Model instances
+	 * @return array - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

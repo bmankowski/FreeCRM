@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\FInvoice\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public function saveToDb()
@@ -21,7 +21,7 @@ class Record extends Model
 				->where(['vtiger_crmentity.deleted' => 0, 'accountid' => $this->get('accountid')])
 				->max('saledate');
 			if (!empty($date)) {
-				App\Db::getInstance()->createCommand()->update('vtiger_account', [
+				\App\Db::getInstance()->createCommand()->update('vtiger_account', [
 					'last_invoice_date' => $date
 					], ['accountid' => $this->get('accountid')]
 				)->execute();

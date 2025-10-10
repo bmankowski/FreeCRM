@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Accounts\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -31,7 +31,7 @@ class Record extends Model
 				preg_match('/[.\s]+/', $link, $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
 
-				$recordModel = Vtiger_Record_Model::getCleanInstance('Accounts');
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Accounts');
 				$recordModel->setId($accountId);
 				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}
@@ -45,7 +45,7 @@ class Record extends Model
 	 */
 	public function getCreateEventUrl()
 	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -55,7 +55,7 @@ class Record extends Model
 	 */
 	public function getCreateTaskUrl()
 	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 

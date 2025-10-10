@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Notification\UiTypes;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class String extends UIType
+class String extends Base
 {
 
 	/**
@@ -24,7 +24,7 @@ class String extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record id record
-	 * @param <Vtiger_Record_Model> $recordInstance 
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordInstance 
 	 * @param mixed $rawText
 	 * @return string
 	 */

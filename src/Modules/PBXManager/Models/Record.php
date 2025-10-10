@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	const moduletableName = 'vtiger_pbxmanager';
@@ -77,8 +77,8 @@ class Record extends Model
 	 */
 	public function saveRecordWithArrray($params)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance('PBXManager');
-		$recordModel = Vtiger_Record_Model::getCleanInstance('PBXManager');
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('PBXManager');
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('PBXManager');
 		$details = array_change_key_case($params, CASE_LOWER);
 		$fieldModelList = $moduleModel->getFields();
 		if (!isset($details["assigned_user_id"]))
@@ -233,7 +233,7 @@ class Record extends Model
 		if (empty($number)) {
 			return false;
 		}
-		$query = PBXManager_Record_Model::buildSearchQueryWithUIType(11, $number, 'Users');
+		$query = \FreeCRM\Modules\PBXManager\Models\Record::buildSearchQueryWithUIType(11, $number, 'Users');
 		$result = $db->pquery($query, array());
 		if ($db->num_rows($result) > 0) {
 			$user['id'] = $db->query_result($result, 0, 'id');

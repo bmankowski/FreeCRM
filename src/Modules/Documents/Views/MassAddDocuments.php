@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Documents\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class MassAddDocuments extends View
+class MassAddDocuments extends \Vtiger_Index_View
 {
 
 	/**
@@ -22,7 +22,7 @@ class MassAddDocuments extends View
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'CreateView')) {
+		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

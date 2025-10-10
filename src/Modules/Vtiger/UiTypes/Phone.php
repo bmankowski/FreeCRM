@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Phone extends UIType
+class Phone extends Base
 {
 
 	/**

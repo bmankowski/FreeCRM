@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class AutoAssignRecord extends View
+class AutoAssignRecord extends \Vtiger_Index_View
 {
 
 	/**
@@ -23,7 +23,7 @@ class AutoAssignRecord extends View
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $request->getModule());
 			if ($recordModel && $recordModel->isEditable()) {
 				return true;
 			}
@@ -51,8 +51,8 @@ class AutoAssignRecord extends View
 		$recordId = $request->get('record');
 		$users = [];
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
+		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$autoAssignModel = Settings_\FreeCRM\Modules\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $autoAssignModel->searchRecord($recordModel);
 
 		$viewer = $this->getViewer($request);
@@ -67,7 +67,7 @@ class AutoAssignRecord extends View
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return Vtiger_JsScript_Model[] - List of Vtiger_CssScript_Model instances
+	 * @return \FreeCRM\Modules\Vtiger\Models\JsScript[] - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
 	{

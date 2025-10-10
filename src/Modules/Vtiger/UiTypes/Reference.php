@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Reference extends UIType
+class Reference extends Base
 {
 
 	/**
@@ -35,9 +35,9 @@ class Reference extends UIType
 		$referenceModuleList = $fieldModel->getReferenceList();
 		$referenceEntityType = \vtlib\Functions::getCRMRecordType($value);
 		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
-			return Vtiger_Module_Model::getInstance($referenceEntityType);
+			return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($referenceEntityType);
 		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
-			return Vtiger_Module_Model::getInstance('Users');
+			return \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');
 		}
 		return null;
 	}
@@ -46,7 +46,7 @@ class Reference extends UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param int $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -63,7 +63,7 @@ class Reference extends UIType
 			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
-			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+			$name = \vtlib\Functions::textLength($name, vglobal('href_max_length'));
 			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
@@ -88,7 +88,7 @@ class Reference extends UIType
 			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
-			$name = vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
+			$name = \vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
 			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
@@ -127,7 +127,7 @@ class Reference extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

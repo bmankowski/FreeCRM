@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Users\Actions;
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 
-class UserSetupSave extends Action
+class UserSetupSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userModuleModel = Users_Module_Model::getInstance($moduleName);
-		$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		$userModuleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($moduleName);
+		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		//Handling the user preferences 
 		$userRecordModel->set('language', $request->get('lang_name'));

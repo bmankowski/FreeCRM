@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\FBookkeeping;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class FBookkeeping extends Vtiger_CRMEntity
+class FBookkeeping extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_fbookkeeping';

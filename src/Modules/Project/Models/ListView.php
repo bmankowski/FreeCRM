@@ -14,13 +14,13 @@ namespace FreeCRM\Modules\Project\Models;
 /**
  * ListView Model Class for Project module
  */
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links
 	 * @param <Array> $linkParams Parameters to be replaced in the link template
-	 * @return <Array> - an array of Vtiger_Link_Model instances
+	 * @return <Array> - an array of \FreeCRM\Modules\Vtiger\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
@@ -35,7 +35,7 @@ class ListView extends Model
 			),
 		);
 		foreach ($quickLinks as $quickLink) {
-			$links['LISTVIEWQUICK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+			$links['LISTVIEWQUICK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		return $links;

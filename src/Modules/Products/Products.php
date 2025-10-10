@@ -296,7 +296,7 @@ class Products extends \FreeCRM\CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module === 'Leads' || $return_module === 'Accounts') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
 		} elseif ($return_module == 'Vendors') {
 			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
 			$this->db->pquery($sql, array(null, $id));
@@ -312,17 +312,17 @@ class Products extends \FreeCRM\CRMEntity
 		foreach ($withCrmIds as $withCrmId) {
 			if (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
 				if ($withModule === 'Products') {
-					if ((new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
+					if ((new \App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
 						continue;
 					}
 				}
-				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
+				$isExists = (new \App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
 				if (!$isExists) {
-					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
+					\App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 						'crmid' => $withCrmId,
 						'productid' => $crmid,
 						'setype' => $withModule,
-						'rel_created_user' => App\User::getCurrentUserId(),
+						'rel_created_user' => \App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
 					])->execute();
 				}

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users\Models;
  * *********************************************************************************** */
 
  use FreeCRM\Http\Vtiger_Session;
-class Record extends Model
+class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	public function getRealId()
@@ -30,7 +30,7 @@ class Record extends Model
 	public function getModule()
 	{
 		if (empty($this->module)) {
-			$this->module = Vtiger_Module_Model::getInstance('Users');
+			$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');
 		}
 		return $this->module;
 	}
@@ -135,6 +135,15 @@ class Record extends Model
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Alias for isAdminUser()
+	 * @return bool
+	 */
+	public function isAdmin()
+	{
+		return $this->isAdminUser();
 	}
 
 	/**
@@ -278,7 +287,7 @@ class Record extends Model
 			}
 		}
 		if ($checkUserExist) {
-			if ((new App\Db\Query())
+			if ((new \App\Db\Query())
 					->from('vtiger_users')
 					->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 					->where(['user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')])->exists()) {
@@ -405,7 +414,7 @@ class Record extends Model
 		$privilegesModel = $this->get('privileges');
 
 		if (empty($privilegesModel)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 
@@ -430,7 +439,7 @@ class Record extends Model
 		$privilegesModel = $this->get('privileges');
 
 		if (empty($privilegesModel)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 
@@ -446,7 +455,7 @@ class Record extends Model
 		$privilegesModel = $this->get('privileges');
 
 		if (empty($privilegesModel)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 
@@ -461,7 +470,7 @@ class Record extends Model
 		}
 		$privileges = $this->get('privileges');
 		if (empty($privileges)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 		$roleModel = Settings_Roles_Record_Model::getInstanceById($this->get('privileges')->get('roleid'));
@@ -477,7 +486,7 @@ class Record extends Model
 	{
 		$userProfiles = $this->get('profiles');
 		if (empty($userProfiles)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$userProfiles = $privilegesModel->get('profiles');
 			$this->set('profiles', $userProfiles);
 		}
@@ -575,7 +584,7 @@ class Record extends Model
 	{
 		$privilegesModel = $this->get('privileges');
 		if (empty($privilegesModel)) {
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 		return $privilegesModel;
@@ -646,7 +655,7 @@ class Record extends Model
 	 */
 	public static function getUserGroups($userId)
 	{
-		return App\PrivilegeUtil::getUserGroups($userId);
+		return \App\PrivilegeUtil::getUserGroups($userId);
 	}
 	/**
 	 * Function returns the users activity reminder in seconds
@@ -690,7 +699,7 @@ class Record extends Model
 	 */
 	public static function getCount($onlyActive = false)
 	{
-		$query = (new App\Db\Query())->from('vtiger_users');
+		$query = (new \App\Db\Query())->from('vtiger_users');
 		if ($onlyActive) {
 			$query->where(['status' => 'Active']);
 		}
@@ -718,7 +727,7 @@ class Record extends Model
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
 
 		if ($db->num_rows($result)) {
-			return Users_Record_Model::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
+			return \FreeCRM\Modules\Users\Models\Record::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
 		}
 		return false;
 	}
@@ -775,7 +784,7 @@ class Record extends Model
 
 	public static function deleteUserPermanently($userId, $newOwnerId)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
 		//update history details in vtiger_modtracker_basic
 		$db->createCommand()->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();

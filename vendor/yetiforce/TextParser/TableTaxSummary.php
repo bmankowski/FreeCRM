@@ -26,7 +26,7 @@ class TableTaxSummary extends Base
 			return '';
 		}
 		$html = '';
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
+		$inventoryField = \FreeCRM\Modules\Vtiger\Models\InventoryField::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		$columns = $inventoryField->getColumns();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();

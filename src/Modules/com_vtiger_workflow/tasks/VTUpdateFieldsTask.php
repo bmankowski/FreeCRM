@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once('src/Modules/com_vtiger_workflow/VTEntityCache.php');
+require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTUpdateFieldsTask extends VTTask
 {
@@ -26,7 +26,7 @@ class VTUpdateFieldsTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -50,7 +50,7 @@ class VTUpdateFieldsTask extends VTTask
 				$fieldValue = trim($fieldInfo['value']);
 				$fieldInstance = $moduleFields[$fieldName];
 				if ($fieldValueType == 'expression') {
-					require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/include.php';
+					require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/include.php';
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
 					$exprEvaluater = new VTFieldExpressionEvaluater($expression);

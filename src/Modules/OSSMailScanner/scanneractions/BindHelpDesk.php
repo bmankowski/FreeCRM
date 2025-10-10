@@ -24,13 +24,13 @@ class BindHelpDesk extends Model
 			if (!\App\Record::isExists($id, $this->moduleName)) {
 				return false;
 			}
-			$conf = OSSMailScanner_Record_Model::getConfig('emailsearch');
-			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->moduleName);
+			$conf = \FreeCRM\Modules\OSSMailScanner\Models\Record::getConfig('emailsearch');
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $this->moduleName);
 			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(\FreeCRM\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
 				$recordModel->set('ticketstatus', \FreeCRM\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
 				$recordModel->save();
 			}
-			$ticketStatus = array_flip(Settings_SupportProcesses_Module_Model::getTicketStatusNotModify());
+			$ticketStatus = array_flip(\Settings_SupportProcesses_Module_Model::getTicketStatusNotModify());
 			if ($mail->getTypeEmail() == 1 && isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ($conf['changeTicketStatus'] === 'openTicket') {
 					$recordModel->set('ticketstatus', \FreeCRM\AppConfig::module('Mail', 'HELPDESK_OPENTICKET_STATUS'));

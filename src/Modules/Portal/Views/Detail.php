@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Portal\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Detail extends View
+class Detail extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
@@ -26,8 +26,8 @@ class Detail extends View
 		$recordId = $request->get('record');
 		$module = $request->getModule();
 
-		$url = Portal_Module_Model::getWebsiteUrl($recordId);
-		$recordList = Portal_Module_Model::getAllRecords();
+		$url = \FreeCRM\Modules\Portal\Models\Module::getWebsiteUrl($recordId);
+		$recordList = \FreeCRM\Modules\Portal\Models\Module::getAllRecords();
 
 		$viewer = $this->getViewer($request);
 

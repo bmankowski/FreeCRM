@@ -27,7 +27,7 @@ class Reference extends InventoryField
 		if ($value == 0) {
 			return '';
 		}
-		$metaData = vtlib\Functions::getCRMRecordMetadata($value);
+		$metaData = \vtlib\Functions::getCRMRecordMetadata($value);
 		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
 		return $linkValue;
 	}
@@ -42,7 +42,7 @@ class Reference extends InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$value = vtlib\Functions::getCRMRecordLabel($value, $default = '');
+		$value = \vtlib\Functions::getCRMRecordLabel($value, $default = '');
 		return $value;
 	}
 
@@ -55,7 +55,7 @@ class Reference extends InventoryField
 	public function getReferenceModule($record)
 	{
 		if (!empty($record)) {
-			$metadata = vtlib\Functions::getCRMRecordMetadata($record);
+			$metadata = \vtlib\Functions::getCRMRecordMetadata($record);
 			return $metadata['setype'];
 		}
 		return '';

@@ -4,8 +4,8 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-$db = App\Db::getInstance();
-$dataReader = (new App\Db\Query())->from('u_#__openstreetmap_record_updater')
+$db = \App\Db::getInstance();
+$dataReader = (new \App\Db\Query())->from('u_#__openstreetmap_record_updater')
 		->limit(\FreeCRM\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
@@ -22,7 +22,7 @@ while ($row = $dataReader->read()) {
 		continue;
 	}
 	$coordinates = reset($coordinates);
-	$isCoordinateExists = (new App\Db\Query())->from('u_#__openstreetmap')
+	$isCoordinateExists = (new \App\Db\Query())->from('u_#__openstreetmap')
 		->where(['type' => $typeAddress, 'crmid' => $recordId])
 		->exists();
 	if ($isCoordinateExists) {

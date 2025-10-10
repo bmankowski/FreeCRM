@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\OSSMailView\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class Graf extends View
+class Graf extends \Vtiger_Index_View
 {
 
 	/**
@@ -37,7 +37,7 @@ class Graf extends View
 		$conditions = array();
 		array_push($conditions, array("ossmailview_sendtype", "e", $stage));
 		if ($assignedto == '') {
-			$currenUserModel = Users_Record_Model::getCurrentUserModel();
+			$currenUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$assignedto = $currenUserModel->getId();
 		}
 		if ($assignedto != 'all') {
@@ -58,7 +58,7 @@ class Graf extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
@@ -98,14 +98,14 @@ class Graf extends View
 			$dateFilter['end'] = $today;
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getMailCount($owner, $dateFilter);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
 		for ($i = 0; $i < $countData; $i++) {
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dateFilter);
 		}
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGET', $widget);

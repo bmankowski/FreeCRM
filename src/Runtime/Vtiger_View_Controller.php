@@ -41,7 +41,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		   $viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 		   $viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
 		   if ($vtigerRequest->isAjax()) {
-			   $viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+			   $viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 			   if ($vtigerRequest->get('parent') === 'Settings') {
 				   $viewer->assign('QUALIFIED_MODULE', $vtigerRequest->getModule(false));
 			   }
@@ -90,7 +90,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 	   $viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
 	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-	   $viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+	   $viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 	   $viewer->assign('MODULE', $moduleName);
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
 	   $viewer->assign('MODULE_NAME', $moduleName);
@@ -122,7 +122,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
    public function postProcess(Vtiger_Request $vtigerRequest)
    {
 	   $viewer = $this->getViewer($vtigerRequest);
-	   $currentUser = \Users_Record_Model::getCurrentUserModel();
+	   $currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 	   $viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 	   $viewer->assign('COMPANY_LOGO', \App\Company::getInstanceById()->getLogo());
 	   $viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($vtigerRequest));

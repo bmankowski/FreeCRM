@@ -7,9 +7,9 @@ namespace FreeCRM\Modules\KnowledgeBase;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class KnowledgeBase extends Vtiger_CRMEntity
+class KnowledgeBase extends \Vtiger_CRMEntity
 {
 
 	protected $lockFields = ['knowledgebase_status' => ['PLL_ACCEPTED', 'PLL_ARCHIVES', 'PLL_CANCELLED']];

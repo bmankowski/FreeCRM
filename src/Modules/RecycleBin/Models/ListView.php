@@ -11,23 +11,23 @@ namespace FreeCRM\Modules\RecycleBin\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ListView extends Model
+class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
 	 * @param string $moduleName - Module Name
 	 * @param string $sourceModule - Source Module Name
-	 * @return Vtiger_ListView_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\ListView instance
 	 */
 	public static function getInstance($moduleName, $sourceModule = 0)
 	{
 		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$queryGenerator = new \App\QueryGenerator($sourceModuleModel->get('name'));
-		$cvidObj = CustomView_Record_Model::getAllFilterByModule($sourceModuleModel->get('name'));
+		$cvidObj = \FreeCRM\Modules\CustomView\Models\Record::getAllFilterByModule($sourceModuleModel->get('name'));
 		$viewId = $cvidObj->getId('cvid');
 		$queryGenerator->initForCustomViewById($viewId);
 		return $instance->set('module', $sourceModuleModel)->set('query_generator', $queryGenerator);
@@ -47,8 +47,8 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return <Array> - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewCount()
 	{

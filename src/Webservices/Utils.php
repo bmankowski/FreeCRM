@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 
 require_once(ROOT_DIRECTORY . '/src/database/PearDatabase.php');
-require_once("modules/Users/Users.php");
+require_once(ROOT_DIRECTORY . '/src/Modules/Users/Users.php');
 require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
@@ -825,8 +825,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 		$taskComponents = explode(':', $task);
 		$classNameWithDoubleQuotes = $taskComponents[2];
 		$className = str_replace('"', '', $classNameWithDoubleQuotes);
-		require_once("modules/com_vtiger_workflow/VTTaskManager.php");
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/tasks/' . $className . '.php';
+		require_once("src/Modules/com_vtiger_workflow/VTTaskManager.php");
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/tasks/' . $className . '.php';
 		$unserializeTask = unserialize($task);
 		if (array_key_exists('field_value_mapping', $unserializeTask)) {
 			$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);

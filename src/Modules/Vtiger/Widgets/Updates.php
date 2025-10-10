@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Updates extends Widget
+class Updates extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public function getUrl()
@@ -22,12 +22,12 @@ class Updates extends Widget
 
 	public function getWidget()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduelName = 'ModTracker';
 		$this->Config['tpl'] = 'Updates.tpl';
 		$this->Config['moduleBaseName'] = $moduelName;
 		$this->Config['url'] = $this->getUrl();
-		$this->Config['newChanege'] = ModTracker_Record_Model::isNewChange($this->Record, $currentUser->getRealId());
+		$this->Config['newChanege'] = \FreeCRM\Modules\ModTracker\Models\Record::isNewChange($this->Record, $currentUser->getRealId());
 		$this->Config['switchHeader'] = [];
 		$this->Config['switchHeader']['on'] = 'changes';
 		$this->Config['switchHeader']['off'] = 'review';

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ProductsServices extends Widget
+class ProductsServices extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public $allowedModules = ['Accounts'];

@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Notification\UiTypes;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Text extends UIType
+class Text extends Base
 {
 
 	/**

@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Export extends Model
+class Export extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $moduleInstance;
@@ -40,7 +40,7 @@ class Export extends Model
 		$moduleName = $request->get('source_module');
 		if (!empty($moduleName)) {
 			$this->moduleName = $moduleName;
-			$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
+			$this->moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			$this->moduleFieldInstances = $this->moduleInstance->getFields();
 			$this->focus = \FreeCRM\CRMEntity::getInstance($moduleName);
 		}
@@ -153,7 +153,7 @@ class Export extends Model
 				break;
 
 			case 'ExportCurrentPage' :
-				$pagingModel = new Vtiger_Paging_Model();
+				$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 				$limit = $pagingModel->getPageLimit();
 				$currentPage = $request->get('page');
 				if (empty($currentPage)) {
@@ -230,7 +230,7 @@ class Export extends Model
 	 */
 	public function sanitizeValues($arr)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$roleid = $currentUser->get('roleid');
 		if (empty($this->fieldArray)) {
 			$this->fieldArray = $this->moduleFieldInstances;
@@ -275,13 +275,13 @@ class Export extends Model
 					$value = '';
 				}
 			} elseif ($uitype === 52 || $type === 'owner') {
-				$value = Vtiger_Util_Helper::getOwnerName($value);
+				$value = \Vtiger_Util_Helper::getOwnerName($value);
 			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
 				foreach ($owners as $owner) {
-					$values[] = Vtiger_Util_Helper::getOwnerName($owner);
+					$values[] = \Vtiger_Util_Helper::getOwnerName($owner);
 				}
 				$value = implode(',', $values);
 			} elseif ($type === 'reference') {
@@ -346,7 +346,7 @@ class Export extends Model
 						$valueData = $field->getCurrencyParam([], $valueParam);
 						$valueNewData = [];
 						foreach ($valueData as $currencyId => &$data) {
-							$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+							$currencyName = \vtlib\Functions::getCurrencyName($currencyId, false);
 							$data['value'] = $currencyName;
 							$valueNewData[$currencyName] = $data;
 						}

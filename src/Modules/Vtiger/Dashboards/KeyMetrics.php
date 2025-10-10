@@ -13,19 +13,19 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 use FreeCRM\Http\Vtiger_Request;
 
-class KeyMetrics extends View
+class KeyMetrics extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
 		$data = $request->getAll();
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		$keyMetrics = $this->getKeyMetricsWithCount();
 
@@ -45,9 +45,9 @@ class KeyMetrics extends View
 	// NOTE: Move this function to appropriate model.
 	protected function getKeyMetricsWithCount()
 	{
-		$current_user = Users_Record_Model::getCurrentUserModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		vglobal('current_user', $current_user);
-		require_once ROOT_DIRECTORY . '/modules/CustomView/ListViewTop.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/CustomView/ListViewTop.php';
 		$metriclists = getMetricList();
 		foreach ($metriclists as $key => &$metriclist) {
 			$queryGenerator = new \App\QueryGenerator($metriclist['module']);

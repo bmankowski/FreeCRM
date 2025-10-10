@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Services\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class TreeRecords extends View
+class TreeRecords extends \Vtiger_Index_View
 {
 
 	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)

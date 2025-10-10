@@ -13,38 +13,38 @@ namespace FreeCRM\Modules\Users\Actions;
  * *********************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/Webservices/Custom/DeleteUser.php';
 
-class DeleteAjax extends Action
+class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('userid');
 		$newOwnerId = $request->get('transfer_user_id');
 		if ($request->get('mode') === 'permanent') {
-			Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
+			\FreeCRM\Modules\Users\Models\Record::deleteUserPermanently($ownerId, $newOwnerId);
 		} else {
 			$userId = vtws_getWebserviceEntityId($moduleName, $ownerId);
 			$transformUserId = vtws_getWebserviceEntityId($moduleName, $newOwnerId);
 
-			$userModel = Users_Record_Model::getCurrentUserModel();
+			$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 			vtws_deleteUser($userId, $transformUserId, $userModel);
 
 			if ($request->get('permanent') === '1')
-				Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
+				\FreeCRM\Modules\Users\Models\Record::deleteUserPermanently($ownerId, $newOwnerId);
 		}
-		$userModuleModel = Users_Module_Model::getInstance($moduleName);
+		$userModuleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(['message' => \LanguageTranslator::translate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
 		$response->emit();
 	}

@@ -14,15 +14,15 @@ namespace FreeCRM\Modules\OSSMail\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class index extends View
+class index extends \Vtiger_Index_View
 {
 
-	protected $mainUrl = 'modules/OSSMail/roundcube/';
+	protected $mainUrl = 'src/Modules/OSSMail/roundcube/';
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->mainUrl = OSSMail_Record_Model::getSiteUrl() . $this->mainUrl;
+		$this->mainUrl = \FreeCRM\Modules\OSSMail\Models\Record::getSiteUrl() . $this->mainUrl;
 	}
 
 	public function initAutologin()
@@ -41,7 +41,7 @@ class index extends View
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
 				$db = \FreeCRM\database\PearDatabase::getInstance();
-				$currentUserModel = Users_Record_Model::getCurrentUserModel();
+				$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
 				$params = ['language' => Vtiger_Language_Handler::getLanguage()];
 				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);

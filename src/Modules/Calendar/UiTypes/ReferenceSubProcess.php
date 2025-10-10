@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Calendar\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ReferenceSubProcess extends UIType
+class ReferenceSubProcess extends Base
 {
 
 	public function getReferenceList()

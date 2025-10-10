@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Accounts\Dashboards;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class NewAccounts extends View
+class NewAccounts extends \Vtiger_Index_View
 {
 
 	private function getAccounts($moduleName, $user, $time, $pagingModel)
@@ -40,7 +40,7 @@ class NewAccounts extends View
 		$result = $db->pquery($sql, $params);
 		$newAccounts = [];
 		while ($row = $db->getRow($result)) {
-			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['smownerid']);
+			$row['userModel'] = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($row['smownerid']);
 			$time = new DateTimeField($row['createdtime']);
 			$row['createdtime'] = $time->getFullcalenderDateTimevalue();
 			$newAccounts[$row['crmid']] = $row;
@@ -50,18 +50,18 @@ class NewAccounts extends View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
 		$time = $request->get('time');
 		if (empty($time)) {
-			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
-			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
+			$time['start'] = \vtlib\Functions::currentUserDisplayDateNew();
+			$time['end'] = \vtlib\Functions::currentUserDisplayDateNew();
 		}
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
-			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$user = \Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
@@ -72,7 +72,7 @@ class NewAccounts extends View
 		if (empty($page)) {
 			$page = 1;
 		}
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$newAccounts = $this->getAccounts($moduleName, $user, $time, $pagingModel);

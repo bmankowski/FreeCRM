@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\WSAPP\WorkFlowHandlers;
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once ROOT_DIRECTORY . '/src/events/VTEntityData.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/DataTransform.php';
-require_once ROOT_DIRECTORY . '/modules/WSAPP/SyncServer.php';
+require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/SyncServer.php';
 
 class WSAPPAssignToTracker extends VTEventHandler
 {

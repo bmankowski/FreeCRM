@@ -10,12 +10,12 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  */
 use FreeCRM\Http\Vtiger_Request;
 
-class RemoveWidgetFromList extends View
+class RemoveWidgetFromList extends \Vtiger_Index_View
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -23,18 +23,18 @@ class RemoveWidgetFromList extends View
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($request->has('id')) {
 			$id = $request->get('id');
-			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($id, $currentUser->getId());
+			$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($id, $currentUser->getId());
 			if (!$widget->isDefault()) {
-				Vtiger_Widget_Model::removeWidgetFromList($id);
+				\FreeCRM\Modules\Vtiger\Models\Widget::removeWidgetFromList($id);
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailAjax extends Action
+class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -29,7 +29,7 @@ class DetailAjax extends Action
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -43,10 +43,10 @@ class DetailAjax extends Action
 	 * @param Vtiger_Request $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
-		$reportModel = Reports_Record_Model::getInstanceById($record);
+		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($record);
 		$reportModel->setModule('Reports');
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 
@@ -55,7 +55,7 @@ class DetailAjax extends Action
 		$countQuery = $reportModel->generateCountQuery($query);
 
 		$count = $reportModel->getReportsCount($countQuery);
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($count);
 		$response->emit();
 	}

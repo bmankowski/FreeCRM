@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\PaymentsOut;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class PaymentsOut extends Vtiger_CRMEntity
+class PaymentsOut extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'vtiger_paymentsout';
@@ -104,13 +104,13 @@ class PaymentsOut extends Vtiger_CRMEntity
 			$ModuleInstance = \FreeCRM\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
+			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
+				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Payments'));
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($modulename));
+			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
 			$this->addWorkflow($modulename);
 		} else if ($event_type == 'module.disabled') {
 			
@@ -127,13 +127,13 @@ class PaymentsOut extends Vtiger_CRMEntity
 
 	private function addWorkflow($moduleName)
 	{
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager();
-		$emm->addEntityMethod($moduleName, $functionName, "modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);
+		$emm->addEntityMethod($moduleName, $functionName, "src/Modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);
 
 		$workflowManager = new VTWorkflowManager($db);
 		$taskManager = new VTTaskManager($db);

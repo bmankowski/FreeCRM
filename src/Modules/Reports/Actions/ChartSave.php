@@ -11,10 +11,10 @@ namespace FreeCRM\Modules\Reports\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ChartSave extends Action
+class ChartSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 

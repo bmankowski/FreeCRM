@@ -26,7 +26,7 @@ class Name extends InventoryField
 	public function getDisplayValue($value)
 	{
 		if ($value != 0)
-			return vtlib\Functions::getCRMRecordLabel($value);
+			return \vtlib\Functions::getCRMRecordLabel($value);
 		return '';
 	}
 

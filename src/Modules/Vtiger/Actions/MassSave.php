@@ -12,31 +12,31 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassSave extends Action
+class MassSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		$allRecordSave = true;
 		foreach ($recordModels as $recordId => &$recordModel) {
-			if (Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId)) {
+			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId)) {
 				$recordModel->save();
 			} else {
 				$allRecordSave = false;
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($allRecordSave);
 		$response->emit();
 	}
@@ -44,17 +44,17 @@ class MassSave extends Action
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return array - List of Vtiger_Record_Model instances
+	 * @return array - List of \FreeCRM\Modules\Vtiger\Models\Record instances
 	 */
-	public function getRecordModelsFromRequest(Vtiger_Request $request)
+	public function getRecordModelsFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$recordModels = [];
 
 		foreach ($recordIds as &$recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
 			if (!$recordModel->isEditable()) {
 				continue;
 			}

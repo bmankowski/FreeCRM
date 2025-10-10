@@ -2,12 +2,12 @@
 
 namespace FreeCRM\Modules\Users\Actions;
 
-class ExportData extends Action
+class ExportData extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -17,12 +17,12 @@ class ExportData extends Action
 	 * Function exports the data based on the mode
 	 * @param Vtiger_Request $request
 	 */
-	public function ExportData(Vtiger_Request $request)
+	public function ExportData(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 
-		$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
+		$this->moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$this->moduleFieldInstances = $this->moduleInstance->getFields();
 		$this->focus = $this->moduleInstance->getEntityInstance();
 		$query = $this->getExportQuery($request);
@@ -40,7 +40,7 @@ class ExportData extends Action
 	 * @param Vtiger_Request $request
 	 * @return string export query
 	 */
-	public function getExportQuery(Vtiger_Request $request)
+	public function getExportQuery(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('viewname');
 		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));

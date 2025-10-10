@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\OSSMail\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class CheckConfig extends View
+class CheckConfig extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
@@ -29,6 +29,6 @@ class CheckConfig extends View
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		require_once ROOT_DIRECTORY . '/modules/OSSMail/views/CheckConfigCore.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/OSSMail/Views/CheckConfigCore.php';
 	}
 }

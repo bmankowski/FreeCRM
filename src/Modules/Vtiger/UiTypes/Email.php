@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Email extends UIType
+class Email extends Base
 {
 
 	/**
@@ -25,16 +25,16 @@ class Email extends UIType
 
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$internalMailer = $currentUser->get('internal_mailer');
 		if ($value && !$rawText) {
 			$moduleName = $this->get('field')->get('block')->module->name;
 			$fieldName = $this->get('field')->get('name');
 			$rawValue = $value;
-			$value = vtlib\Functions::textLength($value);
-			if ($internalMailer == 1 && \Users_Privileges_Model::isPermitted('OSSMail')) {
-				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
-				$mailConfig = OSSMail_Module_Model::getComposeParameters();
+			$value = \vtlib\Functions::textLength($value);
+			if ($internalMailer == 1 && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
+				$url = \FreeCRM\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
+				$mailConfig = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParameters();
 				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . vtranslate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName == 'Users' && $fieldName == 'user_name') {

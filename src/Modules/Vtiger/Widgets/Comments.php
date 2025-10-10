@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Comments extends Widget
+class Comments extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 {
 
 	public $dbParams = array('relatedmodule' => 'ModComments');
@@ -30,7 +30,7 @@ class Comments extends Widget
 	public function getWidget()
 	{
 		$widget = [];
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		if ($this->moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView')) {
 			$this->Config['url'] = $this->getUrl();
 			$widget = $this->Config;

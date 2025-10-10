@@ -12,17 +12,17 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/modules/Vtiger/helpers/ListUpdatedRecord.php';
+require_once ROOT_DIRECTORY . '/src/Modules/Vtiger/helpers/ListUpdatedRecord.php';
 
 use FreeCRM\Http\Vtiger_Request;
 
-class ListUpdatedRecord extends View
+class ListUpdatedRecord extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
 
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
@@ -31,7 +31,7 @@ class ListUpdatedRecord extends View
 		else
 			$number = 'all';
 		$linkId = $request->get('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$data = $request->getAll();
 
 		$columnList = ['LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid'];

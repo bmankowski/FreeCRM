@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ExportData extends Action
+class ExportData extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -22,7 +22,7 @@ class ExportData extends Action
 	 */
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		if (!Vtiger_Module_Model::getInstance($request->get('source_module'))->isPermitted('Export')) {
+		if (!\FreeCRM\Modules\Vtiger\Models\Module::getInstance($request->get('source_module'))->isPermitted('Export')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -31,7 +31,7 @@ class ExportData extends Action
 	 * Function is called by the controller
 	 * @param Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$exportModel = Vtiger_Export_Model::getInstanceFromRequest($request);
 		if ($request->getMode() === 'ExportSelectedRecords') {

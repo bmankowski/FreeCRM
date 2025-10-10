@@ -27,7 +27,7 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
@@ -35,17 +35,17 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -70,20 +70,20 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$relatedModule = $request->get('related_module');
 		if (is_numeric($relatedModule)) {
-			$relatedModule = vtlib\Functions::getModuleName($relatedModule);
+			$relatedModule = \vtlib\Functions::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		if (!is_array($relatedRecordIdList)) {
 			$relatedRecordIdList = [$relatedRecordIdList];
 		}
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
@@ -108,13 +108,13 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		//Setting related module as current module to delete the relation
 		vglobal('currentModule', $relatedModule);
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$result = $relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 		}
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -129,7 +129,7 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * 		toRemove				list of related record to remove
 	 * 		toAdd					list of related record to add
 	 */
-	public function updateRelation(Vtiger_Request $request)
+	public function updateRelation(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
@@ -140,9 +140,9 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$categoryToRemove = $request->get('categoryToRemove');
 		vglobal('currentModule', $sourceModule);
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 
 		if (!empty($recordsToAdd)) {
 			foreach ($recordsToAdd as $relatedRecordId) {
@@ -173,7 +173,7 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
@@ -182,7 +182,7 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function to get the page count for reltedlist
 	 * @param \Vtiger_Request $request
 	 */
-	public function getRelatedListPageCount(Vtiger_Request $request)
+	public function getRelatedListPageCount(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relModules = $relatedModuleName = $request->get('relatedModule');
@@ -198,19 +198,19 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
 		}
 		if (in_array('Comments', $relModules)) {
-			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
+			$totalCount = \FreeCRM\Modules\ModComments\Models\Record::getCommentsCount($parentId);
 		} elseif ($relatedModuleName === 'Updates') {
-			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
+			$count = (int) ($unreviewed = current(\FreeCRM\Modules\ModTracker\Models\Record::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
 			$totalCount = $count ? $count : '';
 		} else {
 			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
-			$pagingModel = new Vtiger_Paging_Model();
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+			$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
 			foreach ($relModules as $relModule) {
 				if (!\App\Privilege::isPermitted($relModule)) {
 					continue;
 				}
-				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
+				$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
 				if (!$relationListView->getRelationModel()) {
 					continue;
 				}
@@ -218,7 +218,7 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
 				if ($relatedModuleName === 'Calendar' && \AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
-					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])->count();
+					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')])->count();
 				} else {
 					$totalCount += (int) $relationListView->getRelatedEntriesCount();
 				}
@@ -232,31 +232,31 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$result = [];
 		$result['numberOfRecords'] = $totalCount;
 		$result['page'] = $pageCount;
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function updateFavoriteForRecord(Vtiger_Request $request)
+	public function updateFavoriteForRecord(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$relatedModule = $request->get('relatedModule');
 		$actionMode = $request->get('actionMode');
 
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 
 		if (!empty($relationModel)) {
 			$result = $relationModel->updateFavoriteForRecord($actionMode, ['crmid' => $request->get('record'), 'relcrmid' => $request->get('relcrmid')]);
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult((bool) $result);
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

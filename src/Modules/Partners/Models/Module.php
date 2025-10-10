@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Partners\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -21,7 +21,7 @@ class Module extends Model
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule == 'Campaigns') {
-			$queryGenerator->addNativeCondition(['not in', 'u_#__partners.partnersid', (new App\Db\Query())->select(['crmid'])
+			$queryGenerator->addNativeCondition(['not in', 'u_#__partners.partnersid', (new \App\Db\Query())->select(['crmid'])
 					->from('vtiger_campaign_records')
 					->where(['campaignid' => $record])
 			]);

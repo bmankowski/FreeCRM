@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OpenStreetMap\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Coordinate extends Model
+class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	const earthRadius = 6378137;
@@ -130,7 +130,7 @@ class Coordinate extends Model
 
 	/**
 	 * Function to get params url
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordModel
 	 * @param string $type a,b or c
 	 * @return array
 	 */
@@ -147,7 +147,7 @@ class Coordinate extends Model
 
 	/**
 	 * Function to get coordinates for record
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordModel
 	 * @return array
 	 */
 	public function getCoordinatesByRecord($recordModel)
@@ -178,7 +178,7 @@ class Coordinate extends Model
 	{
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
-		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$queryGenerator->setFields($fields[$moduleName]);
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
@@ -199,7 +199,7 @@ class Coordinate extends Model
 	 */
 	public function readCoordinates($recordId)
 	{
-		$dataReader = (new App\Db\Query())->from('u_#__openstreetmap')
+		$dataReader = (new \App\Db\Query())->from('u_#__openstreetmap')
 				->where(['crmid' => $recordId])
 				->createCommand()->query();
 		$popup = self::getLabelsToPopupById($recordId);
@@ -341,11 +341,11 @@ class Coordinate extends Model
 		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
-			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
+			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
 			if ($fieldModel !== false)
 				$groupByFieldColumn = $fieldModel->get('column');
 		}
-		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lat');
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lon');
@@ -413,10 +413,10 @@ class Coordinate extends Model
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
-			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
+			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
 			$groupByFieldColumn = $fieldModel->get('column');
 		}
-		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($filterId);
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lat');
@@ -474,8 +474,8 @@ class Coordinate extends Model
 	public function getCachedRecords()
 	{
 		$db = \App\Db::getInstance();
-		$dataReader = (new App\Db\Query())->select(['count' => 'COUNT(*)', 'module_name'])
-				->from('u_#__openstreetmap_cache')->where(['user_id' => Users_Privileges_Model::getCurrentUserModel()->getId()])
+		$dataReader = (new \App\Db\Query())->select(['count' => 'COUNT(*)', 'module_name'])
+				->from('u_#__openstreetmap_cache')->where(['user_id' => \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
 				->groupBy('module_name')
 				->createCommand($db)->query();
 		$records = [];
@@ -492,18 +492,18 @@ class Coordinate extends Model
 	public function readCoordinatesCache()
 	{
 		$modules = $this->get('cache');
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$db = \App\Db::getInstance();
 		$coordinates = [];
 		foreach ($modules as $moduleName) {
-			$records = (new App\Db\Query())
+			$records = (new \App\Db\Query())
 					->select('crmids')
 					->from('u_#__openstreetmap_cache')
 					->where(['user_id' => $userId, 'module_name' => $moduleName])
 					->createCommand($db)->queryColumn(0);
 			if (!empty($records)) {
-				$this->set('srcModuleModel', Vtiger_Module_Model::getInstance($moduleName));
+				$this->set('srcModuleModel', \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName));
 				$coordinates [$moduleName] = $this->readCoordinatesByRecords($records);
 			}
 		}
@@ -517,12 +517,12 @@ class Coordinate extends Model
 	public function saveCache($records)
 	{
 		$moduleName = $this->get('moduleName');
-		$userId = Users_Privileges_Model::getCurrentUserModel()->getId();
+		$userId = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId();
 		$insertedData = [];
 		foreach ($records as $recordId) {
 			$insertedData [] = [$userId, $moduleName, $recordId];
 		}
-		App\Db::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->batchInsert('u_#__openstreetmap_cache', ['user_id', 'module_name', 'crmids'], $insertedData)
 			->execute();
 	}
@@ -534,7 +534,7 @@ class Coordinate extends Model
 	{
 		$moduleName = $this->get('moduleName');
 		\App\Db::getInstance()->createCommand()
-			->delete('u_#__openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId()])
+			->delete('u_#__openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
 			->execute();
 	}
 
@@ -544,7 +544,7 @@ class Coordinate extends Model
 	public function saveAllRecordsToCache()
 	{
 		$moduleName = $this->get('moduleName');
-		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->setFields(['id']);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$records = [];
@@ -565,9 +565,9 @@ class Coordinate extends Model
 		$moduleName = $this->get('moduleName');
 		if (!(new \App\Db\Query())->from('u_#__openstreetmap_cache')
 				->where(['crmids' => $record])->exists()) {
-			App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_cache', [
+			\App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_cache', [
 				'module_name' => $moduleName,
-				'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId(),
+				'user_id' => \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId(),
 				'crmids' => $record
 			])->execute();
 		}

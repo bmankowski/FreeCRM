@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Time extends UIType
+class Time extends Base
 {
 
 	/**
@@ -101,7 +101,7 @@ class Time extends UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$userModel = \Users_Privileges_Model::getCurrentUserModel();
+		$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$value = \FreeCRM\Fields\DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');
 		if ($userModel->get('hour_format') == '12') {
@@ -135,7 +135,7 @@ class Time extends UIType
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

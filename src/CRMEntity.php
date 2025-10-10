@@ -34,7 +34,7 @@ use App\Record;
 use App\Field;
 use Db\Query;
 use EventHandler;
-use Vtiger_Relation_Model;
+use \FreeCRM\Modules\Vtiger\Models\Relation;
 use Vtiger_Record_Model;
 
 require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
@@ -88,17 +88,26 @@ class CRMEntity
 			return clone Cache::staticGet('CRMEntity', $module);
 		}
 
+		// Build namespaced class name for PSR-4 migrated modules
+		$namespacedClassName = "\\FreeCRM\\Modules\\{$module}\\{$modName}";
+		
 		// File access security check
-		if (!class_exists($modName)) {
+		if (!class_exists($namespacedClassName) && !class_exists($modName)) {
 			if (\FreeCRM\AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
 				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$modName.php");
 				require_once("custom/modules/$module/$modName.php");
 			} else {
-				\vtlib\Deprecated::checkFileAccessForInclusion("modules/$module/$modName.php");
-				require_once("modules/$module/$modName.php");
+				\vtlib\Deprecated::checkFileAccessForInclusion("src/Modules/$module/$modName.php");
+				require_once("src/Modules/$module/$modName.php");
 			}
 		}
-		$focus = new $modName();
+		
+		// Try to instantiate with namespaced class name first, fallback to non-namespaced
+		if (class_exists($namespacedClassName)) {
+			$focus = new $namespacedClassName();
+		} else {
+			$focus = new $modName();
+		}
 		$focus->moduleName = $module;
 		Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
@@ -447,7 +456,7 @@ class CRMEntity
 	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = PearDatabase::getInstance();
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
+		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
 		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
 	}
 
@@ -642,7 +651,7 @@ class CRMEntity
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = PearDatabase::getInstance();
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
+		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
 
 		foreach ($withCrmid as $relcrmid) {
 			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? && %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);

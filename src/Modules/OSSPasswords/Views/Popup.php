@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OSSPasswords\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class Popup extends View
+class Popup extends \Vtiger_Index_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -29,7 +29,7 @@ class Popup extends View
 		if ($showFilter && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], "module=$moduleName&src_module=$sourceModule") === 0) {
 			$filterField = ['HelpDesk' => 'parent_id', 'Project' => 'linktoaccountscontacts', 'OSSPasswords' => 'related_to'];
 			$relParentModule = 'Accounts';
-			$record = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			$relId = $record->get($filterField[$sourceModule]);
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);

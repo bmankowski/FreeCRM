@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\Reports\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class ListAjax extends View
+class ListAjax extends \Vtiger_Index_View
 {
 
 	public function __construct()
@@ -41,7 +41,7 @@ class ListAjax extends View
 		}
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new Reports_ListView_Model();

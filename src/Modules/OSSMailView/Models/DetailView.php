@@ -4,30 +4,30 @@
 
 namespace FreeCRM\Modules\OSSMailView\Models;
 
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		unset($linkModelList['DETAILVIEWBASIC']);
 
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('OSSMail');
-		if ($permission && \FreeCRM\AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')) {
+		if ($permission && \FreeCRM\AppConfig::main('isActiveSendingMails') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
 			$recordId = $recordModel->getId();
 			if ($currentUserModel->get('internal_mailer') == 1) {
-				$config = OSSMail_Module_Model::getComposeParameters();
-				$url = OSSMail_Module_Model::getComposeUrl();
+				$config = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParameters();
+				$url = \FreeCRM\Modules\OSSMail\Models\Module::getComposeUrl();
 
 				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReply.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -35,7 +35,7 @@ class DetailView extends Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReplyAll.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -52,8 +52,8 @@ class DetailView extends Model
 					'linkhref' => true,
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
-					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'reply'),
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkurl' => \FreeCRM\Modules\OSSMail\Models\Module::getExternalUrlForWidget($recordModel, 'reply'),
+					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReply.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -61,8 +61,8 @@ class DetailView extends Model
 					'linkhref' => true,
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
-					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'replyAll'),
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkurl' => \FreeCRM\Modules\OSSMail\Models\Module::getExternalUrlForWidget($recordModel, 'replyAll'),
+					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReplyAll.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -70,13 +70,13 @@ class DetailView extends Model
 					'linkhref' => true,
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
-					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'forward'),
+					'linkurl' => \FreeCRM\Modules\OSSMail\Models\Module::getExternalUrlForWidget($recordModel, 'forward'),
 					'linkicon' => 'glyphicon glyphicon-share-alt',
 					'linkclass' => 'sendMailBtn'
 				];
 			}
 
-			if (Users_Privileges_Model::isPermitted('OSSMailView', 'PrintMail')) {
+			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMailView', 'PrintMail')) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',
@@ -86,7 +86,7 @@ class DetailView extends Model
 				];
 			}
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 		}
 		$linkModelDetailViewList = $linkModelList['DETAILVIEW'];

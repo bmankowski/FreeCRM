@@ -17,9 +17,9 @@ global $theme;
 
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
-require_once('modules/Reports/Reports.php');
-require_once ROOT_DIRECTORY . '/modules/Reports/ReportUtils.php';
-require_once('modules/Vtiger/helpers/Util.php');
+require_once('src/Modules/Reports/Reports.php');
+require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportUtils.php';
+require_once('src/Modules/Vtiger/helpers/Util.php');
 
 /*
  * Helper class to determine the associative dependency between tables.
@@ -440,7 +440,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 				}
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} else {
-				$userModel = Users_Record_Model::getCurrentUserModel();
+				$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 				$userformat = $userModel->get('date_format');
 				$userformat = str_replace('dd', '%d', $userformat);
 				$userformat = str_replace('yyyy', '%Y', $userformat);
@@ -561,7 +561,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 	 */
 	public function getaccesfield($module)
 	{
-		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$access_fields = Array();
 
@@ -627,7 +627,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 				foreach ($fieldSqlColumns as $columnSql) {
 					$queryColumn .= " WHEN $columnSql NOT LIKE '' THEN $columnSql";
 				}
-				$moduleFieldLabel = App\Purifier::purify(decode_html($moduleFieldLabel));
+				$moduleFieldLabel = \App\Purifier::purify(decode_html($moduleFieldLabel));
 				$queryColumn .= " ELSE '' END) ELSE '' END) AS '$moduleFieldLabel'";
 				$this->queryPlanner->addTable($tableName);
 			}
@@ -766,7 +766,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 			$rtvalue = ' > ' . $adb->quote($value);
 		}
 		if ($comparator == 'om') {
-			$currentUser = Users_Privileges_Model::getCurrentUserModel();
+			$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
 			$rtvalue = ' = ' . $adb->quote($currentUser->getId());
 		}
 		if ($is_field === true) {
@@ -2364,7 +2364,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 	public function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		global $modules;
 		global $mod_strings;
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -3107,7 +3107,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		global $modules;
 
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		static $modulename_cache = array();
 
 		$query = "select * from vtiger_reportmodules where reportmodulesid =?";
@@ -3289,7 +3289,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 	public function getLstringforReportHeaders($fldname)
 	{
 		global $modules;
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$rep_header = ltrim($fldname);
 		$rep_header = decode_html($rep_header);
 		$labelInfo = explode('__', $rep_header);
@@ -3638,7 +3638,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 					$referenceTableName = 'vtiger_vendorRelProducts';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
-				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != vtlib\Functions::getModuleName($fieldInstance->getTabId())) {
+				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != \vtlib\Functions::getModuleName($fieldInstance->getTabId())) {
 					$referenceTableName = "{$entityTableName}Rel$referenceModule";
 					$dependentTableName = "vtiger_crmentityRel{$referenceModule}{$fieldInstance->getFieldId()}";
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {

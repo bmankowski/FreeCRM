@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Events\Views;
 
 
 use FreeCRM\Http\Vtiger_Request;
-class Calendar extends View
+class Calendar extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)

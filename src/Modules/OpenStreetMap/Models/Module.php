@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OpenStreetMap\Models;
  */
 
 use FreeCRM\AppConfig;
-class Module extends Model
+class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 {
 
 	/**

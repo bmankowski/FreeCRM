@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\FInvoiceProforma;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-include_once 'modules/Vtiger/CRMEntity.php';
+include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class FInvoiceProforma extends Vtiger_CRMEntity
+class FInvoiceProforma extends \Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_finvoiceproforma';

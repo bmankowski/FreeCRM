@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
-class DetailView extends Model
+class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -35,7 +35,7 @@ class DetailView extends Model
 		];
 		$relatedLinks = [];
 		foreach ($relatedLinkEntries as $relatedLinkEntry) {
-			$relatedLinks[] = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
+			$relatedLinks[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($relatedLinkEntry);
 		}
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		foreach ($relatedLinks as $relatedLink) {

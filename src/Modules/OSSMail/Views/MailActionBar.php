@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\OSSMail\Views;
  */
 
 use FreeCRM\Http\Vtiger_Request;
-class MailActionBar extends View
+class MailActionBar extends \Vtiger_Index_View
 {
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
@@ -31,17 +31,17 @@ class MailActionBar extends View
 		$rcId = $request->get('rcId');
 		$params = null; // fixme - non existent
 
-		$account = OSSMail_Record_Model::getAccountByHash($rcId);
+		$account = \FreeCRM\Modules\OSSMail\Models\Record::getAccountByHash($rcId);
 		if (!$account) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$rcId = $account['user_id'];
-		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
+		$mailViewModel = \FreeCRM\Modules\OSSMailView\Models\Record::getCleanInstance('OSSMailView');
 		$record = $mailViewModel->checkMailExist($uid, $folder, $rcId);
 		if (!$record && !empty($account['actions'])) {
-			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
+			$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 			$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder);
-			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);
+			$return = \FreeCRM\Modules\OSSMailScanner\Models\Record::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);
 			if (isset($return['CreatedEmail'])) {
 				$record = $return['CreatedEmail'];
 			}

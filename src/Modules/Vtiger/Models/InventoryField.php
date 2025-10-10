@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class InventoryField extends Model
+class InventoryField extends \FreeCRM\Modules\Vtiger\Models\Model
 {
 
 	protected $fields = false;
@@ -54,7 +54,7 @@ class InventoryField extends Model
 		$key = $returnInBlock ? 'block' : 'noBlock';
 		if (!isset($this->fields[$key])) {
 			$table = $this->getTableName('fields');
-			if (!App\Db::getInstance()->isTableExists($table)) {
+			if (!\App\Db::getInstance()->isTableExists($table)) {
 				return false;
 			}
 			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy('sequence', SORT_ASC);
@@ -175,9 +175,9 @@ class InventoryField extends Model
 			return $instance;
 		}
 
-		$fieldPaths = ['modules/Vtiger/inventoryfields/'];
+		$fieldPaths = ['src/Modules/Vtiger/inventoryfields/'];
 		if ($moduleName) {
-			$fieldPaths[] = "modules/$moduleName/inventoryfields/";
+			$fieldPaths[] = "src/Modules/$moduleName/inventoryfields/";
 		} else {
 			$moduleName = 'Vtiger';
 		}
@@ -225,9 +225,9 @@ class InventoryField extends Model
 	}
 
 	/**
-	 * Get Vtiger_InventoryField_Model instance
+	 * Get \FreeCRM\Modules\Vtiger\Models\InventoryField instance
 	 * @param string $moduleName Module name
-	 * @return \modelClassName Vtiger_InventoryField_Model Instance
+	 * @return \modelClassName \FreeCRM\Modules\Vtiger\Models\InventoryField Instance
 	 */
 	public static function getInstance($moduleName)
 	{
@@ -242,9 +242,9 @@ class InventoryField extends Model
 	}
 
 	/**
-	 * Get Vtiger_InventoryField_Model instance
+	 * Get \FreeCRM\Modules\Vtiger\Models\InventoryField instance
 	 * @param string $moduleName Module name
-	 * @return \modelClassName Vtiger_InventoryField_Model Instance
+	 * @return \modelClassName \FreeCRM\Modules\Vtiger\Models\InventoryField Instance
 	 */
 	public static function getFieldInstance($moduleName, $type)
 	{
@@ -309,7 +309,7 @@ class InventoryField extends Model
 	{
 		$relationField = $this->get('relationField' . $mainModule);
 		if (!$relationField) {
-			$moduleModel = Vtiger_Module_Model::getInstance($this->get('module'));
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('module'));
 			$modelFields = $moduleModel->getFields();
 			$relationField = false;
 			foreach ($modelFields as $fieldName => $fieldModel) {
@@ -340,8 +340,8 @@ class InventoryField extends Model
 			return $cache;
 		}
 		$return = 0;
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldModel = Vtiger_Field_Model::getInstance('description', $moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('description', $moduleModel);
 		if ($fieldModel && $fieldModel->get('uitype') == '300') {
 			$return = 1;
 		}
@@ -364,7 +364,7 @@ class InventoryField extends Model
 		if ($moduleName === '') {
 			return $return;
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->get('uitype') == 303) {
 				$return = $fieldName;
@@ -435,9 +435,9 @@ class InventoryField extends Model
 		}
 
 		if ($instance->isColumnType()) {
-			vtlib\Utils::AddColumn($table, $columnName, $instance->getDBType());
+			\vtlib\Utils::AddColumn($table, $columnName, $instance->getDBType());
 			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				vtlib\Utils::AddColumn($table, $column, $criteria);
+				\vtlib\Utils::AddColumn($table, $column, $criteria);
 			}
 		}
 		$tableName = $this->getTableName('fields');
@@ -570,20 +570,20 @@ class InventoryField extends Model
 
 	/**
 	 * 
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return float
 	 */
-	public function getInventoryPrice(Vtiger_Record_Model $recordModel)
+	public function getInventoryPrice(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 	{
 		return $recordModel->isEmpty('sum_total') ? 0 : $recordModel->get('sum_total');
 	}
 
 	/**
 	 * Function to get list elements in iventory as html code
-	 * @param Vtiger_Record_Model $recodModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recodModel
 	 * @return string
 	 */
-	public function getInventoryListName(Vtiger_Record_Model $recodModel)
+	public function getInventoryListName(\FreeCRM\Modules\Vtiger\Models\Record $recodModel)
 	{
 		$inventoryFields = $this->getFields();
 		$html = '<ul>';
@@ -600,10 +600,10 @@ class InventoryField extends Model
 	 * Function to get custom values to complete in inventory
 	 * @param string $sourceModuleName
 	 * @param string $sourceFieldName
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
 	 * @return array
 	 */
-	public function getCustomAutoComplete($sourceModuleName, $sourceFieldName, Vtiger_Record_Model $recordModel)
+	public function getCustomAutoComplete($sourceModuleName, $sourceFieldName, \FreeCRM\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$inventoryMap = \FreeCRM\AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
 		$values = [];
