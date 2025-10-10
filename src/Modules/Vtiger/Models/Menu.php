@@ -52,7 +52,7 @@ class Menu {
 
 	public static function getBreadcrumbs($pageTitle = false)
 	{
-		$breadcrumbs = false;
+		$breadcrumbs = [];
 		$request = \FreeCRM\Http\AppRequest::init();
 		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';

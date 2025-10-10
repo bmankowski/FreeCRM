@@ -1,12 +1,13 @@
 {strip}
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {if isset($MENU['childs']) && $MENU['childs']|@count neq 0}
-	{assign var=MENUS value=$MENU['childs']}
+	{assign var=PARENT_MENU value=$MENU}
+	{assign var=SUBMENUS value=$MENU['childs']}
 	{if $DEVICE == 'Desktop'}
-		<ul class="slimScrollSubMenu nav subMenu {if (isset($MENU['active']) && $MENU['active']) || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
+		<ul class="slimScrollSubMenu nav subMenu {if (isset($PARENT_MENU['active']) && $PARENT_MENU['active']) || $PARENT_MODULE == $PARENT_MENU['id']}in{/if}" role="menu" aria-hidden="true">
 	{/if}
 		{assign var=TABINDEX value=$TABINDEX-1}
-		{foreach key=KEY item=MENU from=$MENUS}
+		{foreach key=KEY item=MENU from=$SUBMENUS}
 			{assign var=MENU_MODULE value='Menu'}
 			{if isset($MENU['moduleName'])}
 				{assign var=MENU_MODULE value=$MENU['moduleName']}

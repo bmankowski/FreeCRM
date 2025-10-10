@@ -97,10 +97,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   
 	   // Build array of all module active statuses for templates
 	   $activeModules = [];
-	   $allModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 
-	                  'OSSOutsourcedServices', 'OSSSoldServices', 'OSSMail'];
+	   $allModules = \vtlib\Functions::getAllModules(false, true);  // Get ALL modules, not just entity types
 	   foreach ($allModules as $module) {
-		   $activeModules[$module] = \App\Module::isModuleActive($module);
+		   $activeModules[$module['name']] = \App\Module::isModuleActive($module['name']);
 	   }
 	   $viewer->assign('ACTIVE_MODULES', $activeModules);
 	   

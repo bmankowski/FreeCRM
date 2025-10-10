@@ -2,6 +2,8 @@
 
 namespace FreeCRM\Modules\ModComments;
 
+use FreeCRM\Modules\ModComments\Models\CommentsModel;
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -10,8 +12,6 @@ namespace FreeCRM\Modules\ModComments;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once dirname(__FILE__) . '/ModCommentsCore.php';
-include_once dirname(__FILE__) . '/Models/Comments.php';
 
 require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
 
@@ -124,6 +124,6 @@ class ModComments extends ModCommentsCore
 	 */
 	public function getAsCommentModel()
 	{
-		return new ModComments_CommentsModel($this->column_fields);
+		return new CommentsModel($this->column_fields);
 	}
 }
