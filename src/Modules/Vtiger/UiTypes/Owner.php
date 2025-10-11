@@ -116,7 +116,7 @@ class Owner extends Base
 	public function isAjaxEditable()
 	{
 		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$roleModel = Settings_Roles_Record_Model::getInstanceById($userPrivModel->get('roleid'));
+		$roleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($userPrivModel->get('roleid'));
 		if ($roleModel->get('changeowner')) {
 			return true;
 		}

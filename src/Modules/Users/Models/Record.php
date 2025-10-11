@@ -474,7 +474,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
-		$roleModel = Settings_Roles_Record_Model::getInstanceById($this->get('privileges')->get('roleid'));
+		$roleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($this->get('privileges')->get('roleid'));
 		$this->set('roleDetail', $roleModel);
 		return $roleModel;
 	}

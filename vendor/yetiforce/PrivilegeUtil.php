@@ -272,7 +272,7 @@ class PrivilegeUtil
 			foreach ($owner->getGroups(false) as $id => $groupName) {
 				$members[static::MEMBER_TYPE_GROUPS][static::MEMBER_TYPE_GROUPS . ':' . $id] = ['name' => $groupName, 'id' => $id, 'type' => static::MEMBER_TYPE_GROUPS];
 			}
-			foreach (\Settings_Roles_Record_Model::getAll() as $id => $roleModel) {
+			foreach (\FreeCRM\Modules\Settings\Roles\Models\Record::getAll() as $id => $roleModel) {
 				$members[static::MEMBER_TYPE_ROLES][static::MEMBER_TYPE_ROLES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => static::MEMBER_TYPE_ROLES];
 				$members[static::MEMBER_TYPE_ROLE_AND_SUBORDINATES][static::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => static::MEMBER_TYPE_ROLE_AND_SUBORDINATES];
 			}

@@ -133,7 +133,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getAllRoles()
 	{
-		$roleModels = Settings_Roles_Record_Model::getAll();
+		$roleModels = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
 		$roles = array();
 		foreach ($roleModels as $roleId => $roleModel) {
 			$roleName = $roleModel->getName();

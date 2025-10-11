@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module as Settings_SupportProcesses_Module_Model;
+use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
 
 /**
  * Mail scanner action bind HelpDesk
@@ -31,7 +31,7 @@ class BindHelpDesk extends Model
 				$recordModel->set('ticketstatus', \FreeCRM\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
 				$recordModel->save();
 			}
-			$ticketStatus = array_flip(Settings_SupportProcesses_Module_Model::getTicketStatusNotModify());
+			$ticketStatus = array_flip(\FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify());
 			if ($mail->getTypeEmail() == 1 && isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ($conf['changeTicketStatus'] === 'openTicket') {
 					$recordModel->set('ticketstatus', \FreeCRM\AppConfig::module('Mail', 'HELPDESK_OPENTICKET_STATUS'));

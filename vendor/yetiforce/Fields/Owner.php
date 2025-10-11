@@ -62,7 +62,7 @@ class Owner
 		$cacheKey = $private . $this->moduleName . $fieldType;
 		$accessibleGroups = Vtiger_Cache::get('getAccessibleGroups', $cacheKey);
 		if ($accessibleGroups === false) {
-			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
+			$currentUserRoleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
@@ -95,11 +95,11 @@ class Owner
 		$cacheKey = $private . $this->moduleName . $fieldType . $fieldType;
 		$accessibleUser = Vtiger_Cache::get('getAccessibleUsers', $cacheKey);
 		if ($accessibleUser === false) {
-			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
+			$currentUserRoleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
 				$accessibleUser = $this->getUsers(false, 'Active', '', $private, true);
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
-				$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
+				$currentUserRoleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$roles = array_merge($sameLevelRoles, $sameLevelRoles);

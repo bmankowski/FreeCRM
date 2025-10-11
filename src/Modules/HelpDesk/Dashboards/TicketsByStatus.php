@@ -2,7 +2,7 @@
 
 namespace FreeCRM\Modules\HelpDesk\Dashboards;
 use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module as Settings_SupportProcesses_Module_Model;
+use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -41,7 +41,7 @@ class TicketsByStatus extends \Vtiger_Index_View
 	{
 
 		$moduleName = 'HelpDesk';
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$ticketStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$query = new \App\Db\Query();
 		$query->select(['priority', 'vtiger_ticketpriorities.color',
 				'count' => new \yii\db\Expression('COUNT(*)'),

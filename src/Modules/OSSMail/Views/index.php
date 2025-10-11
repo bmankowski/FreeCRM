@@ -27,7 +27,7 @@ class index extends \Vtiger_Index_View
 
 	public function initAutologin()
 	{
-		$config = Settings_Mail_Config_Model::getConfig('autologin');
+		$config = \FreeCRM\Modules\Settings\Mail\Models\Config::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {
 			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if ($account) {

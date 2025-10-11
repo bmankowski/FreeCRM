@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem as Settings_Vtiger_MenuItem_Model;
+use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -115,7 +115,7 @@ class Menu {
 			];
 			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
 				$fieldId = $request->get('fieldid');
-				$menu = Settings_Vtiger_MenuItem_Model::getAll();
+				$menu = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getAll();
 				foreach ($menu as &$menuModel) {
 					if (empty($fieldId)) {
 						if ($menuModel->getModule() == $moduleName) {

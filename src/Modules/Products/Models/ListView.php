@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Products\Models;
-use FreeCRM\Modules\Settings\SalesProcessesModels\Module as Settings_SalesProcesses_Module_Model;
+use FreeCRM\Modules\Settings\SalesProcessesModels\Module;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -42,7 +42,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 		$queryGenerator = $this->get('query_generator');
 		$query = $queryGenerator->createQuery();
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - last step.
-		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($this->get('src_module'))) {
+		if (\FreeCRM\Modules\Settings\SalesProcesses\Models\Module::checkRelatedToPotentialsLimit($this->get('src_module'))) {
 			$salesProcessId = $this->get('salesprocessid');
 			if (empty($salesProcessId)) {
 				$salesProcessId = -1;

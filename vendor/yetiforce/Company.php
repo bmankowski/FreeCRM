@@ -41,7 +41,7 @@ class Company extends Base
 
 	/**
 	 * Function to get the Company Logo
-	 * @return \Vtiger_Image_Model instance
+	 * @return \FreeCRM\Modules\Vtiger\Models\Image instance
 	 */
 	public function getLogo($type = false)
 	{

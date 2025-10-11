@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Products\Views;
-use FreeCRM\Modules\Settings\SalesProcessesModels\Module as Settings_SalesProcesses_Module_Model;
+use FreeCRM\Modules\Settings\SalesProcessesModels\Module;
 
 /**
  * Popup View Class for Products
@@ -104,7 +104,7 @@ class Popup extends \Vtiger_Index_View
 			}
 		}
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - second step.
-		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
+		if (\FreeCRM\Modules\Settings\SalesProcesses\Models\Module::checkRelatedToPotentialsLimit($sourceModule)) {
 			$salesProcessId = $request->get('salesprocessid');
 			if (empty($salesProcessId))
 				$salesProcessId = -1;

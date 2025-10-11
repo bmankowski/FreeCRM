@@ -125,7 +125,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('CURRENT_USER', $currentUserModel);
-		$viewer->assign('ROLES', Settings_Roles_Record_Model::getAll());
+		$viewer->assign('ROLES', \FreeCRM\Modules\Settings\Roles\Models\Record::getAll());
 		$viewer->assign('WEEK_START_ID', $weekDays[$currentUserModel->get('dayoftheweek')]);
 		$admin = Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);

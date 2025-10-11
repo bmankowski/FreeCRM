@@ -1,7 +1,6 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Models;
-use FreeCRM\Modules\Settings\Widgets\Models\Module as Settings_Widgets_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -1270,7 +1269,7 @@ class Module extends \vtlib\Module
 
 	public function getWidgets($module)
 	{
-		return Settings_Widgets_Module_Model::getWidgets($module);
+		return \FreeCRM\Modules\Settings\Widgets\Models\Module::getWidgets($module);
 	}
 
 	/**

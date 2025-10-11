@@ -322,7 +322,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if ($this->isRelationLink() || $this->isRelationUnLink()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_relations WHERE id = ?', array($id));
 			$row = $db->query_result_rowdata($result, 0);
-			$relationInstance = new ModTracker_Relation_Model();
+			$relationInstance = new \FreeCRM\Modules\ModTracker\Models\Relation();
 			$relationInstance->setData($row)->setParent($this);
 		}
 		return $relationInstance;

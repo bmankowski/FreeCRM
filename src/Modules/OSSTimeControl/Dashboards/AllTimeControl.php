@@ -2,7 +2,7 @@
 
 namespace FreeCRM\Modules\OSSTimeControl\Dashboards;
 use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module as Settings_TimeControlProcesses_Module_Model;
+use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module;
 
 /**
  * Wdiget to show work time
@@ -137,7 +137,7 @@ class AllTimeControl extends \Vtiger_Index_View
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
-		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+		$TCPModuleModel = \FreeCRM\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
 		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());

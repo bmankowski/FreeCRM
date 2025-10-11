@@ -2,7 +2,7 @@
 
 namespace FreeCRM\Modules\HelpDesk\Dashboards;
 use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module as Settings_SupportProcesses_Module_Model;
+use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
 
 /**
  * Widget showing ticket which have closed. We can filter by users or date 
@@ -48,7 +48,7 @@ class ClosedTicketsByPriority extends \Vtiger_Index_View
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$ticketStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$query = (new \App\Db\Query())->select([
 			'count' => new \yii\db\Expression('COUNT(*)'),

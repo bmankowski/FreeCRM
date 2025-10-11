@@ -79,7 +79,7 @@ class ChangesReviewedOn extends \FreeCRM\Runtime\Vtiger_Action_Controller
 					$data[$variable] = $request->get($variable);
 				}
 			}
-			ModTracker_Relation_Model::reviewChangesQueue($data, $sourceModule);
+			\FreeCRM\Modules\ModTracker\Models\Relation::reviewChangesQueue($data, $sourceModule);
 			$cronInfo = \vtlib\Cron::getInstance('LBL_MARK_RECORDS_AS_REVIEWED');
 			$message = vtranslate('LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION', $moduleName);
 			if ($cronInfo && $cronInfo->getStatus()) {
@@ -87,7 +87,7 @@ class ChangesReviewedOn extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 			$result = [$message];
 		} else {
-			ModTracker_Relation_Model::reviewChanges($recordsList);
+			\FreeCRM\Modules\ModTracker\Models\Relation::reviewChanges($recordsList);
 		}
 
 		$response = new \FreeCRM\Http\Vtiger_Response();

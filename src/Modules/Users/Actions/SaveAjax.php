@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Users\Actions;
-use FreeCRM\Modules\Settings\PasswordModels\Record as Settings_Password_Record_Model;
+use FreeCRM\Modules\Settings\PasswordModels\Record;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -130,7 +130,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$userModel = vglobal('current_user');
 		$newPassword = $request->get('new_password');
 		$oldPassword = $request->get('old_password');
-		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
+		$checkPassword = \FreeCRM\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
 		if (!$checkPassword) {
 			$wsUserId = vtws_getWebserviceEntityId($module, $request->get('userid'));
 			$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
@@ -159,7 +159,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$oldPassword = $request->get('old_password');
 		$userIds = $request->get('userids');
 
-		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
+		$checkPassword = \FreeCRM\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
 
 		if (!$checkPassword) {
 			foreach ($userIds as $userId) {

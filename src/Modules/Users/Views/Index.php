@@ -21,7 +21,7 @@ class Index extends \Vtiger_Index_View
 		parent::preProcess($request);
 		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser()) {
-			$settingsIndexView = new Settings_Vtiger_Index_View();
+			$settingsIndexView = new \FreeCRM\Modules\Settings\Vtiger\Views\Index();
 			$settingsIndexView->preProcessSettings($request);
 		}
 	}
@@ -30,7 +30,7 @@ class Index extends \Vtiger_Index_View
 	{
 		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser()) {
-			$settingsIndexView = new Settings_Vtiger_Index_View();
+			$settingsIndexView = new \FreeCRM\Modules\Settings\Vtiger\Views\Index();
 			$settingsIndexView->postProcessSettings($request);
 		}
 		parent::postProcess($request);

@@ -224,14 +224,14 @@ class User
 
 	/**
 	 * Get user role instance
-	 * @return \Settings_Roles_Record_Model
+	 * @return \FreeCRM\Modules\Settings\Roles\Models\Record
 	 */
 	public function getRoleInstance()
 	{
 		if (!empty($this->privileges['roleInstance'])) {
 			return $this->privileges['roleInstance'];
 		}
-		return $this->privileges['roleInstance'] = \Settings_Roles_Record_Model::getInstanceById($this->getRole());
+		return $this->privileges['roleInstance'] = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($this->getRole());
 	}
 
 	/**

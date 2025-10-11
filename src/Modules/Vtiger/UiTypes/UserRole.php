@@ -28,7 +28,7 @@ class UserRole extends Base
 		$displayValue = \FreeCRM\LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if ($currentUserModel->isAdmin() && $rawText === false) {
-			$roleRecordModel = new Settings_Roles_Record_Model();
+			$roleRecordModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
 			$roleRecordModel->set('roleid', $value);
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
 		}
@@ -41,7 +41,7 @@ class UserRole extends Base
 	 */
 	public function getPicklistValues()
 	{
-		$roleModels = Settings_Roles_Record_Model::getAll();
+		$roleModels = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
 		$roles = [];
 		foreach ($roleModels as $roleId => $roleModel) {
 			$roles[$roleId] = \FreeCRM\LanguageTranslator::translate($roleModel->getName(), $this->get('field')->getModuleName());

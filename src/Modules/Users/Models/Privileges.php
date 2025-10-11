@@ -41,7 +41,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	protected function getGlobalReadPermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
-		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW];
+		return $profileGlobalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW];
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	protected function getGlobalWritePermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
-		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT];
+		return $profileGlobalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT];
 	}
 
 	/**
@@ -61,8 +61,8 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function hasGlobalReadPermission()
 	{
 		return ($this->get("is_admin") == "on" ||
-			$this->getGlobalReadPermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE ||
-			$this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+			$this->getGlobalReadPermission() === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE ||
+			$this->getGlobalWritePermission() === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
 	}
 
 	/**
@@ -71,15 +71,15 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function hasGlobalWritePermission()
 	{
-		return ($this->get("is_admin") == "on" || $this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+		return ($this->get("is_admin") == "on" || $this->getGlobalWritePermission() === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
 	}
 
 	public function hasGlobalPermission($actionId)
 	{
-		if ($actionId == Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW) {
+		if ($actionId == \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW) {
 			return $this->hasGlobalReadPermission();
 		}
-		if ($actionId == Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT) {
+		if ($actionId == \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT) {
 			return $this->hasGlobalWritePermission();
 		}
 		return false;
@@ -111,7 +111,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($mixed);
-		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE));
+		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE));
 	}
 
 	/**

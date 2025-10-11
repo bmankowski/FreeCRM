@@ -30,7 +30,7 @@ class RightPanel extends \Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$roleInstance = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 		switch ($clendarallorecords) {
 			case 3:
@@ -59,7 +59,7 @@ class RightPanel extends \Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$roleInstance = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 
 		switch ($clendarallorecords) {

@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Rss\Models;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Record as Settings_SMSNotifier_Record_Model;
+use FreeCRM\Modules\Settings\SMSNotifierModels\Record;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -164,7 +164,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get clean record instance by using moduleName
 	 * @param string $qualifiedModuleName
-	 * @return <Settings_SMSNotifier_Record_Model>
+	 * @return <\FreeCRM\Modules\Settings\SMSNotifier\Models\Record>
 	 */
 	static public function getCleanInstance($qualifiedModuleName)
 	{

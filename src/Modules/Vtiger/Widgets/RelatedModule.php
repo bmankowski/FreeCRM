@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Vtiger\Widgets;
-use FreeCRM\Modules\Settings\Widgets\Models\Module as Settings_Widgets_Module_Model;
+use FreeCRM\Modules\Settings\Widgets\Models\Module;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -42,7 +42,7 @@ class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
 			}
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
-				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
+				$switchHeaderData = \FreeCRM\Modules\Settings\Widgets\Models\Module::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
 				if ($switchHeaderData) {
 					switch ($switchHeaderData['type']) {
 						case 1:
@@ -61,7 +61,7 @@ class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 					}
 				}
 			}
-			$this->Config['buttonHeader'] = Settings_Widgets_Module_Model::getHeaderButtons($this->Data['relatedmodule']);
+			$this->Config['buttonHeader'] = \FreeCRM\Modules\Settings\Widgets\Models\Module::getHeaderButtons($this->Data['relatedmodule']);
 			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] !== '-') {
 				if (strpos($this->Data['checkbox'], '.') !== false) {
 					$separateData = explode('.', $this->Data['checkbox']);

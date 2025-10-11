@@ -99,7 +99,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 		}
 		$conditions = [];
 		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
-		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$roleInstance = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
 		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
 		if ($calendarAlloRecords === 1) {
 			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => $currentUser->getId()]);
