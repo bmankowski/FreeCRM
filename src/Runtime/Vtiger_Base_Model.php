@@ -21,7 +21,7 @@ class Vtiger_Base_Model
 
 	/**
 	 * Constructor
-	 * @param Array $values
+	 * @param array $values
 	 */
 	public function __construct($values = [])
 	{

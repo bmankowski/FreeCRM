@@ -83,9 +83,9 @@ function IsDateField($reportColDetails)
  *
  * @global Users $current_user
  * @param ReportRun $report
- * @param Array $picklistArray
+ * @param array$picklistArray
  * @param ADOFieldObject $dbField
- * @param Array $valueArray
+ * @param array$valueArray
  * @param String $fieldName
  * @return String
  */

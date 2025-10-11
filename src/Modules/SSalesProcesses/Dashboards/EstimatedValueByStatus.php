@@ -68,7 +68,7 @@ class EstimatedValueByStatus extends \Vtiger_Index_View
 	 * Main function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

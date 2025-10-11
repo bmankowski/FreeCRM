@@ -180,7 +180,7 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to get the page count for reltedlist
-	 * @param \Vtiger_Request $request
+	 * @param \FreeCRM\Http\Vtiger_Request $request
 	 */
 	public function getRelatedListPageCount(\FreeCRM\Http\Vtiger_Request $request)
 	{

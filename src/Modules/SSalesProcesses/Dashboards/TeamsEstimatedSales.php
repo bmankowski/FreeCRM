@@ -82,7 +82,7 @@ class TeamsEstimatedSales extends \Vtiger_Index_View
 	 * Main function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\Vtiger_Request $request)
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

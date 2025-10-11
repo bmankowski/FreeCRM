@@ -30,7 +30,7 @@ class SMSNotifier extends SMSNotifierBase
 	 * Send SMS (Creates SMS Entity record, links it with related CRM record and triggers provider to send sms)
 	 *
 	 * @param String $message
-	 * @param Array $tonumbers
+	 * @param array$tonumbers
 	 * @param Integer $ownerid User id to assign the SMS record
 	 * @param mixed $linktoids List of CRM record id to link SMS record
 	 * @param String $linktoModule Modulename of CRM record to link with (if not provided lookup it will be calculated)

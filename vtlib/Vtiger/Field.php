@@ -27,7 +27,7 @@ class Field extends FieldBasic
 
 	/**
 	 * Set values for picklist field (for all the roles)
-	 * @param Array List of values to add.
+	 * @param arrayList of values to add.
 	 *
 	 * @internal Creates picklist base if it does not exists
 	 */
@@ -97,7 +97,7 @@ class Field extends FieldBasic
 
 	/**
 	 * Set values for picklist field (non-role based)
-	 * @param Array List of values to add
+	 * @param arrayList of values to add
 	 *
 	 * @internal Creates picklist base if it does not exists
 	 * @access private
@@ -145,7 +145,7 @@ class Field extends FieldBasic
 
 	/**
 	 * Set relation between field and modules (UIType 10)
-	 * @param Array List of module names
+	 * @param arrayList of module names
 	 *
 	 * @internal Creates table vtiger_fieldmodulerel if it does not exists
 	 */
@@ -173,7 +173,7 @@ class Field extends FieldBasic
 
 	/**
 	 * Remove relation between the field and modules (UIType 10)
-	 * @param Array List of module names
+	 * @param arrayList of module names
 	 */
 	public function unsetRelatedModules($moduleNames)
 	{

@@ -90,7 +90,7 @@ function __vt_concat($arr)
 }
 /* Date difference between (input times) or (current time and input time)
  *
- * @param Array $a $a[0] - Input time1, $a[1] - Input time2
+ * @param array$a $a[0] - Input time1, $a[1] - Input time2
  * (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)
  * @return int difference timestamp
  */
@@ -132,7 +132,7 @@ function __vt_time_diff($arr)
 /**
  * Calculate the time difference (input times) or (current time and input time) and
  * convert it into number of days.
- * @param Array $a $a[0] - Input time1, $a[1] - Input time2
+ * @param array$a $a[0] - Input time1, $a[1] - Input time2
  * (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)
  * @return int number of days
  */
