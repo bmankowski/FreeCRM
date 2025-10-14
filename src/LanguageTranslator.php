@@ -22,16 +22,27 @@ use Exception;
 class LanguageTranslator
 {
     /**
-     * Translate a key to the current language
+     * Translate a key to the current language with optional parameters
      * @param string $key Translation key
-     * @param string $moduleName Module name (optional, defaults to 'Vtiger')
+     * @param mixed ...$args Additional parameters (module name and sprintf parameters)
      * @return string Translated text or original key if not found
      */
-    public static function translate(string $key, $moduleName = 'Vtiger')
+    public static function translate(string $key, ...$args)
     {
         // Use the existing Vtiger translation system
         try {
-            return Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
+            // First argument after key is module name, rest are sprintf parameters
+            $moduleName = $args[0] ?? 'Vtiger';
+            $sprintfArgs = array_slice($args, 1);
+            
+            $formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
+            
+            // If there are sprintf parameters, format the string
+            if (!empty($sprintfArgs)) {
+                return call_user_func_array('vsprintf', [$formattedString, $sprintfArgs]);
+            }
+            
+            return $formattedString;
         } catch (Exception $exception) {
             // Fallback to original key if translation fails
             return "ERROR:".$key;

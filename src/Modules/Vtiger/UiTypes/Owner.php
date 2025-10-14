@@ -40,12 +40,13 @@ class Owner extends Base
 		}
 		if (\App\Fields\Owner::getType($value) === 'Users') {
 			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($value);
-			$userModel->setModule('Users');
+			// $userModel->setModule('Users'); // BMN  Method doesn't exist
 			$ownerName = $userModel->getName();
 			if ($userModel->get('status') === 'Inactive') {
 				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
 			}
-			$detailViewUrl = $userModel->getDetailViewUrl();
+			// $detailViewUrl = $userModel->getDetailViewUrl(); // BMN  Method doesn't exist
+			$detailViewUrl = '';
 			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;

@@ -23,9 +23,9 @@
 		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL_KEY}">
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-					<h4>{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
+					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{'LBL_EXPAND_BLOCK'|t}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{'LBL_COLLAPSE_BLOCK'|t}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+					<h4>{$BLOCK_LABEL_KEY|t:$MODULE_NAME}</h4>
 				</div>
 			</div>
 			<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
@@ -44,7 +44,7 @@
 							{/if}
 							<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 								<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
+									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{$FIELD_MODEL->get('label')|t:$MODULE_NAME}</label>
 								</div>
 								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 									<div id="imageContainer">
@@ -74,12 +74,13 @@
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')}
 									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-										{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
-										{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-										<a href="#" class="HelpInfoPopover pull-right cursorPointer" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+																{$FIELD_MODEL->get('label')|t:$MODULE_NAME}
+																{if in_array($VIEW,$HELPINFO) && $HELPINFO_LABEL|t:'HelpInfo' neq $HELPINFO_LABEL}
+																<a href="#" class="HelpInfoPopover pull-right cursorPointer" title="" data-placement="auto top" data-content="{htmlspecialchars($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')|t:'HelpInfo')}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE_NAME}'><span class="glyphicon glyphicon-info-sign"></span></a>
 										{/if}
 									</label>
 								</div>
+								
 								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
 									<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21' or $FIELD_MODEL->get('uitype') eq '300'} style="white-space:normal;" {/if}>
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
@@ -90,9 +91,9 @@
 									{/if}
 									{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
 										<span class="summaryViewEdit cursorPointer pull-right ">
-											&nbsp;<i class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i>
+																&nbsp;<i class="glyphicon glyphicon-pencil" title="{'LBL_EDIT'|t:$MODULE_NAME}"></i>
 										</span>
-										<span class="hide edit">
+										<span class="hide edit"> 
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 											{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 												<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		

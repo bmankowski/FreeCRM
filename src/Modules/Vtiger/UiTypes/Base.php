@@ -79,15 +79,23 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 		$uiTypeClassName = '\FreeCRM\Modules\\Vtiger\\UiTypes\\' . $uiTypeClassSuffix;
 		$fallBackClassName = '\FreeCRM\Modules\\Vtiger\\UiTypes\\Base';
 
+		// Try PSR-4 paths first, then fallback to old paths
+		$moduleSpecificFilePath = ROOT_DIRECTORY . '/src/Modules/' . $moduleName . '/UiTypes/' . $uiTypeClassSuffix . '.php';
+		$completeFilePath = ROOT_DIRECTORY . '/src/Modules/Vtiger/UiTypes/' . $uiTypeClassSuffix . '.php';
+		
+		// Old path fallback
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
-
-		$moduleSpecificFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
+		$moduleSpecificOldFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
+		$completeOldFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
 
 		if (file_exists($moduleSpecificFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
 			$instance = new $moduleSpecificUiTypeClassName();
 		} else if (file_exists($completeFilePath) && class_exists($uiTypeClassName)) {
+			$instance = new $uiTypeClassName();
+		} else if (file_exists($moduleSpecificOldFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
+			$instance = new $moduleSpecificUiTypeClassName();
+		} else if (file_exists($completeOldFilePath) && class_exists($uiTypeClassName)) {
 			$instance = new $uiTypeClassName();
 		} else {
 			$instance = new $fallBackClassName();
