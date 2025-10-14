@@ -1,0 +1,41 @@
+<?php
+
+namespace FreeCRM\Modules\Settings\SMSNotifier\Models;
+use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
+
+
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * *********************************************************************************** */
+
+class Field extends \Vtiger_Field_Model
+{
+
+	/**
+	 * Function to get field data type
+	 * @return string data type
+	 */
+	public function getFieldDataType()
+	{
+		return $this->get('type');
+	}
+
+	/**
+	 * Function to get instance of this model
+	 * @param <Array> $rowData
+	 * @return <\FreeCRM\Modules\Settings\SMSNotifier\Models\Field> field model
+	 */
+	public static function getInstanceByRow($rowData)
+	{
+		$fieldModel = new self();
+		foreach ($rowData as $key => $value) {
+			$fieldModel->set($key, $value);
+		}
+		return $fieldModel;
+	}
+}

@@ -1,0 +1,41 @@
+<?php
+
+namespace FreeCRM\Modules\Settings\DataAccess\Actions;
+
+
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * *********************************************************************************************************************************** */
+
+class UpdateTpl extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+{
+
+	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	{
+		return;
+	}
+
+	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	{
+		$baseModule = $request->get('base_module');
+		$summary = $request->get('summary');
+		$tplId = $request->get('tpl_id');
+		$conditionAll = $request->getRaw('condition_all_json');
+		$conditionOption = $request->getRaw('condition_option_json');
+		$db = \App\Db::getInstance();
+		$db->createCommand()->update('vtiger_dataaccess', [
+				'module_name' => $baseModule,
+				'summary' => $summary
+				], ['dataaccessid' => $tplId])
+			->execute();
+		\FreeCRM\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionAll, $tplId);
+		\FreeCRM\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionOption, $tplId, false);
+		header("Location: index.php?module=DataAccess&parent=Settings&view=Index");
+	}
+}
