@@ -77,12 +77,13 @@ class Owner extends Base
 		}
 		if (\App\Fields\Owner::getType($value) === 'Users') {
 			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($value);
-			$userModel->setModule('Users');
 			$ownerName = \vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
 			if ($userModel->get('status') === 'Inactive') {
 				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
 			}
-			$detailViewUrl = $userModel->getDetailViewUrl();
+			// Get detail view URL using Users Record model instead
+			$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($value, 'Users');
+			$detailViewUrl = $userRecordModel->getDetailViewUrl();
 			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
