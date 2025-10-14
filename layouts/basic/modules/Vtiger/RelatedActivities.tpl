@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- RelatedActivities.tpl -->
 	{assign var=MODULE_NAME value="Calendar"}
 	{if count($ACTIVITIES) neq '0'}
 		{if $PAGE_NUMBER eq 1}
@@ -169,4 +170,5 @@
 		</div>
 	</div>
 {/if}
+<!--/RelatedActivities.tpl -->
 {/strip}

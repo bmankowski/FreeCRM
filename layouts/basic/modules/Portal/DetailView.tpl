@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- DetailView.tpl -->
 	<div class='widget_header row '>
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -45,4 +46,5 @@
 		<br>
 		<iframe src="{if substr($URL, 0, 4) neq 'http'}//{/if}{$URL}" frameborder="1" height="600" scrolling="auto" width="100%" style="border: solid 2px; border-color: #dddddd;"></iframe>
 	</div>
+<!--/DetailView.tpl -->
 {/strip}

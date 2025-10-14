@@ -10,6 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- SalutationDetailView.tpl -->
 {$RECORD->getDisplayValue('salutationtype')}&nbsp;
 {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
+<!--/SalutationDetailView.tpl -->
 {/strip}

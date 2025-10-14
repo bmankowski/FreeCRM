@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Export.tpl -->
 	<div id="exportContainer" class='modelContainer modal fade '>
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -51,4 +52,5 @@
 			</div>
 		</div>
 	</div>
+<!--/Export.tpl -->
 {/strip}

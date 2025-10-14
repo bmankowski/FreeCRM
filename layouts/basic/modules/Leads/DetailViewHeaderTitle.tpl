@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- DetailViewHeaderTitle.tpl -->
 	<div class="col-md-12 paddingLRZero row">
 		<input type="hidden" id="conversion_available_status" value="{Vtiger_Util_Helper::toSafeHTML($CONVERSION_AVAILABLE_STATUS)}">
 		<div class="col-xs-12 col-sm-12 col-md-8">
@@ -40,4 +41,5 @@
 		</div>
 		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
+	<!--/DetailViewHeaderTitle.tpl -->
 {/strip}

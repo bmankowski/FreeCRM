@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- DeleteView.tpl -->
 	<div class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -76,4 +77,5 @@
 			</div>
 		</div>
 	</div>
+<!--/DeleteView.tpl -->
 {/strip}

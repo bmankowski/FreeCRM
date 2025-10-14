@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- ChartFilter.tpl -->
 	{if $WIZARD_STEP eq 'step1'}
 		<div id="minilistWizardContainer" class='modelContainer modal fade' tabindex="-1">
 			<div class="modal-dialog">
@@ -95,4 +96,5 @@
 			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{vtranslate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 		{/foreach}
 	{/if}
+<!--/ChartFilter.tpl -->
 {/strip}

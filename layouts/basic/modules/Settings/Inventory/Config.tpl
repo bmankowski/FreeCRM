@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Config.tpl -->
 <input type="hidden" id="view" value="{$VIEW}" />
 <div class="" id="inventoryConfig">
 	<div class="widget_header row">
@@ -50,4 +51,5 @@
 		</div>
 	</div>
 </div>
+<!--/Config.tpl -->
 {/strip}

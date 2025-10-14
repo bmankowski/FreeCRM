@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewBlocks.tpl -->
 	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			<div class="widget_header row">
@@ -98,4 +99,5 @@
 				</div>
 			{/if}
 		{/foreach}
+<!--/EditViewBlocks.tpl -->
 	{/strip}

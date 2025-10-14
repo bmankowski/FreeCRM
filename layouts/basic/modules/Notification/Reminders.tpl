@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Reminders.tpl -->
 	<style>
 		{foreach item=VALUE key=NAME from=$COLORS}
 			.headingColor{$NAME}{
@@ -57,4 +58,5 @@
 			</div>
 		{/foreach}
 	</div>
+<!--/Reminders.tpl -->
 {/strip}

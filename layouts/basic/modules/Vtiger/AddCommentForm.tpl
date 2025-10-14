@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- AddCommentForm.tpl -->
 
 {* Change to this also refer: RecentComments.tpl *}
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
@@ -41,4 +42,5 @@
 		</div>
 	</div>
 </div>
+<!--/AddCommentForm.tpl -->
 {/strip}

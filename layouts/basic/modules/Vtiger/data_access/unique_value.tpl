@@ -1,4 +1,5 @@
 {strip}
+<!-- unique_value.tpl -->
 {assign var=WHAT1 value=$SAVED_DATA['what1']}
 {assign var=WHERE1 value=$SAVED_DATA['where1']}
 {assign var=WHAT2 value=$SAVED_DATA['what2']}
@@ -113,6 +114,7 @@
 		</div>
 	</div>
 </div>
+<!--/unique_value.tpl -->
 {/strip}
 <script type="text/javascript">
 jQuery(document).ready(function() {

@@ -7,6 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
+<!-- TasksList.tpl -->
 	<br>
 	<div>
 		<table class="table table-bordered table-condensed listViewEntriesTable">
@@ -50,4 +51,5 @@
 			</table>
 		{/if}
 	</div>
+<!--/TasksList.tpl -->
 {/strip}

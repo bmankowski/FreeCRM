@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewCurrency.tpl -->
 	{assign var=CURRENCIES value=vtlib\Functions::getAllCurrency(true)}
 	{assign var=SELECTED_CURRENCY value=$ITEM_VALUE}
 	{assign var=FIELD_PARAMS value=\App\Json::decode($FIELD->get('params'))}
@@ -59,4 +60,5 @@
 				</div>
 			</div>
 		</div>
+<!--/EditViewCurrency.tpl -->
 	{/strip}

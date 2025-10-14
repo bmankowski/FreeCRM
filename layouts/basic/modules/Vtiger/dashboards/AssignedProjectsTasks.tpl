@@ -10,6 +10,7 @@
 ************************************************************************************/
 -->*}
 {strip}
+<!-- AssignedProjectsTasks.tpl -->
 {assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 {assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
@@ -19,6 +20,7 @@
 <div name="history" class="dashboardWidgetContent">
 	{include file="dashboards/AssignedProjectsTasksContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
+<!--/AssignedProjectsTasks.tpl -->
 {/strip}
 <script type='text/javascript'>
 	$(document).ready(function () {

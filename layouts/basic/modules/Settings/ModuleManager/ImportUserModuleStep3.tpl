@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ImportUserModuleStep3.tpl -->
 	<div id="importModules">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
@@ -64,4 +65,5 @@
 			</div>
 		</div>
 	</div>
+<!--/ImportUserModuleStep3.tpl -->
 {/strip}

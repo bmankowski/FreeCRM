@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ProviderEditFields.tpl -->
 	{foreach key=FIELD_NAME item=FIELD_MODEL from=$PROVIDER_MODEL}
 		<div class="form-group marginLeftZero marginRightZero">
 			{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
@@ -42,4 +43,5 @@
 			</div>
 		</div>
 	{/foreach}	
+<!--/ProviderEditFields.tpl -->
 {/strip}

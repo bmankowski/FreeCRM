@@ -1,4 +1,5 @@
 {strip}
+<!-- Newsletter.tpl -->
 	<h3 class="marginTB3">
 		{'LBL_SAVE_TO_NEWSLETTER'|t:'Settings:SystemWarnings'}
 	</h3>
@@ -33,4 +34,5 @@
 			</button>
 		</div>
 	</form>
+<!--/Newsletter.tpl -->
 {/strip}

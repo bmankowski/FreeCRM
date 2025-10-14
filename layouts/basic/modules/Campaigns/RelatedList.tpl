@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- RelatedList.tpl -->
     {if !empty($CUSTOM_VIEWS)}
         <div class="relatedContainer listViewPageDiv margin0px">
             <input type="hidden" name="emailEnabledModules" value=true />
@@ -210,4 +211,5 @@
 	{else}
 		{include file='RelatedList.tpl'|@vtemplate_path}
 	{/if}
+<!--/RelatedList.tpl -->
 {/strip}

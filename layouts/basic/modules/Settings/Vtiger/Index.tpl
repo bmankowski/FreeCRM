@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Index.tpl -->
 	{if $WARNINGS}
 		<div id="systemWarningAletrs">
 			<div class="modal fade static">
@@ -106,4 +107,5 @@
 			</div>
 		</div>
 	</div>
+<!--/Index.tpl -->
 {/strip}

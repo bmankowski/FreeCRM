@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- SwitchUsersItem.tpl -->
 	<tr>
 		<td>
 			<select class="form-control sufrom {if $SELECT}select2{/if}">
@@ -43,5 +44,6 @@
 			</button>
 		</td>
 	</tr>
+<!--/SwitchUsersItem.tpl -->
 {/strip}
 

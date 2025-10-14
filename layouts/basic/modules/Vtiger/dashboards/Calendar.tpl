@@ -10,6 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- Calendar.tpl -->
 {assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 {assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
@@ -76,4 +77,5 @@
 <div class="dashboardWidgetContent dashboardWidgetCalendar">
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
+<!--/Calendar.tpl -->
 {/strip}

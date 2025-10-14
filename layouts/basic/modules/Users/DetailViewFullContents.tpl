@@ -10,6 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- DetailViewFullContents.tpl -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+<!--/DetailViewFullContents.tpl -->
 {/strip}

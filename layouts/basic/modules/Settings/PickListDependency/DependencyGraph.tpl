@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- DependencyGraph.tpl -->
     <div class="accordion paddingTop20">
         <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
         <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
@@ -134,4 +135,5 @@
 		</div>
 		<br><br>
 	</div>
+<!--/DependencyGraph.tpl -->
 {/strip}

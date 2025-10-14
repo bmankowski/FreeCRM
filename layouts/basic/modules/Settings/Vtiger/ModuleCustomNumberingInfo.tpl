@@ -9,4 +9,6 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ModuleCustomNumberingInfo.tpl -->
+<!--/ModuleCustomNumberingInfo.tpl -->
 {/strip}

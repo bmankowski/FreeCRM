@@ -2,6 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
+<!-- Import.tpl -->
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
 		<h3 class="modal-title">{vtranslate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h3>
@@ -29,4 +30,5 @@
 			</div>
 		</div>
 	</form>		
+<!--/Import.tpl -->
 {/strip}

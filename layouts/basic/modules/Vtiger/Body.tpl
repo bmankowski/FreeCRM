@@ -1,4 +1,5 @@
 {strip}
+<!-- Body.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="container-fluid container-fluid-main">
 		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
@@ -14,4 +15,5 @@
 			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
 				<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
+<!--/Body.tpl -->
 {/strip}

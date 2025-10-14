@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Date.tpl -->
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
@@ -28,4 +29,5 @@
 		
 	</div>
 
+<!--/Date.tpl -->
 {/strip}

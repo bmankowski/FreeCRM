@@ -10,6 +10,7 @@
  ************************************************************************************/
 -->*}
 {strip}
+<!-- TicketsByStatus.tpl -->
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
 		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
@@ -22,4 +23,5 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
+<!--/TicketsByStatus.tpl -->
 {/strip}

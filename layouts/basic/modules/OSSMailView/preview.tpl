@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- preview.tpl -->
 	{if !$NOLOADLIBS}
 		{include file="modules/Vtiger/Header.tpl"}
 	{/if}
@@ -163,6 +164,7 @@
 	{if !$NOLOADLIBS}
 		{include file='JSResources.tpl'|vtemplate_path}
 	{/if}
+<!--/preview.tpl -->
 {/strip}
 {if !$ISMODAL}
 	<script>

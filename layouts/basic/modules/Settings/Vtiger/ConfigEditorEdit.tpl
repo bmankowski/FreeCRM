@@ -9,6 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ConfigEditorEdit.tpl -->
 	<div class="">
 		<div class="contents">
 			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
@@ -94,4 +95,5 @@
 			</form>
 		</div>
 	</div>
+<!--/ConfigEditorEdit.tpl -->
 {/strip}

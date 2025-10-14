@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- DeleteTransferForm.tpl -->
 <div class="modelContainer modal fade" tabinedx="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -56,4 +57,5 @@
 		</div>
 	</div>
 </div>
+<!--/DeleteTransferForm.tpl -->
 {/strip}

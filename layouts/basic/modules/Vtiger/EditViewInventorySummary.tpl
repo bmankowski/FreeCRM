@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewInventorySummary.tpl -->
 	<div class="row">
 		{if in_array("discount",$COLUMNS) && in_array("discountmode",$COLUMNS)}
 			<div class="col-md-4">
@@ -91,4 +92,5 @@
 			</div>
 		{/if}
 	</div>
+<!--/EditViewInventorySummary.tpl -->
 {/strip}

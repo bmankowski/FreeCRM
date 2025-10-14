@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 
 {strip}
+<!-- QuickCreate.tpl -->
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
@@ -85,4 +86,5 @@
 		</div>
 	</div>
 </div>
+<!--/QuickCreate.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Comment.tpl -->
 	{assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
 	<div class="commentDiv">
 		<div class="singleComment">
@@ -121,5 +122,6 @@
 			</div>
 		</div>
 		<div>
+<!--/Comment.tpl -->
 		{/strip}
 

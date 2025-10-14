@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- EditRule.tpl -->
     {assign var=RULE_MODEL_EXISTS value=true}
     {assign var=RULE_ID value=$RULE_MODEL->getId()}
     {if empty($RULE_ID)}
@@ -75,4 +76,5 @@
 			</div>
 		</div>
 	</div>
+<!--/EditRule.tpl -->
 {/strip}

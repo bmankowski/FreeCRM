@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- EditView.tpl -->
 	<div class="">
 		<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
 			<div class="widget_header row"> 
@@ -231,4 +232,5 @@
 					</div>
 				</form>
 			</div>
+<!--/EditView.tpl -->
 			{/strip}

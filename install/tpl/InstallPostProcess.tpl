@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- InstallPostProcess.tpl -->
 	<br>
 	<center>
 		<footer class="noprint">
@@ -26,4 +27,5 @@
 	</center>
 	{include file='JSResources.tpl'}
 </div>
+<!--/InstallPostProcess.tpl -->
 {/strip}

@@ -10,8 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- CalendarViewPreProcess.tpl -->
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div id="centerPanel" class="contentsDiv col-md-12">
+<!--/CalendarViewPreProcess.tpl -->
 {/strip}

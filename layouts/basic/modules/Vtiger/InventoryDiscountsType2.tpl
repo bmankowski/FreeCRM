@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- InventoryDiscountsType2.tpl -->
 	{if $DISCOUNT_TYPE == '0'}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -38,4 +39,5 @@
 			</div>
 		</div>
 	{/if}
+<!--/InventoryDiscountsType2.tpl -->
 {/strip}

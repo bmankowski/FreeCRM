@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ActivityPicklistFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
@@ -21,5 +22,6 @@
         <option value="Task" title="{vtranslate('LBL_TODOS',$MODULE)}" {if in_array("Task",$SEARCH_VALUES)} selected{/if}>{vtranslate('LBL_TODOS',$MODULE)}</option>
     </select>
 	</div>
+<!--/ActivityPicklistFieldSearchView.tpl -->
 {/strip}
 

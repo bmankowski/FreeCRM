@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- MultiImage.tpl -->
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" id="input{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}"
@@ -26,4 +27,5 @@
 			</div>
 		{/foreach}
 	</div>
+<!--/MultiImage.tpl -->
 {/strip}

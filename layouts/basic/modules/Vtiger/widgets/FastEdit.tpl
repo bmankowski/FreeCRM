@@ -1,4 +1,5 @@
 {strip}
+<!-- FastEdit.tpl -->
 <div class="summaryWidgetContainer summaryWidgetFastEditing">
 	<div class="widgetContainer_{$key}" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
@@ -35,4 +36,5 @@
 		{/if}
 	</div>
 </div>
+<!--/FastEdit.tpl -->
 {/strip}

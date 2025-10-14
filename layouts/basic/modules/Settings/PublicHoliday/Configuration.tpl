@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 {strip}
+<!-- Configuration.tpl -->
 <div class="" id="widgetsManagementEditorContainer">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -137,4 +138,5 @@
 		</div>
 	</div>
 </div>
+<!--/Configuration.tpl -->
 {/strip}

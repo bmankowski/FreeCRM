@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- InventoryLimitAlert.tpl -->
 	<div class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -36,4 +37,5 @@
 			</div>
 		</div>
 	</div>
+<!--/InventoryLimitAlert.tpl -->
 {/strip}

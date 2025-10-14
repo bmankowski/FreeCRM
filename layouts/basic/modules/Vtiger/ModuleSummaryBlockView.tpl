@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ModuleSummaryBlockView.tpl -->
 	<div class="recordDetails">
 		<div>
 			<h4> {vtranslate('LBL_RECORD_SUMMARY',$MODULE_NAME)}	</h4>
@@ -17,4 +18,5 @@
 		</div>
 		{include file='SummaryViewContents.tpl'|@vtemplate_path}
 	</div>
+<!--/ModuleSummaryBlockView.tpl -->
 {/strip}

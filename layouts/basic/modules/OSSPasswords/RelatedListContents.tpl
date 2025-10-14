@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- RelatedListContents.tpl -->
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
@@ -109,4 +110,5 @@
 	{foreach key=index item=jsModel from=$RELATED_SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
 	{/foreach}
+<!--/RelatedListContents.tpl -->
 {/strip}

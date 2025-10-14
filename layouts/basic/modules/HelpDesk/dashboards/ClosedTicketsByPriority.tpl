@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- ClosedTicketsByPriority.tpl -->
 	<div class="dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-8">
@@ -27,4 +28,5 @@
 	<div class="dashboardWidgetContent">
 		{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
+<!--/ClosedTicketsByPriority.tpl -->
 {/strip}

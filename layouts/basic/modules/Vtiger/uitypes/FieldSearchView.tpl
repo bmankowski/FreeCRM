@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- FieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="LABEL" value=$FIELD_MODEL->getFieldInfo()}
 	{if isset($SEARCH_INFO['searchValue'])}
@@ -38,4 +39,5 @@
 			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 	{/if}
     </div>
+<!--/FieldSearchView.tpl -->
 {/strip}

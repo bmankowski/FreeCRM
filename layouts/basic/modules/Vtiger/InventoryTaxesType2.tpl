@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- InventoryTaxesType2.tpl -->
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<strong>{vtranslate('LBL_INDIVIDUAL_TAX', $MODULE)}</strong>
@@ -18,4 +19,5 @@
 			</div>
 		</div>
 	</div>
+<!--/InventoryTaxesType2.tpl -->
 {/strip}

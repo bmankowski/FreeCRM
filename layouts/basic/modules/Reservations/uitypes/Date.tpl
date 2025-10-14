@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- Date.tpl -->
 	{if $FIELD_MODEL->getName() == 'date_start' && in_array($VIEW, ['Edit', 'QuickCreateAjax']) }
 		{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_start')}
@@ -20,4 +21,5 @@
 	{else}
 		{include file=vtemplate_path('uitypes/Date.tpl','Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 	{/if}
+<!--/Date.tpl -->
 {/strip}

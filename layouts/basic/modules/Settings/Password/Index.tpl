@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- Index.tpl -->
 <div class="">
 	<div class="clearfix treeView">
 		<form id="PassForm" class="form-horizontal">
@@ -76,4 +77,5 @@
 		</form>
 	</div>
 </div>
+<!--/Index.tpl -->
 {/strip}

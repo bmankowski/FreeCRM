@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Picklist.tpl -->
 {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -39,4 +40,5 @@
 			{/if}
         {/foreach}
     </select>
+<!--/Picklist.tpl -->
 {/strip}

@@ -8,6 +8,7 @@
 * Contributor(s): YetiForce.com
 *************************************************************************************}
 {strip}
+<!-- MiniListContents.tpl -->
 	<div class="row no-margin">
 		<div class="col-sm-12">
 			{* Comupte the nubmer of columns required *}
@@ -53,4 +54,5 @@
 			{/foreach}
 		</div>
 	</div>
+<!--/MiniListContents.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- BasicHeader.tpl -->
 	<nav class="navbar navbar-fixed-top navbar-inverse noprint commonActionsContainer" role="navigation" >
 		<div class="navbar-header">
 			<button type="button" data-target="#topMenus" data-toggle="collapse" class="navbar-toggle">
@@ -25,4 +26,5 @@
 			{include file='CommonActions.tpl'|@vtemplate_path}
 		</div>
 	</nav>
+<!--/BasicHeader.tpl -->
 {/strip}

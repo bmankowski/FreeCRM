@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- VTUpdateFieldsTask.tpl -->
 	<div class="row">
 		<div class="col-md-2"><strong>{vtranslate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
 	</div><br>
@@ -79,4 +80,5 @@
 			<span class="alignMiddle deleteCondition glyphicon glyphicon-trash"></span>
 		</p>
 	</div>
+<!--/VTUpdateFieldsTask.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- VTSMSTask.tpl -->
 	<div class="row">
 		<div class="form-group">
 			<label class="col-md-2 control-label">{vtranslate('LBL_RECEPIENTS',$QUALIFIED_MODULE)}<span class="redColor">*</span></label>
@@ -45,4 +46,5 @@
 			</div>
 		</div>	
 	</div>
+<!--/VTSMSTask.tpl -->
 {/strip}	

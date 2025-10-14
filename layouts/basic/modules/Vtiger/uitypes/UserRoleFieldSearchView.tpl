@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- UserRoleFieldSearchView.tpl -->
 	{assign var=FIELD_INFO value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=explode(',',$SEARCH_INFO['searchValue'])}
@@ -24,4 +25,5 @@
 			{/if}
 		</select>
 	</div>
+<!--/UserRoleFieldSearchView.tpl -->
 {/strip}

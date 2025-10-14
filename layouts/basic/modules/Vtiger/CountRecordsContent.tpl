@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- CountRecordsContent.tpl -->
 	<table class="table table-bordered table-condensed">
 		<thead>
 			<tr>
@@ -16,5 +17,6 @@
 			{/foreach}
 		</tbody>
 	</table>
+<!--/CountRecordsContent.tpl -->
 {/strip}
 

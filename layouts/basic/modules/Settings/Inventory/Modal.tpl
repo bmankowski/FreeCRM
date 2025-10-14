@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Modal.tpl -->
 	{assign var=EDIT_VIEW value=true}
 	{assign var=ID value=$RECORD_MODEL->getId()}
 	{if empty($ID)}
@@ -63,4 +64,5 @@
 			</div>
 		</div>
 	</div>
+<!--/Modal.tpl -->
 {/strip}

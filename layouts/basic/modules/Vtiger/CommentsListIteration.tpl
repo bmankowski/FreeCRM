@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- CommentsListIteration.tpl -->
 {if !empty($CHILD_COMMENTS_MODEL)}
 <ul class="liStyleNone">
 	{foreach item=COMMENT from=$CHILD_COMMENTS_MODEL}
@@ -24,4 +25,5 @@
 	{/foreach}
 </ul>
 {/if}
+<!--/CommentsListIteration.tpl -->
 {/strip}

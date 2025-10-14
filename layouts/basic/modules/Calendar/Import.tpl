@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Import.tpl -->
 <div id="importRecordsContainer" class='modelContainer modal fade'>
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -46,4 +47,5 @@
 		</div>
 	</div>
 </div>
+<!--/Import.tpl -->
 {/strip}

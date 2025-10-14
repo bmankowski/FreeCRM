@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- EditFieldByModal.tpl -->
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
@@ -78,4 +79,5 @@
 	</div>
 	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 </div>
+<!--/EditFieldByModal.tpl -->
 {/strip}

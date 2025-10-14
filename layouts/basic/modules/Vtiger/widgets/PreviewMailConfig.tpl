@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- PreviewMailConfig.tpl -->
 <div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -35,4 +36,5 @@
 		</div>
 	</div>
 </div>
+<!--/PreviewMailConfig.tpl -->
 {/strip}

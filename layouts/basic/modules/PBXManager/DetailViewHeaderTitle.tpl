@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- DetailViewHeaderTitle.tpl -->
 	<div class="col-md-12 paddingLRZero row">
 		<span class="col-md-2">
 			<div style="position:relative;display:inline;">
@@ -93,5 +94,6 @@
 		</span>
 		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
+<!--/DetailViewHeaderTitle.tpl -->
 {/strip}
 

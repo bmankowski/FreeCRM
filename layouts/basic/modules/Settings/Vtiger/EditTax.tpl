@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- EditTax.tpl -->
 	{assign var=TAX_MODEL_EXISTS value=true}
 	{assign var=TAX_ID value=$TAX_RECORD_MODEL->getId()}
 	{if empty($TAX_ID)}
@@ -65,4 +66,5 @@
 		</div>
 	</div>
 </div>
+<!--/EditTax.tpl -->
 {/strip}

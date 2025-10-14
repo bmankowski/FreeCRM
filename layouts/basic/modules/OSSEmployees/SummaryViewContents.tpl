@@ -2,6 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
+<!-- SummaryViewContents.tpl -->
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 <table class="summary-table" style="width:100%;">
 	<tbody>
@@ -66,4 +67,5 @@
 		</div>
 	</div>
 </div>
+<!--/SummaryViewContents.tpl -->
 {/strip}

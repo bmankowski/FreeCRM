@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 
 {strip}
+<!-- step1.tpl -->
 	<div class="contentsDiv" >
 		<div id="paymentsOut" style="display:none">{$JSON}</div>
 		<div>	  
@@ -103,6 +104,7 @@
         </div>
     </div>
 </div>
+<!--/step1.tpl -->
 {/strip}
 
 {literal}

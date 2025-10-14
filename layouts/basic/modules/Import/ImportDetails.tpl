@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ImportDetails.tpl -->
 <div class="popupEntriesDiv textAlignCenter">
 	<h3>{vtranslate($TYPE, $MODULE)}</h3>
 </div>
@@ -33,4 +34,5 @@
 		</tr>
 	{/foreach}
 </table>
+<!--/ImportDetails.tpl -->
 {/strip}

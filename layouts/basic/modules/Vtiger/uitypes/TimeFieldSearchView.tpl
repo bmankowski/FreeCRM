@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- TimeFieldSearchView.tpl -->
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SEARCH_VALUE" value=$SEARCH_INFO['searchValue']}
 {if !empty($SEARCH_VALUE)}
@@ -21,4 +22,5 @@
 <div class="picklistSearchField">
 <input type="text" data-format="{$TIME_FORMAT}" class="form-control clockPicker listSearchContributor" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' />
 </div>
+<!--/TimeFieldSearchView.tpl -->
 {/strip}

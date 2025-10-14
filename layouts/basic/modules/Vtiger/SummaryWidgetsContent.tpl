@@ -1,4 +1,5 @@
 {strip}
+<!-- SummaryWidgetsContent.tpl -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 		<table class="table noStyle listViewEntriesTable">
@@ -70,4 +71,5 @@
 			{/foreach}
 		</table>
 	</div>
+<!--/SummaryWidgetsContent.tpl -->
 {/strip}

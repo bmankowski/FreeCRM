@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- MergeRecords.tpl -->
 	<div class="padding1per">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -67,4 +68,5 @@
 			</div>
 		</div>
 	</div>
+<!--/MergeRecords.tpl -->
 {/strip}

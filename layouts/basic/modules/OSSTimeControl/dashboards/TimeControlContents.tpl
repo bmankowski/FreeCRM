@@ -11,6 +11,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- TimeControlContents.tpl -->
 {if count($DATA) gt 0 }
 	{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
 	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
@@ -116,4 +117,5 @@
 	margin-right: 7px;
 }
 </style>
+<!--/TimeControlContents.tpl -->
 {/strip}

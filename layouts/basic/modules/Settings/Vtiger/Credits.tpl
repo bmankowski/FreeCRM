@@ -1,4 +1,5 @@
 {strip}
+<!-- Credits.tpl -->
 	<div class="settingsIndexPage">
 		<div class="widget_header row">
 			<div class="col-xs-12">
@@ -10,4 +11,5 @@
 		</div>
 		{include file="licenses/Credits.html"}
 	</div>
+<!--/Credits.tpl -->
 {/strip}

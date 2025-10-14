@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- RelatedListButtons.tpl -->
 	<div class="col-md-12">
 		<div class="related paddingLRZero marginLeftZero">
 			<div class="">
@@ -68,4 +69,5 @@
 			</div>
 		</div>
 	</div>
+<!--/RelatedListButtons.tpl -->
 {/strip}

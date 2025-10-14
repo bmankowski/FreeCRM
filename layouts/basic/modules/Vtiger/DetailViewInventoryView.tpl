@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- DetailViewInventoryView.tpl -->
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE_NAME)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true, [], 'Detail')}
 
@@ -77,4 +78,5 @@
 		</table>
 		{include file='DetailViewInventorySummary.tpl'|@vtemplate_path:$MODULE_NAME}
 	{/if}
+<!--/DetailViewInventoryView.tpl -->
 {/strip}

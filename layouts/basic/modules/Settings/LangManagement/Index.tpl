@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Index.tpl -->
 <div class=" LangManagement">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -55,4 +56,5 @@
 	<div class="clearfix"></div>
 	{include file='AddLanguage.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 	{include file='AddTranslation.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+<!--/Index.tpl -->
 {/strip}

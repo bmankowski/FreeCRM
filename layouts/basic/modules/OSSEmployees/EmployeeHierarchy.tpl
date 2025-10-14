@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- EmployeeHierarchy.tpl -->
 <div id="accountHierarchyContainer" class="modelContainer modal fade" taindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -47,4 +48,5 @@
 		</div>
 	</div>
 </div>
+<!--/EmployeeHierarchy.tpl -->
     {/strip}

@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Step5.tpl -->
 	<form class="form-horizontal" name="step5" method="post" action="Install.php">
 		<input type="hidden" name="mode" value="Step6" />
 		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
@@ -146,4 +147,5 @@
 			</div>
 		</div>
 	</form>
+<!--/Step5.tpl -->
 {/strip}

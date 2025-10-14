@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ListViewHeader.tpl -->
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
@@ -123,4 +124,5 @@
 			{/if}
 		</div>
 		<div class="listViewContentDiv" id="listViewContents">
+<!--/ListViewHeader.tpl -->
 		{/strip}

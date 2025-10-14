@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- EditViewBlocks.tpl -->
     {include file="EditViewBlocks.tpl"|@vtemplate_path:'Vtiger'}
     <input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}" />
 	<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
@@ -37,4 +38,5 @@
 		</div>
 	</div>
 	<br>
+<!--/EditViewBlocks.tpl -->
 {/strip}

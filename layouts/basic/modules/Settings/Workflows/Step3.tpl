@@ -7,6 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
+<!-- Step3.tpl -->
     <form name="EditWorkflow" action="index.php" method="post" id="workflow_step3" class="form-horizontal">
         <input type="hidden" name="module" value="Workflows" />
         <input type="hidden" name="record" value="{$RECORD}" />
@@ -32,4 +33,5 @@
         </div>
         <div class="clearfix"></div>
     </form>
+<!--/Step3.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- EditViewContents.tpl -->
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
@@ -228,4 +229,5 @@
 			{/foreach}
 					</tbody>
 				</table>
+<!--/EditViewContents.tpl -->
 			{/strip}

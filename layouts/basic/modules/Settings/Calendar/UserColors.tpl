@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- UserColors.tpl -->
 <div class=" UserColors">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -111,4 +112,5 @@
 			</div>
 		</div>
 	</div>
+<!--/UserColors.tpl -->
 {/strip}

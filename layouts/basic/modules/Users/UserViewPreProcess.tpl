@@ -10,8 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- UserViewPreProcess.tpl -->
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
 			{include file="UserViewHeader.tpl"|vtemplate_path:$MODULE}
+<!--/UserViewPreProcess.tpl -->
 {/strip}

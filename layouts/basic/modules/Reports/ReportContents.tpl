@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ReportContents.tpl -->
 	<div class="contents-topscroll">
 		<div class="topscroll-div container">
 			&nbsp;
@@ -148,4 +149,5 @@
 	<br>	
    </div>
 </div>
+<!--/ReportContents.tpl -->
 {/strip}

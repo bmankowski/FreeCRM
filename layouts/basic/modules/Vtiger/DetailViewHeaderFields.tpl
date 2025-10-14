@@ -1,4 +1,5 @@
 {strip}
+<!-- DetailViewHeaderFields.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="col-xs-12 col-sm-12 col-md-4 detailViewHeaderFields">
 		{if $CUSTOM_FIELDS_HEADER}
@@ -40,4 +41,5 @@
 			{/foreach}
 		{/if}
 	</div>
+<!--/DetailViewHeaderFields.tpl -->
 {/strip}

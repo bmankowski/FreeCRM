@@ -1,4 +1,5 @@
 {strip}
+<!-- Reminders.tpl -->
 	<style>
 	{if empty($COLOR_LIST)}	
 		{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
@@ -105,4 +106,5 @@
 			</div>
 		{/foreach}
 	</div>
+<!--/Reminders.tpl -->
 {/strip}

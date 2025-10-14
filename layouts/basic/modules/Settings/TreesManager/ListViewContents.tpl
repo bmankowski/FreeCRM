@@ -1,6 +1,7 @@
  {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
  
 {strip}
+<!-- ListViewContents.tpl -->
 <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -86,4 +87,5 @@
 	</table>
 	{/if}
 </div>
+<!--/ListViewContents.tpl -->
 {/strip}

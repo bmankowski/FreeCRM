@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- InstallPreProcess.tpl -->
 	{include file='Header.tpl'}
 	<div class="container page-container">
 		<div class="row">
@@ -24,4 +25,5 @@
 				</div>
 			</div>
 		</div>
+<!--/InstallPreProcess.tpl -->
 	{/strip}

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- WidgetFullscreen.tpl -->
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm pull-right" data-dismiss="modal" aria-hidden="true">
 			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -16,4 +17,5 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
+<!--/WidgetFullscreen.tpl -->
 {/strip}

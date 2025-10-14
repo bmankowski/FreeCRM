@@ -1,4 +1,5 @@
 {strip}
+<!-- check_taskstatus.tpl -->
 	{assign var=status value=$SAVED_DATA['status']}
 	<div class="row">
 		<div class="col-md-12 padding-bottom1per">
@@ -10,4 +11,5 @@
 			</select>
 		</div>
 	</div>
+<!--/check_taskstatus.tpl -->
 {/strip}

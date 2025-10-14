@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- WorkflowTrigger.tpl -->
 	<div class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -46,4 +47,5 @@
 			</div>
 		</div>
 	</div>
+<!--/WorkflowTrigger.tpl -->
 {/strip}

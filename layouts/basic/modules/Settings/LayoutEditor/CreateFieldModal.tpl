@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- CreateFieldModal.tpl -->
 	<div class="modal createFieldModal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -201,4 +202,5 @@
 			</div>
 		</div>
 	</div>
+<!--/CreateFieldModal.tpl -->
 {/strip}

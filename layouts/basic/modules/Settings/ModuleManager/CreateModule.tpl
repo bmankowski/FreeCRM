@@ -9,7 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-{strip}	
+{strip}
+<!-- CreateModule.tpl -->	
 <div class="modal addKeyContainer fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -58,4 +59,5 @@
 		</div>
 	</div>
 </div>
+<!--/CreateModule.tpl -->
 {/strip}

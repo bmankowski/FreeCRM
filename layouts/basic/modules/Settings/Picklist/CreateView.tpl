@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- CreateView.tpl -->
 <div class='modelContainer modal fade basicCreateView' tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -49,4 +50,5 @@
 		</div>
 	</div>
 </div>
+<!--/CreateView.tpl -->
 {/strip}

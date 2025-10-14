@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Index.tpl -->
 	<div class="listViewPageDiv">
 		<div class="widget_header row">
 			<div class="col-xs-12">
@@ -41,4 +42,5 @@
                 {/if}
             </div>
 		</div>
+<!--/Index.tpl -->
 	{/strip}	

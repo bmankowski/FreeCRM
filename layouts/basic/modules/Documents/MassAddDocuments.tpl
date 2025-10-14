@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- MassAddDocuments.tpl -->
 	<div class="modal-header">
 		<button data-dismiss="modal" class="close" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
 		<h3 class="modal-title">{vtranslate('LBL_MASS_ADD', $MODULE)}</h3>
@@ -23,4 +24,5 @@
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</form>
+<!--/MassAddDocuments.tpl -->
 {/strip}

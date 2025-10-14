@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Recurrence.tpl -->
 	<div class="typeSavingModal" tabindex="-1">
 		<div  class="modal fade">
 			<div class="modal-dialog modal-lg ">
@@ -176,4 +177,5 @@
 			</div>
 		</div>
 	</div>
+<!--/Recurrence.tpl -->
 {/strip}

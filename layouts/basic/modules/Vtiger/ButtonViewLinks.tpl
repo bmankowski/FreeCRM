@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- ButtonViewLinks.tpl -->
 	{if $LINKS && is_array($LINKS) && count($LINKS) gt 0}
 		{assign var=TEXT_HOLDER value=''}
 		{foreach item=LINK from=$LINKS}
@@ -27,4 +28,5 @@
 			</ul>
 			{if isset($BTN_GROUP) && !$BTN_GROUP}</div>{/if} 
 		{/if} 
+<!--/ButtonViewLinks.tpl -->
 	{/strip}

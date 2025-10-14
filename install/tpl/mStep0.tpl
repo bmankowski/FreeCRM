@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- mStep0.tpl -->
 	<div class="row main-container">
 		<div class="inner-container">
 			<h2>{vtranslate('LBL_LICENSE', 'Install')}</h2>
@@ -36,4 +37,5 @@
 			</form>
 		</div>
 	</div>
+<!--/mStep0.tpl -->
 {/strip}

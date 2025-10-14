@@ -11,6 +11,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- mStep1.tpl -->
 	<div class="row main-container">
 		<div class="inner-container">
 			<h2>{vtranslate('LBL_MIGRATION_HEADER', 'Install')}</h2>
@@ -38,4 +39,5 @@
 			</form>
 		</div>
 	</div>
+<!--/mStep1.tpl -->
 {/strip}

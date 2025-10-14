@@ -1,4 +1,5 @@
 {strip}
+<!-- TopMenusRight.tpl -->
 	{if $PAINTEDICON eq 1}
 		<ul class="settingIcons nav navbar-nav navbar-right">
 			<li class="dropdown">
@@ -155,4 +156,5 @@
 			</ul>
 		</span>
 	</div>
+<!--/TopMenusRight.tpl -->
 {/strip}

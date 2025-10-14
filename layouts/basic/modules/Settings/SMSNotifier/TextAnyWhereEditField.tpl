@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- TextAnyWhereEditField.tpl -->
 	{include file="ProviderEditFields.tpl"|@vtemplate_path:$QUALIFIED_MODULE_NAME}
 	<div class="alert-info alert">
 		<div>
@@ -31,4 +32,5 @@
 			</div>
 		</div>
 	</div>	
+<!--/TextAnyWhereEditField.tpl -->
 {/strip}		

@@ -1,4 +1,5 @@
 ﻿{strip}
+<!-- SummaryListView.tpl -->
 <div class="row">
 		<div class="titleBar row">
 			<div class="col-md-8">
@@ -35,4 +36,5 @@
 		</div>
 	</div>
 </div>
+<!--/SummaryListView.tpl -->
 {/strip}

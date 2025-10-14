@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- IndexPreProcess.tpl -->
 	<div class="widget_header row">
 		<div class="col-md-6">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -11,4 +12,5 @@
 		</div>
 	</div>
 	<div class="configContainer">
+<!--/IndexPreProcess.tpl -->
 {/strip}

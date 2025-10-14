@@ -10,6 +10,7 @@
 ************************************************************************************/
 -->*}
 {strip}
+<!-- DashBoardContents.tpl -->
 	<div class="gridster">
 		<ul>
 			{assign var=COLUMNS value=2}
@@ -34,4 +35,5 @@
 		<input type="hidden" id=row value="{$ROW}" />
 		<input type="hidden" id=col value="{$COLCOUNT}" />
 	</div>
+<!--/DashBoardContents.tpl -->
 {/strip}

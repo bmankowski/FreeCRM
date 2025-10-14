@@ -9,6 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ConfigEditorDetail.tpl -->
 	<div class="" id="ConfigEditorDetails">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
@@ -59,4 +60,5 @@
 			</table>
 		</div>
 	</div>
+<!--/ConfigEditorDetail.tpl -->
 {/strip}

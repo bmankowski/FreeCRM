@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- AdvanceFilter.tpl -->
 	{assign var=ALL_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[1] }
 	{assign var=ANY_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[2] }
 	{if empty($ALL_CONDITION_CRITERIA) }
@@ -73,4 +74,5 @@
 		</div>
 	</div>
 </div>
+<!--/AdvanceFilter.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Picklist.tpl -->
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -19,4 +20,5 @@
 			<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" title="{$PICKLIST_VALUE}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
 		{/foreach}
 	</select>
+<!--/Picklist.tpl -->
 {/strip}

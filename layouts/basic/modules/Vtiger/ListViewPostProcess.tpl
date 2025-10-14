@@ -10,6 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ListViewPostProcess.tpl -->
 	</div>
 </div>
+<!--/ListViewPostProcess.tpl -->
 {/strip}

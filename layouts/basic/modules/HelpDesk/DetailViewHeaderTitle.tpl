@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- DetailViewHeaderTitle.tpl -->
 	{if AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
 		<div class="alert alert-danger marginBottom10px" role="alert">
 			<strong>{vtranslate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
@@ -79,4 +80,5 @@
 		</div>
 		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
+<!--/DetailViewHeaderTitle.tpl -->
 {/strip}

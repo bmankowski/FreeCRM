@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- HistoryContents.tpl -->
 <div style='padding:5px;'>
 {if $HISTORIES neq false}
 	{foreach key=$index item=HISTORY from=$HISTORIES}
@@ -155,4 +156,5 @@
 	</span>
 {/if}
 </div>
+<!--/HistoryContents.tpl -->
 {/strip}

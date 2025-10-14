@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- ActivityTypes.tpl -->
 <div class=" ActivityTypes">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -71,4 +72,5 @@
 			</div>
 		</div>
 	</div>
+<!--/ActivityTypes.tpl -->
 {/strip}

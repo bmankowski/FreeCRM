@@ -11,6 +11,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- AssignedProjectsTasksContents.tpl -->
 <style type="text/css">
 small.small-a{
 font-size: 75%;
@@ -61,4 +62,5 @@ font-size: 75%;
     <br />
 {/if}
 </div>
+<!--/AssignedProjectsTasksContents.tpl -->
 {/strip}

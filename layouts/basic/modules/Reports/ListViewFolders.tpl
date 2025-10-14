@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ListViewFolders.tpl -->
 <span class="customFilterMainSpan btn-group">
 	<select id="customFilter"  style="width:350px;" title="{vtranslate('LBL_SELECT_REPORT', $MODULE)}">
 		<optgroup id="foldersBlock" label="{vtranslate('LBL_FOLDERS', $MODULE)}">
@@ -24,4 +25,5 @@
 	<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
 	<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
 </span>
+<!--/ListViewFolders.tpl -->
 {/strip}

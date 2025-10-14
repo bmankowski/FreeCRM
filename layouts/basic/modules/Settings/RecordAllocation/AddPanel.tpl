@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- AddPanel.tpl -->
 	{if empty($ALL_ACTIVEUSER_LIST)}
 		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
 	{/if}
@@ -82,4 +83,5 @@
 			</div>
 		</div>
 	</div>
+<!--/AddPanel.tpl -->
 {/strip}

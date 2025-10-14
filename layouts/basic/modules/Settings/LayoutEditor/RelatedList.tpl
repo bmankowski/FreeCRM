@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- RelatedList.tpl -->
     <div id="relatedTabOrder">
     <div class="" id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
@@ -205,4 +206,5 @@
 			</div>	
 		</div>	
     </div>	
+<!--/RelatedList.tpl -->
 {/strip}

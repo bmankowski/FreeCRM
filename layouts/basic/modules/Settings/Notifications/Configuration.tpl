@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Configuration.tpl -->
 	<div class="widget_header row">
 		<div class="col-xs-12 col-sm-12 col-md-9">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
@@ -56,4 +57,5 @@
 			{vtranslate('LBL_NOTICE_CONFIG_WARNING', $QUALIFIED_MODULE)}
 		</div>
 	{/if}
+<!--/Configuration.tpl -->
 {/strip}

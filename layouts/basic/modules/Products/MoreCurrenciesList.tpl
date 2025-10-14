@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- MoreCurrenciesList.tpl -->
 	<div id="currency_class" class="multiCurrencyEditUI modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -83,4 +84,5 @@
 			</div>
 		</div>
 	</div>
+<!--/MoreCurrenciesList.tpl -->
 {/strip}

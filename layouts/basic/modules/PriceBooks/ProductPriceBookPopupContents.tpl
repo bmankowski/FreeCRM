@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ProductPriceBookPopupContents.tpl -->
 <div class="contents-topscroll">
     <div class="topscroll-div">
         &nbsp;
@@ -82,4 +83,5 @@
 	<button class="cancelLink pull-right btn btn-warning" type="button">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
 	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO',$MODULE_NAME)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
 </div>
+<!--/ProductPriceBookPopupContents.tpl -->
 {/strip}

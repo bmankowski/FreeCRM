@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- PickListValueDetail.tpl -->
 	{if $SELECTED_PICKLIST_FIELDMODEL}
 		<ul class="nav nav-tabs massEditTabs" style="margin-bottom: 0;border-bottom: 0">
 			<li class="active"><a href="#allValuesLayout" data-toggle="tab"><strong>{vtranslate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
@@ -75,4 +76,5 @@
 			{/if}
 		</div>	
 	{/if}
+<!--/PickListValueDetail.tpl -->
 {/strip}

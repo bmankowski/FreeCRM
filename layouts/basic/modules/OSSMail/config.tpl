@@ -10,6 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- config.tpl -->
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 	<style>
 		.table tbody tr.error > td {
@@ -93,6 +94,7 @@
 			{/if}
 		</div>
 	</div>
+<!--/config.tpl -->
 {/strip}
 <script type="text/javascript">
 	jQuery(document).ready(function () {

@@ -9,7 +9,8 @@
  * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
-{strip} {assign var=SPAN_COUNT value=1}
+{strip}
+<!-- ReAlignSettingsShortCut.tpl --> {assign var=SPAN_COUNT value=1}
 	<div  class="row">
 		{foreach item=SETTING_SHORTCUT from=$SETTINGS_SHORTCUT name=shortcuts}
 			<div id="shortcut_{$SETTING_SHORTCUT->getId()}" style="margin-left: 20px;" data-actionurl="{$SETTING_SHORTCUT->getPinUnpinActionUrl()}" class="col-md-3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTING_SHORTCUT->getUrl()}">
@@ -21,4 +22,5 @@
 							{$SPAN_COUNT=$SPAN_COUNT+1}
         {/foreach}
 	</div>
+<!--/ReAlignSettingsShortCut.tpl -->
 {/strip}

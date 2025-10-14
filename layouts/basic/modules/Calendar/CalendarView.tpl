@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- CalendarView.tpl -->
 <input type="hidden" id="currentView" value="{$VIEW}" />
 <input type="hidden" id="activity_view" value="{$CURRENT_USER->get('activity_view')}" />
 <input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}" />
@@ -61,4 +62,5 @@
 		<div id="calendarview"></div>
 	</div>
 </div>
+<!--/CalendarView.tpl -->
 {/strip}

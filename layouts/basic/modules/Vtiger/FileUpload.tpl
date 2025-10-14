@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- FileUpload.tpl -->
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{'LBL_CLOSE'|t}">x</button>
 		<h4 class="modal-title">{'LBL_ADD_FILES'|t:$MODULE_NAME}</h4>
@@ -31,4 +32,5 @@
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{'LBL_CLOSE'|t:$MODULE_NAME}</button>
 		</div>
 	</form>
+<!--/FileUpload.tpl -->
 {/strip}

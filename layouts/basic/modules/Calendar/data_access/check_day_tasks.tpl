@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- check_day_tasks.tpl -->
 	{assign var=MAX_ACTIVITES value=$SAVED_DATA['maxActivites']}
 	{assign var=LOCK_SAVE value=$SAVED_DATA['lockSave']}
 	{assign var=MESSAGE value=$SAVED_DATA['message']}
@@ -65,4 +66,5 @@ jQuery(document).ready(function() {
 	});
 });
 </script>
+<!--/check_day_tasks.tpl -->
 {/strip}

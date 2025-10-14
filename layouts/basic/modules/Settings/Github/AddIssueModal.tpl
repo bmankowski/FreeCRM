@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- AddIssueModal.tpl -->
 	{if $GITHUB_CLIENT_MODEL->isAuthorized()}
 		<div class="addIssuesModal validationEngineContainer" tabindex="-1">
 			<div  class="modal fade authModalContent">
@@ -68,4 +69,5 @@
 			</div>
 		</div>
 	{/if}
+<!--/AddIssueModal.tpl -->
 {/strip}

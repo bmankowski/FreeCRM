@@ -11,6 +11,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- mStep2.tpl -->
 	<div id="progressIndicator" class="row main-container hide">
 		<div class="inner-container">
 			<div class="inner-container">
@@ -92,4 +93,5 @@
 			</form>
 		</div>
 	</div>
+<!--/mStep2.tpl -->
 {/strip}

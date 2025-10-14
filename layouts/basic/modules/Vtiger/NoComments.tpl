@@ -10,8 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- NoComments.tpl -->
 	<div class="summaryWidgetContainer noCommentsMsgContainer">
 		<p class="textAlignCenter"> {vtranslate('LBL_NO_COMMENTS',$MODULE_NAME)}
 		</p>
 	</div>
+<!--/NoComments.tpl -->
 {/strip}

@@ -7,6 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
+<!-- Index.tpl -->
 <div class="">
 	<div class="widget_header row">
 		<div class="col-xs-12">
@@ -31,4 +32,5 @@
 		</ul>
 	</div>
 </div>
+<!--/Index.tpl -->
 {/strip}

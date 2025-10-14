@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- ListRules.tpl -->
 	<div class="ruleListContainer">
 		<div class="title row">
 			<div class="rulehead col-md-6">
@@ -78,4 +79,5 @@
 			{/if}
 		</div>
 	</div>
+<!--/ListRules.tpl -->
 {/strip}

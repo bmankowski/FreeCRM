@@ -21,6 +21,7 @@ padding: 0 20px 20px 20px;
 }
 </style>
 {strip}
+<!-- Index.tpl -->
     <div class="" id="quickCreateEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
@@ -135,4 +136,5 @@ padding: 0 20px 20px 20px;
 				</div>
 			</div>
 		</div>
+<!--/Index.tpl -->
 {/strip}

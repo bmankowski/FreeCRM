@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ChartEditStep2.tpl -->
 	<form class="form-horizontal recordEditView" id="chart_report_step2" method="post" action="index.php">
 		<input type="hidden" name="module" value="{$MODULE}" >
 		<input type="hidden" name="view" value="ChartEdit" >
@@ -59,4 +60,5 @@
 		</div>
 		<br><br>
 	</form>
+<!--/ChartEditStep2.tpl -->
 {/strip}

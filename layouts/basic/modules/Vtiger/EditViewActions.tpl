@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- EditViewActions.tpl -->
        <div>
             <div class="pull-right">
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
@@ -20,4 +21,5 @@
 		<br>
     </form>
 </div>
+<!--/EditViewActions.tpl -->
 {/strip}

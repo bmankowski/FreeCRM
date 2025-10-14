@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewPicklistField.tpl -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	{assign var="INPUT_TYPE" value='text'}
 	{if $FIELD->get('displaytype') == 10}
@@ -11,4 +12,5 @@
 			<option value="{$ROW['value']}" data-module="{$ROW['module']}" {if $ROW['value'] == $VALUE} selected {/if}>{$ROW['name']}</option>
 		{/foreach}
 	</select>
+<!--/EditViewPicklistField.tpl -->
 {/strip}

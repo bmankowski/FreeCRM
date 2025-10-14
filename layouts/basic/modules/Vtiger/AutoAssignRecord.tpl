@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- AutoAssignRecord.tpl -->
 	<div class="modal-header">
 		<div class="col-xs-10">
 			<h3 class="modal-title">{vtranslate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
@@ -74,4 +75,5 @@
 			{/if}
 		</div>
 	</div>
+<!--/AutoAssignRecord.tpl -->
 {/strip}

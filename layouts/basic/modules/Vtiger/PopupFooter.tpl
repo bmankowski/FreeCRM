@@ -10,10 +10,12 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- PopupFooter.tpl -->
 	{* javascript files *}
 	{include file='JSResources.tpl'|@vtemplate_path}
 	</body>
 </html>
+<!--/PopupFooter.tpl -->
 {/strip}
 <script type=text/javascript>
 	jQuery(document).ready(function() {

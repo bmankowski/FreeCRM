@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Index.tpl -->
 <div class="mainContainer container">
 	<div class="jumbotron">
 		<div class="row">
@@ -23,4 +24,5 @@
 		</div>
 	</div>
 </div>
+<!--/Index.tpl -->
 {/strip}

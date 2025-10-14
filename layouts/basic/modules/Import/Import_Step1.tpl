@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Import_Step1.tpl -->
 <table width="100%" cellspacing="0" cellpadding="2">
 	<tr>
 		<td><strong>{'LBL_IMPORT_STEP_1'|@vtranslate:$MODULE}:</strong></td>
@@ -30,4 +31,5 @@
 		<td colspan='2'>{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@vtranslate:$MODULE}: {$SUPPORTED_FILE_TYPES_TEXT}</td>
 	</tr>
 </table>
+<!--/Import_Step1.tpl -->
 {/strip}

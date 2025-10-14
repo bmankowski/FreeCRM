@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- AssignValueToRole.tpl -->
 <div class='modelContainer modal fade basicAssignValueToRoleView' tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -55,4 +56,5 @@
 		</div>
 	</div>
 </div>
+<!--/AssignValueToRole.tpl -->
 {/strip}

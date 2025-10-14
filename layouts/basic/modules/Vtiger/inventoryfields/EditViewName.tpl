@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewName.tpl -->
 {if $REFERENCE_MODULE}
 	<div class="rowName">
 		{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
@@ -37,4 +38,5 @@
 		</div>
 	</div>
 {/if}
+<!--/EditViewName.tpl -->
 {/strip}

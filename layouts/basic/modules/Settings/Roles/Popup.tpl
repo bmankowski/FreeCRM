@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Popup.tpl -->
 <div id="popupPageContainer" class="popupContainer" style="min-height: 600px">
 	<div class="popupContainer padding1per">
 		<div class="row">
@@ -41,4 +42,5 @@
 		Settings_Roles_Js.initPopupView()
 	});
 </script>
+<!--/Popup.tpl -->
 {/strip}

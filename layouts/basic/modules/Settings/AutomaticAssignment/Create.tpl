@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- Create.tpl -->
 	{if isset($WIZARD_BASE)}
 		<form class="form-horizontal" action="{$MODULE_MODEL->getEditViewUrl()}" id="createForm">
 			<div class="modal-header">
@@ -47,4 +48,5 @@
 		</div>
 	{/if}
 
+<!--/Create.tpl -->
 {/strip}

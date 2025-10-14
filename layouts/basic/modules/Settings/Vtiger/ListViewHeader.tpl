@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ListViewHeader.tpl -->
 	<div class="">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
@@ -59,4 +60,5 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
+<!--/ListViewHeader.tpl -->
 		{/strip}

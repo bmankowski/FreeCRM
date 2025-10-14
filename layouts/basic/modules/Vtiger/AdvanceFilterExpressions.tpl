@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- AdvanceFilterExpressions.tpl -->
 	{if !$MODULE_MODEL}
 		{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($SOURCE_MODULE)}
 	{/if}
@@ -28,4 +29,5 @@
 			{include file="FieldExpressions.tpl"|@vtemplate_path}
 		</div>
 	</div>
+<!--/AdvanceFilterExpressions.tpl -->
 {/strip}

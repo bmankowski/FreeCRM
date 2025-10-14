@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- CalendarSharedUsers.tpl -->
 <div name='calendarViewTypes'>
 	{assign var=SHARED_USER_INFO value= \App\Json::encode($SHAREDUSERS_INFO)}
 	{assign var=CURRENT_USER_ID value= $CURRENTUSER_MODEL->getId()}
@@ -98,6 +99,7 @@
 		<input type="hidden" class="invisibleCalendarViews" value="{$INVISIBLE_CALENDAR_VIEWS_EXISTS}" />
 	</div>
 </div>
+<!--/CalendarSharedUsers.tpl -->
 {/strip}
 <script type="text/javascript">
 jQuery(document).ready(function() {

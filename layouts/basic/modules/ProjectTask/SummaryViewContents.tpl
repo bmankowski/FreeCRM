@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- SummaryViewContents.tpl -->
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 <table class="summary-table" style="width:100%;">
 	<tbody>
@@ -74,4 +75,5 @@
 		</div>
 	</div>
 </div>
+<!--/SummaryViewContents.tpl -->
 {/strip}

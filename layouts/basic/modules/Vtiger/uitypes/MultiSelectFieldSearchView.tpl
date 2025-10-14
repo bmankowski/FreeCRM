@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- MultiSelectFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues(true)}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
@@ -20,4 +21,5 @@
             {/foreach}
         </select>
     </div>
+<!--/MultiSelectFieldSearchView.tpl -->
 {/strip}

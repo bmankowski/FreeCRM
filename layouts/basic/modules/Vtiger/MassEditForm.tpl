@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- MassEditForm.tpl -->
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
@@ -85,4 +86,5 @@
 			</div>
 		</div>
 	</div>
+<!--/MassEditForm.tpl -->
 {/strip}

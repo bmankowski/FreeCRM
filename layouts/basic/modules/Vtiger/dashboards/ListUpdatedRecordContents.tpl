@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ListUpdatedRecordContents.tpl -->
 <div style='padding:5px;'>
 	{if $LIST neq false}
 		<table class="table table-bordered">
@@ -32,4 +33,5 @@
 		</span>
 	{/if}
 </div>
+<!--/ListUpdatedRecordContents.tpl -->
 {/strip}

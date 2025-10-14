@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewInventoryItem.tpl -->
 	{if !empty($ITEM_DATA['name'])}
 		{assign var="REFERENCE_MODULE" value=vtlib\Functions::getCRMRecordType($ITEM_DATA['name'])}
 	{elseif $MAIN_PARAMS}
@@ -34,4 +35,5 @@
 			</td>
 		</tr>
 	{/if}
+<!--/EditViewInventoryItem.tpl -->
 {/strip}

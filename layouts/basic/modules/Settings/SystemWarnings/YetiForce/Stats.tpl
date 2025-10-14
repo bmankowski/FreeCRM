@@ -1,4 +1,5 @@
 {strip}
+<!-- Stats.tpl -->
 	<form class="form-horizontal row validateForm" method="post" action="index.php">
 		<h3 class="marginTB3">
 			{'LBL_STATS'|t:'Settings:SystemWarnings'}
@@ -57,4 +58,5 @@
 		</div>
 		<div class="clearfix"></div>
 	</form>
+<!--/Stats.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- DocumentsFolder.tpl -->
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var=FOLDER_VALUES value=$FIELD_MODEL->getDocumentFolders()}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -18,4 +19,5 @@
 	<option value="{$FOLDER_VALUE}" {if $FIELD_MODEL->get('fieldvalue') eq $FOLDER_VALUE} selected {/if}>{$FOLDER_NAME}</option>
 {/foreach}
 </select>
+<!--/DocumentsFolder.tpl -->
 {/strip}

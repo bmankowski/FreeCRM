@@ -1,4 +1,5 @@
 {strip}
+<!-- SystemWarningsList.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<table class="table table-bordered table-condensed">
 		<thead>
@@ -75,4 +76,5 @@
 			{/foreach}
 		</tbody>
 	</table>
+<!--/SystemWarningsList.tpl -->
 {/strip}

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- CreateApp.tpl -->
 	<div class="modal-content validationEngineContainer" id="EditView">
 		<form>
 			<input class="recordEditView" type="hidden">
@@ -107,4 +108,5 @@
 		</form>
 		{include file='ModalFooter.tpl'|@vtemplate_path}
 	</div>
+<!--/CreateApp.tpl -->
 {/strip}

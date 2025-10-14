@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- MailActionBar.tpl -->
 	{if !$RECORD}
 		<input type="hidden" id="mailActionBarID" value="" />
 		<div class="noRecords">
@@ -168,4 +169,5 @@
 			</div>
 		{/if}
 	{/if}
+<!--/MailActionBar.tpl -->
 {/strip}

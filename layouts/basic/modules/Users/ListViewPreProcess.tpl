@@ -10,5 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ListViewPreProcess.tpl -->
 	{include file="ListViewHeader.tpl"|vtemplate_path:'Vtiger'}
+<!--/ListViewPreProcess.tpl -->
 {/strip}

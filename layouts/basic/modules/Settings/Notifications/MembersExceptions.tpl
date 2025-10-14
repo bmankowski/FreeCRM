@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- MembersExceptions.tpl -->
 	<form id="exceptionsView" class="form-horizontal">
 		<input type="hidden" id="srcModule" name="srcModule" value="{$SRC_MODULE}" />
 		<input type="hidden" id="member" name="member" value={$MEMBER} />
@@ -25,4 +26,5 @@
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</form>
+<!--/MembersExceptions.tpl -->
 {/strip}

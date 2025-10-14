@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Import_Step3.tpl -->
 <div class="col-xs-12 paddingLRZero">
 	<div class='col-xs-2 paddingLRZero'>
 		<strong>{'LBL_IMPORT_STEP_3'|@vtranslate:$MODULE}:</strong>&nbsp;&nbsp;&nbsp;
@@ -77,4 +78,5 @@
 			</div>
 	</div>
 </div>
+<!--/Import_Step3.tpl -->
 {/strip}

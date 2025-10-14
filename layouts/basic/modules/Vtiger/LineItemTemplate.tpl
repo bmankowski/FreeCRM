@@ -10,5 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- LineItemTemplate.tpl -->
     {eval var=$TPL_DATA}
+<!--/LineItemTemplate.tpl -->
 {/strip}

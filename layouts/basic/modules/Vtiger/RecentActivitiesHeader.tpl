@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- RecentActivitiesHeader.tpl -->
 	<div class="row marginBottom10px">
 		<div class="col-md-12 btn-toolbar"">
 			<div class="pull-right btn-group">
@@ -14,4 +15,5 @@
 			{/if}
 		</div>
 	</div>
+<!--/RecentActivitiesHeader.tpl -->
 {/strip}

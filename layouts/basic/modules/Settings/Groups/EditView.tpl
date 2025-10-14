@@ -7,6 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
+<!-- EditView.tpl -->
 	<div class="editViewContainer">
 		<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="Groups">
@@ -95,4 +96,5 @@
 			</div>
 		</form>
 	</div>
+<!--/EditView.tpl -->
 {/strip}

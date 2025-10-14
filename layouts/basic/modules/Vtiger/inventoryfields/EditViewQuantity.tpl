@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewQuantity.tpl -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	{if $ITEM_DATA['unit'] === 'pack' || $ITEM_DATA['unit'] === 'pcs'}
 		{assign var=VALIDATION_ENGINE value='validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]'}
@@ -13,4 +14,5 @@
 		</span>
 	</div>
 	<input type="checkbox" name="qtyparam{$ROW_NO}" value="1" class="qtyparam hidden" {if $ITEM_DATA['qtyparam']} checked{/if} />
+<!--/EditViewQuantity.tpl -->
 {/strip}

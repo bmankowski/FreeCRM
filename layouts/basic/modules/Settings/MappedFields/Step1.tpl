@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Step1.tpl -->
 	<div class="mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step1" class="form-horizontal">
 			<input type="hidden" name="module" value="MappedFields">
@@ -77,4 +78,5 @@
 			</div>
 		</form>
 	</div>
+<!--/Step1.tpl -->
 {/strip}

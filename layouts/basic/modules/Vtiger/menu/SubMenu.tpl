@@ -1,4 +1,5 @@
 {strip}
+<!-- SubMenu.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {if isset($MENU['childs']) && $MENU['childs']|@count neq 0}
 	{assign var=PARENT_MENU value=$MENU}
@@ -23,4 +24,5 @@
 		</ul>
 	{/if}
 {/if}
+<!--/SubMenu.tpl -->
 {/strip}

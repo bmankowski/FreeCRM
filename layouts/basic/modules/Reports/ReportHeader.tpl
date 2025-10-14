@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ReportHeader.tpl -->
     <div>
 		<div class="widget_header row marginBottom10px">
 			<div class="col-sm-6">
@@ -103,4 +104,5 @@
 			</form>
 		</div>
 		<div id="reportContentsDiv">
+<!--/ReportHeader.tpl -->
 		{/strip}

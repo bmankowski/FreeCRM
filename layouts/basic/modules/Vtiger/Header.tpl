@@ -1,4 +1,5 @@
 {strip}
+<!-- Header.tpl -->
 	{*<!--
 	/*********************************************************************************
 	** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -75,4 +76,5 @@
 				{if $SHOW_BODY_HEADER}
 					{include file='Body.tpl'|@vtemplate_path:$MODULE}
 				{/if}
+<!--/Header.tpl -->
 			{/strip}

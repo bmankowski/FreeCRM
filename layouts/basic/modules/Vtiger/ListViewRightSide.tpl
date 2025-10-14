@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- ListViewRightSide.tpl -->
 	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksRightSide()}
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
@@ -16,4 +17,5 @@
 			{/if}
 		</div>
 	{/if}
+<!--/ListViewRightSide.tpl -->
 {/strip}

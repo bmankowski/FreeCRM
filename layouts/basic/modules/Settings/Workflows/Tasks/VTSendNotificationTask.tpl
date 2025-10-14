@@ -10,6 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- VTSendNotificationTask.tpl -->
 	<div class="" id="VtVTEmailTemplateTaskContainer">
 		<div class="">
 			<div class="row">
@@ -25,4 +26,5 @@
 			</div>
 		</div>
 	</div>	
+<!--/VTSendNotificationTask.tpl -->
 {/strip}	

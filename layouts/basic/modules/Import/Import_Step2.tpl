@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- Import_Step2.tpl -->
 <div class='col-md-12 paddingLRZero'>
 	<div>
 		<div><strong>{'LBL_IMPORT_STEP_2'|@vtranslate:$MODULE}: </strong> {'LBL_IMPORT_STEP_2_DESCRIPTION'|@vtranslate:$MODULE}</div>
@@ -69,4 +70,5 @@
 		<div class="col-md-6"><input type="checkbox" id="has_header" name="has_header" title="{vtranslate('LBL_HAS_HEADER', $MODULE)}" checked /></div>
 	</div>
 </div>
+<!--/Import_Step2.tpl -->
 {/strip}

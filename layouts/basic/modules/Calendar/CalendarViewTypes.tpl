@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- CalendarViewTypes.tpl -->
 <div name='calendarViewTypes'>
 	<div id="calendarview-feeds" style="margin-left:10px;">
 		<!--Adding or Editing calendar views in My Calendar-->
@@ -87,6 +88,7 @@
 		<input type="hidden" class="invisibleCalendarViews" value="{$INVISIBLE_CALENDAR_VIEWS_EXISTS}" />
 	</div>
 </div>
+<!--/CalendarViewTypes.tpl -->
 {/strip}
 
 <script type="text/javascript">

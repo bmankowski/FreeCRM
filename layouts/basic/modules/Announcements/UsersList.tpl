@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- UsersList.tpl -->
 	<div class="">
 		<table class="table table-striped">
 			<thead>
@@ -32,4 +33,5 @@
 			</tbody> 
 		</table>
 	</div>
+<!--/UsersList.tpl -->
 {/strip}

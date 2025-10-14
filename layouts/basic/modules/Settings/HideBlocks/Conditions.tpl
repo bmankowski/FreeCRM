@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- Conditions.tpl -->
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
@@ -52,4 +53,5 @@
 		</form>	
 	{/if}
 </div>
+<!--/Conditions.tpl -->
 {/strip}

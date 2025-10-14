@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- PresentationView.tpl -->
 	<input type="hidden" id="popupValue" value="{$IS_POPUP}" />
 	<div class="{if $IS_POPUP === false}col-xs-12 {/if}knowledgePresentation">
 		<div id="carouselPresentation" class="carousel slide" data-interval="false">
@@ -31,4 +32,5 @@
 			</a>
 		</div>
 	</div>
+<!--/PresentationView.tpl -->
 {/strip}

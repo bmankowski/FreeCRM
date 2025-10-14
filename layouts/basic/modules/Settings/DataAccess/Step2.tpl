@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- Step2.tpl -->
 	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
     <div class="editContainer">
         <div id="step">
@@ -18,4 +19,5 @@
         <input type="hidden" name="next_step" value="Step3" />
         <div class="clearfix"></div>
     </div>
+<!--/Step2.tpl -->
 {/strip}

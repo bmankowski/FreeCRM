@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- TooltipContents.tpl -->
 	<div class="detailViewInfo">
 		<table class="table table-bordered equalSplit" style="table-layout:fixed">
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$RECORD_STRUCTURE['TOOLTIP_FIELDS'] name=fieldsCount}
@@ -28,4 +29,5 @@
 			{/foreach}
 		</table>
 	</div>
+<!--/TooltipContents.tpl -->
 {/strip}

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- RecalculatePermission.tpl -->
 	<div class="modal-header row no-margin">
 		<div class="col-xs-12 paddingLRZero">
 			<div class="col-xs-8 paddingLRZero">
@@ -33,4 +34,5 @@
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</form>
+<!--/RecalculatePermission.tpl -->
 {/strip}

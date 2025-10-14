@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- Index.tpl -->
 <div class=" LangManagement">
 	<div class="widget_header row">
 		<div class="col-md-10">
@@ -43,4 +44,5 @@
 			</tbody>
 		</table>
 	</div>
+<!--/Index.tpl -->
 {/strip}

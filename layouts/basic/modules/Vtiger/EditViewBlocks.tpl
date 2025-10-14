@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- EditViewBlocks.tpl -->
     <div class='editViewContainer'>
 
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -144,4 +145,5 @@
 				</div>
 			{/if}
 		{/foreach}
+<!--/EditViewBlocks.tpl -->
 	{/strip}

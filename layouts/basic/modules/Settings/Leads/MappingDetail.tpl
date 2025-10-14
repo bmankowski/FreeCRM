@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- MappingDetail.tpl -->
 	<div class="row widget_header">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -52,4 +53,5 @@
 			</tbody>
 		</table>
 	</div>
+<!--/MappingDetail.tpl -->
 {/strip}

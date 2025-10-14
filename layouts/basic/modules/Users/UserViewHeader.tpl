@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- UserViewHeader.tpl -->
     {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
     <input id="recordId" type="hidden" value="{$RECORD->getId()}" />
     <div class="detailViewContainer">
@@ -67,4 +68,5 @@
             <div class="details col-md-12">
                 <form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}'>
                     <div class="contents">
+<!--/UserViewHeader.tpl -->
                     {/strip}

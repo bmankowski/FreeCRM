@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- VTEmailTask.tpl -->
 	<div id="VtEmailTaskContainer">
 		<div class="">
 			<div class="row padding-bottom1per">
@@ -148,4 +149,5 @@
 			</div>
 		</div>
 	</div>	
+<!--/VTEmailTask.tpl -->
 {/strip}	

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Index.tpl -->
 	<div class="col-xs-12 paddingLRZero">
 		<div class="table-responsive">
 			<table class="table table-bordered table-condensed">
@@ -46,4 +47,5 @@
 			</table>
 		</div>
 	</div>
+<!--/Index.tpl -->
 {/strip}

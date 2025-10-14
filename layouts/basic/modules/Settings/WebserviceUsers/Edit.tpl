@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Edit.tpl -->
 	<input type="hidden" id="typeApi" name="typeApi" value="{$TYPE_API}">
 	<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}">
 	<form class="form-horizontal validateForm" id="editForm">
@@ -29,4 +30,5 @@
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{'BTN_CLOSE'|t:$QUALIFIED_MODULE}</button>
 		</div>
 	</form>
+<!--/Edit.tpl -->
 {/strip}

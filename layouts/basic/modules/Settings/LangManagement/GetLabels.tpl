@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- GetLabels.tpl -->
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		<h3 id="myModalLabel" class="modal-title">{vtranslate('LBL_UNTRANSLATED_LABELS',$QUALIFIED_MODULE)}</h3>
@@ -50,4 +51,5 @@
 			</table>
 		</div>
 	</div>
+<!--/GetLabels.tpl -->
 {/strip}

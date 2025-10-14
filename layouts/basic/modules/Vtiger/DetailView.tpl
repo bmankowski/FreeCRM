@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- DetailView.tpl -->
 	{assign var="MODULE_NAME" value=$MODULE->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
@@ -79,4 +80,5 @@
 			</div>
 		</div>
 	</div>
+<!--/DetailView.tpl -->
 {/strip}

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- Import.tpl -->
 	<div class="row">
 		<div class="col-md-12">
 			<h3>{vtranslate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h3>
@@ -42,4 +43,5 @@
 			</form>
 		{/if}
 	</div>
+<!--/Import.tpl -->
 {/strip}

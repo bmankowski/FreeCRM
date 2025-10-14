@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- CommonActions.tpl -->
     {assign var='count' value=0}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	<div class="navbar-form navbar-right">
@@ -115,4 +116,5 @@
 		</div>
 	{/if}
 
+<!--/CommonActions.tpl -->
 {/strip}

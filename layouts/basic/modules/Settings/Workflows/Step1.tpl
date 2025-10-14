@@ -7,6 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
+<!-- Step1.tpl -->
     <div class="workFlowContents">
         <form name="EditWorkflow" action="index.php" method="post" id="workflow_step1" class="form-horizontal">
             <input type="hidden" name="module" value="Workflows">
@@ -199,4 +200,5 @@
 			</div>
 		</form>
 	</div>
+<!--/Step1.tpl -->
 {/strip}

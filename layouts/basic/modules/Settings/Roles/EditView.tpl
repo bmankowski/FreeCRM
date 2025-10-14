@@ -7,6 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
+<!-- EditView.tpl -->
 	<div class="">
 		<div class="row widget_header">
 			<div class="col-xs-12">
@@ -211,4 +212,5 @@
 			{/if}
 		</form>
 	</div>
+<!--/EditView.tpl -->
 {/strip}

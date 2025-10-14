@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- SharedCalendarView.tpl -->
 	{literal}<style type="text/css">
 
 </style>{/literal}
@@ -26,4 +27,5 @@
 			</div>
 		</div>
 	</div>
+<!--/SharedCalendarView.tpl -->
 {/strip}

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- ProductsServices.tpl -->
 	<div class="addRelatedRecordBtn">
 		{if $RELATED_MODULE eq 'Products' && Users_Privileges_Model::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
@@ -100,4 +101,5 @@
 			</div>
 		</div>
 	{/if}
+<!--/ProductsServices.tpl -->
 {/strip}

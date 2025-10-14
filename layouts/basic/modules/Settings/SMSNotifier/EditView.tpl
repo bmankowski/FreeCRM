@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- EditView.tpl -->
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -70,4 +71,5 @@
 			</div>
 		</div>
 	</div>
+<!--/EditView.tpl -->
 {/strip}

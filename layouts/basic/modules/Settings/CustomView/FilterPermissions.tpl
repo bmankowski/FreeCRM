@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
+<!-- FilterPermissions.tpl -->
 	{assign 'MEMBERS' Settings_Groups_Member_Model::getAll()}
 	{assign 'MEMBERS_DEFAULT' $MODULE_MODEL->getFilterPermissionsView($CVID, $TYPE)}
 	<input type="hidden" id="cvid" value="{$CVID}" />
@@ -56,4 +57,5 @@
 <div class="modal-footer">
 	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 </div>
+<!--/FilterPermissions.tpl -->
 {/strip}

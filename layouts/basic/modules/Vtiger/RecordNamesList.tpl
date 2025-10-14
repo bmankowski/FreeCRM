@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- RecordNamesList.tpl -->
 <div class="recordNamesList">
 	<div>
 		<div class="">
@@ -27,4 +28,5 @@
 		</div>
 	</div>
 </div>
+<!--/RecordNamesList.tpl -->
 {/strip}

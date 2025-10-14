@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- RightPanel.tpl -->
 	{if !empty($ALL_ACTIVEGROUP_LIST) || !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="calendarUserList">
 			<div class="row no-margin">
@@ -48,4 +49,5 @@ jQuery(document).ready(function() {
 	Reservations_Calendar_Js.registerUserListWidget();
 });
 </script>
+<!--/RightPanel.tpl -->
 {/strip}

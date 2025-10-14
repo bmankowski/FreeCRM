@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- ListContents.tpl -->
 <div id="popupPageContainer">
 	<div class="emailTemplatesContainer">
 		<h3>{vtranslate($MODULE,$QUALIFIED_MODULE)}</h3>
@@ -41,4 +42,5 @@
 	</div>
 		<input type="hidden" class="triggerEventName" value="{$smarty.request.triggerEventName}"/>
 </div>
+<!--/ListContents.tpl -->
 {/strip}

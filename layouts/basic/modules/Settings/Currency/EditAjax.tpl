@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- EditAjax.tpl -->
     {assign var=CURRENCY_MODEL_EXISTS value=true}
     {assign var=CURRENCY_ID value=$RECORD_MODEL->getId()}
     {if empty($CURRENCY_ID)}
@@ -96,4 +97,5 @@
 			</div>
 		</div>
 	</div>
+<!--/EditAjax.tpl -->
 {/strip}

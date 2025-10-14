@@ -11,9 +11,11 @@
 -->*}
 {* <script> resources below *}
 {strip}
+<!-- JSResources.tpl -->
 	<div>
 		{foreach key=index item=jsModel from=$FOOTER_SCRIPTS}
             <script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
 		{/foreach}
 	</div>
+<!--/JSResources.tpl -->
 {/strip}

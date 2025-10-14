@@ -10,9 +10,11 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- DetailViewPreProcess.tpl -->
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv">
 				{include file="DetailViewHeader.tpl"|vtemplate_path:'OSSMailView'}
+<!--/DetailViewPreProcess.tpl -->
 {/strip}

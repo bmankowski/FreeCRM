@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- RssAddForm.tpl -->
 	<div class="modal-header">
 		<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 		<h3 class="modal-title">{vtranslate('LBL_ADD_FEED_SOURCE', $MODULE)}</h3>
@@ -25,4 +26,5 @@
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</form>
+<!--/RssAddForm.tpl -->
 {/strip}

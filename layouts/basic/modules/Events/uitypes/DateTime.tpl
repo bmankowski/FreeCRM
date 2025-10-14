@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- DateTime.tpl -->
 {if $FIELD_MODEL->getName() == 'date_start'}
 	{assign var=DATE_FIELD value=$FIELD_MODEL}
 	{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}

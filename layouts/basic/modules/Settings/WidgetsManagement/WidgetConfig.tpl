@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- WidgetConfig.tpl -->
 	{assign var=WIDGET_INFO value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
 	{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 	<li class="col-md-12">
@@ -167,4 +168,5 @@
 			</div>
 		</div>
 	</li>
+<!--/WidgetConfig.tpl -->
 {/strip}

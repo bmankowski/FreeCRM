@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- Login.Default.tpl -->
 	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
 	{assign var="MODULE" value='Users'}
 	<div class="container">
@@ -168,4 +169,5 @@
 			});
 		});
 	</script>
+<!--/Login.Default.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- EditView.tpl -->
 <div class="editViewContainer">
 	<form class="form-horizontal recordEditView equalSplit" id="EditView" name="EditView" method="post" enctype="multipart/form-data" action="index.php">
 		<input type="hidden" name="module" value="{$MODULE}" />
@@ -96,4 +97,5 @@
 		</div>
     </form>
 </div>
+<!--/EditView.tpl -->
 {/strip}

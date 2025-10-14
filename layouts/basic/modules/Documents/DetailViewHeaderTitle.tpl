@@ -1,4 +1,5 @@
 {strip}
+<!-- DetailViewHeaderTitle.tpl -->
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -35,4 +36,5 @@
 		</div>
 		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
+<!--/DetailViewHeaderTitle.tpl -->
 {/strip}

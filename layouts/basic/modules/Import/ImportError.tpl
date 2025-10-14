@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ImportError.tpl -->
 <div class='widget_header row '>
 	<div class="col-xs-12">
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -62,4 +63,5 @@
         </tr>
     </table>
 </div>
+<!--/ImportError.tpl -->
 {/strip}

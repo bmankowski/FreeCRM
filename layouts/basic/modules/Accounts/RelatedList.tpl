@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- RelatedList.tpl -->
     <div class="relatedContainer">
         {assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
         <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
@@ -61,4 +62,5 @@
 			</div>
 		</div>
 	</div>
+<!--/RelatedList.tpl -->
 {/strip}

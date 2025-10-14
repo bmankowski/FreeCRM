@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+<!-- SmartDetail.tpl -->
 <div class="modal fade bs-example-modal-lg" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -28,4 +29,5 @@
 		</div>
 	</div>
 </div>
+<!--/SmartDetail.tpl -->
 {/strip}

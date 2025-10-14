@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- AddBlockModal.tpl -->
 	<div class="modal addBlockModal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -46,4 +47,5 @@
 			</div>
 		</div>
 	</div>
+<!--/AddBlockModal.tpl -->
 {/strip}

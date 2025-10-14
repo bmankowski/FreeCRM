@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ListViewPreProcess.tpl -->
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
 	<div class="bodyContents">
 		<div class="mainContainer">
@@ -27,4 +28,5 @@
 					</div>
 				</div>
 				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
+<!--/ListViewPreProcess.tpl -->
 			{/strip}

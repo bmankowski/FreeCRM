@@ -1,4 +1,5 @@
 {strip}
+<!-- check_task.tpl -->
 	{assign var=status value=$SAVED_DATA['status']}
 	{assign var=name value=$SAVED_DATA['name']}
 	{assign var=message value=$SAVED_DATA['message']}
@@ -20,4 +21,5 @@
 			<input type="text" name="message" class="marginLeftZero col-md-6 " value="{$message}">
 		</div>
 	</div>
+<!--/check_task.tpl -->
 {/strip}

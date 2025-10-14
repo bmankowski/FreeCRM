@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- EditView.tpl -->
 	<div class="">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
@@ -89,4 +90,5 @@
 		</div>
 	</div>
 </div>
+<!--/EditView.tpl -->
 {/strip}

@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- MiniListWizard.tpl -->
 {if $WIZARD_STEP eq 'step1'}
 	<div id="minilistWizardContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
@@ -83,4 +84,5 @@
 		<option value="{$FIELD_NAME}">{vtranslate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 	{/foreach}
 {/if}
+<!--/MiniListWizard.tpl -->
 {/strip}

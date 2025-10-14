@@ -1,4 +1,5 @@
 {strip}
+<!-- SummaryViewWidgets.tpl -->
 	<div class="row">
 		{assign var=col1 value=count($DETAILVIEW_WIDGETS[1])}
 		{assign var=col2 value=count($DETAILVIEW_WIDGETS[2])}
@@ -19,4 +20,5 @@
 			</div>
 		{/foreach}
 	</div>
+<!--/SummaryViewWidgets.tpl -->
 {/strip}

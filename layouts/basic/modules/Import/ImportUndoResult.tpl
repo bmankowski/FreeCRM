@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- ImportUndoResult.tpl -->
 	<div class='widget_header row '>
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -47,4 +48,5 @@
 		</div>
 	</div>
 	<div class="col-md-3 col-sm-2"></div>
+<!--/ImportUndoResult.tpl -->
 {/strip}

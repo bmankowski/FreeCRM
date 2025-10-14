@@ -10,7 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
+<!-- DashBoardPostProcess.tpl -->
 		</div>
 	</div>
 </div>
+<!--/DashBoardPostProcess.tpl -->
 {/strip}

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+<!-- EditViewTax.tpl -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="input-group input-group-sm">
 		<input name="tax{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" type="text" class="tax form-control input-sm" readonly="readonly"/>
@@ -10,4 +11,5 @@
 			</span>
 		{/if}
 	</div>
+<!--/EditViewTax.tpl -->
 {/strip}
