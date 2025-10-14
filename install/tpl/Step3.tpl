@@ -40,9 +40,9 @@
 							<table class="config-table table">
 								<thead>
 									<tr>
-										<th><label>{vtranslate('LBL_LIBRARY', 'Settings::ConfReport')}</label></th>
-										<th><label>{vtranslate('LBL_INSTALLED', 'Settings::ConfReport')}</label></th>
-										<th><label>{vtranslate('LBL_MANDATORY', 'Settings::ConfReport')}</label></th>
+										<th><label>{"LBL_LIBRARY"|t:"Settings::ConfReport"}</label></th>
+										<th><label>{"LBL_INSTALLED"|t:"Settings::ConfReport"}</label></th>
+										<th><label>{"LBL_MANDATORY"|t:"Settings::ConfReport"}</label></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -52,9 +52,9 @@
 											<td>{vtranslate($item.status, 'Settings::ConfReport')}</td>
 											<td>
 												{if $item.mandatory}
-													{vtranslate('LBL_MANDATORY', 'Settings::ConfReport')}
+													{"LBL_MANDATORY"|t:"Settings::ConfReport"}
 												{else}
-													{vtranslate('LBL_OPTIONAL', 'Settings::ConfReport')}
+													{"LBL_OPTIONAL"|t:"Settings::ConfReport"}
 												{/if}
 											</td>
 										</tr>
@@ -90,10 +90,10 @@
 												<span>{"LBL_READ_WRITE_ACCESS"|t:"Install"}</span>
 											</th>
 											<th colspan="1" class="mediumWidthType">
-												<span>{vtranslate('LBL_PATH', 'Settings::ConfReport')}</span>
+												<span>{"LBL_PATH"|t:"Settings::ConfReport"}</span>
 											</th> 							
 											<th colspan="1" class="mediumWidthType">
-												<span>{vtranslate('LBL_PERMISSION', 'Settings::ConfReport')}</span>
+												<span>{"LBL_PERMISSION"|t:"Settings::ConfReport"}</span>
 											</th>  				
 										</tr>
 									</thead>
@@ -104,9 +104,9 @@
 												<td width="23%"><label class="marginRight5px">{vtranslate($item.path, 'Settings::ConfReport')}</label></td>
 												<td width="23%"><label class="marginRight5px">
 														{if $item.permission eq 'FailedPermission'}
-															{vtranslate('LBL_FAILED_PERMISSION', 'Settings::ConfReport')}
+															{"LBL_FAILED_PERMISSION"|t:"Settings::ConfReport"}
 														{else}
-															{vtranslate('LBL_TRUE_PERMISSION', 'Settings::ConfReport')}
+															{"LBL_TRUE_PERMISSION"|t:"Settings::ConfReport"}
 														{/if}
 													</label></td>			
 											</tr>

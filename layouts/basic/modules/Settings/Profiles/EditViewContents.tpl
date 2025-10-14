@@ -15,7 +15,7 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	<div class="row padding1per">
-		<span class="col-md-3"><h4>{vtranslate('LBL_COPY_PRIVILEGES_FROM',"Settings:Roles")}</h4></span>
+		<span class="col-md-3"><h4>{"LBL_COPY_PRIVILEGES_FROM"|t:"Settings:Roles"}</h4></span>
 		<span class="col-md-6">
 			<select class="select2" id="directProfilePriviligesSelect" style="min-width : 200px" data-placeholder="{"LBL_CHOOSE_PROFILES"|t:$QUALIFIED_MODULE}">
 				<option></option>

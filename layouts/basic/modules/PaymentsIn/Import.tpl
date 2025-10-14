@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 
 <div>	  
-   <h3 class="col-md-8 ">{vtranslate('Import', $MODULENAME)}</h3>
+   <h3 class="col-md-8 ">{"Import"|t:$MODULENAME}</h3>
 </div>
 
 <div>
@@ -12,13 +12,13 @@
 				<div class="row" >
 					<div class="col-md-6">
 						<div class="alert alert-info">
-							{vtranslate('Import wyciągów bankowych', $MODULENAME)}
+							{"Import wyciągów bankowych"|t:$MODULENAME}
 						</div>
 					</div>
 					<div class="col-md-5 well form-horizontal">
 						<div class="form-group" >
 							<label class="col-md-2 control-label" >
-								{vtranslate('Typ', $MODULENAME)}
+								{"Typ"|t:$MODULENAME}
 							</label>
 							<div class="col-md-10" >
 								<select  name="type"  class="chzn-select form-control" >
@@ -30,7 +30,7 @@
 						</div>	
 						<div class="form-group" >	
 							<label class="col-md-2 control-label">
-								{vtranslate('Bank', $MODULENAME)}
+								{"Bank"|t:$MODULENAME}
 							</label>
 							<div class="col-md-10">
 								<select class="form-control chzn-select" name="bank" >
@@ -56,11 +56,11 @@
                     <td class="" colspan="5">
 							<table class="table ">
 									<tr>
-										<!--<th class="" colspan="4" style="color:black">{vtranslate('Delete_panel', $MODULENAME)}{$MODULENAME}</th>-->
+										<!--<th class="" colspan="4" style="color:black">{"Delete_panel"|t:$MODULENAME}{$MODULENAME}</th>-->
 									</tr>
 									<tr>
 										<td class="" colspan="1">
-											{vtranslate('Typ', $MODULENAME)}
+											{"Typ"|t:$MODULENAME}
 										</td>
 										<td class="" colspan="4">
 											<select style=" margin-bottom:0px" name="type"  >
@@ -72,7 +72,7 @@
 									</tr>  
 									<tr>
 										<td class="" colspan="1">
-											{vtranslate('Bank', $MODULENAME)}
+											{"Bank"|t:$MODULENAME}
 										</td>
 										<td class="" colspan="4">
 											<select style=" margin-bottom:0px"  name="bank" >
@@ -85,7 +85,7 @@
 								
 									<tr>
 										<td class="" colspan="1">
-											{vtranslate('Plik', $MODULENAME)}
+											{"Plik"|t:$MODULENAME}
 										</td>
 										<td class="" colspan="6">
 											<input name="file" type="file" accept="text/plain"  class="filestyle" data-input="false">

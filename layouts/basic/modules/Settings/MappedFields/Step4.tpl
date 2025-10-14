@@ -19,10 +19,10 @@
 					<div class="panel-body">
 						<div class="form-group">
 								<label class="col-md-3 control-label">
-									{vtranslate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+									{"LBL_GROUP_MEMBERS"|t:"Settings:Groups"}
 								</label>
 							<div class="col-md-8">
-								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
+								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{"LBL_ADD_USERS_ROLES"|t:"Settings:Groups"}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}
 									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">

@@ -12,7 +12,7 @@
 				<div class="SendEmailFormStep2 container-fluid" id="emailPreview" name="emailPreview">
 					<div class="">
 						<div class="blockHeader emailPreviewHeader">
-							<h3 class='col-md-4 pushDown'>{vtranslate('emailPreviewHeader',$MODULENAME)}</h3>
+							<h3 class='col-md-4 pushDown'>{"emailPreviewHeader"|t:$MODULENAME}</h3>
 							<div class='pull-right'>
 								<div class="btn-toolbar" >
 									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
@@ -51,7 +51,7 @@
 										<span class="btn-group">
 											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-default" data-mode="previewPrint">
 												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
-												<strong>{vtranslate('LBL_PRINT',$MODULENAME)}</strong>
+												<strong>{"LBL_PRINT"|t:$MODULENAME}</strong>
 											</button>
 										</span>
 									{/if}
@@ -70,7 +70,7 @@
 						<form class="form-horizontal emailPreview">
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{vtranslate('From',$MODULENAME)}</span>
+									<span class="pull-right muted">{"From"|t:$MODULENAME}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_From" class="">{$FROM}</span>
@@ -78,7 +78,7 @@
 							</div>
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{vtranslate('To',$MODULENAME)}</span>
+									<span class="pull-right muted">{"To"|t:$MODULENAME}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
@@ -87,7 +87,7 @@
 							{if !empty($CC)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{vtranslate('CC',$MODULENAME)}</span>
+										<span class="pull-right muted">{"CC"|t:$MODULENAME}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_Cc" class="">
@@ -99,7 +99,7 @@
 							{if !empty($BCC)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{vtranslate('BCC',$MODULENAME)}</span>
+										<span class="pull-right muted">{"BCC"|t:$MODULENAME}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_Bcc" class="">
@@ -110,7 +110,7 @@
 							{/if}
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{vtranslate('Subject',$MODULENAME)}</span>
+									<span class="pull-right muted">{"Subject"|t:$MODULENAME}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_Subject" class="">
@@ -121,7 +121,7 @@
 							{if !empty($ATTACHMENTS)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{vtranslate('Attachments_Exist',$MODULENAME)}</span>
+										<span class="pull-right muted">{"Attachments_Exist"|t:$MODULENAME}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_attachment" class="">
@@ -136,7 +136,7 @@
 							{/if}
 							<div class="row padding-bottom1per content">
 								<span class="col-md-2">
-									<span class="pull-right muted">{vtranslate('Content',$MODULENAME)}</span>
+									<span class="pull-right muted">{"Content"|t:$MODULENAME}</span>
 								</span>
 								<span class="col-md-10 row">
 									<iframe id="emailPreview_Content" class="col-md-12" src="{$URL}" frameborder="0"></iframe>
@@ -146,7 +146,7 @@
 
 							<div class="textAlignCenter">
 								<span class="muted">
-									<small><em>{vtranslate('Sent',$MODULENAME)}</em></small>
+									<small><em>{"Sent"|t:$MODULENAME}</em></small>
 									<span><small><em>&nbsp;{$SENT}</em></small></span>
 								</span>
 							</div>

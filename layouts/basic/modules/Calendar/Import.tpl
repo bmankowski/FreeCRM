@@ -30,7 +30,7 @@
 									<td class="fieldLabel alignMiddle">{"LBL_IMPORT_RECORDS"|t:$MODULE}</td>
 									<td class="fieldValue">
 										<input type="file" data-validation-engine="validate[required]" id="import_file" name="import_file" accept="{$SUPPORTED_FILE_TYPES_TEXT}" class="small">
-										{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@vtranslate:'Import'}: {$SUPPORTED_FILE_TYPES_TEXT}
+										{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@t:'Import'}: {$SUPPORTED_FILE_TYPES_TEXT}
 									</td>
 								</tr>
 							</table>

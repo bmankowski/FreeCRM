@@ -15,7 +15,7 @@
 	<div class="popupContainer padding1per">
 		<div class="row">
 			<div class="col-md-6">
-				<span><h3>{vtranslate('LBL_ASSIGN_ROLE',"Settings:Roles")}</h3></span>
+				<span><h3>{"LBL_ASSIGN_ROLE"|t:"Settings:Roles"}</h3></span>
 			</div>
 		</div>
 		<hr>

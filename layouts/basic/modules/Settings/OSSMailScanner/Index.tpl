@@ -10,7 +10,7 @@
 		<h4 class="alert-heading">{"OSSMailScanner"|t:"OSSMailScanner"} - {"Alert_active_cron"|t:"OSSMailScanner"}</h4>
 		<p>{"Alert_active_cron_desc"|t:"OSSMailScanner"}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{"Scheduler"|t:"Settings:Vtiger"}</a>
 		</p>
 	</div>	
 {/if}
@@ -20,15 +20,15 @@
 		<h4 class="alert-heading">{"OSSMailScanner"|t:"OSSMailScanner"} - {"Alert_active_crontime"|t:"OSSMailScanner"}</h4>
 		<p>{"Alert_active_crontime_desc"|t:"OSSMailScanner"}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{"Scheduler"|t:"Settings:Vtiger"}</a>
 		</p>
 	</div>	
 {/if}
 <ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-    <li class="active"><a href="#tab_accounts" data-toggle="tab">{vtranslate('E-mail Accounts', 'OSSMailScanner')} </a></li>
+    <li class="active"><a href="#tab_accounts" data-toggle="tab">{"E-mail Accounts"|t:"OSSMailScanner"} </a></li>
     <li><a href="#tab_actions" data-toggle="tab">{"Actions"|t:"OSSMailScanner"}</a></li>
-    <li><a href="#tab_email_search" data-toggle="tab">{vtranslate('General Configuration', 'OSSMailScanner')}</a></li>  
-    <li><a href="#tab_record_numbering" data-toggle="tab">{vtranslate('Record Numbering', 'OSSMailScanner')}</a></li>
+    <li><a href="#tab_email_search" data-toggle="tab">{"General Configuration"|t:"OSSMailScanner"}</a></li>  
+    <li><a href="#tab_record_numbering" data-toggle="tab">{"Record Numbering"|t:"OSSMailScanner"}</a></li>
 	<li><a href="#exceptions" data-toggle="tab">{"LBL_EXCEPTIONS"|t:"OSSMailScanner"}</a></li>
 </ul>
 <div id="my-tab-content" class="tab-content marginTop20">
@@ -40,8 +40,8 @@
                 <h4 class="alert-heading">{"OSSMail"|t:"OSSMail"} - {"Alert_no_module_title"|t:"OSSMailScanner"}</h4>
                 <p>{"Alert_no_module_desc"|t:"OSSMailScanner"}</p>
                 <p>
-                    <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{vtranslate('LBL_STUDIO','Settings:Vtiger')}</a>
-                    <a class="btn btn-default" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{vtranslate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
+                    <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{"LBL_STUDIO"|t:"Settings:Vtiger"}</a>
+                    <a class="btn btn-default" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{"LBL_IMPORT_MODULE_FROM_FILE"|t:"Settings:ModuleManager"}</a>
                 </p>
             </div>	
         {/if}
@@ -82,7 +82,7 @@
 							</td>
 							<td>
 								<select id="user_list_{$row['user_id']}" data-user="{$row['user_id']}" name="user_list_{$row['user_id']}" class="form-control select2">
-									<optgroup label="{vtranslate('User list', 'OSSMailScanner')}">
+									<optgroup label="{"User list"|t:"OSSMailScanner"}">
 										{if $row['crm_user_id'] eq '0'}
 											<option value="0" id="user_list_none">{"None"|t:"OSSMailScanner"}</option>
 										{/if}
@@ -90,7 +90,7 @@
 											<option value="{$item['id']}" {if $row['crm_user_id'] == $item['id']} selected="selected"{/if} >{foreach from=$USERS_ENTITY_INFO['fieldnameArr'] item=ENTITY}{$item[$ENTITY]} {/foreach}</option>
 										{/foreach}
 									</optgroup>
-									<optgroup label="{vtranslate('Group list', 'OSSMailScanner')}">
+									<optgroup label="{"Group list"|t:"OSSMailScanner"}">
 										{foreach item=item from=$RECORD_MODEL->getGroupList()}
 											<option value="{$item['id']}" {if $row['crm_user_id'] == $item['id'] } selected="selected"{/if} >{$item['groupname']}</option>
 										{/foreach}
@@ -121,12 +121,12 @@
 								<div>
 									<h5>
 										<strong {if empty($FOLDERS)}class="text-danger"{/if}>
-											{vtranslate('Folder configuration', 'OSSMailScanner')}:
+											{"Folder configuration"|t:"OSSMailScanner"}:
 										</strong>
 										{foreach item=FOLDER from=$FOLDERS}
 											{$FOLDER['folder']} ({vtranslate($FOLDER['type'], 'OSSMailScanner')}),
 										{foreachelse}
-											{vtranslate('--None--', 'OSSMailScanner')}
+											{"--None--"|t:"OSSMailScanner"}
 										{/foreach}
 									</h5>
 								</div>
@@ -178,7 +178,7 @@
         </table>
     </div>
     <div class='editViewContainer tab-pane marginTop20' id="tab_email_search">
-		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
+		<h3>{"Search email configuration"|t:"OSSMailScanner"}</h3>
 		<hr/>
         <div class="alert alert-info"><h4>{"Alert_info_tab_email_search"|t:"OSSMailScanner"}</h4></div>
         <form class="form-horizontal">
@@ -228,8 +228,8 @@
                 <thead>
                     <tr>
                         <th>{"Module"|t:"OSSMailScanner"}</th>
-                        <th>{vtranslate('LBL_USE_PREFIX', 'Settings:Vtiger')}</th>
-                        <th>{vtranslate('LBL_START_SEQUENCE', 'Settings:Vtiger')}</th>
+                        <th>{"LBL_USE_PREFIX"|t:"Settings:Vtiger"}</th>
+                        <th>{"LBL_START_SEQUENCE"|t:"Settings:Vtiger"}</th>
                         <th></th>
                     </tr>
                 </thead>

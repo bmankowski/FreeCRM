@@ -23,7 +23,7 @@
 		</div>
 	</div>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin: 0px;">
-		<li class="active"><a href="#tab_rc_config" data-toggle="tab">{vtranslate('Roundcube config', 'OSSMail')}</a></li>
+		<li class="active"><a href="#tab_rc_config" data-toggle="tab">{"Roundcube config"|t:"OSSMail"}</a></li>
 	</ul>
 	<div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
 		<div class="editViewContainer tab-pane active" id="tab_rc_config">

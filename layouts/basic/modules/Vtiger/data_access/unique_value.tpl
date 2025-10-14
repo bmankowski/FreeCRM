@@ -19,7 +19,7 @@
 	<div class="row">
 		<div class="col-md-6">
 				<div class="form-group marginLeftZero marginRightZero">
-					<label for="what" class="">{vtranslate('Select a field from which the value is to be checked', 'DataAccess')}:</label>
+					<label for="what" class="">{"Select a field from which the value is to be checked"|t:"DataAccess"}:</label>
 					<select id="what" name="what1" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields_mod']}
 							<option value="{$item[1]}" {if $item[1] == $WHAT1} selected {/if} >{vtranslate($item[2], $item[0])}</option>
@@ -27,7 +27,7 @@
 					</select>
 				</div>
 				<div class="form-group marginLeftZero marginRightZero">
-					<label for="where" class="">{vtranslate('Select the fields to be verified', 'DataAccess')}:</label>
+					<label for="where" class="">{"Select the fields to be verified"|t:"DataAccess"}:</label>
 					<select multiple id="where" name="where1" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}
@@ -88,7 +88,7 @@
 		</div>
 		<div class="col-md-6 {if $VAL2FIELD neq 1}hide{/if} val2fieldBlock">
 				<div class="form-group marginLeftZero marginRightZero">
-					<label for="what2" class="">{vtranslate('Select a field from which the value is to be checked', 'DataAccess')}:</label>
+					<label for="what2" class="">{"Select a field from which the value is to be checked"|t:"DataAccess"}:</label>
 					<select {if $VAL2FIELD neq 1}disabled{/if} id="what2" name="what2" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields_mod']}
 							<option value="{$item[1]}" {if $item[1] == $WHAT2} selected {/if} >{vtranslate($item[2], $item[0])}</option>
@@ -96,7 +96,7 @@
 					</select>
 				</div>
 				<div class="form-group marginLeftZero marginRightZero">
-					<label for="where2" class="">{vtranslate('Select the fields to be verified', 'DataAccess')}:</label>
+					<label for="where2" class="">{"Select the fields to be verified"|t:"DataAccess"}:</label>
 					<select {if $VAL2FIELD neq 1}disabled{/if} multiple id="where2" name="where2" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}

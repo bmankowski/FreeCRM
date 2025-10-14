@@ -17,7 +17,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('From',$MODULENAME)}</span>
+						<span class="pull-right muted">{"From"|t:$MODULENAME}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_From" class="">{$FROM}</span>
@@ -28,7 +28,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('To',$MODULENAME)}</span>
+						<span class="pull-right muted">{"To"|t:$MODULENAME}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
@@ -39,7 +39,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('CC',$MODULENAME)}</span>
+						<span class="pull-right muted">{"CC"|t:$MODULENAME}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_Cc" class="row">
@@ -53,7 +53,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('BCC',$MODULENAME)}</span>
+						<span class="pull-right muted">{"BCC"|t:$MODULENAME}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_Bcc" class="row">
@@ -66,7 +66,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('Subject',$MODULENAME)}</span>
+						<span class="pull-right muted">{"Subject"|t:$MODULENAME}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_Subject" class="">
@@ -79,7 +79,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('Attachments_Exist',$MODULENAME)}</span>
+						<span class="pull-right muted">{"Attachments_Exist"|t:$MODULENAME}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_attachment" class="row">
@@ -94,7 +94,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('Content',$MODULENAME)}</span>
+						<span class="pull-right muted">{"Content"|t:$MODULENAME}</span>
 					</span>
 					<span class="col-xs-11">
 						

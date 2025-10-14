@@ -17,7 +17,7 @@
 		</span>
 		<span class="col-md-4 horizontalLeftSpacingForSummaryWidgetHeader">
 			<span class="pull-right">
-				<strong>{vtranslate('File Name', 'Documents')}</strong>
+				<strong>{"File Name"|t:"Documents"}</strong>
 			</span>
 		</span>
 	</div>

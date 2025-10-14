@@ -94,11 +94,11 @@
 									<td><input type="password" class="form-control" value="{$ADMIN_PASSWORD}" name="retype_password" />
 										<span id="passwordError" class="no"></span></td>
 								</tr>
-								<tr><td>{vtranslate('First Name', 'Install')}</td>
+								<tr><td>{"First Name"|t:"Install"}</td>
 									<td><input type="text" value="" class="form-control" name="firstname" /></td>
 								</tr>
 								<tr><td>
-										{vtranslate('Last Name', 'Install')} <span class="no">*</span>
+										{"Last Name"|t:"Install"} <span class="no">*</span>
 									</td><td>
 										<input type="text" class="form-control" value="{$ADMIN_LASTNAME}" name="lastname" />
 									</td>

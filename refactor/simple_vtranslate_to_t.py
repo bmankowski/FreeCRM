@@ -51,6 +51,12 @@ class SimpleVtranslateRefactorer:
             
             # Pattern 11: vtranslate('key'|modifier, $MODULE) -> 'key'|modifier|t:$MODULE
             (r'\{vtranslate\(([^\s,]+(?:\|[^\s,]+)*),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
+            
+            # Pattern 12: vtranslate('key', 'string_literal') -> "key"|t:"string_literal"
+            (r'\{vtranslate\([\'"]([^\'"]*)[\'"],\s*[\'"]([^\'"]*)[\'"]\)\}', r'{"\1"|t:"\2"}'),
+            
+            # Pattern 13: vtranslate('key', $MODULENAME) -> "key"|t:$MODULENAME
+            (r'\{vtranslate\([\'"]([^\'"]*)[\'"]\s*,\s*(\$MODULENAME)\)\}', r'{"\1"|t:\2}'),
         ]
     
     def process_file(self, file_path: Path) -> int:

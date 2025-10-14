@@ -20,7 +20,7 @@
 	<div class="col-md-6 col-sm-8 col-xs-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4 class="panel-title">{'LBL_IMPORT'|t:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} - {'LBL_UNDO_RESULT'|t:$MODULE}</h4>
+				<h4 class="panel-title">{'LBL_IMPORT'|t:$MODULE} {$FOR_MODULE|@t:$FOR_MODULE} - {'LBL_UNDO_RESULT'|t:$MODULE}</h4>
 			</div>
 			<div class="panel-body form-horizontal font-larger">
 				<input type="hidden" name="module" value="{$FOR_MODULE}" />

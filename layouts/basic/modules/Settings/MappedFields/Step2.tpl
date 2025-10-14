@@ -154,15 +154,15 @@
 				<select id="{$_FIELD_ID}_defaultvalue" {if $_FIELD_TYPE eq 'multipicklist'} multiple {/if} class="form-control" disabled>
 					{if $_FIELD_INFO->getFieldName() neq 'hdnTaxType' || $_FIELD_TYPE neq 'multipicklist'} <option value=" ">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option> {/if}
 					{foreach item=_PICKLIST_DETAILS from=$_FIELD_INFO->getPicklistDetails()}
-						<option value="{$_PICKLIST_DETAILS.value}">{$_PICKLIST_DETAILS.label|@vtranslate:$REL_MODULE_MODEL->getName()}</option>
+						<option value="{$_PICKLIST_DETAILS.value}">{$_PICKLIST_DETAILS.label|@t:$REL_MODULE_MODEL->getName()}</option>
 					{/foreach}
 				</select>
 			{elseif in_array($_FIELD_TYPE, ['owner', 'sharedOwner']) || $_FIELD_UITYPE eq '52'}
 				<select id="{$_FIELD_ID}_defaultvalue" name="{$_FIELD_ID}_defaultvalue" class="" disabled {if $_FIELD_TYPE eq 'sharedOwner'} multiple {/if}>
-					{if $_FIELD_TYPE neq 'sharedOwner'} <option value="0">{'LBL_NONE'|@vtranslate:$QUALIFIED_MODULE}</option> {/if}
+					{if $_FIELD_TYPE neq 'sharedOwner'} <option value="0">{'LBL_NONE'|@t:$QUALIFIED_MODULE}</option> {/if}
 					{foreach key=BLOCK_NAME item=ITEM from=$USERS_LIST}
 						{if $_FIELD_UITYPE eq '52'} continue {/if}
-						<optgroup label="{$BLOCK_NAME|@vtranslate:$QUALIFIED_MODULE}">
+						<optgroup label="{$BLOCK_NAME|@t:$QUALIFIED_MODULE}">
 							{foreach key=_ID item=_NAME from=$ITEM}
 								<option value="{$_ID}">{$_NAME}</option>
 							{/foreach}

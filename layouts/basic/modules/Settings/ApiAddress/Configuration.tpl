@@ -13,7 +13,7 @@
     <div class="widget_header row">
         <div class="col-md-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
+			{"LBL_API_ADDRESS_DESCRIPTION"|t:$MODULENAME}
 		</div>
     </div>
     <hr>
@@ -21,12 +21,12 @@
 		<form>
 			<div class="col-xs-12 row">
 				<div class="col-xs-12 row">
-					<h4>{vtranslate('LBL_GLOBAL_CONFIG', $MODULENAME)} </h4>
+					<h4>{"LBL_GLOBAL_CONFIG"|t:$MODULENAME} </h4>
 				</div>
 				<div class="col-xs-12 row marginBottom5px">
 					<div class="col-sm-6 col-md-4 row">
 						<div >
-							{vtranslate('LBL_MIN_LOOKUP_LENGTH', $MODULENAME)}: 
+							{"LBL_MIN_LOOKUP_LENGTH"|t:$MODULENAME}: 
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4">
@@ -39,7 +39,7 @@
 				<div class="col-xs-12 row  marginBottom5px">
 					<div class='col-sm-6 col-md-4 row'>
 						<div>
-							{vtranslate('LBL_NUMBER_SEARCH_RESULTS', $MODULENAME)}: 
+							{"LBL_NUMBER_SEARCH_RESULTS"|t:$MODULENAME}: 
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4">
@@ -50,7 +50,7 @@
 				</div>
 				<div class="col-xs-12 row marginBottom5px">
 					<div>
-						<button type="button" class="btn btn-success saveGlobal">{vtranslate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
+						<button type="button" class="btn btn-success saveGlobal">{"LBL_SAVE_GLOBAL_SETTINGS"|t:$MODULENAME}</button>
 					</div>
 				</div>
 				<div class="col-xs-12 row marginBottom5px">
@@ -58,7 +58,7 @@
 				</div>
 				<div class="col-xs-12 row marginBottom5px">
 					<div class=' row col-md-4 col-sm-6'>
-						{vtranslate('LBL_CHOOSE_API', $MODULENAME)}
+						{"LBL_CHOOSE_API"|t:$MODULENAME}
 					</div>
 					<div class='col-sm-6 col-md-4'>
 						<select class="select2" id="change_api" class="form-control" style="width: 200px;">

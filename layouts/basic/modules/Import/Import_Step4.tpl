@@ -73,7 +73,7 @@
 								<td class="cellLabel">
 									<input type="hidden" name="row_counter" value="{$_COUNTER}" />
 									<select name="{$PREFIX}mapped_fields" class="txtBox chzn-select form-control {if $PREFIX}inventory{/if}" onchange="ImportJs.loadDefaultValueWidget('fieldIdentifier{$_COUNTER}')">
-										<option value="">{'LBL_NONE'|@vtranslate:$FOR_MODULE}</option>
+										<option value="">{'LBL_NONE'|@t:$FOR_MODULE}</option>
 										{foreach key=BLOCK_NAME item=_FIELDS from=$TYPE_AVAILABLE_BLOCKS}
 											{assign var="TRANSLATED_BLOCK" value={$BLOCK_NAME|t:$FOR_MODULE}}
 											<optgroup label="{$TRANSLATED_BLOCK}">

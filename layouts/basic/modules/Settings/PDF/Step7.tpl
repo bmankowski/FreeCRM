@@ -17,12 +17,12 @@
 				<br>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+						{"LBL_GROUP_MEMBERS"|t:"Settings:Groups"}
 					</div>
 					<div class="col-md-6 controls">
 						<div class="row">
 							<div class="col-md-6">
-								<select class="select2 form-control" multiple="true" name="template_members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
+								<select class="select2 form-control" multiple="true" name="template_members[]" data-placeholder="{"LBL_ADD_USERS_ROLES"|t:"Settings:Groups"}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$PDF_MODEL->get('template_members'))}
 									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">

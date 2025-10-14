@@ -190,9 +190,9 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>{vtranslate('User Name','Users')}</th>
-							<th>{vtranslate('First Name','Users')}</th>
-							<th>{vtranslate('Last Name','Users')}</th>
+							<th>{"User Name"|t:"Users"}</th>
+							<th>{"First Name"|t:"Users"}</th>
+							<th>{"Last Name"|t:"Users"}</th>
 							<th>{"Email"|t:"Users"}</th>
 							<th>{"Status"|t:"Users"}</th>
 						</tr>

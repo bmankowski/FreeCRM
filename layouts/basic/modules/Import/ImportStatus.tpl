@@ -38,7 +38,7 @@ jQuery(document).ready(function() {
 	<table style=" width:90%;margin-left: 5% " cellpadding="10" class="searchUIBasic well">
 		<tr>
 			<td class="font-x-large" align="left" colspan="2">
-				{'LBL_IMPORT'|t:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} -
+				{'LBL_IMPORT'|t:$MODULE} {$FOR_MODULE|@t:$FOR_MODULE} -
 				<span class="redColor">{'LBL_RUNNING'|t:$MODULE} ... </span>
 			</td>
 		</tr>
