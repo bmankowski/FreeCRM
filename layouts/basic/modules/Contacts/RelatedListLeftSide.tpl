@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- RelatedListLeftSide.tpl -->
+<!-- layouts/basic/modules/Contacts/RelatedListLeftSide.tpl -->
 	{if $IS_FAVORITES}
 		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 		<div>
@@ -76,5 +76,5 @@
 			</a>
 		</div>
 	{/if}
-<!--/RelatedListLeftSide.tpl -->
+<!--/layouts/basic/modules/Contacts/RelatedListLeftSide.tpl -->
 {/strip}

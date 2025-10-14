@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- VTCreateEntityTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTCreateEntityTask.tpl -->
 	{assign var=MAPPING_PANEL value=$TASK_OBJECT->mappingPanel}
 	<input type="hidden" id="taskFields" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($TASK_OBJECT->getFieldNames()))}"/>
 	<input type="hidden" id="mappingPanel" value="{$MAPPING_PANEL}"/>
@@ -72,5 +72,5 @@
 	<div id="addCreateEntityContainer">
 		{include file="CreateEntity.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 	</div>
-<!--/VTCreateEntityTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTCreateEntityTask.tpl -->
 {/strip}

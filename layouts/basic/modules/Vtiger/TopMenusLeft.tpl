@@ -8,7 +8,7 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/*}
 {strip}
-<!-- TopMenusLeft.tpl -->
+<!-- layouts/basic/modules/Vtiger/TopMenusLeft.tpl -->
 	{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 	{assign var=TABINDEX value=0}
 	{foreach key=KEY item=MENU from=$MENUS}
@@ -24,5 +24,5 @@
 			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
 		</ul>
 	{/foreach}
-<!--/TopMenusLeft.tpl -->
+<!--/layouts/basic/modules/Vtiger/TopMenusLeft.tpl -->
 {/strip}

@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
  {strip}
-<!-- KeyMetrics.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/KeyMetrics.tpl -->
 <div class="dashboardWidgetHeader">
 	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
@@ -15,5 +15,5 @@
 <div class="dashboardWidgetContent" style='padding:5px'>
 	{include file="dashboards/KeyMetricsContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
-<!--/KeyMetrics.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/KeyMetrics.tpl -->
 {/strip}

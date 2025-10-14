@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<!-- KeyMetricsContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/KeyMetricsContents.tpl -->
 <div style='padding:5px'>
 	{foreach item=KEYMETRIC from=$KEYMETRICS}
 	<div style='padding:5px'>
@@ -16,5 +16,5 @@
 	</div>	
 	{/foreach}
 </div>
-<!--/KeyMetricsContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/KeyMetricsContents.tpl -->
 {/strip}

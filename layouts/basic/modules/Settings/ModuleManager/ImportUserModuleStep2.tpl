@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ImportUserModuleStep2.tpl -->
+<!-- layouts/basic/modules/Settings/ModuleManager/ImportUserModuleStep2.tpl -->
 	<div class="" id="importModules">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
@@ -161,5 +161,5 @@
 			</div>
 		</div>
 	</div>
-<!--/ImportUserModuleStep2.tpl -->
+<!--/layouts/basic/modules/Settings/ModuleManager/ImportUserModuleStep2.tpl -->
 {/strip}

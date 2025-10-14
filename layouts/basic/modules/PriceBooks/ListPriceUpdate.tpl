@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListPriceUpdate.tpl -->
+<!-- layouts/basic/modules/PriceBooks/ListPriceUpdate.tpl -->
 	<div id="listPriceUpdateContainer">
 		<div class="modal-header">
 			<button class="btn btn-warning pull-right" data-dismiss="modal" class="pull-right">
@@ -34,5 +34,5 @@
 			{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 		</form>	
 	</div>
-<!--/ListPriceUpdate.tpl -->
+<!--/layouts/basic/modules/PriceBooks/ListPriceUpdate.tpl -->
 {/strip}	

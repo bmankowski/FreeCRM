@@ -1,5 +1,5 @@
 {strip}
-<!-- DetailViewBlockView.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailViewBlockView.tpl -->
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -119,5 +119,5 @@
 	<br>
 	{/if}
 {/foreach}
-<!--/DetailViewBlockView.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailViewBlockView.tpl -->
 {/strip}

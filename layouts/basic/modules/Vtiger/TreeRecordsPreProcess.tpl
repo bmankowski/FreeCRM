@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- TreeRecordsPreProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/TreeRecordsPreProcess.tpl -->
 	<div class="row padding0">
 		<div class="col-md-9 rowContent">
 			<div class="widget_header row paddingTop10">
@@ -15,5 +15,5 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12" id="recordsListContents">
-<!--/TreeRecordsPreProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/TreeRecordsPreProcess.tpl -->
 				{/strip}

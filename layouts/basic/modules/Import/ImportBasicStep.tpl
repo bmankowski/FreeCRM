@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ImportBasicStep.tpl -->
+<!-- layouts/basic/modules/Import/ImportBasicStep.tpl -->
 <div>
     <form onsubmit="" action="index.php" enctype="multipart/form-data" method="POST" name="importBasic">
         <input type="hidden" name="module" value="{$FOR_MODULE}" />
@@ -46,5 +46,5 @@
         </div>
     </form>
 </div>
-<!--/ImportBasicStep.tpl -->
+<!--/layouts/basic/modules/Import/ImportBasicStep.tpl -->
 {/strip}

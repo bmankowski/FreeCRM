@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- DetailViewHeaderTitle.tpl -->
+<!-- layouts/basic/modules/Project/DetailViewHeaderTitle.tpl -->
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
@@ -40,5 +40,5 @@
 		</div>
 		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
-<!--/DetailViewHeaderTitle.tpl -->
+<!--/layouts/basic/modules/Project/DetailViewHeaderTitle.tpl -->
 {/strip}

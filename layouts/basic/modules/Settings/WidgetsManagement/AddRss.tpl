@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- AddRss.tpl -->
+<!-- layouts/basic/modules/Settings/WidgetsManagement/AddRss.tpl -->
 	<div id="addRssWidgetContainer" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -53,5 +53,5 @@
 			</div>
 		</div>
 	</div>
-<!--/AddRss.tpl -->
+<!--/layouts/basic/modules/Settings/WidgetsManagement/AddRss.tpl -->
 {/strip}

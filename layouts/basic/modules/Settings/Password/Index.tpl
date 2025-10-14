@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/Password/Index.tpl -->
 <div class="">
 	<div class="clearfix treeView">
 		<form id="PassForm" class="form-horizontal">
@@ -77,5 +77,5 @@
 		</form>
 	</div>
 </div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/Password/Index.tpl -->
 {/strip}

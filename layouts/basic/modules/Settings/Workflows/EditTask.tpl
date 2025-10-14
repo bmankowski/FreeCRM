@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- EditTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/EditTask.tpl -->
 	<div class='modelContainer modal fade' id="addTaskContainer" tabindex="-1">
 		<div class="modal-dialog modal-blg">
 			<div class="modal-content">
@@ -85,5 +85,5 @@
 			</div>
 		</div>
 	</div>
-<!--/EditTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/EditTask.tpl -->
 {/strip}

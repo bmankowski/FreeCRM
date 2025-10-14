@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- SalutationDetailView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/SalutationDetailView.tpl -->
 {$RECORD->getDisplayValue('salutationtype')}&nbsp;
 {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
-<!--/SalutationDetailView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/SalutationDetailView.tpl -->
 {/strip}

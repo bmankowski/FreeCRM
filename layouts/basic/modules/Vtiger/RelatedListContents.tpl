@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- RelatedListContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/RelatedListContents.tpl -->
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
@@ -137,5 +137,5 @@
 			{/foreach}
 		</table>
 	</div>
-<!--/RelatedListContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/RelatedListContents.tpl -->
 {/strip}

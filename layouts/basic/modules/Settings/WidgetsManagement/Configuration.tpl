@@ -1,5 +1,5 @@
 ﻿{strip}
-<!-- Configuration.tpl -->
+<!-- layouts/basic/modules/Settings/WidgetsManagement/Configuration.tpl -->
 {*/*+***********************************************************************************************************************************
 * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
 * in compliance with the License.
@@ -456,5 +456,5 @@
 		</div>
 	</div>
 </div>
-<!--/Configuration.tpl -->
+<!--/layouts/basic/modules/Settings/WidgetsManagement/Configuration.tpl -->
 {/strip}

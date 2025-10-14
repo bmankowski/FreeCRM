@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ImportAdvanced.tpl -->
+<!-- layouts/basic/modules/Import/ImportAdvanced.tpl -->
 <div class='widget_header row '>
 	<div class="col-xs-12">
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -51,5 +51,5 @@
 			</tr>
 		</table>
 	</form>
-<!--/ImportAdvanced.tpl -->
+<!--/layouts/basic/modules/Import/ImportAdvanced.tpl -->
 {/strip}

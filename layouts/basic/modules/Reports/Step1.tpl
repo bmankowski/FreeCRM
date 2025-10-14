@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Step1.tpl -->
+<!-- layouts/basic/modules/Reports/Step1.tpl -->
 	<div class="reportContents">
 		<form class="form-horizontal recordEditView" id="report_step1" method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE}" />
@@ -246,5 +246,5 @@
 			</div>
 		</form>
 	</div>
-<!--/Step1.tpl -->
+<!--/layouts/basic/modules/Reports/Step1.tpl -->
 {/strip}

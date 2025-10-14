@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- DashBoardPostProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/DashBoardPostProcess.tpl -->
 		</div>
 	</div>
 </div>
-<!--/DashBoardPostProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/DashBoardPostProcess.tpl -->
 {/strip}

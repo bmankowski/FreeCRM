@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- StatusPickListFieldSearchView.tpl -->
+<!-- layouts/basic/modules/Calendar/uitypes/StatusPickListFieldSearchView.tpl -->
 {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 {assign var=EVENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('Events')}
@@ -25,5 +25,5 @@
         {/foreach}
     </select>
 </div>
-<!--/StatusPickListFieldSearchView.tpl -->
+<!--/layouts/basic/modules/Calendar/uitypes/StatusPickListFieldSearchView.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- CommentsConfig.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/CommentsConfig.tpl -->
 <div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -58,5 +58,5 @@
 		</div>
 	</div>
 </div>
-<!--/CommentsConfig.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/CommentsConfig.tpl -->
 {/strip}

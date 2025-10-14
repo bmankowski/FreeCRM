@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- CustomRecordNumbering.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/CustomRecordNumbering.tpl -->
 <div class="">
 	<form id="EditView" method="POST">
 		<div class="widget_header row">
@@ -140,5 +140,5 @@
 		</div>
 	</form>
 </div>
-<!--/CustomRecordNumbering.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/CustomRecordNumbering.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- AddAction.tpl -->
+<!-- layouts/basic/modules/Settings/DataAccess/AddAction.tpl -->
 <div class="editContainer" style="padding-left: 3%;padding-right: 3%">
 	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 	<div id="step">
@@ -62,5 +62,5 @@
 	<input type="hidden" name="next_step" value="Step4" />
 	<div class="clearfix"></div>
 </div>
-<!--/AddAction.tpl -->
+<!--/layouts/basic/modules/Settings/DataAccess/AddAction.tpl -->
 {/strip}

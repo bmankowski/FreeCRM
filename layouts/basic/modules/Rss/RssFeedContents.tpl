@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- RssFeedContents.tpl -->
+<!-- layouts/basic/modules/Rss/RssFeedContents.tpl -->
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 <table class="table table-bordered listViewEntriesTable">
     <thead>
@@ -52,5 +52,5 @@
         </td>
     </tr>
 </table>
-<!--/RssFeedContents.tpl -->
+<!--/layouts/basic/modules/Rss/RssFeedContents.tpl -->
 {/strip}

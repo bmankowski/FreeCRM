@@ -19,7 +19,7 @@
 }
 </style>
 {strip}
-<!-- step1.tpl -->
+<!-- layouts/basic/modules/PaymentsIn/step1.tpl -->
 	<div class="contentsDiv" >
 		<div id="paymentsIn" style="display:none">{$JSON}</div>
 		<div style="padding:20px">	  
@@ -175,7 +175,7 @@
         </div>
     </div>
 </div>
-<!--/step1.tpl -->
+<!--/layouts/basic/modules/PaymentsIn/step1.tpl -->
 {/strip}
 
 {literal}

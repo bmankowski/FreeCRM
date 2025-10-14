@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ImportSchedule.tpl -->
+<!-- layouts/basic/modules/Import/ImportSchedule.tpl -->
 <div style="padding-left: 15px;">
     <table style=" width:90%;margin-left: 5% " cellpadding="10" class="searchUIBasic well">
         <tr>
@@ -43,5 +43,5 @@
         </tr>
     </table>
 </div>
-<!--/ImportSchedule.tpl -->
+<!--/layouts/basic/modules/Import/ImportSchedule.tpl -->
 {/strip}

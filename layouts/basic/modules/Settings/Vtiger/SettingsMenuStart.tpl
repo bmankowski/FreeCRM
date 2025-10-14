@@ -10,10 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- SettingsMenuStart.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/SettingsMenuStart.tpl -->
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
     <div class="bodyContents">
         <div class="mainContainer">
 			<div class="contentsDiv">
-<!--/SettingsMenuStart.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/SettingsMenuStart.tpl -->
 			{/strip}

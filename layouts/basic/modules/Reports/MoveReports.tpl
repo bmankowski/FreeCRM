@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- MoveReports.tpl -->
+<!-- layouts/basic/modules/Reports/MoveReports.tpl -->
 	<div id="moveReportsContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -43,5 +43,5 @@
 			</div>
 		</div>
 	</div>
-<!--/MoveReports.tpl -->
+<!--/layouts/basic/modules/Reports/MoveReports.tpl -->
 {/strip}

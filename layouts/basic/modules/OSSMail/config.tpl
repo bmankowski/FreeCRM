@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- config.tpl -->
+<!-- layouts/basic/modules/OSSMail/config.tpl -->
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 	<style>
 		.table tbody tr.error > td {
@@ -94,7 +94,7 @@
 			{/if}
 		</div>
 	</div>
-<!--/config.tpl -->
+<!--/layouts/basic/modules/OSSMail/config.tpl -->
 {/strip}
 <script type="text/javascript">
 	jQuery(document).ready(function () {

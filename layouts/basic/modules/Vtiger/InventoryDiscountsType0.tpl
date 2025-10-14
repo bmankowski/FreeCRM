@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- InventoryDiscountsType0.tpl -->
+<!-- layouts/basic/modules/Vtiger/InventoryDiscountsType0.tpl -->
 	{if count($GLOBAL_DISCOUNTS) > 0}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -20,5 +20,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/InventoryDiscountsType0.tpl -->
+<!--/layouts/basic/modules/Vtiger/InventoryDiscountsType0.tpl -->
 {/strip}

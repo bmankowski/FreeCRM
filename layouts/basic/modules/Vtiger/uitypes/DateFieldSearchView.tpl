@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- DateFieldSearchView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/DateFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	{if isset($SEARCH_INFO['searchValue'])}
@@ -21,5 +21,5 @@
     <div class="picklistSearchField">
         <input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor dateField form-control" data-date-format="{$dateFormat}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-calendar-type="range" value="{$SEARCH_VALUES}" data-fieldinfo='{$FIELD_INFO|escape}'/>
     </div>
-<!--/DateFieldSearchView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/DateFieldSearchView.tpl -->
 {/strip}

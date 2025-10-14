@@ -1,5 +1,5 @@
 {strip}
-<!-- Policy.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/Policy.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="settingsIndexPage">
 		<div class="widget_header row">
@@ -10,5 +10,5 @@
 			Settings_Vtiger_Policy_View
 		</div>
 	</div>
-<!--/Policy.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/Policy.tpl -->
 {/strip}

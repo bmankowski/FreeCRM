@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ConvertLead.tpl -->
+<!-- layouts/basic/modules/Leads/ConvertLead.tpl -->
 	<div id="convertLeadContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -88,5 +88,5 @@
 			</div>
 		</div>
 	</div>
-<!--/ConvertLead.tpl -->
+<!--/layouts/basic/modules/Leads/ConvertLead.tpl -->
 {/strip}

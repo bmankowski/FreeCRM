@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- PopupContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/PopupContents.tpl -->
 	<input type='hidden' id='pageNumber' value="{$PAGE_NUMBER}">
 	<input type='hidden' id='pageLimit' value="{$PAGING_MODEL->getPageLimit()}">
 	<input type="hidden" id="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}">
@@ -98,5 +98,5 @@
 			</div>
 		{/if}
 	</div>
-<!--/PopupContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/PopupContents.tpl -->
 {/strip}

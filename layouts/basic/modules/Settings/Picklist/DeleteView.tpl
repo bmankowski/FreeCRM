@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- DeleteView.tpl -->
+<!-- layouts/basic/modules/Settings/Picklist/DeleteView.tpl -->
 	<div class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -77,5 +77,5 @@
 			</div>
 		</div>
 	</div>
-<!--/DeleteView.tpl -->
+<!--/layouts/basic/modules/Settings/Picklist/DeleteView.tpl -->
 {/strip}

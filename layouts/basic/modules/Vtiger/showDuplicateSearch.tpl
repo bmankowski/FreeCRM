@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- showDuplicateSearch.tpl -->
+<!-- layouts/basic/modules/Vtiger/showDuplicateSearch.tpl -->
 <div class='modelContainer modal fade' tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -55,5 +55,5 @@
 		</div>
 	</div>
 </div>
-<!--/showDuplicateSearch.tpl -->
+<!--/layouts/basic/modules/Vtiger/showDuplicateSearch.tpl -->
 {/strip}

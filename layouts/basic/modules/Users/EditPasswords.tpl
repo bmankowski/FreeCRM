@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- EditPasswords.tpl -->
+<!-- layouts/basic/modules/Users/EditPasswords.tpl -->
 	<div id="massEditContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -45,5 +45,5 @@
 			</div>
 		</div>
 	</div>
-<!--/EditPasswords.tpl -->
+<!--/layouts/basic/modules/Users/EditPasswords.tpl -->
 {/strip}

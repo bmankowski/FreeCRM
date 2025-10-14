@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- RssContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/RssContents.tpl -->
 	<table class="table table-condensed table-bordered">
 		<thead>
 			<tr>
@@ -19,5 +19,5 @@
 			{/foreach}
 		</tbody>
 	</table>
-<!--/RssContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/RssContents.tpl -->
 {/strip}

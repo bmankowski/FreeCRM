@@ -1,6 +1,6 @@
 ﻿{*<!--/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */-->*}
 {strip}
-<!-- ChangePasswordUser.tpl -->
+<!-- layouts/basic/modules/Users/ChangePasswordUser.tpl -->
 	<div class="modal-header">
 		<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_CHANGE_PASSWORD', $MODULE)}</h3>
@@ -34,5 +34,5 @@
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</form>
-<!--/ChangePasswordUser.tpl -->
+<!--/layouts/basic/modules/Users/ChangePasswordUser.tpl -->
 {/strip}

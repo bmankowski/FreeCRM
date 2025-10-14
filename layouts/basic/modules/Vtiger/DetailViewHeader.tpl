@@ -1,5 +1,5 @@
 {strip}
-<!-- DetailViewHeader.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailViewHeader.tpl -->
 	{*<!--
 	/*********************************************************************************
 	** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -71,6 +71,6 @@
 						<input type="hidden" name="picklistDependency" value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_DEPENDENCY_DATASOURCE)}"> 
 					{/if} 
 					<div class="contents">
-<!--/DetailViewHeader.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailViewHeader.tpl -->
 					{/strip}
 

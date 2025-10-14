@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/SharingAccess/Index.tpl -->
 <div class="" id="sharingAccessContainer">
 	<div class="contents">
 		<form name="EditSharingAccess" action="index.php" method="post" class="form-horizontal" id="EditSharingAccess">
@@ -88,5 +88,5 @@
 		</form>
 	</div>
 </div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/SharingAccess/Index.tpl -->
 {/strip}

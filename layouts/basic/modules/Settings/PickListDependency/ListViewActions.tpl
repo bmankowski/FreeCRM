@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewActions.tpl -->
+<!-- layouts/basic/modules/Settings/PickListDependency/ListViewActions.tpl -->
 	<div class="pull-right listViewActions col-xs-8 paddingLRZero">
 		<select class="chzn-select pickListSupportedModules form-control">
 			<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
@@ -26,5 +26,5 @@
 			{/foreach}
 		</select>
 	</div>
-<!--/ListViewActions.tpl -->
+<!--/layouts/basic/modules/Settings/PickListDependency/ListViewActions.tpl -->
 {/strip}

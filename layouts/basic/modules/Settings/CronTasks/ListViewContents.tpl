@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewContents.tpl -->
+<!-- layouts/basic/modules/Settings/CronTasks/ListViewContents.tpl -->
 
 	<button type="button" class="btn btn-success addButton addCron"><span class="glyphicon glyphicon-plus"></span> {vtranslate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
 	<br />
@@ -103,5 +103,5 @@
 			</table>
 		{/if}
 	</div>
-<!--/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Settings/CronTasks/ListViewContents.tpl -->
 {/strip}

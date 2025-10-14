@@ -10,10 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- NoComments.tpl -->
+<!-- layouts/basic/modules/Vtiger/NoComments.tpl -->
 	<div class="summaryWidgetContainer noCommentsMsgContainer">
 		<p class="textAlignCenter"> {vtranslate('LBL_NO_COMMENTS',$MODULE_NAME)}
 		</p>
 	</div>
-<!--/NoComments.tpl -->
+<!--/layouts/basic/modules/Vtiger/NoComments.tpl -->
 {/strip}

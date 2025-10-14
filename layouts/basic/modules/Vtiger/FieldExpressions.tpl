@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- FieldExpressions.tpl -->
+<!-- layouts/basic/modules/Vtiger/FieldExpressions.tpl -->
 	<div class="popupUi modal fade" data-backdrop="false">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -93,5 +93,5 @@
 		</div>
 	</div>
 	<div class="clonedPopUp"></div>
-<!--/FieldExpressions.tpl -->
+<!--/layouts/basic/modules/Vtiger/FieldExpressions.tpl -->
 {/strip}

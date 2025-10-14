@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ChartReportHeader.tpl -->
+<!-- layouts/basic/modules/Reports/ChartReportHeader.tpl -->
     <div class="">
 		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
 		<div class="widget_header row marginBottom10px">
@@ -118,5 +118,5 @@
 		</div>
 	</div>
 	<div id="reportContentsDiv" class="row">
-<!--/ChartReportHeader.tpl -->
+<!--/layouts/basic/modules/Reports/ChartReportHeader.tpl -->
 	{/strip}

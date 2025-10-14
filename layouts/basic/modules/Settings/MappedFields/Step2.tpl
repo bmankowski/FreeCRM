@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Step2.tpl -->
+<!-- layouts/basic/modules/Settings/MappedFields/Step2.tpl -->
 	<div class="mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step2" class="form-horizontal">
 			<input type="hidden" name="module" value="MappedFields">
@@ -181,5 +181,5 @@
 		{/foreach}
 	{/foreach}
 </div>
-<!--/Step2.tpl -->
+<!--/layouts/basic/modules/Settings/MappedFields/Step2.tpl -->
 {/strip}

@@ -1,5 +1,5 @@
 {strip}
-<!-- License.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/License.tpl -->
 	<div class="settingsIndexPage">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
@@ -14,5 +14,5 @@
 			{/if}
 		</pre>
 	</div>
-<!--/License.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/License.tpl -->
 {/strip}

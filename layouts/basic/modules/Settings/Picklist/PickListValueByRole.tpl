@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- PickListValueByRole.tpl -->
+<!-- layouts/basic/modules/Settings/Picklist/PickListValueByRole.tpl -->
 	<br><br>
 	<div class="row">
 		<div class="col-md-2">&nbsp;</div>
@@ -29,5 +29,5 @@
 			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success">{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
 		</div>		
 	</div>				
-<!--/PickListValueByRole.tpl -->
+<!--/layouts/basic/modules/Settings/Picklist/PickListValueByRole.tpl -->
 {/strip}	

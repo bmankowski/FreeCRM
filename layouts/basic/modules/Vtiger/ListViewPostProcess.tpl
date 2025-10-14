@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewPostProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/ListViewPostProcess.tpl -->
 	</div>
 </div>
-<!--/ListViewPostProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/ListViewPostProcess.tpl -->
 {/strip}

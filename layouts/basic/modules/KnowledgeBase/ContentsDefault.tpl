@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ContentsDefault.tpl -->
+<!-- layouts/basic/modules/KnowledgeBase/ContentsDefault.tpl -->
 	<div class="col-xs-12 paddingLRZero">
 		<h4>{vtranslate('LBL_LIST_RECORDS',$MODULE_NAME)}</h4>
 		<hr>
@@ -48,5 +48,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/ContentsDefault.tpl -->
+<!--/layouts/basic/modules/KnowledgeBase/ContentsDefault.tpl -->
 {/strip}

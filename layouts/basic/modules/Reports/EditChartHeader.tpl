@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- EditChartHeader.tpl -->
+<!-- layouts/basic/modules/Reports/EditChartHeader.tpl -->
    <div class="editContainer" style="padding-left: 1%;padding-right: 3%">
        <h3>
            {if $RECORD_ID eq ''}
@@ -44,5 +44,5 @@
        </div>
        <div class="clearfix"></div>
    </div>
-<!--/EditChartHeader.tpl -->
+<!--/layouts/basic/modules/Reports/EditChartHeader.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- NotificationConfig.tpl -->
+<!-- layouts/basic/modules/Notification/NotificationConfig.tpl -->
 	{assign var="CRON_ACTIVE" value=$CRON_INFO->getStatus()}
 	{assign var="IS_PERMITTED" value=\App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
 	<div class="modal-header row no-margin">
@@ -78,5 +78,5 @@
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
 	</div>
-<!--/NotificationConfig.tpl -->
+<!--/layouts/basic/modules/Notification/NotificationConfig.tpl -->
 {/strip}

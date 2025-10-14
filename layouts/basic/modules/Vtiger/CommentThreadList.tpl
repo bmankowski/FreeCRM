@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- CommentThreadList.tpl -->
+<!-- layouts/basic/modules/Vtiger/CommentThreadList.tpl -->
 <div class="commentDiv">
 	<div class="singleComment">
 		<div class="commentInfoHeader"  data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
@@ -82,5 +82,5 @@
 		</div>
 	</div>
 </div>
-<!--/CommentThreadList.tpl -->
+<!--/layouts/basic/modules/Vtiger/CommentThreadList.tpl -->
 {/strip}

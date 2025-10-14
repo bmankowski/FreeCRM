@@ -1,5 +1,5 @@
 {strip}
-<!-- BlockHeader.tpl -->
+<!-- layouts/basic/modules/Vtiger/BlockHeader.tpl -->
 	<span class="copyAddressLabel control-label">{vtranslate('COPY_ADRESS_FROM')}</span>	
 	<button class="btn btn-sm btn-primary copyAddressFromAccount" type="button" data-label="{$BLOCK_LABEL}">
 		<strong>{vtranslate('SINGLE_Accounts', $MODULE)}</strong>
@@ -30,6 +30,6 @@
 			<strong>{vtranslate('LBL_ADDRESS_DELIVERY_INFORMATION', $MODULE)}</strong>
 		</button>
 	{/if}
-<!--/BlockHeader.tpl -->
+<!--/layouts/basic/modules/Vtiger/BlockHeader.tpl -->
 {/strip}
 

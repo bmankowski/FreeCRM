@@ -10,10 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- IndexViewPreProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/IndexViewPreProcess.tpl -->
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
-<!--/IndexViewPreProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/IndexViewPreProcess.tpl -->
 {/strip}

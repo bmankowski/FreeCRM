@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ConfigEditorEdit.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/ConfigEditorEdit.tpl -->
 	<div class="">
 		<div class="contents">
 			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
@@ -95,5 +95,5 @@
 			</form>
 		</div>
 	</div>
-<!--/ConfigEditorEdit.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/ConfigEditorEdit.tpl -->
 {/strip}

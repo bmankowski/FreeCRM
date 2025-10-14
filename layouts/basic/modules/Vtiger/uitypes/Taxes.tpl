@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Taxes.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Taxes.tpl -->
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -10,5 +10,5 @@
 			<option value="{$PICKLIST_VALUE}" {if in_array($PICKLIST_VALUE,$FIELD_VALUE_LIST)} selected {/if}>{$PICKLIST_NAME}</option>
 		{/foreach}
 	</select>
-<!--/Taxes.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Taxes.tpl -->
 {/strip}

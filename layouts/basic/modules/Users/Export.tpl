@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Export.tpl -->
+<!-- layouts/basic/modules/Users/Export.tpl -->
     <div style="padding-left: 15px;">
         <form id="exportForm" class="form-horizontal row" method="post" action="index.php">
             <input type="hidden" name="module" value="{$MODULE}" />
@@ -66,5 +66,5 @@
 	</div>
 </form>
 </div>
-<!--/Export.tpl -->
+<!--/layouts/basic/modules/Users/Export.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/Search/Index.tpl -->
 	{assign var="ModulesEntity" value=$MODULE_MODEL->getModulesEntity(false, true)}
 	{assign var="Fields" value=$MODULE_MODEL->getFieldFromModule()}
 	<div class=" SearchFieldsEdit">
@@ -84,5 +84,5 @@
 			</table>
 		</div>
 		<div class="clearfix"></div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/Search/Index.tpl -->
 	{/strip}

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewContents.tpl -->
+<!-- layouts/basic/modules/Rss/ListViewContents.tpl -->
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 	<div class="listViewEntriesDiv">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
@@ -59,5 +59,5 @@
 	<br />
 	<div class="feedFrame">
 	</div>
-<!--/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Rss/ListViewContents.tpl -->
 {/strip}

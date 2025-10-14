@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- MassEditForm.tpl -->
+<!-- layouts/basic/modules/Vtiger/MassEditForm.tpl -->
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
@@ -86,5 +86,5 @@
 			</div>
 		</div>
 	</div>
-<!--/MassEditForm.tpl -->
+<!--/layouts/basic/modules/Vtiger/MassEditForm.tpl -->
 {/strip}

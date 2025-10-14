@@ -1,5 +1,5 @@
 {strip}
-<!-- Profile.tpl -->
+<!-- layouts/basic/modules/Vtiger/menu/Profile.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	{if AppConfig::security('CHANGE_LOGIN_PASSWORD')}
 		{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE))}
@@ -31,5 +31,5 @@
 			{/if}
 		</li>
 	{/if}
-<!--/Profile.tpl -->
+<!--/layouts/basic/modules/Vtiger/menu/Profile.tpl -->
 {/strip}

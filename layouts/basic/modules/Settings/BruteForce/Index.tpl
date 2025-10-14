@@ -1,6 +1,6 @@
 {*{[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]}*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/BruteForce/Index.tpl -->
 	<div>
 		<div class="widget_header row">
 			<div class="col-md-12">
@@ -96,5 +96,5 @@
 			</div>  
 		</div>
 	</div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/BruteForce/Index.tpl -->
 {/strip}

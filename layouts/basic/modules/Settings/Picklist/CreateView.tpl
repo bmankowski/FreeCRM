@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- CreateView.tpl -->
+<!-- layouts/basic/modules/Settings/Picklist/CreateView.tpl -->
 <div class='modelContainer modal fade basicCreateView' tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -50,5 +50,5 @@
 		</div>
 	</div>
 </div>
-<!--/CreateView.tpl -->
+<!--/layouts/basic/modules/Settings/Picklist/CreateView.tpl -->
 {/strip}

@@ -1,5 +1,5 @@
 {strip}
-<!-- MailsListContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/MailsListContents.tpl -->
 {if $ACCOUNTSLIST}
 {assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($OWNER)}
 <div>
@@ -32,5 +32,5 @@
 	</span>
 {/if}
 </div>
-<!--/MailsListContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/MailsListContents.tpl -->
 {/strip}

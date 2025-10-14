@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- AddAjax.tpl -->
+<!-- layouts/basic/modules/Settings/CronTasks/AddAjax.tpl -->
 <div class="modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -95,5 +95,5 @@
 		</div>		
 	</div>		
 </div>		
-<!--/AddAjax.tpl -->
+<!--/layouts/basic/modules/Settings/CronTasks/AddAjax.tpl -->
 {/strip}	

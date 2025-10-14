@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
-<!-- SwitchUsers.tpl -->
+<!-- layouts/basic/modules/Users/SwitchUsers.tpl -->
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
 		<h4 class="modal-title">{vtranslate('LBL_SWITCH_USER', $MODULE_NAME)}</h4>
@@ -34,5 +34,5 @@
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
 	</form>		
-<!--/SwitchUsers.tpl -->
+<!--/layouts/basic/modules/Users/SwitchUsers.tpl -->
 {/strip}

@@ -1,5 +1,5 @@
 {strip}
-<!-- ListViewContents.tpl -->
+<!-- layouts/basic/modules/Settings/Mail/ListViewContents.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -143,5 +143,5 @@
 						</table>
 					{/if}
 				</div>	
-<!--/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Settings/Mail/ListViewContents.tpl -->
 				{/strip}

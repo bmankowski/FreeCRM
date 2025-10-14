@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- DashBoardButtons.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/DashBoardButtons.tpl -->
 	<div class="dashboardHeading col-xs-3 col-sm-8 col-md-6">
 		<input type="hidden" name="selectedModuleName" value="{$MODULE_NAME}">
 		<div class="marginLeftZero">
@@ -73,5 +73,5 @@
 			</div>
 		</div>
 	</div>
-<!--/DashBoardButtons.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/DashBoardButtons.tpl -->
 {/strip}

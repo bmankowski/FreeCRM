@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- AdvanceSearch.tpl -->
+<!-- layouts/basic/modules/Vtiger/AdvanceSearch.tpl -->
     <div id="advanceSearchContainer" class="modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -63,5 +63,5 @@
 			</div>
 		</div>
 	</div>
-<!--/AdvanceSearch.tpl -->
+<!--/layouts/basic/modules/Vtiger/AdvanceSearch.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- RecentActivities.tpl -->
+<!-- layouts/basic/modules/Vtiger/RecentActivities.tpl -->
 <div class="recentActivitiesContainer" >
     <input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}" />
     <input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
@@ -153,5 +153,5 @@
 		</div>
 	<span class="clearfix"></span>
 </div>
-<!--/RecentActivities.tpl -->
+<!--/layouts/basic/modules/Vtiger/RecentActivities.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- Boolean.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Boolean.tpl -->
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
@@ -22,5 +22,5 @@
 		{/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />
 	</label>
 </div>
-<!--/Boolean.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Boolean.tpl -->
 {/strip}

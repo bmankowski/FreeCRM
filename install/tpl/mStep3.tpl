@@ -11,7 +11,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- mStep3.tpl -->
+<!-- install/tpl/mStep3.tpl -->
 	{if $ERRORTEXT neq ''}
 		<div class="row main-container">
 			<div class="inner-container">
@@ -29,5 +29,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/mStep3.tpl -->
+<!--/install/tpl/mStep3.tpl -->
 {/strip}

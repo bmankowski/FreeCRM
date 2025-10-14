@@ -1,5 +1,5 @@
 {strip}
-<!-- ListViewHeader.tpl -->
+<!-- layouts/basic/modules/Settings/Mail/ListViewHeader.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="">
 		<div class='widget_header row '>
@@ -39,5 +39,5 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
-<!--/ListViewHeader.tpl -->
+<!--/layouts/basic/modules/Settings/Mail/ListViewHeader.tpl -->
 		{/strip}

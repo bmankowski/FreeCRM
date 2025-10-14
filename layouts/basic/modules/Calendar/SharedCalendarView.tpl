@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- SharedCalendarView.tpl -->
+<!-- layouts/basic/modules/Calendar/SharedCalendarView.tpl -->
 	{literal}<style type="text/css">
 
 </style>{/literal}
@@ -27,5 +27,5 @@
 			</div>
 		</div>
 	</div>
-<!--/SharedCalendarView.tpl -->
+<!--/layouts/basic/modules/Calendar/SharedCalendarView.tpl -->
 {/strip}

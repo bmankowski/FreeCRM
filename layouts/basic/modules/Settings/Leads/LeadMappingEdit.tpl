@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- LeadMappingEdit.tpl -->
+<!-- layouts/basic/modules/Settings/Leads/LeadMappingEdit.tpl -->
 	<div class="">
 		<form id="leadsMapping" method="POST">
 			<div class="row widget_header settingsHeader marginBottom5">
@@ -117,5 +117,5 @@
 		</form>
 	</div>
 	<br>
-<!--/LeadMappingEdit.tpl -->
+<!--/layouts/basic/modules/Settings/Leads/LeadMappingEdit.tpl -->
 {/strip}

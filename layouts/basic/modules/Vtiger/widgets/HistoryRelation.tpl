@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- HistoryRelation.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/HistoryRelation.tpl -->
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
@@ -27,5 +27,5 @@
 			</div>
 		</div>
 	</div>
-<!--/HistoryRelation.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/HistoryRelation.tpl -->
 {/strip}

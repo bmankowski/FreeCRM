@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- MultiReferenceValueFieldSearchView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/MultiReferenceValueFieldSearchView.tpl -->
 	{if $VIEWID}
 		{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getUITypeModel()->getPicklistValuesForModuleList($MODULE, $VIEWID)}
 	{else}
@@ -19,5 +19,5 @@
 			{/foreach}
 		</select>
 	</div>
-<!--/MultiReferenceValueFieldSearchView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/MultiReferenceValueFieldSearchView.tpl -->
 {/strip}

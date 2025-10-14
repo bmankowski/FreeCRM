@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListContents.tpl -->
+<!-- layouts/basic/modules/Settings/ModuleManager/ListContents.tpl -->
 	<div class="" id="moduleManagerContents">
 		<div class="widget_header row">
 			<div class="col-md-7">
@@ -166,5 +166,5 @@
 			</table>
 		</div>
 	</div>
-<!--/ListContents.tpl -->
+<!--/layouts/basic/modules/Settings/ModuleManager/ListContents.tpl -->
 {/strip}

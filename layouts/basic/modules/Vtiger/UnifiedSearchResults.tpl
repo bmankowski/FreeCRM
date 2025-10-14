@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- UnifiedSearchResults.tpl -->
+<!-- layouts/basic/modules/Vtiger/UnifiedSearchResults.tpl -->
 {assign var="totalCount" value=0}
 {assign var="totalModulesSearched" value=count($MATCHING_RECORDS)}
 {foreach key=module item=searchRecords from=$MATCHING_RECORDS}
@@ -86,5 +86,5 @@
 		</div>
 	</div>
 </div>
-<!--/UnifiedSearchResults.tpl -->
+<!--/layouts/basic/modules/Vtiger/UnifiedSearchResults.tpl -->
 {/strip}

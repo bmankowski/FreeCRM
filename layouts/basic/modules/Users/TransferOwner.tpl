@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- TransferOwner.tpl -->
+<!-- layouts/basic/modules/Users/TransferOwner.tpl -->
 <div id="massEditContainer" class='modelContainer'>
 	<div class="modal-header contentsBackground">
 		<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
@@ -40,5 +40,5 @@
 		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</form>
 </div>
-<!--/TransferOwner.tpl -->
+<!--/layouts/basic/modules/Users/TransferOwner.tpl -->
 {/strip}

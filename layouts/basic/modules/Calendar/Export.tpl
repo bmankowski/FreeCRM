@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Export.tpl -->
+<!-- layouts/basic/modules/Calendar/Export.tpl -->
 	<div id="exportContainer" class='modelContainer modal fade '>
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -52,5 +52,5 @@
 			</div>
 		</div>
 	</div>
-<!--/Export.tpl -->
+<!--/layouts/basic/modules/Calendar/Export.tpl -->
 {/strip}

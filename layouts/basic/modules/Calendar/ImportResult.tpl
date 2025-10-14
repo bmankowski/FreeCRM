@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ImportResult.tpl -->
+<!-- layouts/basic/modules/Calendar/ImportResult.tpl -->
 <div>
 	<input type="hidden" name="module" value="{$MODULE}" />
 	<table class="col-xs-12 paddingLRZero no-margin searchUIBasic well">
@@ -66,5 +66,5 @@
 			</td>
 		</tr>
 	</table>
-<!--/ImportResult.tpl -->
+<!--/layouts/basic/modules/Calendar/ImportResult.tpl -->
 {/strip}

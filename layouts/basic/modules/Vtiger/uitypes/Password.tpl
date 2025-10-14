@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Password.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Password.tpl -->
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
@@ -27,5 +27,5 @@
 			</button>
 		</span>
 	</div>
-<!--/Password.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Password.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Step1.tpl -->
+<!-- layouts/basic/modules/Settings/PDF/Step1.tpl -->
 	<div class="pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal">
 			<input type="hidden" name="module" value="PDF">
@@ -151,5 +151,5 @@
 			</div>
 		</form>
 	</div>
-<!--/Step1.tpl -->
+<!--/layouts/basic/modules/Settings/PDF/Step1.tpl -->
 {/strip}

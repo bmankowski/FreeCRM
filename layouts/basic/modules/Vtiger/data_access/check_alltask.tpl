@@ -1,5 +1,5 @@
 {strip}
-<!-- check_alltask.tpl -->
+<!-- layouts/basic/modules/Vtiger/data_access/check_alltask.tpl -->
 	{assign var=status value=$SAVED_DATA['status']}
 	{assign var=message value=$SAVED_DATA['message']}
 	<div class="row">
@@ -16,5 +16,5 @@
 			<input type="text" name="message" class="marginLeftZero col-md-6 " value="{$message}">
 		</div>
 	</div>
-<!--/check_alltask.tpl -->
+<!--/layouts/basic/modules/Vtiger/data_access/check_alltask.tpl -->
 {/strip}

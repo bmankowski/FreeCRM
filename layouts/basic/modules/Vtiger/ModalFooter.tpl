@@ -10,10 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ModalFooter.tpl -->
+<!-- layouts/basic/modules/Vtiger/ModalFooter.tpl -->
 	<div class="modal-footer">
 		<button class="btn btn-success" type="submit" name="saveButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 		<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
 	</div>
-<!--/ModalFooter.tpl -->
+<!--/layouts/basic/modules/Vtiger/ModalFooter.tpl -->
 {/strip}

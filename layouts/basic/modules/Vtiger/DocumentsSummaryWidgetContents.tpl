@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- DocumentsSummaryWidgetContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/DocumentsSummaryWidgetContents.tpl -->
 	<div class="row">
 		<span class="col-md-7">
 			<strong>{vtranslate('Title','Documents')}</strong>
@@ -54,5 +54,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/DocumentsSummaryWidgetContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/DocumentsSummaryWidgetContents.tpl -->
 {/strip}

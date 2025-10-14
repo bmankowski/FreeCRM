@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- PopupSearch.tpl -->
+<!-- layouts/basic/modules/Vtiger/PopupSearch.tpl -->
 	<input type="hidden" id="parentModule" value="{$SOURCE_MODULE}"/>
 	<input type="hidden" id="sourceRecord" value="{$SOURCE_RECORD}"/>
 	<input type="hidden" id="sourceField" value="{$SOURCE_FIELD}"/>
@@ -72,5 +72,5 @@
 			{/if}
 		</div>
 	</div>
-<!--/PopupSearch.tpl -->
+<!--/layouts/basic/modules/Vtiger/PopupSearch.tpl -->
 {/strip}

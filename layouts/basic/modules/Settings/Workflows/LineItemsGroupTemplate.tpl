@@ -11,7 +11,7 @@
 -->*}
 
 {strip}
-<!-- LineItemsGroupTemplate.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/LineItemsGroupTemplate.tpl -->
 <div class="template-contents">
     <table border=1 style="font-size:11px; width:100%; table-layout: fixed; border-collapse: collapse;">
         <thead>
@@ -110,5 +110,5 @@
         </tbody>
     </table>
 </div>
-<!--/LineItemsGroupTemplate.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/LineItemsGroupTemplate.tpl -->
 {/strip}               

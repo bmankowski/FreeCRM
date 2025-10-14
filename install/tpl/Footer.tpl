@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Footer.tpl -->
+<!-- install/tpl/Footer.tpl -->
 	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
 
 	{if !$MAIN_PRODUCT_WHITELABEL}
@@ -28,5 +28,5 @@
 </div>
 </body>
 </html>
-<!--/Footer.tpl -->
+<!--/install/tpl/Footer.tpl -->
 {/strip}

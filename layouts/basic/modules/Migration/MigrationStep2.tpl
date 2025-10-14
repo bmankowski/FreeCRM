@@ -9,7 +9,7 @@
 *************************************************************************************/
 -->*}
 {strip}
-<!-- MigrationStep2.tpl -->
+<!-- layouts/basic/modules/Migration/MigrationStep2.tpl -->
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
 	<div class=" page-container">
 		<div class="row">

@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<!-- Step2.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Step2.tpl -->
 	<form name="EditWorkflow" action="index.php" method="post" id="workflow_step2" class="form-horizontal" >
 		<input type="hidden" name="module" value="Workflows" />
 		<input type="hidden" name="action" value="Save" />
@@ -52,5 +52,5 @@
 			<br><br>
 
 	</form>
-<!--/Step2.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Step2.tpl -->
 {/strip}

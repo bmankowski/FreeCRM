@@ -1,5 +1,5 @@
 {strip}
-<!-- Credits.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/Credits.tpl -->
 	<div class="settingsIndexPage">
 		<div class="widget_header row">
 			<div class="col-xs-12">
@@ -11,5 +11,5 @@
 		</div>
 		{include file="licenses/Credits.html"}
 	</div>
-<!--/Credits.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/Credits.tpl -->
 {/strip}

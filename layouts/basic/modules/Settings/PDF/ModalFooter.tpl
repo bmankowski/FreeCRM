@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ModalFooter.tpl -->
+<!-- layouts/basic/modules/Settings/PDF/ModalFooter.tpl -->
 	<div class="modal-footer">
 		<div class="btn-group">
 			<button id="generate_pdf" href="" target="_blank" data-url="index.php?parent=Settings&module=PDF&action=Export{$EXPORT_VARS}&template=" type="button" class="btn btn-success">{vtranslate('LBL_GENERATE', $QUALIFIED_MODULE)}</button>
@@ -15,5 +15,5 @@
 		</div>&nbsp;
 		<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
 	</div>
-<!--/ModalFooter.tpl -->
+<!--/layouts/basic/modules/Settings/PDF/ModalFooter.tpl -->
 {/strip}

@@ -1,5 +1,5 @@
 {strip}
-<!-- BodyLeft.tpl -->
+<!-- layouts/basic/modules/Vtiger/BodyLeft.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
 	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
@@ -26,6 +26,6 @@
 	<div class="menuContainer {if $DEVICE == 'Desktop'}slimScrollMenu{/if}">
 		{include file='Menu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 	</div>
-<!--/BodyLeft.tpl -->
+<!--/layouts/basic/modules/Vtiger/BodyLeft.tpl -->
 {/strip}
 

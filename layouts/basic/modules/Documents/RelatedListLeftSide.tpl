@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- RelatedListLeftSide.tpl -->
+<!-- layouts/basic/modules/Documents/RelatedListLeftSide.tpl -->
 	{assign var=IMAGE_CLASS value=Documents_Record_Model::getFileIconByFileType($RELATED_RECORD->get('filetype'))}
 	<span class="{$IMAGE_CLASS} fa-lg">{if $IMAGE_CLASS neq 'userIcon-Documents'}&nbsp;{/if}</span>
 	{if $IS_FAVORITES}
@@ -77,5 +77,5 @@
 			</a>
 		</div>
 	{/if}
-<!--/RelatedListLeftSide.tpl -->
+<!--/layouts/basic/modules/Documents/RelatedListLeftSide.tpl -->
 {/strip}

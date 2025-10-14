@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- LocksItem.tpl -->
+<!-- layouts/basic/modules/Settings/Users/LocksItem.tpl -->
 	<tr>
 		<td>
 			<select class="form-control users {if $SELECT}select2{/if}">
@@ -35,6 +35,6 @@
 			</button>
 		</td>
 	</tr>
-<!--/LocksItem.tpl -->
+<!--/layouts/basic/modules/Settings/Users/LocksItem.tpl -->
 {/strip}
 

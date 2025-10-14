@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ListViewHeader.tpl -->
+<!-- layouts/basic/modules/Settings/MappedFields/ListViewHeader.tpl -->
 	<div class="listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
 			<div class="widget_header row">
@@ -36,5 +36,5 @@
 			</div>
 		</div>
 		<div class="listViewContentDiv" id="listViewContents">
-<!--/ListViewHeader.tpl -->
+<!--/layouts/basic/modules/Settings/MappedFields/ListViewHeader.tpl -->
 		{/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Github.tpl -->
+<!-- layouts/basic/modules/Settings/Github/Github.tpl -->
 		<div class="authModal modal fade" tabindex="-1">
 			<div  class="authModalContent validationEngineContainer ">
 				<div class="modal-dialog ">
@@ -133,5 +133,5 @@
 			{vtranslate('LBL_ERROR_CONNECTED', $QUALIFIED_MODULE)}
 		</div>
 	{/if}
-<!--/Github.tpl -->
+<!--/layouts/basic/modules/Settings/Github/Github.tpl -->
 {/strip}

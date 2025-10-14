@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- EditRule.tpl -->
+<!-- layouts/basic/modules/Settings/SharingAccess/EditRule.tpl -->
     {assign var=RULE_MODEL_EXISTS value=true}
     {assign var=RULE_ID value=$RULE_MODEL->getId()}
     {if empty($RULE_ID)}
@@ -76,5 +76,5 @@
 			</div>
 		</div>
 	</div>
-<!--/EditRule.tpl -->
+<!--/layouts/basic/modules/Settings/SharingAccess/EditRule.tpl -->
 {/strip}

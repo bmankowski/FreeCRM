@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- NewCustomField.tpl -->
+<!-- layouts/basic/modules/Settings/LayoutEditor/NewCustomField.tpl -->
 	<li class="newCustomFieldCopy hide">
 		<div class="marginLeftZero border1px" data-field-id="" data-sequence="">
 			<div class="row padding1per">
@@ -41,5 +41,5 @@
 			</div>
 		</div>
 	</li>
-<!--/NewCustomField.tpl -->
+<!--/layouts/basic/modules/Settings/LayoutEditor/NewCustomField.tpl -->
 {/strip}

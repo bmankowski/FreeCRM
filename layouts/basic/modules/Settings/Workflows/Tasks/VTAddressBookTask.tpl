@@ -10,9 +10,9 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- VTAddressBookTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTAddressBookTask.tpl -->
 	<div class="row">
 
 	</div>
-<!--/VTAddressBookTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTAddressBookTask.tpl -->
 {/strip}	

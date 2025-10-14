@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- RecurrenceDetailView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/RecurrenceDetailView.tpl -->
 	<div class="typeRemoveModal" tabindex="-1">
 		<div  class="modal fade">
 			<div class="modal-dialog modal-lg ">
@@ -64,5 +64,5 @@
 		</div>
 	</div>
 	{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}
-<!--/RecurrenceDetailView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/RecurrenceDetailView.tpl -->
 {/strip}

@@ -1,5 +1,5 @@
 {strip}
-<!-- Newsletter.tpl -->
+<!-- layouts/basic/modules/Settings/SystemWarnings/YetiForce/Newsletter.tpl -->
 	<h3 class="marginTB3">
 		{'LBL_SAVE_TO_NEWSLETTER'|t:'Settings:SystemWarnings'}
 	</h3>
@@ -34,5 +34,5 @@
 			</button>
 		</div>
 	</form>
-<!--/Newsletter.tpl -->
+<!--/layouts/basic/modules/Settings/SystemWarnings/YetiForce/Newsletter.tpl -->
 {/strip}

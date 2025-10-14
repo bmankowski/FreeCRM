@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Footer.tpl -->
+<!-- layouts/basic/modules/Vtiger/Footer.tpl -->
 </div>
 </div>
 </div>
@@ -107,5 +107,5 @@
 {/if}
 </body>
 </html>
-<!--/Footer.tpl -->
+<!--/layouts/basic/modules/Vtiger/Footer.tpl -->
 {/strip}

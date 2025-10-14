@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- ProductsSoldToRenew.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/ProductsSoldToRenew.tpl -->
 {assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 {assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
@@ -45,5 +45,5 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/ProductsSoldToRenewContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
-<!--/ProductsSoldToRenew.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/ProductsSoldToRenew.tpl -->
 {/strip}

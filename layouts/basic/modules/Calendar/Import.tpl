@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- Import.tpl -->
+<!-- layouts/basic/modules/Calendar/Import.tpl -->
 <div id="importRecordsContainer" class='modelContainer modal fade'>
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -47,5 +47,5 @@
 		</div>
 	</div>
 </div>
-<!--/Import.tpl -->
+<!--/layouts/basic/modules/Calendar/Import.tpl -->
 {/strip}

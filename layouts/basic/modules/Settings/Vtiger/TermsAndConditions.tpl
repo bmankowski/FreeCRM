@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- TermsAndConditions.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/TermsAndConditions.tpl -->
 <div class="" id="TermsAndConditionsContainer">
 	<div class='widget_header row '>
 		<div class="col-xs-12">
@@ -25,5 +25,5 @@
         </div>
     </div>
 </div>
-<!--/TermsAndConditions.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/TermsAndConditions.tpl -->
 {/strip}

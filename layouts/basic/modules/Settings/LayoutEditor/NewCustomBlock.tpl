@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- NewCustomBlock.tpl -->
+<!-- layouts/basic/modules/Settings/LayoutEditor/NewCustomBlock.tpl -->
 	<div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
 		<div class="row layoutBlockHeader no-margin">
 			<div class="col-md-6 blockLabel padding10">
@@ -50,5 +50,5 @@
 			<ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
 		</div>
 	</div>
-<!--/NewCustomBlock.tpl -->
+<!--/layouts/basic/modules/Settings/LayoutEditor/NewCustomBlock.tpl -->
 {/strip}

@@ -11,7 +11,7 @@
 -->*}
 <!DOCTYPE html>
 {strip}
-<!-- OperationNotPermitted.tpl -->
+<!-- layouts/basic/modules/Vtiger/OperationNotPermitted.tpl -->
 <html>
 	<head>
 		<title>Yetiforce: {vtranslate('LBL_ERROR')}</title>
@@ -37,5 +37,5 @@
 		</div>
 	</body>
 </html>
-<!--/OperationNotPermitted.tpl -->
+<!--/layouts/basic/modules/Vtiger/OperationNotPermitted.tpl -->
 {/strip}

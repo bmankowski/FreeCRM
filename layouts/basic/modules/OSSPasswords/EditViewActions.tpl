@@ -11,7 +11,7 @@
 -->*}
 
 {strip}
-<!-- EditViewActions.tpl -->
+<!-- layouts/basic/modules/OSSPasswords/EditViewActions.tpl -->
 		<div class="contentHeader">
 			<div class="pull-right">
 				<button class="btn btn-success generatePass" name="save" type="button">
@@ -24,5 +24,5 @@
 		</div>
 	</form>
 </div>
-<!--/EditViewActions.tpl -->
+<!--/layouts/basic/modules/OSSPasswords/EditViewActions.tpl -->
 {/strip}

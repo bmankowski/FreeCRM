@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- DashBoardPreProcess.tpl -->
+<!-- layouts/basic/modules/Home/dashboards/DashBoardPreProcess.tpl -->
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
 	<div class="bodyContents">
 		<div class="mainContainer">
@@ -37,5 +37,5 @@
 					</div>
 					{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
 					<div class="col-xs-12 paddingLRZero">
-<!--/DashBoardPreProcess.tpl -->
+<!--/layouts/basic/modules/Home/dashboards/DashBoardPreProcess.tpl -->
 {/strip}

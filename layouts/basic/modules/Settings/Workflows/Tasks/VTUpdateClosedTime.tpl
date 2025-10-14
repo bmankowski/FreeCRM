@@ -10,9 +10,9 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- VTUpdateClosedTime.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTUpdateClosedTime.tpl -->
 	<div class="row">
 
 	</div>
-<!--/VTUpdateClosedTime.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTUpdateClosedTime.tpl -->
 {/strip}	

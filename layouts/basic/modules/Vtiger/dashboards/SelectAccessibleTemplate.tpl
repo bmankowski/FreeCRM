@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- SelectAccessibleTemplate.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/SelectAccessibleTemplate.tpl -->
 {assign var=ACCESS_OPTIONS value=\App\Json::decode(html_entity_decode($WIDGET->get('owners')))}
 {if !is_array($ACCESS_OPTIONS.available)}
 	{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
@@ -55,5 +55,5 @@
 		{/if}
 	</select>
 </div>
-<!--/SelectAccessibleTemplate.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/SelectAccessibleTemplate.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/ListViewContents.tpl -->
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -103,10 +103,10 @@
 							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" data-raw-value="{Vtiger_Util_Helper::toSafeHTML($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}">
 								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
 									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
-										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)|t:$MODULE_NAME}
 									</a>
 								{else}
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)|t:$MODULE_NAME}
 								{/if}
 							</td>
 						{/foreach}
@@ -131,6 +131,6 @@
 			{/if}
 		</div>
 	</div>
-<!--/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/ListViewContents.tpl -->
 {/strip}
 

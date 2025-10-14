@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- VTUpdateRelatedFieldTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTUpdateRelatedFieldTask.tpl -->
 	<div class="row">
 		<div class="col-md-2"><strong>{vtranslate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
 	</div><br>
@@ -72,5 +72,5 @@
 			<span class="alignMiddle deleteCondition glyphicon glyphicon-trash"></span>
 		</p>
 	</div>
-<!--/VTUpdateRelatedFieldTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTUpdateRelatedFieldTask.tpl -->
 {/strip}

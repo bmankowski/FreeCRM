@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- JSResources.tpl -->
+<!-- install/tpl/JSResources.tpl -->
 	<script type="text/javascript" src="../libraries/jquery/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/chosen/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/select2/select2.min.js"></script>
@@ -43,5 +43,5 @@
 	{/foreach}
 	<!-- Added in the end since it should be after less file loaded -->
 	<script type="text/javascript" src="../libraries/bootstrap/js/less.min.js"></script>
-<!--/JSResources.tpl -->
+<!--/install/tpl/JSResources.tpl -->
 {/strip}

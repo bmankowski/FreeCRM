@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- InventoryDiscountsType1.tpl -->
+<!-- layouts/basic/modules/Vtiger/InventoryDiscountsType1.tpl -->
 	{if $GROUP_DISCOUNT != 0}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -25,5 +25,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/InventoryDiscountsType1.tpl -->
+<!--/layouts/basic/modules/Vtiger/InventoryDiscountsType1.tpl -->
 {/strip}

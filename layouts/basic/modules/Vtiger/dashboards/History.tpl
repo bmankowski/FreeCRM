@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- History.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/History.tpl -->
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
@@ -37,5 +37,5 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/HistoryContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
-<!--/History.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/History.tpl -->
 {/strip}

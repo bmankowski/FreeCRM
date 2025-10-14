@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- NotificationsItem.tpl -->
+<!-- layouts/basic/modules/Notification/NotificationsItem.tpl -->
 	<div class="media noticeRow" data-id="{$ROW->getId()}" data-type="{$ROW->get('type')}">
 		{assign var=ICON value=$ROW->getIcon()}
 		<div class="media-body wordBreakAll">
@@ -42,5 +42,5 @@
 			</div>
 		</div>
 	</div>
-<!--/NotificationsItem.tpl -->
+<!--/layouts/basic/modules/Notification/NotificationsItem.tpl -->
 {/strip}

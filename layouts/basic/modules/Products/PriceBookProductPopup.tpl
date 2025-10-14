@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- PriceBookProductPopup.tpl -->
+<!-- layouts/basic/modules/Products/PriceBookProductPopup.tpl -->
     <div id="popupPageContainer" class="contentsDiv">
         <div class="paddingLeftRight10px">{include file='PopupSearch.tpl'|@vtemplate_path:$MODULE_NAME}
             <form id="popupPage" action="javascript:void(0)">
@@ -20,5 +20,5 @@
         <input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
     </div>
 </div>
-<!--/PriceBookProductPopup.tpl -->
+<!--/layouts/basic/modules/Products/PriceBookProductPopup.tpl -->
 {/strip}

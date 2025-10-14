@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ToggleButton.tpl -->
+<!-- layouts/basic/modules/Vtiger/ToggleButton.tpl -->
     <div id="hideToggle" class="hideToggle"><i class="icon glyphicon glyphicon-chevron-left"></i>
         {*<div style="position:relative;"> *}  
         <div id="toggleButton" class="toggleButton">
@@ -18,5 +18,5 @@
         </div>
         {*</div>*}
     </div>
-<!--/ToggleButton.tpl -->
+<!--/layouts/basic/modules/Vtiger/ToggleButton.tpl -->
 {/strip}

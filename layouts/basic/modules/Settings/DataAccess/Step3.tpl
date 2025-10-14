@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Step3.tpl -->
+<!-- layouts/basic/modules/Settings/DataAccess/Step3.tpl -->
 	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
     <div class="editContainer">
         <div id="step">
@@ -19,5 +19,5 @@
         <input type="hidden" name="next_step" value="Step4" />
         <div class="clearfix"></div>
     </div>
-<!--/Step3.tpl -->
+<!--/layouts/basic/modules/Settings/DataAccess/Step3.tpl -->
 {/strip}

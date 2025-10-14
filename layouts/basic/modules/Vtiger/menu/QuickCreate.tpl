@@ -1,5 +1,5 @@
 {strip}
-<!-- QuickCreate.tpl -->
+<!-- layouts/basic/modules/Vtiger/menu/QuickCreate.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	{assign var='MODULEMODEL' value=Vtiger_Module_Model::getInstance($MENU.tabid)}
 	{assign var='QUICKCREATEMODULE' value=$MODULEMODEL->isQuickCreateSupported()}
@@ -34,5 +34,5 @@
 			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 		{/if}
 	{/if}
-<!--/QuickCreate.tpl -->
+<!--/layouts/basic/modules/Vtiger/menu/QuickCreate.tpl -->
 {/strip}

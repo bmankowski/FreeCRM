@@ -8,7 +8,7 @@
 * Contributor(s): YetiForce.com
 *************************************************************************************}
 {strip}
-<!-- EditHeader.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/EditHeader.tpl -->
     <div class="editContainer">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
@@ -39,5 +39,5 @@
         </div>
         <div class="clearfix"></div>
     </div>
-<!--/EditHeader.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/EditHeader.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- DetailViewPostProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailViewPostProcess.tpl -->
 	{assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 
 					</div>
@@ -21,5 +21,5 @@
 	</div>
 </div>
 </div>
-<!--/DetailViewPostProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailViewPostProcess.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- EditView.tpl -->
+<!-- layouts/basic/modules/CustomView/EditView.tpl -->
 	<form class="form-horizontal" id="CustomView" name="CustomView" method="post" action="index.php">
 		<input type="hidden" name="record" id="record" value="{$RECORD_ID}" />
 		<input type="hidden" name="module" value="{$MODULE}" />
@@ -158,5 +158,5 @@
 			<button class="btn btn-success pull-right" id="customViewSubmit" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 		</div>
 	</form>
-<!--/EditView.tpl -->
+<!--/layouts/basic/modules/CustomView/EditView.tpl -->
 {/strip}

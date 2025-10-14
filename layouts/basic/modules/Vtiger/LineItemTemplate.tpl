@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- LineItemTemplate.tpl -->
+<!-- layouts/basic/modules/Vtiger/LineItemTemplate.tpl -->
     {eval var=$TPL_DATA}
-<!--/LineItemTemplate.tpl -->
+<!--/layouts/basic/modules/Vtiger/LineItemTemplate.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- widgets.tpl -->
+<!-- layouts/basic/modules/OSSMailView/widgets.tpl -->
 	<div class="container-fluid">
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
@@ -101,5 +101,5 @@
 			<p class="textAlignCenter">{vtranslate('LBL_NO_MAILS','OSSMailView')}</p>
 		{/if}
 	</div>
-<!--/widgets.tpl -->
+<!--/layouts/basic/modules/OSSMailView/widgets.tpl -->
 {/strip}

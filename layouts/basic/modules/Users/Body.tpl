@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Body.tpl -->
+<!-- layouts/basic/modules/Users/Body.tpl -->
 	<div class="container-fluid container-fluid-main">
 		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{if $VIEW != 'Login'}
@@ -20,5 +20,5 @@
 					<div class="mainBody">
 					{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 				{/if}
-<!--/Body.tpl -->
+<!--/layouts/basic/modules/Users/Body.tpl -->
 			{/strip}

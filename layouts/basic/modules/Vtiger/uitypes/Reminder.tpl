@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- Reminder.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Reminder.tpl -->
 {assign var=REMINDER_VALUES value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 {if $REMINDER_VALUES eq ''}
     {assign var=DAYS value=0}
@@ -73,5 +73,5 @@
 	</div>
 	<div class="clearfix"></div>
 </div>
-<!--/Reminder.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Reminder.tpl -->
 {/strip}

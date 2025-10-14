@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/CustomView/Index.tpl -->
 	<div class="customViewList">
 		<div class="widget_header row">
 			<div class="col-md-12">
@@ -36,5 +36,5 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/CustomView/Index.tpl -->
 {/strip}

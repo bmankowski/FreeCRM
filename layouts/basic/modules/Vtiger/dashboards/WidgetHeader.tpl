@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- WidgetHeader.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/WidgetHeader.tpl -->
 	{foreach key=index item=cssModel from=$STYLES}
 		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 	{/foreach}
@@ -35,5 +35,5 @@
 			</div>
 		</div>
 	</div>
-<!--/WidgetHeader.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/WidgetHeader.tpl -->
 {/strip}

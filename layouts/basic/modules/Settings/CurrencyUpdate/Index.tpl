@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/CurrencyUpdate/Index.tpl -->
 <div id="currencyUpdateContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
@@ -126,5 +126,5 @@
 		
 	</form>
 </div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/CurrencyUpdate/Index.tpl -->
 {/strip}

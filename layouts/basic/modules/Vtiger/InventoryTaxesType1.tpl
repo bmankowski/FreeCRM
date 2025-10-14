@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- InventoryTaxesType1.tpl -->
+<!-- layouts/basic/modules/Vtiger/InventoryTaxesType1.tpl -->
 	{if $TAX_TYPE == '0' && $TAX_FIELD && $RECORD}
 		{assign var=RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RECORD)}
 		{assign var=SELECTED_TAXES value=Vtiger_Taxes_UIType::getValues($RECORD_MODEL->get($TAX_FIELD))}
@@ -30,5 +30,5 @@
 			</div>
 		{/if}
 	{/if}			
-<!--/InventoryTaxesType1.tpl -->
+<!--/layouts/basic/modules/Vtiger/InventoryTaxesType1.tpl -->
 {/strip}

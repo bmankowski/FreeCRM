@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- InventoryTaxesType3.tpl -->
+<!-- layouts/basic/modules/Vtiger/InventoryTaxesType3.tpl -->
 	{if $GROUP_TAXS}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -26,5 +26,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/InventoryTaxesType3.tpl -->
+<!--/layouts/basic/modules/Vtiger/InventoryTaxesType3.tpl -->
 {/strip}

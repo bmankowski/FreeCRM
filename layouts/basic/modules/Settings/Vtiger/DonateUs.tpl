@@ -1,5 +1,5 @@
 {strip}
-<!-- DonateUs.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/DonateUs.tpl -->
 	
-<!--/DonateUs.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/DonateUs.tpl -->
 {/strip}

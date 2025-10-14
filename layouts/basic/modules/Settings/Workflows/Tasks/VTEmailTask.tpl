@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- VTEmailTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTEmailTask.tpl -->
 	<div id="VtEmailTaskContainer">
 		<div class="">
 			<div class="row padding-bottom1per">
@@ -149,5 +149,5 @@
 			</div>
 		</div>
 	</div>	
-<!--/VTEmailTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTEmailTask.tpl -->
 {/strip}	

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- AdvanceFilterCondition.tpl -->
+<!-- layouts/basic/modules/Vtiger/AdvanceFilterCondition.tpl -->
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
@@ -142,5 +142,5 @@
 			<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></span>
 		</div>
 	</div>
-<!--/AdvanceFilterCondition.tpl -->
+<!--/layouts/basic/modules/Vtiger/AdvanceFilterCondition.tpl -->
 {/strip}

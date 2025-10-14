@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- PicklistField.tpl -->
+<!-- layouts/basic/modules/Settings/LayoutEditor/inventoryTypes/PicklistField.tpl -->
 	<div class="form-group">
 		<label class="col-md-4 control-label">{vtranslate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:</label>
 		<div class="col-md-7">
@@ -45,5 +45,5 @@
 			{/foreach}
 		</div>
 	{/if}
-<!--/PicklistField.tpl -->
+<!--/layouts/basic/modules/Settings/LayoutEditor/inventoryTypes/PicklistField.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- EditViewBlocks.tpl -->
+<!-- layouts/basic/modules/Reservations/EditViewBlocks.tpl -->
 	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -98,5 +98,5 @@
 				</div>
 			{/if}
 		{/foreach}
-<!--/EditViewBlocks.tpl -->
+<!--/layouts/basic/modules/Reservations/EditViewBlocks.tpl -->
 	{/strip}

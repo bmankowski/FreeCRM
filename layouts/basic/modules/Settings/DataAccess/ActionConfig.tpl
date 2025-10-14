@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- ActionConfig.tpl -->
+<!-- layouts/basic/modules/Settings/DataAccess/ActionConfig.tpl -->
 <div class="editContainer">
 	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 	<div id="step">
@@ -48,5 +48,5 @@ delete data.data;delete data.module;delete data.parent;delete data.action;delete
 $('[name="data"]').val( JSON.stringify( data ) );
 });
 </script>
-<!--/ActionConfig.tpl -->
+<!--/layouts/basic/modules/Settings/DataAccess/ActionConfig.tpl -->
 {/strip}

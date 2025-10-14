@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<!-- TasksList.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/TasksList.tpl -->
 	<br>
 	<div>
 		<table class="table table-bordered table-condensed listViewEntriesTable">
@@ -51,5 +51,5 @@
 			</table>
 		{/if}
 	</div>
-<!--/TasksList.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/TasksList.tpl -->
 {/strip}

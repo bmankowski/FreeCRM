@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- InactiveFieldModal.tpl -->
+<!-- layouts/basic/modules/Settings/LayoutEditor/InactiveFieldModal.tpl -->
 	<div class="modal inactiveFieldsModal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -34,5 +34,5 @@
 			</div>
 		</div>
 	</div>
-<!--/InactiveFieldModal.tpl -->
+<!--/layouts/basic/modules/Settings/LayoutEditor/InactiveFieldModal.tpl -->
 {/strip}

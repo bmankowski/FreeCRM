@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ReferenceSearchView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/ReferenceSearchView.tpl -->
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
 	{assign var="LABEL" value=$FIELD_MODEL->getFieldInfo()}
@@ -16,5 +16,5 @@
 			{/foreach}
 		</select>
 	</div>
-<!--/ReferenceSearchView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/ReferenceSearchView.tpl -->
 {/strip}

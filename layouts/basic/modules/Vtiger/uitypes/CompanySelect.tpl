@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- CompanySelect.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/CompanySelect.tpl -->
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
@@ -17,7 +17,7 @@
 			</option>
 		{/foreach}
 	</select>
-<!--/CompanySelect.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/CompanySelect.tpl -->
 {/strip}
 
 

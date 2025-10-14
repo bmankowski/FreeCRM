@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- Sorting.tpl -->
+<!-- layouts/basic/modules/Settings/CustomView/Sorting.tpl -->
 	{assign 'CUSTOM_VIEW' CustomView_Record_Model::getInstanceById($CVID)}
 	{assign 'SORT_ORDER_BY' ","|explode:$CUSTOM_VIEW->get('sort')}
 	{assign 'SORT_ORDER' $SORT_ORDER_BY[1]}
@@ -78,5 +78,5 @@
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
 	</form>
-<!--/Sorting.tpl -->
+<!--/layouts/basic/modules/Settings/CustomView/Sorting.tpl -->
 {/strip}

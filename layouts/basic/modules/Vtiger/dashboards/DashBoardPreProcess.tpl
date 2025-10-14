@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- DashBoardPreProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/DashBoardPreProcess.tpl -->
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
 	<div class="bodyContents">
 		<div class="mainContainer">
@@ -27,5 +27,5 @@
 						</ul>
 					{/if}
 					{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
-<!--/DashBoardPreProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/DashBoardPreProcess.tpl -->
 				{/strip}

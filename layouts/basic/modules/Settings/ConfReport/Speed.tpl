@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Speed.tpl -->
+<!-- layouts/basic/modules/Settings/ConfReport/Speed.tpl -->
 		<div class="addIssuesModal validationEngineContainer" tabindex="-1">
 			<div  class="modal fade authModalContent">
 				<div class="modal-dialog">
@@ -23,5 +23,5 @@
 				</div>
 			</div>
 		</div>
-<!--/Speed.tpl -->
+<!--/layouts/basic/modules/Settings/ConfReport/Speed.tpl -->
 {/strip}

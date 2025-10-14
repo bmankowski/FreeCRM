@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/LayoutEditor/Index.tpl -->
     <div id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
@@ -214,5 +214,5 @@
 			</div>
 		</div>
 	</div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/LayoutEditor/Index.tpl -->
 {/strip}

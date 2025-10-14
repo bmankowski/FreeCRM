@@ -1,5 +1,5 @@
 {strip}
-<!-- test.tpl -->
+<!-- layouts/basic/modules/Vtiger/data_access/test.tpl -->
 test
-<!--/test.tpl -->
+<!--/layouts/basic/modules/Vtiger/data_access/test.tpl -->
 {/strip}

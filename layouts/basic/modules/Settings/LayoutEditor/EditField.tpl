@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- EditField.tpl -->
+<!-- layouts/basic/modules/Settings/LayoutEditor/EditField.tpl -->
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3 class="modal-title">{'LBL_EDIT_CUSTOM_FIELD'|t:$QUALIFIED_MODULE}</h3>
@@ -182,5 +182,5 @@
 			</form>
 		</div>
 	</div>
-<!--/EditField.tpl -->
+<!--/layouts/basic/modules/Settings/LayoutEditor/EditField.tpl -->
 {/strip}

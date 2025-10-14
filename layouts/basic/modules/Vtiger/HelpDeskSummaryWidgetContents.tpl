@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- HelpDeskSummaryWidgetContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/HelpDeskSummaryWidgetContents.tpl -->
 	{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 		<div class="recentActivitiesContainer">
 			<ul class="unstyled">
@@ -42,5 +42,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/HelpDeskSummaryWidgetContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/HelpDeskSummaryWidgetContents.tpl -->
 {/strip}

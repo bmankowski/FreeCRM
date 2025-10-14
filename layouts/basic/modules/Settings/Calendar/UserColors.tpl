@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- UserColors.tpl -->
+<!-- layouts/basic/modules/Settings/Calendar/UserColors.tpl -->
 <div class=" UserColors">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -112,5 +112,5 @@
 			</div>
 		</div>
 	</div>
-<!--/UserColors.tpl -->
+<!--/layouts/basic/modules/Settings/Calendar/UserColors.tpl -->
 {/strip}

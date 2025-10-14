@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- DetailViewProductsServicesContents.tpl -->
+<!-- layouts/basic/modules/HelpDesk/DetailViewProductsServicesContents.tpl -->
 	<div>
 		{* Summary View Products Widget*}
 		{if $ACTIVE_MODULES.Products}
@@ -106,5 +106,5 @@
 			</div>
 		{/if}
 	</div>
-<!--/DetailViewProductsServicesContents.tpl -->
+<!--/layouts/basic/modules/HelpDesk/DetailViewProductsServicesContents.tpl -->
 {/strip}

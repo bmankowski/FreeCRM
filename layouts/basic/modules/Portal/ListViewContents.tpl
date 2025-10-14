@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewContents.tpl -->
+<!-- layouts/basic/modules/Portal/ListViewContents.tpl -->
 	<input type="hidden" id="pageNumber" value="{$CURRENT_PAGE}">
 	<input type="hidden" id="totalCount" value="{$PAGING_INFO['recordCount']}" />
 	<input type="hidden" id="totalPageCount" value="{$PAGING_INFO['pageCount']}" />
@@ -108,5 +108,5 @@
 	</div>
 </div>
 </div>
-<!--/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Portal/ListViewContents.tpl -->
 {/strip}

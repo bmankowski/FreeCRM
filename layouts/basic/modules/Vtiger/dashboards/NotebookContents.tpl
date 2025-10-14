@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<!-- NotebookContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/NotebookContents.tpl -->
 <div style='padding:5px'>
 	<div class="">
 		<div class="dashboard_notebookWidget_view row">
@@ -52,5 +52,5 @@
 		</div>
 	</div>
 </div>
-<!--/NotebookContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/NotebookContents.tpl -->
 {/strip}

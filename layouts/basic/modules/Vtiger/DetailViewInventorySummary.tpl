@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- DetailViewInventorySummary.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailViewInventorySummary.tpl -->
 	{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 		{assign var="DISCOUNT" value=$DISCOUNT + $INVENTORY_ROW['discount']}
 		{assign var="TAXS" value=$INVENTORY_FIELD->getTaxParam($INVENTORY_ROW['taxparam'],$INVENTORY_ROW['net'], $TAXS)}
@@ -99,5 +99,5 @@
 			{/if}
 		{/if}
 	</div>
-<!--/DetailViewInventorySummary.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailViewInventorySummary.tpl -->
 {/strip}

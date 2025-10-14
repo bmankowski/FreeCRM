@@ -1,5 +1,5 @@
 {strip}
-<!-- mStep3Post.tpl -->
+<!-- install/tpl/mStep3Post.tpl -->
 </div>
 </div>
 </div>
@@ -14,5 +14,5 @@
 </div>
 </div>
 </div>
-<!--/mStep3Post.tpl -->
+<!--/install/tpl/mStep3Post.tpl -->
 {/strip}

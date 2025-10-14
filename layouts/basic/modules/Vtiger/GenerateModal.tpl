@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
-<!-- GenerateModal.tpl -->
+<!-- layouts/basic/modules/Vtiger/GenerateModal.tpl -->
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
 		<h3 class="modal-title">{vtranslate('LBL_GENERATE_RECORD_FOR_MODULE', $BASE_MODULE_NAME)}</h3>
@@ -48,5 +48,5 @@
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
 	</div>
-<!--/GenerateModal.tpl -->
+<!--/layouts/basic/modules/Vtiger/GenerateModal.tpl -->
 {/strip}

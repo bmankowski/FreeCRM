@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- EditView.tpl -->
+<!-- layouts/basic/modules/Settings/TreesManager/EditView.tpl -->
 <div class=" editViewContainer">
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="TreesManager"/>
@@ -103,5 +103,5 @@
 	</div>
 	<div class="clearfix"></div>
 </div>
-<!--/EditView.tpl -->
+<!--/layouts/basic/modules/Settings/TreesManager/EditView.tpl -->
 {/strip}

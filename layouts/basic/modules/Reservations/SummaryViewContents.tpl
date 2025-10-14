@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
 {strip}
-<!-- SummaryViewContents.tpl -->
+<!-- layouts/basic/modules/Reservations/SummaryViewContents.tpl -->
 <table class="summary-table" style="width:100%;">
 	<tbody>
 	{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
@@ -69,5 +69,5 @@
 		</div>
 	</div>
 </div>
-<!--/SummaryViewContents.tpl -->
+<!--/layouts/basic/modules/Reservations/SummaryViewContents.tpl -->
 {/strip}

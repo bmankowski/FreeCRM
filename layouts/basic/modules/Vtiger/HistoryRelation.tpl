@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- HistoryRelation.tpl -->
+<!-- layouts/basic/modules/Vtiger/HistoryRelation.tpl -->
 	<div class="recentActivitiesContainer row no-margin" >
 		<input type="hidden" id="relatedHistoryCurrentPage" value="{$PAGING_MODEL->get('page')}" />
 		<input type="hidden" id="relatedHistoryPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
@@ -68,5 +68,5 @@
 			{/if}
 		{/if}
 	</div>
-<!--/HistoryRelation.tpl -->
+<!--/layouts/basic/modules/Vtiger/HistoryRelation.tpl -->
 {/strip}

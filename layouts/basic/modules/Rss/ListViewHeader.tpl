@@ -10,12 +10,12 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewHeader.tpl -->
+<!-- layouts/basic/modules/Rss/ListViewHeader.tpl -->
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv">
 			<div class="listViewActionsDiv row">
             </div>
 		</div>
         <div class="listViewContentDiv" id="listViewContents">
-<!--/ListViewHeader.tpl -->
+<!--/layouts/basic/modules/Rss/ListViewHeader.tpl -->
 {/strip}

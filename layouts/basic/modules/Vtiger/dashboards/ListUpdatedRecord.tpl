@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ListUpdatedRecord.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/ListUpdatedRecord.tpl -->
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
@@ -37,5 +37,5 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/ListUpdatedRecordContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
-<!--/ListUpdatedRecord.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/ListUpdatedRecord.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- RecordNamesList.tpl -->
+<!-- layouts/basic/modules/Vtiger/RecordNamesList.tpl -->
 <div class="recordNamesList">
 	<div>
 		<div class="">
@@ -28,5 +28,5 @@
 		</div>
 	</div>
 </div>
-<!--/RecordNamesList.tpl -->
+<!--/layouts/basic/modules/Vtiger/RecordNamesList.tpl -->
 {/strip}

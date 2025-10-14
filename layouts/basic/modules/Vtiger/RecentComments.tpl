@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- RecentComments.tpl -->
+<!-- layouts/basic/modules/Vtiger/RecentComments.tpl -->
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	{* Change to this also refer: AddCommentForm.tpl *}
 	<div class="commentContainer recentComments">
@@ -175,5 +175,5 @@
 			</div>
 		{/if}
 	</div>
-<!--/RecentComments.tpl -->
+<!--/layouts/basic/modules/Vtiger/RecentComments.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ExportPDF.tpl -->
+<!-- layouts/basic/modules/Settings/PDF/ExportPDF.tpl -->
 	<div class="modal-header">
 		{if $ALL_RECORDS neq ''}
 			<input type="hidden" name="all_records" id="all_records" value="{$ALL_RECORDS}" />
@@ -26,5 +26,5 @@
 		</div>
 	</div>
 	{include file='ModalFooter.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-<!--/ExportPDF.tpl -->
+<!--/layouts/basic/modules/Settings/PDF/ExportPDF.tpl -->
 {/strip}

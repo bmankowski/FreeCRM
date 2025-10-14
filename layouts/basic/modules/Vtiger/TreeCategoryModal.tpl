@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- TreeCategoryModal.tpl -->
+<!-- layouts/basic/modules/Vtiger/TreeCategoryModal.tpl -->
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_EDITING', $MODULE)}</h3>
@@ -31,5 +31,5 @@
 			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
 		</div>
 	</div>
-<!--/TreeCategoryModal.tpl -->
+<!--/layouts/basic/modules/Vtiger/TreeCategoryModal.tpl -->
 {/strip}

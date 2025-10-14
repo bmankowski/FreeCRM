@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ImportStatus.tpl -->
+<!-- layouts/basic/modules/Import/ImportStatus.tpl -->
 <div class='widget_header row '>
 	<div class="col-xs-12">
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -96,5 +96,5 @@ jQuery(document).ready(function() {
 		</tr>
 	</table>
 </div>
-<!--/ImportStatus.tpl -->
+<!--/layouts/basic/modules/Import/ImportStatus.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- DetailViewHeaderTitle.tpl -->
+<!-- layouts/basic/modules/OSSMailView/DetailViewHeaderTitle.tpl -->
 	<div class="col-md-12 paddingLRZero row">
 		<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 		<input id="from_email" type="hidden" value="{$RECORD->get('from_email')}" />
@@ -38,5 +38,5 @@
 		</div>
 		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
-<!--/DetailViewHeaderTitle.tpl -->
+<!--/layouts/basic/modules/OSSMailView/DetailViewHeaderTitle.tpl -->
 {/strip}

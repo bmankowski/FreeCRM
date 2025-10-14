@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- RightPanel.tpl -->
+<!-- layouts/basic/modules/Calendar/RightPanel.tpl -->
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div>
 			<ul  class="nav" >
@@ -61,5 +61,5 @@
 			});
 		</script>
 	{/if}
-<!--/RightPanel.tpl -->
+<!--/layouts/basic/modules/Calendar/RightPanel.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- MappingDetail.tpl -->
+<!-- layouts/basic/modules/Settings/Leads/MappingDetail.tpl -->
 	<div class="row widget_header">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -53,5 +53,5 @@
 			</tbody>
 		</table>
 	</div>
-<!--/MappingDetail.tpl -->
+<!--/layouts/basic/modules/Settings/Leads/MappingDetail.tpl -->
 {/strip}

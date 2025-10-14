@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- EditView.tpl -->
+<!-- layouts/basic/modules/Settings/SMSNotifier/EditView.tpl -->
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -71,5 +71,5 @@
 			</div>
 		</div>
 	</div>
-<!--/EditView.tpl -->
+<!--/layouts/basic/modules/Settings/SMSNotifier/EditView.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- RelatedSummary.tpl -->
+<!-- layouts/basic/modules/OSSTimeControl/RelatedSummary.tpl -->
 	<div class="sumaryRelatedTimeControl">
 		<link rel="stylesheet" href="libraries/jquery/flot/jquery.flot.valuelabels.css">
 		<script type="text/javascript" src="libraries/jquery/flot/jquery.flot.min.js"></script>
@@ -42,5 +42,5 @@
 			<hr />
 		{/if}
 	</div>
-<!--/RelatedSummary.tpl -->
+<!--/layouts/basic/modules/OSSTimeControl/RelatedSummary.tpl -->
 {/strip}

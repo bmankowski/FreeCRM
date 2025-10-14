@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewHeader.tpl -->
+<!-- layouts/basic/modules/Vtiger/ListViewHeader.tpl -->
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
@@ -124,5 +124,5 @@
 			{/if}
 		</div>
 		<div class="listViewContentDiv" id="listViewContents">
-<!--/ListViewHeader.tpl -->
+<!--/layouts/basic/modules/Vtiger/ListViewHeader.tpl -->
 		{/strip}

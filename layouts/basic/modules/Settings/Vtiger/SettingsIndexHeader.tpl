@@ -1,5 +1,5 @@
 {strip}
-<!-- SettingsIndexHeader.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/SettingsIndexHeader.tpl -->
 	<div class="widget_header row ">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -14,5 +14,5 @@
 		</ul>
 	</div>
 	<div class="indexContainer"></div>
-<!--/SettingsIndexHeader.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/SettingsIndexHeader.tpl -->
 {/strip}

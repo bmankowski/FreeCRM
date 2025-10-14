@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ListViewLeftSide.tpl -->
+<!-- layouts/basic/modules/Vtiger/ListViewLeftSide.tpl -->
 	<div>
 		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" />
 	</div>
@@ -33,5 +33,5 @@
 			</a>
 		{/if}
 	</div>
-<!--/ListViewLeftSide.tpl -->
+<!--/layouts/basic/modules/Vtiger/ListViewLeftSide.tpl -->
 {/strip}

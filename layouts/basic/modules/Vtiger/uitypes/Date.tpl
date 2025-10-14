@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- Date.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Date.tpl -->
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
@@ -23,5 +23,5 @@
 		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 	</div>
 
-<!--/Date.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Date.tpl -->
 {/strip}

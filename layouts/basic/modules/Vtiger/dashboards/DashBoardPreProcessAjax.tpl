@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- DashBoardPreProcessAjax.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/DashBoardPreProcessAjax.tpl -->
 	<div class="col-xs-12 paddingLRZero">
 		{if count($DASHBOARD_TYPES) > 1}
 			<ul class="nav nav-tabs massEditTabs selectDashboard">
@@ -21,5 +21,5 @@
 	</div>
 	{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
 	<div class="col-xs-12 paddingLRZero">
-<!--/DashBoardPreProcessAjax.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/DashBoardPreProcessAjax.tpl -->
 {/strip}

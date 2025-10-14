@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- VTEntityMethodTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTEntityMethodTask.tpl -->
 	<div class="row">
 		<div class="col-md-2">{vtranslate('LBL_METHOD_NAME',$QUALIFIED_MODULE)} :</div>
 		<div class="col-md-8">
@@ -26,5 +26,5 @@
 			{/if}
 		</div>
 	</div>
-<!--/VTEntityMethodTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTEntityMethodTask.tpl -->
 {/strip}	

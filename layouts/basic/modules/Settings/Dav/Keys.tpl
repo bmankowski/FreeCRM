@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Keys.tpl -->
+<!-- layouts/basic/modules/Settings/Dav/Keys.tpl -->
 	<div class="" id="DavKeysContainer">
 		<div class="widget_header row">
 			<div class="col-md-8">
@@ -112,5 +112,5 @@
 			</div>
 		</div>	
 	</div>
-<!--/Keys.tpl -->
+<!--/layouts/basic/modules/Settings/Dav/Keys.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- SwitchUsers.tpl -->
+<!-- layouts/basic/modules/Settings/Users/SwitchUsers.tpl -->
 	<input type="hidden" id="suCount" value="{count($SWITCH_USERS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
@@ -39,6 +39,6 @@
 			{include file='SwitchUsersItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=false}
 		</table>
 	</div>
-<!--/SwitchUsers.tpl -->
+<!--/layouts/basic/modules/Settings/Users/SwitchUsers.tpl -->
 {/strip}
 

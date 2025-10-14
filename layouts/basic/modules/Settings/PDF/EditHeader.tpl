@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- EditHeader.tpl -->
+<!-- layouts/basic/modules/Settings/PDF/EditHeader.tpl -->
 	<div class="row widget_header">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -62,5 +62,5 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
-<!--/EditHeader.tpl -->
+<!--/layouts/basic/modules/Settings/PDF/EditHeader.tpl -->
 {/strip}

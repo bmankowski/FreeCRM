@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Updates.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/Updates.tpl -->
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{Vtiger_Util_Helper::toSafeHTML($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
@@ -37,5 +37,5 @@
 			</div>
 		</div>
 	</div>
-<!--/Updates.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/Updates.tpl -->
 {/strip}

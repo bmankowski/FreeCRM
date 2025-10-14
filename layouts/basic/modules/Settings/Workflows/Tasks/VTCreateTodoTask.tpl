@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- VTCreateTodoTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTCreateTodoTask.tpl -->
 	<div class="row">
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
@@ -165,5 +165,5 @@
 			</div>
 		</div>
 	</div>
-<!--/VTCreateTodoTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTCreateTodoTask.tpl -->
 {/strip}

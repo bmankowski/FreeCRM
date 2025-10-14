@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- RelatedList.tpl -->
+<!-- layouts/basic/modules/PriceBooks/RelatedList.tpl -->
     <div class="relatedContainer">
         <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
         <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
@@ -99,5 +99,5 @@
 			</div>
 		</div>
 	</div>
-<!--/RelatedList.tpl -->
+<!--/layouts/basic/modules/PriceBooks/RelatedList.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ChartEditStep3.tpl -->
+<!-- layouts/basic/modules/Reports/ChartEditStep3.tpl -->
 	<form class="form-horizontal recordEditView padding1per" id="chart_report_step3" method="post" action="index.php">
 		<input type="hidden" name="module" value="{$MODULE}" >
 		<input type="hidden" name="action" value="ChartSave" >
@@ -105,5 +105,5 @@
 			<br>
 		</div>
 	</form>
-<!--/ChartEditStep3.tpl -->
+<!--/layouts/basic/modules/Reports/ChartEditStep3.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/Widgets/Index.tpl -->
 <input type="hidden" id="filterAll" value='{$FILTERS}'>
 <input type="hidden" id="checkboxAll" value='{$CHECKBOXS}'>
 <input type="hidden" id="switchHeaderAll" value='{$SWITCHES_HEADER}'>
@@ -71,5 +71,5 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/Widgets/Index.tpl -->
 {/strip}

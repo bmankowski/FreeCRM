@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- DatabaseException.tpl -->
+<!-- layouts/basic/modules/Vtiger/DatabaseException.tpl -->
 	<!DOCTYPE html>
 	<html>
 		<head>
@@ -38,5 +38,5 @@
 			</div>
 		</body>
 	</html>
-<!--/DatabaseException.tpl -->
+<!--/layouts/basic/modules/Vtiger/DatabaseException.tpl -->
 {/strip}

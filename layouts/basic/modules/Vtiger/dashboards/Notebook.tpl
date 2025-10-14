@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-<!-- Notebook.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/Notebook.tpl -->
 	<div class="dashboardWidgetHeader">
 		{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
@@ -15,5 +15,5 @@
 	<div class="dashboardWidgetContent" style='padding:5px'>
 		{include file="dashboards/NotebookContents.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
-<!--/Notebook.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/Notebook.tpl -->
 {/strip}

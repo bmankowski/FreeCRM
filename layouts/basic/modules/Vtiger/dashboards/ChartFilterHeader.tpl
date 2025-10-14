@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ChartFilterHeader.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/ChartFilterHeader.tpl -->
 	<div class="dashboardWidgetHeader">
 		{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
@@ -10,5 +10,5 @@
 	<div class="dashboardWidgetFooter">
 		{include file="dashboards/ChartFilterFooter.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
-<!--/ChartFilterHeader.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/ChartFilterHeader.tpl -->
 {/strip}

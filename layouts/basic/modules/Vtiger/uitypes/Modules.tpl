@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Modules.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Modules.tpl -->
 {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getModulesListValues()}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -10,5 +10,5 @@
         <option value="{$PICKLIST_VALUE.name}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_VALUE.name)} selected {/if}>{$PICKLIST_VALUE.label}</option>
     {/foreach}
 </select>
-<!--/Modules.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Modules.tpl -->
 {/strip}

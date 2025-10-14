@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- FindDuplicateContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/FindDuplicateContents.tpl -->
 <input type="hidden" id="listViewEntriesCount" value="{$LISTVIEW_ENTRIES_COUNT}" />
 <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
@@ -101,5 +101,5 @@
 		</table>
 	{/if}
 </div>
-<!--/FindDuplicateContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/FindDuplicateContents.tpl -->
 {/strip}

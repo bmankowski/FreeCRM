@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- TreeFieldSearchView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/TreeFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=ALL_VALUES value=$FIELD_MODEL->getUITypeModel()->getAllValue()}
 	{if isset($SEARCH_INFO['searchValue'])}
@@ -15,5 +15,5 @@
         {/foreach}
     </select>
     </div>
-<!--/TreeFieldSearchView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/TreeFieldSearchView.tpl -->
 {/strip}

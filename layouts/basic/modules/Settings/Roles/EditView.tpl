@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-<!-- EditView.tpl -->
+<!-- layouts/basic/modules/Settings/Roles/EditView.tpl -->
 	<div class="">
 		<div class="row widget_header">
 			<div class="col-xs-12">
@@ -212,5 +212,5 @@
 			{/if}
 		</form>
 	</div>
-<!--/EditView.tpl -->
+<!--/layouts/basic/modules/Settings/Roles/EditView.tpl -->
 {/strip}

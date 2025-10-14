@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Locks.tpl -->
+<!-- layouts/basic/modules/Settings/Users/Locks.tpl -->
 	<input type="hidden" id="lcount" value="{count($LOCKS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
@@ -39,6 +39,6 @@
 			{include file='LocksItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=false}
 		</table>
 	</div>
-<!--/Locks.tpl -->
+<!--/layouts/basic/modules/Settings/Users/Locks.tpl -->
 {/strip}
 

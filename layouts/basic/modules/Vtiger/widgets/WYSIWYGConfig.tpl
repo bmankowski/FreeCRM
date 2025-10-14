@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- WYSIWYGConfig.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/WYSIWYGConfig.tpl -->
 <div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -59,5 +59,5 @@
 		</div>
 	</div>
 </div>
-<!--/WYSIWYGConfig.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/WYSIWYGConfig.tpl -->
 {/strip}

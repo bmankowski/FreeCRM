@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- HistoryContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/HistoryContents.tpl -->
 <div style='padding:5px;'>
 {if $HISTORIES neq false}
 	{foreach key=$index item=HISTORY from=$HISTORIES}
@@ -156,5 +156,5 @@
 	</span>
 {/if}
 </div>
-<!--/HistoryContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/HistoryContents.tpl -->
 {/strip}

@@ -1,5 +1,5 @@
 {strip}
-<!-- mStep3Pre.tpl -->
+<!-- install/tpl/mStep3Pre.tpl -->
 	<div class="row main-container">
 		<div class="inner-container">
 			<div class="endContainer">
@@ -10,5 +10,5 @@
 			<div class="row">
 				<div class="span12">
 					<div class="logs well">
-<!--/mStep3Pre.tpl -->
+<!--/install/tpl/mStep3Pre.tpl -->
 					{/strip}

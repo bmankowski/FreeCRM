@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- EditViewDiscount.tpl -->
+<!-- layouts/basic/modules/Vtiger/inventoryfields/EditViewDiscount.tpl -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div>
 		<div class="input-group input-group-sm">
@@ -13,5 +13,5 @@
 			{/if}
 		</div>
 	</div>
-<!--/EditViewDiscount.tpl -->
+<!--/layouts/basic/modules/Vtiger/inventoryfields/EditViewDiscount.tpl -->
 {/strip}

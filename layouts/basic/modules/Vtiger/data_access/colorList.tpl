@@ -1,5 +1,5 @@
 {strip}
-<!-- colorList.tpl -->{assign var=BG value=$SAVED_DATA['bg']}
+<!-- layouts/basic/modules/Vtiger/data_access/colorList.tpl -->{assign var=BG value=$SAVED_DATA['bg']}
 {assign var=TEXT value=$SAVED_DATA['text']}
 <div class="row">
 	<div class="col-md-6">
@@ -15,7 +15,7 @@
 </div>
 <link rel="stylesheet" href="libraries/jquery/colorpicker/css/colorpicker.css" type="text/css" media="screen">
 <script type="text/javascript" src="libraries/jquery/colorpicker/js/colorpicker.js"></script>
-<!--/colorList.tpl -->
+<!--/layouts/basic/modules/Vtiger/data_access/colorList.tpl -->
 {/strip}
 <script type="text/javascript">
 (function($){

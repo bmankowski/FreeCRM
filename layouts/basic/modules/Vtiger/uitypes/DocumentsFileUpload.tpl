@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- DocumentsFileUpload.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/DocumentsFileUpload.tpl -->
 {assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype']}
 {if $FILE_LOCATION_TYPE_FIELD eq NULL}
     {assign var=DOCUMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('Documents')}
@@ -49,5 +49,5 @@
 		</div>
 	</div>
 </div>
-<!--/DocumentsFileUpload.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/DocumentsFileUpload.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- sview.tpl -->
+<!-- layouts/basic/modules/OSSMailView/sview.tpl -->
 <div class="SendEmailFormStep2" id="emailPreview" name="emailPreview">
 	<div class="well-large zeroPaddingAndMargin">
 		<form class="form-horizontal emailPreview" style="overflow: overlay;">
@@ -107,7 +107,7 @@
 		</form>
 	</div>
 </div>
-<!--/sview.tpl -->
+<!--/layouts/basic/modules/OSSMailView/sview.tpl -->
 {/strip}
 {literal}
 <script>

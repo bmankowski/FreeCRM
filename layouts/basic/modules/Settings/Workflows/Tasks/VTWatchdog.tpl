@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- VTWatchdog.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTWatchdog.tpl -->
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{vtranslate('LBL_SELECT_ACTION_TYPE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
@@ -60,5 +60,5 @@
 			</textarea>
 		</div>
 	</div>
-<!--/VTWatchdog.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTWatchdog.tpl -->
 {/strip}	

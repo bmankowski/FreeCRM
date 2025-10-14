@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Header.tpl -->
+<!-- install/tpl/Header.tpl -->
 	<!DOCTYPE html>
 	<html  lang="{$HTMLLANG}">
 		<head>
@@ -61,5 +61,5 @@
 			<div id="page">
 				<!-- container which holds data temporarly for pjax calls -->
 				<div id="pjaxContainer" class="hide noprint"></div>
-<!--/Header.tpl -->
+<!--/install/tpl/Header.tpl -->
 			{/strip}

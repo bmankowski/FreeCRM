@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- VTCreateEventTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTCreateEventTask.tpl -->
 	<div class="row">
 		<div class="row padding-bottom1per">
 			<span class="col-md-2 control-label">{vtranslate('LBL_EVENT_NAME',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
@@ -146,5 +146,5 @@
 			</span>
 		</div>
 	</div>
-<!--/VTCreateEventTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTCreateEventTask.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- DetailViewDocumentRelations.tpl -->
+<!-- layouts/basic/modules/Documents/DetailViewDocumentRelations.tpl -->
 	{foreach from=$DATA item=REL_MODULE}
 		{$ITEM}
 		<div class="summaryWidgetContainer noSumarryWidgetEffect">
@@ -16,5 +16,5 @@
 			</div>
 		</div>
 	{/foreach}
-<!--/DetailViewDocumentRelations.tpl -->
+<!--/layouts/basic/modules/Documents/DetailViewDocumentRelations.tpl -->
 {/strip}

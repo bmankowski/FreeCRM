@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- EditViewReference.tpl -->
+<!-- layouts/basic/modules/Vtiger/inventoryfields/EditViewReference.tpl -->
 	{assign var="REFERENCE_LIST" value=$FIELD->getReferenceModules()}
 	{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(['mandatory'=>true]))}
@@ -52,5 +52,5 @@
 			</span>
 		{/if}
 	</div>
-<!--/EditViewReference.tpl -->
+<!--/layouts/basic/modules/Vtiger/inventoryfields/EditViewReference.tpl -->
 {/strip}

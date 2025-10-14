@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- EditViewBlocks.tpl -->
+<!-- layouts/basic/modules/Vtiger/EditViewBlocks.tpl -->
     <div class='editViewContainer'>
 
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -145,5 +145,5 @@
 				</div>
 			{/if}
 		{/foreach}
-<!--/EditViewBlocks.tpl -->
+<!--/layouts/basic/modules/Vtiger/EditViewBlocks.tpl -->
 	{/strip}

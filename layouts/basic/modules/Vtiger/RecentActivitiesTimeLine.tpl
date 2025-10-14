@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- RecentActivitiesTimeLine.tpl -->
+<!-- layouts/basic/modules/Vtiger/RecentActivitiesTimeLine.tpl -->
 	<div class="recentActivitiesContainer row no-margin">
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}" />
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
@@ -209,5 +209,5 @@
 			{/if}
 		</div>
 	</div>
-<!--/RecentActivitiesTimeLine.tpl -->
+<!--/layouts/basic/modules/Vtiger/RecentActivitiesTimeLine.tpl -->
 {/strip}

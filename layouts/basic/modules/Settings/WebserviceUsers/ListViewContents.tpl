@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ListViewContents.tpl -->
+<!-- layouts/basic/modules/Settings/WebserviceUsers/ListViewContents.tpl -->
 	<br>
 		<div class="editViewContainer tab-pane active" id="{$TYPE_API}" data-type="{$TYPE_API}">
 			<div class="listViewActionsDiv row">
@@ -18,6 +18,6 @@
 			</div>
 		</div>
 	</div>
-<!--/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Settings/WebserviceUsers/ListViewContents.tpl -->
 {/strip}
 

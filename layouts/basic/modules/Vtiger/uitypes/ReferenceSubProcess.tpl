@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ReferenceSubProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/ReferenceSubProcess.tpl -->
 	{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 	{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
@@ -56,5 +56,5 @@
 			{/if}
 		</span>
 	</div>
-<!--/ReferenceSubProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/ReferenceSubProcess.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- InventoryTaxes.tpl -->
+<!-- layouts/basic/modules/Vtiger/InventoryTaxes.tpl -->
 	{assign var="AGGREGATION" value=$CONFIG['aggregation']}
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
@@ -36,5 +36,5 @@
 			</div>
 		</div>
 	</div>
-<!--/InventoryTaxes.tpl -->
+<!--/layouts/basic/modules/Vtiger/InventoryTaxes.tpl -->
 {/strip}

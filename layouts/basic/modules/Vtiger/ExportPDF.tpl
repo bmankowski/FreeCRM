@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ExportPDF.tpl -->
+<!-- layouts/basic/modules/Vtiger/ExportPDF.tpl -->
 	<form id="pdfExportModal" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -56,5 +56,5 @@
 		<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
 	</div>
 	</form>
-<!--/ExportPDF.tpl -->
+<!--/layouts/basic/modules/Vtiger/ExportPDF.tpl -->
 {/strip}

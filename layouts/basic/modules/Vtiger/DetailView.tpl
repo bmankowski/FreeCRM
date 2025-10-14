@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- DetailView.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailView.tpl -->
 	{assign var="MODULE_NAME" value=$MODULE->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
@@ -80,5 +80,5 @@
 			</div>
 		</div>
 	</div>
-<!--/DetailView.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailView.tpl -->
 {/strip}

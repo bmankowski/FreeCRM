@@ -1,5 +1,5 @@
 {strip}
-<!-- DetailViewPreProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailViewPreProcess.tpl -->
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -16,5 +16,5 @@
 		<div class="mainContainer">
 			<div class="contentsDiv">
 				{include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE_NAME}
-<!--/DetailViewPreProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailViewPreProcess.tpl -->
 			{/strip}

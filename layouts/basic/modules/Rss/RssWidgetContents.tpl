@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- RssWidgetContents.tpl -->
+<!-- layouts/basic/modules/Rss/RssWidgetContents.tpl -->
 	<div class="modal-header">
 		<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 		<h3 class="modal-title">{vtranslate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}</h3>
@@ -30,5 +30,5 @@
 			</div>
 		</div>
 	</div>
-<!--/RssWidgetContents.tpl -->
+<!--/layouts/basic/modules/Rss/RssWidgetContents.tpl -->
 {/strip}

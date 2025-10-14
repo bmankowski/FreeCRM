@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- EditFieldByModal.tpl -->
+<!-- layouts/basic/modules/Assets/EditFieldByModal.tpl -->
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
@@ -104,5 +104,5 @@
 			{/if}
 		{/if}
 	</div>
-<!--/EditFieldByModal.tpl -->
+<!--/layouts/basic/modules/Assets/EditFieldByModal.tpl -->
 {/strip}

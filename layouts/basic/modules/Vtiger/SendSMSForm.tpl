@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- SendSMSForm.tpl -->
+<!-- layouts/basic/modules/Vtiger/SendSMSForm.tpl -->
 	<div id="sendSmsContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -68,5 +68,5 @@
 			</div>
 		</div>
 	</div>
-<!--/SendSMSForm.tpl -->
+<!--/layouts/basic/modules/Vtiger/SendSMSForm.tpl -->
 {/strip}

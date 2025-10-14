@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- TreeHeader.tpl -->
+<!-- layouts/basic/modules/KnowledgeBase/TreeHeader.tpl -->
 	<div class="widget_header row marginBottom10px">
 		<div class="col-sm-8 col-xs-12">
 			{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='paddingRight10'}
@@ -28,5 +28,5 @@
 	</div>	
 	<div class="col-sm-9 col-xs-12 contentOfData">
 	</div>
-<!--/TreeHeader.tpl -->
+<!--/layouts/basic/modules/KnowledgeBase/TreeHeader.tpl -->
 {/strip}

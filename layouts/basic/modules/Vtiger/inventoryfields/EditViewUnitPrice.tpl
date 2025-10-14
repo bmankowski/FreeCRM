@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- EditViewUnitPrice.tpl -->
+<!-- layouts/basic/modules/Vtiger/inventoryfields/EditViewUnitPrice.tpl -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="input-group input-group-sm">
 		<input name="{$FIELD->getColumnName()}{$ROW_NO}" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" type="text" 
@@ -14,5 +14,5 @@
 			</span>
 		{/if}
 	</div>
-<!--/EditViewUnitPrice.tpl -->
+<!--/layouts/basic/modules/Vtiger/inventoryfields/EditViewUnitPrice.tpl -->
 {/strip}

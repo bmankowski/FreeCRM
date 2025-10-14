@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/GlobalPermission/Index.tpl -->
 <div class=" LangManagement">
 	<div class="widget_header row">
 		<div class="col-md-10">
@@ -44,5 +44,5 @@
 			</tbody>
 		</table>
 	</div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/GlobalPermission/Index.tpl -->
 {/strip}

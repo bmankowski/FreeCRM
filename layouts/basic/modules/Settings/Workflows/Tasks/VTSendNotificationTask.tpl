@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- VTSendNotificationTask.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTSendNotificationTask.tpl -->
 	<div class="" id="VtVTEmailTemplateTaskContainer">
 		<div class="">
 			<div class="row">
@@ -26,5 +26,5 @@
 			</div>
 		</div>
 	</div>	
-<!--/VTSendNotificationTask.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTSendNotificationTask.tpl -->
 {/strip}	

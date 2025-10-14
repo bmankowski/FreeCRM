@@ -1,5 +1,5 @@
 {strip}
-<!-- Module.tpl -->
+<!-- layouts/basic/modules/Vtiger/menu/Module.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	{if (isset($ACTIVE_MODULES[$MENU.mod]) && $ACTIVE_MODULES[$MENU.mod]) AND ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalReadPermission() || $PRIVILEGESMODEL->hasModulePermission($MENU['tabid']) ) }
 		{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU['mod']))}
@@ -17,5 +17,5 @@
 			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
 		{/if}
 	{/if}
-<!--/Module.tpl -->
+<!--/layouts/basic/modules/Vtiger/menu/Module.tpl -->
 {/strip}

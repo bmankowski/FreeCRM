@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ReAlignSettingsShortCut.tpl --> {assign var=SPAN_COUNT value=1}
+<!-- layouts/basic/modules/Settings/Vtiger/ReAlignSettingsShortCut.tpl --> {assign var=SPAN_COUNT value=1}
 	<div  class="row">
 		{foreach item=SETTING_SHORTCUT from=$SETTINGS_SHORTCUT name=shortcuts}
 			<div id="shortcut_{$SETTING_SHORTCUT->getId()}" style="margin-left: 20px;" data-actionurl="{$SETTING_SHORTCUT->getPinUnpinActionUrl()}" class="col-md-3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTING_SHORTCUT->getUrl()}">
@@ -22,5 +22,5 @@
 							{$SPAN_COUNT=$SPAN_COUNT+1}
         {/foreach}
 	</div>
-<!--/ReAlignSettingsShortCut.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/ReAlignSettingsShortCut.tpl -->
 {/strip}

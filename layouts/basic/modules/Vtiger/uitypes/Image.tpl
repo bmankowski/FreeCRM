@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Image.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Image.tpl -->
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<input type="file" class="input-large {if $MODULE eq 'Products'}multi" title="{vtranslate('LBL_SELECT_FILE')}" maxlength="6"{else}"{/if} name="{$FIELD_MODEL->getFieldName()}[]" value="{$FIELD_MODEL->get('fieldvalue')}"
@@ -29,5 +29,5 @@
 			{/if}
 		</div>
 	{/foreach}
-<!--/Image.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Image.tpl -->
 {/strip}

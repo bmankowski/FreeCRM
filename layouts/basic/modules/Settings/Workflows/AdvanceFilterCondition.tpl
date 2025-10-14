@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- AdvanceFilterCondition.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/AdvanceFilterCondition.tpl -->
 <div class="row conditionRow marginBottom10px">
 	<div class="col-md-4">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
@@ -72,5 +72,5 @@
 		<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
 	</span>
 </div>
-<!--/AdvanceFilterCondition.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/AdvanceFilterCondition.tpl -->
 {/strip}

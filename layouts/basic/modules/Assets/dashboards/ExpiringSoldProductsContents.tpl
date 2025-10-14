@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ExpiringSoldProductsContents.tpl -->
+<!-- layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl -->
 {if count($DATA) gt 0 }
 	<div style="padding:5px;">
 		<div class="row">
@@ -36,5 +36,5 @@
 		{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
 	</span>
 {/if}
-<!--/ExpiringSoldProductsContents.tpl -->
+<!--/layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl -->
 {/strip}

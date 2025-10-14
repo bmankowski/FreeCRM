@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- VTAutoAssign.tpl -->
+<!-- layouts/basic/modules/Settings/Workflows/Tasks/VTAutoAssign.tpl -->
 	{assign var=ENTRIES value=$TASK_OBJECT->getAutoAssignEntries($WORKFLOW_MODEL->get('module_name'))}
 	<div class="row">
 		<label class="col-md-4 control-label">{'LBL_SELECT_TEMPLATE'|t:$QUALIFIED_MODULE}</label>
@@ -13,5 +13,5 @@
 			</select>
 		</div>
 	</div>
-<!--/VTAutoAssign.tpl -->
+<!--/layouts/basic/modules/Settings/Workflows/Tasks/VTAutoAssign.tpl -->
 {/strip}	

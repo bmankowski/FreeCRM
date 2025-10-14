@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- EditView.tpl -->
+<!-- layouts/basic/modules/Settings/HideBlocks/EditView.tpl -->
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
@@ -82,5 +82,5 @@
 	</div>
     </form>	
 </div>
-<!--/EditView.tpl -->
+<!--/layouts/basic/modules/Settings/HideBlocks/EditView.tpl -->
 {/strip}

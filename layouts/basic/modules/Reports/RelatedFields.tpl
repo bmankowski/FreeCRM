@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- RelatedFields.tpl -->
+<!-- layouts/basic/modules/Reports/RelatedFields.tpl -->
 	<span class="col-xs-6">
 		<div class="">
 			<select class="chzn-select col-xs-11 selectedSortFields form-control" title="{vtranslate('LBL_GROUP_BY',$MODULE)}">
@@ -49,5 +49,5 @@
 			</span>
 	</div>
 	</span>
-<!--/RelatedFields.tpl -->
+<!--/layouts/basic/modules/Reports/RelatedFields.tpl -->
 {/strip}

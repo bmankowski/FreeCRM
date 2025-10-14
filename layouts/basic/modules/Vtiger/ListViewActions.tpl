@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ListViewActions.tpl -->
+<!-- layouts/basic/modules/Vtiger/ListViewActions.tpl -->
 	<div class="listViewActions pull-right paginationDiv paddingLeft5px">
         {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
 			<div class="">
@@ -23,5 +23,5 @@
 	<input type="hidden" id="recordsCount" value=""/>
 	<input type="hidden" id="selectedIds" name="selectedIds" />
 	<input type="hidden" id="excludedIds" name="excludedIds" />
-<!--/ListViewActions.tpl -->
+<!--/layouts/basic/modules/Vtiger/ListViewActions.tpl -->
 {/strip}

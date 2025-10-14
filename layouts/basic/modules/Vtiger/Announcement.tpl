@@ -1,5 +1,5 @@
 {strip}
-<!-- Announcement.tpl -->
+<!-- layouts/basic/modules/Vtiger/Announcement.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {assign var="AMODULE" value='Announcements'}
 	<div id="announcements">
@@ -32,5 +32,5 @@
 			</div>
 		{/foreach}
 	</div>
-<!--/Announcement.tpl -->
+<!--/layouts/basic/modules/Vtiger/Announcement.tpl -->
 {/strip}

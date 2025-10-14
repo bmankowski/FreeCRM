@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Edit.tpl -->
+<!-- layouts/basic/modules/Settings/PBXManager/Edit.tpl -->
 	<div class="">
 		{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 		<form id="MyModal" class="form-horizontal" data-detail-url="{$MODULE_MODEL->getDetailViewUrl()}">
@@ -57,5 +57,5 @@
 			{vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
 		</div>
 	</div>
-<!--/Edit.tpl -->
+<!--/layouts/basic/modules/Settings/PBXManager/Edit.tpl -->
 {/strip}

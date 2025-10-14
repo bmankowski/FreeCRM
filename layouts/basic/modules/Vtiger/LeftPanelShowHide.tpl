@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- LeftPanelShowHide.tpl -->
+<!-- layouts/basic/modules/Vtiger/LeftPanelShowHide.tpl -->
 	<div id="toggleButton" class="toggleButton"> <i class="glyphicon glyphicon-chevron-left"></i></div>&nbsp
 	<div id="hideToggle" class="toggleButton hide"> <i class="glyphicon glyphicon-chevron-right"></i></div>&nbsp
-<!--/LeftPanelShowHide.tpl -->
+<!--/layouts/basic/modules/Vtiger/LeftPanelShowHide.tpl -->
 {/strip}

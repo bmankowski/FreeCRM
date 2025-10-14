@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- ProductsSoldToRenewContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/ProductsSoldToRenewContents.tpl -->
 <div class="col-sm-12">
 
 	{* Comupte the nubmer of columns required *}
@@ -36,5 +36,5 @@
 	{/if}
 
 </div>
-<!--/ProductsSoldToRenewContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/ProductsSoldToRenewContents.tpl -->
 {/strip}

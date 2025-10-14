@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<!-- RoleTree.tpl -->
+<!-- layouts/basic/modules/Settings/Roles/RoleTree.tpl -->
 <ul>
 {foreach from=$ROLE->getChildren() item=CHILD_ROLE}
 	<li data-role="{$CHILD_ROLE->getParentRoleString()}" data-roleid="{$CHILD_ROLE->getId()}">
@@ -35,5 +35,5 @@
 	</li>
 {/foreach}
 </ul>
-<!--/RoleTree.tpl -->
+<!--/layouts/basic/modules/Settings/Roles/RoleTree.tpl -->
 {/strip}

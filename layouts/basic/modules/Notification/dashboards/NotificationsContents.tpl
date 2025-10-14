@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- NotificationsContents.tpl -->
+<!-- layouts/basic/modules/Notification/dashboards/NotificationsContents.tpl -->
 	<div class="notificationContainer">
 		{if $NOTIFICATIONS neq false}
 			<div class="notificationEntries">
@@ -14,5 +14,5 @@
 			</span>
 		{/if}
 	</div>
-<!--/NotificationsContents.tpl -->
+<!--/layouts/basic/modules/Notification/dashboards/NotificationsContents.tpl -->
 {/strip}

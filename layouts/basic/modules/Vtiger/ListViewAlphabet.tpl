@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ListViewAlphabet.tpl -->
+<!-- layouts/basic/modules/Vtiger/ListViewAlphabet.tpl -->
 	<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
 	<input type="hidden" id="Operator" value="{$OPERATOR}" />
 	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
@@ -45,5 +45,5 @@
 			</div>
 		</div>
 	</div>
-<!--/ListViewAlphabet.tpl -->
+<!--/layouts/basic/modules/Vtiger/ListViewAlphabet.tpl -->
 {/strip}

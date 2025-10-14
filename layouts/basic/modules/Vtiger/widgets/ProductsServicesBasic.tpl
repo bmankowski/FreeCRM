@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ProductsServicesBasic.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/ProductsServicesBasic.tpl -->
 	<div class="summaryWidgetContainer productsServicesWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 			<div class="widget_header row">
@@ -27,5 +27,5 @@
 			</div>
 		</div>
 	</div>
-<!--/ProductsServicesBasic.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/ProductsServicesBasic.tpl -->
 {/strip}

@@ -10,10 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- SettingsMenuEnd.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/SettingsMenuEnd.tpl -->
 	</div>
 			</div>
 		</div>
 	</div>
-<!--/SettingsMenuEnd.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/SettingsMenuEnd.tpl -->
 {/strip}

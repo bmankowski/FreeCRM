@@ -1,5 +1,5 @@
 {strip}
-<!-- BodyHeaderMobile.tpl -->
+<!-- layouts/basic/modules/Vtiger/BodyHeaderMobile.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="actionMenu" aria-hidden="true">
 		<div class="row">
@@ -140,5 +140,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/BodyHeaderMobile.tpl -->
+<!--/layouts/basic/modules/Vtiger/BodyHeaderMobile.tpl -->
 {/strip}

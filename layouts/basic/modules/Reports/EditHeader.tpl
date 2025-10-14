@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- EditHeader.tpl -->
+<!-- layouts/basic/modules/Reports/EditHeader.tpl -->
     <div id="breadcrumb" class="editContainer">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
@@ -41,5 +41,5 @@
         </div>
         <div class="clearfix"></div>
     </div>
-<!--/EditHeader.tpl -->
+<!--/layouts/basic/modules/Reports/EditHeader.tpl -->
 {/strip}

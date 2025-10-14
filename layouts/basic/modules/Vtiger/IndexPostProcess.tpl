@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- IndexPostProcess.tpl -->
+<!-- layouts/basic/modules/Vtiger/IndexPostProcess.tpl -->
 	</div>
 </div>
 </div>
-<!--/IndexPostProcess.tpl -->
+<!--/layouts/basic/modules/Vtiger/IndexPostProcess.tpl -->
 {/strip}

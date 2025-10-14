@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- ModulesFieldSearchView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/ModulesFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getModulesListValues()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
@@ -11,5 +11,5 @@
         {/foreach}
     </select>
     </div>
-<!--/ModulesFieldSearchView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/ModulesFieldSearchView.tpl -->
 {/strip}

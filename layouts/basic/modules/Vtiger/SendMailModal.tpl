@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- SendMailModal.tpl -->
+<!-- layouts/basic/modules/Vtiger/SendMailModal.tpl -->
 	{assign var=DEFAULT_SMTP value=App\Mail::getDefaultSmtp()}
 	{assign var=TEMPLETE_LIST value=App\Mail::getTempleteList($TEMPLATE_MODULE)}
 	{assign var=IS_EMAIL value=false}
@@ -71,5 +71,5 @@
 			<strong>{'LBL_CANCEL'|t}</strong>
 		</button>
 	</div>
-<!--/SendMailModal.tpl -->
+<!--/layouts/basic/modules/Vtiger/SendMailModal.tpl -->
 {/strip}

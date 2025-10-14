@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ModulePickListDetail.tpl -->
+<!-- layouts/basic/modules/Settings/Picklist/ModulePickListDetail.tpl -->
     {if !empty($NO_PICKLIST_FIELDS) }
         <label style="padding-top: 40px;"> <b>
                 {vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)} {vtranslate('NO_PICKLIST_FIELDS',$QUALIFIED_NAME)}. &nbsp; 
@@ -33,5 +33,5 @@
 		</div>
 	</div><br>
     {/if}
-<!--/ModulePickListDetail.tpl -->
+<!--/layouts/basic/modules/Settings/Picklist/ModulePickListDetail.tpl -->
 {/strip}	

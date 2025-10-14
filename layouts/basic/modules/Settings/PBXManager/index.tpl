@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- index.tpl -->
+<!-- layouts/basic/modules/Settings/PBXManager/index.tpl -->
 	<div id="AsteriskServerDetails">
 		<div class="widget_header row">
 			<div class="col-md-8">
@@ -53,5 +53,5 @@
 			{vtranslate('LBL_PBXMANAGER_INFO', $QUALIFIED_MODULE)}
 		</div>	
 	</div>
-<!--/index.tpl -->
+<!--/layouts/basic/modules/Settings/PBXManager/index.tpl -->
 {/strip}

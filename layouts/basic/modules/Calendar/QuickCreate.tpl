@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- QuickCreate.tpl -->
+<!-- layouts/basic/modules/Calendar/QuickCreate.tpl -->
     {foreach key=index item=jsModel from=$SCRIPTS}
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
     {/foreach}
@@ -179,5 +179,5 @@
 		</div>
 	</div>
 </div>
-<!--/QuickCreate.tpl -->
+<!--/layouts/basic/modules/Calendar/QuickCreate.tpl -->
 {/strip}

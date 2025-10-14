@@ -11,7 +11,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- KpiContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/KpiContents.tpl -->
 {if count($DATA) gt 0 }
 	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />
 	<div class="widgetDescContainer" style="margin-left: 10px;">
@@ -29,5 +29,5 @@
 		{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
 	</span>
 {/if}
-<!--/KpiContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/KpiContents.tpl -->
 {/strip}

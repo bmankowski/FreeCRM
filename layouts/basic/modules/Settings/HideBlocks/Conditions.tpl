@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- Conditions.tpl -->
+<!-- layouts/basic/modules/Settings/HideBlocks/Conditions.tpl -->
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
@@ -53,5 +53,5 @@
 		</form>	
 	{/if}
 </div>
-<!--/Conditions.tpl -->
+<!--/layouts/basic/modules/Settings/HideBlocks/Conditions.tpl -->
 {/strip}

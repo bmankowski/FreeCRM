@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- MailsPreview.tpl -->
+<!-- layouts/basic/modules/OSSMailView/MailsPreview.tpl -->
 	{assign var=COUNT value=count($RECOLDLIST)}
 	<div class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-blg">
@@ -127,5 +127,5 @@
 			</div>
 		</div>
 	</div>
-<!--/MailsPreview.tpl -->
+<!--/layouts/basic/modules/OSSMailView/MailsPreview.tpl -->
 {/strip}

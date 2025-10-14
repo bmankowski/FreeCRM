@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- Theme.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/Theme.tpl -->
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getAllSkins()}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -20,5 +20,5 @@
 		{if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{ucfirst($PICKLIST_NAME)}</option>
 {/foreach}
 </select>
-<!--/Theme.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/Theme.tpl -->
 {/strip}

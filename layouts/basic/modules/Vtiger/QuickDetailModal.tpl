@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- QuickDetailModal.tpl -->
+<!-- layouts/basic/modules/Vtiger/QuickDetailModal.tpl -->
 	<div class="modal-body col-md-12">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<div class="quickDetailContent">
@@ -41,5 +41,5 @@
 			</div>
 		</div>
 	</div>
-<!--/QuickDetailModal.tpl -->
+<!--/layouts/basic/modules/Vtiger/QuickDetailModal.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- MapModal.tpl -->
+<!-- layouts/basic/modules/OpenStreetMap/MapModal.tpl -->
 	<div class="modal-header container-fluid openStreetMapModalHeader">
 		<div class="col-xs-5">
 			<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MAP', $MODULE_NAME)}</h3>
@@ -144,5 +144,5 @@
 	</div>
 	<div class="modal-footer">
 	</div>
-<!--/MapModal.tpl -->
+<!--/layouts/basic/modules/OpenStreetMap/MapModal.tpl -->
 {/strip}

@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- ConfigEditorDetail.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/ConfigEditorDetail.tpl -->
 	<div class="" id="ConfigEditorDetails">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
@@ -60,5 +60,5 @@
 			</table>
 		</div>
 	</div>
-<!--/ConfigEditorDetail.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/ConfigEditorDetail.tpl -->
 {/strip}

@@ -1,7 +1,7 @@
 {strip}
-<!-- Summary.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/Summary.tpl -->
 <div class="summaryView">
 	{$MODULE_SUMMARY}
 </div>
-<!--/Summary.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/Summary.tpl -->
 {/strip}

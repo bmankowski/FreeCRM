@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- PopupSearchActions.tpl -->
+<!-- layouts/basic/modules/Vtiger/PopupSearchActions.tpl -->
 	<div class="col-md-2 form-group pull-left">
 		{if $MULTI_SELECT}
 			{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-default"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>&nbsp;{/if}
@@ -16,5 +16,5 @@
 			</div>
 		</div>
 	{/if}
-<!--/PopupSearchActions.tpl -->
+<!--/layouts/basic/modules/Vtiger/PopupSearchActions.tpl -->
 {/strip}

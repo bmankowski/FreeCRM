@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- PriceBookProductPopupContents.tpl -->
+<!-- layouts/basic/modules/Products/PriceBookProductPopupContents.tpl -->
 	<div class="contents-topscroll">
 		<div class="topscroll-div">
 			&nbsp;
@@ -79,5 +79,5 @@
 			</div>
 		{/if}
 	</div>
-<!--/PriceBookProductPopupContents.tpl -->
+<!--/layouts/basic/modules/Products/PriceBookProductPopupContents.tpl -->
 {/strip}

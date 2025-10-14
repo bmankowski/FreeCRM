@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Folders.tpl -->
+<!-- layouts/basic/modules/Settings/OSSMailScanner/Folders.tpl -->
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3 class="modal-title">{vtranslate('LBL_EDIT_FOLDER_ACCOUNT', $MODULE_NAME)} - {$ADDRESS_EMAIL}</h3>
@@ -94,5 +94,5 @@
 			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
 		</div>
 	</div>
-<!--/Folders.tpl -->
+<!--/layouts/basic/modules/Settings/OSSMailScanner/Folders.tpl -->
 {/strip}

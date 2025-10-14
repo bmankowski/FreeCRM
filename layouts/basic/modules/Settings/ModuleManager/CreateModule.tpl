@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- CreateModule.tpl -->	
+<!-- layouts/basic/modules/Settings/ModuleManager/CreateModule.tpl -->	
 <div class="modal addKeyContainer fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -59,5 +59,5 @@
 		</div>
 	</div>
 </div>
-<!--/CreateModule.tpl -->
+<!--/layouts/basic/modules/Settings/ModuleManager/CreateModule.tpl -->
 {/strip}

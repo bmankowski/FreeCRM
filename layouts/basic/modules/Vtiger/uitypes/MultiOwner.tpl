@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- MultiOwner.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/MultiOwner.tpl -->
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->get('uitype') eq '54'}
@@ -38,5 +38,5 @@
 			</optgroup>
 		</select>
 	{/if}
-<!--/MultiOwner.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/MultiOwner.tpl -->
 {/strip}

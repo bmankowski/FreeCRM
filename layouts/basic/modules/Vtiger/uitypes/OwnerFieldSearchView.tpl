@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- OwnerFieldSearchView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/OwnerFieldSearchView.tpl -->
     {assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 	{if isset($SEARCH_INFO['searchValue'])}
@@ -65,5 +65,5 @@
 			{/if}
 		</select>
 	</div>
-<!--/OwnerFieldSearchView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/OwnerFieldSearchView.tpl -->
 {/strip}

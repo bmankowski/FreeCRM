@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- VariablePanel.tpl -->
+<!-- layouts/basic/modules/Vtiger/VariablePanel.tpl -->
 	{if empty($TEXT_PARSER)}
 		{assign var=TEXT_PARSER value=\App\TextParser::getInstance($SELECTED_MODULE)}
 	{/if}
@@ -138,5 +138,5 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-<!--/VariablePanel.tpl -->
+<!--/layouts/basic/modules/Vtiger/VariablePanel.tpl -->
 {/strip}

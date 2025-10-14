@@ -1,5 +1,5 @@
 {strip}
-<!-- EmailList.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/EmailList.tpl -->
 	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
@@ -85,5 +85,5 @@
 			<div class="widget_contents widgetContent mailsList"></div>
 		</div>
 	</div>
-<!--/EmailList.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/EmailList.tpl -->
 {/strip}

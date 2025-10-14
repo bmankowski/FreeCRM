@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- DetailView.tpl -->
+<!-- layouts/basic/modules/Settings/Profiles/DetailView.tpl -->
 <div class="">
 	<div class="widget_header row">
 		<div class="col-md-10">{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}</div>
@@ -210,5 +210,5 @@
 	</div>
 	<br>
 </div>
-<!--/DetailView.tpl -->
+<!--/layouts/basic/modules/Settings/Profiles/DetailView.tpl -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-<!-- ChartFilterFooter.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/ChartFilterFooter.tpl -->
 	<div class="widgetFooterContent">
 		<div class="row no-margin">
 			<div class="col-md-4">
@@ -13,5 +13,5 @@
 			</div>
 		</div>
 	</div>
-<!--/ChartFilterFooter.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/ChartFilterFooter.tpl -->
 {/strip}

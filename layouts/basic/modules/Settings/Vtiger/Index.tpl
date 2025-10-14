@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Index.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/Index.tpl -->
 	{if $WARNINGS}
 		<div id="systemWarningAletrs">
 			<div class="modal fade static">
@@ -107,5 +107,5 @@
 			</div>
 		</div>
 	</div>
-<!--/Index.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/Index.tpl -->
 {/strip}

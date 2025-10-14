@@ -1,5 +1,5 @@
 {strip}
-<!-- Basic.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/Basic.tpl -->
 <div class="summaryWidgetContainer">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{Vtiger_Util_Helper::toSafeHTML($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 		<div class="widget_header">
@@ -89,5 +89,5 @@
 		</div>
 	</div>
 </div>
-<!--/Basic.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/Basic.tpl -->
 {/strip}

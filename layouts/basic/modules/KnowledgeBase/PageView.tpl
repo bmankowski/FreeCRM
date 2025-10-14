@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- PageView.tpl -->
+<!-- layouts/basic/modules/KnowledgeBase/PageView.tpl -->
 <div {if $POPUP === true}class="knowledgePopoutContainer{/if}">	
 	<div class="col-xs-12{if $IS_POPUP === true} knowledgePopoutSubject{/if}">
 		<h4>{$RECORD->get('subject')}</h4>
@@ -10,5 +10,5 @@
 		{$CONTENT}
 	</div>
 </div>
-<!--/PageView.tpl -->
+<!--/layouts/basic/modules/KnowledgeBase/PageView.tpl -->
 {/strip}

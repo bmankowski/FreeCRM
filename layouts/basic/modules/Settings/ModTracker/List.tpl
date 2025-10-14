@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- List.tpl -->
+<!-- layouts/basic/modules/Settings/ModTracker/List.tpl -->
 	<div id="modTrackerContainer">		
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}			    
 		{vtranslate('LBL_MODTRACKER_SETTINGS_DESCRIPTION', $QUALIFIED_MODULE)}		
@@ -39,5 +39,5 @@
 			<div class="clearfix"></div>
 		</div>	
 	</div>
-<!--/List.tpl -->
+<!--/layouts/basic/modules/Settings/ModTracker/List.tpl -->
 {/strip}

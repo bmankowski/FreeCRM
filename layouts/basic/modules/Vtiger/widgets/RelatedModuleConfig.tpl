@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- RelatedModuleConfig.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/RelatedModuleConfig.tpl -->
 	<div class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -123,5 +123,5 @@
 			</div>
 		</div>
 	</div>
-<!--/RelatedModuleConfig.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/RelatedModuleConfig.tpl -->
 {/strip}

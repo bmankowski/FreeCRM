@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- CalendarActivitiesContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/dashboards/CalendarActivitiesContents.tpl -->
 <style type="text/css">
 small.small-a{
 font-size: 75%;
@@ -81,5 +81,5 @@ font-size: 75%;
 		</div>
 	{/if}
 </div>
-<!--/CalendarActivitiesContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/dashboards/CalendarActivitiesContents.tpl -->
 {/strip}

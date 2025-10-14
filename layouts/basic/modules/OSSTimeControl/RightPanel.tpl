@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- RightPanel.tpl -->
+<!-- layouts/basic/modules/OSSTimeControl/RightPanel.tpl -->
 	{if $ALL_ACTIVEGROUP_LIST || $ALL_ACTIVEUSER_LIST}
 		<div class="calendarUserList">
 			<div class="row no-margin">
@@ -50,5 +50,5 @@ jQuery(document).ready(function() {
 	OSSTimeControl_Calendar_Js.registerUserListWidget();
 });
 </script>
-<!--/RightPanel.tpl -->
+<!--/layouts/basic/modules/OSSTimeControl/RightPanel.tpl -->
 {/strip}

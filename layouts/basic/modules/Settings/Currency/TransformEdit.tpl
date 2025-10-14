@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- TransformEdit.tpl -->
+<!-- layouts/basic/modules/Settings/Currency/TransformEdit.tpl -->
     {assign var=CURRENCY_ID value=$RECORD_MODEL->getId()}
     <div class="currencyTransformModalContainer modal fade" tabindex="-1">
 		<div class="modal-dialog">
@@ -44,5 +44,5 @@
 			</div>
 		</div>
     </div>
-<!--/TransformEdit.tpl -->
+<!--/layouts/basic/modules/Settings/Currency/TransformEdit.tpl -->
 {/strip}

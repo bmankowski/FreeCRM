@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- Hierarchy.tpl -->
+<!-- layouts/basic/modules/SSalesProcesses/Hierarchy.tpl -->
 	<div id="salesProcessesHierarchyContainer" class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -38,5 +38,5 @@
 			</div>
 		</div>
 	</div>
-<!--/Hierarchy.tpl -->
+<!--/layouts/basic/modules/SSalesProcesses/Hierarchy.tpl -->
 {/strip}

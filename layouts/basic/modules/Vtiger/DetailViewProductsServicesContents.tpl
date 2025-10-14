@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- DetailViewProductsServicesContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailViewProductsServicesContents.tpl -->
 <div>
 	{* Summary View Products Widget*}
 	{if $ACTIVE_MODULES.Products}
@@ -164,5 +164,5 @@
 		</div>
 	{/if}
 </div>
-<!--/DetailViewProductsServicesContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailViewProductsServicesContents.tpl -->
 {/strip}

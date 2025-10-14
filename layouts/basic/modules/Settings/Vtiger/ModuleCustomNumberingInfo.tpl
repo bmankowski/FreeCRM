@@ -9,6 +9,6 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ModuleCustomNumberingInfo.tpl -->
-<!--/ModuleCustomNumberingInfo.tpl -->
+<!-- layouts/basic/modules/Settings/Vtiger/ModuleCustomNumberingInfo.tpl -->
+<!--/layouts/basic/modules/Settings/Vtiger/ModuleCustomNumberingInfo.tpl -->
 {/strip}

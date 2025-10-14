@@ -1,5 +1,5 @@
 {strip}
-<!-- SummaryCategory.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/SummaryCategory.tpl -->
 <div class="summaryWidgetContainer recordDetails">
 	{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 		<div class="widget_header marginBottom10px">
@@ -28,5 +28,5 @@
 		</div>
 	{/foreach}
 </div>
-<!--/SummaryCategory.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/SummaryCategory.tpl -->
 {/strip}

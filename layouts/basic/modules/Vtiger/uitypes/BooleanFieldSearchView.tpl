@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- BooleanFieldSearchView.tpl -->
+<!-- layouts/basic/modules/Vtiger/uitypes/BooleanFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
@@ -24,5 +24,5 @@
         <option value="0" {if $SEARCH_VALUES eq '0'} selected{/if}>{vtranslate('LBL_NO',$MODULE)}</option>
     </select>
     </div>
-<!--/BooleanFieldSearchView.tpl -->
+<!--/layouts/basic/modules/Vtiger/uitypes/BooleanFieldSearchView.tpl -->
 {/strip}

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Step4.tpl -->
+<!-- install/tpl/Step4.tpl -->
 	<form class="form-horizontal" name="step4" method="post" action="Install.php">
 		<input type="hidden" name="mode" value="Step5" />
 		<input type="hidden" name="lang" value="{$LANG}" />
@@ -149,5 +149,5 @@
 			</div>
 		</div>
 	</form>
-<!--/Step4.tpl -->
+<!--/install/tpl/Step4.tpl -->
 {/strip}

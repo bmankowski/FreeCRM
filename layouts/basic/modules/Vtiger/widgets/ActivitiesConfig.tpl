@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- ActivitiesConfig.tpl -->
+<!-- layouts/basic/modules/Vtiger/widgets/ActivitiesConfig.tpl -->
 <div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -51,5 +51,5 @@
 		</div>
 	</div>
 </div>
-<!--/ActivitiesConfig.tpl -->
+<!--/layouts/basic/modules/Vtiger/widgets/ActivitiesConfig.tpl -->
 {/strip}

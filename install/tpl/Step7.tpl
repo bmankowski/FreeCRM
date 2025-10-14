@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- Step7.tpl -->
+<!-- install/tpl/Step7.tpl -->
 	<center>{'LBL_LOADING_PLEASE_WAIT'|vtranslate}...</center>
 	<form class="form-horizontal" name="step7" method="post" action="../index.php?module=Users&action=Login">
 		<input type="hidden" name="mode" value="install" >
@@ -25,5 +25,5 @@
 			}, 150);
 		});
 	</script>
-<!--/Step7.tpl -->
+<!--/install/tpl/Step7.tpl -->
 {/strip}

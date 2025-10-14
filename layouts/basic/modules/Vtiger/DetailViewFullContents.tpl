@@ -1,5 +1,5 @@
 {strip}
-<!-- DetailViewFullContents.tpl -->
+<!-- layouts/basic/modules/Vtiger/DetailViewFullContents.tpl -->
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -15,5 +15,5 @@
 	{if $MODULE_TYPE == '1'}
 		{include file='DetailViewInventoryView.tpl'|@vtemplate_path:$MODULE_NAME MODULE_NAME=$MODULE_NAME}
 	{/if}
-<!--/DetailViewFullContents.tpl -->
+<!--/layouts/basic/modules/Vtiger/DetailViewFullContents.tpl -->
 {/strip}

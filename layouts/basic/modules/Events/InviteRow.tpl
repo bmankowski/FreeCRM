@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- InviteRow.tpl -->
+<!-- layouts/basic/modules/Events/InviteRow.tpl -->
 	{assign var=LABEL value=''}
 	{assign var=TITLE value=''}
 	<div class="inviteRow" data-crmid="{$INVITIE['crmid']}" data-ivid="{$INVITIE['inviteesid']}" data-email="{$INVITIE['email']}">
@@ -35,5 +35,5 @@
 			</span>
 		</div>
 	</div>
-<!--/InviteRow.tpl -->
+<!--/layouts/basic/modules/Events/InviteRow.tpl -->
 {/strip}

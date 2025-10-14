@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- NeglectedAccountsContents.tpl -->
+<!-- layouts/basic/modules/Accounts/dashboards/NeglectedAccountsContents.tpl -->
 	{if count($ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
 			<div class="col-xs-4">
@@ -49,5 +49,5 @@
 			</span>
 		{/if}
 	{/if}
-<!--/NeglectedAccountsContents.tpl -->
+<!--/layouts/basic/modules/Accounts/dashboards/NeglectedAccountsContents.tpl -->
 {/strip}

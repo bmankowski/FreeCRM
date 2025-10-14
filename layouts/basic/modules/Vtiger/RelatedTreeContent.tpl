@@ -1,5 +1,5 @@
 {strip}
-<!-- RelatedTreeContent.tpl -->
+<!-- layouts/basic/modules/Vtiger/RelatedTreeContent.tpl -->
 	{if count($RELATED_RECORDS) > 0}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="listViewEntriesDiv contents-bottomscroll">
@@ -56,5 +56,5 @@
 			</table>
 		</div>
 	{/if}
-<!--/RelatedTreeContent.tpl -->
+<!--/layouts/basic/modules/Vtiger/RelatedTreeContent.tpl -->
 {/strip}

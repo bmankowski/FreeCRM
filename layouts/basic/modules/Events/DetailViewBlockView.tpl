@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- DetailViewBlockView.tpl -->
+<!-- layouts/basic/modules/Events/DetailViewBlockView.tpl -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     {include file='DetailViewBlockView.tpl'|@vtemplate_path:'Vtiger' RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 
@@ -61,5 +61,5 @@
 			</div>
 		</div>
 	</div>
-<!--/DetailViewBlockView.tpl -->
+<!--/layouts/basic/modules/Events/DetailViewBlockView.tpl -->
 {/strip}

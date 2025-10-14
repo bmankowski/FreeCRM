@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- ShowAllComments.tpl -->
+<!-- layouts/basic/modules/Vtiger/ShowAllComments.tpl -->
 {* Change to this also refer: RecentComments.tpl *}
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 <input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
@@ -104,5 +104,5 @@
 		<div class="clearfix"></div>
 	</div>
 </div>
-<!--/ShowAllComments.tpl -->
+<!--/layouts/basic/modules/Vtiger/ShowAllComments.tpl -->
 {/strip}
