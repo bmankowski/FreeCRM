@@ -11,7 +11,7 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-md-4 col-sm-5 col-xs-5 form-control-static">
-						<h4 class="no-margin">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h4>
+						<h4 class="no-margin">{$MODULE_NAME|t:$MODULE_NAME}</h4>
 					</div>
 					<div class="pull-right col-md-4 col-sm-7 col-xs-7">
 						<div class="row">

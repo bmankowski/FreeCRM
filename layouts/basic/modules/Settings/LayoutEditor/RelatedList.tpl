@@ -23,7 +23,7 @@
 					<div class="btn-group col-xs-5 pull-right paddingLRZero">
 						<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
 							{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{$MODULE_NAME|t:$MODULE_NAME}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -174,7 +174,7 @@
 									<div class="col-md-7 marginTop">
 										<select name="source" class="form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-												<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+												<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{$MODULE_NAME|t:$MODULE_NAME}</option>
 											{/foreach}
 										</select>
 									</div>
@@ -184,7 +184,7 @@
 									<div class="col-md-7 marginTop">
 										<select name="target" class="target form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-												<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+												<option value="{$MODULE_NAME}">{$MODULE_NAME|t:$MODULE_NAME}</option>
 											{/foreach}
 										</select>
 									</div>

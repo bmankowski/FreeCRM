@@ -57,7 +57,7 @@
 				</div>
 				<div class="">
 					<div class="form-group">
-						<label class="col-sm-4 control-label">{vtranslate('Start Date & Time',$MODULE_NAME)}:</label>
+						<label class="col-sm-4 control-label">{'Start Date & Time'|t:$MODULE_NAME}:</label>
 						<div class="col-sm-8">
 							{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}
 						</div>
@@ -118,7 +118,7 @@
 					{if $RECORD->get('shownerid')}
 						<div class="form-group">
 							{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('shownerid')}
-							<label class="col-sm-4 control-label">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)}: </label>
+							<label class="col-sm-4 control-label">{$FIELD_MODEL->get('label')|t:$MODULE_NAME}: </label>
 							<div class="col-sm-8">{$FIELD_MODEL->getDisplayValue($RECORD->get('shownerid'))}</div>
 						</div>
 					{/if}
@@ -130,13 +130,13 @@
 					<div class="pull-left">
 						{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 						{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
-							<button type="button" class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
+							<button type="button" class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{$ACTIVITY_STATE_LABEL.cancelled|t:$MODULE_NAME}</button>
 						{/if}
 						{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
-							<button type="button" class="btn btn-success {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}" data-type="1">{vtranslate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
+							<button type="button" class="btn btn-success {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}" data-type="1">{$ACTIVITY_STATE_LABEL.completed|t:$MODULE_NAME}</button>
 						{/if}
 						{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
-							<button type="button" class="btn btn-primary showQuickCreate" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}" data-type="0">{vtranslate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
+							<button type="button" class="btn btn-primary showQuickCreate" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}" data-type="0">{$ACTIVITY_STATE_LABEL.postponed|t:$MODULE_NAME}</button>
 						{/if}
 						{if !$EMPTY}
 							{"LBL_NO_AVAILABLE_ACTIONS"|t:$MODULE_NAME}

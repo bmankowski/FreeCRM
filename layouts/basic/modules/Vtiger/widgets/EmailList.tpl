@@ -7,7 +7,7 @@
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 				<div class="widgetTitle row">
 					<div class="col-xs-7">
-						<h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h4 class="moduleColor_{$WIDGET['label']}">{$WIDGET['label']|t:$MODULE_NAME}</h4>
 					</div>
 					<div class="col-xs-5">
 						<div class="pull-right">
@@ -73,7 +73,7 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4>
+								<h4 class="modal-title">{$WIDGET['label']|t:$MODULE_NAME}</h4>
 							</div>
 							<div class="modal-body modalViewBody">
 								_modalContent_

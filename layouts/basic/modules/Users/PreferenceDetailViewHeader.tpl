@@ -46,7 +46,7 @@
                                             {else}
                                                 onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
                                             {/if}>
-                                        <strong>{vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
+                                        <strong>{$DETAIL_VIEW_BASIC_LINK->getLabel()|t:$MODULE_NAME}</strong>
                                     </button>
                                 </div>
                             {/foreach}
@@ -58,7 +58,7 @@
 									<ul class="dropdown-menu pull-right">
 										{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 											<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-												<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+												<a href={$DETAIL_VIEW_LINK->getUrl()} >{$DETAIL_VIEW_LINK->getLabel()|t:$MODULE_NAME}</a>
 											</li>
 										{/foreach}
 									</ul>

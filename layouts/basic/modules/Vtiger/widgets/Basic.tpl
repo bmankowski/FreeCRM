@@ -11,7 +11,7 @@
 							{if $WIDGET['label'] eq ''}
 								{vtranslate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 							{else}	
-								{vtranslate($WIDGET['label'],$MODULE_NAME)}
+								{$WIDGET['label']|t:$MODULE_NAME}
 							{/if}
 						</h4>
 					</div>

@@ -3,7 +3,7 @@
 <div class="summaryWidgetContainer recordDetails">
 	{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 		<div class="widget_header marginBottom10px">
-			<span class="margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+			<span class="margin0px"><h4>{$WIDGET['label']|t:$MODULE_NAME}</h4></span>
 		</div>
 		<hr class="widgetHr">
 	{/if}
@@ -14,7 +14,7 @@
 					<div class="well squeezedWell">
 						<div>
 							<label class="font-x-small">
-								{vtranslate($FIELD_VALUE.name,$MODULE_NAME)}
+								{$FIELD_VALUE.name|t:$MODULE_NAME}
 							</label>
 						</div>
 						<div>

@@ -117,9 +117,9 @@
 									{assign var=TABLE value='vtiger_'|cat:$ITEM.fieldname}
 									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$TABLE}">
 										{assign var=MODULE_NAME value=vtlib\Functions::getModuleName($ITEM.tabid)}
-										{vtranslate($MODULE_NAME, $MODULE_NAME)}
+										{$MODULE_NAME|t:$MODULE_NAME}
 										:&ensp;
-										{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}
+										{$ITEM.fieldlabel|t:$MODULE_NAME}
 									</a>
 								</div>
 								<div id="{$TABLE}" class="accordion-body collapse {if	$smarty.foreach.ELEMENT.index eq 0 } in {/if}">
@@ -127,7 +127,7 @@
 										<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
 											<thead>
 												<tr class="blockHeader">
-													<th><strong>{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}</strong></th>
+													<th><strong>{$ITEM.fieldlabel|t:$MODULE_NAME}</strong></th>
 													<th><strong>{"LBL_COLOR"|t:$QUALIFIED_MODULE}</strong></th>
 													<th data-hide='phone'><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></th>
 												</tr>
@@ -136,7 +136,7 @@
 												{assign var=FIELD value=Users_Colors_Model::getValuesFromField($ITEM.fieldname)}
 												{foreach from=$FIELD item=INNER_ITEM key=INNER_KEY}
 													<tr data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
-														<td>{vtranslate($INNER_ITEM['value'], $MODULE_NAME)}</td>
+														<td>{$INNER_ITEM['value']|t:$MODULE_NAME}</td>
 														<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
 														<td>
 															<button class="btn btn-sm marginLeft10 btn-primary updateColor" data-metod="updateColorForProcesses">{"LBL_UPDATE_COLOR"|t:$QUALIFIED_MODULE}</button>&ensp;

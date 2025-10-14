@@ -64,9 +64,9 @@
 			<option value="" class="globalSearch_module_All">{"LBL_ALL_RECORDS"|t:$MODULE_NAME}</option>
 			{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 				{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
-					<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}" selected>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+					<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}" selected>{$MODULE_NAME|t:$MODULE_NAME}</option>
 				{else}
-					<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}">{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+					<option value="{$MODULE_NAME}" class="globalSearch_module_{$MODULE_NAME}">{$MODULE_NAME|t:$MODULE_NAME}</option>
 				{/if}
 			{/foreach}
 		</select>

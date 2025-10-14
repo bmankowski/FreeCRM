@@ -32,7 +32,7 @@
 						<span class="btn-group">
 							<button class="btn btn-default"
 								{if $DEVAIL_VIEW_BASIC_LINK->isPageLoadLink()} onclick="window.location.href='{$DEVAIL_VIEW_BASIC_LINK->getUrl()}'"{/if}>
-								<strong>{vtranslate($DEVAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
+								<strong>{$DEVAIL_VIEW_BASIC_LINK->getLabel()|t:$MODULE_NAME}</strong>
 							</button>
 						</span>
 						{/foreach}
@@ -45,7 +45,7 @@
 							<ul class="dropdown-menu pull-right">
 								{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 								<li>
-									<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+									<a href={$DETAIL_VIEW_LINK->getUrl()} >{$DETAIL_VIEW_LINK->getLabel()|t:$MODULE_NAME}</a>
 								</li>
 								{/foreach}
 

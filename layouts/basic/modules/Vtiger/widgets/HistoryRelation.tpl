@@ -6,7 +6,7 @@
 			<div class="widget_header">
 				<div class="widgetTitle row">
 					<div class="col-xs-4">
-						<h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h4 class="moduleColor_{$WIDGET['label']}">{$WIDGET['label']|t:$MODULE_NAME}</h4>
 					</div>
 					<div class="col-xs-7">
 						<select class="select2 relatedHistoryTypes" multiple>
@@ -16,7 +16,7 @@
 						</select>
 					</div>
 					<div class="col-xs-1 text-right">
-						<button type="button" title="{'LBL_FULLSCREEN'|t}" data-title="{vtranslate($WIDGET['label'],$MODULE_NAME)}" class="widgetFullscreen btn btn-sm btn-default">
+						<button type="button" title="{'LBL_FULLSCREEN'|t}" data-title="{$WIDGET['label']|t:$MODULE_NAME}" class="widgetFullscreen btn btn-sm btn-default">
 							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
 						</button>
 					</div>	

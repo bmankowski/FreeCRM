@@ -8,7 +8,7 @@
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<div class="modal-header">
 		<div class="col-xs-10">
-			<h3 class="modal-title">{"LBL_CHANGE_VALUE_FOR_FIELD"|t:$MODULE_NAME}: {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
+			<h3 class="modal-title">{"LBL_CHANGE_VALUE_FOR_FIELD"|t:$MODULE_NAME}: {$BASIC_FIELD_MODEL->get('label')|t:$MODULE_NAME} </h3>
 		</div>
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
@@ -35,7 +35,7 @@
 						{assign var=CONVERT value=false}
 						{assign var=VALUE value={include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
+							<label class="col-sm-4 control-label">{$FIELD_MODEL->get('label')|t:$MODULE_NAME} 
 								{if in_array($FIELD_MODEL->get('uitype'),['300','19']) && $VALUE}
 									<a href="#" class="helpInfoPopover" title="{"LBL_PREVIEW"|t:$MODULE_NAME}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{"LBL_PREVIEW"|t:$MODULE_NAME}" class="glyphicon glyphicon-modal-window"></span> </a>
 									{assign var=CONVERT value=true}
@@ -58,7 +58,7 @@
 			{if $RECORD->isViewable()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
 					<button type="button" class="btn btn-primary dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
+						{$BASIC_FIELD_MODEL->get('label')|t:$MODULE_NAME} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 						{foreach  key=KEY item=ITEM from=$PICKLIST}
@@ -71,7 +71,7 @@
 			{foreach from=$RESTRICTS_ITEM item=CLASS key=ITEM}
 				{if $CONDITION_TO_RESTRICTS && array_key_exists($RECORD->get($FIELD_TO_EDIT), $PICKLIST) && $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
 					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-						<button type="button" class="btn {$CLASS} editState{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+						<button type="button" class="btn {$CLASS} editState{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-state='{$ITEM}' data-id='{$ID}'>{$ITEM|t:$MODULE_NAME}</button>
 					</div>
 				{/if}
 			{/foreach}

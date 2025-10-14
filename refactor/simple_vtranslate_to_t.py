@@ -44,7 +44,7 @@ class SimpleVtranslateRefactorer:
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\(\)),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
             # Pattern 9: vtranslate($OBJECT->method(), $MODULE_NAME) -> $OBJECT->method()|t:$MODULE_NAME
-            (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\(\))\s*,\s*(\$MODULE_NAME)\)\}', r'{\1|t:\2}'),
+            (r'\{vtranslate\(([^,]+),\s*(\$MODULE_NAME)\)\}', r'{\1|t:\2}'),
             
             # Pattern 10: vtranslate($OBJECT->method('param'), $MODULE) -> $OBJECT->method('param')|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\([^)]*\)),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),

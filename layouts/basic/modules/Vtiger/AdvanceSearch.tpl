@@ -24,7 +24,7 @@
 							<select class="chzn-select form-control" id="searchModuleList" title="{"LBL_SELECT_MODULE"|t}" data-placeholder="{"LBL_SELECT_MODULE"|t}">
 								<option></option>
 								{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
-									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SOURCE_MODULE}selected="selected"{/if}>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SOURCE_MODULE}selected="selected"{/if}>{$MODULE_NAME|t:$MODULE_NAME}</option>
 								{/foreach}
 							</select>
 						</div>

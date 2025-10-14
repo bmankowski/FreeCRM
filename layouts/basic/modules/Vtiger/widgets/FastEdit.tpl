@@ -4,7 +4,7 @@
 	<div class="widgetContainer_{$key}" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 			<div class="widget_header marginBottom10px">
-				<span class="margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+				<span class="margin0px"><h4>{$WIDGET['label']|t:$MODULE_NAME}</h4></span>
 			</div>
 		{/if}
 		{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}
@@ -16,7 +16,7 @@
 				{assign var=FIELD_MODEL value=$FIELD->getWithDefaultValue()}
 				<div class="row marginBottom10px editField" data-prevvalue="{$FIELD_MODEL->get('fieldvalue')}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
 					<div class="col-md-5 margin0px">
-						<h4>{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)}</h4>
+						<h4>{$FIELD_MODEL->get('label')|t:$MODULE_NAME}</h4>
 					</div>
 					<div class="col-md-7">
 						{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}

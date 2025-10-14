@@ -27,7 +27,7 @@
 						<div class="row col-lg-9 col-md-10 col-xs-12 pull-right paddingLRZero detailViewHeaderFieldsContent">
 							<div class="btn {$VALUE['class']} btn-xs col-xs-12">
 								<div class="detailViewHeaderFieldsName">
-									{vtranslate($LABEL, $MODULE_NAME)} 
+									{$LABEL|t:$MODULE_NAME} 
 								</div>
 								<div class="detailViewHeaderFieldsValue">
 									<span class="badge">

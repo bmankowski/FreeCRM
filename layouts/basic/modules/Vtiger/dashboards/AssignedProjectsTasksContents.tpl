@@ -43,7 +43,7 @@ font-size: 75%;
 	</div>
 	{foreachelse}
 		<span class="noDataMsg">
-			{vtranslate($NODATAMSGLABLE, $MODULE_NAME)}
+			{$NODATAMSGLABLE|t:$MODULE_NAME}
 		</span>
 	{/foreach}
 

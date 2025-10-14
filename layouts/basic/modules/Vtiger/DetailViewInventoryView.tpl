@@ -27,7 +27,7 @@
 						<th style="width: 40%;"></th>
 						{foreach item=FIELD from=$FIELDS[0]}
 							<th>
-								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
+								<span class="inventoryLineItemHeader">{$FIELD->get('label')|t:$MODULE_NAME}:</span>&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
 								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 							</th>
@@ -42,7 +42,7 @@
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
 						<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if} class="textAlignCenter">
-							{vtranslate($FIELD->get('label'), $MODULE_NAME)}
+							{$FIELD->get('label')|t:$MODULE_NAME}
 						</th>
 					{/foreach}
 				</tr>

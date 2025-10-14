@@ -8,7 +8,7 @@
 					<div class="col-xs-9 col-md-5 col-sm-6">
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="moduleColor_{$WIDGET['label']}">
-								{vtranslate($WIDGET['label'],$MODULE_NAME)}
+								{$WIDGET['label']|t:$MODULE_NAME}
 							</h4>
 						</div>
 					</div>

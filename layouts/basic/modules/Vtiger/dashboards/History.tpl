@@ -14,7 +14,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle textOverflowEllipsis" title="{$WIDGET->getTitle()|t:$MODULE_NAME}"><strong>{$WIDGET->getTitle()|t:$MODULE_NAME}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">

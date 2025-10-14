@@ -118,7 +118,7 @@
 						<td class="opacity col-md-6">
 							<div class="moduleManagerBlock">
 								<div class="col-md-1">
-									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{vtranslate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
+									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{$MODULE_NAME|t:$MODULE_NAME}" {if $MODULE_MODEL->isActive()}checked{/if} />
 								</div>
 								<div class="col-md-1">
 									{if $MODULE_MODEL->isExportable()}
@@ -127,13 +127,13 @@
 								</div>
 								<div class="col-md-1 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
 									{if vimage_path($MODULE_NAME|cat:'.png') != false}
-										<img class="alignMiddle" src="{vimage_path($MODULE_NAME|cat:'.png')}" alt="{vtranslate($MODULE_NAME, $MODULE_NAME)}" title="{vtranslate($MODULE_NAME, $MODULE_NAME)}"/>
+										<img class="alignMiddle" src="{vimage_path($MODULE_NAME|cat:'.png')}" alt="{$MODULE_NAME|t:$MODULE_NAME}" title="{$MODULE_NAME|t:$MODULE_NAME}"/>
 									{else}
-										<img class="alignMiddle" src="{vimage_path('DefaultModule.png')}" alt="{vtranslate($MODULE_NAME, $MODULE_NAME)}" title="{vtranslate($MODULE_NAME, $MODULE_NAME)}"/>
+										<img class="alignMiddle" src="{vimage_path('DefaultModule.png')}" alt="{$MODULE_NAME|t:$MODULE_NAME}" title="{$MODULE_NAME|t:$MODULE_NAME}"/>
 									{/if}	
 								</div>
 								<div class="col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
-									<h4 class="no-margin">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h4>
+									<h4 class="no-margin">{$MODULE_NAME|t:$MODULE_NAME}</h4>
 								</div>
 								<div class="col-md-3">
 									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
@@ -146,7 +146,7 @@
 												<ul class="dropdown-menu pull-right">
 													{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
 														<li>
-															<a {if stripos($SETTINGS_LINK['linkurl'], 'javascript:')===0} onclick='{$SETTINGS_LINK['linkurl']|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$SETTINGS_LINK['linkurl']}"'{/if}>{vtranslate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>
+															<a {if stripos($SETTINGS_LINK['linkurl'], 'javascript:')===0} onclick='{$SETTINGS_LINK['linkurl']|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$SETTINGS_LINK['linkurl']}"'{/if}>{$SETTINGS_LINK['linklabel']|t:$MODULE_NAME}</a>
 														</li>
 													{/foreach}
 												</ul>

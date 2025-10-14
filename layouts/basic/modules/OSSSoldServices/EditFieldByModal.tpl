@@ -19,7 +19,7 @@
 			<h3 class="modal-title">
 				{if $RECORD->get('serviceid')}
 					{\App\Record::getLabel($RECORD->get('serviceid'))}
-					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{vtranslate($RECORD->get('osssoldservices_renew'), $MODULE_NAME)}</span>{/if}
+					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{$RECORD->get('osssoldservices_renew')|t:$MODULE_NAME}</span>{/if}
 				{else}
 					{"LBL_CHANGE_VALUE_FOR_FIELD"|t:$MODULE_NAME}
 				{/if}</h3>
@@ -39,7 +39,7 @@
 				{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
 					<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
+						{$BASIC_FIELD_MODEL->get('label')|t:$MODULE_NAME} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 						{foreach  key=KEY item=ITEM from=$PICKLIST}
@@ -54,7 +54,7 @@
 					{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
 					<div class="btn-group fieldButton" data-name="osssoldservices_renew">
 						<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
+							{$RENEW_FIELD_MODEL->get('label')|t:$MODULE_NAME} <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu">
 							{foreach  key=KEY item=ITEM from=$PICKLIST}
@@ -79,7 +79,7 @@
 					{assign var=CONVERT value=false}
 					{assign var=VALUE value={include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
 					<div class="form-group">
-						<label class="col-sm-4 control-label">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
+						<label class="col-sm-4 control-label">{$FIELD_MODEL->get('label')|t:$MODULE_NAME} 
 							{if in_array($FIELD_MODEL->get('uitype'),['300','19']) && $VALUE}
 								<a href="#" class="helpInfoPopover" title="{"LBL_PREVIEW"|t:$MODULE_NAME}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{"LBL_PREVIEW"|t:$MODULE_NAME}" class="glyphicon glyphicon-modal-window"></span> </a>
 								{assign var=CONVERT value=true}

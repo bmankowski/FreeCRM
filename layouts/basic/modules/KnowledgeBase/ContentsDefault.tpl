@@ -11,7 +11,7 @@
 				<tr>
 					{foreach item=HEADER from=$HEADERS}
 						<th>
-							{vtranslate($HEADER->get('label'), $MODULE_NAME)}
+							{$HEADER->get('label')|t:$MODULE_NAME}
 						</th>
 					{/foreach}
 					<th></th>

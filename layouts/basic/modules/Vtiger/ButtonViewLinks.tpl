@@ -14,14 +14,14 @@
 			<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 				&nbsp;
-				<span class="textHolder">{vtranslate($TEXT_HOLDER, $MODULE_NAME)}</span>
+				<span class="textHolder">{$TEXT_HOLDER|t:$MODULE_NAME}</span>
 				&nbsp;<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
 				{foreach item=LINK from=$LINKS}
 					<li>
 						<a class="quickLinks" href="{$LINK->getUrl()}">
-							{vtranslate($LINK->getLabel(), $MODULE_NAME)}
+							{$LINK->getLabel()|t:$MODULE_NAME}
 						</a>
 					</li>
 				{/foreach}

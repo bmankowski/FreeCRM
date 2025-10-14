@@ -45,8 +45,8 @@
 				<div class="summaryViewEntries">
 					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
-					<image src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" width="14px" class="textOverflowEllipsis" alt="{vtranslate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
-					{vtranslate($ACTIVITY_TYPE,$MODULE_NAME)}&nbsp;-&nbsp; 
+					<image src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" width="14px" class="textOverflowEllipsis" alt="{$MODULE_NAME|t:$MODULE_NAME}"/>&nbsp;&nbsp;
+					{$ACTIVITY_TYPE|t:$MODULE_NAME}&nbsp;-&nbsp; 
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
 							{$RECORD->get('subject')}</a>
@@ -73,7 +73,7 @@
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
-										<span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span>
+										<span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{$RECORD->get('status')|t:$MODULE_NAME}</span>
 									</strong>&nbsp&nbsp;
 									{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{"LBL_SET_RECORD_STATUS"|t:$MODULE_NAME}">
@@ -88,7 +88,7 @@
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
-									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{$RECORD->get('status')|t:$MODULE_NAME}</span></strong>&nbsp&nbsp;
 										{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{"LBL_SET_RECORD_STATUS"|t:$MODULE_NAME}"><span class="glyphicon glyphicon-ok"></span></span>
 										{/if}
@@ -111,8 +111,8 @@
 								<span class="glyphicon glyphicon-pencil" title="{"LBL_EDIT"|t:$MODULE_NAME}"></span>
 							</span>
 						{/if}
-						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
-							  data-content="{"Status"|t:$MODULE_NAME}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{"Created By"|t:$MODULE_NAME}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{"Assigned To"|t:$MODULE_NAME}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
+						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{$RECORD->get('activitytype')|t:$MODULE_NAME}: {$RECORD->get('subject')}" 
+							  data-content="{"Status"|t:$MODULE_NAME}: {$STATUS|t:$MODULE_NAME}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{"Created By"|t:$MODULE_NAME}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{"Assigned To"|t:$MODULE_NAME}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
 							  {if $SHAREDOWNER}<div> 
 								  {"Share with users"|t:$MODULE_NAME}:&nbsp;
 								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}

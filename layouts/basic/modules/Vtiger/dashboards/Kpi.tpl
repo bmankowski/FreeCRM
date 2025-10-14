@@ -26,7 +26,7 @@
 		<tbody>
 			<tr>
 				<td class="col-md-5">
-					<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}" style="width: 15em;"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+					<div class="dashboardTitle textOverflowEllipsis" title="{$WIDGET->getTitle()|t:$MODULE_NAME}" style="width: 15em;"><b>&nbsp;&nbsp;{$WIDGET->getTitle()|t:$MODULE_NAME}</b></div>
 				</td>
 				<td class="refresh col-md-2" align="right">
 					<span style="position:relative;">&nbsp;</span>
@@ -76,7 +76,7 @@
 			</span>
 			<span class="col-md-8">
 				<select class="widgetFilter" name="service">
-					<option value="">{vtranslate('--None--', $MODULE_NAME)}</option>
+					<option value="">{'--None--'|t:$MODULE_NAME}</option>
 					{foreach key=KEY item=ITEM from=$KPILIST}
 						<option value="{$KEY}">{$ITEM}</option>
 					{/foreach}
@@ -91,7 +91,7 @@
 			</span>
 			<span class="col-md-8">
 				<select class="widgetFilter" name="type">
-					<option value="">{vtranslate('--None--', $MODULE_NAME)}</option>
+					<option value="">{'--None--'|t:$MODULE_NAME}</option>
 					{foreach key=KEY item=ITEM from=$KPITYPES}
 						<option value="{$KEY}">{$ITEM}</option>
 					{/foreach}

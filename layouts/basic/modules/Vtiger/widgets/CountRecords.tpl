@@ -8,7 +8,7 @@
 					{if $WIDGET['label'] eq ''}
 						{"LBL_COUNT_RECORDS_WIDGET"|t:$MODULE_NAME}
 					{else}	
-						{vtranslate($WIDGET['label'],$MODULE_NAME)}
+						{$WIDGET['label']|t:$MODULE_NAME}
 					{/if}
 				</h4>
 			</div>

@@ -39,7 +39,7 @@
 						{assign var=MODULE_NAME value=$FIELD_IMPLODE['0']}
 						{assign var=FIELD_LABEL value=""|implode:$FIELD_IMPLODE}
 						{assign var=FIELD_LABEL value=$FIELD_LABEL|replace:$MODULE_NAME:''}
-						<td>{vtranslate($MODULE_NAME,$MODULE_NAME)} - {vtranslate($FIELD_LABEL, $MODULE_NAME)}</td>
+						<td>{$MODULE_NAME|t:$MODULE_NAME} - {$FIELD_LABEL|t:$MODULE_NAME}</td>
 						{foreach from=$CALCULATION_FIELD item=CALCULATION_VALUE}
 							<td width="15%">{$CALCULATION_VALUE}</td>
 						{/foreach}

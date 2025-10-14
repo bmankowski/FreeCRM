@@ -37,7 +37,7 @@
 					{if $YEARS }
 					{"LBL_Used_Entitled"|t:$MODULE_NAME} &nbsp &nbsp &nbsp 
 					<span id="workDay"><strong>{$HOLIDAY}</strong></span>&nbsp 
-					{"LBL_DAYS"|t:$MODULE_NAME}&nbsp{vtranslate('/',$MODULE_NAME)}&nbsp 
+					{"LBL_DAYS"|t:$MODULE_NAME}&nbsp{'/'|t:$MODULE_NAME}&nbsp 
 					<span id="annual_holiday_entitlement"><strong>{$HOLIDAY_ENTITLEMENT}</strong></span> &nbsp 
 					{"LBL_DAYS"|t:$MODULE_NAME}
 					{else}

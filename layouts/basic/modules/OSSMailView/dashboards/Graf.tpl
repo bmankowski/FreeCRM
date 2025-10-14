@@ -87,7 +87,7 @@
 		<tbody>
 			<tr>
 				<td class="col-md-8">
-					<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+					<div class="dashboardTitle" title="{$WIDGET->getTitle()|t:$MODULE_NAME}"><b>&nbsp;&nbsp;{$WIDGET->getTitle()|t:$MODULE_NAME}</b></div>
 				</td>
 				<td class="col-md-2">
 					<div>

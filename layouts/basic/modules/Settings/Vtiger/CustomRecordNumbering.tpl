@@ -50,7 +50,7 @@
 								{foreach key=index item=MODULE_MODEL from=$SUPPORTED_MODULES}
 									{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 									<option value={$MODULE_NAME} {if $MODULE_NAME eq $DEFAULT_MODULE_NAME} selected {/if}>
-										{vtranslate($MODULE_NAME, $MODULE_NAME)}
+										{$MODULE_NAME|t:$MODULE_NAME}
 									</option>
 								{/foreach}
 							</select>

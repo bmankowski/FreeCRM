@@ -17,7 +17,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-xs-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle" title="{$WIDGET->getTitle()|t:$MODULE_NAME}"><strong>&nbsp;&nbsp;{$WIDGET->getTitle()|t:$MODULE_NAME}</strong></div>
 		</div>
 		<div class="col-xs-4">
 			<div class="box pull-right">

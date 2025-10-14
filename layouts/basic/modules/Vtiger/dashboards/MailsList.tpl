@@ -27,7 +27,7 @@
 		<div class="col-md-6 pull-right">
 			<select class="mailUserList form-control input-sm select2" id="mailUserList" title="{"LBL_MAIL_USERS_LIST"|t}" name="type">
 				{if count($ACCOUNTSLIST) eq 0}
-					<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
+					<option value="-">{'--None--'|t:$MODULE_NAME}</option>
 				{else}
 					{foreach from=$ACCOUNTSLIST item=item key=key}
 						<option title="{$item['username']}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{$item['username']}</option>
