@@ -57,6 +57,21 @@ class SimpleVtranslateRefactorer:
             
             # Pattern 13: vtranslate('key', $MODULENAME) -> "key"|t:$MODULENAME
             (r'\{vtranslate\([\'"]([^\'"]*)[\'"]\s*,\s*(\$MODULENAME)\)\}', r'{"\1"|t:\2}'),
+            
+            # Pattern 14: vtranslate('key', $RELATED_MODULE_NAME) -> "key"|t:$RELATED_MODULE_NAME
+            (r'\{vtranslate\([\'"]([^\'"]*)[\'"]\s*,\s*(\$RELATED_MODULE_NAME)\)\}', r'{"\1"|t:\2}'),
+            
+            # Pattern 15: vtranslate($VARIABLE) -> $VARIABLE|t (only single variables, not complex expressions)
+            (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*)\)\}', r'{\1|t}'),
+            
+            # Pattern 16: vtranslate($VARIABLE, 'string_literal') -> $VARIABLE|t:"string_literal"
+            (r'\{vtranslate\(([^,)]+)\s*,\s*[\'"]([^\'"]*)[\'"]\)\}', r'{\1|t:"\2"}'),
+            
+            # Pattern 17: vtranslate('key'|modifier, $VARIABLE) -> 'key'|modifier|t:$VARIABLE (special case for |cat)
+            (r'\{vtranslate\(([^\s,]+(?:\|[^\s,]+)*),\s*([^)]+)\)\}', r'{\1|t:\2}'),
+            
+            # Pattern 18: vtranslate(complex_expression) -> complex_expression|t (special case for complex expressions)
+            (r'\{vtranslate\(([^)]*(?:\([^)]*\)[^)]*)*)\)\}', r'{\1|t}'),
         ]
     
     def process_file(self, file_path: Path) -> int:
@@ -67,9 +82,22 @@ class SimpleVtranslateRefactorer:
             
             original_content = content
             replacements = 0
+            changes_shown = []
             
             # Apply each pattern
-            for pattern, replacement in self.patterns:
+            for i, (pattern, replacement) in enumerate(self.patterns, 1):
+                matches = re.finditer(pattern, content)
+                for match in matches:
+                    old_text = match.group(0)
+                    new_text = re.sub(pattern, replacement, old_text)
+                    if old_text != new_text:
+                        changes_shown.append({
+                            'pattern_num': i,
+                            'old': old_text,
+                            'new': new_text,
+                            'line': content[:match.start()].count('\n') + 1
+                        })
+                
                 new_content = re.sub(pattern, replacement, content)
                 if new_content != content:
                     replacements += content.count('vtranslate(') - new_content.count('vtranslate(')
@@ -77,7 +105,14 @@ class SimpleVtranslateRefactorer:
             
             # Only write if changes were made
             if content != original_content:
-                if not self.dry_run:
+                if self.dry_run and changes_shown:
+                    print(f"  📝 {file_path}:")
+                    for change in changes_shown:
+                        print(f"    Pattern {change['pattern_num']} (line {change['line']}):")
+                        print(f"      OLD: {change['old']}")
+                        print(f"      NEW: {change['new']}")
+                        print()
+                elif not self.dry_run:
                     with open(file_path, 'w', encoding='utf-8') as f:
                         f.write(content)
                 
