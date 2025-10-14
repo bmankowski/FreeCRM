@@ -13,37 +13,37 @@
 <!-- layouts/basic/modules/Import/Import_Step3.tpl -->
 <div class="col-xs-12 paddingLRZero">
 	<div class='col-xs-2 paddingLRZero'>
-		<strong>{'LBL_IMPORT_STEP_3'|@vtranslate:$MODULE}:</strong>&nbsp;&nbsp;&nbsp;
+		<strong>{'LBL_IMPORT_STEP_3'|t:$MODULE}:</strong>&nbsp;&nbsp;&nbsp;
 		<input type="checkbox" class="font-x-small" id="auto_merge" title="{"LBL_IMPORT_STEP_3"|t:$MODULE}" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();" />
 	</div>
 	<div class="col-xs-10">
-		<span>{'LBL_IMPORT_STEP_3_DESCRIPTION'|@vtranslate:$MODULE}</span>
-		<span class="font-x-small">({'LBL_IMPORT_STEP_3_DESCRIPTION_DETAILED'|@vtranslate:$MODULE}).</span>
+		<span>{'LBL_IMPORT_STEP_3_DESCRIPTION'|t:$MODULE}</span>
+		<span class="font-x-small">({'LBL_IMPORT_STEP_3_DESCRIPTION_DETAILED'|t:$MODULE}).</span>
 	</div>
 	<div class="col-xs-12">
 			<div class='row' id="duplicates_merge_configuration" style="display:none;">
 				<div class='col-xs-12 paddingBottom10'>
 					<div>
 						<div class="col-md-6 paddingLRZero">
-							<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|@vtranslate:$MODULE}</span>&nbsp;&nbsp;
+							<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|t:$MODULE}</span>&nbsp;&nbsp;
 						</div>
 						<div class="col-md-6 paddingLRZero">
 							<select name="merge_type" id="merge_type" class="font-x-small form-control" title="{"LBL_SPECIFY_MERGE_TYPE"|t:$MODULE}">
 								{foreach key=_MERGE_TYPE item=_MERGE_TYPE_LABEL from=$AUTO_MERGE_TYPES}
-								<option value="{$_MERGE_TYPE}">{$_MERGE_TYPE_LABEL|@vtranslate:$MODULE}</option>
+								<option value="{$_MERGE_TYPE}">{$_MERGE_TYPE_LABEL|t:$MODULE}</option>
 								{/foreach}
 							</select>
 						</div>
 					</div>
 				</div>
 				<div class='col-xs-12'>
-					<div class="font-x-small">{'LBL_SELECT_MERGE_FIELDS'|@vtranslate:$MODULE}</div>
+					<div class="font-x-small">{'LBL_SELECT_MERGE_FIELDS'|t:$MODULE}</div>
 				</div>
 				<div class='col-xs-12'>
 						<div class="row calDayHour">
 							<div class='col-xs-12 '>
-								<div><strong>{'LBL_AVAILABLE_FIELDS'|@vtranslate:$MODULE}</strong></div>
-								<div><strong>{'LBL_SELECTED_FIELDS'|@vtranslate:$MODULE}</strong></div>
+								<div><strong>{'LBL_AVAILABLE_FIELDS'|t:$MODULE}</strong></div>
+								<div><strong>{'LBL_SELECTED_FIELDS'|t:$MODULE}</strong></div>
 							</div>
 							<div class='col-xs-12 row'>
 								<div class='col-xs-5'>

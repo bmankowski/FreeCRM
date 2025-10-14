@@ -38,8 +38,8 @@ jQuery(document).ready(function() {
 	<table style=" width:90%;margin-left: 5% " cellpadding="10" class="searchUIBasic well">
 		<tr>
 			<td class="font-x-large" align="left" colspan="2">
-				{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} -
-				<span class="redColor">{'LBL_RUNNING'|@vtranslate:$MODULE} ... </span>
+				{'LBL_IMPORT'|t:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} -
+				<span class="redColor">{'LBL_RUNNING'|t:$MODULE} ... </span>
 			</td>
 		</tr>
 		{if $ERROR_MESSAGE neq ''}
@@ -53,7 +53,7 @@ jQuery(document).ready(function() {
 			<td valign="top">
 				<table cellpadding="10" cellspacing="0" align="center" class="dvtSelectedCell thickBorder importContents">
 					<tr>
-						<td>{'LBL_TOTAL_RECORDS_IMPORTED'|@vtranslate:$MODULE}</td>
+						<td>{'LBL_TOTAL_RECORDS_IMPORTED'|t:$MODULE}</td>
 						<td width="10%">:</td>
 						<td width="30%">{$IMPORT_RESULT.IMPORTED} / {$IMPORT_RESULT.TOTAL}</td>
 					</tr>
@@ -61,23 +61,23 @@ jQuery(document).ready(function() {
 						<td colspan="3">
 							<table cellpadding="10" cellspacing="0" class="calDayHour">
 								<tr>
-									<td>{'LBL_NUMBER_OF_RECORDS_CREATED'|@vtranslate:$MODULE}</td>
+									<td>{'LBL_NUMBER_OF_RECORDS_CREATED'|t:$MODULE}</td>
 									<td width="10%">:</td>
 									<td width="10%">{$IMPORT_RESULT.CREATED}</td>
 								</tr>
 								<tr>
-									<td>{'LBL_NUMBER_OF_RECORDS_UPDATED'|@vtranslate:$MODULE}</td>
+									<td>{'LBL_NUMBER_OF_RECORDS_UPDATED'|t:$MODULE}</td>
 									<td width="10%">:</td>
 									<td width="10%">{$IMPORT_RESULT.UPDATED}</td>
 								</tr>
 								{if in_array($FOR_MODULE, $INVENTORY_MODULES) eq FALSE}
 								<tr>
-									<td>{'LBL_NUMBER_OF_RECORDS_SKIPPED'|@vtranslate:$MODULE}</td>
+									<td>{'LBL_NUMBER_OF_RECORDS_SKIPPED'|t:$MODULE}</td>
 									<td width="10%">:</td>
 									<td width="10%">{$IMPORT_RESULT.SKIPPED}</td>
 								</tr>
 								<tr>
-									<td>{'LBL_NUMBER_OF_RECORDS_MERGED'|@vtranslate:$MODULE}</td>
+									<td>{'LBL_NUMBER_OF_RECORDS_MERGED'|t:$MODULE}</td>
 									<td width="10%">:</td>
 									<td width="10%">{$IMPORT_RESULT.MERGED}</td>
 								</tr>
@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
 		<tr>
 			<td align="right">
 			<button name="cancel" class="delete btn btn-danger"
-				onclick="location.href='index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'"><strong>{'LBL_CANCEL_IMPORT'|@vtranslate:$MODULE}</strong></button>
+				onclick="location.href='index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'"><strong>{'LBL_CANCEL_IMPORT'|t:$MODULE}</strong></button>
 			</td>
 		</tr>
 	</table>

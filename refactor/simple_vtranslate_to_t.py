@@ -34,16 +34,22 @@ class SimpleVtranslateRefactorer:
             # Pattern 5: vtranslate('key', $MODULE) -> "key"|t:$MODULE
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$MODULE)\)\}', r'{"\1"|t:\2}'),
             
-            # Pattern 6: vtranslate($VARIABLE, $MODULE) -> $VARIABLE|t:$MODULE
+            # Pattern 6: vtranslate('key', $RELATED_MODULE) -> "key"|t:$RELATED_MODULE
+            (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$RELATED_MODULE)\)\}', r'{"\1"|t:\2}'),
+            
+            # Pattern 7: vtranslate($VARIABLE, $MODULE) -> $VARIABLE|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 7: vtranslate($OBJECT->method(), $MODULE) -> $OBJECT->method()|t:$MODULE
+            # Pattern 8: vtranslate($OBJECT->method(), $MODULE) -> $OBJECT->method()|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\(\)),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 8: vtranslate($OBJECT->method('param'), $MODULE) -> $OBJECT->method('param')|t:$MODULE
+            # Pattern 9: vtranslate($OBJECT->method(), $MODULE_NAME) -> $OBJECT->method()|t:$MODULE_NAME
+            (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\(\))\s*,\s*(\$MODULE_NAME)\)\}', r'{\1|t:\2}'),
+            
+            # Pattern 10: vtranslate($OBJECT->method('param'), $MODULE) -> $OBJECT->method('param')|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\([^)]*\)),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 9: vtranslate('key'|modifier, $MODULE) -> 'key'|modifier|t:$MODULE
+            # Pattern 11: vtranslate('key'|modifier, $MODULE) -> 'key'|modifier|t:$MODULE
             (r'\{vtranslate\(([^\s,]+(?:\|[^\s,]+)*),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
         ]
     

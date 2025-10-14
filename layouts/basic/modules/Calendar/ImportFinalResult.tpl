@@ -16,14 +16,14 @@
 	<table class="col-xs-12 paddingLRZero no-margin searchUIBasic well">
 		<tr>
 			<td class="font-x-large" align="left" colspan="2">
-				<strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$MODULE} - {'LBL_RESULT'|@vtranslate:$MODULE}</strong>
+				<strong>{'LBL_IMPORT'|t:$MODULE} {$FOR_MODULE|t:$MODULE} - {'LBL_RESULT'|t:$MODULE}</strong>
 			</td>
 		</tr>
 		<tr>
 			<td valign="top">
 				<table cellpadding="5" cellspacing="0" align="center" width="100%" class="dvtSelectedCell thickBorder importContents">
 					<tr>
-						<td>{'LBL_LAST_IMPORT_UNDONE'|@vtranslate:$MODULE}</td>
+						<td>{'LBL_LAST_IMPORT_UNDONE'|t:$MODULE}</td>
 					</tr>
 				</table>
 			</td>
@@ -31,7 +31,7 @@
 		<tr>
 			<td align="right" colspan="2">
 				<a href="index.php?module={$MODULE}&view=List" button name="next" class="create btn btn-success">
-					<strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong>
+					<strong>{'LBL_FINISH'|t:$MODULE}</strong>
 				</a>
 			</td>
 		</tr>

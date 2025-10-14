@@ -11,4 +11,4 @@
 -->*}
 
 <button class="btn btn-success" name="ok"
-		onclick="location.href='index.php?module={$FOR_MODULE}&view=Import'"><strong>{'LBL_OK_BUTTON_LABEL'|@vtranslate:$MODULE}</strong></button>
+		onclick="location.href='index.php?module={$FOR_MODULE}&view=Import'"><strong>{'LBL_OK_BUTTON_LABEL'|t:$MODULE}</strong></button>

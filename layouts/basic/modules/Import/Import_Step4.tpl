@@ -13,10 +13,10 @@
 <table width="100%" cellspacing="0" cellpadding="10" class="table importContents">
 	<tr>
 		<td>
-			<strong>{'LBL_IMPORT_STEP_4'|@vtranslate:$MODULE}:</strong>
+			<strong>{'LBL_IMPORT_STEP_4'|t:$MODULE}:</strong>
 		</td>
 		<td>
-			<span>{'LBL_IMPORT_STEP_4_DESCRIPTION'|@vtranslate:$MODULE}</span>
+			<span>{'LBL_IMPORT_STEP_4_DESCRIPTION'|t:$MODULE}</span>
 		</td>
 		<td>
             <div id="savedMapsContainer" class="textAlignRight pull-right">
@@ -33,18 +33,18 @@
 				<thead>
 					<tr class="listViewHeaders">
 						{if $HAS_HEADER eq true}
-							<th width="25%"><a>{'LBL_FILE_COLUMN_HEADER'|@vtranslate:$MODULE}</a></th>
+							<th width="25%"><a>{'LBL_FILE_COLUMN_HEADER'|t:$MODULE}</a></th>
 								{/if}
-						<th width="25%"><a>{'LBL_ROW_1'|@vtranslate:$MODULE}</a></th>
-						<th width="23%"><a>{'LBL_CRM_FIELDS'|@vtranslate:$MODULE}</a></th>
-						<th width="27%"><a>{'LBL_DEFAULT_VALUE'|@vtranslate:$MODULE}</a></th>
+						<th width="25%"><a>{'LBL_ROW_1'|t:$MODULE}</a></th>
+						<th width="23%"><a>{'LBL_CRM_FIELDS'|t:$MODULE}</a></th>
+						<th width="27%"><a>{'LBL_DEFAULT_VALUE'|t:$MODULE}</a></th>
 					</tr>
 				</thead>
 				<tbody>
 					{assign var="_COUNTER" value=0}
 					{foreach key=TYPE_NAME item=FIELDS_DATA from=$ROW_1_DATA name="rowData"}
 						{if in_array($USER_INPUT->get('type'), ['xml', 'zip'])}{assign var="_COUNTER" value=0}{/if}
-						<tr class=""><td class="textAlignCenter bg-primary" colspan="4">{$TYPE_NAME|@vtranslate:$MODULE}</td></tr>
+						<tr class=""><td class="textAlignCenter bg-primary" colspan="4">{$TYPE_NAME|t:$MODULE}</td></tr>
 							{if $smarty.foreach.rowData.iteration gt 1}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
 								{assign var="PREFIX" value='inventory_'}
@@ -101,7 +101,7 @@
 		<td align="right" colspan="2">
 			<div class="row">
 				<div class="col-xs-8">
-					<input type="checkbox" title="{'LBL_SAVE_AS_CUSTOM_MAPPING'|@vtranslate:$MODULE}" name="save_map" id="save_map"/>&nbsp;{'LBL_SAVE_AS_CUSTOM_MAPPING'|@vtranslate:$MODULE}&nbsp;&nbsp;
+					<input type="checkbox" title="{'LBL_SAVE_AS_CUSTOM_MAPPING'|t:$MODULE}" name="save_map" id="save_map"/>&nbsp;{'LBL_SAVE_AS_CUSTOM_MAPPING'|t:$MODULE}&nbsp;&nbsp;
 				</div>
 				<div class="col-xs-4">
 					<input class="form-control" type="text" name="save_map_as" id="save_map_as"/>

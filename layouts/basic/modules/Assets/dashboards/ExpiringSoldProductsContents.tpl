@@ -14,9 +14,9 @@
 {if count($DATA) gt 0 }
 	<div style="padding:5px;">
 		<div class="row">
-			<div class="col-md-4"><strong>{vtranslate('Asset Name', $RELATED_MODULE)}</strong></div>
-			<div class="col-md-4"><strong>{vtranslate('Date in Service', $RELATED_MODULE)}</strong></div>
-			<div class="col-md-3"><strong>{vtranslate('Parent ID', $RELATED_MODULE)}</strong></div>
+			<div class="col-md-4"><strong>{"Asset Name"|t:$RELATED_MODULE}</strong></div>
+			<div class="col-md-4"><strong>{"Date in Service"|t:$RELATED_MODULE}</strong></div>
+			<div class="col-md-3"><strong>{"Parent ID"|t:$RELATED_MODULE}</strong></div>
 		</div>
 		{foreach item=ROW from=$DATA}
 			<div class="row">

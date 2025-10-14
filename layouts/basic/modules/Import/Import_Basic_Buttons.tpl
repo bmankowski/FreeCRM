@@ -11,7 +11,7 @@
 -->*}
 
 <button type="submit" name="next"  class="btn btn-success"
-		onclick="return ImportJs.uploadAndParse();"><strong>{'LBL_NEXT_BUTTON_LABEL'|@vtranslate:$MODULE}</strong></button>
+		onclick="return ImportJs.uploadAndParse();"><strong>{'LBL_NEXT_BUTTON_LABEL'|t:$MODULE}</strong></button>
 &nbsp;&nbsp;
 <button class="btn btn-warning" type="reset"
 		{if $FOR_MODULE eq 'Users'}

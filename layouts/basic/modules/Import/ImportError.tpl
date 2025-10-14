@@ -21,7 +21,7 @@
     <table style=" width:90%;margin-left: 5%  " cellpadding="10" cellspacing="10" class="searchUIBasic well">
         <tr>
             <td class="font-x-large" align="left">
-                <strong>{'LBL_IMPORT'|@vtranslate:$MODULE} - {'LBL_ERROR'|@vtranslate:$MODULE}</strong>
+                <strong>{'LBL_IMPORT'|t:$MODULE} - {'LBL_ERROR'|t:$MODULE}</strong>
             </td>
         </tr>
         <tr>
@@ -35,7 +35,7 @@
                     {if $ERROR_DETAILS neq ''}
                         <tr>
                             <td class="errorMessage" align="left" colspan="2">
-                                {'ERR_DETAILS_BELOW'|@vtranslate:$MODULE}
+                                {'ERR_DETAILS_BELOW'|t:$MODULE}
                                 <table cellpadding="5" cellspacing="0">
                                     {foreach key=_TITLE item=_VALUE from=$ERROR_DETAILS}
                                         <tr>
@@ -55,10 +55,10 @@
             <td align="right">
                 {if $CUSTOM_ACTIONS neq ''}
                     {foreach key=_LABEL item=_ACTION from=$CUSTOM_ACTIONS}
-                        <button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn btn-danger"><strong>{$_LABEL|@vtranslate:$MODULE}</strong></button>
+                        <button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn btn-danger"><strong>{$_LABEL|t:$MODULE}</strong></button>
                             {/foreach}
                         {/if}
-                <button name="goback" onclick="window.history.back()" class="edit btn btn-success"><strong>{'LBL_GO_BACK'|@vtranslate:$MODULE}</strong></button>
+                <button name="goback" onclick="window.history.back()" class="edit btn btn-success"><strong>{'LBL_GO_BACK'|t:$MODULE}</strong></button>
             </td>
         </tr>
     </table>

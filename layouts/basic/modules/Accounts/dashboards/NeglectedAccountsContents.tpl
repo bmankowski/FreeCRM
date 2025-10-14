@@ -4,13 +4,13 @@
 	{if count($ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('Account Name' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{"Account Name"|t:$MODULE_NAME}</b></h6>
 			</div>
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{"LBL_ASSIGNED_TO"|t:$MODULE_NAME}</b></h6>
 			</div>
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('LBL_CRMACTIVITY' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{"LBL_CRMACTIVITY"|t:$MODULE_NAME}</b></h6>
 			</div>
 			<div class="col-xs-12"><hr></div>
 			{/if}

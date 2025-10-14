@@ -13,8 +13,8 @@
 <!-- layouts/basic/modules/Import/Import_Step1.tpl -->
 <table width="100%" cellspacing="0" cellpadding="2">
 	<tr>
-		<td><strong>{'LBL_IMPORT_STEP_1'|@vtranslate:$MODULE}:</strong></td>
-		<td>{'LBL_IMPORT_STEP_1_DESCRIPTION'|@vtranslate:$MODULE}</td>
+		<td><strong>{'LBL_IMPORT_STEP_1'|t:$MODULE}:</strong></td>
+		<td>{'LBL_IMPORT_STEP_1_DESCRIPTION'|t:$MODULE}</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td colspan='2'>{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@vtranslate:$MODULE}: {$SUPPORTED_FILE_TYPES_TEXT}</td>
+		<td colspan='2'>{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|t:$MODULE}: {$SUPPORTED_FILE_TYPES_TEXT}</td>
 	</tr>
 </table>
 <!--/layouts/basic/modules/Import/Import_Step1.tpl -->
