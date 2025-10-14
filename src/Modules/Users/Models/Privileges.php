@@ -122,9 +122,6 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	public static function getInstance($valueMap)
 	{
 		$instance = new self();
-		foreach ($valueMap as $key => $value) {
-			$instance->$key = $value;
-		}
 		$instance->setData($valueMap);
 		return $instance;
 	}

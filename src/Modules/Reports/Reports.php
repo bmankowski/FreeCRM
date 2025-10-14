@@ -537,7 +537,7 @@ class Reports extends \FreeCRM\CRMEntity
 	 *
 	 * @param String $module
 	 * @param type $blockIdList
-	 * @param array$currentFieldList
+	 * @param Array $currentFieldList
 	 * @return Array
 	 */
 	public function getBlockFieldList($module, $blockIdList, $currentFieldList, $allColumnsListByBlocks)

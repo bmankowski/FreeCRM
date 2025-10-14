@@ -4,34 +4,34 @@
 		<div class="row">
 			<span class="col-md-4 control-label">{'LBL_PDF_TEMPLATE'|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-4 padding-bottom1per">
-				<select class="chzn-select form-control" name="pdfTemplate" data-validation-engine="validate[required]">
-					<option value="none">{'LBL_SELECT_FIELD'|t:$MODULE}</option>
-					{foreach from=Vtiger_PDF_Model::getTemplatesByModule($SOURCE_MODULE) item=item}
-						<option {if $TASK_OBJECT->pdfTemplate eq $item->getId()}selected{/if} value="{$item->getId()}">{$item->getName()}</option>
-					{/foreach}
-				</select>
+			<select class="chzn-select form-control" name="pdfTemplate" data-validation-engine="validate[required]">
+				<option value="none">{'LBL_SELECT_FIELD'|t:$MODULE}</option>
+				{foreach from=$PDF_TEMPLATES item=item}
+					<option {if $TASK_OBJECT->pdfTemplate eq $item->getId()}selected{/if} value="{$item->getId()}">{$item->getName()}</option>
+				{/foreach}
+			</select>
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
 			<span class="col-md-4 control-label">{'LBL_SMTP'|t:$QUALIFIED_MODULE} {'LBL_SMTP'|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-4">
-				<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{'LBL_SELECT_OPTIONS'|t:$QUALIFIED_MODULE}">
-					<option value="">{'LBL_DEFAULT'|t}</option>
-					{foreach from=App\Mail::getAll() item=ITEM key=ID}
-						<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}({$ITEM['host']})</option>
-					{/foreach}	
-				</select>
+			<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{'LBL_SELECT_OPTIONS'|t:$QUALIFIED_MODULE}">
+				<option value="">{'LBL_DEFAULT'|t}</option>
+				{foreach from=$SMTP_ACCOUNTS item=ITEM key=ID}
+					<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}({$ITEM['host']})</option>
+				{/foreach}	
+			</select>
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
 			<span class="col-md-4 control-label">{'EmailTempleteList'|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-4">
-				<select class="chzn-select form-control" name="mailTemplate" data-validation-engine='validate[required]'>
-					<option value="">{'LBL_NONE'|t:$QUALIFIED_MODULE}</option>
-					{foreach from=App\Mail::getTempleteList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
-						<option {if $TASK_OBJECT->mailTemplate eq $item['id']}selected=""{/if} value="{$item['id']}">{$item['name']|t:$QUALIFIED_MODULE}</option>
-					{/foreach}	
-				</select>
+			<select class="chzn-select form-control" name="mailTemplate" data-validation-engine='validate[required]'>
+				<option value="">{'LBL_NONE'|t:$QUALIFIED_MODULE}</option>
+				{foreach from=$EMAIL_TEMPLATES key=key item=item}
+					<option {if $TASK_OBJECT->mailTemplate eq $item['id']}selected=""{/if} value="{$item['id']}">{$item['name']|t:$QUALIFIED_MODULE}</option>
+				{/foreach}	
+			</select>
 			</div>
 		</div>
 		<div class="row padding-bottom1per">

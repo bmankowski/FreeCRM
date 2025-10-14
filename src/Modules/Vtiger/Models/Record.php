@@ -31,6 +31,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
 	protected $entity;            // CRMEntity instance
 	protected $isWatchingRecord;  // Boolean - whether user is watching this record
+	protected $rawData;           // Raw data array
 
 	/**
 	 * Function to get the id of the record

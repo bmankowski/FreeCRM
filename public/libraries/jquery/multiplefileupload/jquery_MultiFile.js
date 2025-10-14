@@ -427,7 +427,7 @@
 			* @author Diego A. (http://www.fyneworks.com/)
 			*
 			* @example $.fn.MultiFile.intercept();
-			* @param arraymethods (optional) Array of method names to be intercepted
+			* @param Array methods (optional) Array of method names to be intercepted
 			*/
   intercepted: {},
   intercept: function(methods, context, args){

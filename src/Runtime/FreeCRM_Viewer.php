@@ -123,7 +123,6 @@ class FreeCRM_Viewer extends \Smarty
 		$this->registerClass('Vtiger_Util_Helper', '\FreeCRM\Modules\\Vtiger\\Util');
 		$this->registerClass('Vtiger_Menu_Model', '\FreeCRM\Modules\\Vtiger\Models\\Menu');
 		$this->registerClass('Vtiger_Module_Model', '\FreeCRM\Modules\\Vtiger\Models\\Module');
-		$this->registerClass('Vtiger_Widget_Model', '\FreeCRM\Modules\\Vtiger\Models\\Widget');
 		$this->registerClass('Vtiger_Language_Handler', '\FreeCRM\\Runtime\\Vtiger_Language_Handler');
 		$this->registerClass('Users_Privileges_Model', '\FreeCRM\Modules\\Users\Models\\Privileges');
 		$this->registerClass('Users_Colors_Model', '\FreeCRM\Modules\\Users\Models\\Colors');

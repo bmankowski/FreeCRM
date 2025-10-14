@@ -174,10 +174,20 @@ class Detail extends \Vtiger_Index_View
 			}
 		}
 
-		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
+	// Process header widgets
+	$processedHeaderWidgets = [];
+	if (!empty($detailViewLinks['DETAIL_VIEW_HEADER_WIDGET'])) {
+		$widgetModel = new \FreeCRM\Modules\Vtiger\Models\Widget();
+		foreach ($detailViewLinks['DETAIL_VIEW_HEADER_WIDGET'] as $widget) {
+			$processedHeaderWidgets[] = $widgetModel->processWidget($widget, $recordModel);
+		}
+	}
+
+	$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
+	$viewer->assign('MODULE_MODEL', $moduleModel);
+	$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+	$viewer->assign('PROCESSED_HEADER_WIDGETS', $processedHeaderWidgets);
+	$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
 		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));

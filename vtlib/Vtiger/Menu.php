@@ -24,7 +24,7 @@ class Menu
 
 	/**
 	 * Initialize this instance
-	 * @param arrayMap 
+	 * @param Array Map 
 	 * @access private
 	 */
 	public function initialize($valuemap)

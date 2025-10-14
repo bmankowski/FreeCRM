@@ -43,7 +43,7 @@ class Module extends ModuleBasic
 	 * Set related list information between other module
 	 * @param Module Instance of target module with which relation should be setup
 	 * @param String Label to display in related list (default is target module name)
-	 * @param arrayList of action button to show ('ADD', 'SELECT')
+	 * @param Array List of action button to show ('ADD', 'SELECT')
 	 * @param String Callback function name of this module to use as handler
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
