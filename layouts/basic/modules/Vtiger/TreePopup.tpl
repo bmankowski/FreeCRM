@@ -13,7 +13,7 @@
 	{assign var="FIELD_INSTANCE" value=Vtiger_Field_Model::getInstance($SRC_FIELD,$MODULE_INSTANCE)}
 	<div class="panel panel-default marginTop10">
 		<div class="panel-heading">
-			<h3 class="no-margin">{vtranslate('LBL_SELECT_TREE_ITEM', $MODULE)} {vtranslate($FIELD_INSTANCE->get('label'), $MODULE)}</h3>
+			<h3 class="no-margin">{"LBL_SELECT_TREE_ITEM"|t:$MODULE} {$FIELD_INSTANCE->get('label')|t:$MODULE}</h3>
 		</div>
 		<div class="panel-body">
 			<div class="contentsBackground">
@@ -23,7 +23,7 @@
 	</div>
 	{if $IS_MULTIPLE}
 	<div class="pull-right">
-		<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+		<button class="btn btn-success" type="submit" name="saveButton"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
 	</div>
 	{/if}
 </div>

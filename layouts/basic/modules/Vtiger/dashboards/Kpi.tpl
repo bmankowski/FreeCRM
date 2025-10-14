@@ -34,19 +34,19 @@
 				<td class="widgeticons col-md-5" align="right">
 					<div class="box pull-right">
 						<a name="dfilter">
-							<i class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
+							<i class='icon-cog' border='0' align="absmiddle" title="{"LBL_FILTER"|t}" alt="{"LBL_FILTER"|t}"/>
 						</a>
 						<!--
 						<a class="dprint" name="dprint">
-							<i class='icon-print' border='0' align="absmiddle" title="{vtranslate('LBL_PRINT')}" alt="{vtranslate('LBL_PRINT')}"/>
+							<i class='icon-print' border='0' align="absmiddle" title="{"LBL_PRINT"|t}" alt="{"LBL_PRINT"|t}"/>
 						</a>
 						-->
 						<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-							<i class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
+							<i class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{"LBL_REFRESH"|t}" alt="{"LBL_REFRESH"|t}"></i>
 						</a>
 						{if !$WIDGET->isDefault()}
 							<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-								<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></i>
+								<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{"LBL_REMOVE"|t}" alt="{"LBL_REMOVE"|t}"></i>
 							</a>
 						{/if}
 					</div>
@@ -61,17 +61,17 @@
 		<div class="row">
 			<span class="col-md-4">
 				<span class="pull-right">
-					{vtranslate('LBL_TIME', $MODULE_NAME)}
+					{"LBL_TIME"|t:$MODULE_NAME}
 				</span>
 			</span>
 			<span class="col-md-8">
-				<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
+				<input type="text" name="time" title="{"LBL_CHOOSE_DATE"|t}" class="dateRange widgetFilter" />
 			</span>
 		</div>
 		<div class="row">
 			<span class="col-md-4">
 				<span class="pull-right">
-					{vtranslate('Services', $MODULE_NAME)}
+					{"Services"|t:$MODULE_NAME}
 				</span>
 			</span>
 			<span class="col-md-8">
@@ -86,7 +86,7 @@
 		<div class="row">
 			<span class="col-md-4">
 				<span class="pull-right">
-					{vtranslate('Types', $MODULE_NAME)}
+					{"Types"|t:$MODULE_NAME}
 				</span>
 			</span>
 			<span class="col-md-8">

@@ -99,7 +99,7 @@
         </table>    
 *}
       <div class="col-md-11 paddingRightZero">
-			<button class="btn pull-right btn-success" type="submit" name="saveButton"><strong>{vtranslate('NEXT', $MODULE)}</strong></button>
+			<button class="btn pull-right btn-success" type="submit" name="saveButton"><strong>{"NEXT"|t:$MODULE}</strong></button>
        </div>
     </form>
 </div>
@@ -113,14 +113,14 @@ function PaymentsOut() {
                 jQuery(':submit').on('click', function() {
                     var file = jQuery('input[type="file"]').val();
                     if(file == ""){
-  							var msg = '{/literal}{vtranslate("LBL_ERROR_FILE", 'PaymentsOut')}{literal}';
+  							var msg = '{/literal}{"LBL_ERROR_FILE"|t:"PaymentsOut"}{literal}';
 								Vtiger_Helper_Js.showPnotify(msg);
 							return false;
 					}else {
 						var type = file.split('.');
 						var id = type.length;
 						if(type[id-1]!='txt'){
-							var msg = '{/literal}{vtranslate("LBL_ERROR_TYPE", 'PaymentsOut')}{literal}';
+							var msg = '{/literal}{"LBL_ERROR_TYPE"|t:"PaymentsOut"}{literal}';
 								Vtiger_Helper_Js.showPnotify(msg);
 							return false;
 						}

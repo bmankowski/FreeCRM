@@ -26,47 +26,47 @@
 	<div class="checkbox">
 		<input type="hidden" name=set_reminder value=0 />
 		<label>
-			<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{vtranslate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
+			<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{"Send Reminder"|t:$MODULE}" value=1 />&nbsp;&nbsp;
 		</label>
 	</div>
 	<div class="{if $REMINDER_VALUES neq ''}show{else}hide{/if} col-md-12">
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select input-mini" name="remdays" title="{vtranslate('LBL_REMAIND_DAYS', $MODULE)}">
+				<select class="chzn-select input-mini" name="remdays" title="{"LBL_REMAIND_DAYS"|t:$MODULE}">
 					{for $DAYS = 0 to 31}
 						<option value="{$DAYS}" {if $DAYS eq $DAY}selected{/if}>{$DAYS}</option>
 					{/for}
 				</select>
 			</div>
 			<div style="float:left;margin-top:5px">
-				&nbsp;{vtranslate('LBL_DAYS', $MODULE)}&nbsp;&nbsp;
+				&nbsp;{"LBL_DAYS"|t:$MODULE}&nbsp;&nbsp;
 			</div>
 			
 		</div>
 	
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select input-mini" name="remhrs" title="{vtranslate('LBL_REMAIND_HOURS', $MODULE)}" >
+				<select class="chzn-select input-mini" name="remhrs" title="{"LBL_REMAIND_HOURS"|t:$MODULE}" >
 					{for $HOURS = 0 to 23}
 						<option value="{$HOURS}" {if $HOURS eq $HOUR}selected{/if}>{$HOURS}</option>
 					{/for}
 				</select>
 			</div>
 			<div style="float:left;margin-top:5px">
-				&nbsp;{vtranslate('LBL_HOURS', $MODULE)}&nbsp;&nbsp;
+				&nbsp;{"LBL_HOURS"|t:$MODULE}&nbsp;&nbsp;
 			</div>
 			
 		</div>
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select  input-mini" name="remmin" title="{vtranslate('LBL_REMAIND_MINS', $MODULE)}">
+				<select class="chzn-select  input-mini" name="remmin" title="{"LBL_REMAIND_MINS"|t:$MODULE}">
 				{for $MINUTES = 1 to 59}
 					<option value="{$MINUTES}" {if $MINUTES eq $MINUTE}selected{/if}>{$MINUTES}</option>
 				{/for}
 				</select>
 			</div>
 			<div style="float:left;margin-top:5px">
-				&nbsp;{vtranslate('LBL_MINUTES', $MODULE)}&nbsp;&nbsp;
+				&nbsp;{"LBL_MINUTES"|t:$MODULE}&nbsp;&nbsp;
 			</div>
 		</div>
 	

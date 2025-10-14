@@ -4,20 +4,20 @@
 	<div class="widget_header row">
 		<div class="col-xs-10">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
+			{"LBL_CONFREPORT_DESCRIPTION"|t:$MODULE}
 		</div>
 		<div class="col-xs-2">
 			<button class="btn btn-primary testSpeed pull-right">
 				<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;
-				{vtranslate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+				{"BTN_SERVER_SPEED_TEST"|t:$QUALIFIED_MODULE}
 			</button>
 		</div>
 	</div>
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
-        <li><a data-toggle="tab" href="#Permissions">{vtranslate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
+        <li class="active"><a data-toggle="tab" href="#Configuration">{"LBL_YETIFORCE_ENGINE"|t:$MODULE}</a></li>
+        <li><a data-toggle="tab" href="#Permissions">{"LBL_FILES_PERMISSIONS"|t:$MODULE}</a></li>
 		{if $ACTIVE_MODULES.OSSMail}
-		<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
+		<li><a href="#check_config" data-toggle="tab">{"LBL_CHECK_CONFIG"|t:$MODULE}</a></li>
 		{/if}
     </ul>
     <div class="tab-content">
@@ -26,26 +26,26 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_LIBRARY', $MODULE)}</span>
+							<span>{"LBL_LIBRARY"|t:$MODULE}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_INSTALLED', $MODULE)}</span>
+							<span>{"LBL_INSTALLED"|t:$MODULE}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_MANDATORY', $MODULE)}</span>
+							<span>{"LBL_MANDATORY"|t:$MODULE}</span>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
 						<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
-							<td><label>{vtranslate($key, $MODULE)}</label></td>
-							<td><label>{vtranslate($item.status, $MODULE)}</label></td>
+							<td><label>{$key|t:$MODULE}</label></td>
+							<td><label>{$item.status|t:$MODULE}</label></td>
 							<td><label>
 									{if $item.mandatory}
-										{vtranslate('LBL_MANDATORY', $MODULE)}
+										{"LBL_MANDATORY"|t:$MODULE}
 									{else}
-										{vtranslate('LBL_OPTIONAL', $MODULE)}
+										{"LBL_OPTIONAL"|t:$MODULE}
 									{/if}
 								</label></td>
 						</tr>
@@ -57,13 +57,13 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_PARAMETER', $MODULE)}</span>
+							<span>{"LBL_PARAMETER"|t:$MODULE}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_RECOMMENDED', $MODULE)}</span>
+							<span>{"LBL_RECOMMENDED"|t:$MODULE}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_VALUE', $MODULE)}</span>
+							<span>{"LBL_VALUE"|t:$MODULE}</span>
 						</th>
 					</tr>
 				</thead>
@@ -71,8 +71,8 @@
 					{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
 						<tr {if $item.status}class="danger"{/if}>
 							<td><label>{$key}</label></td>
-							<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
-							<td><label>{vtranslate($item.current, $MODULE)}</label></td>
+							<td><label>{$item.prefer|t:$MODULE}</label></td>
+							<td><label>{$item.current|t:$MODULE}</label></td>
 						</tr>
 					{/foreach}
 				</tbody>
@@ -82,22 +82,22 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="mediumWidthType">
-							<h4>{vtranslate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}</h4>
+							<h4>{"LBL_ENVIRONMENTAL_INFORMATION"|t:$MODULE}</h4>
 						</th>
 					</tr>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_PARAMETER', $MODULE)}</span>
+							<span>{"LBL_PARAMETER"|t:$MODULE}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_VALUE', $MODULE)}</span>
+							<span>{"LBL_VALUE"|t:$MODULE}</span>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					{foreach from=Settings_ConfReport_Module_Model::getSystemInfo() key=key item=item}
 						<tr>
-							<td><label>{vtranslate($key, $MODULE)}</label></td>
+							<td><label>{$key|t:$MODULE}</label></td>
 							<td><label>{$item}</label></td>
 						</tr>
 					{/foreach}
@@ -108,22 +108,22 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="mediumWidthType">
-							<h4>{vtranslate('LBL_HARDWARE_INFORMATION', $MODULE)}</h4>
+							<h4>{"LBL_HARDWARE_INFORMATION"|t:$MODULE}</h4>
 						</th>
 					</tr>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_PARAMETER', $MODULE)}</span>
+							<span>{"LBL_PARAMETER"|t:$MODULE}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_VALUE', $MODULE)}</span>
+							<span>{"LBL_VALUE"|t:$MODULE}</span>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					{foreach from=Settings_ConfReport_Module_Model::getHardwareInfo() key=key item=item}
 						<tr>
-							<td><label>{vtranslate($key, $MODULE)}</label></td>
+							<td><label>{$key|t:$MODULE}</label></td>
 							<td>
 								{if is_array($item)}
 									{foreach from=$item item=row}
@@ -144,26 +144,26 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_FILE', $MODULE)}</span>
+							<span>{"LBL_FILE"|t:$MODULE}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_PATH', $MODULE)}</span>
+							<span>{"LBL_PATH"|t:$MODULE}</span>
 						</th> 							
 						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_PERMISSION', $MODULE)}</span>
+							<span>{"LBL_PERMISSION"|t:$MODULE}</span>
 						</th>  				
 					</tr>
 				</thead>
 				<tbody>
 					{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}			
 						<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
-							<td width="23%"><label class="marginRight5px">{vtranslate($key, $MODULE)}</label></td>
-							<td width="23%"><label class="marginRight5px">{vtranslate($item.path, $MODULE)}</label></td>
+							<td width="23%"><label class="marginRight5px">{$key|t:$MODULE}</label></td>
+							<td width="23%"><label class="marginRight5px">{$item.path|t:$MODULE}</label></td>
 							<td width="23%"><label class="marginRight5px">
 									{if $item.permission eq 'FailedPermission'}
-										{vtranslate('LBL_FAILED_PERMISSION', $MODULE)}
+										{"LBL_FAILED_PERMISSION"|t:$MODULE}
 									{else}
-										{vtranslate('LBL_TRUE_PERMISSION', $MODULE)}
+										{"LBL_TRUE_PERMISSION"|t:$MODULE}
 									{/if}
 								</label></td>			
 						</tr>

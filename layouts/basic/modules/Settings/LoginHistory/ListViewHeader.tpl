@@ -11,8 +11,8 @@
 	<div class="widget_header row">
 		<div class="col-md-2 pull-left">
 			<select class="chzn-select form-control" id="usersFilter" >
-				<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
-				<option value="other" name="other" value="">{vtranslate('LBL_OTHER', $QUALIFIED_MODULE)}</option>
+				<option value="">{"LBL_ALL"|t:$QUALIFIED_MODULE}</option>
+				<option value="other" name="other" value="">{"LBL_OTHER"|t:$QUALIFIED_MODULE}</option>
 				{foreach item=USERNAME key=USER from=$USERSLIST}
 					<option value="{$USER}" name="{$USERNAME}" {if $USERNAME eq $SELECTED_USER} selected {/if}>{$USERNAME}</option>
 				{/foreach}

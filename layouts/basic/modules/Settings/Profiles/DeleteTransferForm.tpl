@@ -16,7 +16,7 @@
 		<div class="modal-content">
 				<div class="modal-header">
 					<button class="close vtButton" data-dismiss="modal">×</button>
-					<h3 class="modal-title">{vtranslate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
+					<h3 class="modal-title">{"LBL_DELETE_PROFILE"|t:$QUALIFIED_MODULE} - {$RECORD_MODEL->getName()}</h3>
 				</div>
 				<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -26,10 +26,10 @@
 
 					<div class="modal-body">
 						<div class="form-group">
-							<div class="col-md-6 col-sm-6">{vtranslate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-6 col-sm-6">{"LBL_TRANSFER_ROLES_TO_PROFILE"|t:$QUALIFIED_MODULE}</div>
 							<div class="col-md-6 col-sm-6">
 								<select id="transfer_record form-control" name="transfer_record" class="chzn-select form-control">
-									<optgroup label="{vtranslate('LBL_PROFILES', $QUALIFIED_MODULE)}">
+									<optgroup label="{"LBL_PROFILES"|t:$QUALIFIED_MODULE}">
 										{foreach from=$ALL_RECORDS item=PROFILE_MODEL}
 											{assign var=PROFILE_ID value=$PROFILE_MODEL->get('profileid')}
 											{if $PROFILE_ID neq $RECORD_MODEL->getId()}
@@ -43,9 +43,9 @@
 					</div>
 					<div class="modal-footer">
 						<div class=" pull-right cancelLinkContainer">
-							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 						</div>
-						<button class="btn btn-success pull-right" type="submit">{vtranslate('LBL_SAVE', $MODULE)}</button>
+						<button class="btn btn-success pull-right" type="submit">{"LBL_SAVE"|t:$MODULE}</button>
 					</div>
 				</form>
 		</div>				

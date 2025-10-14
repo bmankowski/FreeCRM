@@ -12,7 +12,7 @@
 			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 3)}: {vtranslate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 3)}: {"LBL_HEADER_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
 				<div class="row">
@@ -26,9 +26,9 @@
 			</div>
 			<br>
 			<div class="pull-right">
-				<button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-				<button class="btn btn-warning cancelLink" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-danger backStep" type="button"><strong>{"LBL_BACK"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
+				<button class="btn btn-success" type="submit"><strong>{"LBL_NEXT"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
+				<button class="btn btn-warning cancelLink" type="reset">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 			</div>
 		</form>
 	</div>

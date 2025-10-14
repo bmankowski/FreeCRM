@@ -12,11 +12,11 @@
 {strip}
 <!-- layouts/basic/modules/Settings/Workflows/Tasks/VTEntityMethodTask.tpl -->
 	<div class="row">
-		<div class="col-md-2">{vtranslate('LBL_METHOD_NAME',$QUALIFIED_MODULE)} :</div>
+		<div class="col-md-2">{"LBL_METHOD_NAME"|t:$QUALIFIED_MODULE} :</div>
 		<div class="col-md-8">
 			{assign var=ENTITY_METHODS value=$WORKFLOW_MODEL->getEntityMethods()}
 			{if empty($ENTITY_METHODS)} 
-				<div class="alert alert-info">{vtranslate('LBL_NO_METHOD_IS_AVAILABLE_FOR_THIS_MODULE',$QUALIFIED_MODULE)}</div>
+				<div class="alert alert-info">{"LBL_NO_METHOD_IS_AVAILABLE_FOR_THIS_MODULE"|t:$QUALIFIED_MODULE}</div>
 			{else}	
 				<select name="methodName" class="chzn-select">
 					{foreach from=$ENTITY_METHODS item=METHOD}

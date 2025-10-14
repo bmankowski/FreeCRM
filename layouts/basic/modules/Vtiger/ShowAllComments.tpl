@@ -22,11 +22,11 @@
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-comment"></span>
 					</span>
-					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{"LBL_ADD_YOUR_COMMENT_HERE"|t:$MODULE_NAME}" placeholder="{"LBL_ADD_YOUR_COMMENT_HERE"|t:$MODULE_NAME}"></textarea>
 				</div>
 				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="add">
 					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-					<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+					<strong class="hidden-xs">{"LBL_POST"|t:$MODULE_NAME}</strong>
 				</button>
 			</div>
 		</div>
@@ -40,7 +40,7 @@
 			  <span class="input-group-addon" id="commentSearchAddon">
 				  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
 			  </span>
-			  <input type="text" class="form-control commentSearch" placeholder="{vtranslate('LBL_COMMENTS_SEARCH','ModComments')}" aria-describedby="commentSearchAddon">
+			  <input type="text" class="form-control commentSearch" placeholder="{"LBL_COMMENTS_SEARCH"|t:"ModComments"}" aria-describedby="commentSearchAddon">
 			</div>
 		</div>
 		<div class="col-md-4">
@@ -63,15 +63,15 @@
 					<span class="input-group-addon" >
 						<span class="glyphicon glyphicon-comment"></span>
 					</span>
-					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{"LBL_ADD_YOUR_COMMENT_HERE"|t:$MODULE_NAME}" placeholder="{"LBL_ADD_YOUR_COMMENT_HERE"|t:$MODULE_NAME}"></textarea>
 				</div>
 				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning pull-right cancel" type="reset">
 					<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
-					<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+					<strong class="hidden-xs">{"LBL_CANCEL"|t:$MODULE_NAME}</strong>
 				</button>
 				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="add">
 					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-					<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+					<strong class="hidden-xs">{"LBL_POST"|t:$MODULE_NAME}</strong>
 				</button>
 			</div>
 		</div>
@@ -80,7 +80,7 @@
 	<div class="hide basicEditCommentBlock" >
 		<div class="row">
 			<div class="col-md-12 marginTop10 marginBottom10px">
-				<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
+				<input type="text" name="reasonToEdit" title="{"LBL_REASON_FOR_CHANGING_COMMENT"|t:$MODULE_NAME}" placeholder="{"LBL_REASON_FOR_CHANGING_COMMENT"|t:$MODULE_NAME}" class="input-block-level form-control"/>
 			</div>
 		</div>
 		<div class="row">
@@ -89,15 +89,15 @@
 					<span class="input-group-addon" >
 						<span class="glyphicon glyphicon-comment"></span>
 					</span>
-					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
+					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{"LBL_ADD_YOUR_COMMENT_HERE"|t:$MODULE_NAME}" placeholder="{"LBL_ADD_YOUR_COMMENT_HERE"|t:$MODULE_NAME}" ></textarea>
 				</div>
 				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning pull-right cancel" type="reset">
 					<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
-					<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+					<strong class="hidden-xs">{"LBL_CANCEL"|t:$MODULE_NAME}</strong>
 				</button>
 				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="edit">
 					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-					<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+					<strong class="hidden-xs">{"LBL_POST"|t:$MODULE_NAME}</strong>
 				</button>
 			</div>
 		</div>

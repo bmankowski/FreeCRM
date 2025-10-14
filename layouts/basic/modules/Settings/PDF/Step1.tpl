@@ -12,27 +12,27 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {vtranslate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {"LBL_ENTER_BASIC_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{"LBL_STATUS"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="status" name="status" required="true">
 							<option value="1" {if $PDF_MODEL->get('status') eq 1} selected {/if}>
-								{vtranslate('PLL_ACTIVE', $QUALIFIED_MODULE)}
+								{"PLL_ACTIVE"|t:$QUALIFIED_MODULE}
 							</option>
 							<option value="0" {if $PDF_MODEL->get('status') eq 0} selected {/if}>
-								{vtranslate('PLL_INACTIVE', $QUALIFIED_MODULE)}
+								{"PLL_INACTIVE"|t:$QUALIFIED_MODULE}
 							</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_PRIMARY_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{"LBL_PRIMARY_NAME"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
 						<input type="text" name="primary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}" id="primary_name" />
@@ -40,7 +40,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SECONDARY_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{"LBL_SECONDARY_NAME"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
 						<input type="text" name="secondary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}" id="secondary_name" />
@@ -49,7 +49,7 @@
 				<!--
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_FOLDER_NAME', $QUALIFIED_MODULE)}
+						{"LBL_FOLDER_NAME"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
 						todo: browse folders for templates
@@ -58,7 +58,7 @@
 				-->
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{"LBL_SELECT_MODULE"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="moduleName" name="module_name" required="true" data-validation-engine='validate[required]' >
@@ -76,7 +76,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_METATAGS', $QUALIFIED_MODULE)}
+						{"LBL_METATAGS"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
 						<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
@@ -84,7 +84,7 @@
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_META_TITLE', $QUALIFIED_MODULE)}
+						{"LBL_META_TITLE"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
 						<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title" />
@@ -92,39 +92,39 @@
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
+						{"LBL_META_AUTHOR"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="meta_author" name="meta_author">
-							<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+							<option value="" selected="">{"LBL_SELECT"|t:$QUALIFIED_MODULE}</option>
 							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_author') eq 'PLL_COMPANY_NAME'} selected {/if}>
-								{vtranslate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
+								{"PLL_COMPANY_NAME"|t:$QUALIFIED_MODULE}
 							</option>
 							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('meta_author') eq 'PLL_USER_CREATING'} selected {/if}>
-								{vtranslate('PLL_USER_CREATING', $QUALIFIED_MODULE)}
+								{"PLL_USER_CREATING"|t:$QUALIFIED_MODULE}
 							</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_META_CREATOR', $QUALIFIED_MODULE)}
+						{"LBL_META_CREATOR"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="meta_creator" name="meta_creator">
-							<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+							<option value="" selected="">{"LBL_SELECT"|t:$QUALIFIED_MODULE}</option>
 							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_creator') eq 'PLL_COMPANY_NAME'} selected {/if}>
-								{vtranslate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
+								{"PLL_COMPANY_NAME"|t:$QUALIFIED_MODULE}
 							</option>
 							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('meta_creator') eq 'PLL_USER_CREATING'} selected {/if}>
-								{vtranslate('PLL_USER_CREATING', $QUALIFIED_MODULE)}
+								{"PLL_USER_CREATING"|t:$QUALIFIED_MODULE}
 							</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_META_SUBJECT', $QUALIFIED_MODULE)}
+						{"LBL_META_SUBJECT"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
 						<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject" />
@@ -132,7 +132,7 @@
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}hide{/if}">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_META_KEYWORDS', $QUALIFIED_MODULE)}
+						{"LBL_META_KEYWORDS"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
 						{assign 'KEYWORDS' explode(',',$PDF_MODEL->get('meta_keywords'))}
@@ -146,8 +146,8 @@
 			</div>
 			<br>
 			<div class="pull-right">
-				<button class="btn btn-success" type="submit" disabled="disabled"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-				<button class="btn btn-warning cancelLink" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-success" type="submit" disabled="disabled"><strong>{"LBL_NEXT"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
+				<button class="btn btn-warning cancelLink" type="reset">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 			</div>
 		</form>
 	</div>

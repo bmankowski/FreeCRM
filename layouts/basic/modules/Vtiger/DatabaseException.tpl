@@ -4,7 +4,7 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-			<title>Yetiforce: {vtranslate('LBL_ERROR')}</title>
+			<title>Yetiforce: {"LBL_ERROR"|t}</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="SHORTCUT ICON" href="{vimage_path('favicon.ico')}">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,24 +14,24 @@
 		</head>
 		<body>
 			<div class="alert alert-danger shadow" style="margin-top: 10px;position: relative;">
-				<h2 class="alert-heading">{vtranslate('LBL_SQL_ERROR')}</h2>
+				<h2 class="alert-heading">{"LBL_SQL_ERROR"|t}</h2>
 				<div>
-					<strong>{vtranslate('LBL_ERROR_MASAGE')}</strong>:
+					<strong>{"LBL_ERROR_MASAGE"|t}</strong>:
 					<pre>{$MESSAGE['message']}</pre>
 				</div>
 				<div>
-					<strong>{vtranslate('LBL_SQL_QUERY')}</strong>:
+					<strong>{"LBL_SQL_QUERY"|t}</strong>:
 					<pre>{$MESSAGE['query']}</pre>
 				</div>
 				{if $MESSAGE['params']}
 					<div>
-						<strong>{vtranslate('LBL_SQL_PARAMS')}</strong>:
+						<strong>{"LBL_SQL_PARAMS"|t}</strong>:
 						<pre>{implode(',', $MESSAGE['params'])}</pre>
 					</div>
 				{/if}
 				{if $MESSAGE['trace']}
 					<div>
-						<strong>{vtranslate('LBL_BACKTRACE')}</strong>:
+						<strong>{"LBL_BACKTRACE"|t}</strong>:
 						<pre>{vtranslate($MESSAGE['trace'])}</pre>
 					</div>
 				{/if}

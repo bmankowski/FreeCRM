@@ -15,7 +15,7 @@
 	<div class="widget_header row">
 		<div class="col-md-10">{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}</div>
 		<div class="col-md-2">
-			<button class="btn btn-info pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+			<button class="btn btn-info pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{"LBL_EDIT"|t:$QUALIFIED_MODULE}</button>
 		</div>
 	</div>
 	<div class="clearfix"></div>
@@ -23,13 +23,13 @@
 		<div>
 			<div class="row">
 				<div class="col-md-12">
-					<label class="muted"><span class="redColor">*</span>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>&nbsp;
+					<label class="muted"><span class="redColor">*</span>{"LBL_PROFILE_NAME"|t:$QUALIFIED_MODULE}: </label>&nbsp;
 					<span  name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
 				</div>
 			</div>
             <div class="row">
 				<div class="col-md-12">
-					<label class="muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>&nbsp;
+					<label class="muted">{"LBL_DESCRIPTION"|t:$QUALIFIED_MODULE}:</strong></label>&nbsp;
 					<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
 				</div>
 			</div><br>
@@ -39,21 +39,21 @@
                 <div class="row">
                     <div class="col-md-3 row">
 			<img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
-			&nbsp;{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
+			&nbsp;{"LBL_VIEW_ALL"|t:$QUALIFIED_MODULE}
 		    </div>
 		    <div class="col-md-9 row">
 				<i class="glyphicon glyphicon-info-sign"></i>
-				<span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
+				<span style="margin-left:2px">{"LBL_VIEW_ALL_DESC"|t:$QUALIFIED_MODULE}</span>
 		    </div>
                 </div>
                 <div  class="row" style="margin-top: 5px;">
 		    <div class="col-md-3 row">
 			<img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
-			&nbsp;{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
+			&nbsp;{"LBL_EDIT_ALL"|t:$QUALIFIED_MODULE}
 		    </div>
 		    <div class="col-md-9 row">
 			<i class="glyphicon glyphicon-info-sign"></i>
-                        <span style="margin-left:2px">{vtranslate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
+                        <span style="margin-left:2px">{"LBL_EDIT_ALL_DESC"|t:$QUALIFIED_MODULE}</span>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
 					<thead>
 						<tr>
 							<th width="27%" style="border-left: 1px solid #DDD !important;">
-								{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+								{"LBL_MODULES"|t:$QUALIFIED_MODULE}
 							</th>
 							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter">
@@ -116,20 +116,20 @@
 									<div class="row" data-togglecontent="{$TABID}-fields">
 									{if $PROFILE_MODULE->getFields()}
 										<div class="col-md-12">
-											<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}</strong></label>
+											<label class="themeTextColor font-x-large pull-left"><strong>{"LBL_FIELDS"|t:$QUALIFIED_MODULE}</strong></label>
 											<div class="pull-right">
 												<span class="mini-slider-control ui-slider" data-value="0">
 													<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 												</span>
-												<span style="margin-left:25px;margin-right: 15px;">{vtranslate('LBL_INVISIBLE',$QUALIFIED_MODULE)}</span>&nbsp;
+												<span style="margin-left:25px;margin-right: 15px;">{"LBL_INVISIBLE"|t:$QUALIFIED_MODULE}</span>&nbsp;
 												<span class="mini-slider-control ui-slider" data-value="1">
 													<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 												</span>
-												<span style="margin-left:25px;margin-right: 15px;">{vtranslate('LBL_READ_ONLY',$QUALIFIED_MODULE)}</span>&nbsp;
+												<span style="margin-left:25px;margin-right: 15px;">{"LBL_READ_ONLY"|t:$QUALIFIED_MODULE}</span>&nbsp;
 												<span class="mini-slider-control ui-slider" data-value="2">
 													<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 												</span>
-												<span style="margin-left:25px;margin-right: 15px;">{vtranslate('LBL_WRITE',$QUALIFIED_MODULE)}</span>&nbsp;
+												<span style="margin-left:25px;margin-right: 15px;">{"LBL_WRITE"|t:$QUALIFIED_MODULE}</span>&nbsp;
 											</div>
 											<div class="clearfix"></div>
 										</div>
@@ -176,7 +176,7 @@
 						<tr class="hide">
 							<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 								<div class="row" data-togglecontent="{$TABID}-fields">
-								<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+								<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></label></div>
 								<table class="table table-bordered table-striped">
 								{assign var=UTILITY_ACTION_COUNT value=0}
 								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}

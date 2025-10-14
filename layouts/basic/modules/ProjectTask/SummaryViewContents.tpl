@@ -38,7 +38,7 @@
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
 								<div class="pull-right">
-									<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
+									<span class="glyphicon glyphicon-pencil" title="{"LBL_EDIT"|t:$MODULE_NAME}"></span>
 								</div>
                             </div>
                         {/if}
@@ -54,7 +54,7 @@
 	<div class="col-md-4 toggleViewByMode">
 		{assign var="CURRENT_VIEW" value="full"}
 		{assign var="CURRENT_MODE_LABEL" value="{vtranslate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-		<button type="button" class="btn btn-default changeDetailViewMode cursorPointer"><strong>{vtranslate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
+		<button type="button" class="btn btn-default changeDetailViewMode cursorPointer"><strong>{"LBL_SHOW_FULL_DETAILS"|t:$MODULE_NAME}</strong></button>
 		{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 		<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}"
 			data-full-url="{$FULL_MODE_URL}"  />
@@ -64,11 +64,11 @@
 			<div>
 				<p>
 					<small>
-						{vtranslate('LBL_CREATED_ON',$MODULE_NAME)} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('createdtime'))}
+						{"LBL_CREATED_ON"|t:$MODULE_NAME} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('createdtime'))}
 					</small>
 					<br />
 					<small>
-						{vtranslate('LBL_MODIFIED_ON',$MODULE_NAME)} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('modifiedtime'))}
+						{"LBL_MODIFIED_ON"|t:$MODULE_NAME} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('modifiedtime'))}
 					</small>
 				</p>
 			</div>

@@ -15,11 +15,11 @@
 		<div class="widget_header row">
 			<div class="col-md-8">
 			    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-				{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
+				{"LBL_CONFIG_DESCRIPTION"|t:$QUALIFIED_MODULE}
 			</div>
 			<div class="col-md-4">
 				<div class="pull-right">
-					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{"LBL_EDIT"|t:$QUALIFIED_MODULE}"><strong>{"LBL_EDIT"|t:$QUALIFIED_MODULE}</strong></button>
 				</div>
 			</div>
 		</div>
@@ -29,7 +29,7 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="{$WIDTHTYPE}">
-							<span class="alignMiddle">{vtranslate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</span>
+							<span class="alignMiddle">{"LBL_CONFIG_FILE"|t:$QUALIFIED_MODULE}</span>
 						</th>
 					</tr>
 				</thead>
@@ -52,7 +52,7 @@
 									{else}
 										{$FIELD_DATA[$FIELD_NAME]}
 									{/if}
-									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
+									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{"LBL_MB"|t:$QUALIFIED_MODULE}{/if}</span>
 							</td>
 						</tr>
 					{/foreach}

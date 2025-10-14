@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/ListViewLeftSide.tpl -->
 	<div>
-		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" />
+		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{"LBL_SELECT_SINGLE_ROW"|t}" />
 	</div>
 	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksLeftSide()}
 	{if count($LINKS) > 0}
@@ -28,8 +28,8 @@
 		{/if}
 		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
 			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
-				<span class="badge bgDanger all" title="{vtranslate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
-				<span class="badge bgBlue mail noLeftRadius noRightRadius" title="{vtranslate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
+				<span class="badge bgDanger all" title="{"LBL_NUMBER_UNREAD_CHANGES"|t:"ModTracker"}"></span>
+				<span class="badge bgBlue mail noLeftRadius noRightRadius" title="{"LBL_NUMBER_UNREAD_MAILS"|t:"ModTracker"}"></span>
 			</a>
 		{/if}
 	</div>

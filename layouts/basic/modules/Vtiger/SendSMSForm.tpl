@@ -15,8 +15,8 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_SEND_SMS_TO_SELECTED_NUMBERS', $MODULE)}</h3>
+					<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">&times;</button>
+					<h3 class="modal-title">{"LBL_SEND_SMS_TO_SELECTED_NUMBERS"|t:$MODULE}</h3>
 				</div>
 				<form class="form-horizontal" id="massSave" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -32,11 +32,11 @@
 
 					<div class="modal-body tabbable">
 						<div>
-							<span><strong>{vtranslate('LBL_STEP_1',$MODULE)}</strong></span>
+							<span><strong>{"LBL_STEP_1"|t:$MODULE}</strong></span>
 							&nbsp;:&nbsp;
-							{vtranslate('LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND',$MODULE)}
+							{"LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND"|t:$MODULE}
 						</div>
-						<select name="fields[]" data-placeholder="{vtranslate('LBL_ADD_MORE_FIELDS',$MODULE)}" multiple class="chzn-select form-control">
+						<select name="fields[]" data-placeholder="{"LBL_ADD_MORE_FIELDS"|t:$MODULE}" multiple class="chzn-select form-control">
 							<optgroup>
 								{foreach item=PHONE_FIELD from=$PHONE_FIELDS}
 									{if $PHONE_FIELD->isEditable() eq false} {continue} {/if}
@@ -52,17 +52,17 @@
 						</select>
 						<hr>
 						<div>
-							<span><strong>{vtranslate('LBL_STEP_2',$MODULE)}</strong></span>
+							<span><strong>{"LBL_STEP_2"|t:$MODULE}</strong></span>
 							&nbsp;:&nbsp;
-							{vtranslate('LBL_TYPE_THE_MESSAGE',$MODULE)}&nbsp;(&nbsp;{vtranslate('LBL_SMS_MAX_CHARACTERS_ALLOWED',$MODULE)}&nbsp;)
+							{"LBL_TYPE_THE_MESSAGE"|t:$MODULE}&nbsp;(&nbsp;{"LBL_SMS_MAX_CHARACTERS_ALLOWED"|t:$MODULE}&nbsp;)
 						</div>
-						<textarea class="input-xxlarge form-control" name="message" id="message" placeholder="{vtranslate('LBL_WRITE_YOUR_MESSAGE_HERE', $MODULE)}"></textarea>
+						<textarea class="input-xxlarge form-control" name="message" id="message" placeholder="{"LBL_WRITE_YOUR_MESSAGE_HERE"|t:$MODULE}"></textarea>
 					</div>
 					<div class="modal-footer">
 						<div class=" pull-right cancelLinkContainer">
-							<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+							<a class="cancelLink" type="reset" data-dismiss="modal">{"LBL_CANCEL"|t:$MODULE}</a>
 						</div>
-						<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SEND', $MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit" name="saveButton"><strong>{"LBL_SEND"|t:$MODULE}</strong></button>
 					</div>
 				</form>
 			</div>

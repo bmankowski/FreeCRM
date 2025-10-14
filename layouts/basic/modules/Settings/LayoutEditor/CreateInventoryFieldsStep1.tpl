@@ -6,13 +6,13 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">{vtranslate('LBL_CREATING_INVENTORY_FIELD', $QUALIFIED_MODULE)}</h4>
+					<h4 class="modal-title">{"LBL_CREATING_INVENTORY_FIELD"|t:$QUALIFIED_MODULE}</h4>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" id="mode" value="step1" />
 					<div class="form-horizontal">
 						<div class="form-group">
-							<label class="col-md-5 control-label">{vtranslate('LBL_SELECT_TYPE_OF_INVENTORY', $QUALIFIED_MODULE)}:</label>
+							<label class="col-md-5 control-label">{"LBL_SELECT_TYPE_OF_INVENTORY"|t:$QUALIFIED_MODULE}:</label>
 							<div class="col-md-7">
 								<select name="type" class="select2 form-control type">
 									{foreach from=$MODULE_MODELS item=ITEM key=KEY}
@@ -36,8 +36,8 @@
 				</div>
 				<div class="modal-footer">
 					<div class="pull-right cancelLinkContainer">
-						<button class="btn btn-success nextButton" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
-						<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success nextButton" type="submit"><strong>{"LBL_NEXT"|t:$QUALIFIED_MODULE}</strong></button>
+						<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 					</div>
 				</div>
 			</div>

@@ -6,7 +6,7 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_WORKFLOWS_TRIGGER', $MODULE)}</h3>
+					<h3 class="modal-title">{"LBL_WORKFLOWS_TRIGGER"|t:$MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					{foreach key=KEY item=WORKFLOW from=$WORKFLOWS}
@@ -22,13 +22,13 @@
 				</div>
 				<div class="modal-footer">
 					<div class="pull-right cancelLinkContainer">
-						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_EXECUTE', $MODULE)}</strong></button>
-						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit"><strong>{"LBL_EXECUTE"|t:$MODULE}</strong></button>
+						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CANCEL"|t:$MODULE}</strong></button>
 					</div>
 					<div class="row">
 						{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
 						<div class="col-md-5">
-							<select class="select2 form-control" title="{vtranslate('LBL_USER', $MODULE)}" name="user" {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
+							<select class="select2 form-control" title="{"LBL_USER"|t:$MODULE}" name="user" {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
 								{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 									data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 								{/if}>

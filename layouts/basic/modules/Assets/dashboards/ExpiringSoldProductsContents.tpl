@@ -33,7 +33,7 @@
 	</div>
 {else}
 	<span class="noDataMsg">
-		{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
+		{"LBL_NO_DATA"|t:$MODULE_NAME}
 	</span>
 {/if}
 <!--/layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl -->

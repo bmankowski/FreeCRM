@@ -8,7 +8,7 @@
 		<div class="widgetChartContainer chartcontent"></div>
 	{else}
 		<span class="noDataMsg">
-			{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
+			{"LBL_NO_RECORDS_MATCHED_THIS_CRITERIA"|t}
 		</span>
 	{/if}
 <!--/layouts/basic/modules/Vtiger/dashboards/ChartFilterContents.tpl -->

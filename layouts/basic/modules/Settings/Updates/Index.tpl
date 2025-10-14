@@ -20,7 +20,7 @@
 		</div>
 		<div class="col-md-5">
 			<div class="pull-right">
-				<a class="btn btn-success addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{vtranslate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
+				<a class="btn btn-success addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{"LBL_IMPORT_UPDATE"|t:$QUALIFIED_MODULE}</strong></a>
 			</div>
 		</div>
 	</div>
@@ -29,23 +29,23 @@
 		<thead>
 			<tr class="blockHeader">
 				<th colspan="1" class="mediumWidthType">
-					<span>{vtranslate('LBL_TIME', $MODULE)}</span>
+					<span>{"LBL_TIME"|t:$MODULE}</span>
 				</th>
 				<th colspan="1" class="mediumWidthType">
-					<span>{vtranslate('LBL_USER', $MODULE)}</span>
+					<span>{"LBL_USER"|t:$MODULE}</span>
 				</th>
 				<th colspan="1" class="mediumWidthType">
-					<span>{vtranslate('LBL_NAME', $MODULE)}</span>
+					<span>{"LBL_NAME"|t:$MODULE}</span>
 				</th>
 				</th>
 				<th colspan="1" class="mediumWidthType">
-					<span>{vtranslate('LBL_FROM_VERSION', $MODULE)}</span>
+					<span>{"LBL_FROM_VERSION"|t:$MODULE}</span>
 				</th>
 				<th colspan="1" class="mediumWidthType">
-					<span>{vtranslate('LBL_TO_VERSION', $MODULE)}</span>
+					<span>{"LBL_TO_VERSION"|t:$MODULE}</span>
 				</th>
 				<th colspan="1" class="mediumWidthType">
-					<span>{vtranslate('LBL_RESULT', $MODULE)}</span>
+					<span>{"LBL_RESULT"|t:$MODULE}</span>
 				</th>
 			</tr>
 		</thead>
@@ -57,7 +57,7 @@
 					<td width="16%"><label class="marginRight5px">{$foo.name}</label></td>
 					<td width="16%"><label class="marginRight5px">{$foo.from_version}</label></td>
 					<td width="16%"><label class="marginRight5px">{$foo.to_version}</label></td>
-					<td width="16%"><label class="marginRight5px">{if $foo.result eq 1}{vtranslate('LBL_YES', $MODULE)}{else}{vtranslate('LBL_NO', $MODULE)}{/if}</label></td>
+					<td width="16%"><label class="marginRight5px">{if $foo.result eq 1}{"LBL_YES"|t:$MODULE}{else}{"LBL_NO"|t:$MODULE}{/if}</label></td>
 				</tr>
 			{/foreach}
 		</tbody>

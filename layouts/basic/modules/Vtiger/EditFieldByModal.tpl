@@ -8,14 +8,14 @@
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<div class="modal-header">
 		<div class="col-xs-10">
-			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}: {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
+			<h3 class="modal-title">{"LBL_CHANGE_VALUE_FOR_FIELD"|t:$MODULE_NAME}: {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
 		</div>
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
-				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
+				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{"LBL_EDIT"|t:$MODULE_NAME}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
 			{/if}
 			{if $RECORD->isViewable()}
-				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{"LBL_SHOW_COMPLETE_DETAILS"|t:$MODULE_NAME}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
 			{/if}
 		</div>
 		<div class="clearfix"></div>
@@ -37,7 +37,7 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
 								{if in_array($FIELD_MODEL->get('uitype'),['300','19']) && $VALUE}
-									<a href="#" class="helpInfoPopover" title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" class="glyphicon glyphicon-modal-window"></span> </a>
+									<a href="#" class="helpInfoPopover" title="{"LBL_PREVIEW"|t:$MODULE_NAME}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{"LBL_PREVIEW"|t:$MODULE_NAME}" class="glyphicon glyphicon-modal-window"></span> </a>
 									{assign var=CONVERT value=true}
 								{/if}
 							:</label>
@@ -77,7 +77,7 @@
 			{/foreach}
 		</div>
 	</div>
-	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{"LBL_CLOSE"|t:$MODULE_NAME}</button>
 </div>
 <!--/layouts/basic/modules/Vtiger/EditFieldByModal.tpl -->
 {/strip}

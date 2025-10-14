@@ -11,7 +11,7 @@
 						{if $WIDGETS|count gt 0}
 							<button class="btn btn-default addButton dropdown-toggle" data-toggle="dropdown">
 								<p class="hidden-xs no-margin">
-									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
+									<strong>{"LBL_ADD_WIDGET"|t}</strong>
 									<span class="caret"></span>
 								</p>
 								<span class="glyphicon glyphicon-th visible-xs-block"></span>
@@ -19,7 +19,7 @@
 							<ul class="dropdown-menu widgetsList pull-left addWidgetDropDown" style="min-width:100%;text-align:left;">
 								<li class="visible-xs-block">
 									<a href="#" class="addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
-										{vtranslate('LBL_ADD_FILTER')}
+										{"LBL_ADD_FILTER"|t}
 									</a>
 								</li>
 								{assign var="WIDGET" value=""}
@@ -37,19 +37,19 @@
 							</ul>
 						{else if $MODULE_PERMISSION}
 							<button class="btn btn-default addButton dropdown-toggle" data-toggle="dropdown">
-								<strong class="hidden-xs">{vtranslate('LBL_ADD_WIDGET')}</strong>
+								<strong class="hidden-xs">{"LBL_ADD_WIDGET"|t}</strong>
 								<span class="hidden-xs caret"></span>
 								<span class="glyphicon glyphicon-th visible-xs-block"></span>
 							</button>
 							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">
 								<li class="visible-xs-block">
 									<a href="#" class="addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
-										{vtranslate('LBL_ADD_FILTER')}
+										{"LBL_ADD_FILTER"|t}
 									</a>
 								</li>
 								<li class="hidden-xs">
 									<a href="#">
-										{vtranslate('LBL_NONE')}
+										{"LBL_NONE"|t}
 									</a>
 								</li>
 							</ul>
@@ -58,14 +58,14 @@
 					{if $MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
 						<div class="btn-group hidden-xs">
 							<a class="btn btn-default addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
-								<strong>{vtranslate('LBL_ADD_FILTER')}</strong>
+								<strong>{"LBL_ADD_FILTER"|t}</strong>
 							</a>
 						</div>
 					{/if}
 					{if $MODULE_MODEL && $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
 						<div class="btn-group hidden-xs">
 							<a class="btn btn-default addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
-								<strong>{vtranslate('LBL_ADD_CHART_FILTER')}</strong>
+								<strong>{"LBL_ADD_CHART_FILTER"|t}</strong>
 							</a>
 						</div>
 					{/if}

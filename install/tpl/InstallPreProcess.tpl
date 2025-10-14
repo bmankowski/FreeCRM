@@ -21,7 +21,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="head pull-right">
-					<h3>{vtranslate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
+					<h3>{"LBL_INSTALLATION_WIZARD"|t:"Install"}</h3>
 				</div>
 			</div>
 		</div>

@@ -13,8 +13,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-				<h3 class="modal-title">{vtranslate('LBL_SELECT_REPLACE_TREE_ITEM', $QUALIFIED_MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
+				<h3 class="modal-title">{"LBL_SELECT_REPLACE_TREE_ITEM"|t:$QUALIFIED_MODULE}</h3>
 			</div>
 			<form class="form-horizontal" method="post" action="javascript:;">
 				<div class="modal-body">	

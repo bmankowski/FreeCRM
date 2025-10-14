@@ -14,10 +14,10 @@
 					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				<span class="muted">
-					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+					{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 					{if $SHOWNERS != ''}
-						<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+						<br/>{"Share with users"|t:$MODULE_NAME} {$SHOWNERS}
 					{/if}
 				</span>
 			</div>

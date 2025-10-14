@@ -18,8 +18,8 @@
 			{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 			<div class="col-md-4">
 				<div class="pull-right pushDown">
-					<button class="btn btn-info editButton" data-url='{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}">
-						<strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
+					<button class="btn btn-info editButton" data-url='{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}' type="button" title="{"LBL_EDIT"|t:$QUALIFIED_MODULE}">
+						<strong>{"LBL_EDIT"|t:$QUALIFIED_MODULE}</strong>
 					</button>
 				</div>
 			</div>
@@ -30,7 +30,7 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="mediumWidthType">
-							<span class="alignMiddle">{vtranslate('LBL_PBXMANAGER_CONFIG', $QUALIFIED_MODULE)}</span>
+							<span class="alignMiddle">{"LBL_PBXMANAGER_CONFIG"|t:$QUALIFIED_MODULE}</span>
 						</th>
 					</tr>
 				</thead>
@@ -49,8 +49,8 @@
 		</div>
 		<br>
 		<div class="col-md-8 alert alert-danger container">
-			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
-			{vtranslate('LBL_PBXMANAGER_INFO', $QUALIFIED_MODULE)}
+			{"LBL_NOTE"|t:$QUALIFIED_MODULE}<br>
+			{"LBL_PBXMANAGER_INFO"|t:$QUALIFIED_MODULE}
 		</div>	
 	</div>
 <!--/layouts/basic/modules/Settings/PBXManager/index.tpl -->

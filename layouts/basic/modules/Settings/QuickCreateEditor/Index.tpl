@@ -27,7 +27,7 @@ padding: 0 20px 20px 20px;
         <div class="widget_header row">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-			{vtranslate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
+			{"LBL_QUICK_CREATE_EDITOR_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 		<div class="pull-right col-md-4 h3">
 			<select class="select2 form-control" name="quickCreateEditorModules">
@@ -48,14 +48,14 @@ padding: 0 20px 20px 20px;
         </div>
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
-                <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_SEQUENCE', $QUALIFIED_MODULE)}</strong></a></li>
+                <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{"LBL_SEQUENCE"|t:$QUALIFIED_MODULE}</strong></a></li>
             </ul>
             <div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
 					<div class="btn-toolbar">
 						<span class="pull-right">
 							<button class="btn btn-success saveFieldSequence visibility"  type="button">
-								<strong>{vtranslate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+								<strong>{"LBL_SAVE_FIELD_SEQUENCE"|t:$QUALIFIED_MODULE}</strong>
 							</button>
 						</span>
 						<div class="clearfix">
@@ -70,7 +70,7 @@ padding: 0 20px 20px 20px;
 							<div class="editFieldsTable block marginBottom10px border1px blockSortable"  style="border-radius: 4px 4px 0px 0px;background: white;">
                                 <div class="row layoutBlockHeader no-margin">
                                     <div class="blockLabel col-md-5 marginLeftZero" style="padding:5px 10px 5px 10px">
-                                        {vtranslate($MODULE_NAME, $MODULE)}
+                                        {$MODULE_NAME|t:$MODULE}
                                     </div>
                                 </div>
                                 <div class="blockFieldsList row no-margin" style="padding:5px;min-height: 27px">
@@ -85,7 +85,7 @@ padding: 0 20px 20px 20px;
                                                             <div class="col-sm-1 col-xs-2 col-md-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
-                                                                        <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                                                        <img src="{vimage_path('drag.png')}" border="0" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}"/>
                                                                     </a>
                                                                 {/if}
                                                             </div>
@@ -110,7 +110,7 @@ padding: 0 20px 20px 20px;
 															<span class="col-sm-1 col-xs-2 col-md-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
-																		<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+																		<img src="{vimage_path('drag.png')}" border="0" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}"/>
 																	</a>
 																{/if}
 															</span>

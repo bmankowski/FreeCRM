@@ -19,4 +19,4 @@
 		{else}
 			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=List'"
 		{/if}
->{vtranslate('LBL_CANCEL', $MODULE)}</button>
+>{"LBL_CANCEL"|t:$MODULE}</button>

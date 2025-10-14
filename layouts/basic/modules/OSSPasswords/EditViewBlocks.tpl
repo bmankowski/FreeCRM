@@ -40,8 +40,8 @@
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 					</span>
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit" id="saveBtn1"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+						<button class="btn btn-success" type="submit" id="saveBtn1"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{"LBL_CANCEL"|t:$MODULE}</button>
 					</span>
 				</div>
 			</div>
@@ -62,7 +62,7 @@
 						<div class="iconCollapse">
 							<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h4>{vtranslate($BLOCK_LABEL, $MODULE)}</h4>
+							<h4>{$BLOCK_LABEL|t:$MODULE}</h4>
 						</div>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
@@ -87,7 +87,7 @@
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										<label class="muted pull-right marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+											{$FIELD_MODEL->get('label')|t:$MODULE}
 										</label>
 									</div>
 									<div class="fieldValue {$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-md-9  {/if} ">

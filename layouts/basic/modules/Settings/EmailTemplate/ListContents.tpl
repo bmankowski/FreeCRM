@@ -20,13 +20,13 @@
 				<thead>
 					<tr class="listViewHeaders">
 						<th>
-							<a>{vtranslate('LBL_TEMPLATE_NAME',$QUALIFIED_MODULE)}</a>
+							<a>{"LBL_TEMPLATE_NAME"|t:$QUALIFIED_MODULE}</a>
 						</th>
 						<th>
-							<a>{vtranslate('LBL_SUBJECT',$QUALIFIED_MODULE)}</a>
+							<a>{"LBL_SUBJECT"|t:$QUALIFIED_MODULE}</a>
 						</th>
 						<th>
-							<a>{vtranslate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}</a>
+							<a>{"LBL_DESCRIPTION"|t:$QUALIFIED_MODULE}</a>
 						</th>
 					</tr>
 				</thead>

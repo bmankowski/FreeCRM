@@ -12,8 +12,8 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/ModalFooter.tpl -->
 	<div class="modal-footer">
-		<button class="btn btn-success" type="submit" name="saveButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-		<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+		<button class="btn btn-success" type="submit" name="saveButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
+		<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{"LBL_CANCEL"|t:$MODULE}</strong></button>
 	</div>
 <!--/layouts/basic/modules/Vtiger/ModalFooter.tpl -->
 {/strip}

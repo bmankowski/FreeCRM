@@ -13,7 +13,7 @@
 					<div class="modal-header">
 						<div class="row no-margin">
 							<div class="col-md-7 col-xs-10">
-								<h3 class="modal-title">{vtranslate('LBL_ALPHABETIC_FILTERING', $MODULE_NAME)}</h3>
+								<h3 class="modal-title">{"LBL_ALPHABETIC_FILTERING"|t:$MODULE_NAME}</h3>
 							</div>
 							<div class="pull-right">
 								<div class="pull-right">
@@ -36,8 +36,8 @@
 					</div>
 					<div class="modal-footer">
 						<div class="pull-right">
-							<button class="btn btn-danger removeAlfabetCondition" type="button" title="{vtranslate('LBL_REMOVE_ALPH_SEARCH_INFO', $MODULE_NAME)}" >
-								{vtranslate('LBL_REMOVE_FILTERING', $MODULE_NAME)}
+							<button class="btn btn-danger removeAlfabetCondition" type="button" title="{"LBL_REMOVE_ALPH_SEARCH_INFO"|t:$MODULE_NAME}" >
+								{"LBL_REMOVE_FILTERING"|t:$MODULE_NAME}
 							</button >
 						</div>
 					</div>

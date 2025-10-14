@@ -8,7 +8,7 @@
 	<input type="hidden" id="type" value="{$TYPE}" />
 	<div class="modal-header">
 		<div class="pull-left">
-			<h3 class="modal-title">{vtranslate('LBL_MANAGE_PERMISSIONS', $MODULE_NAME)}</h3>
+			<h3 class="modal-title">{"LBL_MANAGE_PERMISSIONS"|t:$MODULE_NAME}</h3>
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -16,7 +16,7 @@
 		<div class="">
 			<div class="form-group">
 				<label class="col-xs-12 control-label">
-					{vtranslate('LBL_ALL_GROUP_LIST', $MODULE_NAME)}
+					{"LBL_ALL_GROUP_LIST"|t:$MODULE_NAME}
 				</label>
 				<div class="col-xs-10">
 					<select class="select2 form-control add" id="allGroups" {if $IS_DEFAULT} disabled="disabled"{/if}>
@@ -30,11 +30,11 @@
 					{/foreach}
 				</select>
 			</div>
-			<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-action="add" title="{vtranslate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="glyphicon glyphicon-arrow-down"></span></button>
+			<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-action="add" title="{"LBL_ADD_PERMISSIONS"|t:$MODULE_NAME}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="glyphicon glyphicon-arrow-down"></span></button>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-12 control-label">
-				{vtranslate('LBL_GROUP_MEMBERS', $MODULE_NAME)}
+				{"LBL_GROUP_MEMBERS"|t:$MODULE_NAME}
 			</label>
 			<div class="col-xs-10">
 				<select class="select2 form-control remove" id="groups">
@@ -50,12 +50,12 @@
 					{/foreach}
 				</select>
 			</div>
-			<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-action="remove" title="{vtranslate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="glyphicon glyphicon-arrow-up"></span></button>
+			<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-action="remove" title="{"LBL_RECEIVE_PERMISSION"|t:$MODULE_NAME}"><span class="glyphicon glyphicon-arrow-up"></span></button>
 		</div>
 	</div>
 </div>
 <div class="modal-footer">
-	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{"LBL_CLOSE"|t:$MODULE_NAME}</button>
 </div>
 <!--/layouts/basic/modules/Settings/CustomView/FilterPermissions.tpl -->
 {/strip}

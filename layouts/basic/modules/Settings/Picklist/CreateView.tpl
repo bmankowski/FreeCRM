@@ -15,8 +15,8 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-				<h3 class="modal-title">{vtranslate('LBL_ADD_ITEM_TO', $QUALIFIED_MODULE)}&nbsp;{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}</h3>
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
+				<h3 class="modal-title">{"LBL_ADD_ITEM_TO"|t:$QUALIFIED_MODULE}&nbsp;{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}</h3>
 			</div>
 			<form name="addItemForm" class="form-horizontal" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />
@@ -28,15 +28,15 @@
 				<input type="hidden" name="pickListValues" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<div class="col-md-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 control-label"><span class="redColor">*</span>{"LBL_ITEM_VALUE"|t:$QUALIFIED_MODULE}</div>
 						<div class="col-md-9 controls"><input class="form-control" type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
 					</div>
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 						<div class="form-group">	
-							<div class="col-md-3 control-label">{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-3 control-label">{"LBL_ASSIGN_TO_ROLE"|t:$QUALIFIED_MODULE}</div>
 							<div class="col-md-9 controls">
-								<select class="rolesList form-control" name="rolesSelected[]" multiple data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
-									<option value="all" selected>{vtranslate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
+								<select class="rolesList form-control" name="rolesSelected[]" multiple data-placeholder="{"LBL_CHOOSE_ROLES"|t:$QUALIFIED_MODULE}">
+									<option value="all" selected>{"LBL_ALL_ROLES"|t:$QUALIFIED_MODULE}</option>
 									{foreach from=$ROLES_LIST item=ROLE}
 										<option value="{$ROLE->get('roleid')}">{$ROLE->get('rolename')}</option>
 									{/foreach}

@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Settings/Vtiger/SettingsShortCut.tpl -->
 	<div id="shortcut_{$SETTINGS_SHORTCUT->getId()}" style="margin-left: 20px !important;" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}" class="col-md-3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTINGS_SHORTCUT->getUrl()}">
-		<button data-id="{$SETTINGS_SHORTCUT->getId()}" title="{vtranslate('LBL_REMOVE',$QUALIFIED_MODULE)}" title="Close" type="button" class="unpin close">x</button>
+		<button data-id="{$SETTINGS_SHORTCUT->getId()}" title="{"LBL_REMOVE"|t:$QUALIFIED_MODULE}" title="Close" type="button" class="unpin close">x</button>
 		<h5 class="themeTextColor">{vtranslate($SETTINGS_SHORTCUT->get('name'),Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}</h5>
 		<div>{vtranslate($SETTINGS_SHORTCUT->get('description'),Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}</div>
 	</div>

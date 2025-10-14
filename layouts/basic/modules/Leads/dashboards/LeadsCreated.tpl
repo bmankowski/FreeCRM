@@ -16,27 +16,27 @@
 		<div class="row">
 			<span class="col-md-5">
 				<span class="pull-right">
-					{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}
+					{"Created Time"|t:$MODULE_NAME} &nbsp; {"LBL_BETWEEN"|t:$MODULE_NAME}
 				</span>
 			</span>
 			<span class="col-md-4">
-				<input type="text" name="createdtime" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
+				<input type="text" name="createdtime" title="{"LBL_CHOOSE_DATE"|t}" class="dateRange widgetFilter" />
 			</span>
 		</div>
 		<div class="row">
 			<span class="col-md-5">
 				<span class="pull-right">
-					{vtranslate('Assigned To', $MODULE_NAME)}
+					{"Assigned To"|t:$MODULE_NAME}
 				</span>
 			</span>
 			<span class="col-md-4">
 				{assign var=CURRENT_USER_ID value=$CURRENTUSER->getId()}
 				<select class="widgetFilter" name="owner">
-					<option value="">{vtranslate('LBL_ALL', $MODULE_NAME)}</option>
+					<option value="">{"LBL_ALL"|t:$MODULE_NAME}</option>
 					{foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
 					<option value="{$USER_ID}">
 						{if $USER_ID eq $CURRENTUSER->getId()}
-							{vtranslate('LBL_MINE',$MODULE_NAME)}
+							{"LBL_MINE"|t:$MODULE_NAME}
 						{else}
 							{$USER_NAME}
 						{/if}

@@ -94,7 +94,7 @@
 				</p>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+				<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CANCEL"|t:$MODULE}</strong></button>
 			</div>
 		</div>
 	</div>

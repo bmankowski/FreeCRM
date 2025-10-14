@@ -29,7 +29,7 @@
 		</table>
 	{else}
 		<span class="noDataMsg">
-			{vtranslate('LBL_NO_MOD_RECORDS', $MODULE_NAME)}
+			{"LBL_NO_MOD_RECORDS"|t:$MODULE_NAME}
 		</span>
 	{/if}
 </div>

@@ -77,7 +77,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{vtranslate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
+							{"LBL_NO_RECORDS_FOUND"|t:$QUALIFIED_MODULE}
 						</td>
 					</tr>
 				</tbody>

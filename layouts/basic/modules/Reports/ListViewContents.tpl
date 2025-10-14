@@ -23,10 +23,10 @@
 <input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 
 <div id="selectAllMsgDiv" class="alert-block msgDiv">
-	<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>
 <div id="deSelectAllMsgDiv" class="alert-block msgDiv">
-	<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+	<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
 </div>
 
 <div class="contents-topscroll noprint stick" data-position="top">
@@ -36,16 +36,16 @@
 	<div class="bottomscroll-div">
 	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-	<p class="listViewLoadingMsg hide">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
+	<p class="listViewLoadingMsg hide">{"LBL_LOADING_LISTVIEW_CONTENTS"|t:$MODULE}........</p>
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
 		<thead>
 			<tr class="listViewHeaders">
-				<th><input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"></th>
+				<th><input type="checkbox" title="{"LBL_SELECT_ALL"|t}" id="listViewEntriesMainCheckBox"></th>
 				{foreach key=LISTVIEW_HEADER_KEY item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap">
 						<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER_KEY}">
-							{vtranslate($LISTVIEW_HEADERS[$LISTVIEW_HEADER_KEY],$MODULE)}
+							{$LISTVIEW_HEADERS[$LISTVIEW_HEADER_KEY]|t:$MODULE}
 							&nbsp;&nbsp;
 							{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}
 								<span class="{$SORT_IMAGE}"></span>
@@ -57,19 +57,19 @@
 		</thead>
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 		<tr class="listViewEntries" data-id={$LISTVIEW_ENTRY->getId()} data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-			<td class="{$WIDTHTYPE}"><input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"></td>
+			<td class="{$WIDTHTYPE}"><input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{"LBL_SELECT_SINGLE_ROW"|t}" class="listViewEntriesCheckBox"></td>
 			{foreach key=LISTVIEW_HEADER_KEY item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=REPORT_MODEL value=Reports_Record_Model::getCleanInstance($LISTVIEW_ENTRY->getId())}
 				<td nowrap class="{$WIDTHTYPE}">
-					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{vtranslate($LISTVIEW_ENTRY->get($LISTVIEW_HEADER_KEY), $MODULE)}</a>
+					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADER_KEY)|t:$MODULE}</a>
 					{if $LISTVIEW_HEADER@last}
 						</td><td nowrap class="{$WIDTHTYPE}">
 						<div class="pull-right actions">
 							<span class="actionImages">
 								{if $REPORT_MODEL->isEditable()}
-									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
+									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{"LBL_EDIT"|t:$MODULE}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 									{if $LISTVIEW_ENTRY->isDefault() eq false}
-										<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+										<a class="deleteRecordButton"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 									{/if}
 								{/if}
 							</span>
@@ -89,7 +89,7 @@
 			<tr>
 				<td>
 					{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
-					{vtranslate('LBL_RECORDS_NO_FOUND')}. {vtranslate('LBL_CREATE')} <a href="{$MODULE_MODEL->getCreateRecordUrl()}&folderid={$VIEWNAME}">{vtranslate($SINGLE_MODULE, $MODULE)}</a>
+					{"LBL_RECORDS_NO_FOUND"|t}. {"LBL_CREATE"|t} <a href="{$MODULE_MODEL->getCreateRecordUrl()}&folderid={$VIEWNAME}">{$SINGLE_MODULE|t:$MODULE}</a>
 				</td>
 			</tr>
 		</tbody>

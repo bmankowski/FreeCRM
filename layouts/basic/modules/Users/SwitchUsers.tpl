@@ -4,8 +4,8 @@
 {strip}
 <!-- layouts/basic/modules/Users/SwitchUsers.tpl -->
 	<div class="modal-header">
-		<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
-		<h4 class="modal-title">{vtranslate('LBL_SWITCH_USER', $MODULE_NAME)}</h4>
+		<button class="close" data-dismiss="modal" title="{"LBL_CLOSE"|t}">x</button>
+		<h4 class="modal-title">{"LBL_SWITCH_USER"|t:$MODULE_NAME}</h4>
 	</div>
 	<form name="switchUsersForm" action="index.php" method="post">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -20,18 +20,18 @@
 						{/foreach}
 					</select>
 				</div>
-				<button type="button" class="btn btn-success">{vtranslate('LBL_SWITCH', $MODULE_NAME)}</button>	
+				<button type="button" class="btn btn-success">{"LBL_SWITCH"|t:$MODULE_NAME}</button>	
 			</div>
 		{/if}
 		<div class="modal-footer">
 			{if $BASE_USER_ID neq $USER_MODEL->getId()}
 				<div class="pull-left">
 					<div class="btn-toolbar">
-						<button class="btn btn-primary getYourself" type="submit"><strong>{vtranslate('LBL_SWITCH_TO_YOURSELF', $MODULE_NAME)}</strong></button>
+						<button class="btn btn-primary getYourself" type="submit"><strong>{"LBL_SWITCH_TO_YOURSELF"|t:$MODULE_NAME}</strong></button>
 					</div>
 				</div>
 			{/if}
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{"LBL_CLOSE"|t:$MODULE_NAME}</button>
 		</div>
 	</form>		
 <!--/layouts/basic/modules/Users/SwitchUsers.tpl -->

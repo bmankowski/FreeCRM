@@ -7,7 +7,7 @@
 	<div class="span12">
 		<div class="button-container">
 			<a href="../index.php" class="btn btn-sm btn-primary">
-				{vtranslate('LBL_END_MIGRATION','Install')}
+				{"LBL_END_MIGRATION"|t:"Install"}
 			</a>
 		</div>
 	</div>

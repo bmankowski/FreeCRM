@@ -10,10 +10,10 @@
  ********************************************************************************/
 -->*}
 <select id="groupbyfield_element">
-	<option value="">{vtranslate('LBL_NONE',$MODULE)}</option>
+	<option value="">{"LBL_NONE"|t:$MODULE}</option>
 	{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 		{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
-			<optgroup label='{vtranslate($PRIMARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
+			<optgroup label='{$PRIMARY_MODULE_NAME|t:$MODULE}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
 				{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
 					{assign var=FIELD_INFO value=explode(':', $FIELD_KEY)}
 					{if $FIELD_INFO[4] eq 'D' or $FIELD_INFO[4] eq 'DT'}
@@ -29,7 +29,7 @@
 	{/foreach}
 	{foreach key=SECONDARY_MODULE_NAME item=SECONDARY_MODULE from=$SECONDARY_MODULE_FIELDS}
 		{foreach key=BLOCK_LABEL item=BLOCK from=$SECONDARY_MODULE}
-			<optgroup label='{vtranslate($SECONDARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
+			<optgroup label='{$SECONDARY_MODULE_NAME|t:$MODULE}-{vtranslate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
 				{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
 					{assign var=FIELD_INFO value=explode(':', $FIELD_KEY)}
 					{if $FIELD_INFO[4] eq 'D' or $FIELD_INFO[4] eq 'DT'}
@@ -46,7 +46,7 @@
 </select>
 
 <select id="datafields_element">
-	<option value='count(*)'>{vtranslate('LBL_RECORD_COUNT', $MODULE)}</option>
+	<option value='count(*)'>{"LBL_RECORD_COUNT"|t:$MODULE}</option>
 	{foreach key=CALCULATION_FIELDS_MODULE_LABEL item=CALCULATION_FIELDS_MODULE from=$CALCULATION_FIELDS}
 		<optgroup label="{vtranslate($CALCULATION_FIELDS_MODULE_LABEL, $CALCULATION_FIELDS_MODULE_LABEL)}">
 		{foreach key=CALCULATION_FIELD_KEY item=CALCULATION_FIELD_TRANSLATED_LABEL from=$CALCULATION_FIELDS_MODULE}

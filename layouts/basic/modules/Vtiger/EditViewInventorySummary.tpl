@@ -6,10 +6,10 @@
 			<div class="col-md-4">
 				<div class="panel panel-default inventorySummaryContainer inventorySummaryDiscounts">
 					<div class="panel-heading">
-						<img src="{vimage_path('Discount24.png')}" alt="{vtranslate('LBL_DISCOUNT', $MODULE)}" />&nbsp;&nbsp;
-						<strong>{vtranslate('LBL_DISCOUNTS_SUMMARY',$MODULE)}</strong>
+						<img src="{vimage_path('Discount24.png')}" alt="{"LBL_DISCOUNT"|t:$MODULE}" />&nbsp;&nbsp;
+						<strong>{"LBL_DISCOUNTS_SUMMARY"|t:$MODULE}</strong>
 						<span class="pull-right groupDiscount changeDiscount {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['discountmode'] == '1'}hide{/if}">
-							<button type="button" class="btn btn-primary btn-xs">{vtranslate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
+							<button type="button" class="btn btn-primary btn-xs">{"LBL_SET_GLOBAL_TAX"|t:$MODULE}</button>
 						</span>
 					</div>
 					<div class="panel-body">
@@ -29,17 +29,17 @@
 			<div class="col-md-4">
 				<div class="panel panel-default inventorySummaryContainer inventorySummaryTaxes">
 					<div class="panel-heading">
-						<img src="{vimage_path('Tax24.png')}" alt="{vtranslate('LBL_TAX', $MODULE)}" />&nbsp;&nbsp;
-						<strong>{vtranslate('LBL_TAX_SUMMARY',$MODULE)}</strong>
+						<img src="{vimage_path('Tax24.png')}" alt="{"LBL_TAX"|t:$MODULE}" />&nbsp;&nbsp;
+						<strong>{"LBL_TAX_SUMMARY"|t:$MODULE}</strong>
 						<span class="pull-right groupTax changeTax {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['taxmode'] == '1'}hide{/if}">
-							<button type="button" class="btn btn-primary btn-xs">{vtranslate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
+							<button type="button" class="btn btn-primary btn-xs">{"LBL_SET_GLOBAL_DISCOUNT"|t:$MODULE}</button>
 						</span>
 					</div>
 					<div class="panel-body"></div>
 					<div class="panel-footer">
 						<div class="form-group">
 							<div class="input-group">
-								<div class="input-group-addon percent">{vtranslate('LBL_AMOUNT', $MODULE)}</div>
+								<div class="input-group-addon percent">{"LBL_AMOUNT"|t:$MODULE}</div>
 								<input type="text" class="form-control textAlignRight" readonly="readonly">
 								{if in_array("currency",$COLUMNS)}
 									<div class="input-group-addon currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
@@ -63,13 +63,13 @@
 			<div class="col-md-4">
 				<div class="panel panel-default inventorySummaryContainer inventorySummaryCurrencies">
 					<div class="panel-heading">
-						<strong>{vtranslate('LBL_CURRENCIES_SUMMARY',$MODULE)}</strong>
+						<strong>{"LBL_CURRENCIES_SUMMARY"|t:$MODULE}</strong>
 					</div>
 					<div class="panel-body"></div>
 					<div class="panel-footer">
 						<div class="form-group">
 							<div class="input-group">
-								<div class="input-group-addon percent">{vtranslate('LBL_AMOUNT', $MODULE)}</div>
+								<div class="input-group-addon percent">{"LBL_AMOUNT"|t:$MODULE}</div>
 								<input type="text" class="form-control textAlignRight" readonly="readonly">
 								{if in_array("currency",$COLUMNS)}
 									<div class="input-group-addon">{$BASE_CURRENCY['currency_symbol']}</div>

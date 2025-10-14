@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Settings/Workflows/AdvanceFilterCondition.tpl -->
 <div class="row conditionRow marginBottom10px">
 	<div class="col-md-4">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 			<option value="none"></option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
@@ -48,7 +48,7 @@
 	</div>
 	<div class="col-md-3">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="comparator">
-			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
+			 <option value="none">{"LBL_NONE"|t:$MODULE}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
 				<option value="{$ADVANCE_FILTER_OPTION}"
@@ -69,7 +69,7 @@
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
 	 <span class="col-md-1">
-		<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
+		<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{"LBL_DELETE"|t:$MODULE}"></i>
 	</span>
 </div>
 <!--/layouts/basic/modules/Settings/Workflows/AdvanceFilterCondition.tpl -->

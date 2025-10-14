@@ -17,7 +17,7 @@
 	<div class="row padding1per">
 		<span class="col-md-3"><h4>{vtranslate('LBL_COPY_PRIVILEGES_FROM',"Settings:Roles")}</h4></span>
 		<span class="col-md-6">
-			<select class="select2" id="directProfilePriviligesSelect" style="min-width : 200px" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}">
+			<select class="select2" id="directProfilePriviligesSelect" style="min-width : 200px" data-placeholder="{"LBL_CHOOSE_PROFILES"|t:$QUALIFIED_MODULE}">
 				<option></option>
 				{foreach from=$ALL_PROFILES item=PROFILE}
 					{if $PROFILE->isDirectlyRelated() eq false}
@@ -35,12 +35,12 @@
 					<div class='col-sm-4 col-md-4'>
 						<input type="hidden" name="viewall" value="0" />
 						<input type="checkbox" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}checked="true"{/if} />
-						{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
+						{"LBL_VIEW_ALL"|t:$QUALIFIED_MODULE}
 					</div>
 					<div class='col-sm-8 col-md-8'>
 						<span style="margin-left:0px">
 							<i class="glyphicon glyphicon-info-sign"></i>
-							<span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
+							<span style="margin-left:2px">{"LBL_VIEW_ALL_DESC"|t:$QUALIFIED_MODULE}</span>
 						</span>
 					</div>
 				</label>
@@ -50,12 +50,12 @@
 					<div class='col-sm-4 col-md-4'>
 						<input type="hidden" name="editall" value="0" />
 						<input type="checkbox" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}checked="true"{/if} />
-						{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
+						{"LBL_EDIT_ALL"|t:$QUALIFIED_MODULE}
 					</div>
 					<div class='col-sm-8 col-md-8'>
 						<span style="margin-left:0px">
 							<i class="glyphicon glyphicon-info-sign"></i>
-							<span style="margin-left:2px">{vtranslate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
+							<span style="margin-left:2px">{"LBL_EDIT_ALL_DESC"|t:$QUALIFIED_MODULE}</span>
 						</span>
 					</div>
 				</label>
@@ -67,7 +67,7 @@
 			<tr class="blockHeader">
 				<th width="30%" style="border-left: 1px solid #DDD !important;">
 					<input checked="true" class="alignTop" type="checkbox" id="mainModulesCheckBox" />&nbsp;
-					{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+					{"LBL_MODULES"|t:$QUALIFIED_MODULE}
 				</th>
 				<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 					<input type="checkbox" {if !$RECORD_ID} class="alignTop" checked="true" {/if} id="mainAction4CheckBox" />&nbsp;
@@ -119,20 +119,20 @@
 						<div class="row" data-togglecontent="{$TABID}-fields">
 							{if $PROFILE_MODULE->getFields()}
 								<div class="col-md-12">
-									<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
+									<label class="themeTextColor font-x-large pull-left"><strong>{"LBL_FIELDS"|t:$QUALIFIED_MODULE}{if $MODULE_NAME eq 'Calendar'} {"LBL_OF"|t:$MODULE_NAME} {"LBL_TASKS"|t:$MODULE_NAME}{/if}</strong></label>
 									<div class="pull-right">
 										<span class="mini-slider-control ui-slider" data-value="0">
 											<a style="margin-top: 3px" class="ui-slider-handle"></a>
 										</span>
-										<span style="margin: 0 20px;">{vtranslate('LBL_INVISIBLE',$QUALIFIED_MODULE)}</span>&nbsp;&nbsp;
+										<span style="margin: 0 20px;">{"LBL_INVISIBLE"|t:$QUALIFIED_MODULE}</span>&nbsp;&nbsp;
 										<span class="mini-slider-control ui-slider" data-value="1">
 											<a style="margin-top: 3px" class="ui-slider-handle"></a>
 										</span>
-										<span style="margin: 0 20px;">{vtranslate('LBL_READ_ONLY',$QUALIFIED_MODULE)}</span>&nbsp;&nbsp;
+										<span style="margin: 0 20px;">{"LBL_READ_ONLY"|t:$QUALIFIED_MODULE}</span>&nbsp;&nbsp;
 										<span class="mini-slider-control ui-slider" data-value="2">
 											<a style="margin-top: 3px" class="ui-slider-handle"></a>
 										</span>
-										<span style="margin: 0 20px;">{vtranslate('LBL_WRITE',$QUALIFIED_MODULE)}</span>
+										<span style="margin: 0 20px;">{"LBL_WRITE"|t:$QUALIFIED_MODULE}</span>
 									</div>
 									<div class="clearfix"></div>
 								</div>
@@ -162,7 +162,7 @@
 							{if $MODULE_NAME eq 'Calendar'}
 								{assign var=EVENT_MODULE value=$PROFILE_MODULES[16]}
                                 {assign var=COUNTER value=0}
-								<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS', $QUALIFIED_MODULE)} {vtranslate('LBL_OF', $EVENT_MODULE->getName())} {vtranslate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
+								<label class="themeTextColor font-x-large pull-left"><strong>{"LBL_FIELDS"|t:$QUALIFIED_MODULE} {vtranslate('LBL_OF', $EVENT_MODULE->getName())} {vtranslate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
 								<div class="col-xs-12 paddingLRZero">
 									{foreach from=$EVENT_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
                                         {if $FIELD_MODEL->isActiveField()}
@@ -203,7 +203,7 @@
 							{/if}
 						{/foreach}
 						{if $ALL_UTILITY_ACTIONS_ARRAY}
-							<div class="col-xs-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+							<div class="col-xs-12"><label class="themeTextColor font-x-large pull-left"><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></label></div>
 							<div class="col-md-12 paddingLRZero marginBottom10px">
                                 {foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
 									{if $smarty.foreach.actions.index % 3 == 0}

@@ -4,7 +4,7 @@
 	{if count($GLOBAL_DISCOUNTS) > 0}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<strong>{vtranslate('LBL_GLOBAL_DISCOUNTS', $MODULE)}</strong>
+				<strong>{"LBL_GLOBAL_DISCOUNTS"|t:$MODULE}</strong>
 				<div class="pull-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="global" class="activeCheckbox">
 				</div>
@@ -13,7 +13,7 @@
 				<select class="select2 globalDiscount" name="globalDiscount">
 					{foreach item=ITEM key=NAME from=$GLOBAL_DISCOUNTS}
 						<option value="{CurrencyField::convertToUserFormat($ITEM.value, null, true)}">
-							{$ITEM.value}% - {vtranslate($ITEM.name, $MODULE)}
+							{$ITEM.value}% - {$ITEM.name|t:$MODULE}
 						</option>
 					{/foreach}
 				</select>

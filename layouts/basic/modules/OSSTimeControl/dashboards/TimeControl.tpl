@@ -64,15 +64,15 @@
 				{if Users_Privileges_Model::isPermitted('OSSTimeControl', 'CreateView')}
 					<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl');
 							return false;">
-						<span class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
+						<span class='glyphicon glyphicon-plus' border='0' title="{"LBL_ADD_RECORD"|t}" alt="{"LBL_ADD_RECORD"|t}"></span>
 					</a>
 				{/if}
 				<a class="btn btn-xs btn-default" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-					<span class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
+					<span class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{"LBL_REFRESH"|t}" alt="{"LBL_REFRESH"|t}"></span>
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-xs btn-default" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_CLOSE')}" alt="{vtranslate('LBL_CLOSE')}"></span>
+						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{"LBL_CLOSE"|t}" alt="{"LBL_CLOSE"|t}"></span>
 					</a>
 				{/if}
 			</div>
@@ -83,7 +83,7 @@
 		<div class="col-md-6">
 			<div class="input-group input-group-sm">
 				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
-				<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter width90 form-control" value="{implode(',',$DTIME)}"/>
+				<input type="text" name="time" title="{"LBL_CHOOSE_DATE"|t}" class="dateRange widgetFilter width90 form-control" value="{implode(',',$DTIME)}"/>
 			</div>	
 		</div>
 		<div class="col-md-6">
@@ -95,12 +95,12 @@
 			{/if}
 			<div class="input-group input-group-sm">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-				<select class="widgetFilter width90 form-control select2" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" 
+				<select class="widgetFilter width90 form-control select2" title="{"LBL_SELECT_USER"|t}" name="user" style="margin-bottom:0;" 
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&type=Edit&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{/if}>
 					{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-						<optgroup label="{vtranslate('LBL_USERS')}">
+						<optgroup label="{"LBL_USERS"|t}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
 								<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if} value="{$OWNER_ID}">
 									{$OWNER_NAME}

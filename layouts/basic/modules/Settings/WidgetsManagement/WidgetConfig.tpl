@@ -11,7 +11,7 @@
 				</div>
 				<span class="btn-group pull-right marginRight20 actions">
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-						<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+						<span class="glyphicon glyphicon-pencil alignMiddle" title="{"LBL_EDIT"|t:$QUALIFIED_MODULE}"></span>
 					</a>
 					<div class="basicFieldOperations hide pull-right" style="width : 375px;">
 						<form class="form-horizontal fieldDetailsForm" method="POST">
@@ -26,7 +26,7 @@
 										<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
 									</div>	
 									<label class="col-md-9 form-control-static pull-left" >
-										&nbsp;&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
+										&nbsp;&nbsp;{"LBL_MANDATORY_WIDGET"|t:$QUALIFIED_MODULE}&nbsp;
 									</label>
 								</div>
 								<div class="row">
@@ -34,7 +34,7 @@
 										<input type="checkbox" name="cache" class="" {if $WIDGET_MODEL->get('cache') eq 1} checked {/if}>
 									</div>	
 									<label class="col-md-9 form-control-static pull-left" >
-										&nbsp;&nbsp;{vtranslate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}&nbsp;
+										&nbsp;&nbsp;{"LBL_CACHE_WIDGET"|t:$QUALIFIED_MODULE}&nbsp;
 									</label>
 								</div>
 								{assign var=WIDGET_SIZE value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
@@ -47,7 +47,7 @@
 										</select>
 									</div>	
 									<label  class="col-md-9 marginTop5 pull-left" >
-										&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
+										&nbsp;{"LBL_WIDTH"|t:$QUALIFIED_MODULE}&nbsp;
 									</label>
 								</div>
 								<div class="row padding1per">
@@ -59,7 +59,7 @@
 										</select>
 									</div>
 									<label class="col-md-9 marginTop5 pull-left" >
-										&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
+										&nbsp;{"LBL_HEIGHT"|t:$QUALIFIED_MODULE}&nbsp;
 									</label>	
 								</div>
 								{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
@@ -68,7 +68,7 @@
 											<input type="text" name="limit" class="col-md-1 form-control" value="{$WIDGET_MODEL->get('limit')}" >
 										</div>
 										<label class="col-md-9 marginTop5 pull-left" >
-											&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
+											&nbsp;{"LBL_NUMBER_OF_RECORDS_DISPLAYED"|t:$QUALIFIED_MODULE}&nbsp;
 										</label>
 									</div>
 								{/if}
@@ -78,7 +78,7 @@
 											<input type="text" name="plotTickSize" class="col-md-1 form-control" value="{$WIDGET_INFO['plotTickSize']}" >
 										</div>
 										<label class="col-md-9 marginTop5 pull-left" >
-											&nbsp;{vtranslate('LBL_TICK_SIZE', $QUALIFIED_MODULE)}&nbsp;
+											&nbsp;{"LBL_TICK_SIZE"|t:$QUALIFIED_MODULE}&nbsp;
 										</label>
 									</div>
 									<div class="row padding1per">
@@ -86,7 +86,7 @@
 											<input type="text" name="plotLimit" class="col-md-1 form-control" value="{$WIDGET_INFO['plotLimit']}" >
 										</div>
 										<label class="col-md-9 marginTop5 pull-left" >
-											&nbsp;{vtranslate('LBL_MAXIMUM_VALUE', $QUALIFIED_MODULE)}&nbsp;
+											&nbsp;{"LBL_MAXIMUM_VALUE"|t:$QUALIFIED_MODULE}&nbsp;
 										</label>
 									</div>
 								{/if}
@@ -96,7 +96,7 @@
 											<input type="checkbox" name="showUsers" class="" {if $WIDGET_INFO['showUsers'] eq 1} checked {/if}>
 										</div>	
 										<label class="col-md-9 form-control-static pull-left" >
-											&nbsp;&nbsp;{vtranslate('LBL_SHOW_USERS', $QUALIFIED_MODULE)}
+											&nbsp;&nbsp;{"LBL_SHOW_USERS"|t:$QUALIFIED_MODULE}
 										</label>
 									</div>
 								{/if}
@@ -115,7 +115,7 @@
 											</select>
 										</div>
 										<label class="col-md-6 form-control-static" >
-											{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
+											{"LBL_DEFAULT_FILTER"|t:$QUALIFIED_MODULE}
 										</label>
 									</div>
 									{if !is_array($WIDGET_OWNERS.available)}
@@ -123,7 +123,7 @@
 									{/if}
 									<div class="row padding1per">
 										<div class="col-md-8">
-											<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+											<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{"LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION"|t:$QUALIFIED_MODULE}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 													{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
 														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
@@ -132,7 +132,7 @@
 											</select>
 										</div>
 										<label class="col-md-3 form-control-static" >
-											{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
+											{"LBL_FILTERS_AVAILABLE"|t:$QUALIFIED_MODULE}
 										</label>
 									</div>	
 								</div>
@@ -140,7 +140,7 @@
 							{if in_array($WIDGET_MODEL->get('linklabel'), $WIDGETS_WITH_FILTER_DATE)}
 								<div class="form-group ">
 									<div class="col-sm-3 control-label">
-										{vtranslate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
+										{"LBL_DEFAULT_DATE"|t:$QUALIFIED_MODULE}
 									</div>
 									<div class="col-sm-8 controls">
 										<select class="widgetFilterDate form-control" id="date" name="default_date">
@@ -153,16 +153,16 @@
 							{/if}
 							<div class="modal-footer">
 								<span class="pull-right">
-									<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
+									<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button></div>
 									<button class="btn btn-success saveFieldDetails" data-field-id="{$WIDGET_MODEL->get('id')}" type="submit">
-										<strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
+										<strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong>
 									</button>
 								</span>
 							</div>
 						</form>
 					</div>&nbsp;
 					<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$WIDGET_MODEL->get('id')}">
-						<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+						<span class="glyphicon glyphicon-trash alignMiddle" title="{"LBL_DELETE"|t:$QUALIFIED_MODULE}"></span>
 					</a>
 				</span>
 			</div>

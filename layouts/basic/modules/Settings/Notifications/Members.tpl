@@ -7,14 +7,14 @@
 		<input type="hidden" id="mode" name="mode" value="addOrRemoveMembers" />
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 class="modal-title">{vtranslate('LBL_ADD_MEMBERS', $QUALIFIED_MODULE)}</h3>
+			<h3 class="modal-title">{"LBL_ADD_MEMBERS"|t:$QUALIFIED_MODULE}</h3>
 			<div class="clearfix"></div>
 		</div>
 		<div class="modal-body">
 			<div class="form-group">
 				<div class="col-xs-12">
 					<label class="control-label">
-						{vtranslate('LBL_SELECT_MEMBERS', $QUALIFIED_MODULE)}
+						{"LBL_SELECT_MEMBERS"|t:$QUALIFIED_MODULE}
 					</label>
 					<select id="members" class="select2 form-control"  multiple="true" name="members[]">
 						{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}

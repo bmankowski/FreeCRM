@@ -8,15 +8,15 @@
 						<div class="modal-header row no-margin">
 							<div class="col-xs-12 paddingLRZero">
 								<div class="col-xs-8 paddingLRZero">
-									<h4>{vtranslate('LBL_SERVER_SPEED_TEST', $QUALIFIED_MODULE)}</h4>
+									<h4>{"LBL_SERVER_SPEED_TEST"|t:$QUALIFIED_MODULE}</h4>
 								</div>
 							</div>
 						</div>
 						<div class="modal-body row">
 							<div class="col-xs-12">
-								<h4>{vtranslate('LBL_HDD', $QUALIFIED_MODULE)}:</h4>
-								<h5>{vtranslate('LBL_READ_TEST', $QUALIFIED_MODULE)}: {$TESTS['FilesRead']}</h5>
-								<h5>{vtranslate('LBL_WRITE_TEST', $QUALIFIED_MODULE)}: {$TESTS['FilesWrite']}</h5>
+								<h4>{"LBL_HDD"|t:$QUALIFIED_MODULE}:</h4>
+								<h5>{"LBL_READ_TEST"|t:$QUALIFIED_MODULE}: {$TESTS['FilesRead']}</h5>
+								<h5>{"LBL_WRITE_TEST"|t:$QUALIFIED_MODULE}: {$TESTS['FilesWrite']}</h5>
 							</div>
 						</div>
 					</div>

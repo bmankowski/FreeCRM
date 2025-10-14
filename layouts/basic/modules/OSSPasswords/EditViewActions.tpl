@@ -15,10 +15,10 @@
 		<div class="contentHeader">
 			<div class="pull-right">
 				<button class="btn btn-success generatePass" name="save" type="button">
-					<strong>{vtranslate($GENERATEPASS, $MODULE)}</strong>
+					<strong>{$GENERATEPASS|t:$MODULE}</strong>
 				</button>&nbsp;
-				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;
-				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+				<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>&nbsp;
+				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{"LBL_CANCEL"|t:$MODULE}</button>
 			</div>
 			<div class="clearfix"></div>
 		</div>

@@ -40,7 +40,7 @@
 								<table class="table table-bordered table-condensed dataTable" data-mode="active">
 									<thead>
 										<tr>
-											<th><strong>{vtranslate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
+											<th><strong>{"LBL_USERS_AND_GROUPS"|t:$QUALIFIED_MODULE}</strong></th>
 										</tr>
 									</thead>
 									<tbody class="dropContainer">
@@ -60,7 +60,7 @@
 								<table class="table table-bordered table-condensed dataTable" data-mode="base">
 									<thead>
 										<tr>
-											<th><strong>{vtranslate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
+											<th><strong>{"LBL_USERS_AND_GROUPS"|t:$QUALIFIED_MODULE}</strong></th>
 										</tr>
 									</thead>
 									<tbody class="dropContainer">

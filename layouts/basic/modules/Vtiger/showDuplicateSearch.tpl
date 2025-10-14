@@ -15,8 +15,8 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header contentsBackground">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-				<h3 class="modal-title">{vtranslate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">&times;</button>
+				<h3 class="modal-title">{"LBL_MERGING_CRITERIA_SELECTION"|t:$MODULE}</h3>
 			</div>
 			<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
 				<input type='hidden' name='module' value='{$MODULE}' />
@@ -24,31 +24,31 @@
 				<br>
 				<div class="form-group">
 					<div class="col-sm-3 control-label">
-						{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}
+						{"LBL_AVAILABLE_FIELDS"|t:$MODULE}
 					</div>
 					<div class="col-sm-6 controls">
 							<div class="col-md-10">
-								<select id="fieldList" class="select2 form-control" multiple="true" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
+								<select id="fieldList" class="select2 form-control" multiple="true" title="{"LBL_AVAILABLE_FIELDS"|t:$MODULE}" name="fields[]"
 									data-validation-engine="validate[required]">
 									{foreach from=$FIELDS item=FIELD}
 										{if $FIELD->isViewableInDetailView()}
-											<option value="{$FIELD->getName()}">{vtranslate($FIELD->get('label'), $MODULE)}</option>
+											<option value="{$FIELD->getName()}">{$FIELD->get('label')|t:$MODULE}</option>
 										{/if}
 									{/foreach}
 								</select>
 							</div>
 							<div class="col-md-10">
-								<label><input type="checkbox" name="ignoreEmpty" title="{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
+								<label><input type="checkbox" name="ignoreEmpty" title="{"LBL_IGNORE_EMPTY_VALUES"|t:$MODULE}" checked /><span class="alignMiddle">&nbsp;{"LBL_IGNORE_EMPTY_VALUES"|t:$MODULE}</span></label>
 							</div>
 						<br>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<div class="pull-right cancelLinkContainer">
-						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{"LBL_CANCEL"|t:$MODULE}</button>
 					</div>
 					<button class="btn btn-success" type="submit" disabled="true">
-						<strong>{vtranslate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
+						<strong>{"LBL_FIND_DUPLICATES"|t:$MODULE}</strong>
 					</button>
 				</div>
 			</form>

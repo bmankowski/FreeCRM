@@ -7,7 +7,7 @@
 	<nav>		
 		<ul class="pagination" data-total-count="{$LISTVIEW_COUNT}">
 			<li class="{if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
-				<span aria-hidden="true">{vtranslate('LBL_FIRST')}</span>
+				<span aria-hidden="true">{"LBL_FIRST"|t}</span>
 			</li>
 			<li class="{if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="{$VIEWNAME}ViewPreviousPageButton">
 				<span aria-hidden="true">&laquo;</span>
@@ -24,12 +24,12 @@
 								<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
 									<li>
 										<div>
-											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE')}</span></div>
+											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{"LBL_PAGE"|t}</span></div>
 											<div class="col-md-3 recentComments">
-												<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter form-control" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
+												<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter form-control" title="{"LBL_LISTVIEW_PAGE_JUMP"|t}" value="{$PAGE_NUMBER}"/>
 											</div>
 											<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
-												{vtranslate('LBL_OF')}
+												{"LBL_OF"|t}
 											</div>
 											<div class="col-md-2 recentComments pushUpandDown2per textAlignCenter" id="totalPageCount">{$PAGE_COUNT}</div>
 										</div>
@@ -53,13 +53,13 @@
 				<span aria-hidden="true">&raquo;</span>
 			</li>
 			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
-				<li class="popoverTooltip" id="totalCountBtn" data-content="{vtranslate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
+				<li class="popoverTooltip" id="totalCountBtn" data-content="{"LBL_WIDGET_FILTER_TOTAL_COUNT_INFO"|t}" >
 					<a><span class="glyphicon glyphicon-equalizer"></span></a>
 				</li>
 			{/if}
 			{if $LISTVIEW_COUNT}
 				<li class="{if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
-					<span aria-hidden="true">{vtranslate('LBL_LAST')}</span>
+					<span aria-hidden="true">{"LBL_LAST"|t}</span>
 				</li>
 			{/if}
 		</ul>
@@ -67,7 +67,7 @@
 			<li>
 				<span>
 					<span class="pageNumbersText">
-						{$PAGING_MODEL->getRecordStartRange()} {vtranslate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
+						{$PAGING_MODEL->getRecordStartRange()} {"LBL_TO_LC"|t} {$PAGING_MODEL->getRecordEndRange()}
 						{if $LISTVIEW_COUNT} ({$LISTVIEW_COUNT}){/if}
 					</span>
 				</span>

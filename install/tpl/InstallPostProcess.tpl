@@ -16,11 +16,11 @@
 		<footer class="noprint">
 			<div class="vtFooter">
 				<p>
-					{vtranslate('POWEREDBY')} {$YETIFORCE_VERSION} &nbsp;
+					{"POWEREDBY"|t} {$YETIFORCE_VERSION} &nbsp;
 					&copy; 2004 - {date('Y')}&nbsp&nbsp;
 					<a href="http://yetiforce.com" target="_blank">yetiforce.com</a>
 					&nbsp;|&nbsp;
-					<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{vtranslate('LBL_READ_LICENSE')}</a>
+					<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{"LBL_READ_LICENSE"|t}</a>
 				</p>
 			</div>
 		</footer>

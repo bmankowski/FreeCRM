@@ -35,7 +35,7 @@
 						<div class="col-md-12">
 							<div class="pull-right">
 								<div class="pageNumbers">
-									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {vtranslate('LBL_TO_LC', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
+									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {"LBL_TO_LC"|t:$MODULE} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
 									<span class="alignBottom">
 										<span class="glyphicon glyphicon-refresh totalNumberOfRecords cursorPointer{if empty($LISTVIEW_ENTRIES)} hide{/if}" style="margin-left:5px"></span>
 									</span>
@@ -52,7 +52,7 @@
 													<div>
 														<div class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$moduleName)}</span></div>
 														<div class="col-md-3 recentComments">
-															<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
+															<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{"LBL_LISTVIEW_PAGE_JUMP"|t}" value="{$PAGE_NUMBER}"/>
 														</div>
 														<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
 															{vtranslate('LBL_OF',$moduleName)}

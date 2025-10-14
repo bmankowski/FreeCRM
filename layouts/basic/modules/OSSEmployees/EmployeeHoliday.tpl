@@ -21,7 +21,7 @@
 <table class="table" style="width:100%;">
 	<tbody>
 			<tr class="summaryViewEntries">
-				<td class="fieldLabel" style="padding-bottom:0px; padding-top:12px" ><label class="muted">{vtranslate('LBL_YEAR',$MODULE_NAME)}</label></td>
+				<td class="fieldLabel" style="padding-bottom:0px; padding-top:12px" ><label class="muted">{"LBL_YEAR"|t:$MODULE_NAME}</label></td>
 				<td class="fieldLabel" style="padding-bottom:0px">
                     <span class="">
 						<select name="year">
@@ -35,13 +35,13 @@
 			<tr class="summaryViewEntries" >
 				<td class="fieldValue" colspan="2" style="padding-top:15px; padding-bottom:0px;">
 					{if $YEARS }
-					{vtranslate('LBL_Used_Entitled',$MODULE_NAME)} &nbsp &nbsp &nbsp 
+					{"LBL_Used_Entitled"|t:$MODULE_NAME} &nbsp &nbsp &nbsp 
 					<span id="workDay"><strong>{$HOLIDAY}</strong></span>&nbsp 
-					{vtranslate('LBL_DAYS',$MODULE_NAME)}&nbsp{vtranslate('/',$MODULE_NAME)}&nbsp 
+					{"LBL_DAYS"|t:$MODULE_NAME}&nbsp{vtranslate('/',$MODULE_NAME)}&nbsp 
 					<span id="annual_holiday_entitlement"><strong>{$HOLIDAY_ENTITLEMENT}</strong></span> &nbsp 
-					{vtranslate('LBL_DAYS',$MODULE_NAME)}
+					{"LBL_DAYS"|t:$MODULE_NAME}
 					{else}
-						{vtranslate('Brak danych',$MODULE_NAME)}
+						{"Brak danych"|t:$MODULE_NAME}
 					{/if}
 				</td>
 			</tr>

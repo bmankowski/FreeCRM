@@ -19,7 +19,7 @@
 		{assign var=SEARCH_VALUES value=''}
 	{/if}
     <div class="picklistSearchField">
-        <input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor dateField form-control" data-date-format="{$dateFormat}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-calendar-type="range" value="{$SEARCH_VALUES}" data-fieldinfo='{$FIELD_INFO|escape}'/>
+        <input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor dateField form-control" data-date-format="{$dateFormat}" title="{$FIELD_MODEL->get('label')|t:$MODULE}" data-calendar-type="range" value="{$SEARCH_VALUES}" data-fieldinfo='{$FIELD_INFO|escape}'/>
     </div>
 <!--/layouts/basic/modules/Vtiger/uitypes/DateFieldSearchView.tpl -->
 {/strip}

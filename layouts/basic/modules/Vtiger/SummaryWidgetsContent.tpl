@@ -62,7 +62,7 @@
 							{/if}&nbsp;&nbsp;
 							<span class="actionImages">
 								<a class="showModal" data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-									<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
+									<span class="glyphicon glyphicon-pencil alignMiddle" title="{"LBL_EDIT"|t:$MODULE}"></span>
 								</a>
 							</span>
 						</td>

@@ -19,12 +19,12 @@
         {/if}
     <div class="padding1per" style="border:1px solid #ccc;">
         <label>
-            <strong>{vtranslate('LBL_STEP_1',$QUALIFIED_MODULE)}: {vtranslate('LBL_ENTER_BASIC_INFO',$QUALIFIED_MODULE)}</strong>
+            <strong>{"LBL_STEP_1"|t:$QUALIFIED_MODULE}: {"LBL_ENTER_BASIC_INFO"|t:$QUALIFIED_MODULE}</strong>
         </label>
         <br>
         <div class="form-group">
             <div class="col-md-3 control-label">
-                {vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
+                {"LBL_SELECT_MODULE"|t:$QUALIFIED_MODULE}
             </div>
             <div class="col-md-6 controls">
                 {if $MODE eq 'edit'}
@@ -46,7 +46,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-3 control-label">
-                {vtranslate('DOC_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+                {"DOC_NAME"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
             </div>
             <div class="col-md-6 controls">
                 <input type="text" name="summary" class="form-control" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
@@ -55,8 +55,8 @@
     </div>
     <br />
     <div class="pull-right">
-        <button class="btn btn-success" id="next_step">{vtranslate('NEXT', $QUALIFIED_MODULE)}</button>
-        <a href="index.php?module={$MODULE_NAME}&parent=Settings&view=Index" class="cancelLink btn btn-warning">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
+        <button class="btn btn-success" id="next_step">{"NEXT"|t:$QUALIFIED_MODULE}</button>
+        <a href="index.php?module={$MODULE_NAME}&parent=Settings&view=Index" class="cancelLink btn btn-warning">{"CANCEL"|t:$QUALIFIED_MODULE}</a>
     </div>
     </form>
 </div> 

@@ -39,13 +39,13 @@
 			{/foreach}
 		{if count($ACCOUNTS) eq $PAGING_MODEL->getPageLimit()}
 			<div class="pull-right padding5">
-				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{vtranslate('LBL_MORE', $MODULE_NAME)}</button>
+				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{"LBL_MORE"|t:$MODULE_NAME}</button>
 			</div>
 		{/if}
 	{else}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
 			<span class="noDataMsg">
-				{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
+				{"LBL_NO_RECORDS_MATCHED_THIS_CRITERIA"|t}
 			</span>
 		{/if}
 	{/if}

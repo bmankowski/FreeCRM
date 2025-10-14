@@ -25,11 +25,11 @@
 				<div class="btn-toolbar pull-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
 						<button type="button" class="btn btn-default" onclick="Vtiger_Index_Js.sendNotification()">
-							<span class="glyphicon glyphicon-plus" title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
+							<span class="glyphicon glyphicon-plus" title="{"LBL_ADD_RECORD"|t}" alt="{"LBL_ADD_RECORD"|t}"></span>
 						</button>
 					{/if}
 					<button type="button"  class="btn btn-default" href="index.php?module=Notification&view=List">
-						<span class="glyphicon glyphicon-th-list" title="{vtranslate('LBL_GO_TO_RECORDS_LIST')}" alt="{vtranslate('LBL_GO_TO_RECORDS_LIST')}"></span>
+						<span class="glyphicon glyphicon-th-list" title="{"LBL_GO_TO_RECORDS_LIST"|t}" alt="{"LBL_GO_TO_RECORDS_LIST"|t}"></span>
 					</button>
 				</div>
 			</div>

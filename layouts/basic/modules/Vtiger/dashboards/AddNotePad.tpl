@@ -15,18 +15,18 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_ADD', $MODULE)} {vtranslate('LBL_NOTEPAD', $MODULE)}</h3>
+					<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">&times;</button>
+					<h3 id="massEditHeader" class="modal-title">{"LBL_ADD"|t:$MODULE} {"LBL_NOTEPAD"|t:$MODULE}</h3>
 				</div>
 				<form class="form-horizontal" method="POST">
 					 <div class="form-group margin0px padding1per">
-						<label class="col-sm-3 control-label">{vtranslate('LBL_NOTEPAD_NAME', $MODULE)}<span class="redColor">*</span> </label>
+						<label class="col-sm-3 control-label">{"LBL_NOTEPAD_NAME"|t:$MODULE}<span class="redColor">*</span> </label>
 						<div class="col-sm-8 controls">
 							<input type="text" name="notePadName" class="form-control" data-validation-engine="validate[required]" />
 						</div>
 					</div>
 					<div class="form-group margin0px padding1per">
-						<label class="col-sm-3 control-label">{vtranslate('LBL_NOTEPAD_CONTENT', $MODULE)}</label>
+						<label class="col-sm-3 control-label">{"LBL_NOTEPAD_CONTENT"|t:$MODULE}</label>
 						<div class="col-sm-8 controls">
 							<textarea type="text" name="notePadContent" class="form-control" style="resize: none;"/>
 						</div>

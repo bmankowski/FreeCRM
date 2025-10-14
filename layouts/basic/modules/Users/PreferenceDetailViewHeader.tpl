@@ -27,10 +27,10 @@
 						</div>
 						<div class="col-xs-9 col-md-9">
 							<div id="myPrefHeading" class="col-md-12">
-								<h3>{vtranslate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
+								<h3>{"LBL_MY_PREFERENCES"|t:$MODULE_NAME} </h3>
 							</div>
 							<div class="col-md-12">
-								{vtranslate('LBL_USERDETAIL_INFO', $MODULE_NAME)}&nbsp;&nbsp;"<strong>{$RECORD->getName()}</strong>"
+								{"LBL_USERDETAIL_INFO"|t:$MODULE_NAME}&nbsp;&nbsp;"<strong>{$RECORD->getName()}</strong>"
 							</div>
 						</div>
 					</span>
@@ -53,7 +53,7 @@
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 								<span class="btn-group">
 									<button class="btn dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-										<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
+										<strong>{"LBL_MORE"|t:$MODULE_NAME}</strong>&nbsp;&nbsp;<i class="caret"></i>
 									</button>
 									<ul class="dropdown-menu pull-right">
 										{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}

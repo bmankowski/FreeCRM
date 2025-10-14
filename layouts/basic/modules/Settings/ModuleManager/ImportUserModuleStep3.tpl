@@ -27,7 +27,7 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">
-									<th colspan="2"><strong>{vtranslate('LBL_IMPORTING_MODULE',$QUALIFIED_MODULE)}</strong></th>
+									<th colspan="2"><strong>{"LBL_IMPORTING_MODULE"|t:$QUALIFIED_MODULE}</strong></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -36,7 +36,7 @@
 										{if $MODULEIMPORT_ERROR}
 											<div class="alert alert-warning">
 												<div class="modal-header">
-													<h3>{vtranslate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
+													<h3>{"LBL_FAILED"|t:$QUALIFIED_MODULE}</h3>
 												</div>
 												<div class="modal-body">
 													<p><b>{vtranslate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
@@ -44,11 +44,11 @@
 											</div>
 										{else}
 											{if $IMPORT_MODULE_TYPE eq 'Language'}
-												{vtranslate('LBL_IMPORTED_LANGUAGE', $QUALIFIED_MODULE)}
+												{"LBL_IMPORTED_LANGUAGE"|t:$QUALIFIED_MODULE}
 											{else if $IMPORT_MODULE_TYPE eq 'extension'}
-												{vtranslate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
+												{"LBL_IMPORTED_EXTENSION"|t:$QUALIFIED_MODULE}
 											{else if $IMPORT_MODULE_TYPE eq 'update'}
-												{vtranslate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
+												{"LBL_IMPORTED_UPDATE"|t:$QUALIFIED_MODULE}
 											{else}
 												{vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
 											{/if}
@@ -58,7 +58,7 @@
 							</tbody>
 						</table>
 						<div class="modal-footer">
-							<a href="index.php?module=ModuleManager&parent=Settings&view=List" class="btn btn-success"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></a>
+							<a href="index.php?module=ModuleManager&parent=Settings&view=List" class="btn btn-success"><strong>{"LBL_FINISH"|t:$QUALIFIED_MODULE}</strong></a>
 						</div>
 					</form>
 				</div>

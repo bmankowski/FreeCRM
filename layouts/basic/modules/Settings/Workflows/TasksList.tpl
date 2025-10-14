@@ -13,9 +13,9 @@
 		<table class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
-					<th width="10%">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</th>
-					<th width="30%">{vtranslate('LBL_TASK_TYPE',$QUALIFIED_MODULE)}</th>
-					<th>{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}</th>
+					<th width="10%">{"LBL_ACTIVE"|t:$QUALIFIED_MODULE}</th>
+					<th width="30%">{"LBL_TASK_TYPE"|t:$QUALIFIED_MODULE}</th>
+					<th>{"LBL_TASK_TITLE"|t:$QUALIFIED_MODULE}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -27,10 +27,10 @@
 							<div class="pull-right actions">
 								<span class="actionImages">
 									<a data-url="{$TASK->getEditViewUrl()}">
-										<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>
+										<span class="glyphicon glyphicon-pencil alignMiddle" title="{"LBL_EDIT"|t:$QUALIFIED_MODULE}"></span>
 									</a>&nbsp;&nbsp;
 									<a class="deleteTask" data-deleteurl="{$TASK->getDeleteActionUrl()}">
-										<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE',$QUALIFIED_MODULE)}"></span>
+										<span class="glyphicon glyphicon-trash alignMiddle" title="{"LBL_DELETE"|t:$QUALIFIED_MODULE}"></span>
 									</a>
 								</span>
 							</div>
@@ -44,7 +44,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{vtranslate('LBL_NO_TASKS_ADDED',$QUALIFIED_MODULE)}
+							{"LBL_NO_TASKS_ADDED"|t:$QUALIFIED_MODULE}
 						</td>
 					</tr>
 				</tbody>

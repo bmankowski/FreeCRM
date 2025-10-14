@@ -10,7 +10,7 @@
 		</div>
 		<div class="col-md-4 ">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info pull-right">
-				<strong>{vtranslate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
+				<strong>{"LBL_EDIT_RECORD"|t:$QUALIFIED_MODULE}</strong>
 			</a>
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 			<form id="detailView" class="form-horizontal" method="POST">
 				<div class="form-group">
 					<div class="col-md-2 text-right">
-						{vtranslate('LBL_NAME', $QUALIFIED_MODULE)} 
+						{"LBL_NAME"|t:$QUALIFIED_MODULE} 
 					</div>
 					<div class="col-md-10">
 						<strong>{$RECORD_MODEL->getName()}</strong>
@@ -27,7 +27,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 text-right">
-						{vtranslate('LBL_ACTION', $QUALIFIED_MODULE)}  
+						{"LBL_ACTION"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
 						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('action'), $QUALIFIED_MODULE)}</strong>
@@ -35,7 +35,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 text-right">
-						{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}  
+						{"LBL_STATUS"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
 						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('status'), $QUALIFIED_MODULE)}</strong>
@@ -43,7 +43,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 text-right">
-						{vtranslate('LBL_PRIORITY', $QUALIFIED_MODULE)}  
+						{"LBL_PRIORITY"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
 						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('priority'))}</strong>
@@ -51,7 +51,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 text-right">
-						{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}  
+						{"LBL_MODULE"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
 						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('tabid'), $RECORD_MODEL->getDisplayValue('tabid'))}</strong>
@@ -59,7 +59,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 text-right">
-						{vtranslate('LBL_MEMBERS', $QUALIFIED_MODULE)}  
+						{"LBL_MEMBERS"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
 						<strong>{$RECORD_MODEL->getDisplayValue('members')}</strong>
@@ -67,7 +67,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 text-right">
-						{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}  
+						{"LBL_USERS"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
 						{foreach from=$RECORD_MODEL->getUserByMember() item=NAME}

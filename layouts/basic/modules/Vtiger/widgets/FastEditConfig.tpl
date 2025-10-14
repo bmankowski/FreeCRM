@@ -18,38 +18,38 @@
 				<input type="hidden" name="wid" value="{$WID}">
 				<input type="hidden" name="type" value="{$TYPE}">
 				<div class="modal-header">
-					<button type="button" data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('Add widget', $QUALIFIED_MODULE)}</h3>
+					<button type="button" data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t:$QUALIFIED_MODULE}">×</button>
+					<h3 id="massEditHeader" class="modal-title">{"Add widget"|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="modal-Fields">
 						<div class="form-horizontal">
 							<div class="form-group">
-								<div class="col-md-4"><strong>{vtranslate('Type widget', $QUALIFIED_MODULE)}</strong>:</div>
+								<div class="col-md-4"><strong>{"Type widget"|t:$QUALIFIED_MODULE}</strong>:</div>
 								<div class="col-md-7">
 									{vtranslate($TYPE, $QUALIFIED_MODULE)}
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-4"><label class="control-label">{vtranslate('Label', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-4"><label class="control-label">{"Label"|t:$QUALIFIED_MODULE}:</label></div>
 								<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-4"><label class="control-label">{vtranslate('No left margin', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-4"><label class="control-label">{"No left margin"|t:$QUALIFIED_MODULE}:</label></div>
 								<div class="col-md-7">
 									<input name="nomargin" class="" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
-									<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
+									<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"No left margin info"|t:$QUALIFIED_MODULE}" data-original-title="{"No left margin"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-4"><label class="control-label">{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-4"><label class="control-label">{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}:</label></div>
 								<div class="col-md-7">
 									<select name="FastEdit" multiple class="select2 form-control marginLeftZero columnsSelect">
 										{assign var="FIELDS" value=$MODULE_MODEL->getFields( $SOURCE, array('15','16') ) }
 										{foreach from=$FIELDS['labels'] item=item key=key}
 											<option {if isset ($WIDGETINFO['data']['FastEdit']) && in_array($key, $WIDGETINFO['data']['FastEdit']) }selected{/if} value="{$key}">{vtranslate($item, $SOURCEMODULE)}</option>
 										{foreachelse}
-											<option disabled value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+											<option disabled value="-">{"None"|t:$QUALIFIED_MODULE}</option>
 										{/foreach}
 									</select>
 								</div>

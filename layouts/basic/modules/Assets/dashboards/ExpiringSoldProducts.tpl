@@ -18,15 +18,15 @@
 			<div class="box pull-right">
 				{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
-						<i class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"/>
+						<i class='glyphicon glyphicon-plus' border='0' title="{"LBL_ADD_RECORD"|t}" alt="{"LBL_ADD_RECORD"|t}"/>
 					</a>
 				{/if}
 				<a class="btn btn-default btn-xs" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-					<i class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
+					<i class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{"LBL_REFRESH"|t}" alt="{"LBL_REFRESH"|t}"></i>
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-default btn-xs" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_CLOSE')}" alt="{vtranslate('LBL_CLOSE')}"></i>
+						<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{"LBL_CLOSE"|t}" alt="{"LBL_CLOSE"|t}"></i>
 					</a>
 				{/if}
 			</div>
@@ -36,7 +36,7 @@
 	<div class="row" >
 		<div class="col-md-12">
 			<div class="pull-right">
-				<input class="switchBtn calculationsSwitch" type="checkbox" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{vtranslate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{vtranslate('LBL_COMMON',$MODULE_NAME)}" data-on-val="owner" data-off-val="common" data-urlparams="showtype">
+				<input class="switchBtn calculationsSwitch" type="checkbox" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{"LBL_OWNER"|t:$MODULE_NAME}" data-off-text="{"LBL_COMMON"|t:$MODULE_NAME}" data-on-val="owner" data-off-val="common" data-urlparams="showtype">
 			</div>
 		</div>
 	</div>

@@ -41,7 +41,7 @@
 					{/foreach}
 					&nbsp;
 					<div class="btn-group" style="vertical-align: top;">
-						<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{vtranslate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{vtranslate('LBL_CURRENT')}" data-off-text="{vtranslate('LBL_HISTORY')}">
+						<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{"LBL_CHANGE_ACTIVITY_TYPE"|t}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{"LBL_CURRENT"|t}" data-off-text="{"LBL_HISTORY"|t}">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">

@@ -46,7 +46,7 @@
 		{/foreach}
 		<div class="">
 			<div class="">
-				<h4><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4><br>
+				<h4><strong>{"LBL_CHOOSE_FILTER_CONDITIONS"|t:$MODULE}</strong></h4><br>
 				<span class="col-md-12 well contentsBackground">
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 				</span>
@@ -54,9 +54,9 @@
 		</div>
 		<br>
 		<div class="pull-right block">
-			<button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
-			<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</button>&nbsp;&nbsp;
+			<button type="button" class="btn btn-danger backStep"><strong>{"LBL_BACK"|t:$MODULE}</strong></button>&nbsp;&nbsp;
+			<button type="submit" class="btn btn-success nextStep"><strong>{"LBL_NEXT"|t:$MODULE}</strong></button>&nbsp;&nbsp;
+			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{"LBL_CANCEL"|t:$MODULE}</button>&nbsp;&nbsp;
 		</div>
 		<br><br>
 	</form>

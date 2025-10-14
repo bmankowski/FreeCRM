@@ -5,7 +5,7 @@
 		<div class="modal-header row no-margin">
 			<div class="col-xs-12 paddingLRZero">
 				<div class="col-xs-8 paddingLRZero">
-					<h4>{vtranslate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h4>
+					<h4>{"LBL_TITLE_ADDED"|t:$QUALIFIED_MODULE}</h4>
 				</div>
 				<div class="pull-right">
 					<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
@@ -16,7 +16,7 @@
 			<div class="col-xs-12 form-horizontal">
 				<div class="form-group">
 					<div class="col-sm-3 control-label">
-						<label>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}</label>
+						<label>{"LBL_NAME"|t:$QUALIFIED_MODULE}</label>
 					</div>
 					<div class="col-sm-8">
 						<input name="name" value="{$RECORD->getName()}" data-validation-engine="validate[required]" class="form-control"> 

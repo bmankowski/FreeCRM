@@ -26,7 +26,7 @@
 	<div class="widgetChartContainer" style="height:90px;width:90%"></div>
 {else}
 	<span class="noDataMsg">
-		{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
+		{"LBL_NO_DATA"|t:$MODULE_NAME}
 	</span>
 {/if}
 <!--/layouts/basic/modules/Vtiger/dashboards/KpiContents.tpl -->

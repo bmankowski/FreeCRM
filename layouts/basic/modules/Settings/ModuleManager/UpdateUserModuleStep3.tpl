@@ -27,13 +27,13 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">
-									<th colspan="2"><strong>{vtranslate('LBL__UPDATING_MODULE',$QUALIFIED_MODULE)}</strong></th>
+									<th colspan="2"><strong>{"LBL__UPDATING_MODULE"|t:$QUALIFIED_MODULE}</strong></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr valign=top>
 									<td class='cellText small'>
-										{$UPDATE_MODULE_NAME} {vtranslate('LBL_UPDATED_MODULE', $QUALIFIED_MODULE)}
+										{$UPDATE_MODULE_NAME} {"LBL_UPDATED_MODULE"|t:$QUALIFIED_MODULE}
 									</td>
 								</tr>
 							</tbody>
@@ -42,7 +42,7 @@
 							<input type="hidden" name="module" value="ModuleManager">
 							<input type="hidden" name="parent" value="Settings">
 							<input type="hidden" name="view" value="List">
-							<button  class="btn btn-success" type="submit" ><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+							<button  class="btn btn-success" type="submit" ><strong>{"LBL_FINISH"|t:$QUALIFIED_MODULE}</strong></button>
 						</div>
 					</form>
 				</div>

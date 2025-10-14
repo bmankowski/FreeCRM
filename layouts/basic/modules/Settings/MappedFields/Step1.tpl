@@ -18,28 +18,28 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
-							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {vtranslate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
+							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {"LBL_ENTER_BASIC_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 						</label>
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">
-								{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+								{"LBL_STATUS"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
 								<select class="chzn-select form-control" id="status" name="status" required="true">
 									<option value="1" {if $MAPPEDFIELDS_MODULE_MODEL->get('status')}selected{/if}>
-										{vtranslate('active', $QUALIFIED_MODULE)}
+										{"active"|t:$QUALIFIED_MODULE}
 									</option>
 									<option value="0" {if !$MAPPEDFIELDS_MODULE_MODEL->get('status')}selected{/if}>
-										{vtranslate('inactive', $QUALIFIED_MODULE)}
+										{"inactive"|t:$QUALIFIED_MODULE}
 									</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">
-								{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+								{"LBL_SELECT_MODULE"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
 								<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
@@ -54,7 +54,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">
-								{vtranslate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+								{"LBL_SELECT_REL_MODULE"|t:$QUALIFIED_MODULE}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
 								<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
@@ -70,8 +70,8 @@
 					</div>
 					<div class="panel-footer clearfix">
 						<div class="btn-toolbar pull-right">
-							<button class="btn btn-success" type="submit" >{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</button>
-							<button class="btn btn-warning cancelLink" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-success" type="submit" >{"LBL_NEXT"|t:$QUALIFIED_MODULE}</button>
+							<button class="btn btn-warning cancelLink" type="reset">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 						</div>
 					</div>
 				</div>

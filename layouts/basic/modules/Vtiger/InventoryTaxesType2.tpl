@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Vtiger/InventoryTaxesType2.tpl -->
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<strong>{vtranslate('LBL_INDIVIDUAL_TAX', $MODULE)}</strong>
+			<strong>{"LBL_INDIVIDUAL_TAX"|t:$MODULE}</strong>
 			<div class="pull-right">
 				<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="individual" class="activeCheckbox">
 			</div>

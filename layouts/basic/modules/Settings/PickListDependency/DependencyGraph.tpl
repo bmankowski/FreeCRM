@@ -12,20 +12,20 @@
 {strip}
 <!-- layouts/basic/modules/Settings/PickListDependency/DependencyGraph.tpl -->
     <div class="accordion paddingTop20">
-        <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
-        <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
+        <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{"LBL_CONFIGURE_DEPENDENCY_INFO"|t:$QUALIFIED_MODULE}&nbsp;&nbsp;</span>
+        <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{"LBL_MORE"|t:$QUALIFIED_MODULE}..</a>
         <div id="dependencyHelp" class="accordion-body collapse">
-            <ul><br><li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br>
-                <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li><br>
-                <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_3', $QUALIFIED_MODULE)}&nbsp;
-                    <span class="selectedCell" style="padding: 4px;">{vtranslate('Selected Values', $QUALIFIED_MODULE)}</span></li>
+            <ul><br><li>{"LBL_CONFIGURE_DEPENDENCY_HELP_1"|t:$QUALIFIED_MODULE}</li><br>
+                <li>{"LBL_CONFIGURE_DEPENDENCY_HELP_2"|t:$QUALIFIED_MODULE}</li><br>
+                <li>{"LBL_CONFIGURE_DEPENDENCY_HELP_3"|t:$QUALIFIED_MODULE}&nbsp;
+                    <span class="selectedCell" style="padding: 4px;">{"Selected Values"|t:$QUALIFIED_MODULE}</span></li>
             </ul>
         </div>
     </div>
     <div class="">
         <span class="btn-toolbar">
-            <button class="btn sourceValues btn-default" type="button"><strong>{vtranslate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn unmarkAll btn-default" type="button"><strong>{vtranslate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn sourceValues btn-default" type="button"><strong>{"LBL_SELECT_SOURCE_VALUES"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
+			<button class="btn unmarkAll btn-default" type="button"><strong>{"LBL_UNMARK_ALL"|t:$QUALIFIED_MODULE}</strong></button>
         </span>
     </div>
 	<br>
@@ -99,7 +99,7 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_SELECT_SOURCE_PICKLIST_VALUES', $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{"LBL_SELECT_SOURCE_PICKLIST_VALUES"|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="row no-margin">
@@ -130,8 +130,8 @@
 	</div>
 	<div class="padding1per">
 		<div class="btn-toolbar  pull-right">
-			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+			<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>
+			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{"LBL_CANCEL"|t:$QUALIFIED_MODULE}">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
 		</div>
 		<br><br>
 	</div>

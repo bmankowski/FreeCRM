@@ -70,9 +70,9 @@
 						</span>
 					</div>
 					<div class="col-md-2">
-						<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{vtranslate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+						<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{"LBL_LOAD_RECORDS_INFO"|t:$MODULE}">
 							<span class="glyphicon glyphicon-filter"></span>&nbsp;
-							<strong>{vtranslate('LBL_LOAD_RECORDS',$MODULE)}</strong>
+							<strong>{"LBL_LOAD_RECORDS"|t:$MODULE}</strong>
 						</button>
 					</div>
 					<div class="col-md-4">
@@ -83,10 +83,10 @@
 				</div>
 			</div>
 			<div id="selectAllMsgDiv" class="alert-block msgDiv">
-				<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($RELATED_MODULE->get('name'))}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+				<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{vtranslate($RELATED_MODULE->get('name'))}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 			</div>
 			<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
-				<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+				<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
 			</div>
 			<div class="contents-topscroll">
 				<div class="topscroll-div">
@@ -101,7 +101,7 @@
 						<thead>
 							<tr class="listViewHeaders">
 								<th width="4%">
-									<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"/>
+									<input type="checkbox" title="{"LBL_SELECT_ALL"|t}" id="listViewEntriesMainCheckBox"/>
 								</th>
 								{if $IS_FAVORITES}
 									<th></th>
@@ -150,14 +150,14 @@
 						{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 							<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
 								<td width="4%" class="{$WIDTHTYPE}">
-									<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+									<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{"LBL_SELECT_SINGLE_ROW"|t}" class="listViewEntriesCheckBox"/>
 								</td>
 								{if $IS_FAVORITES}
 									<td class="{$WIDTHTYPE} text-center text-center font-larger">
 										{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 										<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-											<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-											<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+											<span title="{"LBL_REMOVE_FROM_FAVORITES"|t:$MODULE}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+											<span title="{"LBL_ADD_TO_FAVORITES"|t:$MODULE}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
 										</a>
 									</td>
 								{/if}
@@ -177,12 +177,12 @@
 								<td nowrap class="{$WIDTHTYPE}">
 									<!--
 									<span class="currentStatus btn-group">
-										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}</span>
-										<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
+										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{$RELATED_RECORD->get('status')|t:$MODULE}</span>
+										<span title="{"LBL_EDIT"|t:$MODULE}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
 										<ul class="dropdown-menu pull-right" style="left: -2px; position: relative;">
 											{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
-												<li id="{$STATUS_ID}" data-status="{vtranslate($STATUS, $MODULE)}">
-													<a>{vtranslate($STATUS, $MODULE)}</a>
+												<li id="{$STATUS_ID}" data-status="{$STATUS|t:$MODULE}">
+													<a>{$STATUS|t:$MODULE}</a>
 												</li>
 											{/foreach}
 										</ul>
@@ -192,12 +192,12 @@
 								<td nowrap class="{$WIDTHTYPE}">
 									<div class="pull-right actions">
 										<span class="actionImages">
-											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{"LBL_SHOW_COMPLETE_DETAILS"|t:$MODULE}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 												{if $IS_EDITABLE}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
+												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{"LBL_EDIT"|t:$MODULE}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 												{/if}
 												{if $IS_DELETABLE}
-												<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+												<a class="relationDelete"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 												{/if}
 										</span>
 									</div>

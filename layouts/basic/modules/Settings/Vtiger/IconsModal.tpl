@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Settings/Vtiger/IconsModal.tpl -->
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 class="modal-title">{vtranslate('LBL_SELECT_ICON', $QUALIFIED_MODULE)}</h3>
+		<h3 class="modal-title">{"LBL_SELECT_ICON"|t:$QUALIFIED_MODULE}</h3>
 	</div>
 	<div class="modal-body col-md-12">
 		<input type="hidden" id="iconType" value="-" />
@@ -35,7 +35,7 @@
 		<div>
 			<div class="row">
 				<div class="col-md-3">
-					{vtranslate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:
+					{"LBL_ICON_NAME"|t:$QUALIFIED_MODULE}:
 				</div>
 				<div class="col-md-9">
 					<div class="iconName"></div>
@@ -43,7 +43,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-3">
-					{vtranslate('LBL_ICON_EXAMPLE', $QUALIFIED_MODULE)}:
+					{"LBL_ICON_EXAMPLE"|t:$QUALIFIED_MODULE}:
 				</div>
 				<div class="col-md-9">
 					<div class="iconExample" style="font-size: 32px;"></div>
@@ -53,10 +53,10 @@
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-success" type="submit" name="saveButton">
-			<strong>{vtranslate('LBL_SELECT_OPTION', $MODULE)}</strong>
+			<strong>{"LBL_SELECT_OPTION"|t:$MODULE}</strong>
 		</button>
 		<button class="btn btn-warning" type="reset" data-dismiss="modal">
-			<strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong>
+			<strong>{"LBL_CANCEL"|t:$MODULE}</strong>
 		</button>
 	</div>
 <!--/layouts/basic/modules/Settings/Vtiger/IconsModal.tpl -->

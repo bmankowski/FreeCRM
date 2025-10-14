@@ -5,7 +5,7 @@
 	<div class="widget_header row">
 		<div class="col-md-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			&nbsp;{vtranslate('LBL_Module_desc', $QUALIFIED_MODULE)}
+			&nbsp;{"LBL_Module_desc"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
 	<hr>
@@ -22,22 +22,22 @@
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active">
 					<a data-toggle="tab" href="#lang_list">
-						<strong>{vtranslate('LBL_TAB_LIST', $QUALIFIED_MODULE)}</strong>
+						<strong>{"LBL_TAB_LIST"|t:$QUALIFIED_MODULE}</strong>
 					</a>
 				</li>
                 <li class="edit_lang">
 					<a data-toggle="tab" href="#edit_lang" data-mode="editLang">
-						<strong>{vtranslate('LBL_TAB_EDITLANG', $QUALIFIED_MODULE)}</strong>
+						<strong>{"LBL_TAB_EDITLANG"|t:$QUALIFIED_MODULE}</strong>
 					</a>
 				</li>
 				<li class="editHelpIcon">
 					<a data-toggle="tab" href="#editHelpIcon" data-mode="editHelpIcon">
-						<strong>{vtranslate('LBL_EDIT_HELP_ICON', $QUALIFIED_MODULE)}</strong>
+						<strong>{"LBL_EDIT_HELP_ICON"|t:$QUALIFIED_MODULE}</strong>
 					</a>
 				</li>
                 <li class="lang_stats">
 					<a data-toggle="tab" href="#lang_stats">
-						<strong>{vtranslate('LBL_TAB_STATS', $QUALIFIED_MODULE)}</strong>
+						<strong>{"LBL_TAB_STATS"|t:$QUALIFIED_MODULE}</strong>
 					</a>
 				</li>
             </ul>

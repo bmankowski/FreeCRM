@@ -19,7 +19,7 @@
 	<div class="row" >
 		<div class="col-sm-12">
 			<div class="pull-right">&nbsp;
-				<button class="btn btn-default btn-sm changeRecordSort" title="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{vtranslate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+				<button class="btn btn-default btn-sm changeRecordSort" title="{"LBL_SORT_DESCENDING"|t:$MODULE_NAME}" alt="{"LBL_SORT_DESCENDING"|t:$MODULE_NAME}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{"LBL_SORT_ASCENDING"|t:$MODULE_NAME}" data-desc="{"LBL_SORT_DESCENDING"|t:$MODULE_NAME}">
 					<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
 				</button>
 			</div>

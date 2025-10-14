@@ -20,7 +20,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="head pull-right">
-					<h3> {vtranslate('LBL_MIGRATION_WIZARD', $MODULE)}</h3>
+					<h3> {"LBL_MIGRATION_WIZARD"|t:$MODULE}</h3>
 				</div>
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 			<div class="col-md-12 inner-container">
 					<div class="row">
 						<div class="col-md-10">
-							<h4> {vtranslate('LBL_MIGRATION_COMPLETED', $MODULE)} </h4> 
+							<h4> {"LBL_MIGRATION_COMPLETED"|t:$MODULE} </h4> 
 						</div>
 					</div>
 					<hr>
@@ -39,11 +39,11 @@
 						<div class="col-md-1"></div>
 						<div class="col-md-6">
 							<br><br>
-							<h5>{vtranslate('LBL_MIGRATION_COMPLETED_SUCCESSFULLY', $MODULE)}  </h5><br><br>
-								{vtranslate('LBL_RELEASE_NOTES', $MODULE)}<br>
-								{vtranslate('LBL_CRM_DOCUMENTATION', $MODULE)}<br>
-								{vtranslate('LBL_TALK_TO_US_AT_FORUMS', $MODULE)}<br>
-								{vtranslate('LBL_DISCUSS_WITH_US_AT_BLOGS', $MODULE)}<br><br>
+							<h5>{"LBL_MIGRATION_COMPLETED_SUCCESSFULLY"|t:$MODULE}  </h5><br><br>
+								{"LBL_RELEASE_NOTES"|t:$MODULE}<br>
+								{"LBL_CRM_DOCUMENTATION"|t:$MODULE}<br>
+								{"LBL_TALK_TO_US_AT_FORUMS"|t:$MODULE}<br>
+								{"LBL_DISCUSS_WITH_US_AT_BLOGS"|t:$MODULE}<br><br>
 								Connect with us &nbsp;&nbsp;
 								<a href="https://www.facebook.com/vtiger" target="_blank"><img src="{vimage_path('facebook.png')}"></a> 
 	                            &nbsp;&nbsp;<a href="https://twitter.com/vtigercrm" target="_blank"><img src="{vimage_path('twitter.png')}"></a> 

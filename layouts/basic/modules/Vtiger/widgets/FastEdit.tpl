@@ -9,7 +9,7 @@
 		{/if}
 		{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}
 		{if !$WIDGET['data']['FastEdit']}
-			{vtranslate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
+			{"LBL_RECORDS_NO_FOUND"|t:$MODULE_NAME}
 		{else}
 			{foreach item=item key=key from=$WIDGET['data']['FastEdit']}
 				{assign var=FIELD value=Vtiger_Field_Model::getInstance($item,$MODULEINSTANCE)}
@@ -24,7 +24,7 @@
 						{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 						<select class="chzn-select" name="q_{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_MODEL->get('fieldvalue')}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 							{if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}
-								<option value="" {if $FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq ''} disabled{/if}>{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
+								<option value="" {if $FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq ''} disabled{/if}>{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>
 							{/if}
 							{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 								<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>

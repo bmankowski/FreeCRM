@@ -15,7 +15,7 @@
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
+			{"LBL_HIDEBLOCKS_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
 	<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
@@ -26,14 +26,14 @@
 				<tr class="blockHeader">
 					<th class="blockHeader" colspan="2">
 						{if $MODE}
-							{vtranslate('LBL_EDIT_BLOCK', $QUALIFIED_MODULE)}
+							{"LBL_EDIT_BLOCK"|t:$QUALIFIED_MODULE}
 						{else}
-							{vtranslate('LBL_NEW_BLOCK', $QUALIFIED_MODULE)}
+							{"LBL_NEW_BLOCK"|t:$QUALIFIED_MODULE}
 						{/if}
 					</th>
 				</tr>
 				<tr name="fieldHeaders">
-					<td><b>{vtranslate('LBL_BLOCK', $QUALIFIED_MODULE)}</b></td>
+					<td><b>{"LBL_BLOCK"|t:$QUALIFIED_MODULE}</b></td>
 					<td>
 						<div class="col-md-5">
 							<select class="chzn-select form-control" name="blockid">
@@ -49,7 +49,7 @@
 					</td>
 				</tr>
 				<tr name="fieldHeaders">
-					<td><b>{vtranslate('LBL_ENABLED', $QUALIFIED_MODULE)}</b></td>
+					<td><b>{"LBL_ENABLED"|t:$QUALIFIED_MODULE}</b></td>
 					<td>
 						<div class="col-md-5">
 							<input type="checkbox" name="enabled" value="true" {if $ENABLED}checked{/if} />
@@ -57,7 +57,7 @@
 					</td>
 				</tr>
 				<tr name="fieldHeaders">
-					<td><b>{vtranslate('LBL_VIEW', $QUALIFIED_MODULE)}</b></td>
+					<td><b>{"LBL_VIEW"|t:$QUALIFIED_MODULE}</b></td>
 					<td class="col-md-10">
 						<div class="col-md-5">
 							<select multiple class="chzn-select form-control" name="views[]">
@@ -75,8 +75,8 @@
 	<br>	
 	<div class="">
 		<div class="pull-right">
-			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
-			<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+			<button class="btn btn-success" type="submit"><strong>{"LBL_NEXT"|t:$QUALIFIED_MODULE}</strong></button>
+			<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 		</div>
 		<div class="clearfix"></div>
 	</div>

@@ -19,16 +19,16 @@
 		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
-					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
-					<h4>{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}</h4>
+					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{"LBL_EXPAND_BLOCK"|t}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
+					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{"LBL_COLLAPSE_BLOCK"|t}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
+					<h4>{"LBL_INVITE_RECORDS"|t:$MODULE_NAME}</h4>
 				</div>
 			</div>
 			<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
 				<div class="col-xs-12 paddingLRZero fieldRow">
 					<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 						<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-							<label class="muted pull-right marginRight10px">{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
+							<label class="muted pull-right marginRight10px">{"LBL_INVITE_RECORDS"|t:$MODULE_NAME}</label></td>
 						</div>
 						<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 							{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}

@@ -23,7 +23,7 @@
 						</select>
 					</div>
 					<div class="col-md-8 col-sm-8 col-xs-6">
-						<button class="btn btn-success pull-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="glyphicon glyphicon-plus"></span> {vtranslate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success pull-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="glyphicon glyphicon-plus"></span> {"LBL_ADD_FILTER"|t:$QUALIFIED_MODULE}</button>
 					</div>
 					
 				</div>

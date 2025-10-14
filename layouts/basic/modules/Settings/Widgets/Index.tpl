@@ -19,7 +19,7 @@
 	<div class="widget_header row">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
+			{"LBL_MODULE_DESC"|t:$QUALIFIED_MODULE}
 		</div>
 		<div class="pull-right col-md-4 h3">
 			<select class="select2 col-md-3 form-control" name="ModulesList">
@@ -31,10 +31,10 @@
 	</div>
 	<div>
 		<div class="col-md-8 paddingLRZero">
-			<h4>{vtranslate('List of widgets for the module', $QUALIFIED_MODULE)}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>
+			<h4>{"List of widgets for the module"|t:$QUALIFIED_MODULE}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>
 		</div>
 		<div class="col-md-4 paddingLRZero">
-			<button class="btn btn-success addWidget pull-right" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('Add widget', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-success addWidget pull-right" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{"Add widget"|t:$QUALIFIED_MODULE}</strong></button>
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -58,8 +58,8 @@
 								</div>
 								<div class="col-md-2">
 									<span class="pull-right">
-										<i class="cursorPointer glyphicon glyphicon-pencil editWidget" title="{vtranslate('Edit', $QUALIFIED_MODULE)}"></i>
-										&nbsp;&nbsp;<i class="cursorPointer glyphicon glyphicon-remove removeWidget" title="{vtranslate('Remove', $QUALIFIED_MODULE)}"></i>
+										<i class="cursorPointer glyphicon glyphicon-pencil editWidget" title="{"Edit"|t:$QUALIFIED_MODULE}"></i>
+										&nbsp;&nbsp;<i class="cursorPointer glyphicon glyphicon-remove removeWidget" title="{"Remove"|t:$QUALIFIED_MODULE}"></i>
 									</span>
 								</div>
 							</div>

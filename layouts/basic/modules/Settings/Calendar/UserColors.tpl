@@ -15,25 +15,25 @@
 	<div class="widget_header row">
 		<div class="col-md-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_CALENDAR_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
+			{"LBL_CALENDAR_CONFIG_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>		
 	</div>
 	<hr>
 	<div class="">
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
-               	<li class="active"><a data-toggle="tab" href="#calendarColors"><strong>{vtranslate('LBL_CALENDAR_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
-				<li><a data-toggle="tab" href="#calendarConfig"><strong>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</strong></a></li>
-				<li><a data-toggle="tab" href="#workingDays"><strong>{vtranslate('LBL_NOTWORKING_DAYS', $QUALIFIED_MODULE)}</strong></a></li>
+               	<li class="active"><a data-toggle="tab" href="#calendarColors"><strong>{"LBL_CALENDAR_COLORS"|t:$QUALIFIED_MODULE}</strong></a></li>
+				<li><a data-toggle="tab" href="#calendarConfig"><strong>{"LBL_CALENDAR_CONFIG"|t:$QUALIFIED_MODULE}</strong></a></li>
+				<li><a data-toggle="tab" href="#workingDays"><strong>{"LBL_NOTWORKING_DAYS"|t:$QUALIFIED_MODULE}</strong></a></li>
             </ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="calendarColors">
 					<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
-								<th><strong>{vtranslate('LBL_CALENDAR_TYPE',$QUALIFIED_MODULE)}</strong></th>
-								<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{"LBL_CALENDAR_TYPE"|t:$QUALIFIED_MODULE}</strong></th>
+								<th><strong>{"LBL_COLOR"|t:$QUALIFIED_MODULE}</strong></th>
+								<th><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -42,8 +42,8 @@
 									<td>{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
 									<td class="calendarColor" style="background: {$item.value};"></td>
 									<td>
-										<button class="btn btn-primary marginLeftZero updateColor" data-metod="UpdateCalendarConfig">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn btn-info generateColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-primary marginLeftZero updateColor" data-metod="UpdateCalendarConfig">{"LBL_UPDATE_COLOR"|t:$QUALIFIED_MODULE}</button>&ensp;
+										<button class="btn btn-info generateColor">{"LBL_GENERATE_COLOR"|t:$QUALIFIED_MODULE}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -68,7 +68,7 @@
 					<table class="table table-bordered table-condensed listViewEntriesTable workingDaysTable">	
 						<tbody>
 							<tr>
-								<td class="col-md-3"><p style="padding-top:10px;">{vtranslate('LBL_NOTWORKEDDAYS_INFO', $QUALIFIED_MODULE)}</p></td>
+								<td class="col-md-3"><p style="padding-top:10px;">{"LBL_NOTWORKEDDAYS_INFO"|t:$QUALIFIED_MODULE}</p></td>
 								<td class="col-md-9">
 									<div class="col-md-4">
 										<select class="chzn-select workignDaysField pull-left" multiple id="update_workingdays" name="notworkingdays" data-metod="updateNotWorkingDays">
@@ -95,13 +95,13 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{"LBL_EDIT_COLOR"|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<input type="hidden" class="selectedColor" value="" />
 						<div class="form-group">
-							<label class=" col-sm-3 control-label">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
+							<label class=" col-sm-3 control-label">{"LBL_SELECT_COLOR"|t:$QUALIFIED_MODULE}</label>
 							<div class=" col-sm-8 controls">
 								<p class="calendarColorPicker"></p>
 							</div>

@@ -12,10 +12,10 @@
 {strip}
 <!-- layouts/basic/modules/Settings/Workflows/Tasks/VTUpdateFieldsTask.tpl -->
 	<div class="row">
-		<div class="col-md-2"><strong>{vtranslate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
+		<div class="col-md-2"><strong>{"LBL_SET_FIELD_VALUES"|t:$QUALIFIED_MODULE}</strong></div>
 	</div><br>
 	<div>
-		<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+		<button type="button" class="btn btn-default" id="addFieldBtn">{"LBL_ADD_FIELD"|t:$QUALIFIED_MODULE}</button>
 	</div><br>
 	<div class="row conditionsContainer" id="save_fieldvaluemapping">
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
@@ -23,7 +23,7 @@
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
 			<div class="row conditionRow padding-bottom1per">
 				<span class="col-md-4">
-					<select name="fieldname" class="chzn-select" style="min-width: 250px" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+					<select name="fieldname" class="chzn-select" style="min-width: 250px" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 						<option></option>
 						{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
                             {if !$FIELD_MODEL->isEditable() or $FIELD_MODEL->getFieldDataType() eq 'reference' or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
@@ -54,7 +54,7 @@
 	</div><br>
 	<div class="row basicAddFieldContainer hide padding-bottom1per">
 		<span class="col-md-4">
-			<select name="fieldname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" class="form-control">
+			<select name="fieldname" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}" class="form-control">
 				<option></option>
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{if !$FIELD_MODEL->isEditable() or $FIELD_MODEL->getFieldDataType() eq 'reference' or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))}

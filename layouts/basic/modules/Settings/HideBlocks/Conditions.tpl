@@ -15,16 +15,16 @@
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
+			{"LBL_HIDEBLOCKS_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
 	{if $MANDATORY_FIELDS}
 		<div class="alert alert-warning">
-			{vtranslate('LBL_MANDATORY_FIELDS_EXIST', $QUALIFIED_MODULE)}
+			{"LBL_MANDATORY_FIELDS_EXIST"|t:$QUALIFIED_MODULE}
 		</div>
 		<br>	
 		<div class="pull-right">
-			<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
+			<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{"LBL_BACK"|t:$MODULE}</a>
 		</div>
 		<div class="clearfix"></div>
 	{else}
@@ -45,8 +45,8 @@
 			<br>	
 			<div class="">
 				<div class="pull-right">
-					<a class="saveLink btn btn-success" ><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></a>
-					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
+					<a class="saveLink btn btn-success" ><strong>{"LBL_SAVE"|t:$MODULE}</strong></a>
+					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{"LBL_BACK"|t:$MODULE}</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>

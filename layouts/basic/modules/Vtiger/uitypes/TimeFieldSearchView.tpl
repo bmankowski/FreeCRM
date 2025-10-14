@@ -20,7 +20,7 @@
 {/if}
 {assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
 <div class="picklistSearchField">
-<input type="text" data-format="{$TIME_FORMAT}" class="form-control clockPicker listSearchContributor" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' />
+<input type="text" data-format="{$TIME_FORMAT}" class="form-control clockPicker listSearchContributor" title="{$FIELD_MODEL->get('label')|t:$MODULE}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' />
 </div>
 <!--/layouts/basic/modules/Vtiger/uitypes/TimeFieldSearchView.tpl -->
 {/strip}

@@ -12,8 +12,8 @@
 		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{"LBL_EXPAND_BLOCK"|t}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{"LBL_COLLAPSE_BLOCK"|t}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 					<h4>{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 				</div>
 			</div>
@@ -95,8 +95,8 @@
     
     <div class="contentHeader row no-margin">
         <div class="pull-right">
-            <button class="btn btn-success hide" id="copy-button" type="button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span class="glyphicon glyphicon-copy"></span> {vtranslate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
-            <button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;" id="show-btn">{vtranslate('LBL_ShowPassword', $MODULE_NAME)}</button>
+            <button class="btn btn-success hide" id="copy-button" type="button" title="{"LBL_CopyToClipboardTitle"|t:$MODULE_NAME}"><span class="glyphicon glyphicon-copy"></span> {"LBL_CopyToClipboard"|t:$MODULE_NAME}</button>&nbsp;&nbsp;
+            <button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;" id="show-btn">{"LBL_ShowPassword"|t:$MODULE_NAME}</button>
         </div>
         <div class="clearfix"></div>
     </div>

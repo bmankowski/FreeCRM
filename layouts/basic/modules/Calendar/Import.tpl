@@ -15,8 +15,8 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-				<h3 id="importRecordHeader" class="modal-title">{vtranslate('LBL_IMPORT_RECORDS', $MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
+				<h3 id="importRecordHeader" class="modal-title">{"LBL_IMPORT_RECORDS"|t:$MODULE}</h3>
 			</div>
 			<form method="POST" action="index.php" enctype="multipart/form-data" id="ical_import" name="ical_import">
 				<input type="hidden" value="{$MODULE}" name="module">		
@@ -27,7 +27,7 @@
 						<div class="tab-content massEditContent">
 							<table class="massEditTable table table-bordered">
 								<tr>
-									<td class="fieldLabel alignMiddle">{vtranslate('LBL_IMPORT_RECORDS', $MODULE)}</td>
+									<td class="fieldLabel alignMiddle">{"LBL_IMPORT_RECORDS"|t:$MODULE}</td>
 									<td class="fieldValue">
 										<input type="file" data-validation-engine="validate[required]" id="import_file" name="import_file" accept="{$SUPPORTED_FILE_TYPES_TEXT}" class="small">
 										{'LBL_IMPORT_SUPPORTED_FILE_TYPES'|@vtranslate:'Import'}: {$SUPPORTED_FILE_TYPES_TEXT}
@@ -39,9 +39,9 @@
 				</div>
 				<div class="modal-footer">
 				<div class=" pull-right cancelLinkContainer">
-					<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+					<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{"LBL_CANCEL"|t:$MODULE}</button>
 				</div>
-				<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_IMPORT', $MODULE)}</strong></button>
+				<button class="btn btn-success" type="submit" name="saveButton"><strong>{"LBL_IMPORT"|t:$MODULE}</strong></button>
 			</div>
 			</form>
 		</div>

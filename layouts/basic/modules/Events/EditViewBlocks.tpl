@@ -19,11 +19,11 @@
 				<div class="iconCollapse">
 					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide"></span>
 					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show"></span>
-					<h4>{vtranslate('LBL_INVITE_RECORDS', $MODULE)}</h4>
+					<h4>{"LBL_INVITE_RECORDS"|t:$MODULE}</h4>
 				</div>
 			</div>
 			<div class="col-md-4 fieldRow">
-				<input type="text" title="{vtranslate('LBL_SELECT_INVITE', $MODULE)}" placeholder="{vtranslate('LBL_SELECT_INVITE', $MODULE)}" class="form-control inviteesSearch"/>
+				<input type="text" title="{"LBL_SELECT_INVITE"|t:$MODULE}" placeholder="{"LBL_SELECT_INVITE"|t:$MODULE}" class="form-control inviteesSearch"/>
 			</div>
 		</div>
 		<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">

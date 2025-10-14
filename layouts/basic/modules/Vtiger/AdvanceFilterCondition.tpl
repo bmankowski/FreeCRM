@@ -16,8 +16,8 @@
 	{/if}
 	<div class="conditionRow">
 		<div class="col-md-4 conditionField">
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
-				<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{"LBL_CHOOSE_FIELD"|t}">
+				<option value="none">{"LBL_SELECT_FIELD"|t:$MODULE}</option>
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 					<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -122,15 +122,15 @@
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
 			{/if}
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
-				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{"LBL_COMAPARATOR_TYPE"|t}">
+				<option value="none">{"LBL_NONE"|t:$MODULE}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
 					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 				{/foreach}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{vtranslate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
+			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{"LBL_COMPARISON_VALUE"|t}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
 		</div>
 		<span class="hide">
 			{if empty($CONDITION)}
@@ -139,7 +139,7 @@
 			<input type="hidden" name="column_condition" value="{$CONDITION}" />
 		</span>
 		<div  class="col-md-1 btn">
-			<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></span>
+			<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{"LBL_DELETE"|t:$MODULE}"></span>
 		</div>
 	</div>
 <!--/layouts/basic/modules/Vtiger/AdvanceFilterCondition.tpl -->

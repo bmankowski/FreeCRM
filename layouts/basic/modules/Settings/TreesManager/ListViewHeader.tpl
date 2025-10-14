@@ -27,13 +27,13 @@
 				<button class="btn addButton btn-success" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 						{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
 					<i class="glyphicon glyphicon-plus"></i>&nbsp;
-					<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
+					<strong>{"LBL_ADD_RECORD"|t:$QUALIFIED_MODULE}</strong>
 				</button>
 				{/foreach}
 			</div>
 			<div class="col-md-4 btn-toolbar marginLeftZero" >
 				<select class="chzn-select form-control" id="moduleFilter" style="margin-left:5px;">
-					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+					<option value="">{"LBL_ALL"|t:$QUALIFIED_MODULE}</option>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 						<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
 							{if $MODULE_MODEL->getName() eq 'Calendar'}

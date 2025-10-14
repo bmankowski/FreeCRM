@@ -9,5 +9,5 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<span>{vtranslate('BASE_ON_PARENT_MODULE', 'OSSProjectTemplates')}</span>
+<span>{"BASE_ON_PARENT_MODULE"|t:"OSSProjectTemplates"}</span>
 <input name='{$FLD_NAME}' id="{$FLD_ID}" value="base_on_parent_module" type="hidden" />

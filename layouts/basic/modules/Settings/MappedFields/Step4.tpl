@@ -13,7 +13,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
-							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {vtranslate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
+							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {"LBL_PERMISSIONS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 						</label>
 					</div>
 					<div class="panel-body">
@@ -37,8 +37,8 @@
 					</div>
 					<div class="panel-footer clearfix">
 						<div class="btn-toolbar pull-right">
-							<button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
-							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+							<button class="btn btn-danger backStep" type="button"><strong>{"LBL_BACK"|t:$QUALIFIED_MODULE}</strong></button>
+							<button class="btn btn-success" type="submit"><strong>{"LBL_FINISH"|t:$QUALIFIED_MODULE}</strong></button>
 						</div>
 					</div>
 				</div>

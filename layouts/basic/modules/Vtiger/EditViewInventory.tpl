@@ -39,14 +39,14 @@
 								<span class="btn-group">
 									<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
 											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">
-										<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$MODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+										<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{"LBL_ADD"|t:$MODULE} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 									</button>
 								</span>
 							{/foreach}
 						</th>
 						{foreach item=FIELD from=$FIELDS[0]}
 							<th {if !$FIELD->isEditable()}class="hide"{/if}>
-								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
+								<span class="inventoryLineItemHeader">{$FIELD->get('label')|t:$MODULE}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 							</th>
@@ -63,7 +63,7 @@
 							<th style="width: 5%;">&nbsp;&nbsp;</th>
 							{foreach item=FIELD from=$FIELDS[1]}
 								<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
-									{vtranslate($FIELD->get('label'), $MODULE)}
+									{$FIELD->get('label')|t:$MODULE}
 								</th>
 							{/foreach}
 						</tr>
@@ -92,7 +92,7 @@
 									{CurrencyField::convertToUserFormat($SUM, null, true)}
 								{/if}
 								{if $FIELD->getName() == 'Name' && in_array("price",$COLUMNS)}
-									{vtranslate('LBL_SUMMARY', $MODULE)}
+									{"LBL_SUMMARY"|t:$MODULE}
 								{/if}
 							</td>
 						{/foreach}

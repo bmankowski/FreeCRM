@@ -81,12 +81,12 @@
 									</td><td nowrap class="{$WIDTHTYPE}">
 										<div class="pull-right actions">
 											<span class="actionImages">
-												<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+												<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{"LBL_SHOW_COMPLETE_DETAILS"|t:$MODULE}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 												<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
 												   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
-													<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
+													<span class="glyphicon glyphicon-pencil alignMiddle" title="{"LBL_EDIT"|t:$MODULE}"></span>
 												</a>
-												<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+												<a class="relationDelete"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											</span>
 										</div>
 									</td>

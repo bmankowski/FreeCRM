@@ -27,7 +27,7 @@
 			<hr>
 			<div class="form-group">
 				<div class="col-md-2 description-field">
-					<span class="redColor">*</span> {vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_GROUP_NAME"|t:$QUALIFIED_MODULE}
 				</div>
 				<div class="col-md-6 controls">
 					<input class="form-control" name="groupname" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
@@ -35,7 +35,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-2 description-field">
-					{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
+					{"LBL_DESCRIPTION"|t:$QUALIFIED_MODULE}
 				</div>
 				<div class="col-md-6 controls">
 					<input class="form-control" name="description" id="description" value="{$RECORD_MODEL->getDescription()}" />
@@ -43,7 +43,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-2 description-field">
-					<span class="redColor">*</span> {vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_MODULES"|t:$QUALIFIED_MODULE}
 				</div>
 				<div class="col-md-6 controls">
 					<select id="modulesList" class="row modules select2 form-control" multiple="true" name="modules[]" data-validation-engine="validate[required]">
@@ -55,13 +55,13 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-2 description-field">
-					<span class="redColor">*</span> {vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_GROUP_MEMBERS"|t:$QUALIFIED_MODULE}
 				</div>
 				<div class="col-md-6 controls">
 					<div class="row">
 						<div class="col-md-6">
 							{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
-							<select id="memberList" class="members form-control select2 groupMembersColors" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
+							<select id="memberList" class="members form-control select2 groupMembersColors" multiple="true" name="members[]" data-placeholder="{"LBL_ADD_USERS_ROLES"|t:$QUALIFIED_MODULE}" data-validation-engine="validate[required]">
 								{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 									<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
@@ -76,10 +76,10 @@
 						<div class="col-md-2">
 							<span class="pull-right groupMembersColors">
 								<ul class="liStyleNone">
-									<li class="Users padding5per textAlignCenter"><strong>{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
-									<li class="Groups padding5per textAlignCenter"><strong>{vtranslate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
-									<li class="Roles padding5per textAlignCenter"><strong>{vtranslate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
-									<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{vtranslate('LBL_ROLEANDSUBORDINATE', $QUALIFIED_MODULE)}</strong></li>
+									<li class="Users padding5per textAlignCenter"><strong>{"LBL_USERS"|t:$QUALIFIED_MODULE}</strong></li>
+									<li class="Groups padding5per textAlignCenter"><strong>{"LBL_GROUPS"|t:$QUALIFIED_MODULE}</strong></li>
+									<li class="Roles padding5per textAlignCenter"><strong>{"LBL_ROLES"|t:$QUALIFIED_MODULE}</strong></li>
+									<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{"LBL_ROLEANDSUBORDINATE"|t:$QUALIFIED_MODULE}</strong></li>
 								</ul>
 							</span>
 						</div>
@@ -89,8 +89,8 @@
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 					</span>
 				</div>
 			</div>

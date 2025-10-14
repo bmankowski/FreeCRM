@@ -17,7 +17,7 @@
 		<footer class="noprint">
 			<div class="vtFooter">
 				<p>
-					{vtranslate('LBL_FOOTER_CONTENT')}
+					{"LBL_FOOTER_CONTENT"|t}
 				</p>
 			</div>
 		</footer>

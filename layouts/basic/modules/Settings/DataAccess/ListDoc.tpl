@@ -12,8 +12,8 @@
 <table class="table table-bordered table-condensed listViewEntriesTable">
 	<thead>
 		<tr class="listViewHeaders" >
-			<th width="30%">{vtranslate('LBL_MODULE_NAME',$QUALIFIED_MODULE)} </th>
-			<th>{vtranslate('DOC_NAME',$QUALIFIED_MODULE)}</th>
+			<th width="30%">{"LBL_MODULE_NAME"|t:$QUALIFIED_MODULE} </th>
+			<th>{"DOC_NAME"|t:$QUALIFIED_MODULE}</th>
 			<th colspan="2"></th>
 		</tr>
 	</thead>
@@ -23,16 +23,16 @@
 				<tr class="listViewEntries" data-id="{$item.id}">
 					<td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}">{vtranslate($item.module, $item.module)}</td>
 					<td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}">{vtranslate($item.summary, $QUALIFIED_MODULE)}</td>
-						<td><a class="pull-right edit_tpl"><!--<i title="{vtranslate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></i>--></a>
+						<td><a class="pull-right edit_tpl"><!--<i title="{"LBL_EDIT"|t}" class="glyphicon glyphicon-pencil alignMiddle"></i>--></a>
 						<a href='index.php?module={$MODULE_NAME}&parent=Settings&action=DeleteTemplate&tpl_id={$item.id}' class="pull-right marginRight10px">
-							<span type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+							<span type="{"REMOVE_TPL"|t:$MODULE_NAME}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 					</td>
 				<tr>
 				{/foreach}
 			{else}
 			<tr>
 				<td>
-					{vtranslate('LBL_NO_PROJECT_TPL_ADDED',$QUALIFIED_MODULE)}
+					{"LBL_NO_PROJECT_TPL_ADDED"|t:$QUALIFIED_MODULE}
 				</td>
 				<td>
 				</td>

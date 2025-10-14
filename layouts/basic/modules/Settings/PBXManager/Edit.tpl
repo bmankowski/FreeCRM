@@ -20,8 +20,8 @@
 				</div>
 				<div class="col-md-4 btn-toolbar">
 					<div class="pull-right">
-						<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success saveButton" type="submit" title="{"LBL_SAVE"|t:$QUALIFIED_MODULE}"><strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>
+						<button type="reset" class="cancelLink btn btn-warning" title="{"LBL_CANCEL"|t:$QUALIFIED_MODULE}">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 					</div>
 				</div>
 			</div>
@@ -30,7 +30,7 @@
 					<thead>
 						<tr class="blockHeader">
 							<th colspan="2" class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('LBL_PBXMANAGER_CONFIG', $QUALIFIED_MODULE)}</span>
+								<span class="alignMiddle">{"LBL_PBXMANAGER_CONFIG"|t:$QUALIFIED_MODULE}</span>
 							</th>
 						</tr>
 					</thead>
@@ -51,10 +51,10 @@
 	</div><br>
 	<div class="col-md-5 paddingLRZero">
 		<div class="alert alert-info">
-			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
-			{vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
-			{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
-			{vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
+			{"LBL_NOTE"|t:$QUALIFIED_MODULE}<br>
+			{"LBL_INFO_WEBAPP_URL"|t:$QUALIFIED_MODULE}<br>
+			{"LBL_FORMAT_WEBAPP_URL"|t:$QUALIFIED_MODULE}<br>
+			{"LBL_FORMAT_INFO_WEBAPP_URL"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
 <!--/layouts/basic/modules/Settings/PBXManager/Edit.tpl -->

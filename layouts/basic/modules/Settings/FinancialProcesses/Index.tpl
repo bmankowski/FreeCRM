@@ -12,11 +12,11 @@
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}	
-			{vtranslate('LBL_FINANCIAL_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
+			{"LBL_FINANCIAL_PROCESSES_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
 	<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
-		<li class="active"><a href="#configuration" data-toggle="tab">{vtranslate('LBL_GENERAL', $QUALIFIED_MODULE)} </a></li>
+		<li class="active"><a href="#configuration" data-toggle="tab">{"LBL_GENERAL"|t:$QUALIFIED_MODULE} </a></li>
 	</ul>
 	<br />
 	<div class="tab-content">

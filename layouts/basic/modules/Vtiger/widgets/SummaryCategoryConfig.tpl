@@ -18,17 +18,17 @@
 				<input type="hidden" name="wid" value="{$WID}">
 				<input type="hidden" name="type" value="{$TYPE}">
 				<div class="modal-header">
-					<button type="button" data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('Add widget', $QUALIFIED_MODULE)}</h3>
+					<button type="button" data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t:$QUALIFIED_MODULE}">×</button>
+					<h3 id="massEditHeader" class="modal-title">{"Add widget"|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="modal-Fields">
 						<div class="row">
-							<div class="col-md-4"><strong>{vtranslate('Type widget', $QUALIFIED_MODULE)}</strong>:</div>
+							<div class="col-md-4"><strong>{"Type widget"|t:$QUALIFIED_MODULE}</strong>:</div>
 							<div class="col-md-7">
 								{vtranslate($TYPE, $QUALIFIED_MODULE)}
 							</div>
-							<div class="col-md-4"><label class="control-label">{vtranslate('Label', $QUALIFIED_MODULE)}:</label></div>
+							<div class="col-md-4"><label class="control-label">{"Label"|t:$QUALIFIED_MODULE}:</label></div>
 							<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 						</div>
 					</div>

@@ -35,7 +35,7 @@ font-size: 75%;
 				{assign var=DUE_DATE value=$ACTIVITY->get('due_date')}
 				{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
 				<p class="pull-right muted paddingLR10 marginTop5">
-					<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {vtranslate('LBL_ACTIVITY_TO')} {Vtiger_Util_Helper::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">
+					<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {"LBL_ACTIVITY_TO"|t} {Vtiger_Util_Helper::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">
 						{Vtiger_Util_Helper::formatDateDiffInStrings("$DUE_DATE $DUE_TIME")}
 					</small>
 				</p>
@@ -46,21 +46,21 @@ font-size: 75%;
 				<div class="activityContainer">
 					{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}				
 					{if $CONTRACTOR}
-						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGTH}</a></small></strong>			
+						<br/><small class="small-a">{"LBL_FOR"|t}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGTH}</a></small></strong>			
 					{/if}
 					{if $LINK}
-						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
+						<br/><small class="small-a">{"LBL_FOR"|t}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
 					{/if}
 					{if $PROCESS}
-						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
+						<br/><small class="small-a">{"LBL_FOR"|t}&nbsp;<strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
 					{/if}
 					{if $SUBPROCESS}
-						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('subprocess')}</strong></small>
+						<br/><small class="small-a">{"LBL_FOR"|t}&nbsp;<strong>{$ACTIVITY->getDisplayValue('subprocess')}</strong></small>
 					{/if}
 				</div>
 			</div>
 			{if $ACTIVITY->get('location') neq '' }
-				<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{vtranslate('Location', 'Calendar')}: {$ACTIVITY->get('location')}">
+				<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{"Location"|t:"Calendar"}: {$ACTIVITY->get('location')}">
 					<span class="icon-map-marker"></span>&nbsp
 				</a>
 			{/if}
@@ -76,7 +76,7 @@ font-size: 75%;
 	{if $PAGING_MODEL->get('nextPageExists') eq 'true'}
 		<div class="pull-right padding5">
 			<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
-				{vtranslate('LBL_MORE')}
+				{"LBL_MORE"|t}
 			</button>
 		</div>
 	{/if}

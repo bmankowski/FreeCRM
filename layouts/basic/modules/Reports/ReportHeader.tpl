@@ -22,14 +22,14 @@
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-success">
 								<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
-								<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
+								<strong>{"LBL_CUSTOMIZE"|t:$MODULE}</strong>&nbsp;
 							</button>
 						</div>
 					{/if}
 					<div class="btn-group">
 						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-primary">
 							<span class="fa fa-files-o"></span>&nbsp;&nbsp;
-							<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
+							<strong>{"LBL_DUPLICATE"|t:$MODULE}</strong>
 						</button>
 					</div>
 				</div>
@@ -42,11 +42,11 @@
 				<div class="reportHeader row">
 					<div class="col-md-8">
 						<h3 class="noSpaces" >{$REPORT_MODEL->getName()}</h3>
-						<div id="noOfRecords" class="marginTop10">{vtranslate('LBL_NO_OF_RECORDS',$MODULE)} <span id="countValue">{$COUNT}</span>
+						<div id="noOfRecords" class="marginTop10">{"LBL_NO_OF_RECORDS"|t:$MODULE} <span id="countValue">{$COUNT}</span>
 							{if $COUNT > 1000}
-								<span class="redColor" id="moreRecordsText"> ({vtranslate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
+								<span class="redColor" id="moreRecordsText"> ({"LBL_MORE_RECORDS_TXT"|t:$MODULE})</span>
 							{else}
-								<span class="redColor hide" id="moreRecordsText"> ({vtranslate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
+								<span class="redColor hide" id="moreRecordsText"> ({"LBL_MORE_RECORDS_TXT"|t:$MODULE})</span>
 							{/if}
 						</div>
 					</div>
@@ -91,11 +91,11 @@
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 					<div class="row">
 						<div class="textAlignCenter">
-							<button class="btn generateReport btn-primary" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
-							<strong>{vtranslate('LBL_GENERATE_NOW',$MODULE)}</strong>
+							<button class="btn generateReport btn-primary" data-mode="generate" value="{"LBL_GENERATE_NOW"|t:$MODULE}"/>
+							<strong>{"LBL_GENERATE_NOW"|t:$MODULE}</strong>
 							</button>&nbsp;
-							<button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
-							<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
+							<button class="btn btn-success generateReport" data-mode="save" value="{"LBL_SAVE"|t:$MODULE}"/>
+							<strong>{"LBL_SAVE"|t:$MODULE}</strong>
 							</button>
 						</div>
 					</div>

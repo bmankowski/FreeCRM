@@ -24,9 +24,9 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{vtranslate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{vtranslate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div><br>
+			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{"LBL_SELECTED_VALUES"|t:$QUALIFIED_MODULE}</span>&nbsp;<span>{"LBL_SELECTED_VALUES_MESSGAE"|t:$QUALIFIED_MODULE}</span></div><br>
 			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span>{vtranslate('LBL_ENABLE/DISABLE_MESSGAE',$QUALIFIED_MODULE)}</span></div><br>
-			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success">{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
+			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success">{"LBL_SAVE"|t:$QUALIFIED_MODULE}</button>
 		</div>		
 	</div>				
 <!--/layouts/basic/modules/Settings/Picklist/PickListValueByRole.tpl -->

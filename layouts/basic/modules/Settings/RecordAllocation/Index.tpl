@@ -7,12 +7,12 @@
 	<div class="">
 		<div class="alert alert-danger fade in">
 			<a href="#" class="close" data-dismiss="alert">&times;</a>
-			{vtranslate('LBL_SORTING_SETTINGS_WORNING', $QUALIFIED_MODULE)} (
-			<a href="index.php?module=Roles&parent=Settings&view=Index">{vtranslate('LBL_GO_TO_PANEL', $QUALIFIED_MODULE)}</a>)
+			{"LBL_SORTING_SETTINGS_WORNING"|t:$QUALIFIED_MODULE} (
+			<a href="index.php?module=Roles&parent=Settings&view=Index">{"LBL_GO_TO_PANEL"|t:$QUALIFIED_MODULE}</a>)
 		</div>
 	</div>
 	<div class="">
-		<button class="btn btn-success addPanel" type="button"></span> {vtranslate('LBL_ADD_PANEL_TO_MODULE',$QUALIFIED_MODULE)}</button>
+		<button class="btn btn-success addPanel" type="button"></span> {"LBL_ADD_PANEL_TO_MODULE"|t:$QUALIFIED_MODULE}</button>
 	</div>
 	<br>
 	<div class="panelsContainer">
@@ -31,7 +31,7 @@
 				<form>
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</h4>
+						<h4 class="modal-title">{"LBL_SELECT_MODULE"|t:$QUALIFIED_MODULE}</h4>
 					</div>
 					<div class="modal-body">
 						<select id="modulesList" class="modules form-control" name="modules" data-validation-engine="validate[required]">
@@ -41,8 +41,8 @@
 						</select>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-success saveButton">{vtranslate('LBL_SAVE', $MODULE_NAME)}</button>
-						<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+						<button type="submit" class="btn btn-success saveButton">{"LBL_SAVE"|t:$MODULE_NAME}</button>
+						<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{"LBL_CLOSE"|t:$MODULE_NAME}</button>
 					</div>
 				</form>
             </div>

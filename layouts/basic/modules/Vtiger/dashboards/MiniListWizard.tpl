@@ -16,8 +16,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 			<div class="modal-header contentsBackground">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-				<h3 class="modal-title" id="massEditHeader">{vtranslate('LBL_MINI_LIST', $MODULE)} {vtranslate($MODULE, $MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">&times;</button>
+				<h3 class="modal-title" id="massEditHeader">{"LBL_MINI_LIST"|t:$MODULE} {$MODULE|t:$MODULE}</h3>
 			</div>
 			<form class="form-horizontal" method="post" action="javascript:;">
 				<div class="modal-body">

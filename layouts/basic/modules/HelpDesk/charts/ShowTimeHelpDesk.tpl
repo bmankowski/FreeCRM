@@ -45,13 +45,13 @@
 			});
 {/literal}
 	</script>
-	<div style="width: 80%; margin: auto; text-align: center;">{vtranslate('OSSTimeControl','OSSTimeControl')}: {vtranslate('LBL_USERS')}<br/>
+	<div style="width: 80%; margin: auto; text-align: center;">{"OSSTimeControl"|t:"OSSTimeControl"}: {"LBL_USERS"|t}<br/>
 		<input class="chartData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />
 		<div id="timeHelpDesk" style="height:400px;width:100%;"></div>
 	</div>
 {else}
 	<div class="alert alert-warning">
-		{vtranslate('LBL_RECORDS_NO_FOUND')}
+		{"LBL_RECORDS_NO_FOUND"|t}
 	</div>	
 {/if}
 	

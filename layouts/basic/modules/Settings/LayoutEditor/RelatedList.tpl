@@ -28,7 +28,7 @@
 						</select>
 					</div>
 					{if AppConfig::developer('CHANGE_RELATIONS')}
-						<button class="btn btn-primary pull-right addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-primary pull-right addRelation" type="button">{"LBL_ADD_RELATION"|t:$QUALIFIED_MODULE}</button>
 					{/if}	
 				</div>
             </div>
@@ -38,7 +38,7 @@
             {if empty($RELATED_MODULES)}
                 <div class="emptyRelatedTabs">
                     <div class="recordDetails">
-                        <p class="textAlignCenter">{vtranslate('LBL_NO_RELATED_INFORMATION',$QUALIFIED_MODULE)}</p>
+                        <p class="textAlignCenter">{"LBL_NO_RELATED_INFORMATION"|t:$QUALIFIED_MODULE}</p>
                     </div>
                 </div>
             {else}
@@ -64,27 +64,27 @@
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
 										{if AppConfig::developer('CHANGE_RELATIONS')}
-											<button type="button" class="btn btn-danger removeRelation pull-right" title="{vtranslate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">x</button>
+											<button type="button" class="btn btn-danger removeRelation pull-right" title="{"LBL_REMOVE_RELATION"|t:$QUALIFIED_MODULE}">x</button>
 										{/if}
 										{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
 			                        	<button type="button" class="btn btn-default addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
-												<span class="glyphicon glyphicon-star {if !$FAVORITES}hide{/if}" title="{vtranslate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
-												<span class="glyphicon glyphicon-star-empty {if $FAVORITES}hide{/if}" title="{vtranslate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
+												<span class="glyphicon glyphicon-star {if !$FAVORITES}hide{/if}" title="{"LBL_DEACTIVATE_FAVORITES"|t:$QUALIFIED_MODULE}"></span>
+												<span class="glyphicon glyphicon-star-empty {if $FAVORITES}hide{/if}" title="{"LBL_ACTIVATE_FAVORITES"|t:$QUALIFIED_MODULE}"></span>	
 										</button>
-			                        	<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
-			                        	<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
+			                        	<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{"LBL_VISIBLE"|t:$QUALIFIED_MODULE}</strong></button>
+			                        	<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{"LBL_HIDDEN"|t:$QUALIFIED_MODULE}</strong></button>
 			                        </div>
 									<h4 class="panel-title">
 										<div class="relatedModuleLabel mainBlockTableLabel">
-											<a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>
+											<a><img src="{vimage_path('drag.png')}" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}"/></a>
 											<strong>{vtranslate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
 										</div>
 									</h4>
                                 </div>
 								<div class="relatedModuleFieldsList mainBlockTableContent panel-body paddingBottomZero">
 									<div class="form-group">
-									<label class="control-label">{vtranslate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}</label>
-										<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="select2_container columnsSelect relatedColumnsList">
+									<label class="control-label">{"LBL_STANDARD_FIELDS"|t:$QUALIFIED_MODULE}</label>
+										<select data-placeholder="{"LBL_ADD_MORE_COLUMNS"|t:$MODULE}" multiple class="select2_container columnsSelect relatedColumnsList">
 				                        	<optgroup label=''>
 												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
 													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
@@ -111,8 +111,8 @@
 									{if $INVENTORY_FIELD_MODEL}
 										{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
 										<div class="form-group">
-										<label class="control-label">{vtranslate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}</label>
-											<select data-placeholder="{vtranslate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
+										<label class="control-label">{"LBL_ADVANCED_BLOCK_FIELDS"|t:$QUALIFIED_MODULE}</label>
+											<select data-placeholder="{"LBL_ADD_ADVANCED_BLOCK_FIELDS"|t:$QUALIFIED_MODULE}" multiple class="select2_container relatedColumnsList" data-type="inventory">
 												{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
 													{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
 													{if $FIELD_INSTANCE}
@@ -144,13 +144,13 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="myModalLabel" class="modal-title">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</h3>
+						<h3 id="myModalLabel" class="modal-title">{"LBL_ADD_RELATION"|t:$QUALIFIED_MODULE}</h3>
 					</div>
 					<div class="modal-body" >
 						<form class="modal-Fields">
 							<div class="row form-horizontal">
 								<div class="form-group">
-									<label class="col-md-4 control-label">{vtranslate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 control-label">{"LBL_RELATION_TYPE"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7">
 										<select name="type" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
@@ -160,7 +160,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{vtranslate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 control-label">{"LBL_RELATION_ACTIONS"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7 marginTop">
 										<select multiple name="actions" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsActions() item=ITEM key=KEY}
@@ -170,7 +170,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{vtranslate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 control-label">{"LBL_SOURCE_MODULE"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7 marginTop">
 										<select name="source" class="form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
@@ -180,7 +180,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{vtranslate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 control-label">{"LBL_TARGET_MODULE"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7 marginTop">
 										<select name="target" class="target form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
@@ -190,7 +190,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{vtranslate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 control-label">{"LBL_RELATION_LABLE"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7">
 										<input name="label"  type="text" class="relLabel form-control"/>
 									</div>
@@ -199,8 +199,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true" >{"LBL_SAVE"|t:$QUALIFIED_MODULE}</button>
+						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true">{"LBL_CLOSE"|t:$QUALIFIED_MODULE}</button>
 					</div>
 				</div>	
 			</div>	

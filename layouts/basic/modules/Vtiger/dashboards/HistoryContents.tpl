@@ -44,7 +44,7 @@
 					{if $HISTORY->isUpdate()}
 						{assign var=FIELDS value=$HISTORY->getFieldInstances()}
 						<div class="">
-							<div><strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_UPDATED')}&nbsp; <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<div><strong>{$USER->getName()}&nbsp;</strong> {"LBL_UPDATED"|t}&nbsp; <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 							</div>
@@ -54,32 +54,32 @@
 								<div class='font-x-small'>
 									<span>{vtranslate($FIELD->getName(), $FIELD->getModuleName())}</span>
 									{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
-										&nbsp;{vtranslate('LBL_FROM')}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</strong>
+										&nbsp;{"LBL_FROM"|t}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</strong>
 									{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-	                                    &nbsp; <strong> {vtranslate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</del> )
+	                                    &nbsp; <strong> {"LBL_DELETED"|t} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</del> )
 	                                {else}
-										&nbsp;{vtranslate('LBL_CHANGED')}
+										&nbsp;{"LBL_CHANGED"|t}
 									{/if}
 	                                {if $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-										&nbsp;{vtranslate('LBL_TO')}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('postvalue'))))}</strong>
+										&nbsp;{"LBL_TO"|t}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('postvalue'))))}</strong>
 	                                {/if}    
 								</div>
 								{/if}
 							{else}
-								<a class="btn btn-info btn-xs moreBtn" href="{$PARENT->getUpdatesUrl()}">{vtranslate('LBL_MORE')}</a>
+								<a class="btn btn-info btn-xs moreBtn" href="{$PARENT->getUpdatesUrl()}">{"LBL_MORE"|t}</a>
 								{break}
 							{/if}
 							{/foreach}
 						</div>
 					{else if $HISTORY->isCreate()}
 						<div style='margin-top:5px'>
-							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_ADDED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {"LBL_ADDED"|t} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								&nbsp;{$PARENT->getName()}</a>
 						</div>
 					{else if $HISTORY->isDisplayed()}
 						<div style='margin-top:5px'>
-							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_DISPLAYED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {"LBL_DISPLAYED"|t} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								&nbsp;{$PARENT->getName()}</a>
 						</div>
@@ -90,9 +90,9 @@
 						<div class='' style='margin-top:5px'>
 							<strong>{$USER->getName()}&nbsp;</strong>
 								{if $HISTORY->isRelationLink()}
-									{vtranslate('LBL_ADDED', $MODULE_NAME)}&nbsp;
+									{"LBL_ADDED"|t:$MODULE_NAME}&nbsp;
 								{else}
-									{vtranslate('LBL_REMOVED', $MODULE_NAME)}
+									{"LBL_REMOVED"|t:$MODULE_NAME}
 								{/if}
 								{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
 									{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'}
@@ -104,19 +104,19 @@
 								{else}
 								 <a class="cursorPointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
 									{else} onclick='window.location.href="{$LINKED_RECORD_DETAIL_URL}"' {/if}>{vtranslate($RELATION->getLinkedRecord()->getName(), $RELATION->getLinkedRecord()->getModuleName() )}</a>
-								{/if}{vtranslate('LBL_FOR')} <a class="cursorPointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
+								{/if}{"LBL_FOR"|t} <a class="cursorPointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
 								onclick='{$PARENT_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$PARENT_DETAIL_URL}"' {/if}>
 								{$RELATION->getParent()->getParent()->getName()}</a>
 						</div>
 					{else if $HISTORY->isRestore()}
 						<div class=''  style='margin-top:5px'>
-							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_RESTORED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {"LBL_RESTORED"|t} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 						</div>
 					{else if $HISTORY->isDelete()}
 						<div class=''  style='margin-top:5px'>
-							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_DELETED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {"LBL_DELETED"|t} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 						</div>
@@ -134,7 +134,7 @@
 					{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
 					<p class="pull-right muted" style="padding-right:5px;"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$COMMENT_TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$COMMENT_TIME")}</small></p>
 					<div>
-						<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {vtranslate('LBL_COMMENTED')} {vtranslate('LBL_ON')} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
+						<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {"LBL_COMMENTED"|t} {"LBL_ON"|t} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 					</div>
 					<div class='font-x-small'><span>"{nl2br($HISTORY->get('commentcontent'))}"</span></div>
 				</div>
@@ -145,14 +145,14 @@
 	{if $NEXTPAGE}
 	<div class="row">
 		<div class="col-md-12">
-			<button class="load-more btn btn-xs btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{vtranslate('LBL_MORE')}</button>
+			<button class="load-more btn btn-xs btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{"LBL_MORE"|t}</button>
 		</div>
 	</div>
 	{/if}
 
 {else}
 	<span class="noDataMsg">
-		{vtranslate('LBL_NO_UPDATES_OR_COMMENTS', $MODULE_NAME)}
+		{"LBL_NO_UPDATES_OR_COMMENTS"|t:$MODULE_NAME}
 	</span>
 {/if}
 </div>

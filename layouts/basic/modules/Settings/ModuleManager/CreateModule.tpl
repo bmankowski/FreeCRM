@@ -16,40 +16,40 @@
         <div class="modal-content">
 		<div class="modal-header contentsBackground">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 class="modal-title">{vtranslate('LBL_CREATING_MODULE', $QUALIFIED_MODULE)}</h3>
+			<h3 class="modal-title">{"LBL_CREATING_MODULE"|t:$QUALIFIED_MODULE}</h3>
 		</div>
 		<div class="modal-body">
 			<form class="form-horizontal">
 				<div class="form-group">
-					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_MODULE_NAME', $QUALIFIED_MODULE)}</label>
+					<label class="col-sm-3 control-label"><span class="redColor">*</span>{"LBL_ENTER_MODULE_NAME"|t:$QUALIFIED_MODULE}</label>
 					<div class="col-sm-6 controls">
 						<input type="text" class="module_name form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]" name="module_name" placeholder="HelpDesk" required="true" >
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_MODULE_LABEL', $QUALIFIED_MODULE)}</label>
+					<label class="col-sm-3 control-label"><span class="redColor">*</span>{"LBL_ENTER_MODULE_LABEL"|t:$QUALIFIED_MODULE}</label>
 					<div class="col-sm-6 controls">
 						<input type="text" class="module_name form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]" name="module_label" placeholder="Help Desk" required="true">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTITY_FIELDNAME', $QUALIFIED_MODULE)}</label>
+					<label class="col-sm-3 control-label"><span class="redColor">*</span>{"LBL_ENTITY_FIELDNAME"|t:$QUALIFIED_MODULE}</label>
 					<div class="col-sm-6 controls">
 						<input type="text" class="entityfieldname form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]" name="entityfieldname" placeholder="title" required="true">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTITY_FIELDLABEL', $QUALIFIED_MODULE)}</label>
+					<label class="col-sm-3 control-label"><span class="redColor">*</span>{"LBL_ENTITY_FIELDLABEL"|t:$QUALIFIED_MODULE}</label>
 					<div class="col-sm-6 controls">
 						<input type="text" class="entityfieldlabel form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"name="entityfieldlabel" placeholder="Title" required="true">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</label>
+					<label class="col-sm-3 control-label">{"LBL_MODULE_TYPE"|t:$QUALIFIED_MODULE}</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" title="{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}" name="entitytype">
-							<option value="0" selected>{vtranslate('LBL_BASE_MODULE', $QUALIFIED_MODULE)}</option>
-							<option value="1">{vtranslate('LBL_INVENTORY_MODULE', $QUALIFIED_MODULE)}</option>
+						<select class="chzn-select form-control" title="{"LBL_MODULE_TYPE"|t:$QUALIFIED_MODULE}" name="entitytype">
+							<option value="0" selected>{"LBL_BASE_MODULE"|t:$QUALIFIED_MODULE}</option>
+							<option value="1">{"LBL_INVENTORY_MODULE"|t:$QUALIFIED_MODULE}</option>
 						</select>
 					</div>
 				</div>

@@ -4,7 +4,7 @@
 	{if !$RECORD}
 		<input type="hidden" id="mailActionBarID" value="" />
 		<div class="noRecords">
-			{vtranslate('LBL_MAIL_NOT_FOUND_IN_DB',$MODULE_NAME)} <a class="importMail">{vtranslate('LBL_IMPORT_MAIL_MANUALLY',$MODULE_NAME)}</a>
+			{"LBL_MAIL_NOT_FOUND_IN_DB"|t:$MODULE_NAME} <a class="importMail">{"LBL_IMPORT_MAIL_MANUALLY"|t:$MODULE_NAME}</a>
 		</div>
 	{else}
 		<input type="hidden" id="mailActionBarID" value="{$RECORD}" />
@@ -26,23 +26,23 @@
 					{if !empty($MODULES_LEVEL_0)}
 						<div data-type="link">
 							<div class="col">
-								{vtranslate('LBL_RELATIONS',$MODULE_NAME)}
+								{"LBL_RELATIONS"|t:$MODULE_NAME}
 								<div class="pull-right">
 									{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
 									{if $ACCESS_LEVEL_0}
 										<select class="module">
 											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_0}
 												<option value="{$MODULE}">
-													{vtranslate($MODULE, $MODULE)}
+													{$MODULE|t:$MODULE}
 												</option>
 											{/foreach}
 										</select>
-										<button class="addRecord" title="{vtranslate('LBL_ADD_RECORD',$MODULE_NAME)}">
+										<button class="addRecord" title="{"LBL_ADD_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
-										<button class="selectRecord" data-type="0" title="{vtranslate('LBL_SELECT_RECORD',$MODULE_NAME)}">
+										<button class="selectRecord" data-type="0" title="{"LBL_SELECT_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
 									{/if}
@@ -70,23 +70,23 @@
 					{if !empty($MODULES_LEVEL_1)}
 						<div data-type="process">
 							<div class="col">
-								{vtranslate('LBL_PROCESS',$MODULE_NAME)}
+								{"LBL_PROCESS"|t:$MODULE_NAME}
 								<div class="pull-right">
 									{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
 									{if $ACCESS_LEVEL_1}
 										<select class="module">
 											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_1}
 												<option value="{$MODULE}">
-													{vtranslate($MODULE, $MODULE)}
+													{$MODULE|t:$MODULE}
 												</option>
 											{/foreach}
 										</select>
-										<button class="addRecord" title="{vtranslate('LBL_ADD_RECORD',$MODULE_NAME)}">
+										<button class="addRecord" title="{"LBL_ADD_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
-										<button class="selectRecord" data-type="0" title="{vtranslate('LBL_SELECT_RECORD',$MODULE_NAME)}">
+										<button class="selectRecord" data-type="0" title="{"LBL_SELECT_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
 									{/if}
@@ -114,7 +114,7 @@
 					{if !empty($MODULES_LEVEL_2)}
 						<div data-type="subprocess">
 							<div class="col">
-								{vtranslate('LBL_SUB_PROCESS',$MODULE_NAME)}
+								{"LBL_SUB_PROCESS"|t:$MODULE_NAME}
 								<div class="pull-right">
 									{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
 									{if $ACCESS_LEVEL_2}
@@ -122,7 +122,7 @@
 											{foreach item="ITEM" key="MODULE" from=\App\ModuleHierarchy::accessModulesByLevel(1)}
 												{assign var="ACCESS_PARENT" value=\App\ModuleHierarchy::accessModulesByParent($MODULE)}
 												{if $ACCESS_PARENT}
-													<optgroup label="{vtranslate($MODULE,$MODULE)}">
+													<optgroup label="{$MODULE|t:$MODULE}">
 														{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
 															<option value="{$PARENT_MODULE}">
 																{vtranslate($PARENT_MODULE, $PARENT_MODULE)}
@@ -132,12 +132,12 @@
 												{/if}
 											{/foreach}
 										</select>
-										<button class="addRecord" title="{vtranslate('LBL_ADD_RECORD',$MODULE_NAME)}">
+										<button class="addRecord" title="{"LBL_ADD_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
-										<button class="selectRecord" data-type="0" title="{vtranslate('LBL_SELECT_RECORD',$MODULE_NAME)}">
+										<button class="selectRecord" data-type="0" title="{"LBL_SELECT_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
 									{/if}
@@ -163,7 +163,7 @@
 		</div>
 		{if $RELATED_RECORDS}
 			<div class="chevronBtnCube">
-				<button class="hideBtn" data-type="0" title="{vtranslate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
+				<button class="hideBtn" data-type="0" title="{"LBL_MINIMIZE_BAR"|t:$MODULE_NAME}">
 					<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
 				</button>
 			</div>

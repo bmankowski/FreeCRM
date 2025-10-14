@@ -5,7 +5,7 @@
 		<thead>
 			<tr>
 				<th>
-					{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}
+					{"LBL_NAME"|t:$QUALIFIED_MODULE}
 				</th>
 
 			</tr>

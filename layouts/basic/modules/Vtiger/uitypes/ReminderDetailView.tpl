@@ -13,9 +13,9 @@
 <!-- layouts/basic/modules/Vtiger/uitypes/ReminderDetailView.tpl -->
 {assign var=REMINDER_VALUES value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId())}
 {if $REMINDER_VALUES eq ''}
-    {vtranslate('LBL_NO', $MODULE)}
+    {"LBL_NO"|t:$MODULE}
 {else}
-    {$REMINDER_VALUES}{vtranslate('LBL_BEFORE_EVENT', $MODULE)}
+    {$REMINDER_VALUES}{"LBL_BEFORE_EVENT"|t:$MODULE}
 {/if}
 <!--/layouts/basic/modules/Vtiger/uitypes/ReminderDetailView.tpl -->
 {/strip}

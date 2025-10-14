@@ -50,7 +50,7 @@
 						>
 						<td width="1%" nowrap class="{$WIDTHTYPE}">
 							{if $MODULE eq 'CronTasks'}
-								<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+								<img src="{vimage_path('drag.png')}" class="alignTop" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}" />
 							{/if}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -59,9 +59,9 @@
 							<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
 								{if $LISTVIEW_HEADERNAME  eq 'currency_status' }
 									{if {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}  eq 'Active' } 
-										&nbsp;{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}  
+										&nbsp;{"LBL_ACTIVE"|t:$QUALIFIED_MODULE}  
 									{else} 
-										&nbsp;{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}
+										&nbsp;{"LBL_INACTIVE"|t:$QUALIFIED_MODULE}
 									{/if}
 								{else}
 									&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
@@ -98,7 +98,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{vtranslate('LBL_EQ_ZERO')} {vtranslate($MODULE, $QUALIFIED_MODULE)} {vtranslate('LBL_FOUND')}
+							{"LBL_EQ_ZERO"|t} {vtranslate($MODULE, $QUALIFIED_MODULE)} {"LBL_FOUND"|t}
 						</td>
 					</tr>
 				</tbody>

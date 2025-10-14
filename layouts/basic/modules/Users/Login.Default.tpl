@@ -25,13 +25,13 @@
 					<form class="login-form" action="index.php?module=Users&action=Login" method="POST" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 						<div class='marginLeft0  marginRight0 row col-xs-10'>
 							<div class="form-group first-group has-feedback">
-								<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
-								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
+								<label for="username" class="sr-only">{"LBL_USER"|t:$MODULE}</label>
+								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{"LBL_USER"|t:$MODULE}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
 								<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 							</div>
 							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
-								<label for="password" class="sr-only">{vtranslate('Password',$MODULE)}</label>
-								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+								<label for="password" class="sr-only">{"Password"|t:$MODULE}</label>
+								<input name="password" type="password" class="form-control input-lg" title="{"Password"|t:$MODULE}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{"Password"|t:$MODULE}">
 								<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 							</div>
 							{assign var=COUNTERFIELDS value=2}
@@ -39,7 +39,7 @@
 								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								{assign var=DEFAULT_LANGUAGE value=AppConfig::main('default_language')}
 								<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
-									<select class="input-lg form-control" title="{vtranslate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="loginLanguage">
+									<select class="input-lg form-control" title="{"LBL_CHOOSE_LANGUAGE"|t:$MODULE}" name="loginLanguage">
 										{foreach item=VALUE key=KEY from=Vtiger_Language_Handler::getAllLanguages()}
 											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
@@ -49,7 +49,7 @@
 							{if $LAYOUT_SELECTION}
 								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								<div class="form-group">
-									<select class="input-lg form-control" title="{vtranslate('LBL_SELECT_LAYOUT',$MODULE)}" name="layout">
+									<select class="input-lg form-control" title="{"LBL_SELECT_LAYOUT"|t:$MODULE}" name="layout">
 										{foreach item=VALUE key=KEY from=Yeti_Layout::getAllLayouts()}
 											<option value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
@@ -58,7 +58,7 @@
 							{/if}
 						</div>
 						<div class='col-xs-2 marginRight0' >
-							<button class="btn btn-lg btn-primary btn-block heightDiv_{$COUNTERFIELDS}" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
+							<button class="btn btn-lg btn-primary btn-block heightDiv_{$COUNTERFIELDS}" type="submit" title="{"LBL_SIGN_IN"|t:$MODULE_NAME}">
 								<strong>></strong>
 							</button>
 						</div>
@@ -67,7 +67,7 @@
 				{if AppConfig::security('RESET_LOGIN_PASSWORD')}
 					<div class="form-group">
 						<div class="">
-							<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
+							<a href="#" id="forgotpass" >{"ForgotPassword"|t:$MODULE}?</a>
 						</div>
 					</div>
 				{/if}
@@ -89,7 +89,7 @@
 					{/if}
 					{if $STATUS}
 						<div class="alert alert-success">
-							<p>{vtranslate('LBL_MAIL_WAITING_TO_SENT',$MODULE)}</p>
+							<p>{"LBL_MAIL_WAITING_TO_SENT"|t:$MODULE}</p>
 						</div>
 					{/if}
 					{if $STATUS_ERROR}
@@ -105,13 +105,13 @@
 						<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
 							<div class='marginLeft0  marginRight0 row col-xs-10'>	
 								<div class="form-group first-group has-feedback">
-									<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
-									<input type="text" class="form-control input-lg" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
+									<label for="username" class="sr-only">{"LBL_USER"|t:$MODULE}</label>
+									<input type="text" class="form-control input-lg" title="{"LBL_USER"|t:$MODULE}" id="username" name="user_name" placeholder="{"LBL_USER"|t:$MODULE}">
 									<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 								</div>
 								<div class="form-group has-feedback">
-									<label for="emailId" class="sr-only">{vtranslate('LBL_EMAIL',$MODULE)}</label>
-									<input type="text" class="form-control input-lg" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
+									<label for="emailId" class="sr-only">{"LBL_EMAIL"|t:$MODULE}</label>
+									<input type="text" class="form-control input-lg" autocomplete="off" title="{"LBL_EMAIL"|t:$MODULE}" id="emailId" name="emailId" placeholder="Email">
 									<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
 								</div>
 							</div>
@@ -124,7 +124,7 @@
 						</form>
 					</div>
 					<div class="login-text form-group">
-						<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
+						<a href="#" id="backButton" >{"LBL_TO_CRM"|t:$MODULE}</a>
 					</div>
 				</div>
 			{/if}

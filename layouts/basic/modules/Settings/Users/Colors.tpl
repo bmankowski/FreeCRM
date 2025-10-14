@@ -15,29 +15,29 @@
 	<div class="widget_header row">
 		<div class="col-md-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_COLORS_DESCRIPTION', $QUALIFIED_MODULE)}
+			{"LBL_COLORS_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>		
 	</div>
 	<div class="contents tabbable">
 		<ul class="nav nav-tabs layoutTabs massEditTabs">
-			<li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
-			<li ><a data-toggle="tab" href="#groupsColors"><strong>{vtranslate('LBL_GROUPS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
-			<li ><a data-toggle="tab" href="#modulesColors"><strong>{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}</strong></a></li>
-			<li ><a data-toggle="tab" href="#marketing"><strong>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-			<li ><a data-toggle="tab" href="#financial"><strong>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-			<li ><a data-toggle="tab" href="#realization"><strong>{vtranslate('LBL_REALIZATION_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-			<li ><a data-toggle="tab" href="#support"><strong>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-			<li ><a data-toggle="tab" href="#timecontrol"><strong>{vtranslate('LBL_TIMECONTROL_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+			<li class="active"><a data-toggle="tab" href="#userColors"><strong>{"LBL_USERS_COLORS"|t:$QUALIFIED_MODULE}</strong></a></li>
+			<li ><a data-toggle="tab" href="#groupsColors"><strong>{"LBL_GROUPS_COLORS"|t:$QUALIFIED_MODULE}</strong></a></li>
+			<li ><a data-toggle="tab" href="#modulesColors"><strong>{"LBL_MODULES"|t:$QUALIFIED_MODULE}</strong></a></li>
+			<li ><a data-toggle="tab" href="#marketing"><strong>{"LBL_MARKETING_PROCESSES"|t:$QUALIFIED_MODULE}</strong></a></li>
+			<li ><a data-toggle="tab" href="#financial"><strong>{"LBL_SALES_PROCESSES"|t:$QUALIFIED_MODULE}</strong></a></li>
+			<li ><a data-toggle="tab" href="#realization"><strong>{"LBL_REALIZATION_PROCESSES"|t:$QUALIFIED_MODULE}</strong></a></li>
+			<li ><a data-toggle="tab" href="#support"><strong>{"LBL_SUPPORT_PROCESSES"|t:$QUALIFIED_MODULE}</strong></a></li>
+			<li ><a data-toggle="tab" href="#timecontrol"><strong>{"LBL_TIMECONTROL_PROCESSES"|t:$QUALIFIED_MODULE}</strong></a></li>
 		</ul>
 		<div class="tab-content layoutContent" style="padding-top: 10px;">
 			<div class="tab-pane active" id="userColors">
 				<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
 					<thead>
 						<tr class="blockHeader">
-							<th><strong>{vtranslate('First Name',$QUALIFIED_MODULE)}</strong></th>
-							<th><strong>{vtranslate('Last Name',$QUALIFIED_MODULE)}</strong></th>
-							<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-							<th data-hide='phone'><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+							<th><strong>{"First Name"|t:$QUALIFIED_MODULE}</strong></th>
+							<th><strong>{"Last Name"|t:$QUALIFIED_MODULE}</strong></th>
+							<th><strong>{"LBL_COLOR"|t:$QUALIFIED_MODULE}</strong></th>
+							<th data-hide='phone'><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -47,8 +47,8 @@
 								<td>{$item.last}</td>
 								<td class="calendarColor" style="background: {$item.color};"></td>
 								<td>
-									<button class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateUserColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-									<button class="btn btn-sm btn-info generateColor" data-metod="generateUserColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+									<button class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateUserColor">{"LBL_UPDATE_COLOR"|t:$QUALIFIED_MODULE}</button>&ensp;
+									<button class="btn btn-sm btn-info generateColor" data-metod="generateUserColor">{"LBL_GENERATE_COLOR"|t:$QUALIFIED_MODULE}</button>
 								</td>
 							</tr>
 						{/foreach}
@@ -59,9 +59,9 @@
 				<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
 					<thead>
 						<tr class="blockHeader">
-							<th><strong>{vtranslate('LBL_GROUP_NAME',$QUALIFIED_MODULE)}</strong></th>
-							<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-							<th data-hide='phone'><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+							<th><strong>{"LBL_GROUP_NAME"|t:$QUALIFIED_MODULE}</strong></th>
+							<th><strong>{"LBL_COLOR"|t:$QUALIFIED_MODULE}</strong></th>
+							<th data-hide='phone'><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -70,8 +70,8 @@
 								<td>{$item.groupname}</td>
 								<td class="calendarColor" style="background: {$item.color};"></td>
 								<td>
-									<button class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateGroupColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-									<button class="btn btn-sm btn-info generateColor" data-metod="generateGroupColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+									<button class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateGroupColor">{"LBL_UPDATE_COLOR"|t:$QUALIFIED_MODULE}</button>&ensp;
+									<button class="btn btn-sm btn-info generateColor" data-metod="generateGroupColor">{"LBL_GENERATE_COLOR"|t:$QUALIFIED_MODULE}</button>
 								</td>
 							</tr>
 						{/foreach}
@@ -82,10 +82,10 @@
 				<table  class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
 					<thead>
 						<tr class="blockHeader">
-							<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
-							<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
-							<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-							<th data-hide='phone'><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+							<th><strong>{"LBL_MODULE"|t:$QUALIFIED_MODULE}</strong></th>
+							<th><strong>{"LBL_ACTIVE"|t:$QUALIFIED_MODULE}</strong></th>
+							<th><strong>{"LBL_COLOR"|t:$QUALIFIED_MODULE}</strong></th>
+							<th data-hide='phone'><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -97,8 +97,8 @@
 								</td>
 								<td class="calendarColor" style="background: {$item.color};"></td>
 								<td>
-									<button class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateModuleColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-									<button class="btn btn-sm btn-info generateColor" data-metod="generateModuleColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+									<button class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateModuleColor">{"LBL_UPDATE_COLOR"|t:$QUALIFIED_MODULE}</button>&ensp;
+									<button class="btn btn-sm btn-info generateColor" data-metod="generateModuleColor">{"LBL_GENERATE_COLOR"|t:$QUALIFIED_MODULE}</button>
 								</td>
 							</tr>
 						{/foreach}
@@ -128,8 +128,8 @@
 											<thead>
 												<tr class="blockHeader">
 													<th><strong>{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}</strong></th>
-													<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-													<th data-hide='phone'><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+													<th><strong>{"LBL_COLOR"|t:$QUALIFIED_MODULE}</strong></th>
+													<th data-hide='phone'><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -139,8 +139,8 @@
 														<td>{vtranslate($INNER_ITEM['value'], $MODULE_NAME)}</td>
 														<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
 														<td>
-															<button class="btn btn-sm marginLeft10 btn-primary updateColor" data-metod="updateColorForProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-															<button class="btn btn-sm btn-info generateColor" data-metod="generateColorForProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+															<button class="btn btn-sm marginLeft10 btn-primary updateColor" data-metod="updateColorForProcesses">{"LBL_UPDATE_COLOR"|t:$QUALIFIED_MODULE}</button>&ensp;
+															<button class="btn btn-sm btn-info generateColor" data-metod="generateColorForProcesses">{"LBL_GENERATE_COLOR"|t:$QUALIFIED_MODULE}</button>
 														</td>
 													</tr>
 												{/foreach}
@@ -160,13 +160,13 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{"LBL_EDIT_COLOR"|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<input type="hidden" class="selectedColor" value="" />
 						<div class="form-group">
-							<label class=" col-sm-3 control-label">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
+							<label class=" col-sm-3 control-label">{"LBL_SELECT_COLOR"|t:$QUALIFIED_MODULE}</label>
 							<div class=" col-sm-8 controls">
 								<p class="calendarColorPicker"></p>
 							</div>

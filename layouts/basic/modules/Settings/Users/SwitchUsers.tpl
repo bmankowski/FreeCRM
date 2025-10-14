@@ -9,16 +9,16 @@
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 	</div>
-	<span style="font-size:12px;color: black;">{vtranslate('LBL_SWITCH_USERS_DESCRIPTION', $QUALIFIED_MODULE)}</span>
+	<span style="font-size:12px;color: black;">{"LBL_SWITCH_USERS_DESCRIPTION"|t:$QUALIFIED_MODULE}</span>
 	<hr>
 	<div class="container-fluid ">
 		<div class="contents">
 			<table class="switchUsersTable table table-bordered">
 				<thead>
 					<tr class="listViewHeaders">
-						<th class="col-md-3">{vtranslate('LBL_SU_BASE_ACCESS', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-8">{vtranslate('LBL_SU_AVAILABLE_ACCESS', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-1">{vtranslate('LBL_TOOLS', $QUALIFIED_MODULE)}</th>
+						<th class="col-md-3">{"LBL_SU_BASE_ACCESS"|t:$QUALIFIED_MODULE}</th>
+						<th class="col-md-8">{"LBL_SU_AVAILABLE_ACCESS"|t:$QUALIFIED_MODULE}</th>
+						<th class="col-md-1">{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -30,8 +30,8 @@
 		</div>
 		<br>
 		<div class="row">
-			<button class="btn btn-info addItem"><strong>{vtranslate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn btn-success saveItems"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-info addItem"><strong>{"LBL_ADD"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
+			<button class="btn btn-success saveItems"><strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>
 		</div>
 		<br>
 		<table class="table table-bordered cloneItem hide">

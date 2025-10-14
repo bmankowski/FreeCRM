@@ -3,17 +3,17 @@
 <!-- layouts/basic/modules/OpenStreetMap/MapModal.tpl -->
 	<div class="modal-header container-fluid openStreetMapModalHeader">
 		<div class="col-xs-5">
-			<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MAP', $MODULE_NAME)}</h3>
+			<h3 id="massEditHeader" class="modal-title">{"LBL_MAP"|t:$MODULE_NAME}</h3>
 		</div>
 		<div class="col-xs-6">
 			<div class="col-xs-8 noSpaces">
-				<input type="text" class="searchValue form-control" placeholder="{vtranslate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}">
+				<input type="text" class="searchValue form-control" placeholder="{"LBL_SEARCH_VALUE_DESCRIPTION"|t:$MODULE_NAME}">
 			</div>
 			<div class="col-xs-4 noSpaces">
 				<div class="input-group group-btn">
-					<input type="text" class="form-control radius" placeholder="{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}">
+					<input type="text" class="form-control radius" placeholder="{"LBL_IN_RADIUS"|t:$MODULE_NAME}">
 					<div class="input-group-btn">
-						<button class="btn btn-primary searchBtn">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+						<button class="btn btn-primary searchBtn">{"LBL_SEARCH"|t:$MODULE_NAME}</button>
 					</div>
 				</div>
 			</div>
@@ -55,15 +55,15 @@
 					</optgroup>
 				</select>
 				<span class="input-group-addon">
-					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{vtranslate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours">
+					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{"LBL_GROUP_NEIGHBOURS"|t:$MODULE_NAME}" class="groupNeighbours">
 				</span>
 				<div class="input-group-btn">
-					<button class="btn btn-primary groupBy">{vtranslate('LBL_GROUP_BY', $MODULE_NAME)}</button>
+					<button class="btn btn-primary groupBy">{"LBL_GROUP_BY"|t:$MODULE_NAME}</button>
 				</div>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					{vtranslate('LBL_CALCULATE_ROUTE_HEADER_BLOCK', $MODULE_NAME)}
+					{"LBL_CALCULATE_ROUTE_HEADER_BLOCK"|t:$MODULE_NAME}
 				</div>
 				<div class="panel-body track">
 					<div class="input-group group-btn input-group-sm form-group startContainer">
@@ -100,13 +100,13 @@
 						</div>
 					</div>
 					<div class="form-group pull-right">
-						<button class="btn btn-primary hide calculateTrack">{vtranslate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
+						<button class="btn btn-primary hide calculateTrack">{"LBL_CALCULATE_TRACK"|t:$MODULE_NAME}</button>
 					</div>
 				</div>
 			</div>
 			<div class="panel panel-default cacheContainer">
 				<div class="panel-heading">
-					{vtranslate('LBL_CLIPBOARD', $MODULE_NAME)}
+					{"LBL_CLIPBOARD"|t:$MODULE_NAME}
 				</div>
 				<div class="panel-body cacheContent">
 					{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
@@ -129,15 +129,15 @@
 						</div>
 					{/foreach}
 					<div class="col-xs-12">
-						<button class="btn btn-success btn-sm copyToClipboard pull-right"><span class="fa fa-clipboard"></span>&nbsp;{vtranslate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
+						<button class="btn btn-success btn-sm copyToClipboard pull-right"><span class="fa fa-clipboard"></span>&nbsp;{"LBL_COPY_TO_CLIPBOARD"|t:$MODULE_NAME}</button>
 					</div>
 				</div>
 			</div>
 			<div class="panel panel-default hide descriptionContainer">
 				<div class="panel-body descriptionContent">
-					<b>{vtranslate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp</b><span class="distance"></span><br>
-					<b>{vtranslate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp</b><span class="travelTime"></span><br>
-					<b>{vtranslate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp</b><span class="instruction"></span>
+					<b>{"LBL_DISTANCE"|t:$MODULE_NAME}:&nbsp</b><span class="distance"></span><br>
+					<b>{"LBL_TRAVEL_TIME"|t:$MODULE_NAME}:&nbsp</b><span class="travelTime"></span><br>
+					<b>{"LBL_INSTRUCTION"|t:$MODULE_NAME}:&nbsp</b><span class="instruction"></span>
 				</div>
 			</div>
 		</div>

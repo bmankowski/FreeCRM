@@ -26,21 +26,21 @@
 	</div>
         <table class="">
             <tr>
-                <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{vtranslate('RunCron', 'OSSMailScanner')}</button></td>
+                <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{"RunCron"|t:"OSSMailScanner"}</button></td>
             </tr>
             </table><br />   
 		<div class="row col-xs-12">
 			<div  class="row col-sm-10 col-md-8 col-lg-7 marginBottom10px" >
-				<div class="row col-sm-4">{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-7"><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
+				<div class="row col-sm-4">{"email_to_notify"|t:"OSSMailScanner"}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" class="form-control" title="{"email_to_notify"|t:"OSSMailScanner"}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
 			</div>
 			<div class='row col-sm-10 col-md-8 col-lg-7 marginBottom10px'>
-				<div class="row col-sm-4">{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-7"><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
+				<div class="row col-sm-4">{"time_to_notify"|t:"OSSMailScanner"}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" name="time_to_notify" title="{"time_to_notify"|t:"OSSMailScanner"}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 			</div>
 		</div>
 		<div class="pull-right">
-		<select class="col-md-1 form-control" name="page_num" title="{vtranslate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
+		<select class="col-md-1 form-control" name="page_num" title="{"LBL_PAGE_NUMBER"|t:$QUALIFIED_MODULE}">
 						{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
 			{for $i=1 to $HISTORYACTIONLIST_NUM}
 			<option vlaue="{$i}">{$i}</option>
@@ -50,15 +50,15 @@
 			<table class="table tableRWD table-bordered log-list">
 				<thead>
 					<tr class="listViewHeaders">
-						<th>{vtranslate('No', 'OSSMailScanner')}.</th>
-						<th>{vtranslate('startTime', 'OSSMailScanner')}</th>
-						<th>{vtranslate('endTime', 'OSSMailScanner')}</th>
-						<th>{vtranslate('status', 'OSSMailScanner')}</th>
-						<th>{vtranslate('who', 'OSSMailScanner')}</th>
-						<th>{vtranslate('count', 'OSSMailScanner')}</th>
-						<th>{vtranslate('stop_user', 'OSSMailScanner')}</th>
-						<th>{vtranslate('Action', 'OSSMailScanner')}</th>
-						<th>{vtranslate('Desc', 'OSSMailScanner')}</th>
+						<th>{"No"|t:"OSSMailScanner"}.</th>
+						<th>{"startTime"|t:"OSSMailScanner"}</th>
+						<th>{"endTime"|t:"OSSMailScanner"}</th>
+						<th>{"status"|t:"OSSMailScanner"}</th>
+						<th>{"who"|t:"OSSMailScanner"}</th>
+						<th>{"count"|t:"OSSMailScanner"}</th>
+						<th>{"stop_user"|t:"OSSMailScanner"}</th>
+						<th>{"Action"|t:"OSSMailScanner"}</th>
+						<th>{"Desc"|t:"OSSMailScanner"}</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -75,7 +75,7 @@
 						<td>{$item['info']}</td>
 						<td>
 							{if $item['status'] eq 'In progress'}
-							<button type="button" class="btn btn-danger" id="manula_stop_cron" {if $STOP_BUTTON_STATUS eq 'false'}disabled{/if}>{vtranslate('StopCron', 'OSSMailScanner')}</button>
+							<button type="button" class="btn btn-danger" id="manula_stop_cron" {if $STOP_BUTTON_STATUS eq 'false'}disabled{/if}>{"StopCron"|t:"OSSMailScanner"}</button>
 							{/if}
 						</td>
 					</tr>

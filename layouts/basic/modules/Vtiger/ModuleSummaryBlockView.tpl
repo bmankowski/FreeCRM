@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Vtiger/ModuleSummaryBlockView.tpl -->
 	<div class="recordDetails">
 		<div>
-			<h4> {vtranslate('LBL_RECORD_SUMMARY',$MODULE_NAME)}	</h4>
+			<h4> {"LBL_RECORD_SUMMARY"|t:$MODULE_NAME}	</h4>
 			<hr>
 		</div>
 		{include file='SummaryViewContents.tpl'|@vtemplate_path}

@@ -5,9 +5,9 @@
 		<table class="table table-striped">
 			<thead>
 				<tr> 
-					<th>{vtranslate('LBL_USER',$MODULE_NAME)}</th>
-					<th class="text-center">{vtranslate('LBL_ACCEPT_ANNOUNCEMENT',$MODULE_NAME)}</th>
-					<th class="text-center">{vtranslate('LBL_DATE',$MODULE_NAME)}</th>
+					<th>{"LBL_USER"|t:$MODULE_NAME}</th>
+					<th class="text-center">{"LBL_ACCEPT_ANNOUNCEMENT"|t:$MODULE_NAME}</th>
+					<th class="text-center">{"LBL_DATE"|t:$MODULE_NAME}</th>
 				</tr> 
 			</thead>
 			<tbody>

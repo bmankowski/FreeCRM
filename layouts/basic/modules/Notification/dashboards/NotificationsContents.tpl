@@ -10,7 +10,7 @@
 			</div>
 		{else}
 			<span class="noDataMsg">
-				{vtranslate('LBL_NO_NOTIFICATIONS', $MODULE_NAME)}
+				{"LBL_NO_NOTIFICATIONS"|t:$MODULE_NAME}
 			</span>
 		{/if}
 	</div>

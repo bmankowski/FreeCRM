@@ -22,16 +22,16 @@
 	{/if}
 	<div class="row padding1per contentsBackground no-margin" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 		<div id="advanceFilterContainer" class="">
-			<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
+			<h5 class="padding-bottom1per"><strong>{"LBL_CHOOSE_FILTER_CONDITIONS"|t:$MODULE}</strong></h5>
 			<div class="allConditionContainer conditionGroup contentsBackground well">
-				<div class="header"><span><strong>{vtranslate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_ALL_DSC', $QUALIFIED_MODULE)}</span></div>
+				<div class="header"><span><strong>{"LBL_CONDITION_ALL"|t:$QUALIFIED_MODULE}</strong></span> - <span>{"LBL_CONDITION_ALL_DSC"|t:$QUALIFIED_MODULE}</span></div>
 				<div id="condition_all">
 					{if $TPL_ID}
 						{*                        <pre>*}
 						{foreach from=$REQUIRED_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<div class="col-md-4">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
@@ -81,22 +81,22 @@
 									{/if}
 								</div>
 								<div class="col-md-1 form-control-static">
-									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
+									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{"LBL_DELETE"|t:$QUALIFIED_MODULE}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
 								</div>
 							</div>
 						{/foreach}
 					{/if}
 				</div>
-				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_all" type="button"><strong>{vtranslate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
+				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_all" type="button"><strong>{"ADD_CONDITIONS"|t:$QUALIFIED_MODULE}</strong></button></div>
 			</div>
 			<div class="allConditionContainer conditionGroup contentsBackground well">
-				<div class="header"><span><strong>{vtranslate('LBL_CONDITION_OPTION', $QUALIFIED_MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_OPTION_DSC', $QUALIFIED_MODULE)}</span></div>
+				<div class="header"><span><strong>{"LBL_CONDITION_OPTION"|t:$QUALIFIED_MODULE}</strong></span> - <span>{"LBL_CONDITION_OPTION_DSC"|t:$QUALIFIED_MODULE}</span></div>
 				<div id="condition_option">
 					{if $TPL_ID}
 						{foreach from=$OPTIONAL_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<span class="col-md-4">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
@@ -146,19 +146,19 @@
 									{/if}
 								</span>
 								<div class="col-md-1 form-control-static">
-									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
+									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{"LBL_DELETE"|t:$QUALIFIED_MODULE}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
 								</div>
 							</div>
 						{/foreach}
 					{/if}
 				</div>
-				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_option" type="button"><strong>{vtranslate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
+				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_option" type="button"><strong>{"ADD_CONDITIONS"|t:$QUALIFIED_MODULE}</strong></button></div>
 			</div>
 			<br>
 			<div class="pull-right">
-				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></button>
-				<button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $QUALIFIED_MODULE)}</strong></button>
-				<a class="cancelLink btn btn-warning" href="index.php?module=DataAccess&parent=Settings&view=Index">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
+				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{"BACK"|t:$QUALIFIED_MODULE}</strong></button>
+				<button class="btn btn-success" type="submit"><strong>{"NEXT"|t:$QUALIFIED_MODULE}</strong></button>
+				<a class="cancelLink btn btn-warning" href="index.php?module=DataAccess&parent=Settings&view=Index">{"CANCEL"|t:$QUALIFIED_MODULE}</a>
 			</div>
 		</div>
 	</div>

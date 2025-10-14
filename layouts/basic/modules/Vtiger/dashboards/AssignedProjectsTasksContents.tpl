@@ -21,7 +21,7 @@ font-size: 75%;
 	{foreach from=$PROJECTSTASKS key=INDEX item=TASKS}
 	<div>
 		<div class='pull-left'>
-			<image style="margin-left: 4px;" alt="{vtranslate('ProjectTask')}" src="{vimage_path('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
+			<image style="margin-left: 4px;" alt="{"ProjectTask"|t}" src="{vimage_path('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
 			<div class='pull-left'>
@@ -49,7 +49,7 @@ font-size: 75%;
 
 {if $PAGING_MODEL->get('nextPageExists') eq 'true'}
 	<div class='pull-right' style='margin-top:5px;padding-right:5px;'>
-        <a href="javascript:;" name="history_more" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{vtranslate('LBL_MORE')}...</a>
+        <a href="javascript:;" name="history_more" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{"LBL_MORE"|t}...</a>
         <br />
         <br />
         <br />

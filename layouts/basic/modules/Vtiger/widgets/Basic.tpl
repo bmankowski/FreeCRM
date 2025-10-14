@@ -30,7 +30,7 @@
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 								{if $WIDGET['data']['actionSelect'] eq 1}
 									{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
-									<button class="btn btn-sm btn-default selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}">
+									<button class="btn btn-sm btn-default selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{"LBL_SELECT_OPTION"|t:$MODULE_NAME}" alt="{"LBL_SELECT_OPTION"|t:$MODULE_NAME}">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								{/if}
@@ -38,7 +38,7 @@
 									{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 									{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
 									<button class="btn btn-sm btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
-											{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}">
+											{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{"LBL_ADD"|t:$MODULE_NAME}" alt="{"LBL_ADD"|t:$MODULE_NAME}">
 										<span class="glyphicon glyphicon-plus"></span>
 									</button>
 								{/if}

@@ -35,13 +35,13 @@
 					<tr class="listViewHeaders">
 						{if $MULTI_SELECT}
 							<th class="{$WIDTHTYPE}">
-								<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL_CURRENTPAGE')}" class="selectAllInCurrentPage" />
+								<input type="checkbox" title="{"LBL_SELECT_ALL_CURRENTPAGE"|t}" class="selectAllInCurrentPage" />
 							</th>
 						{/if}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="{$WIDTHTYPE}">
 								<a href="javascript:void(0);" class="listViewHeaderValues {if $LISTVIEW_HEADER->get('name') eq 'listprice' || !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE_NAME)}
-									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" alt="{vtranslate('LBL_SORT_ASCENDING')}" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{vtranslate('LBL_SORT_DESCENDING')}" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
+									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" alt="{"LBL_SORT_ASCENDING"|t}" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{"LBL_SORT_DESCENDING"|t}" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 							</th>
 						{/foreach}
 						<th class="{$WIDTHTYPE}"></th>
@@ -66,7 +66,7 @@
 							{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE_NAME}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 							{if $MULTI_SELECT}
 								<td class="{$WIDTHTYPE}">
-									<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
+									<input class="entryCheckBox" title="{"LBL_SELECT_RECORD"|t}" type="checkbox" />
 								</td>
 							{/if}
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -94,7 +94,7 @@
 		<!--added this div for Temporarily -->
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<div class="">
-				<div class="emptyRecordsDiv">{vtranslate('LBL_NO_RELATED_RECORDS_FOUND', $MODULE)}.</div>
+				<div class="emptyRecordsDiv">{"LBL_NO_RELATED_RECORDS_FOUND"|t:$MODULE}.</div>
 			</div>
 		{/if}
 	</div>

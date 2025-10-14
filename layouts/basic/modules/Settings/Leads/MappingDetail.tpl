@@ -28,9 +28,9 @@
 		<table class="table customTableRWD table-bordered" id="convertLeadMapping">
 			<thead>
 				<tr class="blockHeader">
-					<th class="blockHeader">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
-					<th class="blockHeader">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-					<th data-hide='phone' class="blockHeader">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
+					<th class="blockHeader">{"LBL_FIELD_LABEL"|t:$QUALIFIED_MODULE}</th>
+					<th class="blockHeader">{"LBL_FIELD_TYPE"|t:$QUALIFIED_MODULE}</th>
+					<th data-hide='phone' class="blockHeader">{"LBL_MAPPING_WITH_OTHER_MODULES"|t:$QUALIFIED_MODULE}</th>
 				</tr>
 			</thead>
 		</table>

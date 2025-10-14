@@ -38,27 +38,27 @@
 						{vtranslate('Start Date & Time',$MODULE_NAME)}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					<div>
-						{vtranslate('Due Date',$MODULE_NAME)}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
+						{"Due Date"|t:$MODULE_NAME}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					{if $RECORD->get('activitystatus') neq '' }
 						<div>
-							{vtranslate('Status',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('activitystatus')}</strong>
+							{"Status"|t:$MODULE_NAME}: <strong>{$RECORD->getDisplayValue('activitystatus')}</strong>
 						</div>
 					{/if}
 					{if $RECORD->get('link') neq ''}
 						<div>
-							{vtranslate('FL_RELATION',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('link')}</strong>
+							{"FL_RELATION"|t:$MODULE_NAME}: <strong>{$RECORD->getDisplayValue('link')}</strong>
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-									<a target="_blank" class="pull-right btn btn-default btn-xs" href="{$COMPOSE_URL}" title="{vtranslate('LBL_SEND_EMAIL')}">
+									<a target="_blank" class="pull-right btn btn-default btn-xs" href="{$COMPOSE_URL}" title="{"LBL_SEND_EMAIL"|t}">
 										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
-										<a class="pull-right btn btn-default btn-xs" href="{$URLDATA}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<a class="pull-right btn btn-default btn-xs" href="{$URLDATA}" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}">
+											<span class="glyphicon glyphicon-envelope" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}"></span>
 										</a>
 									{/if}
 								{/if}
@@ -67,17 +67,17 @@
 					{/if}
 					{if $RECORD->get('process') neq '' }
 						<div>
-							{vtranslate('FL_PROCESS',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('process')}</strong>
+							{"FL_PROCESS"|t:$MODULE_NAME}: <strong>{$RECORD->getDisplayValue('process')}</strong>
 						</div>
 					{/if}
 					{if $RECORD->get('subprocess') neq '' }
 						<div>
-							{vtranslate('FL_SUB_PROCESS',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('subprocess')}</strong>
+							{"FL_SUB_PROCESS"|t:$MODULE_NAME}: <strong>{$RECORD->getDisplayValue('subprocess')}</strong>
 						</div>
 					{/if}
 					{if $RECORD->get('location') neq '' }
 						<div>
-							{vtranslate('Location',$MODULE_NAME)}:&nbsp;
+							{"Location"|t:$MODULE_NAME}:&nbsp;
 							<strong>
 								{$RECORD->get('location')}
 							</strong>
@@ -91,18 +91,18 @@
 					<hr />
 					<div class="actionRow text-center">
 						<a class="btn btn-default btn-sm btn-success showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="15m">15{vtranslate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="30m">30{vtranslate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1h">1{vtranslate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="2h">2{vtranslate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="6h">6{vtranslate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1d">1{vtranslate('LBL_D',$MODULE_NAME)}</a>
+						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="15m">15{"LBL_M"|t:$MODULE_NAME}</a>
+						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="30m">30{"LBL_M"|t:$MODULE_NAME}</a>
+						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1h">1{"LBL_H"|t:$MODULE_NAME}</a>
+						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="2h">2{"LBL_H"|t:$MODULE_NAME}</a>
+						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="6h">6{"LBL_H"|t:$MODULE_NAME}</a>
+						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1d">1{"LBL_D"|t:$MODULE_NAME}</a>
 					</div>
 				</div>
 			</div>
 		{foreachelse}
 			<div class="alert alert-info">
-				{vtranslate('LBL_NO_CURRENT_ACTIVITIES',$MODULE_NAME)}
+				{"LBL_NO_CURRENT_ACTIVITIES"|t:$MODULE_NAME}
 			</div>
 		{/foreach}
 	</div>

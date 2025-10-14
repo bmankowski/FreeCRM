@@ -10,16 +10,16 @@
 		</div>
 		<div class="col-sm-4 col-xs-12">
 			<div class="pull-right">
-				<button class="btn btn-success addRecord">{vtranslate('LBL_ADD', $MODULE_NAME)}</button>
+				<button class="btn btn-success addRecord">{"LBL_ADD"|t:$MODULE_NAME}</button>
 			</div>
 		</div>
 	</div>
 	<div class="col-sm-3 col-xs-12 panelTree">
 		<div class="col-xs-12 treeContainer paddingLRZero">
 			<div class="input-group paddingBottom10">
-				<input id="valueSearchTree" type="text" class="form-control" placeholder="{vtranslate('LBL_SEARCH', $MODULE_NAME)} ..." >
+				<input id="valueSearchTree" type="text" class="form-control" placeholder="{"LBL_SEARCH"|t:$MODULE_NAME} ..." >
 				<span class="input-group-btn">
-					<button id="btnSearchTree" class="btn btn-danger" type="button">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+					<button id="btnSearchTree" class="btn btn-danger" type="button">{"LBL_SEARCH"|t:$MODULE_NAME}</button>
 				</span>
 			</div>
 			<div id="treeContent">

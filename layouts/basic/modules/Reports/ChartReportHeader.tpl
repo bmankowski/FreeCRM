@@ -22,14 +22,14 @@
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-primary">
-								<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
+								<strong>{"LBL_CUSTOMIZE"|t:$MODULE}</strong>&nbsp;
 								<span class="glyphicon glyphicon-pencil"></span>
 							</button>
 						</div>
 					{/if}
 					<div class="btn-group">
 						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-success">
-							<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
+							<strong>{"LBL_DUPLICATE"|t:$MODULE}</strong>
 						</button>
 					</div>
 				</div>
@@ -77,13 +77,13 @@
 						<div class="row">
 							<div class='form-inline'>
 								<div class="form-group col-xs-6">
-									<label>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}<span class="redColor">*</span></label>
+									<label>{"LBL_SELECT_GROUP_BY_FIELD"|t:$MODULE}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
 										<select id='groupbyfield' name='groupbyfieldSelect' class="form-control" data-validation-engine="validate[required]"></select>
 									</div>
 								</div>
 								<div class="form-group col-xs-6">
-									<label>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}<span class="redColor">*</span></label>
+									<label>{"LBL_SELECT_DATA_FIELD"|t:$MODULE}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
 										<select id='datafields' name='datafields[]' class="form-control" data-validation-engine="validate[required]">
 										</select></div>
@@ -99,7 +99,7 @@
 							<div class='h3'>
 								{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
 								<button type="button" class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
-									<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
+									<strong>{"LBL_MODIFY_CONDITION"|t:$MODULE}</strong>&nbsp;&nbsp;
 									<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
 								</button>
 							</div>
@@ -109,8 +109,8 @@
 						</div>
 					</div>
 					<div class="row textAlignCenter">
-						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
-						<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
+						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{"LBL_SAVE"|t:$MODULE}"/>
+						<strong>{"LBL_SAVE"|t:$MODULE}</strong>
 						</button>
 					</div>
 			</div>

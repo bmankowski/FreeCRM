@@ -32,25 +32,25 @@
 			</div>
 			<div class="col-sm-7 col-xs-12 btn-toolbar" role="toolbar">
 				<div class="btn-group filterActions pull-right">
-					<button class="btn btn-warning" type="reset" onClick="window.location.reload()">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+					<button class="btn btn-warning" type="reset" onClick="window.location.reload()">{"LBL_CANCEL"|t:$MODULE}</button>
 				</div>
 				<div class="btn-group filterActions pull-right">
-					<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+					<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
 				</div>
 				<div class="btn-group pull-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}" >
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{"LBL_SET_AS_DEFAULT"|t:$MODULE}" >
 						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-heart-empty" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}">
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{"LBL_SET_AS_PUBLIC"|t:$MODULE}">
 						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}>
 						<span class="glyphicon glyphicon-eye-close" data-check="glyphicon-eye-open" data-unchecked="glyphicon-eye-close"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{vtranslate('LBL_FEATURED',$MODULE)}">
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{"LBL_FEATURED"|t:$MODULE}">
 						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-star-empty" data-check="glyphicon-star" data-unchecked="glyphicon-star-empty"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{vtranslate('LBL_LIST_IN_METRICS',$MODULE)}">
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{"LBL_LIST_IN_METRICS"|t:$MODULE}">
 						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-blackboard" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
@@ -62,22 +62,22 @@
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
 						<span class="cursorPointer iconToggle glyphicon glyphicon glyphicon-menu-down" data-hide="glyphicon-menu-right" data-show="glyphicon-menu-down"></span>
-						<h4 class="">{vtranslate('LBL_BASIC_DETAILS',$MODULE)}</h4></div></div>
+						<h4 class="">{"LBL_BASIC_DETAILS"|t:$MODULE}</h4></div></div>
 				<div class="panel-body">
 					<div class="form-group">
 						<div class="row col-md-5">
-							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}:</label>
+							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {"LBL_VIEW_NAME"|t:$MODULE}:</label>
 							<div class="col-md-7">
 								<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="paddingLeftMd control-label"><span class="redColor">*</span> {vtranslate('LBL_CHOOSE_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
+						<label class="paddingLeftMd control-label"><span class="redColor">*</span> {"LBL_CHOOSE_COLUMNS"|t:$MODULE} ({"LBL_MAX_NUMBER_FILTER_COLUMNS"|t}):</label>
 						<div class="columnsSelectDiv col-md-12">
 							{assign var=MANDATORY_FIELDS value=array()}
 							<div class="">
-								<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control" id="viewColumnsSelect">
+								<select data-placeholder="{"LBL_ADD_MORE_COLUMNS"|t:$MODULE}" multiple class="columnsSelect form-control" id="viewColumnsSelect">
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 										<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -119,7 +119,7 @@
 					</div>
 					<div class="form-group marginbottomZero">
 						<div class="row col-md-5">
-							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {vtranslate('LBL_COLOR_VIEW',$MODULE)}:</label>
+							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {"LBL_COLOR_VIEW"|t:$MODULE}:</label>
 							<div class="col-md-7">
 								<div class="input-group">
 									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}">
@@ -133,7 +133,7 @@
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
 						<span class="cursorPointer iconToggle glyphicon glyphicon glyphicon-menu-right" data-hide="glyphicon-menu-right" data-show="glyphicon-menu-down"></span>
-						<h4 class="">{vtranslate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4></div></div>
+						<h4 class="">{"LBL_DESCRIPTION_INFORMATION"|t:$MODULE}</h4></div></div>
 				<div class="panel-body padding5 hide">
 					<textarea name="description" id="description" class="ckEditorSource">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 				</div>	
@@ -141,7 +141,7 @@
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
 						<span class="cursorPointer iconToggle glyphicon glyphicon glyphicon-menu-down" data-hide="glyphicon-menu-right" data-show="glyphicon-menu-down"></span>
-						<h4 class="">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h4></div></div>
+						<h4 class="">{"LBL_CHOOSE_FILTER_CONDITIONS"|t:$MODULE}:</h4></div></div>
 				<div class="panel-body">
 					<div class="filterConditionsDiv">
 						<div class="row">
@@ -154,8 +154,8 @@
 			</div>
 		</div>
 		<div class="filterActions">
-			<button class="cancelLink pull-right btn btn-warning" type="reset" onClick="window.location.reload()">{vtranslate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-success pull-right" id="customViewSubmit" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+			<button class="cancelLink pull-right btn btn-warning" type="reset" onClick="window.location.reload()">{"LBL_CANCEL"|t:$MODULE}</button>
+			<button class="btn btn-success pull-right" id="customViewSubmit" type="submit"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
 		</div>
 	</form>
 <!--/layouts/basic/modules/CustomView/EditView.tpl -->

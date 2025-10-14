@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/NoComments.tpl -->
 	<div class="summaryWidgetContainer noCommentsMsgContainer">
-		<p class="textAlignCenter"> {vtranslate('LBL_NO_COMMENTS',$MODULE_NAME)}
+		<p class="textAlignCenter"> {"LBL_NO_COMMENTS"|t:$MODULE_NAME}
 		</p>
 	</div>
 <!--/layouts/basic/modules/Vtiger/NoComments.tpl -->

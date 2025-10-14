@@ -25,10 +25,10 @@
 <input type='hidden' id='ignoreEmpty' value="{$IGNORE_EMPTY}" />
 
 <div id="selectAllMsgDiv" class="alert-block msgDiv">
-	<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>
 <div id="deSelectAllMsgDiv" class="alert-block msgDiv">
-	<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+	<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
 </div>
 <div class="contents-topscroll">
 	<div class="topscroll-div">
@@ -40,18 +40,18 @@
 		<thead>
 			<tr class="listViewHeaders">
 				<th width="5%" class="text-center">
-					<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
+					<input type="checkbox" title="{"LBL_SELECT_ALL"|t}" id="listViewEntriesMainCheckBox" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{if $LISTVIEW_HEADER->get('name') neq 'recordid'}
 						<th class="text-center" nowrap {*if $LISTVIEW_HEADER@last} colspan="2" {/if*}>
-							<a class="listViewHeaderValues">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}</a>
+							<a class="listViewHeaderValues">{$LISTVIEW_HEADER->get('label')|t:$MODULE}</a>
 						</th>
 					{/if}
 				{/foreach}
-				<th class="text-center">{vtranslate('LBL_VIEW_DETAIL', $MODULE)}</th>
-				<th class="text-center">{vtranslate('LBL_MERGE_SELECT', $MODULE)}</th>
-				<th class="text-center">{vtranslate('LBL_ACTION', $MODULE)}</th>
+				<th class="text-center">{"LBL_VIEW_DETAIL"|t:$MODULE}</th>
+				<th class="text-center">{"LBL_MERGE_SELECT"|t:$MODULE}</th>
+				<th class="text-center">{"LBL_ACTION"|t:$MODULE}</th>
 			</tr>
 		</thead>
 		{assign var=mergeRecordCount value=0}
@@ -61,7 +61,7 @@
 			{foreach item=RECORD key=KEY from=$LISTVIEW_ENTRY name=listview}
 				<tr class="listViewEntries" data-id='{$RECORD.recordid}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 					<td width="5%" style='border-bottom:1px solid #DDD;'>
-						<input type="checkbox" value="{$RECORD.recordid}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+						<input type="checkbox" value="{$RECORD.recordid}" title="{"LBL_SELECT_SINGLE_ROW"|t}" class="listViewEntriesCheckBox"/>
 					</td>
 					{assign var=sameRowValues value=true}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -72,7 +72,7 @@
 						{/if}
 					{/foreach}
 					<td style='border-bottom:1px solid #DDD;'>
-						<a class="btn btn-default" TARGET="_blank" href="{$MODULE_MODEL->getDetailViewUrl($RECORD.recordid)}" title="{vtranslate('LBL_GO_TO_PREVIEW', $MODULE)}">
+						<a class="btn btn-default" TARGET="_blank" href="{$MODULE_MODEL->getDetailViewUrl($RECORD.recordid)}" title="{"LBL_GO_TO_PREVIEW"|t:$MODULE}">
 							<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						</a>
 					</td>
@@ -81,7 +81,7 @@
 					</td>
 					{if $recordCount eq 0}
 						<td align='center' rowspan="{$groupCount}" style="border-left:1px solid #DDD;border-bottom:1px solid #DDD;vertical-align: middle;text-align: center">
-							<input type="button" value="{vtranslate("LBL_MERGE",'Vtiger')}" name="merge" class="btn btn-success" data-group="{$GROUP_NAME}">
+							<input type="button" value="{"LBL_MERGE"|t:"Vtiger"}" name="merge" class="btn btn-success" data-group="{$GROUP_NAME}">
 						</td>
 					{/if}
 					{assign var=recordCount value=$recordCount+1}
@@ -94,7 +94,7 @@
 			<tbody>
 				<tr>
 					<td>
-						{vtranslate('LBL_NO_DUPLICATED_FOUND', $MODULE)}
+						{"LBL_NO_DUPLICATED_FOUND"|t:$MODULE}
 					</td>
 				</tr>
 			</tbody>

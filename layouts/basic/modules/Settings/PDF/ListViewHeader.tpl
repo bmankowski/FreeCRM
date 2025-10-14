@@ -6,7 +6,7 @@
 			<div class="row widget_header">
 				<div class="col-xs-12">
 					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-					{vtranslate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
+					{"LBL_PDF_DESCRIPTION"|t:$QUALIFIED_MODULE}
 				</div>
 			</div>
 			{if Settings_ModuleManager_Library_Model::checkLibrary('mPDF')}
@@ -21,15 +21,15 @@
 				<div class="col-md-4 btn-toolbar">
 					<button class="btn btn-default addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
 						<i class="glyphicon glyphicon-plus"></i>&nbsp;
-						<strong>{vtranslate('LBL_NEW', $QUALIFIED_MODULE)} {vtranslate('LBL_PDF_TEMPLATE',$QUALIFIED_MODULE)}</strong>
+						<strong>{"LBL_NEW"|t:$QUALIFIED_MODULE} {"LBL_PDF_TEMPLATE"|t:$QUALIFIED_MODULE}</strong>
 					</button>
-					<button class="btn btn-default importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{vtranslate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+					<button class="btn btn-default importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{"LBL_IMPORT_TEMPLATE"|t:$QUALIFIED_MODULE}">
 						<i class="glyphicon glyphicon-import"></i>
 					</button>
 				</div>
 				<div class="col-md-4 btn-toolbar">
 					<select class="chzn-select" id="moduleFilter" >
-						<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+						<option value="">{"LBL_ALL"|t:$QUALIFIED_MODULE}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 							<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
 								{if $MODULE_MODEL->getName() eq 'Calendar'}

@@ -12,7 +12,7 @@
 <div class="">
 	<div class="form-horizontal">
 		<div class="form-group row">
-			<label for="langs_list" class="control-label col-md-1" >{vtranslate('Language',$QUALIFIED_MODULE)}:</label>
+			<label for="langs_list" class="control-label col-md-1" >{"Language"|t:$QUALIFIED_MODULE}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control" id="langs_list">
 					{foreach from=$LANGS item=LANG key=ID}
@@ -20,15 +20,15 @@
 					{/foreach}
 				</select>
 			</div>
-			<label class="col-md-1 control-label">{vtranslate('Module',$QUALIFIED_MODULE)}:</label>
+			<label class="col-md-1 control-label">{"Module"|t:$QUALIFIED_MODULE}:</label>
 			<div class="col-md-3">
 				<select class="form-control mods_list" id="mods_list">
-					<optgroup label="{vtranslate('Modules',$QUALIFIED_MODULE)}">
+					<optgroup label="{"Modules"|t:$QUALIFIED_MODULE}">
 						{foreach from=$MODS['mods'] item=MOD key=ID}
 							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
 						{/foreach}
 					</optgroup>
-					<optgroup label="{vtranslate('LBL_SYSTEM_SETTINGS','Vtiger')}">
+					<optgroup label="{"LBL_SYSTEM_SETTINGS"|t:"Vtiger"}">
 						{foreach from=$MODS['settings'] item=MOD key=ID}
 							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
 						{/foreach}
@@ -37,10 +37,10 @@
 			</div>
 			<div class="checkbox col-md-2">
 				<label class="">
-					<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">&nbsp;{vtranslate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
+					<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">&nbsp;{"LBL_SHOW_MISSING_TRANSLATIONS"|t:$QUALIFIED_MODULE}
 				</label>
 			</div>
-			<button class="btn btn-primary add_translation col-md-2 pull-right {if $REQUEST->get('lang') eq ''}hide{/if}">{vtranslate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
+			<button class="btn btn-primary add_translation col-md-2 pull-right {if $REQUEST->get('lang') eq ''}hide{/if}">{"LBL_ADD_Translate"|t:$QUALIFIED_MODULE}</button>
 		</div>
 	</div>
 </div>
@@ -50,7 +50,7 @@
 	<table class="table table-bordered table-condensed listViewEntriesTable" >
 		<thead>
 			<tr class="blockHeader">
-				<th><strong>{vtranslate('LBL_variable',$QUALIFIED_MODULE)}</strong></th>
+				<th><strong>{"LBL_variable"|t:$QUALIFIED_MODULE}</strong></th>
 				{foreach from=$DATA['langs'] item=item}
 					<th><strong>{$item}</strong></th>
 				{/foreach}
@@ -78,13 +78,13 @@
 								data-type="php"
 								name="{$lang_key}" 
 								class="translation form-control {if $item == NULL}empty_value{/if}" 
-								{if $item == NULL} placeholder="{vtranslate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
+								{if $item == NULL} placeholder="{"LBL_NoTranslation"|t:$QUALIFIED_MODULE}" {/if} 
 								type="text" 
 								value ="{$item}" />
 							</td>
 						{/foreach}
 						<td>
-							<a href="#" class="pull-right marginRight10px delete_translation" title="{vtranslate('LBL_DELETE')}">
+							<a href="#" class="pull-right marginRight10px delete_translation" title="{"LBL_DELETE"|t}">
 								<i class="glyphicon glyphicon-trash alignMiddle"></i>
 							</a>
 						</td>
@@ -112,7 +112,7 @@
 								data-type="js"
 								name="{$lang_key}" 
 								class="translation form-control {if $item == NULL}empty_value{/if}" 
-								{if $item == NULL} placeholder="{vtranslate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
+								{if $item == NULL} placeholder="{"LBL_NoTranslation"|t:$QUALIFIED_MODULE}" {/if} 
 								type="text" 
 								value ="{$item}" />
 							</td>

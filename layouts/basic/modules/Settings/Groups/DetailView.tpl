@@ -20,7 +20,7 @@
 		</div>
 		<div class="col-md-4 ">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info pull-right">
-				<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
+				<strong>{"LBL_EDIT_RECORD"|t:$MODULE}</strong>
 			</a>
 		</div>
 	</div>
@@ -29,7 +29,7 @@
 			<form id="detailView" class="form-horizontal" method="POST">
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						<span class="redColor">*</span>{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} 
+						<span class="redColor">*</span>{"LBL_GROUP_NAME"|t:$QUALIFIED_MODULE} 
 					</div>
 					<div class="controls pushDown">
 						<strong>{$RECORD_MODEL->getName()}</strong>
@@ -37,7 +37,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}  
+						{"LBL_DESCRIPTION"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="controls pushDown">
 						<strong>{$RECORD_MODEL->getDescription()}</strong>
@@ -45,16 +45,16 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						 <span class="redColor">*</span>{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)} 
+						 <span class="redColor">*</span>{"LBL_MODULES"|t:$QUALIFIED_MODULE} 
 					</div>
 					<div class="controls pushDown">
 						<div class="row">
 							<div class="col-md-9 paddingLRZero">
 								{foreach key=TABID item=MODULE from=$RECORD_MODEL->getModules() name=modules}
 									{if  $smarty.foreach.modules.last}
-										<strong>{vtranslate($MODULE,$MODULE)} </strong>
+										<strong>{$MODULE|t:$MODULE} </strong>
 									{else}
-										<strong>{vtranslate($MODULE,$MODULE)}, </strong>
+										<strong>{$MODULE|t:$MODULE}, </strong>
 									{/if} 
 								{/foreach}
 							</div>
@@ -63,7 +63,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 control-label">
-						<span class="redColor">*</span>{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)} 
+						<span class="redColor">*</span>{"LBL_GROUP_MEMBERS"|t:$QUALIFIED_MODULE} 
 					</div>
 					<div class="col-md-5 controls pushDown">
 						<div class="row">

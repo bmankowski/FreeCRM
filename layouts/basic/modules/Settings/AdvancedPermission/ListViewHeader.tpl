@@ -10,14 +10,14 @@
 		{if !\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION')}
 			<div class="alert alert-block alert-danger fade in">
 				<button type="button" class="close" data-dismiss="alert">×</button>
-				<h4 class="alert-heading">{vtranslate('ERR_INACTIVE_ALERT_TITLE', $QUALIFIED_MODULE)}</h4>
-				<p>{vtranslate('ERR_INACTIVE_ALERT_DESC', $QUALIFIED_MODULE)}</p>
+				<h4 class="alert-heading">{"ERR_INACTIVE_ALERT_TITLE"|t:$QUALIFIED_MODULE}</h4>
+				<p>{"ERR_INACTIVE_ALERT_DESC"|t:$QUALIFIED_MODULE}</p>
 			</div>	
 		{/if}
 		{if !\AppConfig::security('CACHING_PERMISSION_TO_RECORD')}
 			<div class="alert alert-block alert-danger fade in">
-				<h4 class="alert-heading">{vtranslate('ERR_INACTIVE_ALERT_TITLE', $QUALIFIED_MODULE)}</h4>
-				<p>{vtranslate('ERR_INACTIVE_CACHING_PERM_ALERT_DESC', $QUALIFIED_MODULE)}</p>
+				<h4 class="alert-heading">{"ERR_INACTIVE_ALERT_TITLE"|t:$QUALIFIED_MODULE}</h4>
+				<p>{"ERR_INACTIVE_CACHING_PERM_ALERT_DESC"|t:$QUALIFIED_MODULE}</p>
 			</div>
 		
 		{/if}

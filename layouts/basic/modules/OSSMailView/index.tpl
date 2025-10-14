@@ -26,8 +26,8 @@
 					<td><label class="control-label">{vtranslate('List open email', 'OSSMailView')}</label>&nbsp;</td>
 					<td>
 						<select id="tab_email_view_open_window" class="form-control">
-							<option value="_self" {if $WIDGET_CFG['email_list']['target'] eq '_self'}selected{/if}>{vtranslate('_self', 'OSSMailView')}</option>
-							<option value="_blank" {if $WIDGET_CFG['email_list']['target'] eq '_blank'}selected{/if}>{vtranslate('_blank', 'OSSMailView')}</option>
+							<option value="_self" {if $WIDGET_CFG['email_list']['target'] eq '_self'}selected{/if}>{"_self"|t:"OSSMailView"}</option>
+							<option value="_blank" {if $WIDGET_CFG['email_list']['target'] eq '_blank'}selected{/if}>{"_blank"|t:"OSSMailView"}</option>
 						</select>
 					</td>
 				</tr>

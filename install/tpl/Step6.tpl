@@ -17,7 +17,7 @@
 		<input type="hidden" name="lang" value="{$LANG}" />
 		<div class="row main-container">
 			<div class="inner-container">
-				<h4>{vtranslate('LBL_CONFIGURATION_COMPANY_DETAILS','Install')}</h4>
+				<h4>{"LBL_CONFIGURATION_COMPANY_DETAILS"|t:"Install"}</h4>
 				<hr>
 				<div class="offset2">
 					<div class="row">
@@ -37,7 +37,7 @@
 									</td>
 									<td>
 										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
-											<option value="">{vtranslate('LBL_SELECT_OPTION','Install')}</option>
+											<option value="">{"LBL_SELECT_OPTION"|t:"Install"}</option>
 											{foreach from=$INDUSTRY item=ITEM}
 												<option value="{$ITEM}">{$ITEM|t}</option>
 											{/foreach}
@@ -122,8 +122,8 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK','Install')}" onclick="window.history.back()"/>
-								<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step7"/>
+								<input type="button" class="btn btn-sm btn-default" value="{"LBL_BACK"|t:"Install"}" onclick="window.history.back()"/>
+								<input type="button" class="btn btn-sm btn-primary" value="{"LBL_NEXT"|t:"Install"}" name="step7"/>
 							</div>
 						</div>
 					</div>
@@ -136,9 +136,9 @@
 			<div class="inner-container">
 				<div class="row">
 					<div class="span12 welcome-div alignCenter">
-						<h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
+						<h3>{"LBL_INSTALLATION_IN_PROGRESS"|t:"Install"}...</h3><br>
 						<img src="../layouts/basic/skins/images/install_loading.gif"/>
-						<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
+						<h6>{"LBL_PLEASE_WAIT"|t:"Install"}.... </h6>
 					</div>
 				</div>
 			</div>

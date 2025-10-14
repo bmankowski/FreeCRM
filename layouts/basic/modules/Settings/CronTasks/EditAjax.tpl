@@ -15,7 +15,7 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
 				<h3 class="modal-title">{vtranslate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}</h3>
 			</div>
 			<form class="form-horizontal" id="cronJobSaveAjax" method="post" action="index.php">
@@ -28,19 +28,19 @@
 
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
+						<label class="col-sm-3 control-label">{"LBL_STATUS"|t:$QUALIFIED_MODULE}</label>
 						<div class="col-sm-8 controls">
 							<select class="chzn-select form-control" name="status">
 								<optgroup>
-									<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
-									<option {if $RECORD_MODEL->get('status') eq 0} selected="" {/if} value="0">{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}</option>
+									<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{"LBL_ACTIVE"|t:$QUALIFIED_MODULE}</option>
+									<option {if $RECORD_MODEL->get('status') eq 0} selected="" {/if} value="0">{"LBL_INACTIVE"|t:$QUALIFIED_MODULE}</option>
 								</optgroup>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">
-							{vtranslate('Frequency',$QUALIFIED_MODULE)}
+							{"Frequency"|t:$QUALIFIED_MODULE}
 						</label>
 						<div class="controls col-sm-8">
 							{assign var=VALUES value=':'|explode:$RECORD_MODEL->getDisplayValue('frequency')}

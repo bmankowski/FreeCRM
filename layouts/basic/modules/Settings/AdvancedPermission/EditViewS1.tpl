@@ -4,7 +4,7 @@
 	<div class="row widget_header">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_ADVANCED_PERMISSION_DESCRIPTION', $QUALIFIED_MODULE)}
+			{"LBL_ADVANCED_PERMISSION_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
 	<div class="editViewContainer">
@@ -16,7 +16,7 @@
 			<input type="hidden" name="mode" value="step1">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">
-					<span class="redColor">*</span> {vtranslate('LBL_NAME', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_NAME"|t:$QUALIFIED_MODULE}
 				</label>
 				<div class="col-sm-10">
 					<input class="form-control" name="name" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
@@ -24,7 +24,7 @@
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">
-					<span class="redColor">*</span> {vtranslate('LBL_ACTION', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_ACTION"|t:$QUALIFIED_MODULE}
 				</label>
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="actions" data-validation-engine="validate[required]">
@@ -36,7 +36,7 @@
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">
-					<span class="redColor">*</span> {vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_STATUS"|t:$QUALIFIED_MODULE}
 				</label>
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="status" data-validation-engine="validate[required]">
@@ -48,7 +48,7 @@
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">
-					<span class="redColor">*</span> {vtranslate('LBL_PRIORITY', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_PRIORITY"|t:$QUALIFIED_MODULE}
 				</label>
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="priority" data-validation-engine="validate[required]">
@@ -60,7 +60,7 @@
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">
-					<span class="redColor">*</span> {vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_MODULE"|t:$QUALIFIED_MODULE}
 				</label>
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="tabid" data-validation-engine="validate[required]">
@@ -74,14 +74,14 @@
 				<div class="col-sm-2"></div>
 				<div class="col-sm-10 groupMembersColors">
 					<ul class="nav nav-pills">
-						<li class="Users padding5per textAlignCenter"><strong>{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
-						<li class="Groups padding5per textAlignCenter"><strong>{vtranslate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
-						<li class="Roles padding5per textAlignCenter"><strong>{vtranslate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
-						<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{vtranslate('RoleAndSubordinates', $QUALIFIED_MODULE)}</strong></li>
+						<li class="Users padding5per textAlignCenter"><strong>{"LBL_USERS"|t:$QUALIFIED_MODULE}</strong></li>
+						<li class="Groups padding5per textAlignCenter"><strong>{"LBL_GROUPS"|t:$QUALIFIED_MODULE}</strong></li>
+						<li class="Roles padding5per textAlignCenter"><strong>{"LBL_ROLES"|t:$QUALIFIED_MODULE}</strong></li>
+						<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{"RoleAndSubordinates"|t:$QUALIFIED_MODULE}</strong></li>
 					</ul>
 				</div>
 				<label class="col-sm-2 control-label">
-					<span class="redColor">*</span> {vtranslate('LBL_MEMBERS', $QUALIFIED_MODULE)}
+					<span class="redColor">*</span> {"LBL_MEMBERS"|t:$QUALIFIED_MODULE}
 				</label>
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control groupMembersColors"  multiple="true" name="members[]" data-validation-engine="validate[required]">
@@ -98,8 +98,8 @@
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE_AND_CONDITIONS', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE_AND_CONDITIONS"|t:$QUALIFIED_MODULE}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 					</span>
 				</div>
 			</div>

@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/KnowledgeBase/ContentsDefault.tpl -->
 	<div class="col-xs-12 paddingLRZero">
-		<h4>{vtranslate('LBL_LIST_RECORDS',$MODULE_NAME)}</h4>
+		<h4>{"LBL_LIST_RECORDS"|t:$MODULE_NAME}</h4>
 		<hr>
 	</div>
 	{if $ENTRIES}
@@ -33,7 +33,7 @@
 						<td>
 							<div class="actions pull-right">
 								<a href="{$ENTRY->getDetailViewUrl()}">
-									<span class="glyphicon glyphicon-th-list alignMiddle" title="{vtranslate('LBL_RECORD_DETAILS', $MODULE_NAME)}"></span>
+									<span class="glyphicon glyphicon-th-list alignMiddle" title="{"LBL_RECORD_DETAILS"|t:$MODULE_NAME}"></span>
 								</a>
 							</div>
 						</td>
@@ -44,7 +44,7 @@
 	{else}
 		<div class="col-xs-12 paddingLRZero">
 			<div class="alert alert-info">
-				{vtranslate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
+				{"LBL_RECORDS_NO_FOUND"|t:$MODULE_NAME}
 			</div>
 		</div>
 	{/if}

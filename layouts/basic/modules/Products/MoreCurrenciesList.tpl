@@ -15,19 +15,19 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="floatRight close" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_PRICES',$MODULE)}</h3>
+					<button data-dismiss="modal" class="floatRight close" type="button" title="{"LBL_CLOSE"|t}">x</button>
+					<h3 id="massEditHeader" class="modal-title">{"LBL_PRICES"|t:$MODULE}</h3>
 				</div>
 				<div class="multiCurrencyContainer">
 					<div class="currencyContent">
 						<div class="modal-body">
 							<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-bordered">
 								<tr class="detailedViewHeader">
-									<td><strong>{vtranslate('LBL_CURRENCY',$MODULE)}</strong></td>
-									<td><strong>{vtranslate('LBL_PRICE',$MODULE)}</strong></td>
-									<td><strong>{vtranslate('LBL_CONVERSION_RATE',$MODULE)}</strong></td>
-									<td><strong>{vtranslate('LBL_RESET_PRICE',$MODULE)}</strong></td>
-									<td><strong>{vtranslate('LBL_BASE_CURRENCY',$MODULE)}</strong></td>
+									<td><strong>{"LBL_CURRENCY"|t:$MODULE}</strong></td>
+									<td><strong>{"LBL_PRICE"|t:$MODULE}</strong></td>
+									<td><strong>{"LBL_CONVERSION_RATE"|t:$MODULE}</strong></td>
+									<td><strong>{"LBL_RESET_PRICE"|t:$MODULE}</strong></td>
+									<td><strong>{"LBL_BASE_CURRENCY"|t:$MODULE}</strong></td>
 								</tr>
 								{foreach item=price key=count from=$PRICE_DETAILS}
 									<tr data-currency-id={$price.curname}>
@@ -50,7 +50,7 @@
 													<span class="pull-left currencyName">{$price.currencylabel, 'Currency'|t} ({$price.currencysymbol})</span>
 												</span>
 												<span class="col-md-2">
-													<input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{vtranslate('LBL_ENABLE_CURRENCY')}" {else} title="{vtranslate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}>
+													<input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{"LBL_ENABLE_CURRENCY"|t}" {else} title="{"LBL_DISABLE_CURRENCY"|t}" {/if} {$check_value}>
 												</span>
 											</span>
 										</td>
@@ -66,12 +66,12 @@
 										</td>
 										<td>
 											<div>
-												<button {$disable_value} type="button" class="btn btn-default currencyReset resetButton" id="cur_reset{$price.curid}" value="{vtranslate('LBL_RESET',$MODULE)}">{vtranslate('LBL_RESET',$MODULE)}</button>
+												<button {$disable_value} type="button" class="btn btn-default currencyReset resetButton" id="cur_reset{$price.curid}" value="{"LBL_RESET"|t:$MODULE}">{"LBL_RESET"|t:$MODULE}</button>
 											</div>
 										</td>
 										<td>
 											<div class=" textAlignCenter">
-												<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" title="{vtranslate('LBL_BASE_CURRENCY')}" value="{$price.curname}" {$base_cur_check} />
+												<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" title="{"LBL_BASE_CURRENCY"|t}" value="{$price.curname}" {$base_cur_check} />
 											</div>
 										</td>
 									</tr>

@@ -94,7 +94,7 @@
 							<div class="col-md-12 adressAction">
 								{if $APIADDRESFIELD}
 									<div class="col-md-4">
-										<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{vtranslate('LBL_ENTER_SEARCHED_ADDRESS')}" />
+										<input value="" title="{"LBL_ADDRESS_INFORMATION"|t}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{"LBL_ENTER_SEARCHED_ADDRESS"|t}" />
 									</div>
 								{/if}
 								<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center">
@@ -126,7 +126,7 @@
 										<label class="muted">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE}'><span class="glyphicon glyphicon-info-sign"></span></a>
 											{/if}
 											{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
 										</label>

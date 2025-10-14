@@ -24,7 +24,7 @@
 				<span class='col-md-3'></span>
 				<span class='span alert-info'>
 					<span class="glyphicon glyphicon-info-sign"></span>
-					{vtranslate('LBL_CLICK_THROUGH_NOT_AVAILABLE', $MODULE)}
+					{"LBL_CLICK_THROUGH_NOT_AVAILABLE"|t:$MODULE}
 				</span>
 			</div>
 			<br>

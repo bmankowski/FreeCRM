@@ -14,7 +14,7 @@
 					<span class="fullContent hide">
 						{$FULL_TEXT}
 					</span>
-					<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+					<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{"LBL_MORE_BTN"|t}" data-off="{"LBL_HIDE_BTN"|t}">{"LBL_MORE_BTN"|t}</button>
 				{/if}
 			</div>
 		</div>

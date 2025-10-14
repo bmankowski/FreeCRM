@@ -12,7 +12,7 @@
 <div class="col-md-12">
 	<div class="checkbox">
 		<label class="">
-			<input type="checkbox" id="val2field"  name="val2field" class="" value="1"{if $VAL2FIELD eq 1}checked{/if}><strong>{vtranslate('LBL_VALIDATION_TWO_FIELDS', 'DataAccess')}</strong>
+			<input type="checkbox" id="val2field"  name="val2field" class="" value="1"{if $VAL2FIELD eq 1}checked{/if}><strong>{"LBL_VALIDATION_TWO_FIELDS"|t:"DataAccess"}</strong>
 		</label>
 	</div>
 	<br>
@@ -44,44 +44,44 @@
 				</div>
 
 			<div class="form-group marginLeftZero marginRightZero">
-				<label for="info0" class="">{vtranslate('LBL_MESSAGE_LOCK0', 'DataAccess')}:</label >
+				<label for="info0" class="">{"LBL_MESSAGE_LOCK0"|t:"DataAccess"}:</label >
 				<input type="text" name="info0" id="info0" class="form-control" value="{$INFO0}">
 			</div>
 			<div class="form-group marginLeftZero marginRightZero">
-				<label for="info1" class="">{vtranslate('LBL_MESSAGE_LOCK1', 'DataAccess')}:</label >
+				<label for="info1" class="">{"LBL_MESSAGE_LOCK1"|t:"DataAccess"}:</label >
 				<input type="text" name="info1" id="info1" class="form-control" value="{$INFO1}">
 			</div>
 			<div class="form-group marginLeftZero marginRightZero messakgeInfo2{if $VAL2FIELD neq 1} hide{/if}">
-				<label for="info2" class="">{vtranslate('LBL_MESSAGE_LOCK2', 'DataAccess')}:</label >
+				<label for="info2" class="">{"LBL_MESSAGE_LOCK2"|t:"DataAccess"}:</label >
 				<input type="text" name="info2" id="info2" class="form-control" value="{$INFO2}">
 			</div>
 			<div class="form-group marginLeftZero marginRightZero">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" id="searchTrash"  name="searchTrash" value="1"{if $SAVED_DATA['searchTrash'] eq 1}checked{/if}><strong>{vtranslate('LBL_SEARCH_TRASH', 'DataAccess')}</strong>
+					<input type="checkbox" id="searchTrash"  name="searchTrash" value="1"{if $SAVED_DATA['searchTrash'] eq 1}checked{/if}><strong>{"LBL_SEARCH_TRASH"|t:"DataAccess"}</strong>
 				</label>
 			</div>
 			</div>
 			<div class="form-group marginLeftZero marginRightZero">
-				<label  class="">{vtranslate('LBL_LOCKS_SAVE', 'DataAccess')}:</label >
+				<label  class="">{"LBL_LOCKS_SAVE"|t:"DataAccess"}:</label >
 				<div class="radio">
 					<label>
-						<input type="radio" name="locksave" id="locksave1" value="0" {if $LOCKSAVE eq 0}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL1', 'DataAccess')}
+						<input type="radio" name="locksave" id="locksave1" value="0" {if $LOCKSAVE eq 0}checked{/if}>{"LBL_LOCKS_SAVE_LABEL1"|t:"DataAccess"}
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="locksave" id="locksave2" value="1" {if $LOCKSAVE eq 1}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL2', 'DataAccess')}
+						<input type="radio" name="locksave" id="locksave2" value="1" {if $LOCKSAVE eq 1}checked{/if}>{"LBL_LOCKS_SAVE_LABEL2"|t:"DataAccess"}
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="locksave" id="locksave3" value="2" {if $LOCKSAVE eq 2}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL3', 'DataAccess')}
+						<input type="radio" name="locksave" id="locksave3" value="2" {if $LOCKSAVE eq 2}checked{/if}>{"LBL_LOCKS_SAVE_LABEL3"|t:"DataAccess"}
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="locksave" id="locksave4" value="3" {if $LOCKSAVE eq 3}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL4', 'DataAccess')}
+						<input type="radio" name="locksave" id="locksave4" value="3" {if $LOCKSAVE eq 3}checked{/if}>{"LBL_LOCKS_SAVE_LABEL4"|t:"DataAccess"}
 					</label>
 				</div>
 			</div>

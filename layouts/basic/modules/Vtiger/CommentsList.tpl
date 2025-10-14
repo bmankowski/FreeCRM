@@ -45,7 +45,7 @@
 		</ul>
 	{/if}
 	<div class="summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}hide{/if}">
-		<p class="textAlignCenter"> {vtranslate('LBL_NO_COMMENTS',$MODULE_NAME)}</p>
+		<p class="textAlignCenter"> {"LBL_NO_COMMENTS"|t:$MODULE_NAME}</p>
 	</div>
 <!--/layouts/basic/modules/Vtiger/CommentsList.tpl -->
 {/strip}

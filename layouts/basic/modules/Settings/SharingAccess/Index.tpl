@@ -24,7 +24,7 @@
 					    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 					</div>
 					<div class="col-md-4">
-						<button class="btn btn-success pull-right hide" type="submit" name="saveButton"><strong>{vtranslate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success pull-right hide" type="submit" name="saveButton"><strong>{"LBL_APPLY_NEW_SHARING_RULES"|t:$QUALIFIED_MODULE}</strong></button>
 					</div>
 				</div>
 				<table class="table tableRWD table-bordered table-condensed sharingAccessDetails">
@@ -39,7 +39,7 @@
 					<thead>
 						<tr class="blockHeader">
 							<th>
-								{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}
+								{"LBL_MODULE"|t:$QUALIFIED_MODULE}
 							</th>
 
 							{foreach from=$ALL_ACTIONS key=ACTION_ID item=ACTION_MODEL}
@@ -82,7 +82,7 @@
 				</table>
 			<div>
 				<div class="pull-right">
-					<button class="btn btn-success hide" type="submit" name="saveButton"><strong>{vtranslate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success hide" type="submit" name="saveButton"><strong>{"LBL_APPLY_NEW_SHARING_RULES"|t:$QUALIFIED_MODULE}</strong></button>
 				</div>
 			</div>
 		</form>

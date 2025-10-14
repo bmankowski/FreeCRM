@@ -36,7 +36,7 @@
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
-												&nbsp;{vtranslate('LBL_CREATED', $MODULE_NAME)}
+												&nbsp;{"LBL_CREATED"|t:$MODULE_NAME}
 												{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 													{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 														<div class='font-x-small updateInfoContainer'>
@@ -50,7 +50,7 @@
 																		<span class="fullContent hide">
 																			{$FIELDMODEL->get('fullPostValue')}
 																		</span>
-																		<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+																		<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{"LBL_MORE_BTN"|t}" data-off="{"LBL_HIDE_BTN"|t}">{"LBL_MORE_BTN"|t}</button>
 																	{/if}
 																</strong>
 															{/if}
@@ -69,13 +69,13 @@
 											<span class="time pull-right">
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {vtranslate('LBL_UPDATED', $MODULE_NAME)}</span>
+											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {"LBL_UPDATED"|t:$MODULE_NAME}</span>
 											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 												{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 													<div class='font-x-small updateInfoContainer'>
 														<span>{vtranslate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 														{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
-															&nbsp;{vtranslate('LBL_FROM')}&nbsp;
+															&nbsp;{"LBL_FROM"|t}&nbsp;
 															<strong class="moreContent">
 																<span class="teaserContent">
 																	{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}
@@ -84,20 +84,20 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPreValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{"LBL_MORE_BTN"|t}" data-off="{"LBL_HIDE_BTN"|t}">{"LBL_MORE_BTN"|t}</button>
 																{/if}
 															</strong>
 														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 															&nbsp; 
 															<strong>
-																{vtranslate('LBL_DELETED')}
+																{"LBL_DELETED"|t}
 															</strong>
 															( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del> )
 														{else}
-															&nbsp;{vtranslate('LBL_CHANGED')}
+															&nbsp;{"LBL_CHANGED"|t}
 														{/if}
 														{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-															&nbsp;{vtranslate('LBL_TO')}&nbsp;
+															&nbsp;{"LBL_TO"|t}&nbsp;
 															<strong class="moreContent">
 																<span class="teaserContent">
 																	{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
@@ -106,7 +106,7 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPostValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{"LBL_MORE_BTN"|t}" data-off="{"LBL_HIDE_BTN"|t}">{"LBL_MORE_BTN"|t}</button>
 																{/if}
 															</strong>
 														{/if}
@@ -133,9 +133,9 @@
 											{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
 											<span>
 												{if $RECENT_ACTIVITY->isRelationLink()}
-													{vtranslate('LBL_ADDED', $MODULE_NAME)}
+													{"LBL_ADDED"|t:$MODULE_NAME}
 												{else}
-													{vtranslate('LBL_REMOVED', $MODULE_NAME)}
+													{"LBL_REMOVED"|t:$MODULE_NAME}
 												{/if}&nbsp;
 											</span>
 											<span>
@@ -148,7 +148,7 @@
 															<span class="fullContent hide">
 																{$RELATION->get('fullValue')}
 															</span>
-															<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+															<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{"LBL_MORE_BTN"|t}" data-off="{"LBL_HIDE_BTN"|t}">{"LBL_MORE_BTN"|t}</button>
 														{/if}
 													</strong>
 												{/if}
@@ -169,7 +169,7 @@
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="pull-left">
-												<strong>{vtranslate('LBL_CONVERTED_FROM_LEAD', $MODULE_NAME)}</strong> 
+												<strong>{"LBL_CONVERTED_FROM_LEAD"|t:$MODULE_NAME}</strong> 
 											</div>
 										</div>
 									</div>
@@ -185,7 +185,7 @@
 											</span>
 											<div class="pull-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
-												&nbsp;{vtranslate('LBL_DISPLAYED', $MODULE_NAME)}
+												&nbsp;{"LBL_DISPLAYED"|t:$MODULE_NAME}
 											</div>
 										</div>
 									</div>
@@ -197,14 +197,14 @@
 			</div>
 		{else}
 			<div class="summaryWidgetContainer">
-				<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
+				<p class="textAlignCenter">{"LBL_NO_RECENT_UPDATES"|t}</p>
 			</div>
 		{/if}
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
 		<div id="moreLink">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="pull-right">
-					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
+					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{"LBL_MORE"|t:$MODULE_NAME}..</button>
 				</div>
 			{/if}
 		</div>

@@ -17,9 +17,9 @@
 					</div>
 					<div class="panel-footer clearfix">
 						<div class="btn-toolbar pull-right">
-							<button class="btn btn-danger backStep" type="button">{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</button>
-							<button class="btn btn-success" type="submit">{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</button>
-							<button class="btn btn-warning cancelLink" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-danger backStep" type="button">{"LBL_BACK"|t:$QUALIFIED_MODULE}</button>
+							<button class="btn btn-success" type="submit">{"LBL_NEXT"|t:$QUALIFIED_MODULE}</button>
+							<button class="btn btn-warning cancelLink" type="reset">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 						</div>
 					</div>
 				</div>

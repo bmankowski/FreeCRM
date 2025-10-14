@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Settings/PickListDependency/ListViewActions.tpl -->
 	<div class="pull-right listViewActions col-xs-8 paddingLRZero">
 		<select class="chzn-select pickListSupportedModules form-control">
-			<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+			<option value="">{"LBL_ALL"|t:$QUALIFIED_MODULE}</option>
 			{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 				{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 				<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $FOR_MODULE} selected {/if}>

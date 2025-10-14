@@ -2,8 +2,8 @@
 {strip}
 <!-- layouts/basic/modules/Documents/MassAddDocuments.tpl -->
 	<div class="modal-header">
-		<button data-dismiss="modal" class="close" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
-		<h3 class="modal-title">{vtranslate('LBL_MASS_ADD', $MODULE)}</h3>
+		<button data-dismiss="modal" class="close" type="button" title="{"LBL_CLOSE"|t}">x</button>
+		<h3 class="modal-title">{"LBL_MASS_ADD"|t:$MODULE}</h3>
 	</div>
 	<form class="form-horizontal" id="addDocuments" method="post" action="index.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE}" />
@@ -14,7 +14,7 @@
 			</div>
 			<div class="fileContainer hide">
 				<div class="fileItem">
-					<label>{vtranslate('Title', $MODULE)}</label>
+					<label>{"Title"|t:$MODULE}</label>
 					<div class="input-group">
 						<input type="text" name="nameFile[]" class="form-control">
 						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file"></span></span>

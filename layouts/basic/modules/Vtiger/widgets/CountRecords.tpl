@@ -6,7 +6,7 @@
 			<div class="col-xs-5">
 				<h4 class="widgetTitle textOverflowEllipsis">
 					{if $WIDGET['label'] eq ''}
-						{vtranslate('LBL_COUNT_RECORDS_WIDGET',$MODULE_NAME)}
+						{"LBL_COUNT_RECORDS_WIDGET"|t:$MODULE_NAME}
 					{else}	
 						{vtranslate($WIDGET['label'],$MODULE_NAME)}
 					{/if}

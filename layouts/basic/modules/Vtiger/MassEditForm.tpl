@@ -20,7 +20,7 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close " data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MASS_EDITING', $MODULE)} {vtranslate($MODULE, $MODULE)}</h3>
+					<h3 id="massEditHeader" class="modal-title">{"LBL_MASS_EDITING"|t:$MODULE} {$MODULE|t:$MODULE}</h3>
 				</div>
 				<form class="form-horizontal" id="massEdit" name="MassEdit" method="post" action="index.php">
 					{if !empty($MAPPING_RELATED_FIELD)}
@@ -45,7 +45,7 @@
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 									{if $BLOCK_FIELDS|@count gt 0}
 										<li {if $smarty.foreach.blockIterator.iteration eq 1}class="active"{/if}>
-											<a href="#block_{$smarty.foreach.blockIterator.iteration}" data-toggle="tab"><strong>{vtranslate($BLOCK_LABEL, $MODULE)}</strong></a>
+											<a href="#block_{$smarty.foreach.blockIterator.iteration}" data-toggle="tab"><strong>{$BLOCK_LABEL|t:$MODULE}</strong></a>
 										</li>
 									{/if}
 								{/foreach}
@@ -65,7 +65,7 @@
 																		<input data-toggle="button" aria-pressed="false" autocomplete="off" type="checkbox" id="selectRow{$FIELD_MODEL->getName()}" title="{'LBL_SELECT_SINGLE_ROW'|t}" data-field-name="{$FIELD_MODEL->getName()}" class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
 																	</span>
 																	{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-																	{vtranslate($FIELD_MODEL->get('label'), $MODULE)}:
+																	{$FIELD_MODEL->get('label')|t:$MODULE}:
 																</label>
 																<div class="fieldValue col-md-6">
 																	{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) VIEW = 'MassEdit'}

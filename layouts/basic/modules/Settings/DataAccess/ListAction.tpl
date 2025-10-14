@@ -12,8 +12,8 @@
 <table class="table table-bordered table-condensed listViewEntriesTable">
 	<thead>
 		<tr class="listViewHeaders" >
-			<th width="30%">{vtranslate('LBL_ACTION',$QUALIFIED_MODULE)}</th>
-			<th>{vtranslate('LBL_ACTIONDESC',$QUALIFIED_MODULE)}</th>
+			<th width="30%">{"LBL_ACTION"|t:$QUALIFIED_MODULE}</th>
+			<th>{"LBL_ACTIONDESC"|t:$QUALIFIED_MODULE}</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -25,11 +25,11 @@
 			<td>{Settings_DataAccess_Module_Model::getActionName($item['an'],false)}</td>
 			<td>
 				<a href='index.php?module={$MODULE_NAME}&parent=Settings&action=DeleteAction&id={$TPL_ID}&a={$key}&m={$BASE_MODULE}'  class="pull-right marginRight10px">
-					<i type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></i>
+					<i type="{"REMOVE_TPL"|t:$MODULE_NAME}" class="glyphicon glyphicon-trash alignMiddle"></i>
 				</a>
 				{if $item['cf'] != 0}
 					<a href='index.php?module={$MODULE_NAME}&parent=Settings&view=ActionConfig&did={$TPL_ID}&aid={$key}&an={$item['an']}&m={$BASE_MODULE}'  class="pull-right edit_tpl">
-						<span class="glyphicon glyphicon-pencil alignMiddle" aria-hidden="true" title="{vtranslate('LBL_EDIT')}"></span>&nbsp;
+						<span class="glyphicon glyphicon-pencil alignMiddle" aria-hidden="true" title="{"LBL_EDIT"|t}"></span>&nbsp;
 					</a>
 				{/if}
 			</td>
@@ -38,7 +38,7 @@
 	{else}
 		<tr>
 			<td class="textAlignCenter" colspan="3">
-				{vtranslate('LBL_NO_ACTION',$QUALIFIED_MODULE)}
+				{"LBL_NO_ACTION"|t:$QUALIFIED_MODULE}
 			</td>
 		</tr>
 	{/if}

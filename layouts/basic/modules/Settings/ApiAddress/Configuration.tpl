@@ -62,7 +62,7 @@
 					</div>
 					<div class='col-sm-6 col-md-4'>
 						<select class="select2" id="change_api" class="form-control" style="width: 200px;">
-							<option>{vtranslate('LBL_SELECT_OPTION')}</option>
+							<option>{"LBL_SELECT_OPTION"|t}</option>
 							{foreach from=$CONFIG item=item key=key}
 								{if $key neq 'global'}
 									<option value="{$key}">{vtranslate($key, $MODULENAME)}</option>

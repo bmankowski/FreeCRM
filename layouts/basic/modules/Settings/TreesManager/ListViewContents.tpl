@@ -41,7 +41,7 @@
 			 >
 			<td width="1%" nowrap class="{$WIDTHTYPE}">
 				{if $MODULE eq 'CronTasks'}
-					<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+					<img src="{vimage_path('drag.png')}" class="alignTop" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}" />
 				{/if}
 			</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -80,7 +80,7 @@
 		<tbody>
 			<tr>
 				<td>
-					{vtranslate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
+					{"LBL_NO_RECORDS_FOUND"|t:$QUALIFIED_MODULE}
 				</td>
 			</tr>
 		</tbody>

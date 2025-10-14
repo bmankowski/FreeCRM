@@ -45,7 +45,7 @@
 			{/if}
 		</div>
 		<div class="uploadFileSizeLimit redColor">
-			{vtranslate('LBL_MAX_UPLOAD_SIZE',$MODULE)}&nbsp;<span class="maxUploadSize" data-value="{$MAX_UPLOAD_LIMIT}">{$MAX_UPLOAD_LIMIT_MB}{vtranslate('MB',$MODULE)}</span>
+			{"LBL_MAX_UPLOAD_SIZE"|t:$MODULE}&nbsp;<span class="maxUploadSize" data-value="{$MAX_UPLOAD_LIMIT}">{$MAX_UPLOAD_LIMIT_MB}{"MB"|t:$MODULE}</span>
 		</div>
 	</div>
 </div>

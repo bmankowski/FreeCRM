@@ -6,8 +6,8 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
-						<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title" id="massEditHeader">{vtranslate('LBL_MINI_LIST', $MODULE)} {vtranslate($MODULE, $MODULE)}</h3>
+						<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">&times;</button>
+						<h3 class="modal-title" id="massEditHeader">{"LBL_MINI_LIST"|t:$MODULE} {$MODULE|t:$MODULE}</h3>
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
@@ -28,11 +28,11 @@
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
 													{foreach from=$CHART_TYPES item=TYPE key=VALUE}
-														<option value="{$VALUE}">{vtranslate($TYPE, $MODULE)}</option>
+														<option value="{$VALUE}">{$TYPE|t:$MODULE}</option>
 													{/foreach}
 												</select>
 												<span class="input-group-addon hide isColorContainer">
-													<input type="checkbox" class="isColor popoverTooltip" data-content="{vtranslate('LBL_CHART_COLOR_DESCRIPTION',$MODULE)}">
+													<input type="checkbox" class="isColor popoverTooltip" data-content="{"LBL_CHART_COLOR_DESCRIPTION"|t:$MODULE}">
 												</span>
 											</div>
 										</td>

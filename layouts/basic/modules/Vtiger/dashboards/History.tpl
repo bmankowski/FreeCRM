@@ -25,11 +25,11 @@
 	<hr class="widgetHr"/>
 	<div class="row" >
 		<div class="col-md-6 pull-right">
-			<select class="widgetFilter form-control input-sm" id="historyType" title="{vtranslate('LBL_HISTORY_TYPE')}" name="type">
-				<option title="{vtranslate('LBL_ALL')}" value="all" {if $DATA['type'] eq 'all'}selected{/if}>{vtranslate('LBL_ALL')}</option>
+			<select class="widgetFilter form-control input-sm" id="historyType" title="{"LBL_HISTORY_TYPE"|t}" name="type">
+				<option title="{"LBL_ALL"|t}" value="all" {if $DATA['type'] eq 'all'}selected{/if}>{"LBL_ALL"|t}</option>
 				{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}
-				<option title="{vtranslate('LBL_COMMENTS')}" value="comments" {if $DATA['type'] eq 'comments'}selected{/if}>{vtranslate('LBL_COMMENTS')}</option>{/if}
-				<option value="updates" title="{vtranslate('LBL_UPDATES')}" {if $DATA['type'] eq 'updates'}selected{/if}>{vtranslate('LBL_UPDATES')}</option>
+				<option title="{"LBL_COMMENTS"|t}" value="comments" {if $DATA['type'] eq 'comments'}selected{/if}>{"LBL_COMMENTS"|t}</option>{/if}
+				<option value="updates" title="{"LBL_UPDATES"|t}" {if $DATA['type'] eq 'updates'}selected{/if}>{"LBL_UPDATES"|t}</option>
 			</select>
 		</div>
 	</div>

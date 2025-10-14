@@ -14,7 +14,7 @@
 	<div  class="row">
 		{foreach item=SETTING_SHORTCUT from=$SETTINGS_SHORTCUT name=shortcuts}
 			<div id="shortcut_{$SETTING_SHORTCUT->getId()}" style="margin-left: 20px;" data-actionurl="{$SETTING_SHORTCUT->getPinUnpinActionUrl()}" class="col-md-3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTING_SHORTCUT->getUrl()}">
-				<button data-id="{$SETTING_SHORTCUT->getId()}" title="{vtranslate('LBL_REMOVE',$MODULE)}" title="Close" type="button" class="unpin close">x</button>
+				<button data-id="{$SETTING_SHORTCUT->getId()}" title="{"LBL_REMOVE"|t:$MODULE}" title="Close" type="button" class="unpin close">x</button>
 				<h5 class="themeTextColor">{vtranslate($SETTING_SHORTCUT->get('name'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTING_SHORTCUT->getUrl()))}</h5>
 				<div>{vtranslate($SETTING_SHORTCUT->get('description'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTING_SHORTCUT->getUrl()))}</div>
 			</div>

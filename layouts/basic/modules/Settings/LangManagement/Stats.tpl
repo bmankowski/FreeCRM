@@ -2,7 +2,7 @@
 <div class="statsContainer">
 	<div class="form-horizontal">
 		<div class="form-group">
-			<label for="langs_list" class="control-label col-md-2" >{vtranslate('LBL_BASE_LANGUAGE',$QUALIFIED_MODULE)}:</label>
+			<label for="langs_list" class="control-label col-md-2" >{"LBL_BASE_LANGUAGE"|t:$QUALIFIED_MODULE}:</label>
 			<div class="col-md-3">
 				<select class="form-control selectize" name="langs_basic">
 					{foreach from=$LANGS item=LANG key=ID}
@@ -10,23 +10,23 @@
 					{/foreach}
 				</select>
 			</div>
-			<label class="col-md-2 control-label">{vtranslate('LBL_LANGUAGE',$QUALIFIED_MODULE)}:</label>
+			<label class="col-md-2 control-label">{"LBL_LANGUAGE"|t:$QUALIFIED_MODULE}:</label>
 			<div class="col-md-3">
-				<select multiple="multiple" class="form-control selectize" name="langs" placeholder="{vtranslate('LBL_SELECT_SOME_OPTIONS',$QUALIFIED_MODULE)}" >
+				<select multiple="multiple" class="form-control selectize" name="langs" placeholder="{"LBL_SELECT_SOME_OPTIONS"|t:$QUALIFIED_MODULE}" >
 					{foreach from=$LANGS item=LANG key=ID}
 						<option value="{$LANG['prefix']}">{$LANG['label']}</option>
 					{/foreach}
 				</select>
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-success showStats">{vtranslate('LBL_SHOW', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-success showStats">{"LBL_SHOW"|t:$QUALIFIED_MODULE}</button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-1"></div>
 			<div class="alert alert-warning col-md-10">
 				<a href="#" class="close" data-dismiss="alert">&times;</a>
-				{vtranslate('LBL_STATS_INFO', $QUALIFIED_MODULE)}
+				{"LBL_STATS_INFO"|t:$QUALIFIED_MODULE}
 			</div>
 			<div class="col-md-1"></div>
 		</div>

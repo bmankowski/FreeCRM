@@ -22,14 +22,14 @@
 						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 					</a>
 				</div>
-				<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
+				<h4>{"LBL_INSTALL_PREREQUISITES"|t:"Install"}</h4>
 				<hr>
 				<div>
 					<div class="offset2">
 						<div class="pull-right">
 							<div class="button-container">
 								<a href ="#">
-									<input type="button" class="btn btn-default" value="{vtranslate('LBL_RECHECK', 'Install')}" id='recheck'/>
+									<input type="button" class="btn btn-default" value="{"LBL_RECHECK"|t:"Install"}" id='recheck'/>
 								</a>
 							</div>
 						</div>
@@ -65,9 +65,9 @@
 							<table class="config-table table">
 								<thead>
 									<tr>
-										<th>{vtranslate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
-										<th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th>
-										<th>{vtranslate('LBL_PRESENT_VALUE', 'Install')}</th>
+										<th>{"LBL_PHP_RECOMMENDED_SETTINGS"|t:"Install"}</th>
+										<th>{"LBL_REQUIRED_VALUE"|t:"Install"}</th>
+										<th>{"LBL_PRESENT_VALUE"|t:"Install"}</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -75,8 +75,8 @@
 										{if $item.status}
 											<tr class="danger">
 												<td><label>{$key}</label></td>
-												<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
-												<td><label>{vtranslate($item.current, $MODULE)}</label></td>
+												<td><label>{$item.prefer|t:$MODULE}</label></td>
+												<td><label>{$item.current|t:$MODULE}</label></td>
 											</tr>
 										{/if}
 									{/foreach}
@@ -87,7 +87,7 @@
 									<thead>
 										<tr class="blockHeader">
 											<th colspan="1" class="mediumWidthType">
-												<span>{vtranslate('LBL_READ_WRITE_ACCESS', 'Install')}</span>
+												<span>{"LBL_READ_WRITE_ACCESS"|t:"Install"}</span>
 											</th>
 											<th colspan="1" class="mediumWidthType">
 												<span>{vtranslate('LBL_PATH', 'Settings::ConfReport')}</span>
@@ -119,8 +119,8 @@
 				</div>
 				<div class="row">
 					<div class="button-container">
-						<a class="btn btn-sm btn-default" href="Install.php" >{vtranslate('LBL_BACK', 'Install')}</a>
-						<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
+						<a class="btn btn-sm btn-default" href="Install.php" >{"LBL_BACK"|t:"Install"}</a>
+						<input type="button" class="btn btn-sm btn-primary" value="{"LBL_NEXT"|t:"Install"}" name="step4"/>
 					</div>
 				</div>
 			</div>

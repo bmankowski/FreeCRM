@@ -69,30 +69,30 @@
 			<span class="col-md-3 settingsSummary">
 				<a href="index.php?module=Users&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$USERS_COUNT}</h2> 
-					<p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_ACTIVE_USERS',$QUALIFIED_MODULE)}</p> 
+					<p class="summaryText" style="margin-top:20px;">{"LBL_ACTIVE_USERS"|t:$QUALIFIED_MODULE}</p> 
 				</a>
 			</span>
 			<span class="col-md-3 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showWarnings()">
 					<h2 style="font-size: 44px" class="summaryCount">{$WARNINGS_COUNT}</h2> 
-                    <p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_SYSTEM_WARNINGS',$QUALIFIED_MODULE)}</p> 
+                    <p class="summaryText" style="margin-top:20px;">{"LBL_SYSTEM_WARNINGS"|t:$QUALIFIED_MODULE}</p> 
 				</a>
 			</span>
 			<span class="col-md-3 settingsSummary">
 				<a href="index.php?module=Workflows&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$ALL_WORKFLOWS}</h2> 
-                    <p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_WORKFLOWS_ACTIVE',$QUALIFIED_MODULE)}</p> 
+                    <p class="summaryText" style="margin-top:20px;">{"LBL_WORKFLOWS_ACTIVE"|t:$QUALIFIED_MODULE}</p> 
 				</a>
 			</span>
 			<span class="col-md-3 settingsSummary">
 				<a href="index.php?module=ModuleManager&parent=Settings&view=List">
 					<h2 style="font-size: 44px" class="summaryCount">{$ACTIVE_MODULES}</h2> 
-					<p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_MODULES',$QUALIFIED_MODULE)}</p>
+					<p class="summaryText" style="margin-top:20px;">{"LBL_MODULES"|t:$QUALIFIED_MODULE}</p>
 				</a>
 			</span>
 		</div>
 		<br><br>
-		<h3>{vtranslate('LBL_SETTINGS_SHORTCUTS',$QUALIFIED_MODULE)}</h3>
+		<h3>{"LBL_SETTINGS_SHORTCUTS"|t:$QUALIFIED_MODULE}</h3>
 		<hr>
 		{assign var=SPAN_COUNT value=1}
 		<div class="row">

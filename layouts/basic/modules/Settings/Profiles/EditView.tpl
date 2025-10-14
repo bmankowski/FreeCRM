@@ -19,8 +19,8 @@
 				</div> 
 				<div class="col-md-4 btn-toolbar">
 					<div class="pull-right"> 
-						<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
-						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
+						<button class="btn btn-success" type="submit">{"LBL_SAVE"|t:$QUALIFIED_MODULE}</button>
+						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{"LBL_CANCEL"|t:$QUALIFIED_MODULE}">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a> 
 					</div>
 				</div> 
 			</div>
@@ -34,25 +34,25 @@
 			<input type="hidden" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}value="1"{else}value="0"{/if} />
 			<div class="">
 				<div class="row">
-					<label class="col-md-2"><span class="redColor">*</span><strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </strong></label>
+					<label class="col-md-2"><span class="redColor">*</span><strong>{"LBL_PROFILE_NAME"|t:$QUALIFIED_MODULE}: </strong></label>
 					<div class="col-md-6 ">
 						<input type="text" class="fieldValue form-control" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"  />
 					</div>
 				</div><br>
 				<div class="row">
-					<label class="col-md-2"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
+					<label class="col-md-2"><strong>{"LBL_DESCRIPTION"|t:$QUALIFIED_MODULE}:</strong></label>
 					<div class="col-md-8 ">
 						<textarea class="input-xxlarge fieldValue form-control" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
 					</div>
 				</div><br>
 				<div class="">
-					<label class=""><strong>{vtranslate('LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE',$QUALIFIED_MODULE)}:</strong></label><br>
+					<label class=""><strong>{"LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE"|t:$QUALIFIED_MODULE}:</strong></label><br>
 						<table class="table customTableRWD table-bordered profilesEditView">
 							<thead>
 								<tr class="blockHeader">
 									<th width="30%" style="border-left: 1px solid #DDD !important;">
 										<input checked="true" class="alignTop" type="checkbox" id="mainModulesCheckBox" />&nbsp;
-										{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+										{"LBL_MODULES"|t:$QUALIFIED_MODULE}
 									</th>
 									<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 										<input {if empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} class="alignTop"  checked="true" {/if} type="checkbox" id="mainAction4CheckBox" />&nbsp;
@@ -109,20 +109,20 @@
 												<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 													<div class="row" data-togglecontent="{$TABID}-fields">
 														<div class="col-md-12">
-															<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
+															<label class="themeTextColor font-x-large pull-left"><strong>{"LBL_FIELDS"|t:$QUALIFIED_MODULE}{if $MODULE_NAME eq 'Calendar'} {"LBL_OF"|t:$MODULE_NAME} {"LBL_TASKS"|t:$MODULE_NAME}{/if}</strong></label>
 															<div class="pull-right">
 																<span class="mini-slider-control ui-slider" data-value="0">
 																	<a style="margin-top: 3px;" class="ui-slider-handle"></a>
 																</span>
-																<span style="margin: 0 20px;">{vtranslate('LBL_INVISIBLE',$QUALIFIED_MODULE)}</span>&nbsp;&nbsp;
+																<span style="margin: 0 20px;">{"LBL_INVISIBLE"|t:$QUALIFIED_MODULE}</span>&nbsp;&nbsp;
 																<span class="mini-slider-control ui-slider" data-value="1">
 																	<a style="margin-top: 3px;" class="ui-slider-handle"></a>
 																</span>
-																<span style="margin: 0 20px;">{vtranslate('LBL_READ_ONLY',$QUALIFIED_MODULE)}</span>&nbsp;&nbsp;
+																<span style="margin: 0 20px;">{"LBL_READ_ONLY"|t:$QUALIFIED_MODULE}</span>&nbsp;&nbsp;
 																<span class="mini-slider-control ui-slider" data-value="2">
 																	<a style="margin-top: 3px;" class="ui-slider-handle"></a>
 																</span>
-																<span style="margin: 0 20px;">{vtranslate('LBL_WRITE',$QUALIFIED_MODULE)}</span>
+																<span style="margin: 0 20px;">{"LBL_WRITE"|t:$QUALIFIED_MODULE}</span>
 															</div>
 															<div class="clearfix"></div>
 														</div>
@@ -152,7 +152,7 @@
 														{if $MODULE_NAME eq 'Calendar'}
 															{assign var=EVENT_MODULE value=$PROFILE_MODULES[16]}
 															{assign var=COUNTER value=0}
-															<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)} {vtranslate('LBL_OF', $EVENT_MODULE->getName())} {vtranslate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
+															<label class="themeTextColor font-x-large pull-left"><strong>{"LBL_FIELDS"|t:$QUALIFIED_MODULE} {vtranslate('LBL_OF', $EVENT_MODULE->getName())} {vtranslate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
 															<div class="col-xs-12 paddingLRZero marginBottom10px">
 																{foreach from=$EVENT_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
 																	{if $FIELD_MODEL->isActiveField()}
@@ -195,7 +195,7 @@
 											<tr class="hide">
 												<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
 													<div class="row" data-togglecontent="{$TABID}-fields">
-														<div class="col-xs-12 paddingLRZero"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+														<div class="col-xs-12 paddingLRZero"><label class="themeTextColor font-x-large pull-left"><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></label></div>
 														<div class="col-md-12 paddingLRZero marginBottom10px">
 															{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
 																{if $smarty.foreach.actions.index % 3 == 0}
@@ -226,8 +226,8 @@
 					</div>
 					<br>
 					<div class="pull-right">
-						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE',$MODULE)}</strong></button>
-						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+						<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
+						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{"LBL_CANCEL"|t:$QUALIFIED_MODULE}">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
 						<br><br>
 					</div>
 				</form>

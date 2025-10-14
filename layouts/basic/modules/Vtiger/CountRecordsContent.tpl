@@ -4,8 +4,8 @@
 	<table class="table table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>{vtranslate('LBL_MODULE_NAME', $MODULE_NAME)}</th>
-				<th>{vtranslate('LBL_QTY', $MODULE_NAME)}</th>
+				<th>{"LBL_MODULE_NAME"|t:$MODULE_NAME}</th>
+				<th>{"LBL_QTY"|t:$MODULE_NAME}</th>
 			</tr>
 		</thead>
 		<tbody>

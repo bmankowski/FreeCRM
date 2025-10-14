@@ -12,15 +12,15 @@
 {strip}
 <!-- layouts/basic/modules/Calendar/CalendarViewPostProcess.tpl -->
 	<div class="{if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel col-xs-12 hideSiteBar" data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
-		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
+		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm" title="{"LBL_RIGHT_PANEL_SHOW_HIDE"|t:$MODULE}">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 		</div>
 		<div class="siteBarContent paddingTop10">
 			{if $CALENDAR_FILTERS->isActive()}
 				<div class="panel panel-primary calendarFilters">
 					<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix ">
-						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero pull-left" title="{vtranslate('LBL_CALENDAR_FILTERS', $MODULE)}">
-							{vtranslate('LBL_CALENDAR_FILTERS', $MODULE)}
+						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero pull-left" title="{"LBL_CALENDAR_FILTERS"|t:$MODULE}">
+							{"LBL_CALENDAR_FILTERS"|t:$MODULE}
 						</h4>
 					</div>
 					<div class="panel-collapse">
@@ -29,7 +29,7 @@
 								{if $FILTER->type == 'checkbox'}
 									<div class="checkbox margin0px">
 										<label>
-											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}" title="{$FILTER->name}" data-search="{Vtiger_Util_Helper::toSafeHTML($FILTER->searchParams)}" class="filterField">{vtranslate($FILTER->name, $MODULE)}
+											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}" title="{$FILTER->name}" data-search="{Vtiger_Util_Helper::toSafeHTML($FILTER->searchParams)}" class="filterField">{$FILTER->name|t:$MODULE}
 										</label>
 									</div>
 								{/if}
@@ -41,13 +41,13 @@
 			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
 				<div class="panel panel-primary quickWidget">
 					<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix ">
-						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero pull-left" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}">
-							{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}
+						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero pull-left" title="{$SIDEBARWIDGET->getLabel()|t:$MODULE}">
+							{$SIDEBARWIDGET->getLabel()|t:$MODULE}
 						</h4>
 						<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right ">
 							<button class="selectAllBtn btn btn-default btn-xs pull-left-md pull-right-lg pull-right-sm">
-								<div class="selectAll hide">{vtranslate('LBL_SELECT_ALL', $MODULE)}</div>
-								<div class="deselectAll">{vtranslate('LBL_DESELECT_ALL', $MODULE)}</div>
+								<div class="selectAll hide">{"LBL_SELECT_ALL"|t:$MODULE}</div>
+								<div class="deselectAll">{"LBL_DESELECT_ALL"|t:$MODULE}</div>
 							</button>
 						</div>
 					</div>

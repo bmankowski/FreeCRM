@@ -23,11 +23,11 @@
 			<table class=" table-bordered table-condensed marginBottom10px" width="100%">
 				<thead>
 					<tr class="blockHeader">
-						<th>{vtranslate('LBL_FIELD_NAMES',$MODULE)}</th>
-						<th>{vtranslate('LBL_SUM',$MODULE)}</th>
-						<th>{vtranslate('LBL_AVG',$MODULE)}</th>
-						<th>{vtranslate('LBL_MIN',$MODULE)}</th>
-						<th>{vtranslate('LBL_MAX',$MODULE)}</th>
+						<th>{"LBL_FIELD_NAMES"|t:$MODULE}</th>
+						<th>{"LBL_SUM"|t:$MODULE}</th>
+						<th>{"LBL_AVG"|t:$MODULE}</th>
+						<th>{"LBL_MIN"|t:$MODULE}</th>
+						<th>{"LBL_MAX"|t:$MODULE}</th>
 					</tr>
 				</thead>
 				{assign var=ESCAPE_CHAR value=array('__SUM','__AVG','__MIN','__MAX')}
@@ -54,7 +54,7 @@
 				<thead>
 					<tr class="blockHeader">
 						{foreach from=$HEADERS item=HEADER key=NAME}
-							<th nowrap>{vtranslate($NAME,$MODULE)}</th>
+							<th nowrap>{$NAME|t:$MODULE}</th>
 						{/foreach}
 					</tr>
 				</thead>
@@ -139,10 +139,10 @@
                 {/if}
 			</table>
 			{if $LIMIT_EXCEEDED}
-				<center>{vtranslate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="pull-right"><a href="#top" >{vtranslate('LBL_TOP',$MODULE)}</a></span></center>
+				<center>{"LBL_LIMIT_EXCEEDED"|t:$MODULE} <span class="pull-right"><a href="#top" >{"LBL_TOP"|t:$MODULE}</a></span></center>
 			{/if}
 		{else}
-			{vtranslate('LBL_NO_DATA_AVAILABLE',$MODULE)}
+			{"LBL_NO_DATA_AVAILABLE"|t:$MODULE}
 		{/if}
 		</div>
 	</div>

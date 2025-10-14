@@ -17,7 +17,7 @@
 				{if $smarty.foreach.fieldsCount.index < 7}
 					<tr>
 						<td class="fieldLabel narrowWidthType" nowrap>
-							<label class="muted">{vtranslate($FIELD_MODEL->get('label'),$MODULE)}</label>
+							<label class="muted">{$FIELD_MODEL->get('label')|t:$MODULE}</label>
 						</td>
 						<td class="fieldValue narrowWidthType">
 							<span class="value">

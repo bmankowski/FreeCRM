@@ -26,14 +26,14 @@
 			{if $SERVICE_CONTRACTS}
 				<ul class="nav nav-pills pull-right relative top10" role="tablist">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
-						<li role="presentation" class="btn btn-default popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{vtranslate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
+						<li role="presentation" class="btn btn-default popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{"LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC"|t:$MODULE}">
 							<span class="glyphicon glyphicon-link" aria-hidden="true"></span> {$ROW['subject']} {if $ROW['due_date']}({$ROW['due_date']}){/if}
 						</li>
 					{/foreach}
 				</ul>
-				<strong>{vtranslate('LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK',$MODULE)}</strong>
+				<strong>{"LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK"|t:$MODULE}</strong>
 			{else}
-				<strong>{vtranslate('LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS',$MODULE)}</strong>
+				<strong>{"LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS"|t:$MODULE}</strong>
 			{/if}
 		</div>
 	{/if}
@@ -56,24 +56,24 @@
 				{assign var=PRIORITY value=$RECORD->get('ticketpriorities')}
 				{if !empty($PRIORITY)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('Priority',$MODULE_NAME)} - </span>
+						<span class="muted">{"Priority"|t:$MODULE_NAME} - </span>
 						{$RECORD->getDisplayValue('ticketpriorities')}
 					</div>
 				{/if}
 				{assign var=STATUS value=$RECORD->get('ticketstatus')}
 				{if !empty($STATUS)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('Status',$MODULE_NAME)}: </span>
+						<span class="muted">{"Status"|t:$MODULE_NAME}: </span>
 						{$RECORD->getDisplayValue('ticketstatus')}
 					</div>
 				{/if}
 				<div class="muted paddingLeft5px">
-					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+					{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
 					<div class="muted paddingLeft5px">
-						{vtranslate('Share with users',$MODULE_NAME)}: {$SHOWNERS}
+						{"Share with users"|t:$MODULE_NAME}: {$SHOWNERS}
 					</div>
 				{/if}
 			</div>

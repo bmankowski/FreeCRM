@@ -12,8 +12,8 @@
 					<thead>
 						<tr>
 							<th>
-								<img src="{vimage_path('Discount24.png')}" alt="{vtranslate('LBL_DISCOUNT', $MODULE_NAME)}" />&nbsp;&nbsp;
-								<strong>{vtranslate('LBL_DISCOUNTS_SUMMARY',$MODULE_NAME)}</strong>
+								<img src="{vimage_path('Discount24.png')}" alt="{"LBL_DISCOUNT"|t:$MODULE_NAME}" />&nbsp;&nbsp;
+								<strong>{"LBL_DISCOUNTS_SUMMARY"|t:$MODULE_NAME}</strong>
 							</th>
 						</tr>
 					</thead>
@@ -33,8 +33,8 @@
 					<thead>
 						<tr>
 							<th colspan="2">
-								<img src="{vimage_path('Tax24.png')}" alt="{vtranslate('LBL_TAX', $MODULE_NAME)}" />&nbsp;&nbsp;
-								<strong>{vtranslate('LBL_TAX_SUMMARY',$MODULE_NAME)}</strong>
+								<img src="{vimage_path('Tax24.png')}" alt="{"LBL_TAX"|t:$MODULE_NAME}" />&nbsp;&nbsp;
+								<strong>{"LBL_TAX_SUMMARY"|t:$MODULE_NAME}</strong>
 							</th>
 						</tr>
 					</thead>
@@ -52,7 +52,7 @@
 						{/foreach}
 						<tr>
 							<td class="textAlignRight" width='70px'>
-								{vtranslate('LBL_AMOUNT',$MODULE_NAME)}
+								{"LBL_AMOUNT"|t:$MODULE_NAME}
 							</td>
 							<td class="textAlignRight">
 								{CurrencyField::convertToUserFormatSymbol($TAX_AMOUNT,false,$CURRENCY_SYMBOLAND['symbol'])}
@@ -69,7 +69,7 @@
 						<thead>
 							<tr>
 								<th colspan="2">
-									<strong>{vtranslate('LBL_CURRENCIES_SUMMARY',$MODULE_NAME)}</strong>
+									<strong>{"LBL_CURRENCIES_SUMMARY"|t:$MODULE_NAME}</strong>
 								</th>
 							</tr>
 						</thead>
@@ -87,7 +87,7 @@
 							{/foreach}
 							<tr>
 								<td class="textAlignRight" width='70px'>
-									{vtranslate('LBL_AMOUNT',$MODULE_NAME)}
+									{"LBL_AMOUNT"|t:$MODULE_NAME}
 								</td>
 								<td class="textAlignRight">
 									{CurrencyField::convertToUserFormatSymbol($CURRENY_AMOUNT * $RATE,false,$BASE_CURRENCY['currency_symbol'],true)}

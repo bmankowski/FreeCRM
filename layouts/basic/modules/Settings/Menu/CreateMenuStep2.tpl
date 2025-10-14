@@ -12,7 +12,7 @@
         <div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">{vtranslate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h4>
+				<h4 class="modal-title">{"LBL_CREATING_MENU"|t:$QUALIFIED_MODULE}</h4>
 			</div>
 			<div class="modal-body">
 				{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
@@ -20,7 +20,7 @@
 				<form class="form-horizontal">
 					<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
 					<div class="form-group">
-						<label class="col-md-4 control-label">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
+						<label class="col-md-4 control-label">{"LBL_TYPE_OF_MENU"|t:$QUALIFIED_MODULE}:</label>
 						<div class="col-md-7 form-control-static">{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
 					</div>
 					{include file='types/'|cat:$MENU_TYPE|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
@@ -28,8 +28,8 @@
 			</div>
 			<div class="modal-footer">
 				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-					<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
-					<button class="btn btn-success saveButton"><strong>{vtranslate('LBL_ADD_NEW_MENU', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
+					<button class="btn btn-success saveButton"><strong>{"LBL_ADD_NEW_MENU"|t:$QUALIFIED_MODULE}</strong></button>
 				</div>
 			</div>
 		</div>

@@ -39,19 +39,19 @@ data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\A
 	{if $RECORD->getId() neq ''}
 		<button class="btn btn-warning btn-xs" 
 				onclick="showPassword('{$RECORD->getId()}');return false;" id="show-btn">
-			{vtranslate('LBL_ShowPassword', $MODULE)}
+			{"LBL_ShowPassword"|t:$MODULE}
 		</button>
 		&nbsp;
 		{* button for copying password to clipboard *}
-		<button class="btn btn-success btn-xs hide" data-clipboard-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}">
+		<button class="btn btn-success btn-xs hide" data-clipboard-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{"LBL_CopyToClipboardTitle"|t:$MODULE}">
 			<span class="glyphicon glyphicon-download-alt"></span>
 		</button>
 	{/if}
 	<p>
 		{if $FIELD_MODEL->get('fieldvalue') eq ''}
-		<div id="passwordDescription">{vtranslate('Enter the password', $MODULE)}</div>
+		<div id="passwordDescription">{"Enter the password"|t:$MODULE}</div>
 		{else}
-		<div id="passwordDescription">{vtranslate('Password is hidden', $MODULE)}</div>
+		<div id="passwordDescription">{"Password is hidden"|t:$MODULE}</div>
 		{/if}
 		<div id="passwordStrength" class="strength0"></div>
 	</p>

@@ -92,11 +92,11 @@
 				<td class="col-md-2">
 					<div>
 						<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
-							<option value="{$CURRENTUSER->getId()}" >{vtranslate('LBL_MINE')}</option>
-							<option value="all">{vtranslate('LBL_ALL')}</option>
+							<option value="{$CURRENTUSER->getId()}" >{"LBL_MINE"|t}</option>
+							<option value="all">{"LBL_ALL"|t}</option>
 							{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 							{if count($ALL_ACTIVEUSER_LIST) gt 1}
-								<optgroup label="{vtranslate('LBL_USERS')}">
+								<optgroup label="{"LBL_USERS"|t}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 										{if $OWNER_ID neq {$CURRENTUSER->getId()}}
 											<option value="{$OWNER_ID}">{$OWNER_NAME}</option>
@@ -106,7 +106,7 @@
 							{/if}
 							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 							{if !empty($ALL_ACTIVEGROUP_LIST)}
-								<optgroup label="{vtranslate('LBL_GROUPS')}">
+								<optgroup label="{"LBL_GROUPS"|t}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 										<option value="{$OWNER_ID}">{$OWNER_NAME}</option>
 									{/foreach}
@@ -118,13 +118,13 @@
 				<td class="col-md-2">
 					<div>
 						<select class="widgetFilter" id="dateFilter" name="dateFilter" style='width:70px;margin-bottom:0px'>
-							<option value="Today" >{vtranslate('Today', $MODULE_NAME)}</option>
-							<option value="Yesterday">{vtranslate('Yesterday', $MODULE_NAME)}</option>
-							<option value="Current week">{vtranslate('Current week', $MODULE_NAME)}</option>
-							<option value="Previous week">{vtranslate('Previous week', $MODULE_NAME)}</option>
-							<option value="Current month">{vtranslate('Current month', $MODULE_NAME)}</option>
-							<option value="Previous month">{vtranslate('Previous month', $MODULE_NAME)}</option>
-							{*<option value="All">{vtranslate('All')}</option>*}
+							<option value="Today" >{"Today"|t:$MODULE_NAME}</option>
+							<option value="Yesterday">{"Yesterday"|t:$MODULE_NAME}</option>
+							<option value="Current week">{"Current week"|t:$MODULE_NAME}</option>
+							<option value="Previous week">{"Previous week"|t:$MODULE_NAME}</option>
+							<option value="Current month">{"Current month"|t:$MODULE_NAME}</option>
+							<option value="Previous month">{"Previous month"|t:$MODULE_NAME}</option>
+							{*<option value="All">{"All"|t}</option>*}
 						</select>
 					</div>
 				</td>
@@ -141,7 +141,7 @@
 	<div class="row">
 	<span class="col-md-5">
 	<span class="pull-right">
-	{vtranslate('Expected Close Date', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}
+	{"Expected Close Date"|t:$MODULE_NAME} &nbsp; {"LBL_BETWEEN"|t:$MODULE_NAME}
 	</span>
 	</span>
 	<span class="col-md-4">

@@ -16,12 +16,12 @@
 				<div class="row widget_header">
 					<div class="col-md-8">
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-						{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
+						{"LBL_CONFIG_DESCRIPTION"|t:$QUALIFIED_MODULE}
 					</div>
 					<div class="col-md-4 btn-toolbar no-margin">
 						<div class="pull-right">
-							<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-							<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-success saveButton" type="submit" title="{"LBL_SAVE"|t:$QUALIFIED_MODULE}"><strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>
+							<button type="reset" class="cancelLink btn btn-warning" title="{"LBL_CANCEL"|t:$QUALIFIED_MODULE}">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 						</div>
 					</div>
 				</div>
@@ -38,7 +38,7 @@
 												'list_max_entries_per_page' => ['name' => 'NumberRange100']]}
 				<table class="table table-bordered table-condensed themeTableColor">
 					<thead>
-						<tr class="blockHeader"><th colspan="2" class="{$WIDTHTYPE}">{vtranslate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</th></tr>
+						<tr class="blockHeader"><th colspan="2" class="{$WIDTHTYPE}">{"LBL_CONFIG_FILE"|t:$QUALIFIED_MODULE}</th></tr>
 					</thead>
 					<tbody>
 						{assign var=FIELD_DATA value=$MODEL->getViewableData()}
@@ -76,7 +76,7 @@
 											<div class="col-md-4">
 												<div class="input-group">
 													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={\App\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
-													<div class="input-group-addon">{vtranslate('LBL_MB', $QUALIFIED_MODULE)}</div>
+													<div class="input-group-addon">{"LBL_MB"|t:$QUALIFIED_MODULE}</div>
 												</div>
 											</div>
 											<label class="control-label">

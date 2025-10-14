@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Settings/CronTasks/ListViewContents.tpl -->
 
-	<button type="button" class="btn btn-success addButton addCron"><span class="glyphicon glyphicon-plus"></span> {vtranslate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
+	<button type="button" class="btn btn-success addButton addCron"><span class="glyphicon glyphicon-plus"></span> {"LBL_ADD_CRON"|t:$QUALIFIED_MODULE}</button>
 	<br />
 	<br />
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -55,7 +55,7 @@
 							>
 							<td width="1%" nowrap class="{$WIDTHTYPE}">
 								{if $MODULE eq 'CronTasks'}
-									<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+									<img src="{vimage_path('drag.png')}" class="alignTop" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}" />
 								{/if}
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -96,7 +96,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{vtranslate('LBL_NO')} {vtranslate($MODULE, $QUALIFIED_MODULE)} {vtranslate('LBL_FOUND')}
+							{"LBL_NO"|t} {vtranslate($MODULE, $QUALIFIED_MODULE)} {"LBL_FOUND"|t}
 						</td>
 					</tr>
 				</tbody>

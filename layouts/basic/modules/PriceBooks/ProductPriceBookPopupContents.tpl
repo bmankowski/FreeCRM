@@ -29,7 +29,7 @@
 			<thead>
 				<tr class="listViewHeaders">
 					<th class="{$WIDTHTYPE}">
-						<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL_CURRENTPAGE')}"  class="selectAllInCurrentPage" />
+						<input type="checkbox" title="{"LBL_SELECT_ALL_CURRENTPAGE"|t}"  class="selectAllInCurrentPage" />
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th class="{$WIDTHTYPE}">
@@ -37,15 +37,15 @@
 							{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 					</th>
 					{/foreach}
-					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{vtranslate('LBL_UNIT_PRICE',$MODULE_NAME)}</th>
-					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</th>
+					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{"LBL_UNIT_PRICE"|t:$MODULE_NAME}</th>
+					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{"LBL_LIST_PRICE"|t:$MODULE_NAME}</th>
 				</tr>
 			</thead>
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
 			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-currency='{$LISTVIEW_ENTRY->get('currency_id')}'
 				{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if} id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 				<td class="{$WIDTHTYPE}">
-					<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
+					<input class="entryCheckBox" title="{"LBL_SELECT_RECORD"|t}" type="checkbox" />
 				</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
@@ -75,13 +75,13 @@
 	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 		<div class="row">
-			<div class="emptyRecordsDiv">{vtranslate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{vtranslate('LBL_CREATE_SINGLE_RECORD')}</a>.{/if}</div>
+			<div class="emptyRecordsDiv">{"LBL_RECORDS_NO_FOUND"|t}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{"LBL_CREATE_SINGLE_RECORD"|t}</a>.{/if}</div>
 		</div>
 	{/if}
 </div>
 <div class="clearfix form-actions pushDown">
-	<button class="cancelLink pull-right btn btn-warning" type="button">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
-	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO',$MODULE_NAME)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
+	<button class="cancelLink pull-right btn btn-warning" type="button">{"LBL_CANCEL"|t:$MODULE_NAME}</button>
+	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{"LBL_ADD_TO"|t:$MODULE_NAME}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
 </div>
 <!--/layouts/basic/modules/PriceBooks/ProductPriceBookPopupContents.tpl -->
 {/strip}

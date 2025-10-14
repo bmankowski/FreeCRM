@@ -9,10 +9,10 @@
 				</div>
 			</div>
 			<div class="col-md-3 siteBarRight">
-				<h4>{vtranslate('LBL_WARNINGS_FOLDERS', $MODULE)}</h4>
+				<h4>{"LBL_WARNINGS_FOLDERS"|t:$MODULE}</h4>
 				<hr>
 				<div class="text-center marginBottom5">
-					<input class="switchBtn" type="checkbox" title="{vtranslate('LBL_WARNINGS_SWITCH',$MODULE)}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{vtranslate('LBL_ACTIVE',$MODULE)}" data-off-text="{vtranslate('LBL_ALL')}">
+					<input class="switchBtn" type="checkbox" title="{"LBL_WARNINGS_SWITCH"|t:$MODULE}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{"LBL_ACTIVE"|t:$MODULE}" data-off-text="{"LBL_ALL"|t}">
 				</div>
 				<hr>
 				<input type="hidden" id="treeValues" value="{Vtiger_Util_Helper::toSafeHTML($FOLDERS)}">

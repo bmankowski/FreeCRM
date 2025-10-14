@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Import/ImportDetails.tpl -->
 <div class="popupEntriesDiv textAlignCenter">
-	<h3>{vtranslate($TYPE, $MODULE)}</h3>
+	<h3>{$TYPE|t:$MODULE}</h3>
 </div>
 <table class="table table-bordered listViewEntriesTable">
 	<thead>

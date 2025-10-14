@@ -24,14 +24,14 @@
 					<span class="btn-group">
 						<button class="btn btn-success createModule" type="button">
 							<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>&nbsp;&nbsp;
-							<strong>{vtranslate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
+							<strong>{"LBL_CREATE_MODULE"|t:$QUALIFIED_MODULE}</strong>
 						</button>
 					</span>
 					{if vglobal('systemMode') != 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
 								<span class="glyphicon glyphicon-import" aria-hidden="true"></span>&nbsp;&nbsp;
-								<strong>{vtranslate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
+								<strong>{"LBL_IMPORT_ZIP"|t:$QUALIFIED_MODULE}</strong>
 							</button>
 						</span>
 					{/if}
@@ -43,19 +43,19 @@
 				<thead>
 					<tr class="blockHeader">
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
+							<span>{"LBL_LIBRARY_NAME"|t:$QUALIFIED_MODULE}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
+							<span>{"LBL_LIBRARY_DIR"|t:$QUALIFIED_MODULE}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
+							<span>{"LBL_LIBRARY_URL"|t:$QUALIFIED_MODULE}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
+							<span>{"LBL_LIBRARY_STATUS"|t:$QUALIFIED_MODULE}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
+							<span>{"LBL_LIBRARY_ACTION"|t:$QUALIFIED_MODULE}</span>
 						</th>
 					</tr>
 				</thead>
@@ -68,17 +68,17 @@
 							<td>
 								{if $LIBRARY['status'] == 1}
 									<span class="label label-success bigLabel">
-										{vtranslate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										{"LBL_LIBRARY_DOWNLOADED"|t:$QUALIFIED_MODULE}&nbsp;&nbsp;
 										<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
 									<span class="label label-warning bigLabel">
-										{vtranslate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										{"LBL_LIBRARY_NEEDS_UPDATING"|t:$QUALIFIED_MODULE}&nbsp;&nbsp;
 										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 									</span>
 								{else}
 									<span class="label label-danger bigLabel">
-										{vtranslate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										{"LBL_LIBRARY_NO_DOWNLOAD"|t:$QUALIFIED_MODULE}&nbsp;&nbsp;
 										<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
 									</span>
 								{/if}
@@ -88,12 +88,12 @@
 									{if $LIBRARY['status'] === 0}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
 											<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp;&nbsp;
-											<strong>{vtranslate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
+											<strong>{"BTN_LIBRARY_DOWNLOAD"|t:$QUALIFIED_MODULE}</strong>
 										</a>
 									{else}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
 											<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>&nbsp;&nbsp;
-											<strong>{vtranslate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
+											<strong>{"BTN_LIBRARY_UPDATE"|t:$QUALIFIED_MODULE}</strong>
 										</a>
 									{/if}
 								</span>
@@ -141,7 +141,7 @@
 										<div>
 											<div class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
 												<button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
-													<strong>{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
+													<strong>{"LBL_SETTINGS"|t:$QUALIFIED_MODULE}</strong>&nbsp;<i class="caret"></i>
 												</button>
 												<ul class="dropdown-menu pull-right">
 													{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
@@ -156,7 +156,7 @@
 								</div>
 								{if $MODULE_MODEL->get('customized')}
 									<div class="col-md-2">
-										<button class="deleteModule btn btn-danger pull-right" name="{$MODULE_NAME}">{vtranslate('LBL_DELETE')}</button>
+										<button class="deleteModule btn btn-danger pull-right" name="{$MODULE_NAME}">{"LBL_DELETE"|t}</button>
 									</div>
 								{/if}
 								{assign var=COUNTER value=$COUNTER+1}

@@ -14,9 +14,9 @@
    <div class="editContainer" style="padding-left: 1%;padding-right: 3%">
        <h3>
            {if $RECORD_ID eq ''}
-               {vtranslate('LBL_CREATING_CHART_REPORT',$QUALIFIED_MODULE)}
+               {"LBL_CREATING_CHART_REPORT"|t:$QUALIFIED_MODULE}
            {else}
-               {vtranslate('LBL_EDITING_CHART_REPORT',$QUALIFIED_MODULE)} : {$REPORT_MODEL->get('reportname')}
+               {"LBL_EDITING_CHART_REPORT"|t:$QUALIFIED_MODULE} : {$REPORT_MODEL->get('reportname')}
 {/if}
        </h3>
        <hr>
@@ -25,19 +25,19 @@
                <li class="first step"  style="z-index:9" id="step1">
                    <a>
                        <span class="stepNum">1</span>
-                       <span class="stepText">{vtranslate('LBL_REPORT_DETAILS',$MODULE)}</span>
+                       <span class="stepText">{"LBL_REPORT_DETAILS"|t:$MODULE}</span>
                    </a>
                </li>
                <li style="z-index:8" class="step" id="step2">
                    <a>
                        <span class="stepNum">2</span>
-                       <span class="stepText">{vtranslate('LBL_FILTERS',$MODULE)}</span>
+                       <span class="stepText">{"LBL_FILTERS"|t:$MODULE}</span>
                    </a>
                </li>
                <li class="step last" style="z-index:7" id="step3">
                    <a>
                        <span class="stepNum">3</span>
-                       <span class="stepText">{vtranslate('LBL_SELECT_CHART',$MODULE)}</span>
+                       <span class="stepText">{"LBL_SELECT_CHART"|t:$MODULE}</span>
                    </a>
                </li>
            </ul>

@@ -64,7 +64,7 @@
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
-					<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
+					<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{"LBL_PAGES_HISTORY"|t}" href="#">
 						<i class="fa fa-history" aria-hidden="true"></i>
 					</a>
 					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
@@ -89,7 +89,7 @@
 									<span class="{$GLYPHICON}" aria-hidden="true"></span>
 								{/if}
 								{if $ICON_PATH}
-									<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+									<img src="{$ICON_PATH}" alt="{$TITLE|t:$MODULE}" title="{$TITLE|t:$MODULE}" />
 								{/if}
 							</a>
 							{if !empty($CHILD_LINKS)}
@@ -112,7 +112,7 @@
 													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 														   data-{$DATA_NAME}="{$DATA_VALUE}" 
 													   {/foreach}
-												   {/if}>{vtranslate($label,$MODULE)}</a>
+												   {/if}>{$label|t:$MODULE}</a>
 											</li>
 										{/if}
 									{/foreach}
@@ -204,7 +204,7 @@
 												</div>
 											</a>
 										{elseif $CONFIG['showMailAccounts']=='true'}
-											<select class="form-control" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+											<select class="form-control" title="{"LBL_SEARCH_MODULE"|t:$MODULE_NAME}">
 												{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 													<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
 														{$ITEM.username}

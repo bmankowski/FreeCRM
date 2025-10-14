@@ -19,7 +19,7 @@
 				<span class="span0">
 					<h3>{$RECORD->getName()}</h3>
 				</span>
-				<a class="span0 changeDetailViewMode height20 cursorPointer"><sub>{vtranslate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</sub></a>
+				<a class="span0 changeDetailViewMode height20 cursorPointer"><sub>{"LBL_SHOW_FULL_DETAILS"|t:$MODULE_NAME}</sub></a>
 				{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 				{assign var="SUMMARY_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=summary'} }
 				<input type="hidden" name="viewMode" value="summary" data-nextviewname="full" data-currentviewlabel="{vtranslate('LBL_SHOW_SUMMARY_DETAILS',{$MODULE_NAME})}"

@@ -15,12 +15,12 @@
 		<div class="title row">
 			<div class="rulehead col-md-6">
 				<!-- Check if the module should the for module to get the translations-->
-				<strong>{vtranslate('LBL_SHARING_RULE', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_FOR', $MODULE)}&nbsp;
+				<strong>{"LBL_SHARING_RULE"|t:$QUALIFIED_MODULE}&nbsp;{"LBL_FOR"|t:$MODULE}&nbsp;
 					{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $FOR_MODULE)}{/if}:</strong>
 			</div>
 			<div class="col-md-6">
 				<button class="btn btn-success addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
-					<strong>{vtranslate('LBL_ADD_CUSTOM_RULE', $QUALIFIED_MODULE)}</strong></button>
+					<strong>{"LBL_ADD_CUSTOM_RULE"|t:$QUALIFIED_MODULE}</strong></button>
 			</div>
 		</div>
 		<hr>	
@@ -29,12 +29,12 @@
 			<table class="table table-bordered table-condensed customRuleTable">
 				<thead>
 					<tr class="customRuleHeaders">
-						<th>{vtranslate('LBL_RULE_NO', $QUALIFIED_MODULE)}</th>
+						<th>{"LBL_RULE_NO"|t:$QUALIFIED_MODULE}</th>
 						<!-- Check if the module should the for module to get the translations -->
-						<th>{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $MODULE)}{/if}
-							&nbsp;{vtranslate('LBL_OF', $MODULE)}</th>
-						<th>{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</th>
-						<th>{vtranslate('LBL_PRIVILEGES', $QUALIFIED_MODULE)}</th>
+						<th>{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{$FOR_MODULE|t:$MODULE}{/if}
+							&nbsp;{"LBL_OF"|t:$MODULE}</th>
+						<th>{"LBL_CAN_ACCESSED_BY"|t:$QUALIFIED_MODULE}</th>
+						<th>{"LBL_PRIVILEGES"|t:$QUALIFIED_MODULE}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,16 +51,16 @@
 						</td>
 						<td>
 							{if $RULE_MODEL->isReadOnly()}
-								{vtranslate('Read Only', $QUALIFIED_MODULE)}
+								{"Read Only"|t:$QUALIFIED_MODULE}
 							{else}
-								{vtranslate('Read Write', $QUALIFIED_MODULE)}
+								{"Read Write"|t:$QUALIFIED_MODULE}
 							{/if}
 							
 							<div class="pull-right actions">
 								<span class="actionImages">
-									<a href="javascript:void(0);" class="edit" data-url="{$RULE_MODEL->getEditViewUrl()}"><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
+									<a href="javascript:void(0);" class="edit" data-url="{$RULE_MODEL->getEditViewUrl()}"><span title="{"LBL_EDIT"|t:$MODULE}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 									<span class="alignMiddle actionImagesAlignment"> <b>|</b></span>
-									<a href="javascript:void(0);" class="delete" data-url="{$RULE_MODEL->getDeleteActionUrl()}"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+									<a href="javascript:void(0);" class="delete" data-url="{$RULE_MODEL->getDeleteActionUrl()}"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 								</span>
 							</div>
 							
@@ -70,11 +70,11 @@
 				</tbody>
 			</table>
 			<div class="recordDetails hide">
-				<p class="textAlignCenter">{vtranslate('LBL_CUSTOM_ACCESS_MESG', $QUALIFIED_MODULE)}.<!--<a href="">{vtranslate('LBL_CLICK_HERE', $QUALIFIED_MODULE)}</a>&nbsp;{vtranslate('LBL_CREATE_RULE_MESG', $QUALIFIED_MODULE)}--></p>
+				<p class="textAlignCenter">{"LBL_CUSTOM_ACCESS_MESG"|t:$QUALIFIED_MODULE}.<!--<a href="">{"LBL_CLICK_HERE"|t:$QUALIFIED_MODULE}</a>&nbsp;{"LBL_CREATE_RULE_MESG"|t:$QUALIFIED_MODULE}--></p>
 			</div>
 			{else}
 				<div class="recordDetails">
-					<p class="textAlignCenter">{vtranslate('LBL_CUSTOM_ACCESS_MESG', $QUALIFIED_MODULE)}.<!--<a href="">{vtranslate('LBL_CLICK_HERE', $QUALIFIED_MODULE)}</a>&nbsp;{vtranslate('LBL_CREATE_RULE_MESG', $QUALIFIED_MODULE)}--></p>
+					<p class="textAlignCenter">{"LBL_CUSTOM_ACCESS_MESG"|t:$QUALIFIED_MODULE}.<!--<a href="">{"LBL_CLICK_HERE"|t:$QUALIFIED_MODULE}</a>&nbsp;{"LBL_CREATE_RULE_MESG"|t:$QUALIFIED_MODULE}--></p>
 				</div>
 			{/if}
 		</div>

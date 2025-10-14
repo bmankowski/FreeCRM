@@ -38,7 +38,7 @@
 			<br>
 			<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{vtranslate('ERR_NO_MODULE_IS_INACTIVE', $QUALIFIED_MODULE)}</h4>
+						<h4>{"ERR_NO_MODULE_IS_INACTIVE"|t:$QUALIFIED_MODULE}</h4>
 					</div>
 				</div>
 			{else}
@@ -82,13 +82,13 @@
 									<div class="row col-sm-8">
 										<input class="form-control" type="text" name="{$FIELD_NAME}" {if $FIELD_DETAILS['required'] == '1'}required{/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 									</div>
-									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', 'OSSMail')}{/if}
+									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{"LBL_MB"|t:"OSSMail"}{/if}
 								{/if}
 							</div>
 						</div>
 					{/foreach}
 					<div class="pull-right">
-						<button class="btn btn-success saveButton" style="margin-top:10px;"type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
+						<button class="btn btn-success saveButton" style="margin-top:10px;"type="submit" title=""><strong>{"LBL_SAVE"|t:"OSSMail"}</strong></button>
 					</div>
 				</form>
 			{/if}

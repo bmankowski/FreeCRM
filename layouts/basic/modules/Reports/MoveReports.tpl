@@ -15,8 +15,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{vtranslate('LBL_MOVE_REPORT', $MODULE)}</h3>
+					<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
+					<h3 class="modal-title">{"LBL_MOVE_REPORT"|t:$MODULE}</h3>
 				</div>
 				<form class="form-horizontal contentsBackground" id="moveReports" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -26,12 +26,12 @@
 					<input type="hidden" name="viewname" value="{$VIEWNAME}" />
 					<div class="modal-body">
 						<div class="row verticalBottomSpacing">
-							<span class="col-md-4">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></span>
+							<span class="col-md-4">{"LBL_FOLDERS_LIST"|t:$MODULE}<span class="redColor">*</span></span>
 							<span class="col-md-8 row">
 								<select class="chzn-select col-md-11 form-control" name="folderid">
-									<optgroup label="{vtranslate('LBL_FOLDERS', $MODULE)}">
+									<optgroup label="{"LBL_FOLDERS"|t:$MODULE}">
 										{foreach item=FOLDER from=$FOLDERS}
-											<option value="{$FOLDER->getId()}">{vtranslate($FOLDER->getName(), $MODULE)}</option>
+											<option value="{$FOLDER->getId()}">{$FOLDER->getName()|t:$MODULE}</option>
 										{/foreach}
 									</optgroup>
 								</select>

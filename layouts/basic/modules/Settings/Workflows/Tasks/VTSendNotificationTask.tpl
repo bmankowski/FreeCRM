@@ -14,7 +14,7 @@
 	<div class="" id="VtVTEmailTemplateTaskContainer">
 		<div class="">
 			<div class="row">
-				<label class="control-label col-md-4">{vtranslate('EmailTempleteList', $QUALIFIED_MODULE)}</label>
+				<label class="control-label col-md-4">{"EmailTempleteList"|t:$QUALIFIED_MODULE}</label>
 				<div class="col-md-7">
 					<select class="chzn-select form-control" name="template" data-validation-engine='validate[required]'>
 						<option value="">{'LBL_NONE'|t:$QUALIFIED_MODULE}</option>

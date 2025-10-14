@@ -41,7 +41,7 @@
 						{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
 						<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]} textOverflowEllipsis">
 							{if $LAST_RECORD}
-								<a href="{$RECORD->getDetailViewUrl()}" class="pull-right"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>
+								<a href="{$RECORD->getDetailViewUrl()}" class="pull-right"><span title="{"LBL_SHOW_COMPLETE_DETAILS"|t:$MODULE_NAME}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>
 								{/if}
 								{if $RECORD->get($FIELD->get('name'))}
 									{$RECORD->getDisplayValue($FIELD->get('name'))}

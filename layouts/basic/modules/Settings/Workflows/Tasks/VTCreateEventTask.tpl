@@ -13,23 +13,23 @@
 <!-- layouts/basic/modules/Settings/Workflows/Tasks/VTCreateEventTask.tpl -->
 	<div class="row">
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{vtranslate('LBL_EVENT_NAME',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
+			<span class="col-md-2 control-label">{"LBL_EVENT_NAME"|t:$QUALIFIED_MODULE}<span class="redColor">*</span></span>
 			<div class="col-md-9">
 				<input data-validation-engine='validate[required]' class="form-control" name="eventName" type="text" value="{$TASK_OBJECT->eventName}" />
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{vtranslate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_DESCRIPTION"|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-9">
 				<textarea class="form-control" name="description">{$TASK_OBJECT->description}</textarea>
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_STATUS"|t:$QUALIFIED_MODULE}</span>
 			<span class="col-md-5">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
 				<select name="status" class="chzn-select form-control">
-					<option value=""> - {vtranslate('LBL_AUTOMATIC')} - </option>
+					<option value=""> - {"LBL_AUTOMATIC"|t} - </option>
 					{foreach  from=$STATUS_PICKLIST_VALUES item=STATUS_PICKLIST_VALUE key=STATUS_PICKLIST_KEY}
 						<option value="{$STATUS_PICKLIST_KEY}" {if $STATUS_PICKLIST_KEY eq $TASK_OBJECT->status} selected="" {/if}>{$STATUS_PICKLIST_VALUE}</option>
 					{/foreach}
@@ -37,7 +37,7 @@
 			</span>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{vtranslate('LBL_TYPE',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_TYPE"|t:$QUALIFIED_MODULE}</span>
 			<span class="col-md-5">
 				{assign var=EVENTTYPE_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitytype')->getPickListValues()}
 				<select name="eventType" class="chzn-select form-control">
@@ -48,10 +48,10 @@
 			</span>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{vtranslate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_ASSIGNED_TO"|t:$QUALIFIED_MODULE}</span>
 			<span class="col-md-5">
 				<select name="assigned_user_id" class="chzn-select form-control">
-					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
+					<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>
 					{foreach from=$ASSIGNED_TO key=LABEL item=ASSIGNED_USERS_LIST}
 						<optgroup label="{vtranslate($LABEL,$QUALIFIED_MODULE)}">
 							{foreach from=$ASSIGNED_USERS_LIST item=ASSIGNED_USER key=ASSIGNED_USER_KEY}
@@ -59,10 +59,10 @@
 							{/foreach}
 						</optgroup>
 					{/foreach}
-                    <optgroup label="{vtranslate('LBL_SPECIAL_OPTIONS')}">
-						<option value="copyParentOwner" {if $TASK_OBJECT->assigned_user_id eq 'copyParentOwner'} selected="" {/if}>{vtranslate('LBL_PARENT_OWNER')}</option>
-						<option value="currentUser" {if $TASK_OBJECT->assigned_user_id eq 'currentUser'} selected="" {/if}>{vtranslate('LBL_CURRENT_USER',$QUALIFIED_MODULE)}</option>
-						<option value="triggerUser" {if $TASK_OBJECT->assigned_user_id eq 'triggerUser'} selected="" {/if}>{vtranslate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
+                    <optgroup label="{"LBL_SPECIAL_OPTIONS"|t}">
+						<option value="copyParentOwner" {if $TASK_OBJECT->assigned_user_id eq 'copyParentOwner'} selected="" {/if}>{"LBL_PARENT_OWNER"|t}</option>
+						<option value="currentUser" {if $TASK_OBJECT->assigned_user_id eq 'currentUser'} selected="" {/if}>{"LBL_CURRENT_USER"|t:$QUALIFIED_MODULE}</option>
+						<option value="triggerUser" {if $TASK_OBJECT->assigned_user_id eq 'triggerUser'} selected="" {/if}>{"LBL_TRIGGER_USER"|t:$QUALIFIED_MODULE}</option>
                     </optgroup>
 				</select>
 			</span>
@@ -75,7 +75,7 @@
 				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 				{assign var=START_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
-			<span class="col-md-2 control-label">{vtranslate('LBL_START_TIME',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_START_TIME"|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
@@ -86,16 +86,16 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{vtranslate('LBL_START_DATE',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_START_DATE"|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-2">
 				<input class="form-control" type="text" value="{$TASK_OBJECT->startDays}" name="startDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</div>
-			<span class="control-label pull-left alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="control-label pull-left alignMiddle">{"LBL_DAYS"|t:$QUALIFIED_MODULE}</span>
 			<span class="span marginLeftZero col-md-3">
 				<select class="chzn-select form-control" name="startDirection">
-					<option  {if $TASK_OBJECT->startDirection eq 'after'}selected{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-					<option {if $TASK_OBJECT->startDirection eq 'before'}selected{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+					<option  {if $TASK_OBJECT->startDirection eq 'after'}selected{/if} value="after">{"LBL_AFTER"|t:$QUALIFIED_MODULE}</option>
+					<option {if $TASK_OBJECT->startDirection eq 'before'}selected{/if} value="before">{"LBL_BEFORE"|t:$QUALIFIED_MODULE}</option>
 				</select>
 			</span>
 			<span class="col-md-4">
@@ -114,7 +114,7 @@
 				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 				{assign var=END_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
-			<span class="col-md-2 control-label">{vtranslate('LBL_END_TIME',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_END_TIME"|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime" />
@@ -125,16 +125,16 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{vtranslate('LBL_END_DATE',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 control-label">{"LBL_END_DATE"|t:$QUALIFIED_MODULE}</span>
 			<span class="col-md-2">
 				<input class="form-control" type="text" value="{$TASK_OBJECT->endDays}" name="endDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</span>
-			<span class="control-label pull-left alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="control-label pull-left alignMiddle">{"LBL_DAYS"|t:$QUALIFIED_MODULE}</span>
 			<span class="col-md-3 marginLeftZero">
 				<select class="chzn-select form-control" name="endDirection">
-					<option  {if $TASK_OBJECT->endDirection eq 'after'}selected{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-					<option {if $TASK_OBJECT->endDirection eq 'before'}selected{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+					<option  {if $TASK_OBJECT->endDirection eq 'after'}selected{/if} value="after">{"LBL_AFTER"|t:$QUALIFIED_MODULE}</option>
+					<option {if $TASK_OBJECT->endDirection eq 'before'}selected{/if} value="before">{"LBL_BEFORE"|t:$QUALIFIED_MODULE}</option>
 				</select>
 			</span>
 			<span class="col-md-4">

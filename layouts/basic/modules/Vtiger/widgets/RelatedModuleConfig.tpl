@@ -18,23 +18,23 @@
 					<input type="hidden" name="wid" value="{$WID}">
 					<input type="hidden" name="type" value="{$TYPE}">
 					<div class="modal-header">
-						<button type="button" data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
-						<h3 id="massEditHeader" class="modal-title">{vtranslate('Add widget', $QUALIFIED_MODULE)}</h3>
+						<button type="button" data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t:$QUALIFIED_MODULE}">×</button>
+						<h3 id="massEditHeader" class="modal-title">{"Add widget"|t:$QUALIFIED_MODULE}</h3>
 					</div>
 					<div class="modal-body">
 						<div class="form-container-sm">
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Type widget', $QUALIFIED_MODULE)}:</label>
+								<label class="col-md-4 control-label">{"Type widget"|t:$QUALIFIED_MODULE}:</label>
 								<div class="col-md-7 form-control-static">
 									{vtranslate($TYPE, $QUALIFIED_MODULE)}
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Label', $QUALIFIED_MODULE)}:</label>
+								<label class="col-md-4 control-label">{"Label"|t:$QUALIFIED_MODULE}:</label>
 								<div class="col-md-7 controls"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Related module', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Related module', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"Related module"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"Related module info"|t:$QUALIFIED_MODULE}" data-original-title="{"Related module"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<select name="relatedmodule" class="select2 form-control marginLeftZero" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
@@ -44,13 +44,13 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Limit entries', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"Limit entries"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"Limit entries info"|t:$QUALIFIED_MODULE}" data-original-title="{"Limit entries"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}"/>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Columns', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Columns info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Columns', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"Columns"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"Columns info"|t:$QUALIFIED_MODULE}" data-original-title="{"Columns"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<select name="columns" class="select2 form-control marginLeftZero">
 										{foreach from=$MODULE_MODEL->getColumns() item=item key=key}
@@ -60,59 +60,59 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"No left margin"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"No left margin info"|t:$QUALIFIED_MODULE}" data-original-title="{"No left margin"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
-									<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{"LBL_YES"|t:$QUALIFIED_MODULE}" data-off-text="{"LBL_NO"|t:$QUALIFIED_MODULE}" value="1">
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('Add button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Add button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"Add button"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"Add button info"|t:$QUALIFIED_MODULE}" data-original-title="{"Add button"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7">
-									<input name="action" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['action']) && $WIDGETINFO['data']['action'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="action" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['action']) && $WIDGETINFO['data']['action'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{"LBL_YES"|t:$QUALIFIED_MODULE}" data-off-text="{"LBL_NO"|t:$QUALIFIED_MODULE}" value="1">
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('Select button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('LBL_SELECT_BUTTON_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"Select button"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"LBL_SELECT_BUTTON_INFO"|t:$QUALIFIED_MODULE}" data-original-title="{"Select button"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls form-switch-mini">
-									<input name="actionSelect" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['actionSelect']) && $WIDGETINFO['data']['actionSelect'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="actionSelect" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['actionSelect']) && $WIDGETINFO['data']['actionSelect'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{"LBL_YES"|t:$QUALIFIED_MODULE}" data-off-text="{"LBL_NO"|t:$QUALIFIED_MODULE}" value="1">
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('No message', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('No message info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No message', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"No message"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"No message info"|t:$QUALIFIED_MODULE}" data-original-title="{"No message"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
-									<input name="no_result_text" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['no_result_text']) && $WIDGETINFO['data']['no_result_text'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="no_result_text" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['no_result_text']) && $WIDGETINFO['data']['no_result_text'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{"LBL_YES"|t:$QUALIFIED_MODULE}" data-off-text="{"LBL_NO"|t:$QUALIFIED_MODULE}" value="1">
 								</div>
 							</div>
 							{*<div class="form-group form-group-sm form-switch-mini">
-							<label class="col-md-4 control-label">{vtranslate('LBL_SHOW_ALL_RECORDS', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('LBL_SHOW_ALL_RECORDS_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('LBL_SHOW_ALL_RECORDS', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+							<label class="col-md-4 control-label">{"LBL_SHOW_ALL_RECORDS"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"LBL_SHOW_ALL_RECORDS_INFO"|t:$QUALIFIED_MODULE}" data-original-title="{"LBL_SHOW_ALL_RECORDS"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 							<div class="col-md-7 controls">
-							<input name="showAll" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['showAll'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+							<input name="showAll" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['showAll'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{"LBL_YES"|t:$QUALIFIED_MODULE}" data-off-text="{"LBL_NO"|t:$QUALIFIED_MODULE}" value="1">
 							</div>
 							</div>*}
 							<div class="form-group form-group-sm hide">
-								<label class="col-md-4 control-label">{vtranslate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('LBL_SHITCH_HEADER_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"LBL_SHITCH_HEADER"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"LBL_SHITCH_HEADER_INFO"|t:$QUALIFIED_MODULE}" data-original-title="{"LBL_SHITCH_HEADER"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7">
 									<input type="hidden" id="switchHeader_selected" value="{$WIDGETINFO['data']['switchHeader']}">
 									<select name="switchHeader" class="select2 form-control marginLeftZero">
-										<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+										<option value="-">{"None"|t:$QUALIFIED_MODULE}</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Filter', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Filter info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Filter', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"Filter"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"Filter info"|t:$QUALIFIED_MODULE}" data-original-title="{"Filter"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<input type="hidden" id="filter_selected" value="{$WIDGETINFO['data']['filter']}">
 									<select name="filter" class="select2 form-control marginLeftZero">
-										<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+										<option value="-">{"None"|t:$QUALIFIED_MODULE}</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Switch', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Switch info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Switch', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{"Switch"|t:$QUALIFIED_MODULE}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{"Switch info"|t:$QUALIFIED_MODULE}" data-original-title="{"Switch"|t:$QUALIFIED_MODULE}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<input type="hidden" id="checkbox_selected" value="{$WIDGETINFO['data']['checkbox']}">
 									<select name="checkbox" class="select2 form-control marginLeftZero">
-										<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+										<option value="-">{"None"|t:$QUALIFIED_MODULE}</option>
 									</select>
 								</div>
 							</div>

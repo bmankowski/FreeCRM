@@ -9,7 +9,7 @@
 				</div>						
 				<div class="pull-right">
 					<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-						<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{'LBL_PAGES_HISTORY'|t}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+						<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{'LBL_PAGES_HISTORY'|t}" data-content="{"LBL_PAGES_HISTORY"|t}" />
 					</a>
 				</div>
 			</div>
@@ -122,14 +122,14 @@
 				</select>
 				<div class="input-group-btn">
 					<div class="pull-right">
-						<button class="btn btn-default globalSearch " title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
+						<button class="btn btn-default globalSearch " title="{"LBL_ADVANCE_SEARCH"|t}" type="button">
 							<span class="glyphicon glyphicon-th-large"></span>
 						</button>
 					</div>
 				</div>
 			</div>
 			<div class="input-group">
-				<input type="text" class="form-control globalSearchValue" title="{vtranslate('LBL_GLOBAL_SEARCH')}" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+				<input type="text" class="form-control globalSearchValue" title="{"LBL_GLOBAL_SEARCH"|t}" placeholder="{"LBL_GLOBAL_SEARCH"|t}" results="10" />
 				<div class="input-group-btn">
 					<div class="pull-right">
 						<button class="btn btn-default searchIcon" type="button">

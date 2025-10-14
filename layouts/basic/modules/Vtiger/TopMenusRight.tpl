@@ -42,7 +42,7 @@
 				{/if}
 				<a class="{if !empty($CHILDLINKS)}dropdown-toggle{/if}" {if !empty($CHILDLINKS)}data-toggle="dropdown"{/if} href="{$HREF}" title="{$TITLE}">
 					{if !empty($SRC)}
-						<img src="{$SRC}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+						<img src="{$SRC}" alt="{$TITLE|t:$MODULE}" title="{$TITLE|t:$MODULE}" />
 					{elseif !empty($ICON)}
 						<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
 					{else}
@@ -67,7 +67,7 @@
 								{/if}
 								<li>
 									<a target="{$CHILDLINK->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LABEL)}" {if $LABEL=='Switch to old look'}switchLook{/if} href="{$HREF}" {$ONCLICK}>
-										{vtranslate($LABEL,$MODULE)}
+										{$LABEL|t:$MODULE}
 									</a>
 								</li>
 							{/if}
@@ -88,7 +88,7 @@
 	{if $CHAT_ACTIVE eq true}
 		<ul class="headerLinksContainer headerLinksAJAXChat nav navbar-nav navbar-right">
 			<li>
-				<a class="ChatIcon" href="#" title="{vtranslate('LBL_CHAT', $MODULE)}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>
+				<a class="ChatIcon" href="#" title="{"LBL_CHAT"|t:$MODULE}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>
 			</li>
 		</ul>
 	{/if}
@@ -149,7 +149,7 @@
 								{assign var="href" value="javascript:;"}
 							{/if}
 						<li>
-							<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
+							<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{$label|t:$MODULE}</a>
 						</li>
 					{/foreach}
 				{/foreach}

@@ -13,7 +13,7 @@
 		<input type="hidden" id="sortOrder" name="sortOrder" value="{$SORT_ORDER}" />
 		<div class="modal-header">
 			<div class="pull-left">
-				<h3 class="modal-title">{vtranslate('LBL_SORTING_SETTINGS', $MODULE_NAME)}</h3>
+				<h3 class="modal-title">{"LBL_SORTING_SETTINGS"|t:$MODULE_NAME}</h3>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -22,17 +22,17 @@
 				<div class="col-md-12">
 					<div class="alert alert-danger fade in">
 						<a href="#" class="close" data-dismiss="alert">&times;</a>
-						{vtranslate('LBL_SORTING_SETTINGS_WORNING', $MODULE_NAME)}
+						{"LBL_SORTING_SETTINGS_WORNING"|t:$MODULE_NAME}
 					</div>
 				</div>
 				<div class="col-xs-12 form-group">
 					<label class="col-xs-12 control-label">
-						{vtranslate('LBL_SELECT_FIELD_TO_SORT_RECORDS', $MODULE_NAME)}
+						{"LBL_SELECT_FIELD_TO_SORT_RECORDS"|t:$MODULE_NAME}
 					</label>
 					<div class="col-md-9 col-sm-10 col-xs-12">
 						<div class="input-group">
 							<div class="input-group-btn" id="basic-addon1">
-								<button type="button" class="btn btn-danger clear" title="{vtranslate('LBL_CLEAR', $MODULE_NAME)}">
+								<button type="button" class="btn btn-danger clear" title="{"LBL_CLEAR"|t:$MODULE_NAME}">
 									<span class="glyphicon glyphicon-remove-sign"></span>
 								</button>
 							</div>
@@ -64,8 +64,8 @@
 							</select>
 							<div class="input-group-btn" id="basic-addon2">
 								<button type="button" class="btn btn-primary sortOrderButton" id="sortOrderButton">
-									<span class="glyphicon glyphicon-sort-by-attributes{if $SORT_ORDER eq 'DESC'} hide{/if}" data-val="ASC" title="{vtranslate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
-									<span class="glyphicon glyphicon-sort-by-attributes-alt{if $SORT_ORDER eq 'ASC'} hide{/if}" data-val="DESC" title="{vtranslate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
+									<span class="glyphicon glyphicon-sort-by-attributes{if $SORT_ORDER eq 'DESC'} hide{/if}" data-val="ASC" title="{"LBL_SORT_ASCENDING_ORDER"|t:$MODULE_NAME}"></span>
+									<span class="glyphicon glyphicon-sort-by-attributes-alt{if $SORT_ORDER eq 'ASC'} hide{/if}" data-val="DESC" title="{"LBL_SORT_DESCENDING_ORDER"|t:$MODULE_NAME}"></span>
 								</button>
 							</div>
 						</div>
@@ -74,8 +74,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="submit" class="btn btn-success">{vtranslate('LBL_SAVE', $MODULE_NAME)}</button>
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+			<button type="submit" class="btn btn-success">{"LBL_SAVE"|t:$MODULE_NAME}</button>
+			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{"LBL_CLOSE"|t:$MODULE_NAME}</button>
 		</div>
 	</form>
 <!--/layouts/basic/modules/Settings/CustomView/Sorting.tpl -->

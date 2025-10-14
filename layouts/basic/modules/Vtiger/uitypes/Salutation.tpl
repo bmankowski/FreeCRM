@@ -17,7 +17,7 @@
 {assign var="SALUTATION_VALIDATOR" value=$SALUTATION_FIELD_MODEL->getValidator()}
 	<div class="col-md-5">
 		<select class="chzn-select form-control" name="{$SALUTATION_FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $SALUTATION_FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
-			{if $SALUTATION_FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{vtranslate('LBL_NONE', $MODULE)}</option>{/if}
+			{if $SALUTATION_FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{"LBL_NONE"|t:$MODULE}</option>{/if}
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($SALUTATION_FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
 			{/foreach}

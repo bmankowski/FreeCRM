@@ -18,10 +18,10 @@
 		{assign var=SEARCH_VALUES value=''}
 	{/if}
     <div class="boolenSearchField">
-    <select class="select2noactive select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-fieldinfo='{$FIELD_INFO|escape}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
-        <option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
-        <option value="1" {if $SEARCH_VALUES eq 1} selected{/if}>{vtranslate('LBL_YES',$MODULE)}</option>
-        <option value="0" {if $SEARCH_VALUES eq '0'} selected{/if}>{vtranslate('LBL_NO',$MODULE)}</option>
+    <select class="select2noactive select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{$FIELD_MODEL->get('label')|t:$MODULE}" data-fieldinfo='{$FIELD_INFO|escape}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
+        <option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>
+        <option value="1" {if $SEARCH_VALUES eq 1} selected{/if}>{"LBL_YES"|t:$MODULE}</option>
+        <option value="0" {if $SEARCH_VALUES eq '0'} selected{/if}>{"LBL_NO"|t:$MODULE}</option>
     </select>
     </div>
 <!--/layouts/basic/modules/Vtiger/uitypes/BooleanFieldSearchView.tpl -->

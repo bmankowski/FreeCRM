@@ -33,8 +33,8 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}"></span></span>
-				<input type="text" name="createdtime" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter form-control width90 textAlignCenter"  value="{implode(',', $DTIME)}"/>
+				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{"Created Time"|t:$MODULE_NAME} &nbsp; {"LBL_BETWEEN"|t:$MODULE_NAME}"></span></span>
+				<input type="text" name="createdtime" title="{"LBL_CHOOSE_DATE"|t}" class="dateRange widgetFilter form-control width90 textAlignCenter"  value="{implode(',', $DTIME)}"/>
 			</div>
 		</div>
 		<div class="col-sm-6">

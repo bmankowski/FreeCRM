@@ -11,7 +11,7 @@
 -->*}
 {if ($RELATED_MODULE_MODEL || $RELATED_MODULE_MODEL_NAME) && $MAPPING_PANEL}
 	<h5 class="bg-success text-center menuPanel">
-		{vtranslate('LBL_OVERWRITTEN_FIELDS',$QUALIFIED_MODULE)}
+		{"LBL_OVERWRITTEN_FIELDS"|t:$QUALIFIED_MODULE}
 	</h5>
 {/if}
 <input type="hidden" id="fieldValueMapping" name="field_value_mapping" value='{$TASK_OBJECT->field_value_mapping}' />
@@ -19,7 +19,7 @@
 <div class="conditionsContainer" id="save_fieldvaluemapping">
 	{if $RELATED_MODULE_MODEL_NAME neq ''}
 		<div>
-			<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+			<button type="button" class="btn btn-default" id="addFieldBtn">{"LBL_ADD_FIELD"|t:$QUALIFIED_MODULE}</button>
 		</div><br>
 		{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($TASK_OBJECT->entity_type)}
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
@@ -32,7 +32,7 @@
 						{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if $FIELD_MODEL->getFieldDataType() == 'owner'}
-								{$SPECIAL_OPTION = [vtranslate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {vtranslate('LBL_PARENT_OWNER')}]]}
+								{$SPECIAL_OPTION = [vtranslate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
 							<option value="{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->get('name')} {if $FIELD_MODEL->isMandatory()}{assign var=MANDATORY_FIELD value=true} {else} {assign var=MANDATORY_FIELD value=false} {/if}{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
@@ -63,7 +63,7 @@
 	{else}
 		{if $RELATED_MODULE_MODEL}
 			<div>
-				<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+				<button type="button" class="btn btn-default" id="addFieldBtn">{"LBL_ADD_FIELD"|t:$QUALIFIED_MODULE}</button>
 			</div><br>
 			{if $MAPPING_PANEL}
 				{assign var=MANDATORY_FIELD_MODELS value=[]}
@@ -81,7 +81,7 @@
 							{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								{if $FIELD_MODEL->getFieldDataType() == 'owner'}
-									{$SPECIAL_OPTION = [vtranslate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {vtranslate('LBL_PARENT_OWNER')}]]}
+									{$SPECIAL_OPTION = [vtranslate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
 									{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 								{/if}
 								<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" {if $FIELD_MODEL->get('name') eq $MANDATORY_FIELD_MODEL->get('name')} {assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
@@ -111,7 +111,7 @@
 		<div class="col-md-4">
 			{assign var=RELATED_MODULE_MODEL_NAME value=$RELATED_MODULE_MODEL->get('name')}
 			<select name="fieldname" class="form-control">
-				<option value="none">{vtranslate('LBL_NONE',$QUALIFIED_MODULE)}</option>
+				<option value="none">{"LBL_NONE"|t:$QUALIFIED_MODULE}</option>
 				{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{if  $FIELD_MODEL->getFieldDataType() neq 'reference' && ($MAPPING_PANEL || (!$FIELD_MODEL->isMandatory() && !$MAPPING_PANEL))}

@@ -12,7 +12,7 @@
         <div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 class="modal-title">{vtranslate('LBL_EDITION_MENU', $QUALIFIED_MODULE)}</h3>
+				<h3 class="modal-title">{"LBL_EDITION_MENU"|t:$QUALIFIED_MODULE}</h3>
 			</div>
 			<div class="modal-body">
 				{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
@@ -22,7 +22,7 @@
 					<input type="hidden" name="id" value="{$ID}" />
 					<input type="hidden" name="role" value="{$RECORD->get('role')}" />
 					<div class="form-group">
-						<label class="col-md-4 control-label">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
+						<label class="col-md-4 control-label">{"LBL_TYPE_OF_MENU"|t:$QUALIFIED_MODULE}:</label>
 						<div class="col-md-7 form-control-static">
 							{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}
 						</div>
@@ -32,8 +32,8 @@
 			</div>
 			<div class="modal-footer">
 				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-					<a class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-					<a class="btn btn-success saveButton"><strong>{vtranslate('LBL_SAVE_MENU', $QUALIFIED_MODULE)}</strong></a>
+					<a class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
+					<a class="btn btn-success saveButton"><strong>{"LBL_SAVE_MENU"|t:$QUALIFIED_MODULE}</strong></a>
 				</div>
 			</div>
 		</div>

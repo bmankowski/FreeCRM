@@ -15,8 +15,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader">{vtranslate('LBL_MASS_PASSWORD_EDITING', $MODULE)}</h3>
+					<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">&times;</button>
+					<h3 id="massEditHeader">{"LBL_MASS_PASSWORD_EDITING"|t:$MODULE}</h3>
 				</div>
 				<form class="form-horizontal" id="changePassword" name="changePassword" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -25,16 +25,16 @@
 						<div class="modal-body">
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{vtranslate('LBL_NEW_PASSWORD', $MODULE)}</label>
+								<label class="col-sm-4 control-label">{"LBL_NEW_PASSWORD"|t:$MODULE}</label>
 								<div class="col-sm-6 controls">
-									<input type="password" name="new_password" title="{vtranslate('LBL_NEW_PASSWORD', $MODULE)}" class="form-control" data-validation-engine="validate[required]"/>
+									<input type="password" name="new_password" title="{"LBL_NEW_PASSWORD"|t:$MODULE}" class="form-control" data-validation-engine="validate[required]"/>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}</label>
+								<label class="col-sm-4 control-label">{"LBL_CONFIRM_PASSWORD"|t:$MODULE}</label>
 								<div class="col-sm-6 controls">
-									<input type="password" name="confirm_password" title="{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}" class="form-control" data-validation-engine="validate[required]"/>
+									<input type="password" name="confirm_password" title="{"LBL_CONFIRM_PASSWORD"|t:$MODULE}" class="form-control" data-validation-engine="validate[required]"/>
 								</div>
 							</div>
 

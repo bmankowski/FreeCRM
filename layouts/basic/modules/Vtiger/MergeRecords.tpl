@@ -15,13 +15,13 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div>
-					<h3 class="panel-title">{vtranslate('LBL_MERGE_RECORDS_IN', $MODULE)}: {vtranslate($MODULE, $MODULE)}</h3>
+					<h3 class="panel-title">{"LBL_MERGE_RECORDS_IN"|t:$MODULE}: {$MODULE|t:$MODULE}</h3>
 				</div>
 			</div>
 			<div class="panel-body">
 				<div class="alert  alert-info">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					{vtranslate('LBL_MERGE_RECORDS_DESCRIPTION', $MODULE)}
+					{"LBL_MERGE_RECORDS_DESCRIPTION"|t:$MODULE}
 				</div>
 				<form class="form-horizontal contentsBackground" name="massMerge" method="post" action="index.php">
 					<input type="hidden" name=module value="{$MODULE}" />
@@ -32,11 +32,11 @@
 						<table class='table table-bordered table-condensed'>
 							<thead class='listViewHeaders'>
 							<th>
-								{vtranslate('LBL_FIELDS', $MODULE)}
+								{"LBL_FIELDS"|t:$MODULE}
 							</th>
 							{foreach item=RECORD from=$RECORDMODELS name=recordList}
 								<th>
-									{vtranslate('LBL_RECORD')} #{$smarty.foreach.recordList.index+1} &nbsp;
+									{"LBL_RECORD"|t} #{$smarty.foreach.recordList.index+1} &nbsp;
 									<input {if $smarty.foreach.recordList.index eq 0}checked{/if} type=radio value="{$RECORD->getId()}" name=primaryRecord style='bottom:1px;position:relative;'/>
 								</th>
 							{/foreach}
@@ -45,7 +45,7 @@
 								{if $FIELD->isEditable()}
 									<tr>
 										<td>
-											{vtranslate($FIELD->get('label'), $MODULE)}
+											{$FIELD->get('label')|t:$MODULE}
 										</td>
 										{foreach item=RECORD from=$RECORDMODELS name=recordList}
 											<td>
@@ -61,7 +61,7 @@
 					</div>
 					<div>
 						<div class="pull-right marginTB10">
-							<button type=submit class='btn btn-success'>{vtranslate('LBL_MERGE', $MODULE)}</button>
+							<button type=submit class='btn btn-success'>{"LBL_MERGE"|t:$MODULE}</button>
 						</div>
 					</div>
 				</form>

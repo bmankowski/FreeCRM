@@ -4,9 +4,9 @@
 	<table class="table table-condensed table-bordered">
 		<thead>
 			<tr>
-				<th>{vtranslate('LBL_SUBJECT', $MODULE_NAME)}</th>
-				<th>{vtranslate('LBL_SOURCE', $MODULE_NAME)}</th>
-				<th>{vtranslate('LBL_DATE', $MODULE_NAME)}</th>
+				<th>{"LBL_SUBJECT"|t:$MODULE_NAME}</th>
+				<th>{"LBL_SOURCE"|t:$MODULE_NAME}</th>
+				<th>{"LBL_DATE"|t:$MODULE_NAME}</th>
 			</tr>
 		</thead>
 		<tbody>

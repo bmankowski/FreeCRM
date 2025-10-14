@@ -15,7 +15,7 @@
 			{if !$CONFIG.active}
 				{assign var=LABEL_CHECKBOX value='LBL_NO'}
 			{/if}
-			<label class="col-md-3 control-label form-control-static">{vtranslate('LBL_ARE_ACTIVE', $QUALIFIED_MODULE)}</label>
+			<label class="col-md-3 control-label form-control-static">{"LBL_ARE_ACTIVE"|t:$QUALIFIED_MODULE}</label>
 			<div class="col-md-6" data-toggle="buttons">
 				<label class="btn {if $CONFIG.active}btn-success active{else}btn-default{/if}">
 					<input autocomplete="off" type="checkbox" name="active" {if $CONFIG.active}checked{/if}><span class="text">&nbsp;&nbsp;{vtranslate($LABEL_CHECKBOX, $QUALIFIED_MODULE)}</span>
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-3 control-label form-control-static">{vtranslate('LBL_SUMMATION_TYPE', $QUALIFIED_MODULE)}</label>
+			<label class="col-md-3 control-label form-control-static">{"LBL_SUMMATION_TYPE"|t:$QUALIFIED_MODULE}</label>
 			<div class="col-md-6">
 				<select class="select2" name="aggregation">
 					{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues('aggregation')}

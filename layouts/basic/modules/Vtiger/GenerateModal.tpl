@@ -4,7 +4,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/GenerateModal.tpl -->
 	<div class="modal-header">
-		<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
+		<button class="close" data-dismiss="modal" title="{"LBL_CLOSE"|t}">x</button>
 		<h3 class="modal-title">{vtranslate('LBL_GENERATE_RECORD_FOR_MODULE', $BASE_MODULE_NAME)}</h3>
 	</div>
 	<div class="modal-body text-center">
@@ -45,7 +45,7 @@
 	</div>
 	<div class="modal-footer">
 		<div class="pull-right">
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{"LBL_CLOSE"|t:$MODULE_NAME}</button>
 		</div>
 	</div>
 <!--/layouts/basic/modules/Vtiger/GenerateModal.tpl -->

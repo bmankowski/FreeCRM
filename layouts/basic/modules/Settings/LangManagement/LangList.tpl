@@ -9,22 +9,22 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<button class="btn btn-primary add_lang btn-sm pull-right marginBottom10px">{vtranslate('LBL_ADD_LANG', $QUALIFIED_MODULE)}</button>
+<button class="btn btn-primary add_lang btn-sm pull-right marginBottom10px">{"LBL_ADD_LANG"|t:$QUALIFIED_MODULE}</button>
 <table  class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 	<thead>
 		<tr class="blockHeader">
-			<th><strong>{vtranslate('LBL_Lang_label',$QUALIFIED_MODULE)}</strong></th>
-			<th><strong>{vtranslate('LBL_Lang_name',$QUALIFIED_MODULE)}</strong></th>
-			<th><strong>{vtranslate('LBL_Lang_prefix',$QUALIFIED_MODULE)}</strong></th>
-			{*<th class="textAlignCenter" colspan="2"><strong>{vtranslate('LBL_Lang_active',$QUALIFIED_MODULE)}</strong></th>*}
-			<th><strong>{vtranslate('LBL_Lang_action',$QUALIFIED_MODULE)}</strong></th>
+			<th><strong>{"LBL_Lang_label"|t:$QUALIFIED_MODULE}</strong></th>
+			<th><strong>{"LBL_Lang_name"|t:$QUALIFIED_MODULE}</strong></th>
+			<th><strong>{"LBL_Lang_prefix"|t:$QUALIFIED_MODULE}</strong></th>
+			{*<th class="textAlignCenter" colspan="2"><strong>{"LBL_Lang_active"|t:$QUALIFIED_MODULE}</strong></th>*}
+			<th><strong>{"LBL_Lang_action"|t:$QUALIFIED_MODULE}</strong></th>
 		</tr>
 		{*<tr class="blockHeader">
 			<th></th>
 			<th></th>
 			<th></th>
-			<th class="textAlignCenter">{vtranslate('LBL_Lang_ac_admin',$QUALIFIED_MODULE)}</th>
-			<th class="textAlignCenter">{vtranslate('LBL_Lang_ac_user',$QUALIFIED_MODULE)}</th>
+			<th class="textAlignCenter">{"LBL_Lang_ac_admin"|t:$QUALIFIED_MODULE}</th>
+			<th class="textAlignCenter">{"LBL_Lang_ac_user"|t:$QUALIFIED_MODULE}</th>
 			<th></th>
 		</tr>*}
 	</thead>
@@ -42,10 +42,10 @@
 					<input type="checkbox" data-name="ac_admin" {if $LANG['ac_admin']}checked{/if}>
 				</td>*}
 				<td>
-					<a href="index.php?module=LangManagement&parent=Settings&action=Export&lang={$LANG['prefix']}" class="btn btn-primary btn-xs marginLeft10">{vtranslate('Export',$QUALIFIED_MODULE)}</a>
+					<a href="index.php?module=LangManagement&parent=Settings&action=Export&lang={$LANG['prefix']}" class="btn btn-primary btn-xs marginLeft10">{"Export"|t:$QUALIFIED_MODULE}</a>
 					{if $LANG['isdefault'] neq '1'}
-						<button class="btn btn-success btn-xs marginLeft10" data-toggle="confirmation" id="setAsDefault">{vtranslate('LBL_DEFAULT',$QUALIFIED_MODULE)}</button>
-						<button class="btn btn-danger btn-xs" data-toggle="confirmation" data-original-title="" id="deleteItemC">{vtranslate('LBL_Delete',$QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success btn-xs marginLeft10" data-toggle="confirmation" id="setAsDefault">{"LBL_DEFAULT"|t:$QUALIFIED_MODULE}</button>
+						<button class="btn btn-danger btn-xs" data-toggle="confirmation" data-original-title="" id="deleteItemC">{"LBL_Delete"|t:$QUALIFIED_MODULE}</button>
 					{/if}
 				</td>
 			</tr>

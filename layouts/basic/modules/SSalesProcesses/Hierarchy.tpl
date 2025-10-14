@@ -5,8 +5,8 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{vtranslate('LBL_SHOW_HIERARCHY', $MODULE)}</h3>
+					<button class="close" data-dismiss="modal" title="{"LBL_CLOSE"|t}">x</button>
+					<h3 class="modal-title">{"LBL_SHOW_HIERARCHY"|t:$MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					<div id ="hierarchyScroll" style="margin-right: 8px;">
@@ -14,7 +14,7 @@
 							<thead>
 								<tr class="blockHeader">
 								{foreach item=HEADERNAME from=$HIERARCHY['header']}
-									<th>{vtranslate($HEADERNAME, $MODULE)}</th>
+									<th>{$HEADERNAME|t:$MODULE}</th>
 								{/foreach}
 								</tr>
 							</thead>
@@ -32,7 +32,7 @@
 				</div>
 				<div class="modal-footer">
 					<div class=" pull-right cancelLinkContainer">
-						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CLOSE', $MODULE)}</strong></button>
+						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CLOSE"|t:$MODULE}</strong></button>
 					</div>
 				</div>
 			</div>

@@ -26,13 +26,13 @@ class SimpleVtranslateRefactorer:
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_]*)[\'"],\s*[\'"]([A-Za-z_][A-Za-z0-9_]*)[\'"]\)\}', r'{"\1"|t:"\2"}'),
             
             # Pattern 3: vtranslate('key', $MODULE_NAME) -> "key"|t:$MODULE_NAME
-            (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"],\s*(\$MODULE_NAME)\)\}', r'{"\1"|t:\2}'),
+            (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$MODULE_NAME)\)\}', r'{"\1"|t:\2}'),
             
             # Pattern 4: vtranslate('key', $QUALIFIED_MODULE) -> "key"|t:$QUALIFIED_MODULE
-            (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"],\s*(\$QUALIFIED_MODULE)\)\}', r'{"\1"|t:\2}'),
+            (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$QUALIFIED_MODULE)\)\}', r'{"\1"|t:\2}'),
             
             # Pattern 5: vtranslate('key', $MODULE) -> "key"|t:$MODULE
-            (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"],\s*(\$MODULE)\)\}', r'{"\1"|t:\2}'),
+            (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$MODULE)\)\}', r'{"\1"|t:\2}'),
             
             # Pattern 6: vtranslate($VARIABLE, $MODULE) -> $VARIABLE|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),

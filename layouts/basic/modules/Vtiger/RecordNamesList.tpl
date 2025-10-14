@@ -20,7 +20,7 @@
 					<a data-id={$recordsModel->getId()} href="{$recordsModel->getDetailViewUrl()}" title="{decode_html($recordsModel->getName())}">{decode_html($recordsModel->getName())}</a>
 				</li>
 				{foreachelse}
-					<li style="text-align:center">{vtranslate('LBL_NO_RECORDS', $MODULE)}
+					<li style="text-align:center">{"LBL_NO_RECORDS"|t:$MODULE}
 					</li>
 				{/foreach}
 

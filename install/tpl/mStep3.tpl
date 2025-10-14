@@ -16,7 +16,7 @@
 		<div class="row main-container">
 			<div class="inner-container">
 				<div>
-					<h3>{vtranslate('LBL_MIGRATION_ERROR', 'Install')}</h3>
+					<h3>{"LBL_MIGRATION_ERROR"|t:"Install"}</h3>
 				</div>
 				<div>
 					<h5>{vtranslate($ERRORTEXT, 'Install')}</h5>
@@ -24,7 +24,7 @@
 			</div>
 			<div class="inner-container">
 				<div>
-					<a class="btn btn-sm btn-primary" href="../index.php" >{vtranslate('LBL_BACK','Install')}</a> 
+					<a class="btn btn-sm btn-primary" href="../index.php" >{"LBL_BACK"|t:"Install"}</a> 
 				</div>
 			</div>
 		</div>

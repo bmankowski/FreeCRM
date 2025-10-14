@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Settings/LangManagement/GetLabels.tpl -->
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel" class="modal-title">{vtranslate('LBL_UNTRANSLATED_LABELS',$QUALIFIED_MODULE)}</h3>
+		<h3 id="myModalLabel" class="modal-title">{"LBL_UNTRANSLATED_LABELS"|t:$QUALIFIED_MODULE}</h3>
 	</div>
 	<div class="modal-body form-horizontal">
 		<div class="table-responsive">
@@ -13,11 +13,11 @@
 						{if $smarty.foreach.dataType.first && $smarty.foreach.data.first}
 							<thead>
 								<tr class="blockHeader">
-									<th><strong>{vtranslate('LBL_variable',$QUALIFIED_MODULE)}</strong></th>
+									<th><strong>{"LBL_variable"|t:$QUALIFIED_MODULE}</strong></th>
 											{foreach from=$TRANSLATIONS item=VALUE key=LANG_KEY name=header}
 										<th><strong>{$LANG_KEY}</strong></th>
 											{/foreach}
-									<th><strong>{vtranslate('LBL_ACTIONS',$QUALIFIED_MODULE)}</strong></th>
+									<th><strong>{"LBL_ACTIONS"|t:$QUALIFIED_MODULE}</strong></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -36,7 +36,7 @@
 													value ="{$VALUE}">
 										</td>
 										<td>
-											<button type="button" class="btn btn-success" title="{vtranslate('LBL_SAVE', $MODULE_NAME)}">
+											<button type="button" class="btn btn-success" title="{"LBL_SAVE"|t:$MODULE_NAME}">
 												<span class="glyphicon glyphicon-ok"></span>
 											</button>
 										</td>

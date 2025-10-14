@@ -21,7 +21,7 @@
 							{if !empty($IMAGE_INFO.path)}
 								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
 							{else}
-								<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+								<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{$MODULE|t:$MODULE}"/>
 							{/if}
 						{/foreach}
 						{if empty($IMAGE_DETAILS)}
@@ -40,10 +40,10 @@
 				{$RECORD->getDisplayValue('parent_id')}
 				<div>
 					<span class="muted">
-						{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+						{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
 						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 						{if $SHOWNERS != ''}
-							<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+							<br/>{"Share with users"|t:$MODULE_NAME} {$SHOWNERS}
 						{/if}
 					</span>
 				</div>

@@ -4,7 +4,7 @@
 	{if $DISCOUNT_TYPE == '0'}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<strong>{vtranslate('LBL_INDIVIDUAL_DISCOUNTS', $MODULE)}</strong>
+				<strong>{"LBL_INDIVIDUAL_DISCOUNTS"|t:$MODULE}</strong>
 				<div class="pull-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="individual" class="activeCheckbox">
 				</div>
@@ -16,7 +16,7 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="individualDiscountType" value="percentage" class="individualDiscountType" data-symbol="%" checked>
-									{vtranslate('LBL_PERCENTAGE_DISCOUNTS', $MODULE)}
+									{"LBL_PERCENTAGE_DISCOUNTS"|t:$MODULE}
 								</label>
 							</div>
 						</div>
@@ -24,7 +24,7 @@
 							<div class="radio">
 								<label>
 									<input type="radio" name="individualDiscountType" value="amount" class="individualDiscountType" data-symbol="{$CURRENCY_SYMBOL}">
-									{vtranslate('LBL_AMOUNT_DISCOUNTS', $MODULE)}
+									{"LBL_AMOUNT_DISCOUNTS"|t:$MODULE}
 								</label>
 							</div>
 						</div>

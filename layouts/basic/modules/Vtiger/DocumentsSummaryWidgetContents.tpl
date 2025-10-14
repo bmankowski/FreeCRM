@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Vtiger/DocumentsSummaryWidgetContents.tpl -->
 	<div class="row">
 		<span class="col-md-7">
-			<strong>{vtranslate('Title','Documents')}</strong>
+			<strong>{"Title"|t:"Documents"}</strong>
 		</span>
 		<span class="col-md-4 horizontalLeftSpacingForSummaryWidgetHeader">
 			<span class="pull-right">
@@ -50,7 +50,7 @@
 	{if $NUMBER_OF_RECORDS eq 5}
 		<div class="row">
 			<div class="pull-right">
-				<a class="moreRecentDocuments cursorPointer">{vtranslate('LBL_MORE',$MODULE_NAME)}</a>
+				<a class="moreRecentDocuments cursorPointer">{"LBL_MORE"|t:$MODULE_NAME}</a>
 			</div>
 		</div>
 	{/if}

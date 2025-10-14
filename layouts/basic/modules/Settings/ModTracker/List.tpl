@@ -13,15 +13,15 @@
 <!-- layouts/basic/modules/Settings/ModTracker/List.tpl -->
 	<div id="modTrackerContainer">		
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}			    
-		{vtranslate('LBL_MODTRACKER_SETTINGS_DESCRIPTION', $QUALIFIED_MODULE)}		
+		{"LBL_MODTRACKER_SETTINGS_DESCRIPTION"|t:$QUALIFIED_MODULE}		
 		<hr>
 		<div class="contents">
 			<div class="contents tabbable">
 				<table class="table table-bordered table-condensed listViewEntriesTable">
 					<thead>
 						<tr class="blockHeader">
-							<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
-							<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
+							<th><strong>{"LBL_MODULE"|t:$QUALIFIED_MODULE}</strong></th>
+							<th><strong>{"LBL_ACTIVE"|t:$QUALIFIED_MODULE}</strong></th>
 						</tr>
 					</thead>
 					<tbody>

@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Settings/Workflows/Tasks/VTSMSTask.tpl -->
 	<div class="row">
 		<div class="form-group">
-			<label class="col-md-2 control-label">{vtranslate('LBL_RECEPIENTS',$QUALIFIED_MODULE)}<span class="redColor">*</span></label>
+			<label class="col-md-2 control-label">{"LBL_RECEPIENTS"|t:$QUALIFIED_MODULE}<span class="redColor">*</span></label>
 			<div class="col-md-4">
 				<input type="text" class="fields form-control" data-validation-engine='validate[required]' name="sms_recepient" value="{$TASK_OBJECT->sms_recepient}" />
 			</div>
@@ -40,7 +40,7 @@
 	<hr/>
 	<div class="row">
 		<div class="form-group">
-			<label class="col-md-2 control-label">{vtranslate('LBL_SMS_TEXT',$QUALIFIED_MODULE)}</label>
+			<label class="col-md-2 control-label">{"LBL_SMS_TEXT"|t:$QUALIFIED_MODULE}</label>
 			<div class="col-md-8">
 				<textarea name="content" class="form-control fields">{$TASK_OBJECT->content}</textarea>
 			</div>

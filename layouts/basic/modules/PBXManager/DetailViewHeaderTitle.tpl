@@ -22,14 +22,14 @@
 							{if !empty($IMAGE_INFO.path)}
 								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
 							{else}
-								<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+								<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{$MODULE|t:$MODULE}"/>
 							{/if}
 						{/foreach}
 					{else}
-						<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+						<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{$MODULE|t:$MODULE}"/>
 					{/if}
 				{else}
-					<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+					<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{$MODULE|t:$MODULE}"/>
 				{/if}
 				{if $RECORD->get('direction') eq 'inbound'}
 					<img src="modules/PBXManager/resources/images/Incoming.png" style="position:absolute;bottom:4px;right:0;">
@@ -84,10 +84,10 @@
 			</span>
 			<span class="row">
 				<span class="muted">
-					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+					{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 					{if $SHOWNERS != ''}
-						<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+						<br/>{"Share with users"|t:$MODULE_NAME} {$SHOWNERS}
 					{/if}
 				</span>
 			</span>

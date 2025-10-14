@@ -15,12 +15,12 @@
 			<form class="form-modalAddWidget">  
 				<div class="modal-header contentsBackground">
 					<button type="button" data-dismiss="modal" class="close" title="Zamknij">×</button>
-					<h3 class="modal-title" id="massEditHeader">{vtranslate('Add widget', $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title" id="massEditHeader">{"Add widget"|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="modal-Fields">
 						<div class="row">
-							<div class="col-md-4">{vtranslate('LBL_WIDGET_TYPE', $QUALIFIED_MODULE)}:</div>
+							<div class="col-md-4">{"LBL_WIDGET_TYPE"|t:$QUALIFIED_MODULE}:</div>
 							<div class="col-md-8">
 								<select name="type" class="select2 col-md-3 marginLeftZero form-control">
 								{foreach from=$MODULE_MODEL->getType($SOUNRCE_MODULE) item=item key=key}
@@ -32,8 +32,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</strong></button>
-					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success" type="submit" name="saveButton"><strong>{"LBL_SELECT"|t:$QUALIFIED_MODULE}</strong></button>
+					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</strong></button>
 				</div>
 			</form>
 		</div>

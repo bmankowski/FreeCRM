@@ -29,9 +29,9 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row col-md-6 ">
-							<label class="col-md-4 muted control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted control-label">{"LBL_SELECT_MODULE"|t:$QUALIFIED_MODULE}</label>
 							<div class="col-md-8 controls">
-								<select name="sourceModule" title="{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
+								<select name="sourceModule" title="{"LBL_SELECT_MODULE"|t:$QUALIFIED_MODULE}" class="select2 form-control marginLeftZero">
 									{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 										{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 										<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
@@ -53,9 +53,9 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row col-md-6 ">
-							<label class="col-md-4 muted control-label">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted control-label">{"LBL_SOURCE_FIELD"|t:$QUALIFIED_MODULE}</label>
 							<div class="col-md-8 controls">
-								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}"  title="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
 										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
@@ -64,9 +64,9 @@
 							</div>
 						</div>
 						<div class="row col-md-6">
-							<label class="col-md-4 muted control-label">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted control-label">{"LBL_TARGET_FIELD"|t:$QUALIFIED_MODULE}</label>
 							<div class="col-md-8 controls">
-								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}" title="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
 										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
@@ -78,7 +78,7 @@
 				</div>
 				<div class=" hide errorMessage">
 					<div class="alert alert-warning">
-						<strong>{vtranslate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>  
+						<strong>{"LBL_ERR_CYCLIC_DEPENDENCY"|t:$QUALIFIED_MODULE}</strong>  
 					</div>
 				</div>
 				<div id="dependencyGraph">

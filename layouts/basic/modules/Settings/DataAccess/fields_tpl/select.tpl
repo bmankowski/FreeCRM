@@ -10,8 +10,8 @@
  *************************************************************************************************************************************/
 -->*}
 <select name="{$FLD_NAME}" id="{$FLD_ID}" class="chzn-select  chzn-done {if $FLD_REQUIRED}required{/if}" style="width: 250px;">
-    <option value="">{vtranslate('SELECT', 'OSSProjectTemplates')}</option>
+    <option value="">{"SELECT"|t:"OSSProjectTemplates"}</option>
     {foreach from=$OPTION_LIST key=key item=item}
-        <option value="{$item}">{vtranslate($item, $MODULE)}</option>
+        <option value="{$item}">{$item|t:$MODULE}</option>
     {/foreach}
 </select>

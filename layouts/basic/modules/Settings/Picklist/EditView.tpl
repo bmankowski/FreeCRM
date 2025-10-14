@@ -15,8 +15,8 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-				<h3 class="modal-title">{vtranslate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
+				<h3 class="modal-title">{"LBL_RENAME_PICKLIST_ITEM"|t:$QUALIFIED_MODULE}</h3>
 			</div>
 			<form id="renameItemForm" class="form-horizontal" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />
@@ -28,7 +28,7 @@
 				<input type="hidden" name="pickListValues" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<div class="col-md-3 control-label">{vtranslate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 control-label">{"LBL_ITEM_TO_RENAME"|t:$QUALIFIED_MODULE}</div>
 						<div class="col-md-9 controls">
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES}
 							<select class="chzn-select form-control" name="oldValue">
@@ -41,12 +41,12 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-md-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 control-label"><span class="redColor">*</span>{"LBL_ENTER_NEW_NAME"|t:$QUALIFIED_MODULE}</div>
 						<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
 					</div>
 					{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
 					<div class="form-group">
-						<div class="col-md-3 control-label">{vtranslate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 control-label">{"LBL_NON_EDITABLE_PICKLIST_VALUES"|t:$QUALIFIED_MODULE}</div>
 						<div class="col-md-9 controls nonEditableValuesDiv">
 							<ul class="nonEditablePicklistValues list-unstyled">
 							{foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}

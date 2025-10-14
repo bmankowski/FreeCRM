@@ -18,7 +18,7 @@
 					<li class="spaceRelatedList hide"><li>
 					<li role="presentation" class="dropdown pull-right hide">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="true">
-							<strong>{vtranslate('LBL_MORE',$MODULE)}</strong> <span class="caret"></span>
+							<strong>{"LBL_MORE"|t:$MODULE}</strong> <span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu pull-right">
 							{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}

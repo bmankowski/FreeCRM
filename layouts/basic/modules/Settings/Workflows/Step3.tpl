@@ -14,7 +14,7 @@
         <input type="hidden" class="step" value="3" />
         <div class="btn-group">
             <a class="btn dropdown-toggle btn-default addButton" data-toggle="dropdown" href="#">
-                <strong>{vtranslate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
+                <strong>{"LBL_ADD_TASK"|t:$QUALIFIED_MODULE}</strong>&nbsp;
                 <span><img class="imageElement" src="{vimage_path('downArrowWhite.png')}" /></span>
             </a>
             <ul class="dropdown-menu">
@@ -28,8 +28,8 @@
         </div>
         <br>
         <div class="pull-right">
-            <button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-            <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn btn-danger backStep" type="button"><strong>{"LBL_BACK"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
+            <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{"LBL_FINISH"|t:$QUALIFIED_MODULE}</strong></button>
         </div>
         <div class="clearfix"></div>
     </form>
