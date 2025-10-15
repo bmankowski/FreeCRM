@@ -5,7 +5,7 @@
 	{assign var='QUICKCREATEMODULE' value=$MODULEMODEL->isQuickCreateSupported()}
 	{assign var='SINGULAR_LABEL' value=$MODULEMODEL->getSingularLabelKey()}
 	{assign var='NAME' value=$MODULEMODEL->getName()}
-	{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE))}
+	{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, $MENU['name']|t:$MENU_MODULE)}
 	{if $QUICKCREATEMODULE == '1' && (isset($ACTIVE_MODULES[$NAME]) && $ACTIVE_MODULES[$NAME]) && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalWritePermission() || $PRIVILEGESMODEL->hasModuleActionPermission($MENU.tabid, 'CreateView') ) }
 		<li class="quickCreateModules quickCreate {if !$HASCHILDS}hasParentMenu{/if} " data-id="{$MENU.id}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
 			<a class="quickCreateModule {if $ICON}hasIcon{/if} {if isset($MENU['hotkey'])}hotKey{/if}" {if isset($MENU['hotkey'])}data-hotkeys="{$MENU['hotkey']}"{/if} data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)">
@@ -20,7 +20,7 @@
 							{if $MENU.name != ''}
 								{$MENU.name|t:"Menu"}
 							{else}
-								{Vtiger_Menu_Model::vtranslateMenu('LBL_QUICK_CREATE_MODULE',$NAME)}: {Vtiger_Menu_Model::vtranslateMenu($SINGULAR_LABEL, $NAME)}
+								{'LBL_QUICK_CREATE_MODULE'|t:$NAME}: {$SINGULAR_LABEL|t:$NAME}
 							{/if}
 						</span>
 					</div>

@@ -1,7 +1,7 @@
 # Translation Mechanisms in FreeCRM
 
 ## Overview
-FreeCRM uses multiple translation systems for different contexts: Smarty templates (server-side), JavaScript (client-side), and specialized menu translations.
+FreeCRM uses multiple translation systems for different contexts: Smarty templates (server-side) and JavaScript (client-side).
 
 ---
 
@@ -63,57 +63,43 @@ Translations are pre-loaded into JavaScript via hidden div:
 
 ---
 
-## 3. Menu-Specific Translations
+## 3. Menu Translations
 
-### Function
+Menu items use the standard `vtranslate()` function, just like any other part of the application. All menu translation strings are stored in `Vtiger.php` along with other common UI strings.
+
+### Common Menu Translation Keys
 ```php
-Vtiger_Menu_Model::vtranslateMenu($key, $module)
+// In languages/en_us/Vtiger.php
+$languageStrings = [
+    'LBL_QUICK_CREATE_MODULE' => 'Quick create',
+    'MEN_VIRTUAL_DESK' => 'Virtual desk',
+    'MEN_COMPANIES_CONTACTS' => 'Companies and Contacts',
+    'MEN_SALES' => 'Sales',
+    'MEN_PROJECTS' => 'Realization',
+    'MEN_MARKETING' => 'Marketing',
+    // ... etc
+];
 ```
 
-### Purpose
-Provides two-tier translation system for menu items with override capability.
-
-### Implementation
-```php
-public static function vtranslateMenu($key, $module)
-{
-    // 1. Check Menu.php first
-    $moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
-    if (isset($moduleStrings['languageStrings'][$key])) {
-        return stripslashes($moduleStrings['languageStrings'][$key]);
-    }
-    
-    // 2. Fallback to regular translation
-    return Vtiger_Language_Handler::getTranslatedString($key, $module);
-}
-```
-
-### Advantages
-- **Centralized**: All menu labels in one file (`Menu.php`)
-- **Override capability**: Customize menu labels without changing module translations
-- **Consistency**: Same label across all menu appearances
+### Note
+`Menu.php` files still exist in language directories for compatibility purposes but contain no translations (empty arrays). All menu translations have been consolidated into `Vtiger.php`.
 
 ---
 
 ## 4. Translation Fallback Chain
 
-### For vtranslateMenu()
-```
-1. languages/{lang}/Menu.php
-   ↓ (not found)
-2. languages/{lang}/{Module}.php
-   ↓ (not found)
-3. languages/{lang}/{BaseModule}.php (for submodules like Settings.Users)
-   ↓ (not found)
-4. languages/{lang}/Vtiger.php (common strings)
-   ↓ (not found)
-5. Repeat 2-4 in default language (usually en_us)
-   ↓ (not found)
-6. Return the key itself (untranslated)
-```
-
 ### For vtranslate()
-Same as above, but **skips step 1** (Menu.php).
+```
+1. languages/{lang}/{Module}.php
+   ↓ (not found)
+2. languages/{lang}/{BaseModule}.php (for submodules like Settings.Users)
+   ↓ (not found)
+3. languages/{lang}/Vtiger.php (common strings)
+   ↓ (not found)
+4. Repeat 1-3 in default language (usually en_us)
+   ↓ (not found)
+5. Return the key itself (untranslated)
+```
 
 ---
 
@@ -122,8 +108,8 @@ Same as above, but **skips step 1** (Menu.php).
 ```
 languages/
 ├── en_us/
-│   ├── Vtiger.php           # Common strings (global fallback)
-│   ├── Menu.php             # Menu-specific translations
+│   ├── Vtiger.php           # Common strings (global fallback) + menu translations
+│   ├── Menu.php             # Empty (kept for compatibility)
 │   ├── Accounts.php         # Module-specific
 │   ├── Contacts.php
 │   └── Settings/
@@ -138,25 +124,30 @@ languages/
 
 ## 6. Common Translation Files
 
-### Vtiger.php (Global Safety Net)
-Contains common UI strings used across all modules:
+### Vtiger.php (Global Fallback)
+Contains common UI strings used across all modules, including menu translations:
 ```php
 $languageStrings = [
+    // Common UI strings
     'LBL_SAVE' => 'Save',
     'LBL_CANCEL' => 'Cancel',
     'LBL_EDIT' => 'Edit',
     'LBL_DELETE' => 'Delete',
+    
+    // Menu translations
+    'LBL_QUICK_CREATE_MODULE' => 'Quick create',
+    'MEN_VIRTUAL_DESK' => 'Virtual desk',
+    'MEN_COMPANIES_CONTACTS' => 'Companies and Contacts',
+    'MEN_SALES' => 'Sales',
     // ... hundreds more
 ];
 ```
 
-### Menu.php (Menu Overrides)
+### Menu.php (Legacy Compatibility)
 ```php
-$languageStrings = [
-    'MEN_VIRTUAL_DESK' => 'Virtual desk',
-    'MEN_COMPANIES_CONTACTS' => 'Companies and Contacts',
-    'LBL_QUICK_CREATE_MODULE' => 'Quick create',
-];
+// All menu translations have been moved to Vtiger.php
+// This file is kept for compatibility with the translation system
+$languageStrings = [];
 ```
 
 ---
@@ -191,15 +182,16 @@ function vtranslate($key, $moduleName = 'Vtiger')
 ### DO
 - Use `|t` modifier in new Smarty templates
 - Use `app.vtranslate()` for JavaScript
-- Use `vtranslateMenu()` for menu items
-- Store common strings in `Vtiger.php`
-- Store menu labels in `Menu.php`
+- Use standard `vtranslate()` for all PHP contexts (including menus)
+- Store common strings and menu labels in `Vtiger.php`
+- Keep module-specific translations in their respective module files
 
 ### DON'T
 - Use nested braces: `{vtranslate({$VAR}, $MODULE)}`
 - Mix Smarty and JavaScript translation methods
 - Duplicate common strings across module files
 - Use Smarty syntax in external `.js` files
+- Add translations to `Menu.php` (it's deprecated)
 
 ---
 
@@ -225,7 +217,7 @@ The `refactor/simple_vtranslate_to_t.py` script handles these conversions:
 
 ## 10. Key Differences Summary
 
-| Aspect | vtranslate() | vtranslateMenu() | app.vtranslate() |
+| Aspect | vtranslate() | vtranslate() | app.vtranslate() |
 |--------|--------------|------------------|------------------|
 | **Context** | Smarty templates | Menu items | JavaScript |
 | **Execution** | Server-side | Server-side | Client-side |

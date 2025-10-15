@@ -40,16 +40,6 @@ class Menu {
 		return $menus;
 	}
 
-	public static function vtranslateMenu($key, $module)
-	{
-		$language = Vtiger_Language_Handler::getLanguage();
-		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
-		if (isset($moduleStrings['languageStrings'][$key])) {
-			return stripslashes($moduleStrings['languageStrings'][$key]);
-		}
-		return Vtiger_Language_Handler::getTranslatedString($key, $module);
-	}
-
 	public static function getBreadcrumbs($pageTitle = false)
 	{
 		$breadcrumbs = [];
@@ -166,7 +156,7 @@ class Menu {
 	{
 		if ($parent != 0 && key_exists($parent, $parentList)) {
 			$return [] = [
-				'name' => self::vtranslateMenu($parentList[$parent]['name'], $module),
+				'name' => \vtranslate($parentList[$parent]['name'], $module),
 				'url' => $parentList[$parent]['url'],
 			];
 			if ($parentList[$parent]['parent'] != 0 && key_exists($parentList[$parent]['parent'], $parentList)) {
@@ -193,7 +183,7 @@ class Menu {
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
-			$title = \FreeCRM\Modules\Vtiger\Models\Menu::vtranslateMenu($menu['label']);
+			$title = \vtranslate($menu['label']);
 		}
 		if (is_string($menu)) {
 			$iconName = vimage_path($menu);
