@@ -22,7 +22,7 @@
 					<div class="col-md-7">
 						<select name="type" class="select2 form-control type">
 							{foreach from=$MENU_TYPES item=ITEM key=KEY}
-								<option value="{$KEY}">{vtranslate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</option>
+								<option value="{$KEY}">{'LBL_'|cat:strtoupper($ITEM)|t:$QUALIFIED_MODULE}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -30,8 +30,8 @@
 				<br />
 				<div class="well well-small" style="margin-bottom: 0;max-height: 280px;overflow-y: scroll;">
 					{foreach from=$MENU_TYPES item=ITEM key=KEY}
-						<h5>{vtranslate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</h5>
-						<p>{vtranslate('LBL_'|cat:strtoupper($ITEM)|cat:'_DESC', $QUALIFIED_MODULE)}</p>
+						<h5>{'LBL_'|cat:strtoupper($ITEM)|t:$QUALIFIED_MODULE}</h5>
+						<p>{'LBL_'|cat:strtoupper($ITEM)|cat:'_DESC'|t:$QUALIFIED_MODULE}</p>
 					{/foreach}
 				</div>
 			</div>

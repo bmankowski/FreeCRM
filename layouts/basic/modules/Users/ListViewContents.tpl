@@ -73,7 +73,7 @@
 						</td>
 					{/foreach}
 					<td width="5%">
-						<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+						<button class="btn btn-default" data-trigger="listSearch">{'LBL_SEARCH'|t:$MODULE }</button>
 					</td>
 				</tr>
 			{/if}

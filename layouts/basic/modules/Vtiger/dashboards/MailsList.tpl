@@ -10,7 +10,7 @@
 	{/foreach}
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),'OSSMail')}</strong></div>
+			<div class="dashboardTitle" title="{$WIDGET->getTitle()|t:'OSSMail'}"><strong>&nbsp;&nbsp;{$WIDGET->getTitle()|t:'OSSMail'}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">

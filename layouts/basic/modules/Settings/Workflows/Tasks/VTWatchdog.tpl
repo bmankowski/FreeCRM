@@ -6,7 +6,7 @@
 		<div class="col-md-9">
 			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
 				{foreach from=\App\Fields\Picklist::getPickListValues('notification_type') key=KEY item=ITEM}
-					<option {if $TASK_OBJECT->type eq $ITEM}selected{/if} value="{$ITEM}">{vtranslate($ITEM, $TASK_OBJECT->srcWatchdogModule)}</option>
+					<option {if $TASK_OBJECT->type eq $ITEM}selected{/if} value="{$ITEM}">{$ITEM|t:$TASK_OBJECT->srcWatchdogModule}</option>
 				{/foreach}
 			</select>
 		</div>
@@ -22,9 +22,9 @@
 					{"LBL_OWNER_REKORD"|t:$QUALIFIED_MODULE}
 				</option>
 				{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-					<optgroup label="{vtranslate($GROUP_LABEL)}">
+					<optgroup label="{$GROUP_LABEL|t}">
 						{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
-							<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $TASK_OBJECT->recipients eq $MEMBER_ID}selected{/if}>{vtranslate($MEMBER['name'])}</option>
+							<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $TASK_OBJECT->recipients eq $MEMBER_ID}selected{/if}>{$MEMBER['name']|t}</option>
 						{/foreach}
 					</optgroup>
 				{/foreach}

@@ -32,7 +32,7 @@
 								<div class="controls">
 									<select class="select2 form-control" name="usersCalendarList" style="min-width: 250px;">
 										{foreach item=VIEWINFO from=$VIEWTYPES['invisible']}
-											<option value="{$VIEWINFO['fieldname']}" data-viewmodule="{$VIEWINFO['module']}">{vtranslate($VIEWINFO['fieldlabel'], $VIEWINFO['module'])}</option>
+											<option value="{$VIEWINFO['fieldname']}" data-viewmodule="{$VIEWINFO['module']}">{$VIEWINFO['fieldlabel']|t:$VIEWINFO['module']}</option>
 										{/foreach}
 									</select>
 								</div>
@@ -43,7 +43,7 @@
 								<div class="controls">
 									<select class="select2" name="editingUsersList" style="min-width: 250px;">
 										{foreach item=VIEWINFO from=$VIEWTYPES['visible']}
-											<option value="{$VIEWINFO['fieldname']}" data-viewmodule="{$VIEWINFO['module']}">{vtranslate($VIEWINFO['fieldlabel'], $VIEWINFO['module'])}</option>
+											<option value="{$VIEWINFO['fieldname']}" data-viewmodule="{$VIEWINFO['module']}">{$VIEWINFO['fieldlabel']|t:$VIEWINFO['module']}</option>
 										{/foreach}
 									</select>
 								</div>
@@ -75,8 +75,8 @@
 		{foreach item=VIEWINFO from=$VIEWTYPES['visible']}
 			<label class="checkbox addedCalendars">
 				<input type="checkbox" data-calendar-sourcekey="{$VIEWINFO['fieldname']}" data-calendar-feed="{$VIEWINFO['module']}" data-calendar-feed-color="{$VIEWINFO['color']}" 
-					   data-calendar-fieldname="{$VIEWINFO['fieldname']}" data-calendar-fieldlabel="{vtranslate($VIEWINFO['fieldlabel'], $VIEWINFO['module'])}"> 
-				&nbsp;<span class="label" style="text-shadow: none; background-color: {$VIEWINFO['color']};">{vtranslate($VIEWINFO['fieldlabel'], $VIEWINFO['module'])}</span>
+					   data-calendar-fieldname="{$VIEWINFO['fieldname']}" data-calendar-fieldlabel="{$VIEWINFO['fieldlabel']|t:$VIEWINFO['module']}"> 
+				&nbsp;<span class="label" style="text-shadow: none; background-color: {$VIEWINFO['color']};">{$VIEWINFO['fieldlabel']|t:$VIEWINFO['module']}</span>
 				{*<!--&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{"LBL_EDIT_COLOR"|t:$MODULE}"></i>-->*}
 				&nbsp;<i class="glyphicon glyphicon-trash cursorPointer actionImage deleteCalendarView" title="{"LBL_DELETE_CALENDAR"|t:$MODULE}"></i>
 			</label>

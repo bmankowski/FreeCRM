@@ -5,7 +5,7 @@
 <!-- layouts/basic/modules/Vtiger/GenerateModal.tpl -->
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{"LBL_CLOSE"|t}">x</button>
-		<h3 class="modal-title">{vtranslate('LBL_GENERATE_RECORD_FOR_MODULE', $BASE_MODULE_NAME)}</h3>
+		<h3 class="modal-title">{'LBL_GENERATE_RECORD_FOR_MODULE'|t:$BASE_MODULE_NAME}</h3>
 	</div>
 	<div class="modal-body text-center">
 		{if $VIEW eq 'List'}
@@ -14,20 +14,20 @@
 				<div class="radio-inline">
 					<label>
 						<input type="radio" name="method" id="optionsRadios1" value="0">
-						{vtranslate('LBL_AUTOGENERATE',$BASE_MODULE_NAME)}&nbsp;
+						{'LBL_AUTOGENERATE'|t:$BASE_MODULE_NAME}&nbsp;
 					</label>
 					<span class="popoverTooltip delay0"  data-placement="top"
-						  data-content="{vtranslate('LBL_AUTOGENERATE_INFO',$BASE_MODULE_NAME)}">
+						  data-content="{'LBL_AUTOGENERATE_INFO'|t:$BASE_MODULE_NAME}">
 						<span class="glyphicon glyphicon-info-sign"></span>
 					</span>
 				</div>
 				<div class="radio-inline">
 					<label>
 						<input type="radio" name="method" id="optionsRadios2" value="1" checked>
-						{vtranslate('LBL_OPEN_NEW_WINDOWS',$BASE_MODULE_NAME)}&nbsp;
+						{'LBL_OPEN_NEW_WINDOWS'|t:$BASE_MODULE_NAME}&nbsp;
 					</label>
 					<span class="popoverTooltip delay0"  data-placement="top"
-						  data-content="{vtranslate('LBL_OPEN_NEW_WINDOWS_INFO',$BASE_MODULE_NAME)}">
+						  data-content="{'LBL_OPEN_NEW_WINDOWS_INFO'|t:$BASE_MODULE_NAME}">
 						<span class="glyphicon glyphicon-info-sign"></span>
 					</span>
 				</div>

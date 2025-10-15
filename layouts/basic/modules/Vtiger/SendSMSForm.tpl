@@ -45,7 +45,7 @@
 										{if !empty($SINGLE_RECORD)}
 											{assign var=FIELD_VALUE value=$SINGLE_RECORD->get($PHONE_FIELD_NAME)}
 										{/if}
-										{vtranslate($PHONE_FIELD->get('label'), $SOURCE_MODULE)}{if !empty($FIELD_VALUE)} ({$FIELD_VALUE}){/if}
+										{$PHONE_FIELD->get('label')|t:$SOURCE_MODULE}{if !empty($FIELD_VALUE)} ({$FIELD_VALUE}){/if}
 									</option>
 								{/foreach}
 							</optgroup>

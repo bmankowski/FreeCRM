@@ -60,7 +60,7 @@
 			<select name="xml_import_tpl" class="chzn-select" id="xml_import_tpl" title="{"LBL_XML_EXPORT_TPL"|t:$MODULE}">
 				<option value="">{"LBL_NONE"|t:"Import"}</option>
 				{foreach key=key item=item from=$XML_IMPORT_TPL}
-					<option value="{$item}">{vtranslate($item, 'Import')}</option>
+					<option value="{$item}">{$item|t:"Import"}</option>
 				{/foreach}
 			</select>
 		</div>

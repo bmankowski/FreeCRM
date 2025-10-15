@@ -25,7 +25,7 @@
 						<div class="form-group">
 							<label class="muted control-label col-md-4">{"LBL_CURRENT_CURRENCY"|t:$QUALIFIED_MODULE}</label>
 							<div class="controls col-md-7 form-control-static">
-								<span>{vtranslate($RECORD_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</span>
+								<span>{$RECORD_MODEL->get('currency_name')|t:$QUALIFIED_MODULE}</span>
 							</div>	
 						</div>
 						<div class="form-group">
@@ -33,7 +33,7 @@
 							<div class="controls col-md-7">
 								<select class="select2 form-control" name="transform_to_id">
 									{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$CURRENCY_LIST}
-										<option value="{$CURRENCY_ID}">{vtranslate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
+										<option value="{$CURRENCY_ID}">{$CURRENCY_MODEL->get('currency_name')|t:$QUALIFIED_MODULE}</option>
 									{/foreach}
 								</select>
 							</div>	

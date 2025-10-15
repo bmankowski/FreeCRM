@@ -14,7 +14,7 @@
 	<div class="col-md-7">
 		<select class='form-control select2' name="displayType" data-validation-engine="validate[required]">
 			{foreach from=$FIELD_INSTANCE->displayTypeBase() item=ITEM key=KEY}
-				<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{vtranslate($KEY, $QUALIFIED_MODULE)}</option>
+				<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{$KEY|t:$QUALIFIED_MODULE}</option>
 			{/foreach}
 		</select>
 	</div>
@@ -31,7 +31,7 @@
 		{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
 		{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 			<div class="form-group paramsJson">
-				<label class="col-md-4 control-label">{vtranslate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:</label>
+				<label class="col-md-4 control-label">{'LBL_PARAMS_'|cat:strtoupper($ITEM)|t:$QUALIFIED_MODULE}:</label>
 				{assign var='functionName' value=$ITEM|cat:'Values'}
 				<div class="col-md-7">
 					<select class='form-control select2' name="{$ITEM}" data-validation-engine="validate[required]" {if $ITEM eq 'modules'} multiple {/if}>
@@ -42,7 +42,7 @@
 							{elseif !($PARAMS[$ITEM]|is_array) && $ITEMS.id eq $PARAMS[$ITEM]}
 								{assign var='CONDITION' value=1}
 							{/if}
-							<option value="{$ITEMS.id}" {if $CONDITION} selected {/if}>{if $ITEM eq 'type'}{vtranslate($ITEMS.currency_name, $ITEMS.module)}{else}{vtranslate($ITEMS.name, $ITEMS.module)}{/if}</option>
+							<option value="{$ITEMS.id}" {if $CONDITION} selected {/if}>{if $ITEM eq 'type'}{$ITEMS.currency_name|t:$ITEMS.module}{else}{$ITEMS.name|t:$ITEMS.module}{/if}</option>
 						{/foreach}
 					</select>
 				</div>

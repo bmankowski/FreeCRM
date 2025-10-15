@@ -43,16 +43,16 @@
 					<tbody>
 						{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 						{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
+							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{$FIELD_DETAILS['label']|t:$QUALIFIED_MODULE}</label></td>
 								<td style="border-left: none;" class="row {$WIDTHTYPE}">
 									{if $FIELD_DETAILS['fieldType'] == 'picklist'}
 										<div class="col-md-4">
 											<select class="select2 form-control" name="{$FIELD_NAME}">
 												{foreach key=optionName item=optionLabel from=$MODEL->getPicklistValues($FIELD_NAME)}
 													{if $FIELD_NAME != 'default_module' && $FIELD_NAME != 'defaultLayout' }
-														<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $QUALIFIED_MODULE)}</option>
+														<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{$optionLabel|t:$QUALIFIED_MODULE}</option>
 													{else}
-														<option value="{$optionName}" {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $optionLabel)}</option>
+														<option value="{$optionName}" {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{$optionLabel|t:$optionLabel}</option>
 													{/if}
 												{/foreach}
 											</select>
@@ -65,8 +65,8 @@
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 										<div class="col-md-4">
 											<select class="select2 form-control" name="{$FIELD_NAME}">
-												<option value="false"  {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{vtranslate(LBL_NO)}</option>
-												<option value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{vtranslate(LBL_YES)}</option>
+												<option value="false"  {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{LBL_NO|t}</option>
+												<option value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{LBL_YES|t}</option>
 											</select>
 										</div>
 									{else}

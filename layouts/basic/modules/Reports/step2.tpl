@@ -45,18 +45,18 @@
 					<select data-placeholder="{"LBL_ADD_MORE_COLUMNS"|t:$MODULE}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{"LBL_ADD_MORE_COLUMNS"|t:$MODULE}" class="form-control columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
-								<optgroup label='{$PRIMARY_MODULE_NAME|t:$MODULE}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
+								<optgroup label='{$PRIMARY_MODULE_NAME|t:$MODULE}-{$BLOCK_LABEL|t:$PRIMARY_MODULE_NAME}'>
 								{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-									<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected=""{/if}>{vtranslate($PRIMARY_MODULE_NAME, $PRIMARY_MODULE_NAME)} {vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
+									<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected=""{/if}>{$PRIMARY_MODULE_NAME|t:$PRIMARY_MODULE_NAME} {$FIELD_LABEL|t:$PRIMARY_MODULE_NAME}</option>
 								{/foreach}
 								</optgroup>
 							{/foreach}
 						{/foreach}
 						{foreach key=SECONDARY_MODULE_NAME item=SECONDARY_MODULE from=$SECONDARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$SECONDARY_MODULE}
-								<optgroup label='{$SECONDARY_MODULE_NAME|t:$MODULE}-{vtranslate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
+								<optgroup label='{$SECONDARY_MODULE_NAME|t:$MODULE}-{$BLOCK_LABEL|t:$SECONDARY_MODULE_NAME}'>
 								{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-									<option value="{$FIELD_KEY}"{if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected=""{/if}>{vtranslate($SECONDARY_MODULE_NAME, $SECONDARY_MODULE_NAME)} {vtranslate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
+									<option value="{$FIELD_KEY}"{if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected=""{/if}>{$SECONDARY_MODULE_NAME|t:$SECONDARY_MODULE_NAME} {$FIELD_LABEL|t:$SECONDARY_MODULE_NAME}</option>
 								{/foreach}
 								</optgroup>
 							{/foreach}
@@ -113,7 +113,7 @@
 								{assign var=fieldNameArray value=array_slice($FIELDNAME_EXPLODE, 1)}
 								{assign var=fieldName value=implode('__',$fieldNameArray)}
 								<tr class="calculationFieldRow">
-									<td>{$CALCULATION_FIELDS_MODULE_LABEL|t:$MODULE}-{vtranslate($CALCULATION_FIELD,$CALCULATION_FIELDS_MODULE_LABEL)}</td>
+									<td>{$CALCULATION_FIELDS_MODULE_LABEL|t:$MODULE}-{$CALCULATION_FIELD|t:$CALCULATION_FIELDS_MODULE_LABEL}</td>
 									{foreach item=FIELD_OPERATION_VALUE from=$FIELD_OPERATION_VALUES}
 										{assign var=FIELD_CALCULATION_VALUE value="cb:$tableName:$columnName:$fieldName"|cat:'__'|cat:$FIELD_OPERATION_VALUE}
 										<td width="15%">

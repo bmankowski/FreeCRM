@@ -22,7 +22,7 @@
 				<a class="span0 changeDetailViewMode height20 cursorPointer"><sub>{"LBL_SHOW_FULL_DETAILS"|t:$MODULE_NAME}</sub></a>
 				{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 				{assign var="SUMMARY_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=summary'} }
-				<input type="hidden" name="viewMode" value="summary" data-nextviewname="full" data-currentviewlabel="{vtranslate('LBL_SHOW_SUMMARY_DETAILS',{$MODULE_NAME})}"
+				<input type="hidden" name="viewMode" value="summary" data-nextviewname="full" data-currentviewlabel="{'LBL_SHOW_SUMMARY_DETAILS'|t:{$MODULE_NAME}}"
 					  data-summary-url="{$SUMMARY_MODE_URL}" data-full-url="{$FULL_MODE_URL}"  />
 			</div>
 			<div class="col-md-7">
@@ -39,7 +39,7 @@
 						{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 						<span class="btn-group">
 							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-								<strong>{vtranslate('LBL_MORE',{$MODULE_NAME})}</strong>
+								<strong>{'LBL_MORE'|t:{$MODULE_NAME}}</strong>
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu pull-right">
@@ -68,12 +68,12 @@
 				<ul class="nav nav-stacked nav-pills">
 					{foreach item=RELATED_LINK from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
 					<li class="" data-url="{$RELATED_LINK->getUrl()}" data-label-key="{$RELATED_LINK->getLabel()}">
-						<a>{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</a>
+						<a>{$RELATED_LINK->getLabel()|t:{$MODULE_NAME}}</a>
 					</li>
 					{/foreach}
 					{foreach item=RELATED_LINK from=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
 					<li class="" data-url="{$RELATED_LINK->getUrl()}" data-label-key="{$RELATED_LINK->getLabel()}" >
-							<a>{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</a>
+							<a>{$RELATED_LINK->getLabel()|t:{$MODULE_NAME}}</a>
 						</li>
 					{/foreach}
 				</ul>

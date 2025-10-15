@@ -91,7 +91,7 @@
 					<tbody>
 						{foreach from=Users_Colors_Model::getModulesColors() item=item key=key}
 							<tr data-id="{$item.id}" data-color="{$item.color}">
-								<td>{vtranslate($item.module,$item.module)}</td>
+								<td>{$item.module|t:$item.module}</td>
 								<td>
 									<input class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 								</td>

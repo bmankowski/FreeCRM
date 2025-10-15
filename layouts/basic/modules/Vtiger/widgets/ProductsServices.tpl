@@ -40,7 +40,7 @@
 					<tr class="">
 						{foreach item=HEADER_FIELD key=KEY from=$RELATED_HEADERS}
 							<th class="{$KEY}" nowrap>
-								{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE)}
+								{$HEADER_FIELD->get('label')|t:$RELATED_MODULE}
 							</th>
 						{/foreach}
 					</tr>
@@ -77,7 +77,7 @@
 					<tr class="">
 						{foreach item=HEADER from=$RELATED_HEADERS_TREE}
 							<th nowrap>
-								{vtranslate($HEADER, $RELATED_MODULE)}
+								{$HEADER|t:$RELATED_MODULE}
 							</th>
 						{/foreach}
 					</tr>

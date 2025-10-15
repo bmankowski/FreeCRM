@@ -16,7 +16,7 @@
 		<div class="col-md-7">
 			<select class='form-control select2' name="displayType" data-validation-engine="validate[required]">
 				{foreach from=$FIELD_INSTANCE->displayTypeBase() item=ITEM key=KEY}
-					<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{vtranslate($KEY, $QUALIFIED_MODULE)}</option>
+					<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{$KEY|t:$QUALIFIED_MODULE}</option>
 				{/foreach}
 			</select>
 		</div>

@@ -31,7 +31,7 @@
 							{assign var=RELATED_MODULE value=vtlib\Functions::getCRMRecordType($RELATED_TO)}
 							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
 								<strong>
-									{vtranslate($RELATED_MODULE,$RELATED_MODULE)}: 
+									{$RELATED_MODULE|t:$RELATED_MODULE}: 
 								</strong>
 								<strong class="commentRelatedTitle">
 									{vtlib\Functions::getCRMRecordLabel($RELATED_TO)}

@@ -26,7 +26,7 @@
 						<div class="row">
 							<div class="col-md-3 marginLeftZero"><strong>{"Type widget"|t:$QUALIFIED_MODULE}</strong>:</div>
 							<div class="col-md-7">
-								{vtranslate($TYPE, $QUALIFIED_MODULE)}
+								{$TYPE|t:$QUALIFIED_MODULE}
 							</div>
 							<div class="col-md-3 marginLeftZero"><label class="">{"Label"|t:$QUALIFIED_MODULE}:</label></div>
 							<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>

@@ -38,9 +38,9 @@
 						<div class="col-md-5">
 							<select class="chzn-select form-control" name="blockid">
 								{foreach from=$BLOCKS item=MODULES key=key}
-									<optgroup label="{vtranslate($key, $key)}">
+									<optgroup label="{$key|t:$key}">
 									{foreach from=$MODULES item=item key=key}
-										<option value="{$key}" {if $BLOCK_ID == $key}selected=""{/if}>{vtranslate($item['blocklabel'],$item['module'])}</option>
+										<option value="{$key}" {if $BLOCK_ID == $key}selected=""{/if}>{$item['blocklabel']|t:$item['module']}</option>
 									{/foreach}
 									</optgroup>
 								{/foreach}
@@ -62,7 +62,7 @@
 						<div class="col-md-5">
 							<select multiple class="chzn-select form-control" name="views[]">
 								{foreach from=$VIEWS item=LABEL key=VIEW_NAME}
-									<option value="{$VIEW_NAME}" {if in_array($VIEW_NAME,$SELECTED_VIEWS)}selected=""{/if}>{vtranslate($LABEL,$QUALIFIED_MODULE)}</option>
+									<option value="{$VIEW_NAME}" {if in_array($VIEW_NAME,$SELECTED_VIEWS)}selected=""{/if}>{$LABEL|t:$QUALIFIED_MODULE}</option>
 								{/foreach}
 							</select>
 						</div>

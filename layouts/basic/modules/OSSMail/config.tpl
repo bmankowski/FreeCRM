@@ -31,7 +31,7 @@
 				<br>
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
+						<h4>{'ERR_NO_REQUIRED_LIBRARY'|t:'Settings:Vtiger','roundcube'}</h4>
 				</div>
 			</div>
 		{elseif !$ACTIVE_MODULES.OSSMail}	
@@ -48,7 +48,7 @@
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
 						<div class="row marginBottom10px">
 							<div class="row col-md-3">
-								<label class="muted ">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
+								<label class="muted ">{$FIELD_DETAILS['label']|t:"OSSMail"}</label></td>
 							</div>
 							<div class="col-md-9">
 								{if $FIELD_DETAILS['fieldType'] == 'picklist'}
@@ -57,7 +57,7 @@
 											{foreach item=row from=$FIELD_DETAILS['value']}
 												<option value="{$row}" {if $row == $FIELD_DATA[$FIELD_NAME]} selected {/if}>
 													{if $FIELD_NAME != 'language'}
-														{vtranslate($FIELD_NAME|cat:'_'|cat:$row, 'OSSMail')}
+														{$FIELD_NAME|cat:'_'|cat:$row|t:"OSSMail"}
 													{else}
 														{$row}
 													{/if}

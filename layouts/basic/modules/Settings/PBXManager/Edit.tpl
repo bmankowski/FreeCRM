@@ -37,7 +37,7 @@
 					<tbody>
 						{assign var=FIELDS value=PBXManager_PBXManager_Connector::getSettingsParameters()}
 						{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
-							<tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{vtranslate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
+							<tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{$FIELD_NAME|t:$QUALIFIED_MODULE}</label></td>
 								<td style="border-left: none;"><input type="{$FIELD_TYPE}" class="form-control" name="{$FIELD_NAME}" data-validation-engine='validate[required]' value="{$RECORD_MODEL->get($FIELD_NAME)}" /></td></tr>
 								{/foreach}
 					<input type="hidden" name="module" value="PBXManager"/>

@@ -6,7 +6,7 @@
 			<ul class="nav nav-tabs massEditTabs selectDashboard">
 				{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
 					<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-						<a data-toggle="tab"><strong>{vtranslate($DASHBOARD['name'])}</strong></a>
+						<a data-toggle="tab"><strong>{$DASHBOARD['name']|t}</strong></a>
 					</li>
 				{/foreach}
 			</ul>
@@ -14,7 +14,7 @@
 		{if count($MODULES_WITH_WIDGET) > 1 && ($MODULE_NAME eq 'Home' || $SRC_MODULE_NAME eq 'Home')}
 			<ul class="nav nav-tabs massEditTabs selectDashboradView">
 				{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
-					<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{vtranslate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
+					<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{$MODULE_WIDGET|t:$MODULE_WIDGET}</a></li>
 				{/foreach}
 			</ul>
 		{/if}

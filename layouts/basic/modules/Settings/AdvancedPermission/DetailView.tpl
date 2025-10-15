@@ -5,7 +5,7 @@
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{if isset($SELECTED_PAGE)}
-				{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
 			{/if}
 		</div>
 		<div class="col-md-4 ">
@@ -30,7 +30,7 @@
 						{"LBL_ACTION"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
-						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('action'), $QUALIFIED_MODULE)}</strong>
+						<strong>{$RECORD_MODEL->getDisplayValue('action')|t:$QUALIFIED_MODULE}</strong>
 					</div>
 				</div>
 				<div class="form-group">
@@ -38,7 +38,7 @@
 						{"LBL_STATUS"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
-						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('status'), $QUALIFIED_MODULE)}</strong>
+						<strong>{$RECORD_MODEL->getDisplayValue('status')|t:$QUALIFIED_MODULE}</strong>
 					</div>
 				</div>
 				<div class="form-group">
@@ -46,7 +46,7 @@
 						{"LBL_PRIORITY"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
-						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('priority'))}</strong>
+						<strong>{$RECORD_MODEL->getDisplayValue('priority')|t}</strong>
 					</div>
 				</div>
 				<div class="form-group">

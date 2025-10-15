@@ -17,13 +17,13 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_WIDGET_NAME'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_WIDGET_NAME'|t}</td>
 										<td class="fieldValue">
 											<input type="text" class="form-control" name="widgetTitle" value="">
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_CHART'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_CHART'|t}</td>
 										<td class="fieldValue">
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
@@ -38,18 +38,18 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_MODULE'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_MODULE'|t}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="module">
 												<option></option>
 												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
-													<option value="{$MODULE_MODEL['name']}">{vtranslate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
+													<option value="{$MODULE_MODEL['name']}">{$MODULE_MODEL['name']|t:$MODULE_MODEL['name']}</option>
 												{/foreach}
 											</select>
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_FILTER'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_FILTER'|t}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="filterid">
 												<option></option>
@@ -57,7 +57,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_GROUP_FIELD'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_GROUP_FIELD'|t}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="groupField" size="2" >
 												<option></option>
@@ -65,7 +65,7 @@
 										</td>
 									</tr>
 									<tr class="hide sectorContainer">
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SECTOR'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SECTOR'|t}</td>
 										<td class="fieldValue">
 											<select class="form-control select2" multiple name="sectorField" size="2" >
 											</select>
@@ -82,10 +82,10 @@
 	{elseif $WIZARD_STEP eq 'step2'}
 		<option></option>
 		{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
-			<optgroup label="{vtranslate($FILTERGROUP,$SELECTED_MODULE)}">
+			<optgroup label="{$FILTERGROUP|t:$SELECTED_MODULE}">
 				{foreach from=$FILTERS item=FILTER key=FILTERNAME}
 					{if $FILTER->get('setmetrics') eq 1}
-						<option value="{$FILTER->getId()}">{vtranslate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
+						<option value="{$FILTER->getId()}">{$FILTER->get('viewname')|t:$SELECTED_MODULE}</option>
 					{/if}
 				{/foreach}
 			</optgroup>
@@ -93,7 +93,7 @@
 	{elseif $WIZARD_STEP eq 'step3'}
 		<option></option>
 		{foreach from=$MODULE_FIELDS item=FIELD key=FIELD_NAME}
-			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{vtranslate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{$FIELD->getFieldLabel()|t:$SELECTED_MODULE}</option>
 		{/foreach}
 	{/if}
 <!--/layouts/basic/modules/Vtiger/dashboards/ChartFilter.tpl -->

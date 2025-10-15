@@ -33,11 +33,11 @@
 								<div class="col-md-4">
 									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
-											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
+											<optgroup label='{$FIELD_MODULE_NAME|t:$FIELD_MODULE_NAME}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
 															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
-															>{vtranslate($item['label'], $BASE_MODULE)}</option>
+															>{$item['label']|t:$BASE_MODULE}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
@@ -48,7 +48,7 @@
 										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
-												{vtranslate($item,$QUALIFIED_MODULE)}
+												{$item|t:$QUALIFIED_MODULE}
 											</option>
 										{/foreach}
 									</select>
@@ -98,11 +98,11 @@
 								<span class="col-md-4">
 									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
-											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
+											<optgroup label='{$FIELD_MODULE_NAME|t:$FIELD_MODULE_NAME}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
 															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
-															>{vtranslate($item['label'], $BASE_MODULE)}</option>
+															>{$item['label']|t:$BASE_MODULE}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
@@ -113,7 +113,7 @@
 										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
-												{vtranslate($item,$QUALIFIED_MODULE)}
+												{$item|t:$QUALIFIED_MODULE}
 											</option>
 										{/foreach}
 									</select>

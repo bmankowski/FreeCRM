@@ -34,7 +34,7 @@
 						</tr>
 						<tr>
 							{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders() name=header}
-								<th {if $smarty.foreach.header.iteration > 2}data-hide='phone'{/if}><b>{vtranslate($LABEL, $LABEL)}</b></th>
+								<th {if $smarty.foreach.header.iteration > 2}data-hide='phone'{/if}><b>{$LABEL|t:$LABEL}</b></th>
 							{/foreach}
 						</tr>
 					</thead>
@@ -54,7 +54,7 @@
 										{/foreach}
 									</select>
 								</td>
-								<td class="selectedFieldDataType textAlignCenter alignMiddle">{vtranslate($MAPPING_ARRAY['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
+								<td class="selectedFieldDataType textAlignCenter alignMiddle">{$MAPPING_ARRAY['Leads']['fieldDataType']|t:$QUALIFIED_MODULE}</td>
 								<td>
 									<select class="accountsFields select2" name="mapping[{$smarty.foreach.mappingLoop.iteration}][account]">
 										<option data-type="{"LBL_NONE"|t:$QUALIFIED_MODULE}" value="0" label="{"LBL_NONE"|t:$QUALIFIED_MODULE}">{"LBL_NONE"|t:$QUALIFIED_MODULE}</option>

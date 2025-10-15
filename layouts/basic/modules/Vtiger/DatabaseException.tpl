@@ -32,7 +32,7 @@
 				{if $MESSAGE['trace']}
 					<div>
 						<strong>{"LBL_BACKTRACE"|t}</strong>:
-						<pre>{vtranslate($MESSAGE['trace'])}</pre>
+						<pre>{$MESSAGE['trace']|t}</pre>
 					</div>
 				{/if}
 			</div>

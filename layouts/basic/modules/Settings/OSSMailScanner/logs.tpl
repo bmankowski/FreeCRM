@@ -67,11 +67,11 @@
 						<td>{$item['id']}</td>
 						<td>{$item['start_time']}</td>
 						<td>{$item['end_time']}</td>
-						<td>{vtranslate($item['status'], 'OSSMailScanner')}</td>
+						<td>{$item['status']|t:"OSSMailScanner"}</td>
 						<td>{$item['user']}</td>
 						<td>{$item['count']}</td>
 						<td>{$item['stop_user']}</td>
-						<td>{vtranslate($item['action'], 'OSSMailScanner')}</td>
+						<td>{$item['action']|t:"OSSMailScanner"}</td>
 						<td>{$item['info']}</td>
 						<td>
 							{if $item['status'] eq 'In progress'}

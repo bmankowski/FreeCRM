@@ -32,7 +32,7 @@
 				<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="referenceModulesList" title="{"LBL_RELATED_MODULE_TYPE"|t}" required="required">
 					{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
 						{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE)}
-						<option value="{$REFERENCE}" title="{vtranslate($REFERENCE, $REFERENCE)}" data-is-quickcreate="{$REFERENCE_MODULE_MODEL->isQuickCreateSupported()}" data-parent="{$UITYPE_MODEL->getParentModule($REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($REFERENCE, $REFERENCE)}</option>
+						<option value="{$REFERENCE}" title="{$REFERENCE|t:$REFERENCE}" data-is-quickcreate="{$REFERENCE_MODULE_MODEL->isQuickCreateSupported()}" data-parent="{$UITYPE_MODEL->getParentModule($REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{$REFERENCE|t:$REFERENCE}</option>
 					{/foreach}
 				</select>
 			</div>

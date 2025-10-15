@@ -16,7 +16,7 @@
 		<table class="table table-bordered">
 			<tr>
 				{foreach from=$COLUMN_LIST item=col key=col_key}
-					<th>{vtranslate($col_key, 'Vtiger')}</th>
+					<th>{$col_key|t:"Vtiger"}</th>
 					{/foreach}
 			</tr>
 			{foreach key=$index item=record from=$LIST}

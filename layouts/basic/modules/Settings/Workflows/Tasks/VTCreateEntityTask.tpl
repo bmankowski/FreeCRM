@@ -63,7 +63,7 @@
 					<option value="">{"LBL_NONE"|t:$QUALIFIED_MODULE}</option>
 					{foreach from=$TEMPLATES_MAPPING key=ID item=TEMPLATE}
 						{assign var=TEMPLATE_RELATED_MODULE_NAME value=$TEMPLATE->getRelatedName()}
-						<option {if $TASK_OBJECT->entity_type eq $TEMPLATE_RELATED_MODULE_NAME} selected="" {/if} value="{$TEMPLATE_RELATED_MODULE_NAME}">{vtranslate($TEMPLATE_RELATED_MODULE_NAME, $TEMPLATE_RELATED_MODULE_NAME)}</option>
+						<option {if $TASK_OBJECT->entity_type eq $TEMPLATE_RELATED_MODULE_NAME} selected="" {/if} value="{$TEMPLATE_RELATED_MODULE_NAME}">{$TEMPLATE_RELATED_MODULE_NAME|t:$TEMPLATE_RELATED_MODULE_NAME}</option>
 					{/foreach}	
 				</select>
 			</div>

@@ -36,15 +36,15 @@
 				<tbody>
 					{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-						<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
+						<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{$FIELD_DETAILS['label']|t:$QUALIFIED_MODULE}</label></td>
 							<td style="border-left: none;" class="{$WIDTHTYPE}">
 								<span>{if $FIELD_NAME == 'default_module'}
-										{vtranslate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
+										{$FIELD_DATA[$FIELD_NAME]|t:$FIELD_DATA[$FIELD_NAME]}
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 										{if vtranslate($FIELD_DATA[$FIELD_NAME]) == 'true'}
-											{vtranslate(LBL_YES)}
+											{LBL_YES|t}
 										{else}
-											{vtranslate(LBL_NO)}
+											{LBL_NO|t}
 										{/if}
 									{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
 										{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}

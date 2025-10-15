@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/HelpDesk/DetailViewHeaderTitle.tpl -->
 	{if AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
 		<div class="alert alert-danger marginBottom10px" role="alert">
-			<strong>{vtranslate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
+			<strong>{'LBL_NO_ACCOUNTS_IN_HELPDESK'|t:{$MODULE}}</strong>
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
 					<strong> [ <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ]</strong>

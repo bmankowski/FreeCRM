@@ -24,7 +24,7 @@
 							<div class="col-md-8">
 								<select name="type" class="select2 col-md-3 marginLeftZero form-control">
 								{foreach from=$MODULE_MODEL->getType($SOUNRCE_MODULE) item=item key=key}
-									<option value="{$key}" >{vtranslate($item, $QUALIFIED_MODULE)}</option>
+									<option value="{$key}" >{$item|t:$QUALIFIED_MODULE}</option>
 								{/foreach}
 								</select>
 							</div>

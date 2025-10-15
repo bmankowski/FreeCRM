@@ -20,7 +20,7 @@
 			{else}	
 				<select name="methodName" class="chzn-select">
 					{foreach from=$ENTITY_METHODS item=METHOD}
-						<option {if $TASK_OBJECT->methodName eq $METHOD}selected="" {/if} value="{$METHOD}">{vtranslate($METHOD,$QUALIFIED_MODULE)}</option>
+						<option {if $TASK_OBJECT->methodName eq $METHOD}selected="" {/if} value="{$METHOD}">{$METHOD|t:$QUALIFIED_MODULE}</option>
 					{/foreach}
 				</select>
 			{/if}

@@ -133,7 +133,7 @@
 									</td>
 									<td><select class="select2 form-control" name="timezone">
 											{foreach item=TIMEZONE from=$TIMEZONES}
-												<option value="{$TIMEZONE}" {if $TIMEZONE eq 'Europe/London'}selected{/if}>{vtranslate($TIMEZONE, 'Users')}</option>
+												<option value="{$TIMEZONE}" {if $TIMEZONE eq 'Europe/London'}selected{/if}>{$TIMEZONE|t:"Users"}</option>
 											{/foreach}
 										</select>
 									</td>

@@ -7,7 +7,7 @@
 				<optgroup label="{"LBL_ROLES"|t:$QUALIFIED_MODULE}">
 					{foreach item=ROLE key=ROLEID from=$ROLES}
 						<option value="{$ROLEID}" {if $ID == $ROLEID}selected{/if}>
-							{vtranslate($ROLE->getName(), $QUALIFIED_MODULE)}
+							{$ROLE->getName()|t:$QUALIFIED_MODULE}
 						</option>
 					{/foreach}
 				</optgroup>
@@ -25,7 +25,7 @@
 				<optgroup label="{"LBL_ROLES"|t:$QUALIFIED_MODULE}">
 					{foreach item=ROLE key=ROLEID from=$ROLES}
 						<option value="{$ROLEID}" {if in_array($ROLEID, $SUSERS)}selected{/if}>
-							{vtranslate($ROLE->getName(), $QUALIFIED_MODULE)}
+							{$ROLE->getName()|t:$QUALIFIED_MODULE}
 						</option>
 					{/foreach}
 				</optgroup>

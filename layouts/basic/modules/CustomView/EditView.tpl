@@ -79,7 +79,7 @@
 							<div class="">
 								<select data-placeholder="{"LBL_ADD_MORE_COLUMNS"|t:$MODULE}" multiple class="columnsSelect form-control" id="viewColumnsSelect">
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-										<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+										<optgroup label='{$BLOCK_LABEL|t:$SOURCE_MODULE}'>
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 												{if $FIELD_MODEL->isMandatory()}
 													{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
@@ -88,7 +88,7 @@
 														{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
 															selected
 														{/if}
-														>{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+														>{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 											{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
 											</option>
 										{/foreach}
@@ -96,7 +96,7 @@
 									{/foreach}
 									{*Required to include event fields for columns in calendar module advanced filter*}
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
-										<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
+										<optgroup label='{$BLOCK_LABEL|t:"Events"}'>
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 												{if $FIELD_MODEL->isMandatory()}
 													{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
@@ -105,7 +105,7 @@
 														{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
 															selected
 														{/if}
-														>{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+														>{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 											{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
 											</option>
 										{/foreach}

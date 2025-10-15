@@ -81,7 +81,7 @@
 </div>
 <div class="clearfix form-actions pushDown">
 	<button class="cancelLink pull-right btn btn-warning" type="button">{"LBL_CANCEL"|t:$MODULE_NAME}</button>
-	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{"LBL_ADD_TO"|t:$MODULE_NAME}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
+	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{"LBL_ADD_TO"|t:$MODULE_NAME}&nbsp;{$SOURCE_MODULE|t:$SOURCE_MODULE}</strong></button>
 </div>
 <!--/layouts/basic/modules/PriceBooks/ProductPriceBookPopupContents.tpl -->
 {/strip}

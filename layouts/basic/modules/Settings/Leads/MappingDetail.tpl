@@ -18,7 +18,7 @@
 		<div class="col-md-4 btn-toolbar marginLeftZero">
 			<div class="pull-right">
 				{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
-					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong>{vtranslate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}</strong></button>
+					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong>{$LINK_MODEL->getLabel()|t:$QUALIFIED_MODULE}</strong></button>
 				{/foreach}
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 			<thead>
 				<tr>
 					{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders() name=index}
-						<th {if $smarty.foreach.index.iteration > 2}data-hide='phone'{/if} ><b>{vtranslate($LABEL, $LABEL)}</b></th>
+						<th {if $smarty.foreach.index.iteration > 2}data-hide='phone'{/if} ><b>{$LABEL|t:$LABEL}</b></th>
 							{/foreach}
 				</tr>
 			</thead>
@@ -46,7 +46,7 @@
 				{foreach key=MAPPING_ID item=MAPPING from=$MODULE_MODEL->getMapping()}
 					<tr class="listViewEntries" data-cfmid="{$MAPPING_ID}">
 						<td>{vtranslate({$MAPPING['Leads']['label']}, 'Leads')}</td>
-						<td>{vtranslate($MAPPING['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
+						<td>{$MAPPING['Leads']['fieldDataType']|t:$QUALIFIED_MODULE}</td>
 						<td>{vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
 					</tr>
 				{/foreach}

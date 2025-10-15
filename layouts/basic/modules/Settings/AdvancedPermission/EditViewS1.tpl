@@ -29,7 +29,7 @@
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="actions" data-validation-engine="validate[required]">
 						{foreach from=Settings_AdvancedPermission_Module_Model::$action key=ID item=NAME}
-							<option value="{$ID}" {if $RECORD_MODEL->get('action') == $ID}selected="true"{/if}>{vtranslate($NAME, $QUALIFIED_MODULE)}</option>
+							<option value="{$ID}" {if $RECORD_MODEL->get('action') == $ID}selected="true"{/if}>{$NAME|t:$QUALIFIED_MODULE}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -41,7 +41,7 @@
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="status" data-validation-engine="validate[required]">
 						{foreach from=Settings_AdvancedPermission_Module_Model::$status key=ID item=NAME}
-							<option value="{$ID}" {if $RECORD_MODEL->get('status') == $ID}selected="true"{/if}>{vtranslate($NAME, $QUALIFIED_MODULE)}</option>
+							<option value="{$ID}" {if $RECORD_MODEL->get('status') == $ID}selected="true"{/if}>{$NAME|t:$QUALIFIED_MODULE}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -53,7 +53,7 @@
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="priority" data-validation-engine="validate[required]">
 						{foreach from=Settings_AdvancedPermission_Module_Model::$priority key=ID item=NAME}
-							<option value="{$ID}" {if $RECORD_MODEL->get('priority') == $ID}selected="true"{/if}>{vtranslate($NAME)}</option>
+							<option value="{$ID}" {if $RECORD_MODEL->get('priority') == $ID}selected="true"{/if}>{$NAME|t}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -86,9 +86,9 @@
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control groupMembersColors"  multiple="true" name="members[]" data-validation-engine="validate[required]">
 						{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-							<optgroup label="{vtranslate($GROUP_LABEL)}">
+							<optgroup label="{$GROUP_LABEL|t}">
 								{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
-									<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $RECORD_MODEL->get('members') && in_array($MEMBER_ID, $RECORD_MODEL->get('members'))}selected="true"{/if}>{vtranslate($MEMBER['name'])}</option>
+									<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $RECORD_MODEL->get('members') && in_array($MEMBER_ID, $RECORD_MODEL->get('members'))}selected="true"{/if}>{$MEMBER['name']|t}</option>
 								{/foreach}
 							</optgroup>
 						{/foreach}

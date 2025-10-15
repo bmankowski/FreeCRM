@@ -77,7 +77,7 @@
 									<h4 class="panel-title">
 										<div class="relatedModuleLabel mainBlockTableLabel">
 											<a><img src="{vimage_path('drag.png')}" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}"/></a>
-											<strong>{vtranslate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
+											<strong>{$MODULE_MODEL->get('label')|t:$RELATED_MODULE_NAME}</strong>
 										</div>
 									</h4>
                                 </div>
@@ -90,17 +90,17 @@
 													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
 													{if $FIELD_INSTANCE}
 														<option value="{$FIELD_INSTANCE->getId()}" data-name="{$FIELD_INSTANCE->getFieldName()}" selected>
-															{vtranslate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
+															{$FIELD_INSTANCE->get('label')|t:$RELATED_MODULE_NAME}
 												  		</option>
 											  		{/if}
 												{/foreach}
 											</optgroup>
 					                        {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-												<optgroup label='{vtranslate($BLOCK_LABEL, $RELATED_MODULE_NAME)}'>
+												<optgroup label='{$BLOCK_LABEL|t:$RELATED_MODULE_NAME}'>
 													{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 														{if !in_array($FIELD_MODEL->getId(), $SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getId()}" data-field-name="{$FIELD_NAME}">
-																{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
+																{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_NAME}
 													  		</option>
 												  		{/if}
 													{/foreach}
@@ -117,14 +117,14 @@
 													{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
 													{if $FIELD_INSTANCE}
 														<option value="{$FIELD_INSTANCE->getColumnName()}" data-name="{$FIELD_INSTANCE->getColumnName()}" selected>
-															{vtranslate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
+															{$FIELD_INSTANCE->get('label')|t:$RELATED_MODULE_NAME}
 														</option>
 													{/if}
 												{/foreach}
 												{foreach item=FIELD_MODEL from=$INVENTORY_FIELDS}
 													{if !in_array($FIELD_MODEL->getColumnName(), $SELECTED_FIELDS)}
 														<option value="{$FIELD_MODEL->getColumnName()}" data-field-name="{$FIELD_MODEL->getColumnName()}">
-															{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
+															{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_NAME}
 														</option>
 													{/if}
 												{/foreach}
@@ -154,7 +154,7 @@
 									<div class="col-md-7">
 										<select name="type" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
-												<option value="{$KEY}">{vtranslate($ITEM, $QUALIFIED_MODULE)}</option>
+												<option value="{$KEY}">{$ITEM|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>
 									</div>
@@ -164,7 +164,7 @@
 									<div class="col-md-7 marginTop">
 										<select multiple name="actions" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsActions() item=ITEM key=KEY}
-												<option value="{$KEY}">{vtranslate($ITEM, $QUALIFIED_MODULE)}</option>
+												<option value="{$KEY}">{$ITEM|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>
 									</div>

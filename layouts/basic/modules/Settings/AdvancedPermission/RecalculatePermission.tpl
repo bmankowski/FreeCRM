@@ -26,7 +26,7 @@
 					<b>{"LBL_MODULES_LIST"|t:$MODULE}</b>
 					<select class="select2" name="moduleName">
 						{foreach from=$LIST_MODULES key=TABID item=MODULE_INFO}
-							<option value="{$MODULE_INFO['name']}">{vtranslate($MODULE_INFO['name'], $MODULE_INFO['name'])}</option>
+							<option value="{$MODULE_INFO['name']}">{$MODULE_INFO['name']|t:$MODULE_INFO['name']}</option>
 						{/foreach}
 					</select>
 				</div>

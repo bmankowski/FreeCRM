@@ -21,7 +21,7 @@
 		{include file=$FILENAME|vtemplate_path:$MODULE RELATED_RECORDS=$RELATED_RECORDS}
 	{elseif $PAGING_MODEL->get('nrt') == 1}
 		<div class="summaryWidgetContainer">
-			<p class="textAlignCenter">{"LBL_NO_RELATED"|t:$MODULE} {vtranslate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}</p>
+			<p class="textAlignCenter">{"LBL_NO_RELATED"|t:$MODULE} {$RELATED_MODULE_NAME|t:$RELATED_MODULE_NAME}</p>
 		</div>
 	{/if}
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}

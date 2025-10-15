@@ -12,7 +12,7 @@
 			{if Settings_ModuleManager_Library_Model::checkLibrary('mPDF')}
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','mPDF')}</h4>
+						<h4>{'ERR_NO_REQUIRED_LIBRARY'|t:'Settings:Vtiger','mPDF'}</h4>
 					</div>
 				</div>
 				<hr>

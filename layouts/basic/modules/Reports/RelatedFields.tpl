@@ -17,18 +17,18 @@
 				<option value="none">{"LBL_NONE"|t:$MODULE}</option>
 				{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 					{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
-						<optgroup label='{$PRIMARY_MODULE_NAME|t:$MODULE}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
+						<optgroup label='{$PRIMARY_MODULE_NAME|t:$MODULE}-{$BLOCK_LABEL|t:$PRIMARY_MODULE_NAME}'>
 							{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-								<option value="{$FIELD_KEY}"{if $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
+								<option value="{$FIELD_KEY}"{if $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{$FIELD_LABEL|t:$PRIMARY_MODULE_NAME}</option>
 							{/foreach}
 						</optgroup>
 					{/foreach}
 				{/foreach}
 				{foreach key=SECONDARY_MODULE_NAME item=SECONDARY_MODULE from=$SECONDARY_MODULE_FIELDS}
 					{foreach key=BLOCK_LABEL item=BLOCK from=$SECONDARY_MODULE}
-						<optgroup label='{$SECONDARY_MODULE_NAME|t:$MODULE}-{vtranslate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
+						<optgroup label='{$SECONDARY_MODULE_NAME|t:$MODULE}-{$BLOCK_LABEL|t:$SECONDARY_MODULE_NAME}'>
 							{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-								<option value="{$FIELD_KEY}"{if $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{vtranslate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
+								<option value="{$FIELD_KEY}"{if $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{$FIELD_LABEL|t:$SECONDARY_MODULE_NAME}</option>
 							{/foreach}
 						</optgroup>
 					{/foreach}

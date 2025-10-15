@@ -17,7 +17,7 @@
 								<select name="type" class="select2 form-control type">
 									{foreach from=$MODULE_MODELS item=ITEM key=KEY}
 										{if ((in_array($ITEM->getColumnName(),$FIELDSEXISTS) && !$ITEM->isOnlyOne()) || !in_array($ITEM->getColumnName(),$FIELDSEXISTS) ) && in_array($BLOCK,$ITEM->getBlocks())}
-											<option value="{$ITEM->getName()}">{vtranslate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</option>
+											<option value="{$ITEM->getName()}">{$ITEM->getDefaultLabel()|t:$QUALIFIED_MODULE}</option>
 										{/if}
 									{/foreach}
 								</select>
@@ -27,8 +27,8 @@
 					<div class="well well-small">
 						{foreach from=$MODULE_MODELS item=ITEM key=KEY}
 							{if ((in_array($ITEM->getColumnName(),$FIELDSEXISTS) && !$ITEM->isOnlyOne()) || !in_array($ITEM->getColumnName(),$FIELDSEXISTS) ) && in_array($BLOCK,$ITEM->getBlocks())}
-								<h5>{vtranslate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</h5>
-								<p>{vtranslate($ITEM->getDefaultLabel()|cat:'_DESC', $QUALIFIED_MODULE)}</p>
+								<h5>{$ITEM->getDefaultLabel()|t:$QUALIFIED_MODULE}</h5>
+								<p>{$ITEM->getDefaultLabel()|cat:'_DESC'|t:$QUALIFIED_MODULE}</p>
 								<hr />
 							{/if}
 						{/foreach}

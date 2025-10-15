@@ -27,7 +27,7 @@
 			<div style="position: relative;" >
 				<div>
 					<h2 class="alert-heading">{"LBL_ERROR"|t}</h2>
-					<p>{vtranslate($MESSAGE)}</p>
+					<p>{$MESSAGE|t}</p>
 					<p class="Buttons">
 						<a class="btn btn-warning" href="javascript:window.history.back();">{"LBL_GO_BACK"|t}</a>
 						<a class="btn btn-info" href="index.php">{"LBL_MAIN_PAGE"|t}</a>

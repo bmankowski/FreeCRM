@@ -21,7 +21,7 @@
 				<select class="select2 form-control" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{"LBL_DEFAULT_MENU"|t:$QUALIFIED_MODULE}</option>
 					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}
-						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>{vtranslate($ROLE->getName())}</option>
+						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>{$ROLE->getName()|t}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -48,7 +48,7 @@
 						<select id="roleList" class="form-control" name="roles" data-validation-engine="validate[required]">
 							<option value="0">{"LBL_DEFAULT_MENU"|t:$QUALIFIED_MODULE}</option>
 							{foreach item=ROLE key=KEY from=$ROLES_CONTAIN_MENU}
-								<option value="{$ROLE['roleId']}"  >{vtranslate($ROLE['roleName'])}</option>
+								<option value="{$ROLE['roleId']}"  >{$ROLE['roleName']|t}</option>
 							{/foreach}
 						</select>
 					</div>

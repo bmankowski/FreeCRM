@@ -53,7 +53,7 @@
 				<select name="assigned_user_id" class="chzn-select form-control">
 					<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>
 					{foreach from=$ASSIGNED_TO key=LABEL item=ASSIGNED_USERS_LIST}
-						<optgroup label="{vtranslate($LABEL,$QUALIFIED_MODULE)}">
+						<optgroup label="{$LABEL|t:$QUALIFIED_MODULE}">
 							{foreach from=$ASSIGNED_USERS_LIST item=ASSIGNED_USER key=ASSIGNED_USER_KEY}
 								<option value="{$ASSIGNED_USER_KEY}" {if $ASSIGNED_USER_KEY eq $TASK_OBJECT->assigned_user_id} selected="" {/if}>{$ASSIGNED_USER}</option>
 							{/foreach}
@@ -101,7 +101,7 @@
 				<select class="chzn-select form-control" name="datefield_start">
 					<optgroup label='{"LBL_VALUE_OF_FIELDS"|t:$QUALIFIED_MODULE}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{$DATETIME_FIELD->get('label')|t:$SOURCE_MODULE}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{"LBL_VALUE_OF_SERVER"|t:$QUALIFIED_MODULE}'>
@@ -126,7 +126,7 @@
 				<select class="chzn-select form-control" name="datefield_end">
 					<optgroup label='{"LBL_VALUE_OF_FIELDS"|t:$QUALIFIED_MODULE}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{$DATETIME_FIELD->get('label')|t:$SOURCE_MODULE}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{"LBL_VALUE_OF_SERVER"|t:$QUALIFIED_MODULE}'>
@@ -153,7 +153,7 @@
 				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>
 					{foreach from=App\Fields\Picklist::getPickListValues('activitystatus') key=KEY item=ITEM}
-						<option value="{$ITEM}" {if in_array($ITEM,vtlib\Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
+						<option value="{$ITEM}" {if in_array($ITEM,vtlib\Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{$ITEM|t:"Calendar"}</option>
 					{/foreach}
 				</select>
 			</span>

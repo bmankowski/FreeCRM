@@ -22,7 +22,7 @@
 							<div class="btn-group">
 								{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
 									<div class="pull-right btn-group">
-										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{vtranslate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{'BTN_CHANGES_REVIEWED_ON'|t:$WIDGET['moduleBaseName']}">
 											<span class="glyphicon glyphicon-ok-circle"></span>
 										</button>
 									</div>

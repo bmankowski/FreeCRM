@@ -125,7 +125,7 @@
 													<optgroup label="{$MODULE|t:$MODULE}">
 														{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
 															<option value="{$PARENT_MODULE}">
-																{vtranslate($PARENT_MODULE, $PARENT_MODULE)}
+																{$PARENT_MODULE|t:$PARENT_MODULE}
 															</option>
 														{/foreach}
 													</optgroup>

@@ -48,14 +48,14 @@
 										<img src="{vimage_path('drag.png')}" border="0" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}"/>
 									</a>&nbsp;
 								</span>
-								{vtranslate($item['modulename'],$item['modulename'])}
+								{$item['modulename']|t:$item['modulename']}
 							</td>
 							<td>
 								<select multiple class="chzn-select form-control col-md-4 fieldname" name="fieldname">
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['fieldname'],$fieldTab['columnname'])}selected{/if}>
-												{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
+												{$fieldTab['fieldlabel']|t:$item['modulename']}
 											</option>
 										{/foreach}
 									</optgroup>
@@ -66,7 +66,7 @@
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['searchcolumn'],$fieldTab['columnname'])}selected{/if}>
-												{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
+												{$fieldTab['fieldlabel']|t:$item['modulename']}
 											</option>
 										{/foreach}
 									</optgroup>

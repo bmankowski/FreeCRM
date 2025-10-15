@@ -13,7 +13,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
-							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {"LBL_PERMISSIONS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+							<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE, 4}: {"LBL_PERMISSIONS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 						</label>
 					</div>
 					<div class="panel-body">
@@ -25,9 +25,9 @@
 								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{"LBL_ADD_USERS_ROLES"|t:"Settings:Groups"}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}
 									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+										<optgroup label="{$GROUP_LABEL|t:$QUALIFIED_MODULE}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
-												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{vtranslate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{$MEMBER->get('name')|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}

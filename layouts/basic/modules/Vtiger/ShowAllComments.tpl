@@ -46,7 +46,7 @@
 		<div class="col-md-4">
 			<select class="chzn-select form-control commentsHierarchy" multiple>
 				{foreach key=NAME item=LABEL from=$HIERARCHY_LIST}
-					<option value="{$NAME}" {if in_array($NAME, $HIERARCHY)}selected{/if}>{vtranslate($LABEL, 'ModComments')}</option>
+					<option value="{$NAME}" {if in_array($NAME, $HIERARCHY)}selected{/if}>{$LABEL|t:"ModComments"}</option>
 				{/foreach}
 			</select>
 		</div>

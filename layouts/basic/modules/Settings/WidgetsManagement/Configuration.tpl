@@ -20,7 +20,7 @@
 			<div class="pull-right col-xs-6 col-md-6 paddingLRZero">
 				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
-						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>
+						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{$SUPPORTED_MODULE|t:$SUPPORTED_MODULE}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -30,7 +30,7 @@
 		{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
 			<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
 				<a data-toggle="tab">
-					<strong>{vtranslate($DASHBOARD['name'])}</strong>					
+					<strong>{$DASHBOARD['name']|t}</strong>					
 					<button class="btn btn-primary btn-xs glyphicon glyphicon-pencil marginLeft10 editDashboard"></button>
 					{if $DASHBOARD['system'] neq 1}
 						<button class="btn btn-danger btn-xs glyphicon glyphicon-trash marginLeft10 deleteDashboard"></button>
@@ -61,7 +61,7 @@
 							<div class="row layoutBlockHeader no-margin">
 								<div class="blockLabel col-sm-5 padding10 ">
 									<span class="marginLeft20">
-										<strong>{vtranslate($AUTHORIZATION_NAME, $SELECTED_MODULE_NAME)}</strong>
+										<strong>{$AUTHORIZATION_NAME|t:$SELECTED_MODULE_NAME}</strong>
 									</span>
 								</div>
 								<div class="col-sm-7 marginLeftZero pull-right">
@@ -159,7 +159,7 @@
 										<div class="col-sm-6 controls">
 											<select class="authorized form-control validateForm" name="authorized" style="margin-bottom:0px;" data-validation-engine="validate[required]">
 												{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
-													<option value="{$AUTHORIZED_CODE}" data-label="{$AUTHORIZED->get('rolename')}">{vtranslate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
+													<option value="{$AUTHORIZED_CODE}" data-label="{$AUTHORIZED->get('rolename')}">{$AUTHORIZED->get('rolename')|t:$QUALIFIED_MODULE}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -259,7 +259,7 @@
 													{if array_key_exists($WIDGET->getTitle(), $SPECIAL_WIDGETS)}
 														{continue}
 													{/if}
-													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $QUALIFIED_MODULE)}</option>
+													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{$WIDGET->getTitle()|t:$QUALIFIED_MODULE}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -301,7 +301,7 @@
 										<div class="col-sm-8 controls">
 											<select class="form-control" id="owner" disabled name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-													<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+													<option value="{$OWNER_ID}">{$OWNER_NAME|t:$QUALIFIED_MODULE}</option>
 												{/foreach}
 											</select>
 										</div>	
@@ -313,7 +313,7 @@
 										<div class="col-sm-8 controls">
 											<select class="form-control owners_all" multiple="true" disabled name="owners_all" placeholder="{"LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION"|t:$QUALIFIED_MODULE}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-													<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+													<option value="{$OWNER_ID}" selected>{$OWNER_NAME|t:$QUALIFIED_MODULE}</option>
 												{/foreach}
 											</select>
 										</div>	
@@ -325,7 +325,7 @@
 										<div class="col-sm-8 controls">
 											<select class="form-control" id="date" disabled name="default_date">
 												{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
-													<option value="{$DATE_VALUE}">{vtranslate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
+													<option value="{$DATE_VALUE}">{$DATE_TEXT|t:$QUALIFIED_MODULE}</option>
 												{/foreach}
 											</select>
 										</div>	
@@ -406,7 +406,7 @@
 												<div class="col-md-5">
 													<select class="widgetFilter form-control" id="owner" name="default_owner">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-															<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+															<option value="{$OWNER_ID}">{$OWNER_NAME|t:$QUALIFIED_MODULE}</option>
 														{/foreach}
 													</select>
 												</div>
@@ -418,7 +418,7 @@
 												<div class="col-md-8">
 													<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{"LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION"|t:$QUALIFIED_MODULE}">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-															<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+															<option value="{$OWNER_ID}" selected>{$OWNER_NAME|t:$QUALIFIED_MODULE}</option>
 														{/foreach}
 													</select>
 												</div>
@@ -433,7 +433,7 @@
 												<div class="col-sm-8 controls">
 													<select class="widgetFilterDate form-control" id="date" disabled name="default_date">
 														{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
-															<option value="{$DATE_VALUE}">{vtranslate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
+															<option value="{$DATE_VALUE}">{$DATE_TEXT|t:$QUALIFIED_MODULE}</option>
 														{/foreach}
 													</select>
 												</div>	

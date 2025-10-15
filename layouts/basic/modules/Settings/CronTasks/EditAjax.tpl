@@ -16,7 +16,7 @@
         <div class="modal-content">
 			<div class="modal-header">
 				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
-				<h3 class="modal-title">{vtranslate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}</h3>
+				<h3 class="modal-title">{$RECORD_MODEL->get('name')|t:$QUALIFIED_MODULE}</h3>
 			</div>
 			<form class="form-horizontal" id="cronJobSaveAjax" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />
@@ -62,15 +62,15 @@
 							<div class="col-xs-6 col-sm-8 paddingLRZero">
 								<select class="chzn-select form-control" id="time_format">
 									<optgroup>
-										<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>
-										<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{vtranslate(LBL_HOURS,$QUALIFIED_MODULE)}</option>
+										<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{LBL_MINUTES|t:$QUALIFIED_MODULE}</option>
+										<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{LBL_HOURS|t:$QUALIFIED_MODULE}</option>
 									</optgroup>
 								</select>
 							</div>
 						</div>	
 					</div>
 					{if $RECORD_MODEL->get('description') neq ''}
-						<div class="alert alert-info">{vtranslate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
+						<div class="alert alert-info">{$RECORD_MODEL->get('description')|t:$QUALIFIED_MODULE}</div>
 					{/if}
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}

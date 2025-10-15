@@ -15,9 +15,9 @@
 				<div class="modal-header">
 					<button class="close vtButton" data-dismiss="modal" aria-hidden="true" title="{"LBL_CLOSE"|t:$QUALIFIED_MODULE}">&times;</button>
 					{if $EDIT_VIEW}
-						<h3 class="modal-title">{"LBL_EDITING"|t:$QUALIFIED_MODULE} {vtranslate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h3>
+						<h3 class="modal-title">{"LBL_EDITING"|t:$QUALIFIED_MODULE} {$PAGE_LABELS.title_single|t:$QUALIFIED_MODULE}</h3>
 					{else}
-						<h3 class="modal-title">{"LBL_ADD"|t:$QUALIFIED_MODULE} {vtranslate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h3>
+						<h3 class="modal-title">{"LBL_ADD"|t:$QUALIFIED_MODULE} {$PAGE_LABELS.title_single|t:$QUALIFIED_MODULE}</h3>
 					{/if}
 				</div>
 				<form id="formInventory" class="form-horizontal" method="POST">

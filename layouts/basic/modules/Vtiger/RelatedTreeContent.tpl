@@ -8,20 +8,20 @@
 					<tr>
 						{foreach item=HEADER from=$RELATED_HEADERS}
 							<th nowrap>
-								{vtranslate($HEADER, $RELATED_MODULE_NAME)}
+								{$HEADER|t:$RELATED_MODULE_NAME}
 							</th>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
 							<th>
-								{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE_NAME)}
+								{"LBL_RELATION_CREATED_TIME"|t:$RELATED_MODULE_NAME}
 							</th>
 							<th>
-								{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE_NAME)}
+								{"LBL_RELATION_CREATED_USER"|t:$RELATED_MODULE_NAME}
 							</th>
 						{/if}
 						{if $SHOW_COMMENT}
 							<th>
-								{vtranslate('LBL_RELATION_COMMENT', $RELATED_MODULE_NAME)}
+								{"LBL_RELATION_COMMENT"|t:$RELATED_MODULE_NAME}
 							</th>
 						{/if}
 					</tr>

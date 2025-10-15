@@ -32,7 +32,7 @@
 						<div class="col-md-9 controls">
 							<select multiple class="select2 form-control" id="assignValues" name="assign_values[]">
 								{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$SELECTED_PICKLISTFIELD_ALL_VALUES}
-									<option value="{$PICKLIST_KEY}">{vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</option>
+									<option value="{$PICKLIST_KEY}">{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}</option>
 								{/foreach}
 							</select>
 						</div>
@@ -44,7 +44,7 @@
 								<select class="rolesList select2 form-control" id="rolesSelected" name="rolesSelected[]" multiple data-placeholder="{"LBL_CHOOSE_ROLES"|t:$QUALIFIED_MODULE}">
 									<option value="all" selected>{"LBL_ALL_ROLES"|t:$QUALIFIED_MODULE}</option>
 									{foreach from=$ROLES_LIST item=ROLE}
-										<option value="{$ROLE->get('roleid')}">{vtranslate($ROLE->get('rolename'))}</option>
+										<option value="{$ROLE->get('roleid')}">{$ROLE->get('rolename')|t}</option>
 									{/foreach}
 								</select>	
 							</div>

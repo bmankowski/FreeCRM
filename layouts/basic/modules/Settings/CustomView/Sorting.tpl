@@ -51,7 +51,7 @@
 								{/foreach}
 								{*Required to include event fields for columns in calendar module advanced filter*}
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
-									<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
+									<optgroup label='{$BLOCK_LABEL|t:"Events"}'>
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 											{if $FIELD_MODEL->isListviewSortable()}
 												<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>

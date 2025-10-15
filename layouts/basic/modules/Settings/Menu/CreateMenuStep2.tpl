@@ -21,7 +21,7 @@
 					<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
 					<div class="form-group">
 						<label class="col-md-4 control-label">{"LBL_TYPE_OF_MENU"|t:$QUALIFIED_MODULE}:</label>
-						<div class="col-md-7 form-control-static">{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
+						<div class="col-md-7 form-control-static">{'LBL_'|cat:strtoupper($MENU_TYPE)|t:$QUALIFIED_MODULE}</div>
 					</div>
 					{include file='types/'|cat:$MENU_TYPE|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 				</form>

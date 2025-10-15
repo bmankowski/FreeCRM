@@ -23,7 +23,7 @@
 							<img src="{vimage_path('drag.png')}" border="0" title="{"LBL_DRAG"|t:$QUALIFIED_MODULE}"/>
 						</td>
 						{if $item['viewname'] eq 'All'}
-							<td>{vtranslate('All',$item['entitytype'])}</td>
+							<td>{'All'|t:$item['entitytype']}</td>
 						{else}
 							<td>{$item['viewname']}</td>
 						{/if}

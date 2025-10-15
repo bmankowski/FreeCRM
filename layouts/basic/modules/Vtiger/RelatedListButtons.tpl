@@ -7,8 +7,8 @@
 				<ul class="nav nav-pills">
 					{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
 						<li class="baseLink mainNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-link-key="{$RELATED_LINK->get('linkKey')}"  data-reference='{$RELATED_LINK->get('related')}' {if $RELATED_LINK->get('countRelated')}data-count="{$RELATED_LINK->get('countRelated')|intval}"{/if}>
-							<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
-								<strong class="pull-left">{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
+							<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{$RELATED_LINK->getLabel()|t:{$MODULE_NAME}}">
+								<strong class="pull-left">{$RELATED_LINK->getLabel()|t:{$MODULE_NAME}}</strong>
 								{if $RELATED_LINK->get('countRelated')}
 									<span class="count badge pull-right {$RELATED_LINK->get('badgeClass')}">0</span>
 								{/if}
@@ -23,8 +23,8 @@
 						<ul class="dropdown-menu pull-right">
 							{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
 								<li class="mainNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-link-key="{$RELATED_LINK->get('linkKey')}"  data-reference='{$RELATED_LINK->get('related')}' {if $RELATED_LINK->get('countRelated')}data-count="{$RELATED_LINK->get('countRelated')|intval}"{/if}>
-									<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
-										<strong class="pull-left">{vtranslate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
+									<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{$RELATED_LINK->getLabel()|t:{$MODULE_NAME}}">
+										<strong class="pull-left">{$RELATED_LINK->getLabel()|t:{$MODULE_NAME}}</strong>
 										{if $RELATED_LINK->get('countRelated')}
 											<span class="count badge pull-right {$RELATED_LINK->get('badgeClass')}">-</span>
 										{/if}

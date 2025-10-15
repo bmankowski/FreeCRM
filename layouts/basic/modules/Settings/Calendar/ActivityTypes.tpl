@@ -33,8 +33,8 @@
 			<tbody>
 				{foreach from=$MODULE_MODEL->getCalendarViewTypes() item=item key=key}
 					<tr data-viewtypesid="{$item.id}" data-color="{$item.color}">
-						<td>{vtranslate($item.fieldname,$item.module)}</td>
-						<td>{vtranslate($item.module,$item.module)}</td>
+						<td>{$item.fieldname|t:$item.module}</td>
+						<td>{$item.module|t:$item.module}</td>
 						<td>
 							<label class="">
 								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>

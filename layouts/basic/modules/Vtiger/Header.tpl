@@ -15,7 +15,7 @@
 	<!DOCTYPE html>
 	<html lang="{$HTMLLANG}">
 		<head>
-			<title>{vtranslate($PAGETITLE, $QUALIFIED_MODULE)}</title>
+			<title>{$PAGETITLE|t:$QUALIFIED_MODULE}</title>
 			<link REL="SHORTCUT ICON" HREF="{vimage_path('favicon.ico')}">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

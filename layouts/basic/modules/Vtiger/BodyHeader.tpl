@@ -29,8 +29,8 @@
 													<div class="">
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-															<span>{vtranslate($singularLabel,$NAME)}</span>
+														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{$singularLabel|t:$NAME}">
+															<span>{$singularLabel|t:$NAME}</span>
 														</a>
 													</div>
 													{if $count % 3 == 2}

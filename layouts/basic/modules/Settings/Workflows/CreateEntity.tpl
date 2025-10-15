@@ -36,15 +36,15 @@
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
 							<option value="{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->get('name')} {if $FIELD_MODEL->isMandatory()}{assign var=MANDATORY_FIELD value=true} {else} {assign var=MANDATORY_FIELD value=false} {/if}{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-								{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_MODEL_NAME)}{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
+								{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_MODEL_NAME}{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 							</option>	
 						{/foreach}
 					</select>
 				</div>
 				<div class="col-md-3">
 					<select name="modulename" class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} disabled="" {/if}>
-						<option {if $FIELD_MAP['modulename'] eq $SOURCE_MODULE} selected="" {/if} value="{$SOURCE_MODULE}">{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
-						<option {if $FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME} selected="" {/if} value="{$RELATED_MODULE_MODEL_NAME}">{vtranslate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
+						<option {if $FIELD_MAP['modulename'] eq $SOURCE_MODULE} selected="" {/if} value="{$SOURCE_MODULE}">{$SOURCE_MODULE|t:$SOURCE_MODULE}</option>
+						<option {if $FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME} selected="" {/if} value="{$RELATED_MODULE_MODEL_NAME}">{$RELATED_MODULE_MODEL_NAME|t:$RELATED_MODULE_MODEL_NAME}</option>
 					</select>
 				</div>
 				<div class="fieldUiHolder col-md-4">
@@ -92,7 +92,7 @@
 					</span>
 					<span class="col-md-3">
 						<select name="modulename" class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} disabled="" {/if}>
-							<option value="{$SOURCE_MODULE}">{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+							<option value="{$SOURCE_MODULE}">{$SOURCE_MODULE|t:$SOURCE_MODULE}</option>
 							<option {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} selected="" {/if} value="{$RELATED_MODULE_MODEL->get('name')}">{vtranslate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
 						</select>
 					</span>
@@ -116,7 +116,7 @@
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{if  $FIELD_MODEL->getFieldDataType() neq 'reference' && ($MAPPING_PANEL || (!$FIELD_MODEL->isMandatory() && !$MAPPING_PANEL))}
 					<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"  data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-						{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_MODEL_NAME)} 
+						{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_MODEL_NAME} 
 					</option>
 					{/if}
 				{/foreach}
@@ -124,7 +124,7 @@
 		</div>
 		<div class="col-md-3">
 			<select name="modulename" class="form-control">
-				<option value="{$SOURCE_MODULE}">{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+				<option value="{$SOURCE_MODULE}">{$SOURCE_MODULE|t:$SOURCE_MODULE}</option>
 				<option value="{$RELATED_MODULE_MODEL->get('name')}">{vtranslate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
 			</select>
 		</div>

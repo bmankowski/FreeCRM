@@ -24,14 +24,14 @@
 		<div class="pull-right col-md-4 h3">
 			<select class="select2 col-md-3 form-control" name="ModulesList">
 				{foreach from=$MODULE_MODEL->getModulesList() item=item key=key}
-					<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{vtranslate($item['tablabel'], $item['name'])}</option>
+					<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{$item['tablabel']|t:$item['name']}</option>
 				{/foreach}
 			</select>
 		</div>
 	</div>
 	<div>
 		<div class="col-md-8 paddingLRZero">
-			<h4>{"List of widgets for the module"|t:$QUALIFIED_MODULE}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>
+			<h4>{"List of widgets for the module"|t:$QUALIFIED_MODULE}: {$SOURCEMODULE|t:$SOURCEMODULE}</h4>
 		</div>
 		<div class="col-md-4 paddingLRZero">
 			<button class="btn btn-success addWidget pull-right" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{"Add widget"|t:$QUALIFIED_MODULE}</strong></button>
@@ -47,13 +47,13 @@
 						<div class="padding1per border1px">
 							<div class="row">
 								<div class="col-md-5">
-									<img class="alignMiddle" src="{vimage_path('drag.png')}" /> &nbsp;&nbsp;{vtranslate($WIDGET['type'], $QUALIFIED_MODULE)}
+									<img class="alignMiddle" src="{vimage_path('drag.png')}" /> &nbsp;&nbsp;{$WIDGET['type']|t:$QUALIFIED_MODULE}
 								</div>
 								<div class="col-md-5">
 									{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
 										{vtranslate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 									{else}	
-										{vtranslate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
+										{$WIDGET['label']|t:$SOURCEMODULE}&nbsp;
 									{/if}									
 								</div>
 								<div class="col-md-2">

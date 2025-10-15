@@ -37,7 +37,7 @@
 						{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{$LISTVIEW_HEADER->get('label')|t:$QUALIFIED_MODULE}
 								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
 					{/foreach}
@@ -76,7 +76,7 @@
 														if (event.stopPropagation){ldelim}
 																	event.stopPropagation();{rdelim} else{ldelim}
 																				event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-													<i class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></i>
+													<i class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></i>
 												</a>
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;
@@ -98,7 +98,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{"LBL_EQ_ZERO"|t} {vtranslate($MODULE, $QUALIFIED_MODULE)} {"LBL_FOUND"|t}
+							{"LBL_EQ_ZERO"|t} {$MODULE|t:$QUALIFIED_MODULE} {"LBL_FOUND"|t}
 						</td>
 					</tr>
 				</tbody>

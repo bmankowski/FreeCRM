@@ -16,7 +16,7 @@
 							<div class="form-group form-group-sm">
 								<label class="col-md-4 control-label">{"Type widget"|t:$QUALIFIED_MODULE}:</label>
 								<div class="col-md-7 form-control-static">
-									{vtranslate($TYPE, $QUALIFIED_MODULE)}
+									{$TYPE|t:$QUALIFIED_MODULE}
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
@@ -28,7 +28,7 @@
 								<div class="col-md-7 controls">
 									<select multiple name="relatedModules" class="select2 form-control marginLeftZero" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
-											<option value="{$item['related_tabid']}" {if in_array($item['related_tabid'], $WIDGETINFO['data']['relatedModules']) }selected{/if} >{vtranslate($item['label'], $item['name'])}</option>
+											<option value="{$item['related_tabid']}" {if in_array($item['related_tabid'], $WIDGETINFO['data']['relatedModules']) }selected{/if} >{$item['label']|t:$item['name']}</option>
 										{/foreach}
 									</select>
 								</div>

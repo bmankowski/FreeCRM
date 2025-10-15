@@ -57,8 +57,8 @@
 					<div class="contentHeader">
 						{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 						<span class="pull-right">
-							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong></button>&nbsp;&nbsp;
-							<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong></button>
+							<button class="btn btn-success" type="submit"><strong>{'LBL_SAVE'|t:$QUALIFIED_MODULE_NAME}</strong></button>&nbsp;&nbsp;
+							<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{'LBL_CANCEL'|t:$QUALIFIED_MODULE_NAME}</strong></button>
 						</span>
 						<span class="pull-right">
 							{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
@@ -86,7 +86,7 @@
 						<div class="iconCollapse">
 							<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
+							<h4>{$BLOCK_LABEL|t:$QUALIFIED_MODULE_NAME}</h4>
 						</div>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
@@ -128,7 +128,7 @@
 											{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE}'><span class="glyphicon glyphicon-info-sign"></span></a>
 											{/if}
-											{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
+											{$FIELD_MODEL->get('label')|t:$QUALIFIED_MODULE_NAME}
 										</label>
 									</div>
 									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>

@@ -99,7 +99,7 @@
 					<ul class="nav nav-tabs" id="myTab">
 						{foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
 							{assign var=REL_MODULE_NAME_LOWER value=$REL_MODULE_NAME|lower}
-							<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$REL_MODULE_NAME_LOWER}">{vtranslate($REL_MODULE_NAME, $REL_MODULE_NAME)}</a></li>
+							<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$REL_MODULE_NAME_LOWER}">{$REL_MODULE_NAME|t:$REL_MODULE_NAME}</a></li>
 							{/foreach}
 					</ul>
 					<div class="tab-content">

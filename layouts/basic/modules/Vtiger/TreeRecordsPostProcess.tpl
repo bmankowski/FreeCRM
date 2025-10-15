@@ -16,7 +16,7 @@
 			<div class="col-md-8 paddingTop10">
 				<select class="chzn-select form-control" id="moduleFilter" >
 					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-						<optgroup label="{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}">
+						<optgroup label="{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}">
 							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 								<option value="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}>
 									{$CUSTOM_VIEW->get('viewname')|t:$MODULE}

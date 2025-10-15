@@ -25,12 +25,12 @@
 				<select class="form-control mods_list" id="mods_list">
 					<optgroup label="{"Modules"|t:$QUALIFIED_MODULE}">
 						{foreach from=$MODS['mods'] item=MOD key=ID}
-							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
+							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{$MOD|t:$MOD}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label="{"LBL_SYSTEM_SETTINGS"|t:"Vtiger"}">
 						{foreach from=$MODS['settings'] item=MOD key=ID}
-							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
+							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{$MOD|t:$MOD}</option>
 						{/foreach}
 					</optgroup>
 				</select>

@@ -71,7 +71,7 @@
 										{/foreach}
 										{foreach from=$ALL_ACTIVEGROUP_LIST key=ID item=USER_NAME}
 											<tr class="dragDrop{$INDEX}" data-id="{$ID}" data-type="groups">
-												<td>{vtranslate($USER_NAME,$QUALIFIED_MODULE)}</td>
+												<td>{$USER_NAME|t:$QUALIFIED_MODULE}</td>
 											</tr>
 										{/foreach}
 									</tbody>

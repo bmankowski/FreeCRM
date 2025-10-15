@@ -62,7 +62,7 @@
 										<optgroup label="{"LBL_RELATIONSHIPS_BASED_ON_FIELDS"|t}">
 											{foreach item=RELATED from=$REL_BY_FIELDS}
 												{if !in_array($RELATED, $SKIP_MODULES)}
-													<option value="{$RELATED.name}::0::{$RELATED.field}">{vtranslate($RELATED.name, $RELATED.name)} - {vtranslate($RELATED.field)} [M:1]</option>
+													<option value="{$RELATED.name}::0::{$RELATED.field}">{$RELATED.name|t:$RELATED.name} - {$RELATED.field|t} [M:1]</option>
 												{/if}
 											{/foreach}
 										</optgroup>
@@ -71,7 +71,7 @@
 										<optgroup label="{"LBL_RELATIONSHIPS_BASED_ON_MODULES"|t}">
 											{foreach item=RELATED from=$REL_BY_RELATEDLIST}
 												{if !in_array($RELATED, $SKIP_MODULES)}
-													<option value="{$RELATED.name}::{$RELATED.type}">{vtranslate($RELATED.name, $RELATED.name)} [{if $RELATED.type == 1}1:M{else}M:M{/if}]</option>
+													<option value="{$RELATED.name}::{$RELATED.type}">{$RELATED.name|t:$RELATED.name} [{if $RELATED.type == 1}1:M{else}M:M{/if}]</option>
 												{/if}
 											{/foreach}
 										</optgroup>

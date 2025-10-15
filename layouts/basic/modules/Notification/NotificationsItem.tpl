@@ -29,7 +29,7 @@
 						<hr/>
 					{/if}
 					<div class="text-right ">
-						<b>{vtranslate('Created By')}:</b>&nbsp;{$ROW->getCreatorUser()}&nbsp;
+						<b>{'Created By'|t}:</b>&nbsp;{$ROW->getCreatorUser()}&nbsp;
 						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{"LBL_MARK_AS_READ"|t:$MODULE_NAME}">
 							<span class="glyphicon glyphicon-ok"></span>
 						</button>&nbsp;&nbsp;

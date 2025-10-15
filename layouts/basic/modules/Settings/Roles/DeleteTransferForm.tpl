@@ -16,7 +16,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close vtButton" data-dismiss="modal">×</button>
-					<h3 class="modal-title">{"LBL_DELETE_ROLE"|t:$QUALIFIED_MODULE} - {vtranslate($RECORD_MODEL->getName(), $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{"LBL_DELETE_ROLE"|t:$QUALIFIED_MODULE} - {$RECORD_MODEL->getName()|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<form class="form-horizontal" id="roleDeleteForm" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />

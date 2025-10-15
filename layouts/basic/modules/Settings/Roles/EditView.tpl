@@ -13,7 +13,7 @@
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
 				{/if}
 			</div> 
 		</div>
@@ -41,7 +41,7 @@
 					<label class="col-md-4"><strong>{"LBL_REPORTS_TO"|t:$QUALIFIED_MODULE}: </strong></label>
 					<div class="col-md-7 fieldValue">
 						<input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
-						<input type="text" class="form-control" name="parent_roleid_display" {if $HAS_PARENT}value="{vtranslate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
+						<input type="text" class="form-control" name="parent_roleid_display" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getName()|t:$QUALIFIED_MODULE}"{/if} readonly>
 					</div>
 				</div>
 				<br>
@@ -78,7 +78,7 @@
 						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{"LBL_CHOOSE_PROFILES"|t:$QUALIFIED_MODULE}" data-validation-engine="validate[required]" style="width: 800px">
 							{foreach from=$ALL_PROFILES item=PROFILE}
 								{if $PROFILE->isDirectlyRelated() eq false}
-									<option value="{$PROFILE->getId()}" {if isset($ROLE_PROFILES[$PROFILE->getId()])}selected="true"{/if}>{vtranslate($PROFILE->getName(),'Settings::Profiles')}</option>
+									<option value="{$PROFILE->getId()}" {if isset($ROLE_PROFILES[$PROFILE->getId()])}selected="true"{/if}>{$PROFILE->getName()|t:'Settings::Profiles'}</option>
 								{/if}
 							{/foreach}
 						</select>
@@ -204,7 +204,7 @@
 								<td>{$USER->get('first_name')}</td>
 								<td>{$USER->get('last_name')}</td>
 								<td>{$USER->get('email1')}</td>
-								<td>{vtranslate($USER->get('status'),'Users')}</td>
+								<td>{$USER->get('status')|t:'Users'}</td>
 							</tr>
 						{/foreach}
 					</tbody>

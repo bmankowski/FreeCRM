@@ -6,7 +6,7 @@
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+			{$PAGE_LABELS.description|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
 	{if $VIEW == 'CreditLimits'}
@@ -21,7 +21,7 @@
 		<div class="col-md-12">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<div class="marginBottom10px">
-				<button type="button" class="btn btn-success addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{"LBL_ADD"|t:$QUALIFIED_MODULE} {vtranslate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
+				<button type="button" class="btn btn-success addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{"LBL_ADD"|t:$QUALIFIED_MODULE} {$PAGE_LABELS.title_single|t:$QUALIFIED_MODULE}</strong></button>
 			</div>
 			<table class="table tableRWD table-bordered inventoryTable themeTableColor">
 				<thead>

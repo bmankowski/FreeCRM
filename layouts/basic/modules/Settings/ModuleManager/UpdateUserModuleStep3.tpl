@@ -16,7 +16,7 @@
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
 				{/if}
 			</div>
 		</div>

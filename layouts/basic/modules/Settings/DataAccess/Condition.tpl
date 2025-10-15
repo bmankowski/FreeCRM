@@ -18,7 +18,7 @@
                 <optgroup label='{$MODULE_NAME|t:$MODULE_NAME}'>
                     {foreach from=$FIELD key=key item=item}
                         <option data-module="{$MODULE_NAME}" value="{$item['name']}" data-uitype="{$item['uitype']}" 
-                                data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}">{vtranslate($item['label'], $BASE_MODULE)}</option>
+                                data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}">{$item['label']|t:$BASE_MODULE}</option>
                     {/foreach}
                 </optgroup>
             {/foreach}
@@ -27,7 +27,7 @@
     <span class="col-md-3">
         <select data-num="{$NUM}" class="chzn-select form-control marginBottom5px" name="comparator">
             {foreach from=$CONDITION_LIST item=item key=key}
-                <option value="{$item}">{vtranslate($item,$QUALIFIED_MODULE)}</option>
+                <option value="{$item}">{$item|t:$QUALIFIED_MODULE}</option>
             {/foreach}
         </select>
     </span>

@@ -49,7 +49,7 @@
 					<form method="POST" action="index.php?module={$module}&view=List" name="form_{$module}"  enctype="multipart/form-data">
 						<input type="hidden" id="recordList" name="searchResult" value="{\App\Json::encode(array_keys($searchRecords))}" />
 						<div class="clearfix">
-							<span onclick="form_{$module}.submit()"><i class="glyphicon glyphicon-list" style="margin-top: 2px;"></i> <strong>{vtranslate($module)}&nbsp;({$modulesCount})</strong></span>
+							<span onclick="form_{$module}.submit()"><i class="glyphicon glyphicon-list" style="margin-top: 2px;"></i> <strong>{$module|t}&nbsp;({$modulesCount})</strong></span>
 							<!-- &nbsp;&nbsp;<i title="" class="glyphicon glyphicon-th-list alignMiddle"></i> -->
 							{if {$smarty.foreach.matchingRecords.index+1} eq 1}
 								<div class="pull-right"><p class="muted">{"LBL_CREATED_ON"|t:$MODULE}</small></p></div>
@@ -77,7 +77,7 @@
 								</li>
 							{/if}
 						{foreachelse}
-							<li>{vtranslate('LBL_NO_RECORDS', $module)}</li>
+							<li>{'LBL_NO_RECORDS'|t:$module}</li>
 						{/foreach}
 						</ul>
 					</form>	

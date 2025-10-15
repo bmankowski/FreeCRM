@@ -15,7 +15,7 @@
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
 				{/if}
 		</div>
 		<div class="col-md-4 ">
@@ -73,11 +73,11 @@
 									{foreach key=GROUP_LABEL item=GROUP_MEMBERS from=$GROUPS}
 										{if !empty($GROUP_MEMBERS)}
 											<li class="row groupLabel nav-header">
-												{vtranslate($GROUP_LABEL,$QUALIFIED_MODULE)}
+												{$GROUP_LABEL|t:$QUALIFIED_MODULE}
 											</li>
 											{foreach item=GROUP_MEMBER_INFO from=$GROUP_MEMBERS}
 												<li class="">
-													<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{vtranslate($GROUP_MEMBER_INFO->get('name'), $QUALIFIED_MODULE)}</a>
+													<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{$GROUP_MEMBER_INFO->get('name')|t:$QUALIFIED_MODULE}</a>
 												</li>
 											{/foreach}
 										{/if}

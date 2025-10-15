@@ -12,7 +12,7 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 2)}: {"LBL_DOCUMENT_SETTINGS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE, 2}: {"LBL_DOCUMENT_SETTINGS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
 				<div class="form-group">
@@ -24,7 +24,7 @@
 							<option value="" selected="">{"LBL_SELECT"|t:$QUALIFIED_MODULE}</option>
 							{foreach item=FORMAT from=Settings_PDF_Module_Model::getPageFormats()}
 								<option value="{$FORMAT}" {if $PDF_MODEL->get('page_format') eq $FORMAT} selected="selected" {/if}>
-									{vtranslate($FORMAT, $QUALIFIED_MODULE)}
+									{$FORMAT|t:$QUALIFIED_MODULE}
 								</option>
 							{/foreach}
 						</select>
@@ -92,7 +92,7 @@
 							<option value="">{'LBL_DEFAULT'|t}</option>
 							{foreach from=vtlib\Language::getAll() key=CODE item=NAME}
 								<option value="{$CODE}" {if $PDF_MODEL->get('language') eq $CODE} selected="selected" {/if}>
-									{vtranslate($NAME, $QUALIFIED_MODULE)}
+									{$NAME|t:$QUALIFIED_MODULE}
 								</option>
 							{/foreach}
 						</select>

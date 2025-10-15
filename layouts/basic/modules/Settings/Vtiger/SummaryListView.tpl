@@ -3,7 +3,7 @@
 <div class="row">
 		<div class="titleBar row">
 			<div class="col-md-8">
-				<h3 class="title">{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}</h3>
+				<h3 class="title">{$MENU->getLabel()|t:$QUALIFIED_MODULE}</h3>
 				<p>&nbsp;</p>
 			</div>
 			<div class="col-md-4">

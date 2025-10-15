@@ -33,11 +33,11 @@
                 {else}
 					<select class="chzn-select form-control" id="moduleName" name="base_module" required="true" data-placeholder="Select Module..." {if $TPL_ID}readonly{/if}>
 						{if $TPL_ID}
-							<option value="{$BASE_INFO['module_name']}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{vtranslate($BASE_INFO['module_name'], $BASE_INFO['module_name'])}</option>
+							<option value="{$BASE_INFO['module_name']}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{$BASE_INFO['module_name']|t:$BASE_INFO['module_name']}</option>
 							
 						{else}
 							{foreach from=$MODULE_LIST item=item key=key}
-								<option value="{$item}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{vtranslate($item, $item)}</option>
+								<option value="{$item}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{$item|t:$item}</option>
 							{/foreach}
 						{/if}
                     </select>

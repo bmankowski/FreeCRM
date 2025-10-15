@@ -52,11 +52,11 @@
 					<div class="col-md-2">
 						<span class="customFilterMainSpan">
 							{if $CUSTOM_VIEWS|@count gt 0}
-								<select id="recordsFilter" class="col-md-12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
+								<select id="recordsFilter" class="col-md-12" data-placeholder="{"LBL_SELECT_TO_LOAD_LIST"|t:$RELATED_MODULE_NAME}">
 									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-										<optgroup label="{vtranslate($GROUP_LABEL)}">
+										<optgroup label="{$GROUP_LABEL|t}">
 											{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)} {vtranslate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}{else}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
+												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{$CUSTOM_VIEW->get('viewname')|t:$RELATED_MODULE_NAME} {$RELATED_MODULE_NAME|t:$RELATED_MODULE_NAME}{else}{$CUSTOM_VIEW->get('viewname')|t:$RELATED_MODULE_NAME}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 			<div id="selectAllMsgDiv" class="alert-block msgDiv">
-				<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{vtranslate($RELATED_MODULE->get('name'))}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+				<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$RELATED_MODULE->get('name')|t}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 			</div>
 			<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
 				<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>

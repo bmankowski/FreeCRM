@@ -40,9 +40,9 @@
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{"LBL_CUSTOM_FILTER"|t}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-							<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
+							<optgroup label='{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}' >
 								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
-									<option value="{$CUSTOM_VIEW->get('cvid')}" {if $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{vtranslate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
+									<option value="{$CUSTOM_VIEW->get('cvid')}" {if $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{$CUSTOM_VIEW->get('viewname')|t:'Calendar'}</option>
 								{/foreach}
 							</optgroup>
 						{/foreach}

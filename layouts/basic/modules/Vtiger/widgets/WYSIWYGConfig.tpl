@@ -27,7 +27,7 @@
 							<div class="form-group">
 								<div class="col-md-4"><strong>{"Type widget"|t:$QUALIFIED_MODULE}</strong>:</div>
 							<div class="col-md-7">
-								{vtranslate($TYPE, $QUALIFIED_MODULE)}
+								{$TYPE|t:$QUALIFIED_MODULE}
 							</div>
 							</div>
 							<div class="form-group">

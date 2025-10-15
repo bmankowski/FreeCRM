@@ -74,7 +74,7 @@
 									<optgroup label="{"Function_list"|t:"OSSMailScanner"}">
 										{foreach item=ACTION from=$ACTIONS_LIST}
 											<option value="{$ACTION}" {if in_array($ACTION, $row['actions'])} selected="selected"{/if} >
-												{vtranslate($ACTION, 'OSSMailScanner')}
+												{$ACTION|t:"OSSMailScanner"}
 											</option>
 										{/foreach}
 									</optgroup>
@@ -124,7 +124,7 @@
 											{"Folder configuration"|t:"OSSMailScanner"}:
 										</strong>
 										{foreach item=FOLDER from=$FOLDERS}
-											{$FOLDER['folder']} ({vtranslate($FOLDER['type'], 'OSSMailScanner')}),
+											{$FOLDER['folder']} ({$FOLDER['type']|t:"OSSMailScanner"}),
 										{foreachelse}
 											{"--None--"|t:"OSSMailScanner"}
 										{/foreach}
@@ -169,9 +169,9 @@
             <tbody>
                 {foreach from=$ACTIONS_LIST item=NAME}
 					<tr>
-						<td>{vtranslate($NAME, 'OSSMailScanner')}</td>
+						<td>{$NAME|t:"OSSMailScanner"}</td>
 						<td>modules/OSSMailScanner/scanneractions/{$NAME}.php</td>
-						<td>{vtranslate('desc_'|cat:$NAME, 'OSSMailScanner')}</td>
+						<td>{'desc_'|cat:$NAME|t:"OSSMailScanner"}</td>
 					</tr>
                 {/foreach}
             </tbody>
@@ -185,9 +185,9 @@
 			<select multiple id="email_search" name="email_search" class="select2 form-control">
 				{foreach item=item key=key from=$EMAILSEARCH}
 					{if $last_value neq $item['name']}
-						<optgroup label="{vtranslate($item['name'], $item['name'])}">
+						<optgroup label="{$item['name']|t:$item['name']}">
 						{/if}
-						<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) } selected="selected"{/if}>{vtranslate($item['name'], $item['name'])} - {vtranslate($item['fieldlabel'], $item['name'])}</option>
+						<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) } selected="selected"{/if}>{$item['name']|t:$item['name']} - {$item['fieldlabel']|t:$item['name']}</option>
 						{assign var=last_value value=$item['name']}
 						{if $last_value neq $item['name']}
 						</optgroup>
@@ -236,7 +236,7 @@
                 <tbody>
                     {foreach item=item key=key from=$RECORDNUMBERING}
                         <tr {if $item['prefix'] eq ''}class="error"{/if} style="{cycle values="'',background-color: #f9f9f9"}">
-                            <td>{vtranslate($key, $key)}</td>
+                            <td>{$key|t:$key}</td>
                             <td>{$item['prefix']}</td>
                             <td>{$item['sequenceNumber']}</td>
                             <td>{if $item['prefix'] eq ''}{"Alert_scanner_not_work"|t:"OSSMailScanner"} {/if}</td>

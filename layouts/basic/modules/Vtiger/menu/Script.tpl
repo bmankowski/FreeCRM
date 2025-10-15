@@ -4,7 +4,7 @@
 	<li class="menuScript {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
 		<a {if isset($MENU['hotkey'])}class="hotKey" data-hotkeys="{$MENU['hotkey']}"{/if} href="{$MENU['dataurl']}">
 			<span class="menuName">
-				{vtranslate($MENU['name'],'Menu')}
+				{$MENU['name']|t:"Menu"}
 			</span>
 		</a>
 		{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}

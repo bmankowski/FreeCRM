@@ -16,7 +16,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button class="close vtButton" data-dismiss="modal">×</button>
-				<h3 class="modal-title">{"LBL_DELETE_RECORD"|t:$QUALIFIED_MODULE} {vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
+				<h3 class="modal-title">{"LBL_DELETE_RECORD"|t:$QUALIFIED_MODULE} {'SINGLE_'|cat:$MODULE|t:$QUALIFIED_MODULE} - {$RECORD_MODEL->getName()}</h3>
 			</div>
 			<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />

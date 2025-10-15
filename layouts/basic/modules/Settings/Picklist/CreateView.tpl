@@ -16,7 +16,7 @@
         <div class="modal-content">
 			<div class="modal-header">
 				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">x</button>
-				<h3 class="modal-title">{"LBL_ADD_ITEM_TO"|t:$QUALIFIED_MODULE}&nbsp;{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}</h3>
+				<h3 class="modal-title">{"LBL_ADD_ITEM_TO"|t:$QUALIFIED_MODULE}&nbsp;{$SELECTED_PICKLIST_FIELDMODEL->get('label')|t:$SELECTED_MODULE_NAME}</h3>
 			</div>
 			<form name="addItemForm" class="form-horizontal" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />

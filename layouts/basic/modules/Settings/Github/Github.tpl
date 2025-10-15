@@ -107,7 +107,7 @@
 							</a>
 						</td>
 						<td>
-							{vtranslate($ISSUE->get('state'), $QUALIFIED_MODULE)}
+							{$ISSUE->get('state')|t:$QUALIFIED_MODULE}
 						</td>
 						<td>
 							<div class="pull-right actions">

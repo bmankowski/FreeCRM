@@ -19,7 +19,7 @@
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{"LBL_CHOOSE_FIELD"|t}">
 				<option value="none">{"LBL_SELECT_FIELD"|t:$MODULE}</option>
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-					<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+					<optgroup label='{$BLOCK_LABEL|t:$SOURCE_MODULE}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
@@ -59,7 +59,7 @@
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
-									{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 								{/if}
 							</option>
 						{/foreach}
@@ -67,7 +67,7 @@
 				{/foreach}
 				{* Required to display event fields also while adding conditions *}
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
-					<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
+					<optgroup label='{$BLOCK_LABEL|t:"Events"}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
@@ -102,7 +102,7 @@
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
-									{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 								{/if}
 							</option>
 						{/foreach}
@@ -125,7 +125,7 @@
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{"LBL_COMAPARATOR_TYPE"|t}">
 				<option value="none">{"LBL_NONE"|t:$MODULE}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
 				{/foreach}
 			</select>
 		</div>

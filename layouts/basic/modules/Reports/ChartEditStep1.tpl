@@ -49,7 +49,7 @@
 							<optgroup>
 								{foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
 									<option value="{$RELATED_MODULE_KEY}" {if $REPORT_MODEL->getPrimaryModule() eq $RELATED_MODULE_KEY } selected="selected"{/if}>
-										{vtranslate($RELATED_MODULE_KEY,$RELATED_MODULE_KEY)}
+										{$RELATED_MODULE_KEY|t:$RELATED_MODULE_KEY}
 									</option>
 								{/foreach}
 							</optgroup>

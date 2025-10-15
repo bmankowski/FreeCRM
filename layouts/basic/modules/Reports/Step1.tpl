@@ -49,7 +49,7 @@
 							<optgroup>
 								{foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
 									<option value="{$RELATED_MODULE_KEY}" {if $REPORT_MODEL->getPrimaryModule() eq $RELATED_MODULE_KEY } selected="selected" {/if}>
-										{vtranslate($RELATED_MODULE_KEY,$RELATED_MODULE_KEY)}
+										{$RELATED_MODULE_KEY|t:$RELATED_MODULE_KEY}
 									</option>
 								{/foreach}
 							</optgroup>
@@ -214,7 +214,7 @@
 								<optgroup label="{"Roles"|t:"Roles"}">
 									{foreach key=ROLE_ID item=ROLE_OBJ from=$ROLES}
 										{assign var=ROLEID value="ROLE::{$ROLE_ID}"}
-										<option value="{$ROLEID}" {if is_array($recipients) && in_array($ROLEID, $recipients)} selected {/if} data-picklistvalue= '{$ROLE_OBJ->get('rolename')}'>{vtranslate($ROLE_OBJ->get('rolename'))}</option>
+										<option value="{$ROLEID}" {if is_array($recipients) && in_array($ROLEID, $recipients)} selected {/if} data-picklistvalue= '{$ROLE_OBJ->get('rolename')}'>{$ROLE_OBJ->get('rolename')|t}</option>
 									{/foreach}
 								</optgroup>
 							</select>

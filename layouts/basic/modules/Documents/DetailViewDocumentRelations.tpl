@@ -8,7 +8,7 @@
 				<div class="panel-heading paddingTBZero widget_header">
 					<input type="hidden" name="relatedModule" value="{$REL_MODULE}" />
 					<div class="panel-title row">
-						<h4 class="col-xs-8">{vtranslate($REL_MODULE, $REL_MODULE)}</h4>
+						<h4 class="col-xs-8">{$REL_MODULE|t:$REL_MODULE}</h4>
 					</div>
 				</div>
 				<div class="widget_contents panel-body padding0">

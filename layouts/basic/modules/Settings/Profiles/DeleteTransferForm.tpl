@@ -33,7 +33,7 @@
 										{foreach from=$ALL_RECORDS item=PROFILE_MODEL}
 											{assign var=PROFILE_ID value=$PROFILE_MODEL->get('profileid')}
 											{if $PROFILE_ID neq $RECORD_MODEL->getId()}
-												<option value="{$PROFILE_ID}">{vtranslate($PROFILE_MODEL->get('profilename'), $QUALIFIED_MODULE)}</option>
+												<option value="{$PROFILE_ID}">{$PROFILE_MODEL->get('profilename')|t:$QUALIFIED_MODULE}</option>
 											{/if}
 										{/foreach}
 									</optgroup>

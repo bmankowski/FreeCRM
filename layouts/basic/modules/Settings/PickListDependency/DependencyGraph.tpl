@@ -64,7 +64,7 @@
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
                             <th data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}" style="
 								{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
-								{vtranslate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
+								{$SOURCE_PICKLIST_VALUE|t:$SELECTED_MODULE}</th>
 						{/foreach}</tr>
 				</thead>
 				<tbody>
@@ -85,7 +85,7 @@
 									{if $IS_SELECTED}
 										<i class="glyphicon glyphicon-ok pull-left"></i>
 									{/if}
-									{vtranslate($TARGET_VALUE, $SELECTED_MODULE)}
+									{$TARGET_VALUE|t:$SELECTED_MODULE}
 								</td>
 							{/foreach}
 						</tr>
@@ -115,7 +115,7 @@
 												<label class=""><input type="checkbox" class="sourceValue {Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}"
 																	   data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" 
 																	   {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
-													&nbsp;{vtranslate($SOURCE_VALUE, $SELECTED_MODULE)}</label>
+													&nbsp;{$SOURCE_VALUE|t:$SELECTED_MODULE}</label>
 											</div>
 										</div>
 									</td>

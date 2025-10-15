@@ -11,7 +11,7 @@
 				</div>
 				<div class='{if $DEVICE == 'Desktop'}iconContainer{/if}'>
 					<span {if $DEVICE == 'Desktop'}class="iconImage" {/if}>
-						{vtranslate('LBL_HOME',$moduleName)}
+						{'LBL_HOME'|t:$moduleName}
 					</span>
 				</div>
 				

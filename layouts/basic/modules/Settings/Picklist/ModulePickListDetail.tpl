@@ -13,20 +13,20 @@
 <!-- layouts/basic/modules/Settings/Picklist/ModulePickListDetail.tpl -->
     {if !empty($NO_PICKLIST_FIELDS) }
         <label style="padding-top: 40px;"> <b>
-                {vtranslate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)} {vtranslate('NO_PICKLIST_FIELDS',$QUALIFIED_NAME)}. &nbsp; 
+                {$SELECTED_MODULE_NAME|t:$SELECTED_MODULE_NAME} {'NO_PICKLIST_FIELDS'|t:$QUALIFIED_NAME}. &nbsp; 
             {if !empty($CREATE_PICKLIST_URL)}
-                <a href="{$CREATE_PICKLIST_URL}">{vtranslate('LBL_CREATE_NEW',$QUALIFIED_NAME)}</a>
+                <a href="{$CREATE_PICKLIST_URL}">{'LBL_CREATE_NEW'|t:$QUALIFIED_NAME}</a>
             {/if}
             </b>
         </label>
     {else}
 	<div class="row">
-		<label class="fieldLabel col-md-3"><strong>{"LBL_SELECT_PICKLIST_IN"|t:$QUALIFIED_MODULE}&nbsp;{vtranslate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</strong></label>
+		<label class="fieldLabel col-md-3"><strong>{"LBL_SELECT_PICKLIST_IN"|t:$QUALIFIED_MODULE}&nbsp;{$SELECTED_MODULE_NAME|t:$QUALIFIED_MODULE}</strong></label>
 		<div class="col-md-4 fieldValue">
 			<select class="chzn-select form-control" id="modulePickList">
 				<optgroup>
 					{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
-						<option value="{$FIELD_MODEL->getId()}">{vtranslate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME)}</option>
+						<option value="{$FIELD_MODEL->getId()}">{$FIELD_MODEL->get('label')|t:$SELECTED_MODULE_NAME}</option>
 					{/foreach}	
 				</optgroup>
 			</select>

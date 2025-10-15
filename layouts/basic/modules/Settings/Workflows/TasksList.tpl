@@ -22,7 +22,7 @@
 				{foreach from=$TASK_LIST item=TASK}
 					<tr class="listViewEntries">
 						<td><input type="checkbox" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" {/if} /></td>
-						<td>{vtranslate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
+						<td>{$TASK->getTaskType()->getLabel()|t:$QUALIFIED_MODULE}</td>
 						<td>{$TASK->getName()}
 							<div class="pull-right actions">
 								<span class="actionImages">

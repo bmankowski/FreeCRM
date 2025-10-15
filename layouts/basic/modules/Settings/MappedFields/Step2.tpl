@@ -14,7 +14,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
-							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 2)}: {"LBL_MAPPING_SETTINGS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+							<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE, 2}: {"LBL_MAPPING_SETTINGS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 						</label>
 					</div>
 					<div class="panel-body">
@@ -60,7 +60,7 @@
 													</select>
 													<input type="hidden" class="mappingType" name="mapping[{$SEQ}][type]" value="{$MAPPING_ARRAY['type']}" />
 												</td>
-												<td class="selectedFieldDataType text-center alignMiddle">{vtranslate($MAPPING_ARRAY['source']->getFieldDataType(), $QUALIFIED_MODULE)}</td>
+												<td class="selectedFieldDataType text-center alignMiddle">{$MAPPING_ARRAY['source']->getFieldDataType()|t:$QUALIFIED_MODULE}</td>
 												<td>
 													<select class="targetFields select2" name="mapping[{$SEQ}][target]">
 														{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
@@ -95,7 +95,7 @@
 													{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 														<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 															{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-																<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-type-name="{vtranslate($FIELD_OBJECT->getFieldDataType(), $QUALIFIED_MODULE)}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
+																<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-type-name="{$FIELD_OBJECT->getFieldDataType()|t:$QUALIFIED_MODULE}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
 																	{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 																</option>
 															{/foreach}

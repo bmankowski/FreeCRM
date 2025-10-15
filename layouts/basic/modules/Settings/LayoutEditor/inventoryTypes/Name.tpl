@@ -14,7 +14,7 @@
 	<div class="col-md-7">
 		<select class='form-control select2' name="displayType" data-validation-engine="validate[required]">
 			{foreach from=$FIELD_INSTANCE->displayTypeBase() item=ITEM key=KEY}
-				<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{vtranslate($KEY, $QUALIFIED_MODULE)}</option>
+				<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{$KEY|t:$QUALIFIED_MODULE}</option>
 			{/foreach}
 		</select>
 	</div>
@@ -31,10 +31,10 @@
 		{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
 		{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 			<div class="form-group paramsJson">
-				<label class="col-md-4 control-label">{vtranslate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}
+				<label class="col-md-4 control-label">{'LBL_PARAMS_'|cat:strtoupper($ITEM)|t:$QUALIFIED_MODULE}
 					{if $ITEM eq 'limit'}
 						{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
-						<a href="#" class="HelpInfoPopover" data-placement="top" data-content="{"LBL_PARAMS_LIMIT_CONDITIONS"|t:$QUALIFIED_MODULE}: {vtranslate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
+						<a href="#" class="HelpInfoPopover" data-placement="top" data-content="{"LBL_PARAMS_LIMIT_CONDITIONS"|t:$QUALIFIED_MODULE}: {$GROSS_PRICE->getDefaultLabel()|t:$QUALIFIED_MODULE}">
 							<span class="glyphicon glyphicon-info-sign"></span>
 						</a>
 					{/if}:</label>
@@ -48,7 +48,7 @@
 							{elseif !($PARAMS[$ITEM]|is_array) && $ITEMS.id eq $PARAMS[$ITEM]}
 								{assign var='CONDITION' value=1}
 							{/if}
-							<option value="{$ITEMS['id']}" {if $CONDITION}selected{/if}>{vtranslate($ITEMS['name'], $ITEMS['module'])}</option>
+							<option value="{$ITEMS['id']}" {if $CONDITION}selected{/if}>{$ITEMS['name']|t:$ITEMS['module']}</option>
 						{/foreach}
 					</select>
 				</div>

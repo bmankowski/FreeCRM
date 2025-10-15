@@ -26,7 +26,7 @@
 						<div class="row">
 							<div class="col-md-5 marginLeftZero"><strong>{"Type widget"|t:$QUALIFIED_MODULE}</strong>:</div>
 							<div class="col-md-7">
-								{vtranslate($TYPE, $QUALIFIED_MODULE)}
+								{$TYPE|t:$QUALIFIED_MODULE}
 							</div>
 						</div>
 					</div>

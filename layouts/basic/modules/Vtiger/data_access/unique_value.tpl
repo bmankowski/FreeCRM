@@ -22,7 +22,7 @@
 					<label for="what" class="">{"Select a field from which the value is to be checked"|t:"DataAccess"}:</label>
 					<select id="what" name="what1" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields_mod']}
-							<option value="{$item[1]}" {if $item[1] == $WHAT1} selected {/if} >{vtranslate($item[2], $item[0])}</option>
+							<option value="{$item[1]}" {if $item[1] == $WHAT1} selected {/if} >{$item[2]|t:$item[0]}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -31,10 +31,10 @@
 					<select multiple id="where" name="where1" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}
-								<optgroup label="{vtranslate($item[3], $item[3])}">
+								<optgroup label="{$item[3]|t:$item[3]}">
 							{/if}
 							{assign var=selected_val value=$item[1]|cat:"="|cat:$item[2]|cat:"="|cat:$item[4]}
-							<option value="{$selected_val}" {if (is_array($WHERE1))?(in_array( $selected_val, $WHERE1)): ($WHERE1 == $selected_val) }selected {/if}>{vtranslate($item[0], $item[3])}</option>
+							<option value="{$selected_val}" {if (is_array($WHERE1))?(in_array( $selected_val, $WHERE1)): ($WHERE1 == $selected_val) }selected {/if}>{$item[0]|t:$item[3]}</option>
 							{assign var=last_value value=$item[3]}
 							{if $last_value neq $item[3]}
 								</optgroup>
@@ -91,7 +91,7 @@
 					<label for="what2" class="">{"Select a field from which the value is to be checked"|t:"DataAccess"}:</label>
 					<select {if $VAL2FIELD neq 1}disabled{/if} id="what2" name="what2" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields_mod']}
-							<option value="{$item[1]}" {if $item[1] == $WHAT2} selected {/if} >{vtranslate($item[2], $item[0])}</option>
+							<option value="{$item[1]}" {if $item[1] == $WHAT2} selected {/if} >{$item[2]|t:$item[0]}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -100,10 +100,10 @@
 					<select {if $VAL2FIELD neq 1}disabled{/if} multiple id="where2" name="where2" class="form-control select2">
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}
-								<optgroup label="{vtranslate($item[3], $item[3])}">
+								<optgroup label="{$item[3]|t:$item[3]}">
 							{/if}
 							{assign var=selected_val value=$item[1]|cat:"="|cat:$item[2]|cat:"="|cat:$item[4]}
-							<option value="{$selected_val}" {if (is_array($WHERE2))?(in_array( $selected_val, $WHERE2)): ($WHERE2 == $selected_val) }selected {/if}>{vtranslate($item[0], $item[3])}</option>
+							<option value="{$selected_val}" {if (is_array($WHERE2))?(in_array( $selected_val, $WHERE2)): ($WHERE2 == $selected_val) }selected {/if}>{$item[0]|t:$item[3]}</option>
 							{assign var=last_value value=$item[3]}
 							{if $last_value neq $item[3]}
 								</optgroup>

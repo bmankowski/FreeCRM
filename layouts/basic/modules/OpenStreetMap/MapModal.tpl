@@ -41,16 +41,16 @@
 				<div class="col-xs-5 paddingLRZero">
 					<select class="select2 searchModule col-xs-6">
 						{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
-							<option value="{$ALLOWED_MODULE_NAME}">{vtranslate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}</option>
+							<option value="{$ALLOWED_MODULE_NAME}">{$ALLOWED_MODULE_NAME|t:$ALLOWED_MODULE_NAME}</option>
 						{/foreach}
 					</select>
 				</div>
 			</div>
 			<div class="input-group group-btn form-group">
 				<select class="select2 fieldsToGroup">
-					<optgroup label="{vtranslate($SRC_MODULE, $SRC_MODULE)}">
+					<optgroup label="{$SRC_MODULE|t:$SRC_MODULE}">
 					{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
-						<option value="{$FIELD_MODEL->getFieldName()}">{vtranslate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
+						<option value="{$FIELD_MODEL->getFieldName()}">{$FIELD_MODEL->getFieldLabel()|t:$SRC_MODULE}</option>
 					{/foreach}
 					</optgroup>
 				</select>
@@ -114,7 +114,7 @@
 							<div class="col-xs-8">
 								<label>
 									<input type="checkbox" class="showRecordsFromCache" data-module="{$ALLOWED_MODULE_NAME}">
-									&nbsp;{vtranslate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}&nbsp;
+									&nbsp;{$ALLOWED_MODULE_NAME|t:$ALLOWED_MODULE_NAME}&nbsp;
 									<span class="badge countRecords{$ALLOWED_MODULE_NAME}">
 										{if !empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}
 											{$CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME]}

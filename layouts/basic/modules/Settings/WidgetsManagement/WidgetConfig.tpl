@@ -7,7 +7,7 @@
 		<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 			<div class="row padding1per">
 				<div class="pull-left " style="word-wrap: break-word;">
-					<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
+					<span class="fieldLabel marginLeft20">{$WIDGET_MODEL->getTitle()|t:$SELECTED_MODULE_NAME}</span>
 				</div>
 				<span class="btn-group pull-right marginRight20 actions">
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
@@ -17,7 +17,7 @@
 						<form class="form-horizontal fieldDetailsForm" method="POST">
 							<input type="hidden" name="type" class="" value="{$WIDGET_MODEL->get('linklabel')}">
 							<div class="modal-header contentsBackground">
-								<strong>{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</strong>
+								<strong>{$WIDGET_MODEL->getTitle()|t:$SELECTED_MODULE_NAME}</strong>
 								<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 							</div>
 							<div class="clearfix">
@@ -109,7 +109,7 @@
 											<select class="widgetFilter form-control" id="owner" name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
 													{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
-														<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+														<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{$OWNER_NAME|t:$QUALIFIED_MODULE}</option>
 													{/if}
 												{/foreach}
 											</select>
@@ -126,7 +126,7 @@
 											<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{"LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION"|t:$QUALIFIED_MODULE}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 													{if !(is_array($RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]) && in_array($OWNER_ID, $RESTRICT_FILTER[$WIDGET_MODEL->get('linklabel')]))}
-														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{$OWNER_NAME|t:$QUALIFIED_MODULE}</option>
 													{/if}
 												{/foreach}
 											</select>
@@ -145,7 +145,7 @@
 									<div class="col-sm-8 controls">
 										<select class="widgetFilterDate form-control" id="date" name="default_date">
 											{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
-												<option value="{$DATE_VALUE}" {if $DATE_VALUE eq $WIDGET_MODEL->get('date')} selected {/if}>{vtranslate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
+												<option value="{$DATE_VALUE}" {if $DATE_VALUE eq $WIDGET_MODEL->get('date')} selected {/if}>{$DATE_TEXT|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>
 									</div>	

@@ -43,7 +43,7 @@
 											{/if}
 											<option value="{$CURRENCY_MODEL->get('currency_name')}" data-code="{$CURRENCY_MODEL->get('currency_code')}" 
 													data-symbol="{$CURRENCY_MODEL->get('currency_symbol')}" {if $RECORD_MODEL->get('currency_name') == $CURRENCY_MODEL->get('currency_name')} selected {/if}>
-												{vtranslate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}&nbsp;({$CURRENCY_MODEL->get('currency_symbol')})</option>
+												{$CURRENCY_MODEL->get('currency_name')|t:$QUALIFIED_MODULE}&nbsp;({$CURRENCY_MODEL->get('currency_symbol')})</option>
 											{/foreach}
 									</select>
 								</div>	
@@ -85,7 +85,7 @@
 					<div class="col-md-6 controls row">
 						<select class="select2 form-control" name="transform_to_id">
 							{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$OTHER_EXISTING_CURRENCIES}
-								<option value="{$CURRENCY_ID}">{vtranslate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
+								<option value="{$CURRENCY_ID}">{$CURRENCY_MODEL->get('currency_name')|t:$QUALIFIED_MODULE}</option>
 							{/foreach}
 						</select>
 					</div>	

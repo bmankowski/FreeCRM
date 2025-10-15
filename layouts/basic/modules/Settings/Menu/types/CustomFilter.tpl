@@ -6,7 +6,7 @@
 	<div class="col-md-7">
 		<select name="dataurl" class="select2 form-control type">
 			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
-				<option value="{$ITEM.cvid}" {if $RECORD && $ITEM['cvid'] == $RECORD->get('dataurl')} selected="" {/if} data-tabid="{$ITEM['tabid']}">{vtranslate($ITEM['entitytype'], $ITEM['entitytype'])}: {vtranslate($ITEM['viewname'], $ITEM['entitytype'])}</option>
+				<option value="{$ITEM.cvid}" {if $RECORD && $ITEM['cvid'] == $RECORD->get('dataurl')} selected="" {/if} data-tabid="{$ITEM['tabid']}">{$ITEM['entitytype']|t:$ITEM['entitytype']}: {$ITEM['viewname']|t:$ITEM['entitytype']}</option>
 			{/foreach}
 		</select>
 	</div>

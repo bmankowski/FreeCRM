@@ -21,10 +21,10 @@
 				<div class="col-xs-10">
 					<select class="select2 form-control add" id="allGroups" {if $IS_DEFAULT} disabled="disabled"{/if}>
 						{foreach from=$MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-							<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+							<optgroup label="{$GROUP_LABEL|t:$QUALIFIED_MODULE}">
 								{foreach from=$ALL_GROUP_MEMBERS item=MEMBER key=QUALIFIEDID}
 								{if is_array($MEMBERS_DEFAULT[$GROUP_LABEL]) && in_array($QUALIFIEDID,$MEMBERS_DEFAULT[$GROUP_LABEL])}{continue}{/if}
-								<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}">{vtranslate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+								<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}">{$MEMBER->get('name')|t:$QUALIFIED_MODULE}</option>
 							{/foreach}
 						</optgroup>
 					{/foreach}
@@ -39,11 +39,11 @@
 			<div class="col-xs-10">
 				<select class="select2 form-control remove" id="groups">
 					{foreach from=$MEMBERS_DEFAULT key=LABEL item=GROUP}
-						<optgroup label="{vtranslate($LABEL, $QUALIFIED_MODULE)}">
+						<optgroup label="{$LABEL|t:$QUALIFIED_MODULE}">
 							{foreach from=$GROUP item=USER}
 								{assign 'MEMBER' $MEMBERS[$LABEL][$USER]}
 								{if $MEMBER}
-									<option value="{$USER}"  data-member-type="{$LABEL}">{vtranslate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+									<option value="{$USER}"  data-member-type="{$LABEL}">{$MEMBER->get('name')|t:$QUALIFIED_MODULE}</option>
 								{/if}
 							{/foreach}
 						</optgroup>

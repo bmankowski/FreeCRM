@@ -13,7 +13,7 @@
 			<select class="select2 form-control" name="roleMenu">
 				<option value="0" {if $ROLEID eq 0} selected="" {/if}>{"LBL_DEFAULT_MENU"|t:$QUALIFIED_MODULE}</option>
 				{foreach item=ROLE key=KEY from=$LIST_ROLES}
-					<option value="{$KEY|replace:'H':''}" {if $ROLEID === $KEY} selected="" {/if}>{vtranslate($ROLE->getName())}</option>
+					<option value="{$KEY|replace:'H':''}" {if $ROLEID === $KEY} selected="" {/if}>{$ROLE->getName()|t}</option>
 				{/foreach}
 			</select>
 		</div>

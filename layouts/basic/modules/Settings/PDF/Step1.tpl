@@ -12,7 +12,7 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 1)}: {"LBL_ENTER_BASIC_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE, 1}: {"LBL_ENTER_BASIC_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
 				<div class="form-group">

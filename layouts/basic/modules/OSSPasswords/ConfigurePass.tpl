@@ -18,15 +18,15 @@
 
 	{if $ERROR|count_characters:true gt 0}
 		<div class="alert alert-warning">
-			<strong>{"Error"|t:$MODULENAME}</strong> {vtranslate($ERROR, $MODULENAME)}
+			<strong>{"Error"|t:$MODULENAME}</strong> {$ERROR|t:$MODULENAME}
 		</div>
 	{elseif $INFO|count_characters:true gt 0}
 		<div class="alert alert-info">
-			<strong>{"Info"|t:$MODULENAME}</strong> {vtranslate($INFO, $MODULENAME)}
+			<strong>{"Info"|t:$MODULENAME}</strong> {$INFO|t:$MODULENAME}
 		</div>
 	{elseif $SUCCESS|count_characters:true gt 0}
 		<div class="alert alert-success">
-			<strong>{"Success"|t:$MODULENAME}</strong> {vtranslate($SUCCESS, $MODULENAME)}
+			<strong>{"Success"|t:$MODULENAME}</strong> {$SUCCESS|t:$MODULENAME}
 		</div>
 	{/if}
 

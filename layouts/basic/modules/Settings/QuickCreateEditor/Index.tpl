@@ -39,7 +39,7 @@ padding: 0 20px 20px 20px;
 							{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
 						{/if}
 						{if $quickCreateModule == '1'}
-							<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($singularLabel, $mouleName)}</option>
+							<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{$singularLabel|t:$mouleName}</option>
 						{/if}
 					{/if}
 				{/foreach}
@@ -90,7 +90,7 @@ padding: 0 20px 20px 20px;
                                                                 {/if}
                                                             </div>
                                                             <div class="col-sm-11 col-xs-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
-                                                                <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+                                                                <span class="fieldLabel">{$FIELD_MODEL->get('label')|t:$SELECTED_MODULE_NAME}&nbsp;
                                                                 {if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 															</div>
 														</div>
@@ -119,7 +119,7 @@ padding: 0 20px 20px 20px;
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
-																	{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+																	{$FIELD_MODEL->get('label')|t:$SELECTED_MODULE_NAME}&nbsp;
 																</span>
 																
 															</div>

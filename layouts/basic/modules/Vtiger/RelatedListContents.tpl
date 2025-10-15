@@ -111,7 +111,7 @@
 								<thead>
 									<tr>
 										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-											<th class="medium" nowrap>{vtranslate($FIELD->get('label'),$RELATED_MODULE_NAME)}</th>
+											<th class="medium" nowrap>{$FIELD->get('label')|t:$RELATED_MODULE_NAME}</th>
 										{/foreach}
 									</tr>
 								</thead>

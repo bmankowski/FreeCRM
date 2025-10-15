@@ -35,7 +35,7 @@
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
-									{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 								{/if}
 							</option>
 						{/foreach}
@@ -66,7 +66,7 @@
 						{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 							({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 						{else}
-							{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+							{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 						{/if}
 					</option>
 				{/foreach}

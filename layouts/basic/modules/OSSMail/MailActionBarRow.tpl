@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/OSSMail/MailActionBarRow.tpl -->
 	<div class="rowRelatedRecord" data-id="{$RELATED['id']}" data-module="{$RELATED['module']}">
-		<a href="{$URL}index.php?module={$RELATED['module']}&amp;view=Detail&amp;record={$RELATED['id']}" title="{vtranslate('SINGLE_'|cat:$RELATED['module'],$RELATED['module'])}: {$RELATED['label']}" target="_blank">
+		<a href="{$URL}index.php?module={$RELATED['module']}&amp;view=Detail&amp;record={$RELATED['id']}" title="{'SINGLE_'|cat:$RELATED['module']|t:$RELATED['module']}: {$RELATED['label']}" target="_blank">
 			<span class="relatedModuleIcon userIcon-{$RELATED['module']}" aria-hidden="true"></span>
 			<span class="relatedName">
 				{vtlib\Functions::textLength($RELATED['label'],38)}

@@ -34,7 +34,7 @@
 							<select class="chzn-select form-control" name="oldValue">
 								<optgroup>
 									{foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
-										<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" data-id={$PICKLIST_VALUE_KEY}>{vtranslate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>
+										<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" data-id={$PICKLIST_VALUE_KEY}>{$PICKLIST_VALUE|t:$SOURCE_MODULE}</option>
 									{/foreach}	
 								</optgroup>
 							</select>	
@@ -50,7 +50,7 @@
 						<div class="col-md-9 controls nonEditableValuesDiv">
 							<ul class="nonEditablePicklistValues list-unstyled">
 							{foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}
-								<li>{vtranslate($NON_EDITABLE_VALUE,$SOURCE_MODULE)}</li>
+								<li>{$NON_EDITABLE_VALUE|t:$SOURCE_MODULE}</li>
 							{/foreach}
 							</ul>
 						</div>

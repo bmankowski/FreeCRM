@@ -23,18 +23,18 @@
 				{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 				{assign var=FIELD_VALUE value=$RECORD_MODEL->get($FIELD_NAME)}
 				{if $FIELD_TYPE == 'picklist'}
-					<select class="select2 col-md-3 marginLeftZero" name="{$FIELD_NAME}" placeholder="{vtranslate('LBL_SELECT_ONE', $QUALIFIED_MODULE_NAME)}">
+					<select class="select2 col-md-3 marginLeftZero" name="{$FIELD_NAME}" placeholder="{'LBL_SELECT_ONE'|t:$QUALIFIED_MODULE_NAME}">
 						<option></option>
 						{assign var=PICKLIST_VALUES value=$FIELD_MODEL->get('picklistvalues')}
 						{foreach item=PICKLIST_VALUE key=PICKLIST_KEY from=$PICKLIST_VALUES}
 							<option value="{$PICKLIST_KEY}" {if $FIELD_VALUE eq $PICKLIST_KEY} selected {/if}>
-								{vtranslate($PICKLIST_VALUE, $QUALIFIED_MODULE_NAME)}
+								{$PICKLIST_VALUE|t:$QUALIFIED_MODULE_NAME}
 							</option>
 						{/foreach}
 					</select>
 				{else if $FIELD_TYPE == 'radio'}
-					<input type="radio" name="{$FIELD_NAME}" value='1' {if $FIELD_VALUE} checked="checked" {/if} />&nbsp;{vtranslate('LBL_YES', $QUALIFIED_MODULE_NAME)}&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="{$FIELD_NAME}" value='0' {if !$FIELD_VALUE} checked="checked" {/if}/>&nbsp;{vtranslate('LBL_NO', $QUALIFIED_MODULE_NAME)}
+					<input type="radio" name="{$FIELD_NAME}" value='1' {if $FIELD_VALUE} checked="checked" {/if} />&nbsp;{'LBL_YES'|t:$QUALIFIED_MODULE_NAME}&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="{$FIELD_NAME}" value='0' {if !$FIELD_VALUE} checked="checked" {/if}/>&nbsp;{'LBL_NO'|t:$QUALIFIED_MODULE_NAME}
 				{else if $FIELD_TYPE == 'password'}
 					<input type="password" name="{$FIELD_NAME}" class="col-md-3 form-control" data-validation-engine="validate[required]" value="{$FIELD_VALUE}" />
 				{else}

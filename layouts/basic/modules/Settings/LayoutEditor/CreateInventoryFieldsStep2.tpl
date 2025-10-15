@@ -19,7 +19,7 @@
 						<input type="hidden" name="name" id="name" value="{$FIELD_INSTANCE->getName()}" />
 						<div class="form-group">
 							<label class="col-md-4 control-label">{"LBL_NAME_FIELD"|t:$QUALIFIED_MODULE}:</label>
-							<div class="col-md-7 form-control-static">{vtranslate($FIELD_INSTANCE->getName(), $QUALIFIED_MODULE)}</div>
+							<div class="col-md-7 form-control-static">{$FIELD_INSTANCE->getName()|t:$QUALIFIED_MODULE}</div>
 						</div>
 						{include file='inventoryTypes/'|cat:{$FIELD_INSTANCE->getName()}|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 					</div>

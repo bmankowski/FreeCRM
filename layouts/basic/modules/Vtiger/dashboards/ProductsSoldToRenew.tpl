@@ -7,7 +7,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle())}"><strong>{vtranslate($WIDGET->getTitle())}</strong></div>
+			<div class="dashboardTitle" title="{$WIDGET->getTitle()|t}"><strong>{$WIDGET->getTitle()|t}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
@@ -34,7 +34,7 @@
 				<select class="widgetFilter form-control orderby input-sm" name="orderby" title="{"LBL_CUSTOM_FILTER"|t}">
 					{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 						{assign var="FIELD_VALUE" value=$FIELD->get('name')}
-						<option value="{$FIELD_VALUE}" {if $DATA['orderby'] eq $FIELD_VALUE} selected {/if}>{vtranslate($FIELD->get('label'),$BASE_MODULE)}</option>
+						<option value="{$FIELD_VALUE}" {if $DATA['orderby'] eq $FIELD_VALUE} selected {/if}>{$FIELD->get('label')|t:$BASE_MODULE}</option>
 					{/foreach}
 				</select>
 			</div>

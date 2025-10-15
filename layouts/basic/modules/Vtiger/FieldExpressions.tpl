@@ -48,7 +48,7 @@
 										<option></option>
 										<optgroup>
 											{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
-												<option value="{$MODULE_FIELD->getName()}">{vtranslate($MODULE_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+												<option value="{$MODULE_FIELD->getName()}">{$MODULE_FIELD->get('label')|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</optgroup>
 									</select>
@@ -60,7 +60,7 @@
 								<option></option>
 								<optgroup>
 									{foreach from=$FIELD_EXPRESSIONS key=FIELD_EXPRESSION_VALUE item=FIELD_EXPRESSIONS_KEY}
-										<option value="{$FIELD_EXPRESSIONS_KEY}">{vtranslate($FIELD_EXPRESSION_VALUE,$QUALIFIED_MODULE)}</option>
+										<option value="{$FIELD_EXPRESSIONS_KEY}">{$FIELD_EXPRESSION_VALUE|t:$QUALIFIED_MODULE}</option>
 									{/foreach}
 								</optgroup>
 							</select>

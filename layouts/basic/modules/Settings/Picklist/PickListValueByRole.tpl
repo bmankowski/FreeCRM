@@ -18,14 +18,14 @@
 			<div id="assignToRolepickListValuesTable" class="fontBold textAlignCenter">
 				{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$ALL_PICKLIST_VALUES}
 					<div data-value="{$PICKLIST_VALUE}" data-id="{$PICKLIST_KEY}" class="valuesAssignedToRole cursorPointer assignToRolePickListValue {if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}selectedCell{else}unselectedCell{/if}">
-						{if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}<i class="glyphicon glyphicon-ok pull-left"></i>{/if}{vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
+						{if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}<i class="glyphicon glyphicon-ok pull-left"></i>{/if}{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}
 					</div>
 				{/foreach}
 			</div>
 		</div>
 		<div class="col-md-6">
 			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{"LBL_SELECTED_VALUES"|t:$QUALIFIED_MODULE}</span>&nbsp;<span>{"LBL_SELECTED_VALUES_MESSGAE"|t:$QUALIFIED_MODULE}</span></div><br>
-			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span>{vtranslate('LBL_ENABLE/DISABLE_MESSGAE',$QUALIFIED_MODULE)}</span></div><br>
+			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span>{'LBL_ENABLE/DISABLE_MESSGAE'|t:$QUALIFIED_MODULE}</span></div><br>
 			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success">{"LBL_SAVE"|t:$QUALIFIED_MODULE}</button>
 		</div>		
 	</div>				

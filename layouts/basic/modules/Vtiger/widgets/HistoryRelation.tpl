@@ -11,7 +11,7 @@
 					<div class="col-xs-7">
 						<select class="select2 relatedHistoryTypes" multiple>
 							{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
-								<option selected value="{$ACTIONS}">{vtranslate($ACTIONS, $ACTIONS)}</option>	
+								<option selected value="{$ACTIONS}">{$ACTIONS|t:$ACTIONS}</option>	
 							{/foreach}
 						</select>
 					</div>

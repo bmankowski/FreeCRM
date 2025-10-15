@@ -17,9 +17,9 @@
 				<div class="modal-header contentsBackground" tabindex="-1">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					{if $RECORD_ID}
-						<h3>{vtranslate('LBL_EDIT_CONFIGURATION', $QUALIFIED_MODULE_NAME)} </h3>
+						<h3>{'LBL_EDIT_CONFIGURATION'|t:$QUALIFIED_MODULE_NAME} </h3>
 					{else}
-						<h3>{vtranslate('LBL_ADD_CONFIGURATION', $QUALIFIED_MODULE_NAME)} </h3>
+						<h3>{'LBL_ADD_CONFIGURATION'|t:$QUALIFIED_MODULE_NAME} </h3>
 					{/if}
 				</div>
 				<form class="form-horizontal" id="smsConfig" method="POST">
@@ -32,7 +32,7 @@
 								{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 								<span class="control-label">
 									<strong>
-										{vtranslate($FIELD_NAME, $QUALIFIED_MODULE_NAME)}
+										{$FIELD_NAME|t:$QUALIFIED_MODULE_NAME}
 									</strong>
 								</span>
 								<div class="controls">
@@ -44,13 +44,13 @@
 											{foreach item=PROVIDER_MODEL from=$PROVIDERS}
 												{assign var=PROVIDER_NAME value=$PROVIDER_MODEL->getName()}
 												<option value="{$PROVIDER_NAME}" {if $FIELD_VALUE eq $PROVIDER_NAME} selected {/if}> 
-													{vtranslate($PROVIDER_NAME, $QUALIFIED_MODULE_NAME)} 
+													{$PROVIDER_NAME|t:$QUALIFIED_MODULE_NAME} 
 												</option> 
 											{/foreach}
 										</select>
 									{else if $FIELD_TYPE == 'radio'}
-										<input type="radio" name="{$FIELD_NAME}" value='1' {if $FIELD_VALUE} checked="checked" {/if} />&nbsp;{vtranslate('LBL_YES', $QUALIFIED_MODULE_NAME)}&nbsp;&nbsp;&nbsp;
-										<input type="radio" name="{$FIELD_NAME}" value='0' {if !$FIELD_VALUE} checked="checked" {/if}/>&nbsp;{vtranslate('LBL_NO', $QUALIFIED_MODULE_NAME)}
+										<input type="radio" name="{$FIELD_NAME}" value='1' {if $FIELD_VALUE} checked="checked" {/if} />&nbsp;{'LBL_YES'|t:$QUALIFIED_MODULE_NAME}&nbsp;&nbsp;&nbsp;
+										<input type="radio" name="{$FIELD_NAME}" value='0' {if !$FIELD_VALUE} checked="checked" {/if}/>&nbsp;{'LBL_NO'|t:$QUALIFIED_MODULE_NAME}
 									{else if $FIELD_TYPE == 'password'}
 										<input type="password" name="{$FIELD_NAME}" class="col-md-3 form-control" data-validation-engine="validate[required]" value="{$FIELD_VALUE}" />
 									{else}

@@ -23,14 +23,14 @@
 					<div class="col-md-5 marginLeftZero textOverflowEllipsis">
 						<table id="pickListValuesTable" class="table table-bordered" style="table-layout: fixed">
 							<thead>
-								<tr class="listViewHeaders"><th>{vtranslate($SELECTED_PICKLIST_FIELDMODEL->get('label'),$SELECTED_MODULE_NAME)}&nbsp;{"LBL_ITEMS"|t:$QUALIFIED_MODULE}</th></tr>
+								<tr class="listViewHeaders"><th>{$SELECTED_PICKLIST_FIELDMODEL->get('label')|t:$SELECTED_MODULE_NAME}&nbsp;{"LBL_ITEMS"|t:$QUALIFIED_MODULE}</th></tr>
 							</thead>
 							<tbody>
 							<input type="hidden" id="dragImagePath" value="{vimage_path('drag.png')}" />
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 							{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 								<tr class="pickListValue" data-key-id="{$PICKLIST_KEY}" data-key="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}">
-									<td class="textOverflowEllipsis"><img class="alignMiddle" src="{vimage_path('drag.png')}"/>&nbsp;&nbsp;{vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</td>
+									<td class="textOverflowEllipsis"><img class="alignMiddle" src="{vimage_path('drag.png')}"/>&nbsp;&nbsp;{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}</td>
 								</tr>
 							{/foreach}
 							</tbody>
@@ -65,7 +65,7 @@
 						<div class="col-md-4">
 							<select id="rolesList" class="form-control" name="rolesSelected" data-placeholder="{"LBL_CHOOSE_ROLES"|t:$QUALIFIED_MODULE}">
 								{foreach from=$ROLES_LIST item=ROLE}
-									<option value="{$ROLE->get('roleid')}">{vtranslate($ROLE->get('rolename'), $QUALIFIED_MODULE)}</option>
+									<option value="{$ROLE->get('roleid')}">{$ROLE->get('rolename')|t:$QUALIFIED_MODULE}</option>
 								{/foreach}
 							</select>	
 						</div>

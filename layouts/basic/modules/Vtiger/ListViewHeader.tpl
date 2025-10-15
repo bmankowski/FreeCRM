@@ -58,7 +58,7 @@
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" title="{"LBL_CUSTOM_FILTER"|t}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-									<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
+									<optgroup label='{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}' >
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
 											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}" data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}" data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {/strip} {strip}
 													data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->isDeletable()}" {/strip} {strip}

@@ -16,7 +16,7 @@
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
 				{/if}
 			</div>
 		</div>
@@ -39,7 +39,7 @@
 													<h3>{"LBL_FAILED"|t:$QUALIFIED_MODULE}</h3>
 												</div>
 												<div class="modal-body">
-													<p><b>{vtranslate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
+													<p><b>{$MODULEIMPORT_ERROR|t:$QUALIFIED_MODULE}</b></p>
 												</div>
 											</div>
 										{else}
@@ -50,7 +50,7 @@
 											{else if $IMPORT_MODULE_TYPE eq 'update'}
 												{"LBL_IMPORTED_UPDATE"|t:$QUALIFIED_MODULE}
 											{else}
-												{vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
+												{'LBL_IMPORTED_MODULE'|t:$QUALIFIED_MODULE, $IMPORT_MODULE_NAME}
 											{/if}
 										{/if}
 									</td>

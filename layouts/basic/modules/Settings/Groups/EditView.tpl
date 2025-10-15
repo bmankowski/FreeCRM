@@ -20,7 +20,7 @@
 				<div class="col-xs-12">
 					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 					{if isset($SELECTED_PAGE)}
-						{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+						{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
 					{/if}
 				</div>
 			</div>
@@ -63,10 +63,10 @@
 							{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
 							<select id="memberList" class="members form-control select2 groupMembersColors" multiple="true" name="members[]" data-placeholder="{"LBL_ADD_USERS_ROLES"|t:$QUALIFIED_MODULE}" data-validation-engine="validate[required]">
 								{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-									<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+									<optgroup label="{$GROUP_LABEL|t:$QUALIFIED_MODULE}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 											{if $MEMBER->getName() neq $RECORD_MODEL->getName()}
-												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"  data-member-type="{$GROUP_LABEL}" {if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{vtranslate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
+												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"  data-member-type="{$GROUP_LABEL}" {if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{$MEMBER->getName()|t:$QUALIFIED_MODULE}</option>
 											{/if}
 										{/foreach}
 									</optgroup>

@@ -5,7 +5,7 @@
 	<div class="col-md-7">
 		<select name="module" class="select2 type form-control">
 			{foreach from=$MODULE_MODEL->getModulesList() item=ITEM}
-				<option value="{$ITEM['tabid']}" {if $RECORD && $ITEM['tabid'] == $RECORD->get('module')} selected="" {/if}>{vtranslate($ITEM['name'], $ITEM['name'])}</option>
+				<option value="{$ITEM['tabid']}" {if $RECORD && $ITEM['tabid'] == $RECORD->get('module')} selected="" {/if}>{$ITEM['name']|t:$ITEM['name']}</option>
 			{/foreach}
 		</select>
 	</div>
@@ -24,7 +24,7 @@
 	<div class="col-md-7">
 		<select name="filters" multiple class="select2 type form-control">
 			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
-				<option value="{$ITEM.cvid}" {if $RECORD && in_array($ITEM['cvid'],$FILTERS)} selected="" {/if} data-tabid="{$ITEM['tabid']}">{vtranslate($ITEM['viewname'], $ITEM['entitytype'])}</option>
+				<option value="{$ITEM.cvid}" {if $RECORD && in_array($ITEM['cvid'],$FILTERS)} selected="" {/if} data-tabid="{$ITEM['tabid']}">{$ITEM['viewname']|t:$ITEM['entitytype']}</option>
 			{/foreach}
 		</select>
 	</div>

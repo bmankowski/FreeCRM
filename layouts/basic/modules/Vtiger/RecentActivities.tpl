@@ -30,7 +30,7 @@
 						{if $PROCEED}
 							{if $RECENT_ACTIVITY->isReviewed() && $COUNT neq 0}
 								<div class="lineOfText">
-									<div>{vtranslate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
+									<div>{'LBL_REVIEWED'|t:$MODULE_BASE_NAME}</div>
 								</div>
 							{/if}
 							{$COUNT=$COUNT+1}

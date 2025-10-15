@@ -20,7 +20,7 @@
 			{assign var=LISTVIEW_HEADERS value=$IMPORT_RECORDS['headers']}
 			{assign var=IMPORT_RESULT_DATA value=$IMPORT_RECORDS[$TYPE]}
 			{foreach item=LISTVIEW_HEADER_NAME from=$LISTVIEW_HEADERS}
-				<th>{vtranslate($LISTVIEW_HEADER_NAME, $FOR_MODULE)}</th>
+				<th>{$LISTVIEW_HEADER_NAME|t:$FOR_MODULE}</th>
 			{/foreach}
 		</tr>
 	</thead>

@@ -65,23 +65,23 @@
 							</th>
 							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter">
-									&nbsp;{'LBL_VIEW_PRIVILEGE'|vtranslate:$QUALIFIED_MODULE}
+									&nbsp;{'LBL_VIEW_PRIVILEGE'|t:$QUALIFIED_MODULE}
 								</span>
 							</th>
 							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter" >
-									&nbsp;{'LBL_CREATE_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
+									&nbsp;{'LBL_CREATE_PRIVILIGE'|t:$QUALIFIED_MODULE}
 								</span>
 							</th>
 							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter" >
-									&nbsp;{'LBL_EDIT_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
+									&nbsp;{'LBL_EDIT_PRIVILIGE'|t:$QUALIFIED_MODULE}
 								</span>
 							</th>
 							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
-								<span class="horizontalAlignCenter" >{'LBL_DELETE_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}</span>
+								<span class="horizontalAlignCenter" >{'LBL_DELETE_PRIVILIGE'|t:$QUALIFIED_MODULE}</span>
 							</th>
-							<th width="39%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{'LBL_FIELD_AND_TOOL_PRVILIGES'|vtranslate:$QUALIFIED_MODULE}</th>
+							<th width="39%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{'LBL_FIELD_AND_TOOL_PRVILIGES'|t:$QUALIFIED_MODULE}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -89,7 +89,7 @@
 							<tr>
 								<td>
 									<img src="{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" class="alignMiddle" />&nbsp;
-									{$PROFILE_MODULE->get('label')|vtranslate:$PROFILE_MODULE->getName()}
+									{$PROFILE_MODULE->get('label')|t:$PROFILE_MODULE->getName()}
 								</td>
 								{assign var="BASIC_ACTION_ORDER" value=array(2,3,0,1)}
 								{foreach from=$BASIC_ACTION_ORDER item=ACTION_ID}
@@ -194,7 +194,7 @@
 										{assign var="index" value=($smarty.foreach.actions.index+1) % 3}
 										{assign var="colspan" value=4-$index}
 										colspan="{$colspan}"
-									{/if}><img class="alignMiddle" src="{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_ID)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />&nbsp;&nbsp;{vtranslate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</td>
+									{/if}><img class="alignMiddle" src="{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_ID)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />&nbsp;&nbsp;{$ACTION_MODEL->getName()|t:$QUALIFIED_MODULE}</td>
 									{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
 										</div>
 									{/if}

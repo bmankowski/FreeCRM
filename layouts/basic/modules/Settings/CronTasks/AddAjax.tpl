@@ -31,7 +31,7 @@
 						<div class="col-sm-8 controls ">
 							<select class="chzn-select form-control" name="cron_module">
 								{foreach from=$MODULE_LIST  item=item key=key}
-									<option value="{$item->name}">{vtranslate($item->name, $item->name)}</option>
+									<option value="{$item->name}">{$item->name|t:$item->name}</option>
 								{/foreach}
 
 							</select>

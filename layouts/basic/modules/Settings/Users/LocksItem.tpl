@@ -7,7 +7,7 @@
 				<optgroup label="{"LBL_ROLES"|t:$QUALIFIED_MODULE}">
 					{foreach item=ROLE key=ROLEID from=$ROLES}
 						<option value="{$ROLEID}" {if $ID == $ROLEID}selected{/if}>
-							{vtranslate($ROLE->getName(), $QUALIFIED_MODULE)}
+							{$ROLE->getName()|t:$QUALIFIED_MODULE}
 						</option>
 					{/foreach}
 				</optgroup>
@@ -24,7 +24,7 @@
 			<select class="form-control locks {if $SELECT}select2{/if}" multiple="">
 					{foreach item=LOCKT key=ID from=$LOCKS_TYPE}
 						<option value="{$ID}" {if in_array($ID, $LOCK)}selected{/if}>
-							{vtranslate($LOCKT, $QUALIFIED_MODULE)}
+							{$LOCKT|t:$QUALIFIED_MODULE}
 						</option>
 					{/foreach}
 			</select>

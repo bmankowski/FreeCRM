@@ -11,7 +11,7 @@
 		<tbody>
 			{foreach from=$RELATED_MODULES item=RELATED_MODULE}
 				<tr>
-					<td>{vtranslate($RELATED_MODULE, $RELATED_MODULE)}</td>
+					<td>{$RELATED_MODULE|t:$RELATED_MODULE}</td>
 					<td><span class="badge">{$COUNT_RECORDS[$RELATED_MODULE]}</span></td>
 				</tr>
 			{/foreach}

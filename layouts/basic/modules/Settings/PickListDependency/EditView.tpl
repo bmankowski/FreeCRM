@@ -58,7 +58,7 @@
 								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}"  title="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{$FIELD_LABEL|t:$SELECTED_MODULE}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -69,7 +69,7 @@
 								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}" title="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{$FIELD_LABEL|t:$SELECTED_MODULE}</option>
 									{/foreach}
 								</select>
 							</div>

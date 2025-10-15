@@ -6,7 +6,7 @@
 		<h5 class="padding-bottom1per"><strong>{"LBL_SELECT_OPTION"|t:"DataAccess"}:</strong></h5>
 		<select name="modules" class="marginLeftZero col-md-6 select2">
 			{foreach item=item key=key from=$CONFIG['modules']}
-				<option value="{$key}" {if $key == $modules} selected {/if} >{vtranslate($item, $key)}</option>
+				<option value="{$key}" {if $key == $modules} selected {/if} >{$item|t:$key}</option>
 			{/foreach}
 		</select>
 	</div>

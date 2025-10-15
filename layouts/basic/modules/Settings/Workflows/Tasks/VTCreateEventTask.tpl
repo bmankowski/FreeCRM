@@ -53,7 +53,7 @@
 				<select name="assigned_user_id" class="chzn-select form-control">
 					<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>
 					{foreach from=$ASSIGNED_TO key=LABEL item=ASSIGNED_USERS_LIST}
-						<optgroup label="{vtranslate($LABEL,$QUALIFIED_MODULE)}">
+						<optgroup label="{$LABEL|t:$QUALIFIED_MODULE}">
 							{foreach from=$ASSIGNED_USERS_LIST item=ASSIGNED_USER key=ASSIGNED_USER_KEY}
 								<option value="{$ASSIGNED_USER_KEY}" {if $ASSIGNED_USER_KEY eq $TASK_OBJECT->assigned_user_id} selected="" {/if}>{$ASSIGNED_USER}</option>
 							{/foreach}
@@ -101,7 +101,7 @@
 			<span class="col-md-4">
 				<select class="chzn-select form-control" name="startDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-						<option {if $TASK_OBJECT->startDatefield eq $DATETIME_FIELD->get('name')}selected{/if}  value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+						<option {if $TASK_OBJECT->startDatefield eq $DATETIME_FIELD->get('name')}selected{/if}  value="{$DATETIME_FIELD->get('name')}">{$DATETIME_FIELD->get('label')|t:$SOURCE_MODULE}</option>
 					{/foreach}
 				</select>
 			</span>
@@ -140,7 +140,7 @@
 			<span class="col-md-4">
 				<select class="chzn-select form-control" name="endDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-						<option {if $TASK_OBJECT->endDatefield eq $DATETIME_FIELD->get('name')}selected{/if}  value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+						<option {if $TASK_OBJECT->endDatefield eq $DATETIME_FIELD->get('name')}selected{/if}  value="{$DATETIME_FIELD->get('name')}">{$DATETIME_FIELD->get('label')|t:$SOURCE_MODULE}</option>
 					{/foreach}
 				</select>
 			</span>

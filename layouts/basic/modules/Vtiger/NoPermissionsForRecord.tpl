@@ -18,7 +18,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h2 class="alert-heading">{"LBL_PERMISSION_DENIED"|t}</h2>
-					<p>{vtranslate($MESSAGE)}</p>
+					<p>{$MESSAGE|t}</p>
 					<p class="Buttons">
 						<a class="btn btn-info" href="index.php">{"LBL_MAIN_PAGE"|t}</a>
 					</p>

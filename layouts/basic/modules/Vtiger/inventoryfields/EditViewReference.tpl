@@ -23,7 +23,7 @@
 			<div class="input-group-addon noSpaces referenceModulesListGroup">
 				<select class="referenceModulesList" title="{"LBL_RELATED_MODULE_TYPE"|t}" required="required">
 					{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
-						<option value="{$REFERENCE}" title="{vtranslate($REFERENCE, $REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($REFERENCE, $REFERENCE)}</option>
+						<option value="{$REFERENCE}" title="{$REFERENCE|t:$REFERENCE}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{$REFERENCE|t:$REFERENCE}</option>
 					{/foreach}
 				</select>
 			</div>

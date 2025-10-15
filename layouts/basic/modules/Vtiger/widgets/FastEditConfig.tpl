@@ -27,7 +27,7 @@
 							<div class="form-group">
 								<div class="col-md-4"><strong>{"Type widget"|t:$QUALIFIED_MODULE}</strong>:</div>
 								<div class="col-md-7">
-									{vtranslate($TYPE, $QUALIFIED_MODULE)}
+									{$TYPE|t:$QUALIFIED_MODULE}
 								</div>
 							</div>
 							<div class="form-group">
@@ -47,7 +47,7 @@
 									<select name="FastEdit" multiple class="select2 form-control marginLeftZero columnsSelect">
 										{assign var="FIELDS" value=$MODULE_MODEL->getFields( $SOURCE, array('15','16') ) }
 										{foreach from=$FIELDS['labels'] item=item key=key}
-											<option {if isset ($WIDGETINFO['data']['FastEdit']) && in_array($key, $WIDGETINFO['data']['FastEdit']) }selected{/if} value="{$key}">{vtranslate($item, $SOURCEMODULE)}</option>
+											<option {if isset ($WIDGETINFO['data']['FastEdit']) && in_array($key, $WIDGETINFO['data']['FastEdit']) }selected{/if} value="{$key}">{$item|t:$SOURCEMODULE}</option>
 										{foreachelse}
 											<option disabled value="-">{"None"|t:$QUALIFIED_MODULE}</option>
 										{/foreach}

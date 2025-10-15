@@ -27,7 +27,7 @@
 					<tbody>
 						{foreach from=$MODULE_MODEL->getModTrackerModules() item=item key=key}
 							<tr data-id="{$item.id}">
-								<td>{vtranslate($item.module,$item.module)}</td>
+								<td>{$item.module|t:$item.module}</td>
 								<td>
 									<input class="activeModTracker" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 								</td>

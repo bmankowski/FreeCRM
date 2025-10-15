@@ -62,13 +62,13 @@
 									<span class="fieldLabel marginLeft20">{\App\Fields\DateTime::currentUserDisplayDate($HOLIDAY['date'])}</span>
 								</td>
 								<td>
-									<span class="fieldLabel marginLeft20">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
+									<span class="fieldLabel marginLeft20">{$HOLIDAY['day']|t:$QUALIFIED_MODULE}</span>
 								</td>
 								<td>
-									<span class="marginLeft20">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
+									<span class="marginLeft20">{$HOLIDAY['name']|t:$QUALIFIED_MODULE}</span>
 								</td>
 								<td>
-									<span class="marginLeft20">{vtranslate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
+									<span class="marginLeft20">{$HOLIDAY['type']|t:$QUALIFIED_MODULE}</span>
 								</td>
 								<td>
 									<div class='pull-right'>

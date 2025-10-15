@@ -16,7 +16,7 @@
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
 				{/if}
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 									<h3>{"LBL_FAILED"|t:$QUALIFIED_MODULE}</h3>
 								</div>
 								<div class="modal-body">
-									<p><b>{vtranslate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
+									<p><b>{$MODULEIMPORT_ERROR|t:$QUALIFIED_MODULE}</b></p>
 								</div>
 								<div class="">
 									<input type="hidden" name="view" value="List">
@@ -50,13 +50,13 @@
 									<tr>
 										<td style="min-width: 100px;"><b>{"LBL_MODULE_NAME"|t:$QUALIFIED_MODULE}</b></td>
 										<td>
-											{vtranslate($MODULEIMPORT_NAME, $QUALIFIED_MODULE)}
+											{$MODULEIMPORT_NAME|t:$QUALIFIED_MODULE}
 											{if $MODULEIMPORT_EXISTS eq 'true'} <font color=red><b>{"LBL_EXISTS"|t:$QUALIFIED_MODULE}</b></font> {/if}
 										</td>
 									</tr>
 									<tr>
 										<td><b>{"LBL_MODULE_TYPE"|t:$QUALIFIED_MODULE}</b></td>
-										<td>{vtranslate($MODULEIMPORT_PACKAGE->getTypeName(), $QUALIFIED_MODULE)}</td>
+										<td>{$MODULEIMPORT_PACKAGE->getTypeName()|t:$QUALIFIED_MODULE}</td>
 									</tr>
 									<tr>
 										<td><b>{"LBL_REQ_YETIFORCE_VERSION"|t:$QUALIFIED_MODULE}</b></td>
@@ -109,7 +109,7 @@
 												{if $PARAMETER->type == 'checkbox'}
 													<label>
 														<input value="1" autocomplete="off" type="checkbox" name="param_{$PARAMETER->name}" {if $PARAMETER->checked == '1'}checked{/if}>&nbsp;&nbsp;
-														{vtranslate($PARAMETER->lable, $QUALIFIED_MODULE)}
+														{$PARAMETER->lable|t:$QUALIFIED_MODULE}
 													</label>
 												{/if}
 											</td>

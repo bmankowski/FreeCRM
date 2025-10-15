@@ -18,7 +18,7 @@
 					<div {if $DEVICE == 'Desktop'}class="labelValue" {/if}>
 						<span class="menuName">
 							{if $MENU.name != ''}
-								{vtranslate($MENU.name,'Menu')}
+								{$MENU.name|t:"Menu"}
 							{else}
 								{Vtiger_Menu_Model::vtranslateMenu('LBL_QUICK_CREATE_MODULE',$NAME)}: {Vtiger_Menu_Model::vtranslateMenu($SINGULAR_LABEL, $NAME)}
 							{/if}

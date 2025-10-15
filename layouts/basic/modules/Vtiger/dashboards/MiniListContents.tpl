@@ -26,7 +26,7 @@
 					{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
 						{$SPANSIZE_ARRAY[$ITERATION] = 3}
 					{/if}
-					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{vtranslate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
+					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{$FIELD->get('label')|t:$BASE_MODULE} </strong></div>
 				{/foreach}
 			</div>
 			{if $OWNER eq false}

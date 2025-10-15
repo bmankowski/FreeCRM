@@ -27,7 +27,7 @@
 						<div class="col-md-5">
 							<select name="bank" id="bank" class="chzn-select form-control">
 								{foreach from=$BANK item=key}
-									<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name}">{vtranslate($key.bank_name, $QUALIFIED_MODULE)}</option>
+									<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name}">{$key.bank_name|t:$QUALIFIED_MODULE}</option>
 								{/foreach}
 							</select>
 						</div>
@@ -45,7 +45,7 @@
 						<h4>{"LBL_CURRENCIES_SUPPORTED"|t:$QUALIFIED_MODULE}:</h4>
 						<span id='infoSpan'>
 							{foreach from=$SUPPORTED_CURRENCIES key=NAME item=CODE}
-								<p><strong>{vtranslate($NAME, $QUALIFIED_MODULE)}</strong> - {$CODE}</p>
+								<p><strong>{$NAME|t:$QUALIFIED_MODULE}</strong> - {$CODE}</p>
 							{/foreach}
 						</span>
 					</div>
@@ -57,7 +57,7 @@
 						<h4>{"LBL_CURRENCIES_UNSUPPORTED"|t:$QUALIFIED_MODULE}:</h4>
 						<span id='alertSpan'>
 							{foreach from=$UNSUPPORTED_CURRENCIES key=NAME item=CODE}
-								<p><strong>{vtranslate($NAME, $QUALIFIED_MODULE)}</strong> - {$CODE}</p>
+								<p><strong>{$NAME|t:$QUALIFIED_MODULE}</strong> - {$CODE}</p>
 							{/foreach}
 						</span>
 					</div>
@@ -85,7 +85,7 @@
 		<div class="alert alert-info alert-block">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<h4>{"LBL_INFORMATIONS"|t:$QUALIFIED_MODULE}:</h4>
-			<p><strong>{"LBL_MAINCURRENCY"|t:$QUALIFIED_MODULE}:</strong> {vtranslate($MAINCURR['currency_name'], $QUALIFIED_MODULE)}, <strong>{"LBL_CODE"|t:$QUALIFIED_MODULE}:</strong> {$MAINCURR['currency_code']}, <strong>{"LBL_SYMBOL"|t:$QUALIFIED_MODULE}</strong>: {$MAINCURR['currency_symbol']}</p>
+			<p><strong>{"LBL_MAINCURRENCY"|t:$QUALIFIED_MODULE}:</strong> {$MAINCURR['currency_name']|t:$QUALIFIED_MODULE}, <strong>{"LBL_CODE"|t:$QUALIFIED_MODULE}:</strong> {$MAINCURR['currency_code']}, <strong>{"LBL_SYMBOL"|t:$QUALIFIED_MODULE}</strong>: {$MAINCURR['currency_symbol']}</p>
 		</div>
 			<table class="table table-bordered tableRWD">
 				<thead>
@@ -99,7 +99,7 @@
 				</thead>
 				{foreach from=$HISTORIA item=key}
 					<tr>
-						<td>{vtranslate($key.currency_name, 'Settings:Currency')} ({$key.currency_code})</td>
+						<td>{$key.currency_name|t:"Settings:Currency"} ({$key.currency_code})</td>
 						<td>
 							{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
 								{$key.currency_symbol} 

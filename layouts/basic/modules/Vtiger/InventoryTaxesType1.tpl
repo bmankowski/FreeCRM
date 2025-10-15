@@ -15,7 +15,7 @@
 				<div class="panel-body" style="display: none;">
 					<div>
 						<p>
-							{"LBL_TAX_FOR_MODULE"|t:$MODULE} {vtranslate($RECORD_MODULE, $RECORD_MODULE)}: {$RECORD_MODEL->getDisplayName()}
+							{"LBL_TAX_FOR_MODULE"|t:$MODULE} {$RECORD_MODULE|t:$RECORD_MODULE}: {$RECORD_MODEL->getDisplayName()}
 						</p>
 						<select class="select2 groupTax" name="groupTax">
 							{foreach item=TAX from=$SELECTED_TAXES}

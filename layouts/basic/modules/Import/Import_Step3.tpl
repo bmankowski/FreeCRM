@@ -49,7 +49,7 @@
 								<div class='col-xs-5'>
 									<select id="available_fields" multiple size="10" name="available_fields" title="{"LBL_AVAILABLE_FIELDS"|t:$MODULE}'" class="txtBox" style="width: 100%">
 										{foreach key=BLOCK_NAME item=_FIELDS from=$AVAILABLE_BLOCKS}
-											<optgroup label="{vtranslate($BLOCK_NAME, $FOR_MODULE)}">
+											<optgroup label="{$BLOCK_NAME|t:$FOR_MODULE}">
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
 													<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabel()|@t:$FOR_MODULE}</option>
 												{/foreach}

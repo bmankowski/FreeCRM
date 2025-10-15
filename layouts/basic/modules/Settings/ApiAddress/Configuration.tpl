@@ -65,7 +65,7 @@
 							<option>{"LBL_SELECT_OPTION"|t}</option>
 							{foreach from=$CONFIG item=item key=key}
 								{if $key neq 'global'}
-									<option value="{$key}">{vtranslate($key, $MODULENAME)}</option>
+									<option value="{$key}">{$key|t:$MODULENAME}</option>
 								{/if}
 
 							{/foreach}

@@ -48,8 +48,8 @@
 								<tbody>
 									{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
 										<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
-											<td>{vtranslate($key, 'Settings::ConfReport')}</td>
-											<td>{vtranslate($item.status, 'Settings::ConfReport')}</td>
+											<td>{$key|t:"Settings::ConfReport"}</td>
+											<td>{$item.status|t:"Settings::ConfReport"}</td>
 											<td>
 												{if $item.mandatory}
 													{"LBL_MANDATORY"|t:"Settings::ConfReport"}
@@ -100,8 +100,8 @@
 									<tbody>
 										{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}			
 											<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
-												<td width="23%"><label class="marginRight5px">{vtranslate($key, 'Settings::ConfReport')}</label></td>
-												<td width="23%"><label class="marginRight5px">{vtranslate($item.path, 'Settings::ConfReport')}</label></td>
+												<td width="23%"><label class="marginRight5px">{$key|t:"Settings::ConfReport"}</label></td>
+												<td width="23%"><label class="marginRight5px">{$item.path|t:"Settings::ConfReport"}</label></td>
 												<td width="23%"><label class="marginRight5px">
 														{if $item.permission eq 'FailedPermission'}
 															{"LBL_FAILED_PERMISSION"|t:"Settings::ConfReport"}

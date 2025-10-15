@@ -56,21 +56,21 @@
 									</th>
 									<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 										<input {if empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} class="alignTop"  checked="true" {/if} type="checkbox" id="mainAction4CheckBox" />&nbsp;
-										{'LBL_VIEW_PRIVILEGE'|vtranslate:$QUALIFIED_MODULE}
+										{'LBL_VIEW_PRIVILEGE'|t:$QUALIFIED_MODULE}
 									</th>
 									<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 										<input {if empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} class="alignTop" checked="true"{/if} type="checkbox" id="mainAction7CheckBox" />&nbsp;
-										{'LBL_CREATE_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
+										{'LBL_CREATE_PRIVILIGE'|t:$QUALIFIED_MODULE}
 									</th>
 									<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 										<input {if empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} class="alignTop" checked="true"{/if} type="checkbox" id="mainAction1CheckBox" />&nbsp;
-										{'LBL_EDIT_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
+										{'LBL_EDIT_PRIVILIGE'|t:$QUALIFIED_MODULE}
 									</th>
 									<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 										<input checked="true" class="alignTop" type="checkbox" id="mainAction2CheckBox" />&nbsp;
-										{'LBL_DELETE_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
+										{'LBL_DELETE_PRIVILIGE'|t:$QUALIFIED_MODULE}
 									</th>
-									<th width="28%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{'LBL_FIELD_AND_TOOL_PRVILIGES'|vtranslate:$QUALIFIED_MODULE}</th>
+									<th width="28%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{'LBL_FIELD_AND_TOOL_PRVILIGES'|t:$QUALIFIED_MODULE}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -80,7 +80,7 @@
 									{if $MODULE_NAME neq 'Events'}
 										<tr>
 											<td>
-												<input class="modulesCheckBox alignTop" type="checkbox" name="permissions[{$TABID}][is_permitted]" data-value="{$TABID}" data-module-state="" {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}checked="true"{else} data-module-unchecked="true" {/if}> {$PROFILE_MODULE->get('label')|vtranslate:$PROFILE_MODULE->getName()}
+												<input class="modulesCheckBox alignTop" type="checkbox" name="permissions[{$TABID}][is_permitted]" data-value="{$TABID}" data-module-state="" {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}checked="true"{else} data-module-unchecked="true" {/if}> {$PROFILE_MODULE->get('label')|t:$PROFILE_MODULE->getName()}
 											</td>
 											{assign var="BASIC_ACTION_ORDER" value=array(2,3,0,1)}
 											{foreach from=$BASIC_ACTION_ORDER item=ORDERID}
@@ -207,7 +207,7 @@
 																	{assign var="colspan" value=4-$index}
 																	colspan="{$colspan}"																
 																{/if}>
-																<input type="checkbox" class="alignTop"  name="permissions[{$TABID}][actions][{$ACTIONID}]" {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true" {elseif empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} checked="true" {/if}> {vtranslate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</div>
+																<input type="checkbox" class="alignTop"  name="permissions[{$TABID}][actions][{$ACTIONID}]" {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true" {elseif empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} checked="true" {/if}> {$ACTION_MODEL->getName()|t:$QUALIFIED_MODULE}</div>
 																{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
 																	</div>
 																{/if}

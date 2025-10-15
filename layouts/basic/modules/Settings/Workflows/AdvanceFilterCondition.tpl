@@ -16,7 +16,7 @@
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 			<option value="none"></option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-				<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
+				<optgroup label='{$BLOCK_LABEL|t:$SELECTED_MODULE_NAME}'>
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
@@ -38,7 +38,7 @@
 					{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
 						({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 					{else}
-						{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}
+						{$FIELD_MODEL->get('label')|t:$SELECTED_MODULE_NAME}
 					{/if}
 				</option>
 				{/foreach}
@@ -55,7 +55,7 @@
 				{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
 						selected
 				{/if}
-				>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+				>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
 			{/foreach}
 		</select>
 	</div>

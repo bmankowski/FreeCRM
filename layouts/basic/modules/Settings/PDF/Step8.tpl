@@ -12,7 +12,7 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 8)}: {"LBL_WATERMARK_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE, 8}: {"LBL_WATERMARK_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
 				<div class="form-group">
@@ -23,7 +23,7 @@
 						<select class="chzn-select form-control" id="watermark_type" name="watermark_type" required="true">
 							{foreach from=$PDF_MODEL->getWatermarkType() key=VALUE item=LABEL}
 								<option value="{$VALUE}" {if $PDF_MODEL->get('watermark_type') eq $VALUE} selected {/if}>
-									{vtranslate($LABEL, $QUALIFIED_MODULE)}
+									{$LABEL|t:$QUALIFIED_MODULE}
 								</option>
 							{/foreach}
 						</select>

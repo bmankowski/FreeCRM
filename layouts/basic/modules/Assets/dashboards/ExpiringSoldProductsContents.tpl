@@ -25,7 +25,7 @@
 				<div class="col-md-3">
 					{if $ROW.parent_id gt 0 }
 						{assign var="CRMTYPE" value=vtlib\Functions::getCRMRecordType($ROW.parent_id)}
-						<a class="moduleColor_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{vtranslate($CRMTYPE, $CRMTYPE)}">{vtlib\Functions::getCRMRecordLabel($ROW.parent_id)}</a>
+						<a class="moduleColor_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{$CRMTYPE|t:$CRMTYPE}">{vtlib\Functions::getCRMRecordLabel($ROW.parent_id)}</a>
 					{/if}
 				</div>
 			</div>

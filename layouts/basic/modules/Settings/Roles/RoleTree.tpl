@@ -15,12 +15,12 @@
 			{if $TYPE == 'Transfer'}
 				{assign var="SOURCE_ROLE_SUBPATTERN" value='::'|cat:$SOURCE_ROLE->getId()}
 				{if strpos($CHILD_ROLE->getParentRoleString(), $SOURCE_ROLE_SUBPATTERN) !== false}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-info" rel="tooltip" >{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-info" rel="tooltip" >{$CHILD_ROLE->getName()|t:$QUALIFIED_MODULE}</a>
 				{else}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default roleEle" rel="tooltip" >{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default roleEle" rel="tooltip" >{$CHILD_ROLE->getName()|t:$QUALIFIED_MODULE}</a>
 				{/if}
 			{else}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default draggable droppable" rel="tooltip" title="{"LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE"|t:$QUALIFIED_MODULE}">{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default draggable droppable" rel="tooltip" title="{"LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE"|t:$QUALIFIED_MODULE}">{$CHILD_ROLE->getName()|t:$QUALIFIED_MODULE}</a>
 			{/if}
 			{if $VIEW != 'Popup'}
 			<div class="toolbar">

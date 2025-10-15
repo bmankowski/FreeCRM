@@ -16,7 +16,7 @@
 			<div class="rulehead col-md-6">
 				<!-- Check if the module should the for module to get the translations-->
 				<strong>{"LBL_SHARING_RULE"|t:$QUALIFIED_MODULE}&nbsp;{"LBL_FOR"|t:$MODULE}&nbsp;
-					{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{vtranslate($FOR_MODULE, $FOR_MODULE)}{/if}:</strong>
+					{if $FOR_MODULE == 'Accounts'}{$FOR_MODULE|t:$QUALIFIED_MODULE}{else}{$FOR_MODULE|t:$FOR_MODULE}{/if}:</strong>
 			</div>
 			<div class="col-md-6">
 				<button class="btn btn-success addButton addCustomRule" type="button" data-url="{$MODULE_MODEL->getCreateRuleUrl()}">
@@ -31,7 +31,7 @@
 					<tr class="customRuleHeaders">
 						<th>{"LBL_RULE_NO"|t:$QUALIFIED_MODULE}</th>
 						<!-- Check if the module should the for module to get the translations -->
-						<th>{if $FOR_MODULE == 'Accounts'}{vtranslate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{$FOR_MODULE|t:$MODULE}{/if}
+						<th>{if $FOR_MODULE == 'Accounts'}{$FOR_MODULE|t:$QUALIFIED_MODULE}{else}{$FOR_MODULE|t:$MODULE}{/if}
 							&nbsp;{"LBL_OF"|t:$MODULE}</th>
 						<th>{"LBL_CAN_ACCESSED_BY"|t:$QUALIFIED_MODULE}</th>
 						<th>{"LBL_PRIVILEGES"|t:$QUALIFIED_MODULE}</th>
@@ -44,10 +44,10 @@
 							{$smarty.foreach.customRuleIterator.index + 1}
 						</td>
 						<td>
-							<a href="{$RULE_MODEL->getSourceDetailViewUrl()}">{vtranslate('SINGLE_'|cat:$RULE_MODEL->getSourceMemberName(), $QUALIFIED_MODULE)}: {vtranslate($RULE_MODEL->getSourceMember()->getName(), $QUALIFIED_MODULE)}</a>
+							<a href="{$RULE_MODEL->getSourceDetailViewUrl()}">{'SINGLE_'|cat:$RULE_MODEL->getSourceMemberName()|t:$QUALIFIED_MODULE}: {$RULE_MODEL->getSourceMember()->getName()|t:$QUALIFIED_MODULE}</a>
 						</td>
 						<td>
-							<a href="{$RULE_MODEL->getTargetDetailViewUrl()}">{vtranslate('SINGLE_'|cat:$RULE_MODEL->getTargetMemberName(), $QUALIFIED_MODULE)}: {vtranslate($RULE_MODEL->getTargetMember()->getName(), $QUALIFIED_MODULE)}</a>
+							<a href="{$RULE_MODEL->getTargetDetailViewUrl()}">{'SINGLE_'|cat:$RULE_MODEL->getTargetMemberName()|t:$QUALIFIED_MODULE}: {$RULE_MODEL->getTargetMember()->getName()|t:$QUALIFIED_MODULE}</a>
 						</td>
 						<td>
 							{if $RULE_MODEL->isReadOnly()}

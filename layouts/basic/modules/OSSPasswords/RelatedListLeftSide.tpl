@@ -11,13 +11,13 @@
 		</div>
 	{/if}
 	<div>
-		<a href="#" id="copybtn_{$PASS_ID}" data-id="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $RELATED_MODULE_NAME)}"><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
+		<a href="#" id="copybtn_{$PASS_ID}" data-id="{$PASS_ID}" class="copy_pass hide" title="{"LBL_CopyToClipboardTitle"|t:$RELATED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
 	</div>
 	<div class="actions">
 		<span class="glyphicon glyphicon-wrench toolsAction alignMiddle"></span>
 		{* button for copying password to clipboard *}  
 		<span class="actionImages hide">
-			<a href="#" class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-show="{vtranslate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-hide="{vtranslate('LBL_HidePassword', $RELATED_MODULE_NAME)}" class="glyphicon adminIcon-passwords-encryption alignMiddle"></span></a>&nbsp;
+			<a href="#" class="show_pass" id="btn_{$PASS_ID}"><span title="{"LBL_ShowPassword"|t:$RELATED_MODULE_NAME}" data-title-show="{"LBL_ShowPassword"|t:$RELATED_MODULE_NAME}" data-title-hide="{"LBL_HidePassword"|t:$RELATED_MODULE_NAME}" class="glyphicon adminIcon-passwords-encryption alignMiddle"></span></a>&nbsp;
 				{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
 					{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
 				<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{"BTN_WATCHING_RECORD"|t:$MODULE}" data-record="{$RELATED_RECORD->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close" data-module="{$RELATED_MODULE_NAME}">

@@ -60,7 +60,7 @@
 									<td>{$item.key}</td>
 									<td>{$item.displayname}</td>
 									<td>{$item.email}</td>
-									<td>{vtranslate($item.status,'Users')}</td>
+									<td>{$item.status|t:"Users"}</td>
 									<td>{if $item.addressbooksid}{"LBL_YES"|t}{else}{"LBL_NO"|t}{/if}</td>
 									<td>{if $item.calendarsid}{"LBL_YES"|t}{else}{"LBL_NO"|t}{/if}</td>
 									<td>{"LBL_YES"|t}</td>

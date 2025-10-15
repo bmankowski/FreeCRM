@@ -32,10 +32,10 @@
 							<div class="col-md-6 controls">
 								<select class="chzn-select form-control" name="source_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+										<optgroup label="{$GROUP_LABEL|t:$QUALIFIED_MODULE}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 												<option value="{$MEMBER->getId()}" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->getSourceMember()->getId() == $MEMBER->getId()}selected{/if}{/if}>
-													{vtranslate($MEMBER->getName(),$QUALIFIED_MODULE)}
+													{$MEMBER->getName()|t:$QUALIFIED_MODULE}
 												</option>
 											{/foreach}
 										</optgroup>
@@ -48,10 +48,10 @@
 							<div class="col-md-6 controls">
 								<select class="chzn-select form-control" name="target_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+										<optgroup label="{$GROUP_LABEL|t:$QUALIFIED_MODULE}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 												<option value="{$MEMBER->getId()}" {if $RULE_MODEL_EXISTS}{if $RULE_MODEL->getTargetMember()->getId() == $MEMBER->getId()}selected{/if}{/if}>
-													{vtranslate($MEMBER->getName(),$QUALIFIED_MODULE)}
+													{$MEMBER->getName()|t:$QUALIFIED_MODULE}
 												</option>
 											{/foreach}
 										</optgroup>

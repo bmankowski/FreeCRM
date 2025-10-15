@@ -21,7 +21,7 @@
 								{if $RECENT_ACTIVITY->isReviewed() && !($COUNT eq 0 && $PAGING_MODEL->get('page') eq 1)}
 									{$NEW_CHANGE = false}
 									<div class="lineOfText marginLeft15">
-										<div>{vtranslate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
+										<div>{'LBL_REVIEWED'|t:$MODULE_BASE_NAME}</div>
 									</div>
 								{/if}
 								{$COUNT=$COUNT+1}

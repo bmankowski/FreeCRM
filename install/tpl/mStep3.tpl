@@ -19,7 +19,7 @@
 					<h3>{"LBL_MIGRATION_ERROR"|t:"Install"}</h3>
 				</div>
 				<div>
-					<h5>{vtranslate($ERRORTEXT, 'Install')}</h5>
+					<h5>{$ERRORTEXT|t:"Install"}</h5>
 				</div>
 			</div>
 			<div class="inner-container">

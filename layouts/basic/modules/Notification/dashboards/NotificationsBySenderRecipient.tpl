@@ -4,7 +4,7 @@
 	<div class="dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-8">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), 'Home')}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), 'Home')}</strong></div>
+				<div class="dashboardTitle" title="{$WIDGET->getTitle()|t:'Home'}"><strong>&nbsp;&nbsp;{$WIDGET->getTitle()|t:'Home'}</strong></div>
 			</div>
 			<div class="col-md-4">
 				<div class="box pull-right">

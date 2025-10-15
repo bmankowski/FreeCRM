@@ -5,7 +5,7 @@
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-				{vtranslate('LBL_'|cat:$MODULE|upper|cat:'_DESCRIPTION', $QUALIFIED_MODULE)}
+				{'LBL_'|cat:$MODULE|upper|cat:'_DESCRIPTION'|t:$QUALIFIED_MODULE}
 			</div>		
 		</div>
 		<hr>
@@ -17,7 +17,7 @@
 						<select class="chzn-select" id="moduleFilter" name="moduleFilter">
 							{foreach item=SUPPORTED_MODULE_NAME key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 								<option {if $SOURCE_MODULE_ID eq $TAB_ID} selected="" {/if} value="{$TAB_ID}">
-									{vtranslate($SUPPORTED_MODULE_NAME,$SUPPORTED_MODULE_NAME)}
+									{$SUPPORTED_MODULE_NAME|t:$SUPPORTED_MODULE_NAME}
 								</option>
 							{/foreach}
 						</select>

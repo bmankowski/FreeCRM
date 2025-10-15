@@ -18,14 +18,14 @@
 						{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
 							{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 							{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
-							<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)}">
+							<optgroup label="{$RELATION_MODULE_NAME|t:$RELATION_MODULE_NAME}">
 								{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
 									{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
 										{continue}
 									{/if}
 									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 									<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->get('name')}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-										{vtranslate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+										{$FIELD_MODEL->get('label')|t:$RELATION_MODULE_NAME}
 									</option>
 								{/foreach}
 							</optgroup>
@@ -50,14 +50,14 @@
 				{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
 					{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
-					<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)}">
+					<optgroup label="{$RELATION_MODULE_NAME|t:$RELATION_MODULE_NAME}">
 						{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
 								{continue}
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-								{vtranslate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+								{$FIELD_MODEL->get('label')|t:$RELATION_MODULE_NAME}
 							</option>
 						{/foreach}
 					</optgroup>

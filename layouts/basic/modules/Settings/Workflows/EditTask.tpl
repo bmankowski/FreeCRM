@@ -16,7 +16,7 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{"LBL_ADD_TASKS_FOR_WORKFLOW"|t:$QUALIFIED_MODULE}: {vtranslate($TASK_TYPE_MODEL->get('label'), $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{"LBL_ADD_TASKS_FOR_WORKFLOW"|t:$QUALIFIED_MODULE}: {$TASK_TYPE_MODEL->get('label')|t:$QUALIFIED_MODULE}</h3>
 				</div>
 				<form class="form-horizontal" id="saveTask" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -69,7 +69,7 @@
 									<div class="col-md-6 marginLeftZero">
 										<select class="chzn-select" name="select_date_field">
 											{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-												<option {if $trigger['field'] eq $DATETIME_FIELD->get('name')} selected="" {/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+												<option {if $trigger['field'] eq $DATETIME_FIELD->get('name')} selected="" {/if} value="{$DATETIME_FIELD->get('name')}">{$DATETIME_FIELD->get('label')|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>
 									</div>
