@@ -64,14 +64,14 @@ class SimpleVtranslateRefactorer:
             # Pattern 15: vtranslate($VARIABLE) -> $VARIABLE|t (only single variables, not complex expressions)
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*)\)\}', r'{\1|t}'),
             
-            # Pattern 16: vtranslate($VARIABLE, 'string_literal') -> $VARIABLE|t:"string_literal"
-            (r'\{vtranslate\(([^,)]+)\s*,\s*[\'"]([^\'"]*)[\'"]\)\}', r'{\1|t:"\2"}'),
+            # Pattern 16: vtranslate($VARIABLE, 'string_literal') -> $VARIABLE|t:"string_literal" (no braces in first param)
+            (r'\{vtranslate\(([^,){}]+)\s*,\s*[\'"]([^\'"]*)[\'"]\)\}', r'{\1|t:"\2"}'),
             
-            # Pattern 17: vtranslate('key'|modifier, $VARIABLE) -> 'key'|modifier|t:$VARIABLE (special case for |cat)
-            (r'\{vtranslate\(([^\s,]+(?:\|[^\s,]+)*),\s*([^)]+)\)\}', r'{\1|t:\2}'),
+            # Pattern 17: vtranslate('key'|modifier, $VARIABLE) -> 'key'|modifier|t:$VARIABLE (special case for |cat, no braces in first param)
+            (r'\{vtranslate\(([^\s,{}]+(?:\|[^\s,{}]+)*),\s*([^)]+)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 18: vtranslate(complex_expression) -> complex_expression|t (special case for complex expressions)
-            (r'\{vtranslate\(([^)]*(?:\([^)]*\)[^)]*)*)\)\}', r'{\1|t}'),
+            # Pattern 18: vtranslate(complex_expression_without_comma) -> complex_expression|t (single parameter only, no braces inside)
+            (r'\{vtranslate\(([^,){}]*(?:\([^)]*\)[^,){}]*)*)\)\}', r'{\1|t}'),
         ]
     
     def process_file(self, file_path: Path) -> int:
