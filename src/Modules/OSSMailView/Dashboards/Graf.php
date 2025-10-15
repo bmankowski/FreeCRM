@@ -107,10 +107,18 @@ class Graf extends \Vtiger_Index_View
 		}
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
+		// Prepare owner data for the template
+		$allActiveUserList = \App\Fields\Owner::getInstance()->getAccessibleUsers();
+		$allActiveGroupList = \App\Fields\Owner::getInstance()->getAccessibleGroups();
+		$hasMultipleUsers = count($allActiveUserList) > 1;
+
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('ALL_ACTIVEUSER_LIST', $allActiveUserList);
+		$viewer->assign('ALL_ACTIVEGROUP_LIST', $allActiveGroupList);
+		$viewer->assign('HAS_MULTIPLE_USERS', $hasMultipleUsers);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
