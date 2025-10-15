@@ -32,7 +32,7 @@
 						{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if $FIELD_MODEL->getFieldDataType() == 'owner'}
-								{$SPECIAL_OPTION = [vtranslate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
+								{$SPECIAL_OPTION = ['LBL_SPECIAL_OPTIONS'|t => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
 							<option value="{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->get('name')} {if $FIELD_MODEL->isMandatory()}{assign var=MANDATORY_FIELD value=true} {else} {assign var=MANDATORY_FIELD value=false} {/if}{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
@@ -81,11 +81,11 @@
 							{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								{if $FIELD_MODEL->getFieldDataType() == 'owner'}
-									{$SPECIAL_OPTION = [vtranslate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
+									{$SPECIAL_OPTION = ['LBL_SPECIAL_OPTIONS'|t => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
 									{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 								{/if}
 								<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" {if $FIELD_MODEL->get('name') eq $MANDATORY_FIELD_MODEL->get('name')} {assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-								{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_MODEL->getName())}<span class="redColor">*</span>
+								{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_MODEL->getName()}<span class="redColor">*</span>
 								</option>	
 							{/foreach}
 						</select>
@@ -93,7 +93,7 @@
 					<span class="col-md-3">
 						<select name="modulename" class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} disabled="" {/if}>
 							<option value="{$SOURCE_MODULE}">{$SOURCE_MODULE|t:$SOURCE_MODULE}</option>
-							<option {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} selected="" {/if} value="{$RELATED_MODULE_MODEL->get('name')}">{vtranslate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
+							<option {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} selected="" {/if} value="{$RELATED_MODULE_MODEL->get('name')}">{$RELATED_MODULE_MODEL->get('name')|t:$RELATED_MODULE_MODEL->get('name')}</option>
 						</select>
 					</span>
 					<span class="fieldUiHolder col-md-4">
@@ -125,7 +125,7 @@
 		<div class="col-md-3">
 			<select name="modulename" class="form-control">
 				<option value="{$SOURCE_MODULE}">{$SOURCE_MODULE|t:$SOURCE_MODULE}</option>
-				<option value="{$RELATED_MODULE_MODEL->get('name')}">{vtranslate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
+				<option value="{$RELATED_MODULE_MODEL->get('name')}">{$RELATED_MODULE_MODEL->get('name')|t:$RELATED_MODULE_MODEL->get('name')}</option>
 			</select>
 		</div>
 		<div class="fieldUiHolder col-md-4">

@@ -18,9 +18,9 @@
 				{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 				<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $FOR_MODULE} selected {/if}>
 					{if $MODULE_MODEL->get('label') eq 'Calendar'}
-						{vtranslate('LBL_TASK', $MODULE_MODEL->get('label'))}
+						{'LBL_TASK'|t:$MODULE_MODEL->get('label')}
 					{else}
-						{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->get('label'))}
+						{$MODULE_MODEL->get('label')|t:$MODULE_MODEL->get('label')}
 					{/if}
 				</option>
 			{/foreach}

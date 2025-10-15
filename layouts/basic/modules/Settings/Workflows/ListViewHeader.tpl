@@ -55,9 +55,9 @@
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 						<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
 							{if $MODULE_MODEL->getName() eq 'Calendar'}
-								{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
+								{'LBL_TASK'|t:$MODULE_MODEL->getName()}
 							{else}
-								{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+								{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}
 							{/if}
 						</option>
 					{/foreach}

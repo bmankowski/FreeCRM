@@ -67,11 +67,11 @@
 
 							{if $RECORD->get('direction') eq 'inbound'}
 								&nbsp;<strong><span class="{$NAME_FIELD}">
-									{vtranslate('LBL_CALL_FROM', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
+									{'LBL_CALL_FROM'|t:$MODULE_MODEL->get('name')}&nbsp;{$CALLERNAME}
 								</span><br/></strong>
 							{else}
 							&nbsp;<strong><span class="{$NAME_FIELD}">
-									{vtranslate('LBL_CALL_TO', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
+									{'LBL_CALL_TO'|t:$MODULE_MODEL->get('name')}&nbsp;{$CALLERNAME}
 								</span><br/></strong>
 							{/if}    
 							{if $FIELD_NAME}

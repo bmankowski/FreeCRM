@@ -36,7 +36,7 @@
 					data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
                     {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 					{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
-						({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+						({$MODULE_MODEL->get('name')|t:$MODULE_MODEL->get('name')})  {$FIELD_MODEL->get('label')|t:$MODULE_MODEL->get('name')}
 					{else}
 						{$FIELD_MODEL->get('label')|t:$SELECTED_MODULE_NAME}
 					{/if}

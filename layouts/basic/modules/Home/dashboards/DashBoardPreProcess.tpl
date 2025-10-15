@@ -15,7 +15,7 @@
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv col-md-12 marginLeftZero dashboardContainer">
-				{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=vtranslate($MODULE, $MODULE)}
+				{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=$MODULE|t:$MODULE}
 				<div class="dashboardViewContainer">
 					{if count($DASHBOARD_TYPES) > 1}
 						<ul class="nav nav-tabs massEditTabs selectDashboard">

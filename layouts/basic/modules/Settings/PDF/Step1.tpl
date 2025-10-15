@@ -65,9 +65,9 @@
 							{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 								<option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
 									{if $MODULE_MODEL->getName() eq 'Calendar'}
-										{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
+										{'LBL_TASK'|t:$MODULE_MODEL->getName()}
 									{else}
-										{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
+										{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}
 									{/if}
 								</option>
 							{/foreach}

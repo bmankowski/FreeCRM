@@ -38,7 +38,7 @@
 								{foreach from=$MODULE_LIST key=MODULE_ID item=MODULE_INFO name="modules"}
 									{assign var="INDEX" value=$smarty.foreach.modules.iteration}
 									<tr data-id="{$MODULE_ID}">
-										<td><strong>{vtranslate($MODULE_INFO->getName(), $MODULE_INFO->getName())}</strong>
+										<td><strong>{$MODULE_INFO->getName()|t:$MODULE_INFO->getName()}</strong>
 											<span class="pull-right marginIcon">
 												<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if} name="modules" class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if} value="{$MODULE_ID}">
 											</span>
@@ -58,7 +58,7 @@
 	<div class="modal-footer">
 		{if $CRON_ACTIVE && \App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
 			<div class="col-md-3 col-sm-4 schedule pull-left paddingRightZero">
-				{assign var="POPOVER_CONTENT" value=vtranslate('LBL_CRON_LAUNCHING_FREQUENCY', $MODULE)|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:vtranslate('LBL_MINUTES')}
+				{assign var="POPOVER_CONTENT" value='LBL_CRON_LAUNCHING_FREQUENCY'|t:$MODULE|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:'LBL_MINUTES'|t}
 				<select class="select2 form-control" name="frequency" title="{"LBL_SCHEDULE"|t:$MODULE}">
 					<option value="5" {if $FREQUENCY eq 5} selected{/if}>{"PLL_5_MIN"|t:$MODULE}</option>
 					<OPTION VALUE="15" {if $FREQUENCY EQ '15'} selected{/if}>{VTRANSLATE('PLL_15_MIN',$MODULE)}</OPTION>

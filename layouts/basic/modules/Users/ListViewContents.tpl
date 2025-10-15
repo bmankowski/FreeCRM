@@ -31,7 +31,7 @@
 
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE)}
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;</a></strong>
+		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE)}&nbsp;</a></strong>
 	</div>
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>

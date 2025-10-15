@@ -162,7 +162,7 @@
 							{if $MODULE_NAME eq 'Calendar'}
 								{assign var=EVENT_MODULE value=$PROFILE_MODULES[16]}
                                 {assign var=COUNTER value=0}
-								<label class="themeTextColor font-x-large pull-left"><strong>{"LBL_FIELDS"|t:$QUALIFIED_MODULE} {vtranslate('LBL_OF', $EVENT_MODULE->getName())} {vtranslate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
+								<label class="themeTextColor font-x-large pull-left"><strong>{"LBL_FIELDS"|t:$QUALIFIED_MODULE} {'LBL_OF'|t:$EVENT_MODULE->getName()} {'LBL_EVENTS'|t:$EVENT_MODULE->getName()}</strong></label>
 								<div class="col-xs-12 paddingLRZero">
 									{foreach from=$EVENT_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
                                         {if $FIELD_MODEL->isActiveField()}

@@ -153,7 +153,7 @@
 													</strong>
 												{/if}
 											</span>
-											<span>&nbsp;({vtranslate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
+											<span>&nbsp;({'SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName()|t:$RELATION->getLinkedRecord()->getModuleName()})</span>
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isRestore()}

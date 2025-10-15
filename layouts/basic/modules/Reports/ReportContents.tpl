@@ -72,14 +72,14 @@
                     {/for}
                     
                     {if $GROUPBYFIELDSCOUNT eq 1}
-                        {assign var=FIRST_FIELD value=vtranslate(trim($FIELDNAMES[0]), $MODULE)}
+                        {assign var=FIRST_FIELD value=trim($FIELDNAMES[0])|t:$MODULE}
                     {else if $GROUPBYFIELDSCOUNT eq 2}    
-                        {assign var=FIRST_FIELD value=vtranslate(trim($FIELDNAMES[0]),$MODULE)}
-                        {assign var=SECOND_FIELD value=vtranslate(trim($FIELDNAMES[1]),$MODULE)}
+                        {assign var=FIRST_FIELD value=trim($FIELDNAMES[0])|t:$MODULE}
+                        {assign var=SECOND_FIELD value=trim($FIELDNAMES[1])|t:$MODULE}
                     {else if $GROUPBYFIELDSCOUNT eq 3}    
-                        {assign var=FIRST_FIELD value=vtranslate(trim($FIELDNAMES[0]),$MODULE)}
-                        {assign var=SECOND_FIELD value=vtranslate(trim($FIELDNAMES[1]),$MODULE)}
-                        {assign var=THIRD_FIELD value=vtranslate(trim($FIELDNAMES[2]),$MODULE)}
+                        {assign var=FIRST_FIELD value=trim($FIELDNAMES[0])|t:$MODULE}
+                        {assign var=SECOND_FIELD value=trim($FIELDNAMES[1])|t:$MODULE}
+                        {assign var=THIRD_FIELD value=trim($FIELDNAMES[2])|t:$MODULE}
                     {/if}    
 
                     {assign var=FIRST_VALUE value=" "}

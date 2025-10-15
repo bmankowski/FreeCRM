@@ -58,8 +58,8 @@
 											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 											<label class="muted pull-left-xs pull-right-sm pull-right-lg">
 												{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
-												{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-													<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE}'><span class="glyphicon glyphicon-info-sign"></span></a>
+												{if in_array($VIEW,$HELPINFO) && $HELPINFO_LABEL|t:'HelpInfo' neq $HELPINFO_LABEL}
+													<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')|t:'HelpInfo')}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE}'><span class="glyphicon glyphicon-info-sign"></span></a>
 													{/if}
 													{$FIELD_MODEL->get('label')|t:$MODULE}
 											</label>

@@ -21,7 +21,7 @@
 			{assign var=PARENT value=$HISTORY->getParent()}
 			{assign var=MOD_NAME value=$HISTORY->getParent()->getModule()->getName()}
 			{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MOD_NAME}
-			{assign var=TRANSLATED_MODULE_NAME value = vtranslate($SINGLE_MODULE_NAME ,$MOD_NAME)}
+			{assign var=TRANSLATED_MODULE_NAME value = $SINGLE_MODULE_NAME|t:$MOD_NAME}
 			{assign var=PROCEED value= TRUE}
 			{if ($HISTORY->isRelationLink()) or ($HISTORY->isRelationUnLink())}
 				{assign var=RELATION value=$HISTORY->getRelationInstance()}
@@ -52,7 +52,7 @@
 							{if $INDEX lt 2}
 								{if $FIELD && $FIELD->getFieldInstance() && $FIELD->getFieldInstance()->isViewableInDetailView()}
 								<div class='font-x-small'>
-									<span>{vtranslate($FIELD->getName(), $FIELD->getModuleName())}</span>
+									<span>{$FIELD->getName()|t:$FIELD->getModuleName()}</span>
 									{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
 										&nbsp;{"LBL_FROM"|t}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</strong>
 									{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
@@ -99,11 +99,11 @@
 										<a class="cursorPointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
 											{else} onclick='window.location.href="{$LINKED_RECORD_DETAIL_URL}"' {/if}>{$RELATION->getLinkedRecord()->getName()}</a>
 									{else}
-										{vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}
+										{$RELATION->getLinkedRecord()->getModuleName()|t:$RELATION->getLinkedRecord()->getModuleName()}
 									{/if}
 								{else}
 								 <a class="cursorPointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
-									{else} onclick='window.location.href="{$LINKED_RECORD_DETAIL_URL}"' {/if}>{vtranslate($RELATION->getLinkedRecord()->getName(), $RELATION->getLinkedRecord()->getModuleName() )}</a>
+									{else} onclick='window.location.href="{$LINKED_RECORD_DETAIL_URL}"' {/if}>{$RELATION->getLinkedRecord()->getName()|t:$RELATION->getLinkedRecord()->getModuleName()}</a>
 								{/if}{"LBL_FOR"|t} <a class="cursorPointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
 								onclick='{$PARENT_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$PARENT_DETAIL_URL}"' {/if}>
 								{$RELATION->getParent()->getParent()->getName()}</a>
@@ -125,7 +125,7 @@
 				</div>
 			{/if}
 			{else if $MODELNAME == 'ModComments_Record_Model'}
-			{assign var=TRANSLATED_MODULE_NAME value = vtranslate('SINGLE_ModComments' ,'ModComments')}
+			{assign var=TRANSLATED_MODULE_NAME value = 'SINGLE_ModComments'|t:'ModComments'}
 			<div class="row">
 				<div class="col-md-1">
 					<img width='24px' src="{vimage_path('ModComments.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;

@@ -98,7 +98,7 @@
 						{/foreach}
 					</div>
 					<div class="message text-center padding10 hide">
-						{vtranslate('LBL_NO_RECORDS', $RECORD->getModuleName())}
+						{'LBL_NO_RECORDS'|t:$RECORD->getModuleName()}
 					</div>
 				</div>
 			{/if}

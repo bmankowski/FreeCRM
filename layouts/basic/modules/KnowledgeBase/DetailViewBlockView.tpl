@@ -15,7 +15,7 @@
 				<div class="iconCollapse">
 					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{"LBL_EXPAND_BLOCK"|t}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{"LBL_COLLAPSE_BLOCK"|t}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-					<h4>{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
+					<h4>{$BLOCK_LABEL_KEY|t:$MODULE_NAME)}</h4>
 				</div>
 			</div>
 			<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
@@ -40,7 +40,7 @@
 							{/if}
 							<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 								<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
+									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{$FIELD_MODEL->get('label')|t:$MODULE_NAME}</label>
 								</div>
 								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 									<div id="imageContainer">
@@ -69,11 +69,11 @@
 								<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')}
-									{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE_NAME}'><i class="glyphicon glyphicon-info-sign"></i></a>
+									{if in_array($VIEW,$HELPINFO) && $HELPINFO_LABEL|t:'HelpInfo' neq $HELPINFO_LABEL}
+										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')|t:'HelpInfo')}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE_NAME}'><i class="glyphicon glyphicon-info-sign"></i></a>
 										{/if}
 									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-										{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
+										{$FIELD_MODEL->get('label')|t:$MODULE_NAME}
 									</label>
 								</div>
 								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>

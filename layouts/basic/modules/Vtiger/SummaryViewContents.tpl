@@ -21,8 +21,8 @@
 				<label class="muted pull-left">{$FIELD_MODEL->get('label')|t:$MODULE_NAME}
 				{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 				{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')}
-				{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE_NAME}'><span class="glyphicon glyphicon-info-sign"></span></a>
+				{if in_array($VIEW,$HELPINFO) && $HELPINFO_LABEL|t:'HelpInfo' neq $HELPINFO_LABEL}
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')|t:'HelpInfo')}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE_NAME}'><span class="glyphicon glyphicon-info-sign"></span></a>
 				{/if}
 				</label>
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">

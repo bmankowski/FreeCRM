@@ -4,7 +4,7 @@
 	<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
 	<input type="hidden" id="Operator" value="{$OPERATOR}" />
 	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
-	{assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
+	{assign var = ALPHABETS_LABEL value = 'LBL_ALPHABETS'|t:'Vtiger'}
 	{assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
 	<div class="alphabetModal" tabindex="-1">
 		<div  class="modal fade ">

@@ -16,7 +16,7 @@
 			{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 			<span class="control-label">
 				<strong>
-					{vtranslate($FIELD_MODEL->get('label') , $QUALIFIED_MODULE_NAME)}
+					{$FIELD_MODEL->get('label')|t:$QUALIFIED_MODULE_NAME}
 				</strong>
 			</span>
 			<div class="controls">

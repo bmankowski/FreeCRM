@@ -41,7 +41,7 @@
 								<span>{if $FIELD_NAME == 'default_module'}
 										{$FIELD_DATA[$FIELD_NAME]|t:$FIELD_DATA[$FIELD_NAME]}
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-										{if vtranslate($FIELD_DATA[$FIELD_NAME]) == 'true'}
+										{if $FIELD_DATA[$FIELD_NAME]|t == 'true'}
 											{LBL_YES|t}
 										{else}
 											{LBL_NO|t}

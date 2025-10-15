@@ -47,8 +47,8 @@
 										<option data-type="{"LBL_NONE"|t:$QUALIFIED_MODULE}" value="0" label="{"LBL_NONE"|t:$QUALIFIED_MODULE}">{"LBL_NONE"|t:$QUALIFIED_MODULE}</option>
 										{foreach key=FIELD_TYPE item=FIELDS_INFO from=$LEADS_MODULE_MODEL->getFields()}
 											{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												<option data-type="{$FIELD_TYPE}" {if $FIELD_ID eq $MAPPING_ARRAY['Leads']['id']} selected {/if} label="{vtranslate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-														{vtranslate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}
+												<option data-type="{$FIELD_TYPE}" {if $FIELD_ID eq $MAPPING_ARRAY['Leads']['id']} selected {/if} label="{$FIELD_OBJECT->get('label')|t:$LEADS_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+														{$FIELD_OBJECT->get('label')|t:$LEADS_MODULE_MODEL->getName()}
 													</option>
 											{/foreach}
 										{/foreach}
@@ -61,8 +61,8 @@
 										{foreach key=FIELD_TYPE item=FIELDS_INFO from=$ACCOUNTS_MODULE_MODEL->getFields()}
 											{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
 												{if $MAPPING_ARRAY['Leads']['fieldDataType'] eq $FIELD_TYPE}
-													<option data-type="{$FIELD_TYPE}" {if $FIELD_ID eq $MAPPING_ARRAY['Accounts']['id']} selected {/if} label="{vtranslate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-														{vtranslate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
+													<option data-type="{$FIELD_TYPE}" {if $FIELD_ID eq $MAPPING_ARRAY['Accounts']['id']} selected {/if} label="{$FIELD_OBJECT->get('label')|t:$ACCOUNTS_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+														{$FIELD_OBJECT->get('label')|t:$ACCOUNTS_MODULE_MODEL->getName()}
 													</option>
 												{/if}
 											{/foreach}
@@ -77,8 +77,8 @@
 									<option data-type="{"LBL_NONE"|t:$QUALIFIED_MODULE}" value="0" label="{"LBL_NONE"|t:$QUALIFIED_MODULE}">{"LBL_NONE"|t:$QUALIFIED_MODULE}</option>
 									{foreach key=FIELD_TYPE item=FIELDS_INFO from=$LEADS_MODULE_MODEL->getFields()}
 										{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												<option data-type="{$FIELD_TYPE}" label="{vtranslate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-													{vtranslate($FIELD_OBJECT->get('label'), $LEADS_MODULE_MODEL->getName())}
+												<option data-type="{$FIELD_TYPE}" label="{$FIELD_OBJECT->get('label')|t:$LEADS_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+													{$FIELD_OBJECT->get('label')|t:$LEADS_MODULE_MODEL->getName()}
 												</option>
 										{/foreach}
 									{/foreach}
@@ -90,8 +90,8 @@
 									<option data-type="{"LBL_NONE"|t:$QUALIFIED_MODULE}" label="{"LBL_NONE"|t:$QUALIFIED_MODULE}" value="0">{"LBL_NONE"|t:$QUALIFIED_MODULE}</option>
 									{foreach key=FIELD_TYPE item=FIELDS_INFO from=$ACCOUNTS_MODULE_MODEL->getFields()}
 										{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												<option data-type="{$FIELD_TYPE}" label="{vtranslate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-													{vtranslate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
+												<option data-type="{$FIELD_TYPE}" label="{$FIELD_OBJECT->get('label')|t:$ACCOUNTS_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+													{$FIELD_OBJECT->get('label')|t:$ACCOUNTS_MODULE_MODEL->getName()}
 												</option>
 										{/foreach}
 									{/foreach}

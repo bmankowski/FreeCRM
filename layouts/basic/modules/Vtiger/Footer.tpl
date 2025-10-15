@@ -51,13 +51,13 @@
 		</div>
 		{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
 		{if $USER_MODEL->is_admin == 'on'}
-			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
+			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
-			<p class="hidden-xs">{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
-			<p class="visible-xs-block">{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
+			<p class="hidden-xs">{sprintf( 'LBL_FOOTER_CONTENT'|t , $FOOTVR ,$FOOTOSP)}</p>
+			<p class="visible-xs-block">{sprintf( 'LBL_FOOTER_CONTENT'|t , $FOOTVRM ,$FOOTOSP)}</p>
 		{else}
-			<p>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , '['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
+			<p>{sprintf( 'LBL_FOOTER_CONTENT'|t , '['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
 		{/if}
 	</div>
 </footer>

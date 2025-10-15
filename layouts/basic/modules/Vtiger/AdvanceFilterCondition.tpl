@@ -40,7 +40,7 @@
 										selected="selected"
 									{/if}
 									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'activitytype')}
-										{$FIELD_INFO['picklistvalues']['Task'] = vtranslate('Task', 'Calendar')}
+										{$FIELD_INFO['picklistvalues']['Task'] = 'Task'|t:'Calendar'}
 									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
 										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
@@ -57,7 +57,7 @@
 									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
 									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+									({$MODULE_MODEL->get('name')|t:$MODULE_MODEL->get('name')})  {$FIELD_MODEL->get('label')|t:$MODULE_MODEL->get('name')}
 								{else}
 									{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 								{/if}
@@ -100,7 +100,7 @@
 									{/if}
 									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' >
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+									({$MODULE_MODEL->get('name')|t:$MODULE_MODEL->get('name')})  {$FIELD_MODEL->get('label')|t:$MODULE_MODEL->get('name')}
 								{else}
 									{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
 								{/if}

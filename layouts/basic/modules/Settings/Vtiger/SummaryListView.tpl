@@ -24,10 +24,10 @@
 					</div>
 					<div class="col-md-10">
 						<h4>
-							<a href="{$MENU_ITEM->getUrl()}">{vtranslate($MENU_ITEM->get('name'), $MENU_ITEM->getModuleName())}</a>
+							<a href="{$MENU_ITEM->getUrl()}">{$MENU_ITEM->get('name')|t:$MENU_ITEM->getModuleName()}</a>
 						</h4>
 						<p>
-							{vtranslate($MENU_ITEM->get('description'), $MENU_ITEM->getModuleName())}
+							{$MENU_ITEM->get('description')|t:$MENU_ITEM->getModuleName()}
 						</p>
 					</div>
 					<div class="col-md-1"></div>

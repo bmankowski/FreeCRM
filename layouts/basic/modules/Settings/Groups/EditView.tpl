@@ -48,7 +48,7 @@
 				<div class="col-md-6 controls">
 					<select id="modulesList" class="row modules select2 form-control" multiple="true" name="modules[]" data-validation-engine="validate[required]">
 						{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
-							<option value="{$TABID}" {if array_key_exists($TABID, $RECORD_MODEL->getModules())}selected="true"{/if}>{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+							<option value="{$TABID}" {if array_key_exists($TABID, $RECORD_MODEL->getModules())}selected="true"{/if}>{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}</option>
 						{/foreach}
 					</select>
 				</div>

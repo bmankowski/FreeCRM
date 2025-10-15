@@ -45,9 +45,9 @@
 			<tbody>
 				{foreach key=MAPPING_ID item=MAPPING from=$MODULE_MODEL->getMapping()}
 					<tr class="listViewEntries" data-cfmid="{$MAPPING_ID}">
-						<td>{vtranslate({$MAPPING['Leads']['label']}, 'Leads')}</td>
+						<td>{$MAPPING['Leads']['label']|t:'Leads'}</td>
 						<td>{$MAPPING['Leads']['fieldDataType']|t:$QUALIFIED_MODULE}</td>
-						<td>{vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
+						<td>{$MAPPING['Accounts']['label']|t:'Accounts'}</td>
 					</tr>
 				{/foreach}
 			</tbody>

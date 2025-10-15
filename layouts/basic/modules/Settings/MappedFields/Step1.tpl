@@ -46,7 +46,7 @@
 									{foreach from=$ALL_MODULES key=TABID item=MODULE}
 										{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 										<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('tabid') == $TABID} selected {/if}>
-											{vtranslate($MODULE->getName(), $MODULE->getName())}
+											{$MODULE->getName()|t:$MODULE->getName()}
 										</option>
 									{/foreach}
 								</select>
@@ -61,7 +61,7 @@
 									{foreach from=$ALL_MODULES key=TABID item=MODULE}
 										{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 										<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('reltabid') == $TABID} selected {/if}>
-											{vtranslate($MODULE->getName(), $MODULE->getName())}
+											{$MODULE->getName()|t:$MODULE->getName()}
 										</option>
 									{/foreach}
 								</select>

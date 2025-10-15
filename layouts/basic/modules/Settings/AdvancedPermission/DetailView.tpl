@@ -54,7 +54,7 @@
 						{"LBL_MODULE"|t:$QUALIFIED_MODULE}  
 					</div>
 					<div class="col-md-10">
-						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('tabid'), $RECORD_MODEL->getDisplayValue('tabid'))}</strong>
+						<strong>{$RECORD_MODEL->getDisplayValue('tabid')|t:$RECORD_MODEL->getDisplayValue('tabid')}</strong>
 					</div>
 				</div>
 				<div class="form-group">

@@ -74,17 +74,17 @@
 				<div class="form-group col-xs-12 noPadding">
 					{if $ERROR eq 1}
 						<div class="alert alert-warning">
-							<p>{vtranslate('Invalid username or password.',$MODULE)}</p>
+							<p>{'Invalid username or password.'|t:$MODULE}</p>
 						</div>
 					{/if}
 					{if $ERROR eq 2}
 						<div class="alert alert-warning">
-							<p>{vtranslate('Too many failed login attempts.',$MODULE)}</p>
+							<p>{'Too many failed login attempts.'|t:$MODULE}</p>
 						</div>
 					{/if}
 					{if $FPERROR}
 						<div class="alert alert-warning">
-							<p>{vtranslate('Invalid Username or Email address.',$MODULE)}</p>
+							<p>{'Invalid Username or Email address.'|t:$MODULE}</p>
 						</div>
 					{/if}
 					{if $STATUS}
@@ -94,7 +94,7 @@
 					{/if}
 					{if $STATUS_ERROR}
 						<div class="alert alert-warning">
-							<p>{vtranslate('Outgoing mail server was not configured.',$MODULE)}</p>
+							<p>{'Outgoing mail server was not configured.'|t:$MODULE}</p>
 						</div>
 					{/if}
 				</div>

@@ -39,11 +39,11 @@
 							<select class="select2 form-control" name="defaultOrderBy" id="defaultOrderBy">
 								<option></option>
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-									<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE_MODEL->getName())}'>
+									<optgroup label='{$BLOCK_LABEL|t:$SOURCE_MODULE_MODEL->getName()}'>
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 											{if $FIELD_MODEL->isListviewSortable()}
 												<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
-													{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE_MODEL->getName())}
+													{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE_MODEL->getName()}
 												</option>
 											{/if}
 										{/foreach}
@@ -55,7 +55,7 @@
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 											{if $FIELD_MODEL->isListviewSortable()}
 												<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
-													{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE_MODEL->getName())}
+													{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE_MODEL->getName()}
 												</option>
 											{/if}
 										{/foreach}

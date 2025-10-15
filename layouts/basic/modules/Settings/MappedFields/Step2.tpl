@@ -37,9 +37,9 @@
 								<table class="table table-bordered" id="mappingToGenerate">
 									<tbody>
 										<tr class="blockHeader">
-											<th class="sourceModuleName"><b>{vtranslate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
+											<th class="sourceModuleName"><b>{'SINGLE_'|cat:$SEL_MODULE_MODEL->getName()|t:$SEL_MODULE_MODEL->getName()}</b></th>
 											<th><b>{"LBL_FIELDS_TYPE"|t:$QUALIFIED_MODULE}</b></th>
-											<th class="targetModuleName"><b>{vtranslate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
+											<th class="targetModuleName"><b>{'SINGLE_'|cat:$REL_MODULE_MODEL->getName()|t:$REL_MODULE_MODEL->getName()}</b></th>
 											<th class="defaultHeader"><b>{"LBL_DEFAULT_VALUE"|t:$QUALIFIED_MODULE}</b></th>
 											<th class="actionsHeader"><b>{"LBL_ACTIONS"|t:$QUALIFIED_MODULE}</b></th>
 										</tr>
@@ -49,10 +49,10 @@
 												<td>
 													<select class="sourceFields select2" name="mapping[{$SEQ}][source]">
 														{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
-															<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
+															<optgroup label="{$BLOCK_NAME|t:$SEL_MODULE_MODEL->getName()}">
 																{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-																	<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-																		{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
+																	<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if} label="{$FIELD_OBJECT->getFieldLabelKey()|t:$SEL_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+																		{$FIELD_OBJECT->getFieldLabelKey()|t:$SEL_MODULE_MODEL->getName()}
 																	</option>
 																{/foreach}
 															</optgroup>
@@ -64,11 +64,11 @@
 												<td>
 													<select class="targetFields select2" name="mapping[{$SEQ}][target]">
 														{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
-															<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
+															<optgroup label="{$BLOCK_NAME|t:$REL_MODULE_MODEL->getName()}">
 																{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
 																	{if $MAPPING_ARRAY['target']->getFieldDataType() eq $FIELD_OBJECT->getFieldDataType()}
-																		<option data-type="{$FIELD_OBJECT->getFieldDataType()}" {if $FIELD_ID eq $MAPPING_ARRAY['target']->getId()} selected {/if} label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-																			{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
+																		<option data-type="{$FIELD_OBJECT->getFieldDataType()}" {if $FIELD_ID eq $MAPPING_ARRAY['target']->getId()} selected {/if} label="{$FIELD_OBJECT->getFieldLabelKey()|t:$SEL_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+																			{$FIELD_OBJECT->getFieldLabelKey()|t:$REL_MODULE_MODEL->getName()}
 																		</option>
 																	{/if}
 																{/foreach}
@@ -93,10 +93,10 @@
 												<select class="sourceFields newSelect">
 													<option data-type="{"LBL_NONE"|t:$QUALIFIED_MODULE}" value="0" label="{"LBL_NONE"|t:$QUALIFIED_MODULE}">{"LBL_NONE"|t:$QUALIFIED_MODULE}</option>
 													{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
-														<optgroup label="{vtranslate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
+														<optgroup label="{$BLOCK_NAME|t:$SEL_MODULE_MODEL->getName()}">
 															{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-																<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-type-name="{$FIELD_OBJECT->getFieldDataType()|t:$QUALIFIED_MODULE}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-																	{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
+																<option data-type="{$FIELD_OBJECT->getFieldDataType()}" data-type-name="{$FIELD_OBJECT->getFieldDataType()|t:$QUALIFIED_MODULE}" data-mappingtype="{$FIELD_OBJECT->getFieldType()}" label="{$FIELD_OBJECT->getFieldLabelKey()|t:$SEL_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+																	{$FIELD_OBJECT->getFieldLabelKey()|t:$SEL_MODULE_MODEL->getName()}
 																</option>
 															{/foreach}
 														</optgroup>
@@ -108,10 +108,10 @@
 											<td>
 												<select class="targetFields newSelect">
 													{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
-														<optgroup label="{vtranslate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
+														<optgroup label="{$BLOCK_NAME|t:$REL_MODULE_MODEL->getName()}">
 															{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
-																<option data-type="{$FIELD_OBJECT->getFieldDataType()}" label="{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-																	{vtranslate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
+																<option data-type="{$FIELD_OBJECT->getFieldDataType()}" label="{$FIELD_OBJECT->getFieldLabelKey()|t:$SEL_MODULE_MODEL->getName()}" value="{$FIELD_ID}">
+																	{$FIELD_OBJECT->getFieldLabelKey()|t:$REL_MODULE_MODEL->getName()}
 																</option>
 															{/foreach}
 														</optgroup>

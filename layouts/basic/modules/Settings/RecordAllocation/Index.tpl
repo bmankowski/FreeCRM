@@ -36,7 +36,7 @@
 					<div class="modal-body">
 						<select id="modulesList" class="modules form-control" name="modules" data-validation-engine="validate[required]">
 							{foreach from=$ALL_MODULE_LIST key=TABID item=MODULE_MODEL}
-								<option value="{$MODULE_MODEL->getName()}">{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+								<option value="{$MODULE_MODEL->getName()}">{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}</option>
 							{/foreach}
 						</select>
 					</div>

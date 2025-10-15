@@ -26,7 +26,7 @@
 						<optgroup>
 							<option value="">{"LBL_SELECT_OPTION"|t:$QUALIFIED_MODULE}</option>
 							{foreach item=PICKLIST_MODULE from=$PICKLIST_MODULES}
-								<option {if $SELECTED_MODULE_NAME eq $PICKLIST_MODULE->get('name')} selected="" {/if} value="{$PICKLIST_MODULE->get('name')}">{vtranslate($PICKLIST_MODULE->get('label'),$PICKLIST_MODULE->get('name'))}</option>
+								<option {if $SELECTED_MODULE_NAME eq $PICKLIST_MODULE->get('name')} selected="" {/if} value="{$PICKLIST_MODULE->get('name')}">{$PICKLIST_MODULE->get('label')|t:$PICKLIST_MODULE->get('name')}</option>
 							{/foreach}	
 						</optgroup>
 					</select>

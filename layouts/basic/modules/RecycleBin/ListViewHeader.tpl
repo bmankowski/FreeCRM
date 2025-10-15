@@ -40,9 +40,9 @@
 						<select id="customFilter" style="width:350px;">
 							{foreach item=MODULEMODEL from=$MODULE_LIST}
 								{if $SOURCE_MODULE eq $MODULEMODEL->get('name')}
-									<option  value="{$MODULEMODEL->get('name')}" selected="">{vtranslate($MODULEMODEL->get('name'),$MODULEMODEL->get('name'))}</option>
+									<option  value="{$MODULEMODEL->get('name')}" selected="">{$MODULEMODEL->get('name')|t:$MODULEMODEL->get('name')}</option>
 								{else if $MODULEMODEL->get('name') neq 'Events'}
-									<option  value="{$MODULEMODEL->get('name')}">{vtranslate($MODULEMODEL->get('name'),$MODULEMODEL->get('name'))}</option>
+									<option  value="{$MODULEMODEL->get('name')}">{$MODULEMODEL->get('name')|t:$MODULEMODEL->get('name')}</option>
 								{/if}
 							{/foreach}
 						</select>

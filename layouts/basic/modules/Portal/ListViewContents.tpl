@@ -25,7 +25,7 @@
 	<input type="hidden" id="pageLimit" value="{$PAGING_INFO['pageLimit']}" />
 	<input type="hidden" id="noOfEntries" value="{$PAGING_INFO['recordCount']}" />
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 	</div>
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>

@@ -65,7 +65,7 @@
 				<div class="col-sm-10">
 					<select id="modulesList" class="row modules select2 form-control" name="tabid" data-validation-engine="validate[required]">
 						{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
-							<option value="{$TABID}" {if $RECORD_MODEL->get('tabid') == $TABID}selected="true"{/if}>{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+							<option value="{$TABID}" {if $RECORD_MODEL->get('tabid') == $TABID}selected="true"{/if}>{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}</option>
 						{/foreach}
 					</select>
 				</div>

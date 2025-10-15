@@ -46,9 +46,9 @@
 				{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 					<option {if $SOURCE_MODULE eq $TAB_ID} selected="" {/if} value="{$TAB_ID}">
 						{if $MODULE_MODEL->getName() eq 'Calendar'}
-							{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
+							{'LBL_TASK'|t:$MODULE_MODEL->getName()}
 						{else}
-							{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+							{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}
 						{/if}
 					</option>
 				{/foreach}
@@ -68,9 +68,9 @@
 				{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 					<option {if in_array($TAB_ID, $RECORD_MODEL->get('share'))} selected="" {/if} value="{$TAB_ID}">
 						{if $MODULE_MODEL->getName() eq 'Calendar'}
-							{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
+							{'LBL_TASK'|t:$MODULE_MODEL->getName()}
 						{else}
-							{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+							{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}
 						{/if}
 					</option>
 				{/foreach}

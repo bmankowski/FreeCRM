@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-6 controls">
                 {if $MODE eq 'edit'}
-                    <input type='text' disabled='disabled' value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
+                    <input type='text' disabled='disabled' value="{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}" >
                     <input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')}" >
                 {else}
 					<select class="chzn-select form-control" id="moduleName" name="base_module" required="true" data-placeholder="Select Module..." {if $TPL_ID}readonly{/if}>

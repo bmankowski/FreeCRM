@@ -29,7 +29,7 @@
 							<div class="col-md-6 controls">
 								<select class="select2-container columnsSelect form-control" id="mail_type" name="mail_type">
 									{foreach key=key item=item from=$TYPE_LIST}
-										<option value="{$key}">{vtranslate( $item,$MODULE )}</option>
+										<option value="{$key}">{$item|t:$MODULE}</option>
 									{/foreach}
 								</select>
 							</div></br>

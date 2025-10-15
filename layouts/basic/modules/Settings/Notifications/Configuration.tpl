@@ -8,7 +8,7 @@
 		<div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-3 col-md-offset-0">
 			<select class="chzn-select form-control" name="supportedModule" id="supportedModule">
 				{foreach item=SUPPORTED_MODULE key=TAB_ID from=$SUPPORTED_MODULES}
-					<option value="{$TAB_ID}" {if $TAB_ID eq $SELECTED_MODULE} selected {/if}>{vtranslate($SUPPORTED_MODULE->getName(), $SUPPORTED_MODULE->getName())}</option>
+					<option value="{$TAB_ID}" {if $TAB_ID eq $SELECTED_MODULE} selected {/if}>{$SUPPORTED_MODULE->getName()|t:$SUPPORTED_MODULE->getName()}</option>
 				{/foreach}
 			</select>
 		</div>

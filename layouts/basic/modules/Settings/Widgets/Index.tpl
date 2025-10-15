@@ -51,7 +51,7 @@
 								</div>
 								<div class="col-md-5">
 									{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-										{vtranslate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+										{vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule'])|t:vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule'])}
 									{else}	
 										{$WIDGET['label']|t:$SOURCEMODULE}&nbsp;
 									{/if}									

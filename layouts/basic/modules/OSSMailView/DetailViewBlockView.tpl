@@ -14,7 +14,7 @@
 			<div class="iconCollapse">
 				<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{"LBL_EXPAND_BLOCK"|t}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 				<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{"LBL_COLLAPSE_BLOCK"|t}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-				<h4>{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
+				<h4>{$BLOCK_LABEL_KEY|t:$MODULE_NAME)}</h4>
 			</div>
 		</div>
 		<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
@@ -33,7 +33,7 @@
 				{/if}
 				<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
+						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{$FIELD_MODEL->get('label')|t:$MODULE_NAME}</label>
 					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 						<div id="imageContainer" width="300" height="200">
@@ -61,7 +61,7 @@
 				 <div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-							{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
+							{$FIELD_MODEL->get('label')|t:$MODULE_NAME}
 						</label>
 					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>

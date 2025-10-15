@@ -70,9 +70,9 @@
 				<div>
 					<input type="hidden" id="recordId" value="{$RECORD_ID}" />
 					{assign var=RECORD_STRUCTURE value=array()}
-					{assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
+					{assign var=PRIMARY_MODULE_LABEL value=$PRIMARY_MODULE|t:$PRIMARY_MODULE}
 					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$PRIMARY_MODULE_RECORD_STRUCTURE}
-						{assign var=PRIMARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $PRIMARY_MODULE)}
+						{assign var=PRIMARY_MODULE_BLOCK_LABEL value=$BLOCK_LABEL|t:$PRIMARY_MODULE}
 						{assign var=key value="$PRIMARY_MODULE_LABEL $PRIMARY_MODULE_BLOCK_LABEL"}
 						{if $LINEITEM_FIELD_IN_CALCULATION eq false && $BLOCK_LABEL eq 'LBL_ITEM_DETAILS'}
 							{* dont show the line item fields block when Inventory fields are selected for calculations *}
@@ -81,9 +81,9 @@
 						{/if}
 					{/foreach}
 					{foreach key=MODULE_LABEL item=SECONDARY_MODULE_RECORD_STRUCTURE from=$SECONDARY_MODULE_RECORD_STRUCTURES}
-						{assign var=SECONDARY_MODULE_LABEL value=vtranslate($MODULE_LABEL, $MODULE_LABEL)}
+						{assign var=SECONDARY_MODULE_LABEL value=$MODULE_LABEL|t:$MODULE_LABEL}
 						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$SECONDARY_MODULE_RECORD_STRUCTURE}
-							{assign var=SECONDARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $MODULE_LABEL)}
+							{assign var=SECONDARY_MODULE_BLOCK_LABEL value=$BLOCK_LABEL|t:$MODULE_LABEL}
 							{assign var=key value="$SECONDARY_MODULE_LABEL $SECONDARY_MODULE_BLOCK_LABEL"}
 							{$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
 						{/foreach}
