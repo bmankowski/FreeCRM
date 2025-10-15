@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/PriceBooks/RelatedList.tpl -->
     <div class="relatedContainer">
         <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
-        <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
+        <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}" />
         <input type="hidden" value="{$ORDER_BY}" id="orderBy">
         <input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
         <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
@@ -28,7 +28,7 @@
                         <div class="btn-group paddingRight10">
                             {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                             <button type="button" class="btn btn-default
-									{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
+									{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 									{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
 									{if $RELATED_LINK->isPageLoadLink()}onclick="window.location.href='{$RELATED_LINK->getUrl()}'"{/if}
 									>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
@@ -56,7 +56,7 @@
 						<tr class="listViewHeaders">
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 								<th nowrap {if $HEADER_FIELD@last} colspan="2" {/if}>
-									<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('name')}">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+									<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('name')}">{$HEADER_FIELD->get('label')|t:$RELATED_MODULE_NAME}
 										&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}<span class="{$SORT_IMAGE}"></span>{/if}
 									</a>
 								</th>

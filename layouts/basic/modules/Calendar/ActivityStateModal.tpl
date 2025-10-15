@@ -98,7 +98,7 @@
 						<label class="col-sm-4 control-label">{"Description"|t:$MODULE_NAME}: </label>
 						<div class="col-sm-8">
 						{if $RECORD->get('description') neq ''}
-							{vtranslate($RECORD->get('description'),$MODULE_NAME)|truncate:120:'...'}
+							{$RECORD->get('description')|t:$MODULE_NAME|truncate:120:'...'}
 						{else}
 							<span class="muted">{"LBL_NO_DESCRIPTION"|t:$MODULE_NAME}</span>
 						{/if}

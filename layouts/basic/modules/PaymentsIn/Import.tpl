@@ -23,7 +23,7 @@
 							<div class="col-md-10" >
 								<select  name="type"  class="chzn-select form-control" >
 									{foreach from=$TYP item=item}
-										<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
+										<option value="{$item}">{$item|t:$MODULENAME}</option>
 									{/foreach}	
 								</select>
 							</div>
@@ -35,7 +35,7 @@
 							<div class="col-md-10">
 								<select class="form-control chzn-select" name="bank" >
 									{foreach from=$BANK item=item}
-										<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
+										<option value="{$item}">{$item|t:$MODULENAME}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -65,7 +65,7 @@
 										<td class="" colspan="4">
 											<select style=" margin-bottom:0px" name="type"  >
 												{foreach from=$TYP item=item}
-													<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
+													<option value="{$item}">{$item|t:$MODULENAME}</option>
 												{/foreach}	
 											</select>
 										</td>
@@ -77,7 +77,7 @@
 										<td class="" colspan="4">
 											<select style=" margin-bottom:0px"  name="bank" >
 												{foreach from=$BANK item=item}
-													<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
+													<option value="{$item}">{$item|t:$MODULENAME}</option>
 												{/foreach}
 											</select>
 										</td>

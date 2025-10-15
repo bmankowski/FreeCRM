@@ -12,9 +12,9 @@
 {strip}
 <!-- layouts/basic/modules/Accounts/RelatedList.tpl -->
     <div class="relatedContainer">
-        {assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
+        {assign var=RELATED_MODULE_NAME value=$RELATED_MODULE_NAME}
         <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
-        <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
+        <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}" />
         <input type="hidden" value="{$ORDER_BY}" id="orderBy">
         <input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
         <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
@@ -58,7 +58,7 @@
 		<div class="relatedContents contents-bottomscroll">
 			<div class="bottomscroll-div">
 				{assign var=FILENAME value="RelatedListContents.tpl"}
-				{include file=$FILENAME|vtemplate_path:$RELATED_MODULE->get('name')}
+				{include file=$FILENAME|vtemplate_path:$RELATED_MODULE_NAME}
 			</div>
 		</div>
 	</div>

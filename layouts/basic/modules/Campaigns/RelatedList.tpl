@@ -16,7 +16,7 @@
             <input type="hidden" name="emailEnabledModules" value=true />
             <input type="hidden" id="view" value="{$VIEW}" />
             <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
-            <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
+            <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}" />
             <input type="hidden" value="{$ORDER_BY}" id="orderBy">
             <input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
             <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
@@ -35,7 +35,7 @@
                                 {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                                 {assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
                                 <button type="button" class="btn btn-default addButton
-										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
+										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 										{if $IS_SELECT_BUTTON eq true} data-moduleName='{$RELATED_LINK->get('_module')->get('name')}' {/if}
 										{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
 										{if $IS_SEND_EMAIL_BUTTON eq true}	onclick="{$RELATED_LINK->getUrl()}" {else} data-url="{$RELATED_LINK->getUrl()}"{/if}
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 			<div id="selectAllMsgDiv" class="alert-block msgDiv">
-				<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$RELATED_MODULE->get('name')|t}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+				<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$RELATED_MODULE_NAME|t}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 			</div>
 			<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
 				<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
@@ -109,17 +109,17 @@
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<th nowrap>
 										{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
-											<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
+											<a href="javascript:void(0);" class="noSorting">{$HEADER_FIELD->get('label')|t:$RELATED_MODULE_NAME}</a>
 										{elseif $HEADER_FIELD->get('column') eq 'time_start'}
 										{else}
-											<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('column')}">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+											<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('column')}">{$HEADER_FIELD->get('label')|t:$RELATED_MODULE_NAME}
 												&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}
 											</a>
 										{/if}
 									</th>
 								{/foreach}
 								<th nowrap colspan="2">
-									<a href="javascript:void(0);" class="noSorting">{vtranslate('Status', $RELATED_MODULE->get('name'))}</a>
+									<a href="javascript:void(0);" class="noSorting">{"Status"|t:$RELATED_MODULE_NAME}</a>
 								</th>
 							</tr>
 						</thead>

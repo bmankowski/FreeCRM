@@ -101,7 +101,7 @@
 					<div>
 						<span class="value"><span class="glyphicon glyphicon-align-justify"></span>&nbsp&nbsp;
 							{if $RECORD->get('description') neq ''}
-								{vtranslate($RECORD->get('description'),$MODULE_NAME)|truncate:120:'...'}
+								{$RECORD->get('description')|t:$MODULE_NAME|truncate:120:'...'}
 							{else}
 								<span class="muted">{"LBL_NO_DESCRIPTION"|t:$MODULE_NAME}</span>
 							{/if}

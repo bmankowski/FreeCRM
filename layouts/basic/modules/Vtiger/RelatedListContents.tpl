@@ -16,20 +16,20 @@
 							{assign var=COUNT value=$COUNT+1}
 						<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap>
 							{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
-								<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
+								<a href="javascript:void(0);" class="noSorting">{$HEADER_FIELD->get('label')|t:$RELATED_MODULE_NAME}</a>
 							{else}
-								<a href="javascript:void(0);" class="relatedListHeaderValues" {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-fieldname="{$HEADER_FIELD->get('column')}">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+								<a href="javascript:void(0);" class="relatedListHeaderValues" {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-fieldname="{$HEADER_FIELD->get('column')}">{$HEADER_FIELD->get('label')|t:$RELATED_MODULE_NAME}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}
 								</a>
 							{/if}
 						</th>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<th>{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-						<th>{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+						<th>{"LBL_RELATION_CREATED_TIME"|t:$RELATED_MODULE_NAME}</th>
+						<th>{"LBL_RELATION_CREATED_USER"|t:$RELATED_MODULE_NAME}</th>
 					{/if}
 					{if $SHOW_COMMENT}
-						<th>{vtranslate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+						<th>{"LBL_RELATION_COMMENT"|t:$RELATED_MODULE_NAME}</th>
 					{/if}
 				</tr>
 			</thead>
