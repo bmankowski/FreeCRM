@@ -61,7 +61,7 @@
 				{assign var="POPOVER_CONTENT" value='LBL_CRON_LAUNCHING_FREQUENCY'|t:$MODULE|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:'LBL_MINUTES'|t}
 				<select class="select2 form-control" name="frequency" title="{"LBL_SCHEDULE"|t:$MODULE}">
 					<option value="5" {if $FREQUENCY eq 5} selected{/if}>{"PLL_5_MIN"|t:$MODULE}</option>
-					<OPTION VALUE="15" {if $FREQUENCY EQ '15'} selected{/if}>{VTRANSLATE('PLL_15_MIN',$MODULE)}</OPTION>
+					<option value="15" {if $FREQUENCY eq '15'} selected{/if}>{"PLL_15_MIN"|t:$MODULE}</option>
 					<option value="30" {if $FREQUENCY eq '30'} selected{/if}>{"PLL_30_MIN"|t:$MODULE}</option>
 					<option value="60" {if $FREQUENCY eq '60'} selected{/if}>{"PLL_60_MIN"|t:$MODULE}</option>
 					<option value="180" {if $FREQUENCY eq '180'} selected{/if}>{"PLL_3_H"|t:$MODULE}</option>
