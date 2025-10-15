@@ -1,0 +1,70 @@
+
+================================================================================
+MVC Violations Analysis Report
+Generated: 2025-10-15 06:34:11
+================================================================================
+
+SUMMARY
+--------------------------------------------------------------------------------
+Total Violations: 8
+Files Affected: 1
+
+By Severity:
+  HIGH      : 0
+  MEDIUM    : 8
+  LOW       : 0
+
+By Type:
+  array_operations         : 4
+  json_encode              : 3
+  util_helper              : 1
+
+================================================================================
+DETAILED VIOLATIONS
+================================================================================
+
+TYPE: JSON_ENCODE [MEDIUM]
+Description: JSON encoding in template
+Count: 3
+--------------------------------------------------------------------------------
+
+  layouts/basic/modules/CustomView/EditView.tpl:23
+  > <input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::enco
+
+  layouts/basic/modules/CustomView/EditView.tpl:116
+  > <input type="hidden" name="columnslist" value='{\App\Json::encode($SELECTED_FIELDS)}' />
+
+  layouts/basic/modules/CustomView/EditView.tpl:117
+  > <input id="mandatoryFieldsList" type="hidden" value='{\App\Json::encode($MANDATORY_FIELDS)}' />
+
+--------------------------------------------------------------------------------
+
+TYPE: UTIL_HELPER [MEDIUM]
+Description: Utility helper call
+Count: 1
+--------------------------------------------------------------------------------
+
+  layouts/basic/modules/CustomView/EditView.tpl:23
+  > <input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::enco
+
+--------------------------------------------------------------------------------
+
+TYPE: ARRAY_OPERATIONS [MEDIUM]
+Description: Business logic array operation
+Count: 4
+--------------------------------------------------------------------------------
+
+  layouts/basic/modules/CustomView/EditView.tpl:85
+  > {array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
+
+  layouts/basic/modules/CustomView/EditView.tpl:88
+  > {if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
+
+  layouts/basic/modules/CustomView/EditView.tpl:102
+  > {array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
+
+  layouts/basic/modules/CustomView/EditView.tpl:105
+  > {if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
+
+--------------------------------------------------------------------------------
+
