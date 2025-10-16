@@ -245,9 +245,9 @@ class ListView extends \Vtiger_Index_View
 			//To make smarty to get the details easily accesible
 			foreach ($searchParams as $fieldListGroup) {
 				foreach ($fieldListGroup as $fieldSearchInfo) {
-					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
-					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-					$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+					$fieldSearchInfo['searchValue'] = isset($fieldSearchInfo[2]) ? $fieldSearchInfo[2] : '';
+					$fieldSearchInfo['fieldName'] = $fieldName = isset($fieldSearchInfo[0]) ? $fieldSearchInfo[0] : '';
+					$fieldSearchInfo['specialOption'] = isset($fieldSearchInfo[3]) ? $fieldSearchInfo[3] : '';
 					$searchParams[$fieldName] = $fieldSearchInfo;
 				}
 			}

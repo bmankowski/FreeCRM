@@ -13,7 +13,11 @@
 <!-- layouts/basic/modules/Vtiger/uitypes/PickListFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues(true)}
-    {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+    {if isset($SEARCH_INFO['searchValue']) && $SEARCH_INFO['searchValue'] neq ''}
+        {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+    {else}
+        {assign var=SEARCH_VALUES value=[]}
+    {/if}
     <div class="picklistSearchField">
         <select class="select2noactive listSearchContributor form-control" name="{$FIELD_MODEL->get('name')}" multiple title="{$FIELD_MODEL->get('label')|t:$MODULE}" data-fieldinfo='{$FIELD_INFO|escape}'>
         {foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}

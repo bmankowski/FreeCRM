@@ -12,17 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/Index.tpl -->
 <div class="mainContainer container">
-	<div class="jumbotron">
-		<div class="row">
-			<div class="col-md-12">
-				<h2>Vtiger Index View</h2>
-				<p>Generic implementation of the index page view...</p>
-				<p>
-					<a class="btn btn-danger" href="?module=Users&action=Logout">Logout</a>
-				</p>
-			</div>
-		</div>
-	</div>
+
 </div>
 <!--/layouts/basic/modules/Vtiger/Index.tpl -->
 {/strip}
