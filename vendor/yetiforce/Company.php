@@ -14,7 +14,7 @@ class Company extends Base
 
 	/** @var Logo directory */
 	public static $logoStoragePath = "storage/Logo/";
-	public static $logoURL = "public/storage/Logo/";
+	public static $logoURL = "storage/Logo/";
 
 	/**
 	 * Function to get the instance of the Company model
