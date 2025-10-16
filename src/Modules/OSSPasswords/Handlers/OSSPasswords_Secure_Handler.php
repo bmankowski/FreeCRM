@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OSSPasswords\Handlers;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Handler {
+class OSSPasswords_Secure_Handler {
 
 	/**
 	 * EntityAfterSave handler function

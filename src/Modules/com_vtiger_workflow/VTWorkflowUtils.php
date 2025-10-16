@@ -2,6 +2,8 @@
 
 namespace FreeCRM\Modules\com_vtiger_workflow;
 
+use FreeCRM\Events\SqlResultIterator;
+
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -46,7 +48,7 @@ class VTWorkflowUtils {
 	 */
 	public function adminUser()
 	{
-		$user = Users::getActiveAdminUser();
+		$user = \FreeCRM\Modules\Users\Users::getActiveAdminUser();
 		$current_user = vglobal('current_user');
 		if (empty(self::$userStack) || count(self::$userStack) == 0) {
 			self::$loggedInUser = $current_user;
@@ -88,6 +90,7 @@ class VTWorkflowUtils {
 	 */
 	public function currentUser()
 	{
+		$current_user = vglobal('current_user');
 		return $current_user;
 	}
 

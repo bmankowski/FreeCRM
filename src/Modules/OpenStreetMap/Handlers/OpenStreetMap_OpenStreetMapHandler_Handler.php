@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OpenStreetMap\Handlers;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Handler {
+class OpenStreetMap_OpenStreetMapHandler_Handler {
 
 	/**
 	 * EntityAfterSave handler function

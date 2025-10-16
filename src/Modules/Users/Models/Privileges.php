@@ -488,4 +488,43 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		return $this->get('is_admin') === 'on' || $this->get('is_admin') === '1' || $this->get('is_admin') === 1;
 	}
+
+	/**
+	 * Magic getter to handle property access for legacy code compatibility
+	 * @param string $property
+	 * @return mixed
+	 */
+	public function __get($property)
+	{
+		// Handle common user properties accessed as direct properties
+		$propertyMap = [
+			'time_zone' => 'time_zone',
+			'currency_symbol_placement' => 'currency_symbol_placement',
+			'date_format' => 'date_format',
+			'hour_format' => 'hour_format',
+		];
+
+		if (isset($propertyMap[$property])) {
+			$value = $this->get($propertyMap[$property]);
+			// Return default values if not set
+			if ($value === null || $value === '') {
+				switch ($property) {
+					case 'time_zone':
+						return \FreeCRM\AppConfig::main('default_timezone') ?: 'UTC';
+					case 'currency_symbol_placement':
+						return '$1.0';
+					case 'date_format':
+						return 'yyyy-mm-dd';
+					case 'hour_format':
+						return '24';
+					default:
+						return '';
+				}
+			}
+			return $value;
+		}
+
+		// Fallback to get() method
+		return $this->get($property);
+	}
 }

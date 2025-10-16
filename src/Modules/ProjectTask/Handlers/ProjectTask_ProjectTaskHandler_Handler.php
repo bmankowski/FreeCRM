@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\ProjectTask\Handlers;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Handler {
+class ProjectTask_ProjectTaskHandler_Handler {
 
 	/**
 	 * EntityAfterSave handler function

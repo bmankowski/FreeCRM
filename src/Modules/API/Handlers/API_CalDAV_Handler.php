@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\API\Handlers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Handler {
+class API_CalDAV_Handler {
 
 	/**
 	 * EntityAfterSave handler function

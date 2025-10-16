@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\ModTracker\Handlers;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Handler {
+class ModTracker_ModTrackerHandler_Handler {
 
 	/**
 	 * EntityAfterSave function
@@ -198,7 +198,7 @@ class Handler {
 	public function addNotification($moduleName, $recordId, $watchdogTitle, $watchdogMessage = '')
 	{
 		if ($watchdogTitle) {
-			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+			$watchdog = \Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$users = $watchdog->getWatchingUsers([\App\User::getCurrentUserRealId()]);
 			if (!empty($users)) {
 				$currentUser = \App\User::getCurrentUserModel();

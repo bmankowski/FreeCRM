@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\Handlers;
  */
 
 use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
-class AutomaticAssignment {
+class Vtiger_AutomaticAssignment_Handler {
 
 	/**
 	 * EntitySystemAfterCreate handler function

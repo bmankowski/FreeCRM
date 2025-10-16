@@ -23,6 +23,7 @@ spl_autoload_register(function ($class) {
 		'Vtiger_PDF_Model' => 'FreeCRM\Modules\Vtiger\Models\PDF',
 		'Vtiger_RecordStructure_Model' => 'FreeCRM\Modules\Vtiger\Models\RecordStructure',
 		'Vtiger_RelationListView_Model' => 'FreeCRM\Modules\Vtiger\Models\RelationListView',
+		'Vtiger_Watchdog_Model' => 'FreeCRM\Modules\Vtiger\Models\Watchdog',
 		// Helpers - used in .tpl files
 		'Vtiger_Util_Helper' => 'FreeCRM\Modules\Vtiger\Util',
 		// Settings modules - used in .tpl files
@@ -52,6 +53,9 @@ spl_autoload_register(function ($class) {
 		// UITypes - used in .tpl files
 		'Vtiger_Date_UIType' => 'FreeCRM\Modules\Vtiger\UiTypes\Date',
 		'Vtiger_Datetime_UIType' => 'FreeCRM\Modules\Vtiger\UiTypes\Datetime',
+		'Vtiger_MultiReferenceValue_UIType' => 'FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue',
+		// Database - used globally
+		'PearDatabase' => 'FreeCRM\database\PearDatabase',
 	];
 	
 	if (isset($aliases[$class]) && class_exists($aliases[$class])) {

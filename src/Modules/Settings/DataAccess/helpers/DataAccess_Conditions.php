@@ -132,8 +132,8 @@ class DataAccess_Conditions
 	{
 		require_once ROOT_DIRECTORY . '/src/Modules/Settings/DataAccess/helpers/DataAccess_ConditionsTest.php';
 		$methodName = $this->createFunctionName($cndArray['comparator']);
-		$class = new ReflectionClass('DataAccess_ConditionsTest');
-		$methodList = $class->getMethods(ReflectionMethod::IS_STATIC);
+		$class = new \ReflectionClass(__NAMESPACE__ . '\DataAccess_ConditionsTest');
+		$methodList = $class->getMethods(\ReflectionMethod::IS_STATIC);
 		$exist = false;
 		$countMethodList = count($methodList);
 		for ($i = 0; $i < $countMethodList; $i++) {

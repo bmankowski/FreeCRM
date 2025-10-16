@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\IStorages\Handlers;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Handler {
+class IStorages_RecalculateStockHandler_Handler {
 
 	/**
 	 * EntityAfterSave handler function

@@ -29,8 +29,26 @@ class EventHandler
 	 * @var array
 	 */
 	private static $classNameMap = [
-		'ModTracker_ModTrackerHandler_Handler' => '\FreeCRM\Modules\ModTracker\Handlers\Handler',
-		'Vtiger_RecordLabelUpdater_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\RecordLabelUpdater',
+		'ModTracker_ModTrackerHandler_Handler' => '\FreeCRM\Modules\ModTracker\Handlers\ModTracker_ModTrackerHandler_Handler',
+		'Vtiger_RecordLabelUpdater_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\Vtiger_RecordLabelUpdater_Handler',
+		'Vtiger_Workflow_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\Vtiger_Workflow_Handler',
+		'Vtiger_MultiReferenceUpdater_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\Vtiger_MultiReferenceUpdater_Handler',
+		'Vtiger_AutomaticAssignment_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\Vtiger_AutomaticAssignment_Handler',
+		'Vtiger_SharingPrivileges_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\Vtiger_SharingPrivileges_Handler',
+		'Vtiger_Attachments_Handler' => '\FreeCRM\Modules\Vtiger\Handlers\Vtiger_Attachments_Handler',
+		'Calendar_CalendarHandler_Handler' => '\FreeCRM\Modules\Calendar\Handlers\Calendar_CalendarHandler_Handler',
+		'API_CalDAV_Handler' => '\FreeCRM\Modules\API\Handlers\API_CalDAV_Handler',
+		'API_CardDAV_Handler' => '\FreeCRM\Modules\API\Handlers\API_CardDAV_Handler',
+		'Users_ForgotPassword_Handler' => '\FreeCRM\Modules\Users\Handlers\Users_ForgotPassword_Handler',
+		'OSSPasswords_Secure_Handler' => '\FreeCRM\Modules\OSSPasswords\Handlers\OSSPasswords_Secure_Handler',
+		'Accounts_SaveChanges_Handler' => '\FreeCRM\Modules\Accounts\Handlers\Accounts_SaveChanges_Handler',
+		'ServiceContracts_ServiceContractsHandler_Handler' => '\FreeCRM\Modules\ServiceContracts\Handlers\ServiceContracts_ServiceContractsHandler_Handler',
+		'OpenStreetMap_OpenStreetMapHandler_Handler' => '\FreeCRM\Modules\OpenStreetMap\Handlers\OpenStreetMap_OpenStreetMapHandler_Handler',
+		'ProjectTask_ProjectTaskHandler_Handler' => '\FreeCRM\Modules\ProjectTask\Handlers\ProjectTask_ProjectTaskHandler_Handler',
+		'PBXManager_PBXManagerHandler_Handler' => '\FreeCRM\Modules\PBXManager\Handlers\PBXManager_PBXManagerHandler_Handler',
+		'OSSTimeControl_TimeControl_Handler' => '\FreeCRM\Modules\OSSTimeControl\Handlers\OSSTimeControl_TimeControl_Handler',
+		'HelpDesk_TicketRangeTime_Handler' => '\FreeCRM\Modules\HelpDesk\Handlers\HelpDesk_TicketRangeTime_Handler',
+		'IStorages_RecalculateStockHandler_Handler' => '\FreeCRM\Modules\IStorages\Handlers\IStorages_RecalculateStockHandler_Handler',
 	];
 
 	/**
@@ -292,15 +310,21 @@ class EventHandler
 				if (isset(static::$classNameMap[$className])) {
 					$className = static::$classNameMap[$className];
 				}
-				$handlerInstance = new $className();
-				static::$handlersInstance[$handler['handler_class']] = $handlerInstance;
-			}
+			$handlerInstance = new $className();
+			static::$handlersInstance[$handler['handler_class']] = $handlerInstance;
+		}
+		// VTWorkflowEventHandler uses handleEvent() method with event name as parameter
+		if (method_exists($handlerInstance, 'handleEvent')) {
+			$handlerInstance->handleEvent($name, $this);
+		} else {
+			// Modern handlers use lcfirst event name as method
 			$function = lcfirst($name);
 			if (method_exists($handlerInstance, $function)) {
 				$handlerInstance->$function($this);
 			} else {
 				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 			}
+		}
 		}
 	}
 

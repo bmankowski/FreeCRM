@@ -207,9 +207,9 @@ class PrivilegeUpdater
 
 	/**
 	 * Update permissions while saving record
-	 * @param \Vtiger_Record_Model $record
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record $record
 	 */
-	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
+	public static function updateOnRecordSave(\FreeCRM\Modules\Vtiger\Models\Record $record)
 	{
 		if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;

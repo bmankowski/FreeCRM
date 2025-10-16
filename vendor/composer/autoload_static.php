@@ -14,6 +14,7 @@ class ComposerStaticInitYT
         '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '1d6f6c0628aba5d91efef443adeecbc0' => __DIR__ . '/../..' . '/src/Runtime/Globals.php',
+        'b175d2585531c9bdb746aa39a222811f' => __DIR__ . '/../..' . '/src/GlobalAliases.php',
         'be7f8f4a06ddef5737f29c25b6a403f8' => __DIR__ . '/../..' . '/src/Runtime/TemplateHelpers.php',
         '742a32ecd17667f60863493c111e5e31' => __DIR__ . '/../..' . '/src/utils/VTCacheUtils.php',
         '3443957f76f899163eb9e8fb1d5bd5b1' => __DIR__ . '/../..' . '/src/utils/utils.php',

@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Handlers;
 /**
  * Attachments handler class
  */
-class Attachments {
+class Vtiger_Attachments_Handler {
 
 	/**
 	 * EntityAfterSave function

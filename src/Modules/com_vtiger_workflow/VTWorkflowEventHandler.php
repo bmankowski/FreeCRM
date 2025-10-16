@@ -3,9 +3,7 @@
 namespace FreeCRM\Modules\com_vtiger_workflow;
 
 use FreeCRM\events\VTEventHandler;
-
 use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
-
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -14,24 +12,7 @@ use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/events/SqlResultIterator.php');
-require_once('VTWorkflowManager.php');
-require_once('VTEntityCache.php');
 
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once("src/Modules/Users/Users.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObject.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObjectMeta.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/DataTransform.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/WebServiceError.php");
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
-require_once(ROOT_DIRECTORY . '/src/Webservices/Retrieve.php');
-require_once(ROOT_DIRECTORY . '/src/Webservices/Update.php');
-require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
-require_once('VTWorkflowUtils.php');
 
 /*
  * VTEventHandler
@@ -40,25 +21,27 @@ require_once('VTWorkflowUtils.php');
 
 class VTWorkflowEventHandler extends VTEventHandler
 {
+	public $workflows;
 
 	/**
 	 * Push tasks to the task queue if the conditions are true
 	 * @param $entityData A VTEntityData object representing the entity.
 	 */
-	function handleEvent($eventName, $entityData, $entityCache = false)
+	function handleEvent($eventName, $eventHandler, $entityCache = false)
 	{
 		$util = new VTWorkflowUtils();
 		$user = $util->adminUser();
 		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$isNew = $entityData->isNew();
+		$recordModel = $eventHandler->getRecordModel();
+		$entityData = $recordModel; // For now, use record model directly
+		$isNew = $recordModel->getPreviousValue() ? false : true;
 
 		if (!$entityCache) {
 			$entityCache = new VTEntityCache($user);
 		}
 
-		$wsModuleName = $util->toWSModuleName($entityData);
-		$wsId = vtws_getWebserviceEntityId($wsModuleName, $entityData->getId());
-		$entityData = $entityCache->forId($wsId);
+		$moduleName = $recordModel->getModuleName();
+		$recordId = $recordModel->getId();
 
 		/*
 		 * Customer - Feature #10254 Configuring all Email notifications including Ticket notifications
@@ -67,12 +50,12 @@ class VTWorkflowEventHandler extends VTEventHandler
 		 */
 		if (!is_array($this->workflows)) {
 			$wfs = new VTWorkflowManager($adb);
-			$this->workflows = $wfs->getWorkflowsForModule($entityData->getModuleName());
+			$this->workflows = $wfs->getWorkflowsForModule($moduleName);
 		}
 		$workflows = $this->workflows;
 
 		foreach ($workflows as $workflow) {
-			if (!is_a($workflow, 'Workflow'))
+			if (!is_object($workflow) || get_class($workflow) !== 'Workflow')
 				continue;
 			switch ($workflow->executionCondition) {
 				case VTWorkflowManager::$ON_FIRST_SAVE: {
@@ -84,9 +67,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 						break;
 					}
 				case VTWorkflowManager::$ONCE: {
-						$entity_id = vtws_getIdComponents($entityData->getId());
-						$entity_id = $entity_id[1];
-						if ($workflow->isCompletedForRecord($entity_id)) {
+						if ($workflow->isCompletedForRecord($recordId)) {
 							$doEvaluate = false;
 						} else {
 							$doEvaluate = true;
@@ -98,13 +79,8 @@ class VTWorkflowEventHandler extends VTEventHandler
 						break;
 					}
 				case VTWorkflowManager::$ON_MODIFY: {
-						$entityId = vtws_getIdComponents($entityData->getId());
-						$entityId = $entityId[1];
-						$vtEntityDelta = new VTEntityDelta();
-
-						$delta = $vtEntityDelta->getEntityDelta($wsModuleName, $entityId);
-						unset($delta['modifiedtime']);
-						$doEvaluate = !$isNew && !empty($delta);
+						// Check if record was modified (not newly created)
+						$doEvaluate = !$isNew;
 						break;
 					}
 				case VTWorkflowManager::$MANUAL: {
@@ -135,14 +111,12 @@ class VTWorkflowEventHandler extends VTEventHandler
 						throw new Exception("Should never come here! Execution Condition:" . $workflow->executionCondition);
 					}
 			}
-			if ($doEvaluate && $workflow->evaluate($entityCache, $entityData->getId())) {
+			if ($doEvaluate && $workflow->evaluate($entityCache, $recordId)) {
 				if (VTWorkflowManager::$ONCE == $workflow->executionCondition) {
-					$entity_id = vtws_getIdComponents($entityData->getId());
-					$entity_id = $entity_id[1];
-					$workflow->markAsCompletedForRecord($entity_id);
+					$workflow->markAsCompletedForRecord($recordId);
 				}
 
-				$workflow->performTasks($entityData);
+				$workflow->performTasks($recordModel);
 			}
 		}
 		$util->revertUser();

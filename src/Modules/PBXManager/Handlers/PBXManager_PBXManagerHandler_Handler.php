@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PBXManager\Handlers;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Handler {
+class PBXManager_PBXManagerHandler_Handler {
 
 	/**
 	 * EntityAfterDelete handler function
@@ -19,7 +19,7 @@ class Handler {
 	 */
 	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
-		(new PBXManager_Record_Model())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
+		(new \FreeCRM\Modules\PBXManager\Models\Record())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Handler {
 			'crmid' => $recordModel->getId(),
 			'setype' => $eventHandler->getModuleName(),
 		];
-		$pbxRecordModel = new PBXManager_Record_Model;
+		$pbxRecordModel = new \FreeCRM\Modules\PBXManager\Models\Record;
 		$fields = $recordModel->getModule()->getFieldsByType('phone');
 		foreach ($fields as $fieldName => &$fieldModel) {
 			if (!$recordModel->isEmpty($fieldName)) {
@@ -54,7 +54,7 @@ class Handler {
 			'crmid' => $recordModel->getId(),
 			'setype' => $eventHandler->getModuleName(),
 		];
-		$pbxRecordModel = new PBXManager_Record_Model;
+		$pbxRecordModel = new \FreeCRM\Modules\PBXManager\Models\Record;
 		$fields = $recordModel->getModule()->getFieldsByType('phone');
 		foreach ($fields as $fieldName => &$fieldModel) {
 			if (!$recordModel->isEmpty($fieldName)) {

@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\API\Handlers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Handler {
+class API_CardDAV_Handler {
 
 	const DELTA_FIELDS = [
 		'Contacts' => ['firstname', 'lastname', 'email', 'secondary_email', 'phone', 'mobile'],

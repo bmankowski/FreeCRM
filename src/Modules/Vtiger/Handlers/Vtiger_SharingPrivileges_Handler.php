@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Handlers;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class SharingPrivileges {
+class Vtiger_SharingPrivileges_Handler {
 
 	/**
 	 * EntityAfterSave function
@@ -17,7 +17,7 @@ class SharingPrivileges {
 	 */
 	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
-		if (!\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+		if (!\FreeCRM\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();

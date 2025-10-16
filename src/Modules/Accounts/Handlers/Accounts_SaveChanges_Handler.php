@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Accounts\Handlers;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Handler {
+class Accounts_SaveChanges_Handler {
 
 	/**
 	 * EntityAfterSave handler function

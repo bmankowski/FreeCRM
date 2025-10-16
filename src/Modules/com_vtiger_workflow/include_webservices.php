@@ -8,12 +8,9 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once("src/Modules/Users/Users.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObject.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObjectMeta.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/DataTransform.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/WebServiceError.php");
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
+// Use existing exception class instead of missing WebServiceError
+require_once ROOT_DIRECTORY . '/src/Webservices/WebServiceException.php';
 
 ?>

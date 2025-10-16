@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\ServiceContracts\Handlers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Handler {
+class ServiceContracts_ServiceContractsHandler_Handler {
 
 	/**
 	 * EntityAfterSave handler function

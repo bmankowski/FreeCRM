@@ -11,7 +11,7 @@ require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManage
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Workflow {
+class Vtiger_Workflow_Handler {
 
 	private $workflows;
 

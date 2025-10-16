@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\HelpDesk\Handlers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Handler {
+class HelpDesk_TicketRangeTime_Handler {
 
 	/**
 	 * EntityAfterLink handler function

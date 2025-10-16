@@ -71,6 +71,7 @@
 		},
 		"files": [
 			"src/Runtime/Globals.php",
+			"src/GlobalAliases.php",
 			"src/Runtime/TemplateHelpers.php",
 			"src/utils/VTCacheUtils.php",
 			"src/utils/utils.php",

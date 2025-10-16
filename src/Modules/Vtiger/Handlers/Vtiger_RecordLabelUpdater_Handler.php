@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Handlers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RecordLabelUpdater {
+class Vtiger_RecordLabelUpdater_Handler {
 
 	/**
 	 * EntityAfterSave function
