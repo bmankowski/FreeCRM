@@ -306,7 +306,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				if (!$fieldModel)
 					continue;
 
-				$fieldInstance = new ModTracker_Field_Model();
+				$fieldInstance = new \FreeCRM\Modules\ModTracker\Models\Field();
 				$fieldInstance->setData($row)->setParent($this)->setFieldInstance($fieldModel);
 				$fieldInstances[] = $fieldInstance;
 			}

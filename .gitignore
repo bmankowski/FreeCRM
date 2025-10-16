@@ -11,6 +11,7 @@ README.md
 /config/config_override.php
 /cache/logs/*.log
 /cache/vtlib/
+/cache/smarty/
 /test/templates_c/basic/*.php
 /nbproject/
 /libraries/mPDF/

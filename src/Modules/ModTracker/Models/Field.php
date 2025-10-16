@@ -13,6 +13,50 @@ namespace FreeCRM\Modules\ModTracker\Models;
 
 class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 {
+	protected $data = [];
+
+	/**
+	 * Function to set data
+	 * @param array $values
+	 * @return $this
+	 */
+	public function setData($values)
+	{
+		$this->data = $values;
+		return $this;
+	}
+
+	/**
+	 * Function to get data value
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function get($key)
+	{
+		return isset($this->data[$key]) ? $this->data[$key] : null;
+	}
+
+	/**
+	 * Function to set data value
+	 * @param string $key
+	 * @param mixed $value
+	 * @return $this
+	 */
+	public function set($key, $value)
+	{
+		$this->data[$key] = $value;
+		return $this;
+	}
+
+	/**
+	 * Function to check if key exists
+	 * @param string $key
+	 * @return bool
+	 */
+	public function has($key)
+	{
+		return isset($this->data[$key]);
+	}
 
 	/**
 	 * Function to set parent to this model

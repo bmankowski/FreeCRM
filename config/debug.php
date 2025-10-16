@@ -30,14 +30,14 @@ $DEBUG_CONFIG = [
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
 	// migoi
-	// Don't show Smarty Notice in phpError.log
+	// Don't show Smarty Notice in system.log
 	'SMARTY_ERROR_REPORTING' => E_ALL & ~E_NOTICE,
 	// / mogoi
 	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
 	'EXCEPTION_ERROR_HANDLER' => true,
-	// Save logs to file (cache/logs/errors.log)
+	// Save logs to file (cache/logs/system.log)
 	'EXCEPTION_ERROR_TO_FILE' => true,
 	// Display errors
 	'EXCEPTION_ERROR_TO_SHOW' => true,

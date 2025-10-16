@@ -62,7 +62,7 @@ class WebUI_ErrorHandler
         
         $content = $message . PHP_EOL . \App\Debugger::getBacktrace() . PHP_EOL;
         @file_put_contents(
-            'cache/logs/errors.log',
+            'cache/logs/system.log',
             $content,
             FILE_APPEND | LOCK_EX
         );
