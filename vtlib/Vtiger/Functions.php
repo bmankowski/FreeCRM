@@ -698,7 +698,15 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
-		$message = is_string($e) ? $e : $e->getMessage();
+		if (is_string($e)) {
+			$message = $e;
+		} elseif (is_object($e) && method_exists($e, 'getMessage')) {
+			$message = $e->getMessage();
+		} elseif (is_array($e)) {
+			$message = isset($e['message']) ? $e['message'] : 'Unknown error';
+		} else {
+			$message = 'Unknown error';
+		}
 		// REQUEST_MODE is a global constant; ensure it exists before using
 		if (defined('REQUEST_MODE') && REQUEST_MODE === 'API') {
 			throw new \APIException($message, 401);
@@ -934,6 +942,10 @@ class Functions
 	{
 		if (!$length) {
 			$length = AppConfig::main('listview_max_textlength');
+		}
+		// Handle null or empty text
+		if ($text === null || $text === '') {
+			return '';
 		}
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {

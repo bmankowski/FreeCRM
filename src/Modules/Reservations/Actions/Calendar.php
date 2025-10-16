@@ -1,8 +1,10 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-
 namespace FreeCRM\Modules\Reservations\Actions;
+
+use DateTime;
+use Exception;
 
 class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 {
@@ -35,7 +37,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$id = $request->get('id');
 
-		$record = Reservations_Calendar_Model::getInstance();
+		$record = \FreeCRM\Modules\Reservations\Models\Calendar::getInstance();
 		$record->set('user', $request->get('user'));
 		$record->set('types', $request->get('types'));
 		if ($request->get('start') && $request->get('end')) {

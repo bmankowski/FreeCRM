@@ -127,6 +127,7 @@ class FreeCRM_Viewer extends \Smarty
 		$this->registerClass('Users_Privileges_Model', '\FreeCRM\Modules\\Users\Models\\Privileges');
 		$this->registerClass('Users_Colors_Model', '\FreeCRM\Modules\\Users\Models\\Colors');
 		$this->registerClass('Settings_WidgetsManagement_Module_Model', '\FreeCRM\Modules\\Settings\\WidgetsManagement\Models\\Module');
+		$this->registerClass('Settings_Calendar_Module_Model', '\FreeCRM\Modules\\Settings\\Calendar\Models\\Module');
 		$this->registerClass('Yeti_Layout', '\FreeCRM\\Runtime\\Yeti_Layout');
 		$this->registerClass('\\App\\Json', '\\App\\Json');
 		$this->registerClass('\\App\\Debugger', '\\App\\Debugger');
