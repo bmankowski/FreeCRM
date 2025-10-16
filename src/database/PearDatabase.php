@@ -824,7 +824,7 @@ class PearDatabase
 		if (!AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
 			return;
 		}
-		$db = PearDatabase::getInstance('log');
+		$db = \FreeCRM\database\PearDatabase::getInstance('log');
 		$now = date('Y-m-d H:i:s');
 		$group = $this->logSqlTimeGroup;
 		$logTable = 'l_yf_sqltime';

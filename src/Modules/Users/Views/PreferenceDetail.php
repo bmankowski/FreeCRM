@@ -124,7 +124,7 @@ class PreferenceDetail extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = \FreeCRM\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));

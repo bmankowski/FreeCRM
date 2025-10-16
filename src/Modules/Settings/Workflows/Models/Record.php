@@ -75,7 +75,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$this->module = \Vtiger_Module_Model::getInstance($moduleName);
+		$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 
@@ -408,7 +408,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if ($relatedModule) {
 			$db = \FreeCRM\database\PearDatabase::getInstance();
 
-			$relatedModuleModel = \Vtiger_Module_Model::getInstance($relatedModule);
+			$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
 
 			foreach ($referenceFieldsList as $fieldName => $fieldModel) {

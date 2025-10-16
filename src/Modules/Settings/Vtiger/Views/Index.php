@@ -39,7 +39,7 @@ class Index extends \Vtiger_Basic_View
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$currentUserModel = \Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
@@ -101,7 +101,7 @@ class Index extends \Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$usersCount = \Users_Record_Model::getCount(true);
+		$usersCount = \FreeCRM\Modules\Users\Models\Record::getCount(true);
 		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
 		$activeModules = \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
 		$pinnedSettingsShortcuts = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();

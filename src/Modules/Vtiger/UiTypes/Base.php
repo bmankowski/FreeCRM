@@ -150,7 +150,7 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Get field model instance
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getFieldModel()
 	{

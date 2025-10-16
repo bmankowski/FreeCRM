@@ -16,7 +16,7 @@
  */
 function getPermittedBlocks($module, $disp_view)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	\App\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
 
@@ -69,7 +69,7 @@ function getPermittedFieldsQuery($module, $disp_view)
  */
 function getFieldsListFromQuery($query)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	\App\Log::trace("Entering into the function getFieldsListFromQuery($query)");
 

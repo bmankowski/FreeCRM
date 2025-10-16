@@ -182,7 +182,7 @@ class Module extends \Vtiger_Record_Model
 						'icon' => $menuItem->get('iconpath'),
 						'dataurl' => $menuItem->getUrl(),
 						'parent' => 'Settings',
-						'moduleName' => \Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
+						'moduleName' => \FreeCRM\Modules\Vtiger\Models\Menu::getModuleNameFromUrl($menuItem->getUrl()),
 					];
 				}
 				$menu[] = [

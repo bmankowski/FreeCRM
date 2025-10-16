@@ -72,7 +72,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 */
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$result = \Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
+		$result = \FreeCRM\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');

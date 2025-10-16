@@ -18,7 +18,7 @@ class DashBoard extends Model
 
 	/**
 	 * Function to get Module instance
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{
@@ -139,7 +139,7 @@ class DashBoard extends Model
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
+		$blockId = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
 		if (count($blockId) == 0) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 			return;

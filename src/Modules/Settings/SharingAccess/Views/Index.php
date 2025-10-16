@@ -27,7 +27,7 @@ Class Settings_SharingAccess_Index_View extends \FreeCRM\Modules\Settings\Vtiger
 		$viewer->assign('ALL_MODULES', Settings_SharingAccess_Module_Model::getAll(true));
 		$viewer->assign('ALL_ACTIONS', \FreeCRM\Modules\Settings\SharingAccess\Models\Action::getAll());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('DEPENDENT_MODULES', Settings_SharingAccess_Module_Model::getDependentModules());
 
 		$viewer->view('Index.tpl', $qualifiedModuleName);

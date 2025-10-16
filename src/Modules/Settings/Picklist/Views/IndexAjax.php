@@ -69,9 +69,9 @@ class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 		$selectedFieldEditablePickListValues = \App\Fields\Picklist::getEditablePicklistValues($fieldModel->getName());
 		$selectedFieldNonEditablePickListValues = \App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
-		$selectedFieldEditablePickListValues = array_map('\Vtiger_Util_Helper::toSafeHTML', $selectedFieldEditablePickListValues);
+		$selectedFieldEditablePickListValues = array_map('\FreeCRM\Modules\Vtiger\Util::toSafeHTML', $selectedFieldEditablePickListValues);
 		if (!empty($selectedFieldNonEditablePickListValues)) {
-			$selectedFieldNonEditablePickListValues = array_map('\Vtiger_Util_Helper::toSafeHTML', $selectedFieldNonEditablePickListValues);
+			$selectedFieldNonEditablePickListValues = array_map('\FreeCRM\Modules\Vtiger\Util::toSafeHTML', $selectedFieldNonEditablePickListValues);
 		}
 
 		$qualifiedName = $request->getModule(false);
@@ -85,7 +85,7 @@ class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES', $selectedFieldEditablePickListValues);
 		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES', $selectedFieldNonEditablePickListValues);
-		$viewer->assign('FIELD_VALUES', array_map('\Vtiger_Util_Helper::toSafeHTML', $valueToDelete));
+		$viewer->assign('FIELD_VALUES', array_map('\FreeCRM\Modules\Vtiger\Util::toSafeHTML', $valueToDelete));
 		echo $viewer->view('DeleteView.tpl', $qualifiedName, true);
 	}
 
@@ -137,9 +137,9 @@ class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$userSelectedRoleId = $request->get('rolesSelected');
 
 		$pickListValuesForRole = $fieldModel->getPicklistValuesForRole([$userSelectedRoleId], 'CONJUNCTION');
-		$pickListValuesForRole = array_map('\Vtiger_Util_Helper::toSafeHTML', $pickListValuesForRole);
+		$pickListValuesForRole = array_map('\FreeCRM\Modules\Vtiger\Util::toSafeHTML', $pickListValuesForRole);
 		$allPickListValues = \App\Fields\Picklist::getPickListValues($fieldModel->getName());
-		$allPickListValues = array_map('\Vtiger_Util_Helper::toSafeHTML', $allPickListValues);
+		$allPickListValues = array_map('\FreeCRM\Modules\Vtiger\Util::toSafeHTML', $allPickListValues);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
@@ -165,7 +165,7 @@ class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$qualifiedName = $request->getModule(false);
 
 		$selectedFieldAllPickListValues = \App\Fields\Picklist::getPickListValues($fieldModel->getName());
-		$selectedFieldAllPickListValues = array_map('\Vtiger_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
+		$selectedFieldAllPickListValues = array_map('\FreeCRM\Modules\Vtiger\Util::toSafeHTML', $selectedFieldAllPickListValues);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);

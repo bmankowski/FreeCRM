@@ -191,8 +191,8 @@ class Module extends VtigerModule
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
-		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
+		$nowInUserFormat = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
+		$nowInDBFormat = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 		$query = (new \App\Db\Query())
 			->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
@@ -281,7 +281,7 @@ class Module extends VtigerModule
 				$moduleName = $row['module'];
 				$recordId = $row['crmid'];
 				if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId)) {
-					$modTrackerRecorModel = new ModTracker_Record_Model();
+					$modTrackerRecorModel = new \FreeCRM\Modules\ModTracker\Models\Record();
 					$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
 					$time = $modTrackerRecorModel->get('changedon');
 					$activites[$time] = $modTrackerRecorModel;

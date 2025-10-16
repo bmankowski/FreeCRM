@@ -32,9 +32,9 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes'])) {
 				$recordFieldValue = implode(',', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = \Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() === 'currency') {
-				$displayValue = \Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
+				$displayValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} else {
 				$displayValue = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			}

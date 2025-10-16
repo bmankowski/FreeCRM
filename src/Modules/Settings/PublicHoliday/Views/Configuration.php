@@ -22,7 +22,7 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		
 		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$date = $request->get('date');
 		if (!$date) {

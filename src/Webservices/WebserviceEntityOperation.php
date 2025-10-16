@@ -21,7 +21,7 @@ abstract class WebserviceEntityOperation
 
 	/**
 	 *
-	 * @var PearDatabase
+	 * @var \FreeCRM\database\PearDatabase
 	 */
 	protected $pearDB;
 	protected static $metaCache = [];

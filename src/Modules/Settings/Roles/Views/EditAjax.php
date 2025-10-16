@@ -39,7 +39,7 @@ Class Settings_Roles_EditAjax_View extends \FreeCRM\Modules\Settings\Roles\Views
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}

@@ -62,7 +62,7 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 				$date = $request->get('schdate');
 				$dateDBFormat = DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-				$currentTime = \Vtiger_Util_Helper::getActiveAdminCurrentDateTime();
+				$currentTime = \FreeCRM\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
 				if ($nextTriggerTime > $currentTime) {
 					$workflowModel->set('nexttrigger_time', $nextTriggerTime);
 				} else {

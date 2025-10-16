@@ -38,7 +38,7 @@ class CreditLimits extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('INVENTORY_DATA', $allData);
 		$viewer->assign('VIEW', $view);
-		$viewer->assign('CURRENCY', \Vtiger_Util_Helper::getBaseCurrency());
+		$viewer->assign('CURRENCY', \FreeCRM\Modules\Vtiger\Util::getBaseCurrency());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

@@ -31,11 +31,11 @@ Class Settings_Groups_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views\I
 			$viewer->assign('MODE', '');
 		}
 
-		$viewer->assign('MEMBER_GROUPS', Settings_Groups_Member_Model::getAll(true));
+		$viewer->assign('MEMBER_GROUPS', \FreeCRM\Modules\Settings\Groups\Models\Member::getAll(true));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}

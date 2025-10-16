@@ -144,7 +144,7 @@ class TreeCategoryModal extends Model
 		vglobal('currentModule', $this->get('srcModule'));
 
 		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);

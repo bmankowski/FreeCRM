@@ -35,7 +35,7 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
 		$prevValues = $recordModel->getDisplayData();
 		$transferToOwner = Settings_Groups_Record_Model::getInstance($transferRecordId);
 		if (!$transferToOwner) {
-			$transferToOwner = Users_Record_Model::getInstanceById($transferRecordId, 'Users');
+			$transferToOwner = \FreeCRM\Modules\Users\Models\Record::getInstanceById($transferRecordId, 'Users');
 		}
 
 		if ($recordModel && $transferToOwner) {

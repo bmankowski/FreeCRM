@@ -52,7 +52,7 @@ class VTWSEntityType
 
 	function getTabId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		if (!isset($this->tabId)) {
 			$result = $adb->pquery("select tabid from vtiger_tab where name=?", array($this->entityTypeName));
 			$this->tabId = $adb->query_result($result, 0, "tabid");

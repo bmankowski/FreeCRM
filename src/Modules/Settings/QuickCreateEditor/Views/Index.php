@@ -35,7 +35,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	public function showFieldLayout(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$menuModelsList = \Vtiger_Module_Model::getQuickCreateModules();
+		$menuModelsList = \FreeCRM\Modules\Vtiger\Models\Module::getQuickCreateModules();
 
 		if (empty($sourceModule)) {
 			//To get the first element
@@ -50,9 +50,9 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$sourceModule = array('Calendar', 'Events');
 
 		foreach ($sourceModule as $module) {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance($module);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($module);
 
-			$recordStructureInstance = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$quickCreateContents[$module] = $recordStructureInstance->getStructure();
 		}
 
@@ -61,7 +61,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule[0]);
 		$viewer->assign('SUPPORTED_MODULES', $menuModelsList);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('RECORDS_STRUCTURE', $quickCreateContents);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 

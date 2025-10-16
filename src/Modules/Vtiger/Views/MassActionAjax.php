@@ -51,7 +51,7 @@ class MassActionAjax extends \Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_MASSEDIT);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_MASSEDIT);
 		$fieldInfo = [];
 		$fieldList = $moduleModel->getFields();
 		foreach ($fieldList as $fieldName => $fieldModel) {

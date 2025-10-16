@@ -49,7 +49,7 @@ class Relation extends Model
 
 	/**
 	 * Function that returns the relation's parent module model
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getParentModuleModel()
 	{
@@ -72,7 +72,7 @@ class Relation extends Model
 
 	/**
 	 * Function that returns the relation's related module model
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getRelationModuleModel()
 	{
@@ -311,7 +311,7 @@ class Relation extends Model
 
 	/**
 	 * Function to get relation field for relation module and parent module
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getRelationField()
 	{

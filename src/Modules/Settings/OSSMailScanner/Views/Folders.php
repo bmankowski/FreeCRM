@@ -15,7 +15,7 @@ class Folders extends \Vtiger_BasicModal_View
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser() || !$request->has('record')) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
@@ -35,9 +35,9 @@ class Folders extends \Vtiger_BasicModal_View
 		$mailModuleActive = vtlib\Functions::getModuleId('OSSMail');
 		$folders = [];
 		if ($mailModuleActive) {
-			$mailRecordModel = \Vtiger_Record_Model::getCleanInstance('OSSMail');
+			$mailRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 			$folders = $mailRecordModel->getFolders($record);
-			$mailScannerRecordModel = \Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+			$mailScannerRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 			$mailScannerFolders = $mailScannerRecordModel->getFolders($record);
 			$selectedFolders = [];
 			$missingFolders = [];

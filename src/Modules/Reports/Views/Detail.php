@@ -84,7 +84,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('SELECTED_ADVANCED_FILTER_FIELDS', $reportModel->transformToNewAdvancedFilter());
 		$viewer->assign('PRIMARY_MODULE', $primaryModule);
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 

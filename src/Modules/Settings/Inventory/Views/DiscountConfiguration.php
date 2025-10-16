@@ -24,8 +24,8 @@ class DiscountConfiguration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
-		$config = Settings_Inventory_Module_Model::getConfig($view);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$config = \FreeCRM\Modules\Settings\Inventory\Models\Module::getConfig($view);
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGE_LABELS', $this->getPageLabels($request));

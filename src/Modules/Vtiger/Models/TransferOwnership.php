@@ -59,7 +59,7 @@ class TransferOwnership extends Model
 			case 2:
 				foreach ($recordIds as $recordId) {
 					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $basicModule);
-					$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
+					$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModule);
 					$relatedIds = $relationListView->getRelationQuery()->select(['vtiger_crmentity.crmid'])
 						->distinct()
 						->column();

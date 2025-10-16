@@ -38,11 +38,11 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			if (!is_array($members)) {
 				$members = [$members];
 			}
-			$watchdogModel = \Vtiger_Watchdog_Model::getInstance($module);
+			$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($module);
 			foreach ($members as $member) {
 				$watchdogModel->changeModuleState($state, $member);
 			}
-			\Vtiger_Watchdog_Model::reloadCache();
+			\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
@@ -62,11 +62,11 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			if (!is_array($members)) {
 				$members = [$members];
 			}
-			$watchdogModel = \Vtiger_Watchdog_Model::getInstance($module);
+			$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($module);
 			foreach ($members as $member) {
 				$watchdogModel->lock($lock, $member);
 			}
-			\Vtiger_Watchdog_Model::reloadCache();
+			\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);
@@ -83,9 +83,9 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$member = $request->get('member');
 		$exceptions = $request->get('exceptions');
 		if (!empty($member)) {
-			$watchdogModel = \Vtiger_Watchdog_Model::getInstance($module);
+			$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($module);
 			$watchdogModel->exceptions($exceptions, $member);
-			\Vtiger_Watchdog_Model::reloadCache();
+			\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(true);

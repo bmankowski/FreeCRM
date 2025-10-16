@@ -32,7 +32,7 @@ class SummationByMonths extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 		$data = $this->getWidgetData($moduleName, $owner);

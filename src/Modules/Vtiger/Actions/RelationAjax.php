@@ -210,7 +210,7 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				if (!\App\Privilege::isPermitted($relModule)) {
 					continue;
 				}
-				$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
+				$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relModule, $label);
 				if (!$relationListView->getRelationModel()) {
 					continue;
 				}

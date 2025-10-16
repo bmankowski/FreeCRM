@@ -158,7 +158,7 @@ class MultiReferenceValue extends Base
 		$params = $field->getFieldParams();
 		$sourceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 
-		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
+		$targetModel = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$targetModel->getRelationQuery();
 		$queryGenerator = $targetModel->getRelationModel()->getQueryGenerator();

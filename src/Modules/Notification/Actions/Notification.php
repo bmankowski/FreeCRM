@@ -72,11 +72,11 @@ class Notification extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function saveWatchingModules(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$selectedModules = $request->get('selctedModules');
-		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
-		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
+		$watchingModules = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModules();
+		\FreeCRM\Modules\Vtiger\Models\Watchdog::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
 			foreach ($selectedModules as $moduleId) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
+				$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($moduleId);
 				$watchdogModel->changeModuleState(1);
 			}
 		} else {
@@ -84,11 +84,11 @@ class Notification extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 		foreach ($watchingModules as $moduleId) {
 			if (!in_array($moduleId, $selectedModules)) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
+				$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($moduleId);
 				$watchdogModel->changeModuleState(0);
 			}
 		}
-		Vtiger_Watchdog_Model::reloadCache();
+		\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
 	}
 
 	public function createMail(\FreeCRM\Http\Vtiger_Request $request)

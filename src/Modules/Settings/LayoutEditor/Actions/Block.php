@@ -28,7 +28,7 @@ class Block extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 	{
 		$blockId = $request->get('blockid');
 		$sourceModule = $request->get('sourceModule');
-		$modueInstance = \Vtiger_Module_Model::getInstance($sourceModule);
+		$modueInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$beforeBlockId = false;
 
 		if (!empty($blockId)) {

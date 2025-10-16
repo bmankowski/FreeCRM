@@ -296,7 +296,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguageLabel($name)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', [$name]);
 		if ($db->num_rows($languageResult)) {
 			return $db->query_result($languageResult, 0, 'label');

@@ -35,7 +35,7 @@ class RelatedList extends \Vtiger_Index_View
 		}
 
 		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if ($sortOrder == 'ASC') {

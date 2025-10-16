@@ -11,7 +11,7 @@
 function vtws_update($element, $user)
 {
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	
 	$idList = vtws_getIdComponents($element['id']);
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $idList[0]);

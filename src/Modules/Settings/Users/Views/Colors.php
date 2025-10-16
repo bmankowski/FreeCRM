@@ -18,10 +18,10 @@ class Colors extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$tablesAll = Users_Colors_Model::getTablesAll();
+		$tablesAll = \FreeCRM\Modules\Users\Models\Colors::getTablesAll();
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Calendar_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \FreeCRM\Modules\Settings\Calendar\Models\Module::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('TABLES_ALL', $tablesAll);

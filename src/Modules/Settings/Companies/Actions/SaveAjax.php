@@ -41,7 +41,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		if (!$exists) {
 			$recordModel->setCompaniesNotDefault($request->get('default'));
 			$logoDetails = $recordModel->saveCompanyLogos();
-			$columns = Settings_Companies_Module_Model::getColumnNames();
+			$columns = \FreeCRM\Modules\Settings\Companies\Models\Module::getColumnNames();
 			if ($columns) {
 				if (empty(($request->get('default')))) {
 					$columns = array_diff($columns, ['default']);

@@ -18,7 +18,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}

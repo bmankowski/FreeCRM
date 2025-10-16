@@ -48,7 +48,7 @@ Class Settings_Roles_Edit_View extends \FreeCRM\Modules\Settings\Roles\Views\Ind
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('TYPE', $request->get('type'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

@@ -170,7 +170,7 @@ function getUserId_Ol($username)
 	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
 		return $cache->getUserId($username);
 	} else {
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$sql = "select id from vtiger_users where user_name=?";
 		$result = $adb->pquery($sql, array($username));
 		$num_rows = $adb->num_rows($result);
@@ -209,7 +209,7 @@ function getActionid($action)
 		$actionid = $actionIds[$action];
 	}
 	if (empty($actionid)) {
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'select actionid from vtiger_actionmapping where actionname=?';
 		$result = $db->pquery($query, [$action]);
 		$actionid = $db->getSingleValue($result);
@@ -227,7 +227,7 @@ function getActionname($actionid)
 {
 
 	\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	$actionName = \FreeCRM\Runtime\Vtiger_Cache::get('getActionName', $actionid);
 	if ($actionName) {
@@ -275,7 +275,7 @@ function updateProductQty($product_id, $upd_qty)
 {
 
 	\App\Log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$query = "update vtiger_products set qtyinstock=? where productid=?";
 	$adb->pquery($query, array($upd_qty, $product_id));
 	\App\Log::trace("Exiting updateProductQty method ...");
@@ -366,7 +366,7 @@ function escape_single_quotes($value)
  */
 function formatForSqlLike($str, $flag = 0, $is_field = false)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	if (isset($str)) {
 		if ($is_field === false) {
 			$str = str_replace('%', '\%', $str);
@@ -425,7 +425,7 @@ function get_on_clause($field_list, $uitype_arr, $module)
  */
 function getCallerInfo($number)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	if (empty($number)) {
 		return false;
@@ -457,7 +457,7 @@ function getCallerInfo($number)
  */
 function get_use_asterisk($id)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	if (!\App\Module::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
 		return false;
 	}
@@ -485,7 +485,7 @@ function get_use_asterisk($id)
  * */
 function getRelationTables($module, $secmodule)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$primary_obj = CRMEntity::getInstance($module);
 	$secondary_obj = CRMEntity::getInstance($secmodule);
 
@@ -668,7 +668,7 @@ function getValidDBInsertDateTimeValue($value)
  */
 function getBlockName($blockid)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	$blockname = \FreeCRM\Utils\VTCacheUtils::lookupBlockLabelWithId($blockid);
 
@@ -741,7 +741,7 @@ function getInventoryModules()
  */
 function getActivityRelatedContacts($activityId)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
 	$result = $adb->pquery($query, array($activityId));

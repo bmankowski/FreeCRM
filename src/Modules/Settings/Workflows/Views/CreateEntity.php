@@ -27,7 +27,7 @@ class CreateEntity extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 
 		$relatedModule = $request->get('relatedModule');
-		$relatedModuleModel = \Vtiger_Module_Model::getInstance($relatedModule);
+		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 
 		$workflowModuleModel = $workflowModel->getModule();
 

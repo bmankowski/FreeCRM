@@ -17,7 +17,7 @@ class DashboardType extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$dashboardId = $request->get('dashboardId');
-		$dashboardInfo = Settings_WidgetsManagement_Module_Model::getDashboardInfo($dashboardId);
+		$dashboardInfo = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDashboardInfo($dashboardId);
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DASHBOARD_ID', $dashboardId);

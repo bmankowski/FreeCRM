@@ -31,8 +31,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		} else {
 			$recordModel = new Settings_Companies_Record_Model();
 		}
-		$viewer->assign('COMPANY_COLUMNS', Settings_Companies_Module_Model::getColumnNames());
-		$viewer->assign('INDUSTRY_LIST', Settings_Companies_Module_Model::getIndustryList());
+		$viewer->assign('COMPANY_COLUMNS', \FreeCRM\Modules\Settings\Companies\Models\Module::getColumnNames());
+		$viewer->assign('INDUSTRY_LIST', \FreeCRM\Modules\Settings\Companies\Models\Module::getIndustryList());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);

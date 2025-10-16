@@ -78,12 +78,12 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) {
 				if ($fieldName == 'date_start') {
 					$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
-					$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue . " " . $startTime);
+					$startDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
 					list($startDate, $startTime) = explode(' ', $startDateTime);
 					$fieldValue = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
 				} else {
 					$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_end']);
-					$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue . " " . $endTime);
+					$endDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $endTime);
 					list($endDate, $endTime) = explode(' ', $endDateTime);
 					$fieldValue = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($endDate);
 				}
@@ -93,7 +93,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 
 		$viewMode = $request->get('view_mode');

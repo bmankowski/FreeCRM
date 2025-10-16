@@ -46,7 +46,7 @@ class PDF extends Model
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return \Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
 	}
 
 	public function get($key)

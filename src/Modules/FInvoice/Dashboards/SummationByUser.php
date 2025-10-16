@@ -28,7 +28,7 @@ class SummationByUser extends \Vtiger_Index_View
 		if ($request->has('time')) {
 			$time = $request->get('time');
 		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-01');
 				$time['end'] = date('Y-m-t');

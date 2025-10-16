@@ -45,7 +45,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
 	{

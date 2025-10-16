@@ -44,7 +44,7 @@ class RelationListView extends Model
 
 	/**
 	 * Get parent record model
-	 * @return Vtiger_Record_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getParentRecordModel()
 	{
@@ -59,7 +59,7 @@ class RelationListView extends Model
 
 	/**
 	 * Function that returns the relation's related module model
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getRelatedModuleModel()
 	{
@@ -347,7 +347,7 @@ class RelationListView extends Model
 			];
 			if ($showCreatorDetail) {
 				$tree['rel_created_user'] = \App\Fields\Owner::getLabel($row['rel_created_user']);
-				$tree['rel_created_time'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
+				$tree['rel_created_time'] = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($row['rel_created_time']);
 			}
 			if ($showComment) {
 				$tree['rel_comment'] = $row['rel_comment'];

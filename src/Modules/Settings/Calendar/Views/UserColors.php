@@ -20,8 +20,8 @@ class UserColors extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Calendar_Module_Model::getInstance($qualifiedModuleName);
-		$notWorkDays = Settings_Calendar_Module_Model::getNotWorkingDays();
+		$moduleModel = \FreeCRM\Modules\Settings\Calendar\Models\Module::getInstance($qualifiedModuleName);
+		$notWorkDays = \FreeCRM\Modules\Settings\Calendar\Models\Module::getNotWorkingDays();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('NOTWORKINGDAYS', $notWorkDays);

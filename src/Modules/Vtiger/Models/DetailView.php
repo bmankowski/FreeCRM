@@ -23,7 +23,7 @@ class DetailView extends Model
 
 	/**
 	 * Function to get Module instance
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{

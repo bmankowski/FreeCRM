@@ -78,7 +78,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function getSupportedModules()
 	{
-		return \Vtiger_Module_Model::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
+		return \FreeCRM\Modules\Vtiger\Models\Module::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function getFieldsByModule($moduleName)
 	{
 		$accessibleFields = [];
-		$moduleInstance = \Vtiger_Module_Model::getInstance($moduleName);
+		$moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		foreach ($moduleInstance->getFields() as $fieldName => $fieldObject) {
 			if (in_array($fieldObject->getFieldDataType(), static::$fieldType) && $fieldObject->isActiveField() && $fieldObject->getUIType() !== 4) {
 				$accessibleFields[$fieldObject->getBlockName()][$fieldName] = $fieldObject;

@@ -78,7 +78,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 			$date = $this->get('schdate');
 			$dateDBFormat = DateTimeField::convertToDBFormat($date);
 			$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-			$currentTime = \Vtiger_Util_Helper::getActiveAdminCurrentDateTime();
+			$currentTime = \FreeCRM\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
 			if ($nextTriggerTime > $currentTime) {
 				$this->set('next_trigger_time', $nextTriggerTime);
 			} else {
@@ -177,7 +177,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 		$recipientsEmails = [];
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				if (!\Vtiger_Util_Helper::isUserDeleted($userId)) {
+				if (!\FreeCRM\Modules\Vtiger\Util::isUserDeleted($userId)) {
 					$userName = \App\Fields\Owner::getUserLabel($userId);
 					$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {

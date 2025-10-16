@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
+Class OSSTimeControl_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	const recalculateStatus = 'Accepted';

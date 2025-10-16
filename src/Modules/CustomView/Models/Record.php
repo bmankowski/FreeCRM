@@ -56,7 +56,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the Module to which the record belongs
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{
@@ -707,7 +707,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 					}
 					$advfilterval = implode(",", $val);
 				}
-				$criteria['value'] = \Vtiger_Util_Helper::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$groupId = $relcriteriarow['groupid'];

@@ -26,10 +26,10 @@ class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$recordModel = Settings_Companies_Record_Model::getInstance($record);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('COMPANY_COLUMNS', Settings_Companies_Module_Model::getColumnNames());
+		$viewer->assign('COMPANY_COLUMNS', \FreeCRM\Modules\Settings\Companies\Models\Module::getColumnNames());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 }

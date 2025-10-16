@@ -24,7 +24,7 @@ function fetchUserGroupids($userid)
 {
 
 	\App\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$focus = new GetUserGroups();
 	$focus->getAllUserGroups($userid);
 	//Asha: Remove implode if not required and if so, also remove explode functions used at the recieving end of this function
@@ -47,7 +47,7 @@ function getTabsUtilityActionPermission($profileid)
 
 	\App\Log::trace("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$check = [];
 	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2utility where profileid=? order by(tabid)";
@@ -343,7 +343,7 @@ function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
 {
 
 	\App\Log::trace("Entering isReadPermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$ownertype = '';
@@ -453,7 +453,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 {
 
 	\App\Log::trace("Entering isReadWritePermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$ownertype = '';
@@ -561,7 +561,7 @@ function getProfileGlobalPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$sql = "select * from vtiger_profile2globalpermissions where profileid=?";
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
@@ -586,7 +586,7 @@ function getProfileTabsPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$sql = "select * from vtiger_profile2tab where profileid=?";
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
@@ -614,7 +614,7 @@ function getProfileActionPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileActionPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$check = [];
 	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2standardpermissions where profileid=?";
@@ -650,7 +650,7 @@ function getProfileAllActionPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$actionArr = getProfileActionPermission($profileid);
 	$utilArr = getTabsUtilityActionPermission($profileid);
 	foreach ($utilArr as $tabid => $act_arr) {
@@ -671,7 +671,7 @@ function getAllRoleDetails()
 {
 
 	\App\Log::trace('Entering getAllRoleDetails() method ...');
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$role_det = [];
 	$query = "select * from vtiger_role";
 	$result = $adb->pquery($query, []);
@@ -724,7 +724,7 @@ function getRoleUsers($roleId)
 		return $roleRelatedUsers;
 	}
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$query = 'select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
 	$result = $adb->pquery($query, array($roleId));
 	$num_rows = $adb->num_rows($result);
@@ -757,7 +757,7 @@ function getRoleAndSubordinateUsers($roleId)
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$roleInfoArr = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$parentRole = $roleInfoArr['parentrole'];
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
@@ -780,7 +780,7 @@ function getRoleAndSubordinatesInformation($roleId)
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinatesInformation(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	static $roleInfoCache = [];
 	if (!empty($roleInfoCache[$roleId])) {
 		return $roleInfoCache[$roleId];
@@ -817,7 +817,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinatesRoleIds(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$roleDetails = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$roleParentSeq = $roleDetails['parentrole'];
 
@@ -840,7 +840,7 @@ function deleteRoleRelatedSharingRules($roleId)
 {
 
 	\App\Log::trace('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_us2role' => 'to_roleid',
 		'vtiger_datashare_us2rs' => 'to_roleandsubid',
@@ -880,7 +880,7 @@ function deleteGroupRelatedSharingRules($grpId)
 
 	\App\Log::trace("Entering deleteGroupRelatedSharingRules(" . $grpId . ") method ...");
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_grp2grp' => 'share_groupid::to_groupid',
 		'vtiger_datashare_grp2role' => 'share_groupid',
@@ -915,7 +915,7 @@ function deleteUserRelatedSharingRules($usId)
 
 	\App\Log::trace("Entering deleteGroupRelatedSharingRules(" . $usId . ") method ...");
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_us2us' => 'share_userid::to_userid',
 		'vtiger_datashare_us2grp' => 'share_userid',
@@ -954,7 +954,7 @@ function getAllUserName()
 {
 
 	\App\Log::trace("Entering getAllUserName() method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$query = "select * from vtiger_users where deleted=0";
 	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
@@ -976,7 +976,7 @@ function getAllGroupName()
 {
 
 	\App\Log::trace("Entering getAllGroupName() method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$query = "select * from vtiger_groups";
 	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
@@ -998,7 +998,7 @@ function deleteSharingRule($shareid)
 {
 
 	\App\Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
 	$res = $adb->pquery($query2, array($shareid));
 	$typestr = $adb->query_result($res, 0, 'relationtype');
@@ -1077,7 +1077,7 @@ function getCombinedUserGlobalPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$userGlobalPerrArr = [];
@@ -1114,7 +1114,7 @@ function getCombinedUserTabsPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$userTabPerrArr = [];
@@ -1155,7 +1155,7 @@ function getCombinedUserActionPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$actionPerrArr = [];
@@ -1195,7 +1195,7 @@ function getSubordinateRoleAndUsers($roleId)
 {
 
 	\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$subRoleAndUsers = [];
 	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {
@@ -1228,7 +1228,7 @@ function getWriteSharingGroupsList($module)
 {
 
 	\App\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	$grp_array = [];
 	$tabid = \App\Module::getModuleId($module);
@@ -1268,7 +1268,7 @@ function getListViewSecurityParameter($module)
 {
 
 	\App\Log::trace("Entering getListViewSecurityParameter(" . $module . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	$tabid = \App\Module::getModuleId($module);
 	$current_user = vglobal('current_user');
@@ -1358,7 +1358,7 @@ function get_current_user_access_groups($module)
 {
 
 	\App\Log::trace("Entering get_current_user_access_groups(" . $module . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$current_user_group_list = getCurrentUserGroupList();
 	$sharing_write_group_list = getWriteSharingGroupsList($module);
 	$query = "select groupname,groupid from vtiger_groups";
@@ -1451,7 +1451,7 @@ function RecalculateSharingRules()
 {
 
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	require_once('src/Modules/Users/CreateUserPrivilegeFile.php');
 	$query = "select id from vtiger_users where deleted=0";
 	$result = $adb->pquery($query, []);

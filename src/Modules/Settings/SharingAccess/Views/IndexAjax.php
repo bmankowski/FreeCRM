@@ -51,7 +51,7 @@ Class Settings_SharingAccess_IndexAjax_View extends \FreeCRM\Modules\Settings\Vt
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FOR_MODULE', $forModule);
 		$viewer->assign('RULE_MODEL_LIST', $ruleModelList);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
 	}
@@ -79,7 +79,7 @@ Class Settings_SharingAccess_IndexAjax_View extends \FreeCRM\Modules\Settings\Vt
 		$viewer->assign('RULE_MODEL', $ruleModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		echo $viewer->view('EditRule.tpl', $qualifiedModuleName, true);
 	}

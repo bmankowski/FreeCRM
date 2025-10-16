@@ -62,8 +62,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				break;
 			case 'step3':
 				$moduleSourceName = vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
-				$moduleModel = \Vtiger_Module_Model::getInstance($moduleSourceName);
-				$recordStructureInstance = \Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleSourceName);
+				$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('SOURCE_MODULE', $moduleSourceName);
 				$viewer->assign('ADVANCE_CRITERIA', \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));

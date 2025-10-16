@@ -22,13 +22,13 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$srcModule = $request->get('srcModule');
-		$modules = \Vtiger_Watchdog_Model::getSupportedModules();
+		$modules = \FreeCRM\Modules\Vtiger\Models\Watchdog::getSupportedModules();
 		if (!$request->has('srcModule')) {
 			reset($modules);
 			$srcModule = key($modules);
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('WATCHDOG_MODULE', \Vtiger_Watchdog_Model::getInstance($srcModule));
+		$viewer->assign('WATCHDOG_MODULE', \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($srcModule));
 		$viewer->assign('SELECTED_MODULE', $srcModule);
 		$viewer->assign('SUPPORTED_MODULES', $modules);
 		$viewer->view('Configuration.tpl', $request->getModule(false));

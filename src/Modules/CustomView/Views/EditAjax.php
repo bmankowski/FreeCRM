@@ -29,7 +29,7 @@ class EditAjax extends \FreeCRM\Modules\Vtiger\Views\IndexAjax
 			$moduleName = \vtlib\Functions::getModuleName($moduleName);
 		}
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		if (!empty($record)) {
 			$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($record);
@@ -63,7 +63,7 @@ class EditAjax extends \FreeCRM\Modules\Vtiger\Views\IndexAjax
 		if ($moduleName == 'Calendar') {
 			$relatedModuleName = 'Events';
 			$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
-			$relatedRecordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($relatedModuleModel);
+			$relatedRecordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($relatedModuleModel);
 			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
 			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);

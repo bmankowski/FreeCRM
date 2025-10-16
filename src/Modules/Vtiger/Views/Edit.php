@@ -101,7 +101,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 			if ($moduleName == 'Calendar' && empty($record) && $fieldName == 'date_start' && !empty($fieldValue)) {
 				$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
-				$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue . " " . $startTime);
+				$startDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
 				list($startDate, $startTime) = explode(' ', $startDateTime);
 				$fieldValue = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
 			}
@@ -109,7 +109,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
@@ -146,7 +146,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('APIADDRESS_ACTIVE', Settings_ApiAddress_Module_Model::isActive());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \Vtiger_Util_Helper::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \FreeCRM\Modules\Vtiger\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}

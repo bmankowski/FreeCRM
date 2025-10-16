@@ -39,7 +39,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	public function getGanttMileston($id)
 	{
 		$response = ['data' => [], 'links' => []];
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectMilestone');
+		$relatedListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectMilestone');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'projectmilestoneid' => 'projectmilestoneid',
 			'projectid' => 'projectid',
@@ -86,7 +86,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function getGanttTask($id)
 	{
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
+		$relatedListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'id' => 'id',
 			'projectid' => 'projectid',

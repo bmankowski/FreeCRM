@@ -109,7 +109,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule) {
 			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
-			$listView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
+			$listView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 		} else {
 			$listView = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $request->get('viewname'));
 		}

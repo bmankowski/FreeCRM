@@ -18,7 +18,7 @@ class Detail extends Users_PreferenceDetail_View
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \FreeCRM\AppConfig::security('SHOW_MY_PREFERENCES'))) {
 			return true;
@@ -70,7 +70,7 @@ class Detail extends Users_PreferenceDetail_View
 	{
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('UserViewHeader.tpl', $request->getModule());
 		parent::process($request);
 	}

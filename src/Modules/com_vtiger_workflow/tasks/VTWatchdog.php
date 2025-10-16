@@ -35,7 +35,7 @@ class VTWatchdog extends VTTask
 
 		switch ($this->recipients) {
 			case 'watchdog':
-				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+				$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordId, $moduleName);
 				$users = $watchdog->getWatchingUsers();
 				break;
 			case 'owner':

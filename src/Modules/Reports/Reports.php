@@ -929,7 +929,7 @@ class Reports extends \FreeCRM\CRMEntity
 				}
 
 				//In vtiger6 report filter conditions, if the value has "(double quotes) then it is failed.
-				$criteria['value'] = \Vtiger_Util_Helper::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$advft_criteria[$relcriteriarow['groupid']]['columns'][$j] = $criteria;

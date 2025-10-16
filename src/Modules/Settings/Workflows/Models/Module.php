@@ -84,7 +84,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$moduleModels = \Vtiger_Module_Model::getAll(array(0, 2));
+		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getAll(array(0, 2));
 		$supportedModuleModels = array();
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isWorkflowSupported()) {

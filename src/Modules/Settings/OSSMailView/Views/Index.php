@@ -20,7 +20,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 
-		$OSSMailScanner_Record_Model = \Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$OSSMailScanner_Record_Model = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$WidgetCfg = $OSSMailScanner_Record_Model->getConfig(false);
 
 

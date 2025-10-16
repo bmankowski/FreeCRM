@@ -32,19 +32,19 @@ class NotificationConfig extends \Vtiger_Index_View
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$moduleList = Vtiger_Watchdog_Model::getSupportedModules();
+		$moduleList = \FreeCRM\Modules\Vtiger\Models\Watchdog::getSupportedModules();
 		foreach ($moduleList as $tabId => &$module) {
 			if (!\App\Privilege::isPermitted($module->getName(), 'WatchingModule')) {
 				unset($moduleList[$tabId]);
 			}
 		}
-		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
-		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule();
+		$watchingModules = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModules();
+		$scheduleData = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule();
 		$selectedAllModules = count($moduleList) === count($watchingModules) ? true : false;
 		$selectedAllSendNotice = count($moduleList) === count($scheduleData['modules']) ? true : false;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_LIST', $moduleList);
-		$viewer->assign('WATCHING_MODEL', Vtiger_Watchdog_Model::getInstance($moduleName));
+		$viewer->assign('WATCHING_MODEL', \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($moduleName));
 		$viewer->assign('WATCHING_MODULES', $watchingModules);
 		$viewer->assign('SELECT_ALL_MODULES', $selectedAllModules);
 		$viewer->assign('IS_ALL_EMAIL_NOTICE', $selectedAllSendNotice);

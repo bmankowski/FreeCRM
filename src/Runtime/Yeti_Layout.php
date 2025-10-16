@@ -43,7 +43,7 @@ class Yeti_Layout
 
 	public static function getAllLayouts()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT name,label FROM vtiger_layout');
 		$folders = [
 			'basic' => vtranslate('LBL_DEFAULT')

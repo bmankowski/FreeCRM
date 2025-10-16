@@ -29,12 +29,12 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 	public function generateColor(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		$color = Settings_Calendar_Module_Model::generateColor();
+		$color = \FreeCRM\Modules\Settings\Calendar\Models\Module::generateColor();
 		$params['color'] = $color;
 		if (isset($params['viewtypesid']) && $params['viewtypesid']) {
-			Settings_Calendar_Module_Model::updateModuleColor($params);
+			\FreeCRM\Modules\Settings\Calendar\Models\Module::updateModuleColor($params);
 		} else {
-			Settings_Calendar_Module_Model::updateCalendarConfig($params);
+			\FreeCRM\Modules\Settings\Calendar\Models\Module::updateCalendarConfig($params);
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
@@ -48,7 +48,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 	public function UpdateModuleColor(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateModuleColor($params);
+		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateModuleColor($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -60,7 +60,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 	public function UpdateModuleActiveType(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateModuleActiveType($params);
+		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateModuleActiveType($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -72,7 +72,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 	public function UpdateCalendarConfig(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateCalendarConfig($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -84,7 +84,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 	public function updateNotWorkingDays(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		Settings_Calendar_Module_Model::updateNotWorkingDays($params);
+		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateNotWorkingDays($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

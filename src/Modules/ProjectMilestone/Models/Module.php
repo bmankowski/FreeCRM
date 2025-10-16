@@ -34,7 +34,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		if (!\App\Record::isExists($id)) {
 			return;
 		}
-		$relatedListView = Vtiger_RelationListView_Model::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
+		$relatedListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'estimated_work_time' => 'estimated_work_time',
 			'projecttaskprogress' => 'projecttaskprogress',

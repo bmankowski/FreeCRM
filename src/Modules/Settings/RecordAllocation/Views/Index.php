@@ -65,7 +65,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
 		$viewer->assign('MODULE_ID', vtlib\Functions::getModuleId($request->get('sourceModule')));
 		$viewer->assign('INDEX', ++$index);
-		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($type, $request->get('sourceModule')));
+		$viewer->assign('DATA', \FreeCRM\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $request->get('sourceModule')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}

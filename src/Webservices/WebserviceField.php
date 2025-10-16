@@ -38,7 +38,7 @@ class WebserviceField
 
 	/**
 	 *
-	 * @var PearDatabase
+	 * @var \FreeCRM\database\PearDatabase
 	 */
 	private $typeOfData;
 	private $fieldDataType;
@@ -228,7 +228,7 @@ class WebserviceField
 		if (isset(WebserviceField::$tableMeta[$this->getTableName()])) {
 			$tableFields = WebserviceField::$tableMeta[$this->getTableName()];
 		} else {
-			$dbMetaColumns = PearDatabase::getInstance()->getColumnsMeta($this->getTableName());
+			$dbMetaColumns = \FreeCRM\database\PearDatabase::getInstance()->getColumnsMeta($this->getTableName());
 			$tableFields = [];
 			foreach ($dbMetaColumns as $key => $dbField) {
 				$tableFields[$dbField->name] = $dbField;
@@ -357,7 +357,7 @@ class WebserviceField
 
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$db = PearDatabase::getInstance();
+			$db = \FreeCRM\database\PearDatabase::getInstance();
 			$result = $db->pquery('select * from vtiger_ws_fieldtype', []);
 			while ($resultrow = $db->fetch_array($result)) {
 				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
@@ -391,7 +391,7 @@ class WebserviceField
 	public function getPickListOptions()
 	{
 		$fieldName = $this->getFieldName();
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
 		$options = [];
 		$sql = "select * from vtiger_picklist where name=?";
@@ -441,7 +441,7 @@ class WebserviceField
 		if (count(self::$treeDetails) > 0) {
 			return self::$treeDetails;
 		}
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
 		$module = $db->getSingleValue($result);
 		$moduleName = \App\Module::getModuleName($module);

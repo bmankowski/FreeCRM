@@ -23,14 +23,14 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('LEADS_MODULE_MODEL', \Vtiger_Module_Model::getInstance('Leads'));
-		$viewer->assign('ACCOUNTS_MODULE_MODEL', \Vtiger_Module_Model::getInstance('Accounts'));
+		$viewer->assign('LEADS_MODULE_MODEL', \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Leads'));
+		$viewer->assign('ACCOUNTS_MODULE_MODEL', \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Accounts'));
 		$viewer->view('Index.tpl', $qualifiedModule);
 		\App\Log::trace('End ' . __METHOD__);
 	}

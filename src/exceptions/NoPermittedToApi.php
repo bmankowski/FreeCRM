@@ -16,7 +16,7 @@ class NoPermittedToApi extends \Exception
 		\FreeCRM\Http\Vtiger_Session::init();
 
 		$request = \FreeCRM\Http\AppRequest::init();
-		$dbLog = \PearDatabase::getInstance('log');
+		$dbLog = \FreeCRM\database\PearDatabase::getInstance('log');
 		$userName = \FreeCRM\Http\Vtiger_Session::get('full_user_name');
 		$dbLog->insert('o_yf_access_for_api', [
 			'username' => empty($userName) ? '-' : $userName,

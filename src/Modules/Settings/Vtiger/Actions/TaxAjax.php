@@ -24,7 +24,7 @@ class TaxAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;

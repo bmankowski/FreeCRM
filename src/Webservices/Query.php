@@ -15,7 +15,7 @@ function vtws_query($q, $user)
 
 	static $vtws_query_cache = [];
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	
 
 	// Cache the instance for re-use		

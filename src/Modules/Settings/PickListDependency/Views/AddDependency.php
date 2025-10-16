@@ -32,7 +32,7 @@ class AddDependency extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 		$qualifiedModule = $request->getModule(true);
 		$viewer = $this->getViewer($request);
-		$moduleModels = \Vtiger_Module_Model::getEntityModules();
+		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getEntityModules();
 
 		$viewer->assign('MODULES', $moduleModels);
 		echo $viewer->view('AddDependency.tpl', $qualifiedModule);

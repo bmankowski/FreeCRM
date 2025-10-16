@@ -221,7 +221,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				->from('vtiger_blocks')
 				->where(['blockid' => $blockId])->scalar();
 		if (!empty($tabid)) {
-			return \Vtiger_Module_Model::getInstance($tabid);
+			return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($tabid);
 		}
 		return false;
 	}

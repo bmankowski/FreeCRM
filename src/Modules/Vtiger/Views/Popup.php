@@ -128,7 +128,7 @@ class Popup extends \Vtiger_Index_View
 			$pagingModel->set('noLimit', true);
 
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		if (!\App\Record::isExists($relatedParentId)) {
 			$relatedParentModule = '';
@@ -136,7 +136,7 @@ class Popup extends \Vtiger_Index_View
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedParentId, $relatedParentModule);
-			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
+			$listViewModel = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName, $label);
 		} else {
 			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 		}
@@ -292,7 +292,7 @@ class Popup extends \Vtiger_Index_View
 
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedParentId, $relatedParentModule);
-			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
+			$listViewModel = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName, $label);
 		} else {
 			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 		}

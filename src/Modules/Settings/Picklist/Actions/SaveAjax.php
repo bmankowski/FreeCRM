@@ -61,7 +61,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		for ($i = 0; $i < $rowCount; $i++) {
 			$recordId = $db->query_result_rowdata($result, $i);
 			$recordId = $recordId['id'];
-			$record = \Vtiger_Record_Model::getInstanceById($recordId, 'Users');
+			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Users');
 			$record->set($defaultFieldName, $newValue);
 			$record->save();
 		}

@@ -28,7 +28,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$data = $request->getAll();
 
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
-		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
+		$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
 
 		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);

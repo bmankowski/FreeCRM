@@ -19,8 +19,8 @@ class Sorting extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 		$moduleName = $request->getModule(false);
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
 		$sourceModuleId = $request->get('sourceModule');
-		$sourceModuleModel = \Vtiger_Module_Model::getInstance($sourceModuleId);
-		$recordStructureInstance = \Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel);
+		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModuleId);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($sourceModuleModel);
 		$recordStructure = $recordStructureInstance->getStructure();
 
 		$viewer = $this->getViewer($request);
@@ -29,8 +29,8 @@ class Sorting extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 		// Added to show event module custom fields
 		if ($sourceModuleModel->getName() == 'Calendar') {
 			$relatedModuleName = 'Events';
-			$relatedModuleModel = \Vtiger_Module_Model::getInstance($relatedModuleName);
-			$relatedRecordStructureInstance = \Vtiger_RecordStructure_Model::getInstanceForModule($relatedModuleModel);
+			$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
+			$relatedRecordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($relatedModuleModel);
 			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
 			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);

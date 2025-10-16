@@ -59,8 +59,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	private function getVariablesToAdvancedFilter(FreeCRM_Viewer $viewer, $recordModel)
 	{
 		$sourceModuleName = $recordModel->getSourceModuleName();
-		$moduleModel = \Vtiger_Module_Model::getInstance($recordModel->get('tabid'));
-		$recordStructureInstance = \Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($recordModel->get('tabid'));
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 
 		$conditions = $recordModel->get('conditions');
@@ -76,7 +76,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		if ($sourceModuleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \FreeCRM\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);

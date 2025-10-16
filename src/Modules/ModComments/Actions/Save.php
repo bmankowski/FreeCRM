@@ -24,12 +24,12 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		foreach ($responseFieldsToSent as &$fieldName) {
 			$fieldModel = $fieldModelList[$fieldName];
 			$fieldValue = $recordModel->get($fieldName);
-			$result[$fieldName] = \Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
+			$result[$fieldName] = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
 		}
 
 		$result['success'] = true;
-		$result['modifiedtime'] = \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime'));
-		$result['modifiedtimetitle'] = \Vtiger_Util_Helper::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
+		$result['modifiedtime'] = \FreeCRM\Modules\Vtiger\Util::formatDateDiffInStrings($recordModel->get('modifiedtime'));
+		$result['modifiedtimetitle'] = \FreeCRM\Modules\Vtiger\Util::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);

@@ -110,8 +110,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getLastEndDateTime()
 	{
 		if ($this->get('lastend') != NULL) {
-			$lastScannedTime = \Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
-			$userModel = Users_Record_Model::getCurrentUserModel();
+			$lastScannedTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
+			$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$hourFormat = $userModel->get('hour_format');
 			if ($hourFormat == '24') {
 				return $lastScannedTime;

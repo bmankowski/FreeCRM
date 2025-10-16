@@ -126,7 +126,7 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			} else {
 				$fieldValue = $defaultValue;
 				if (empty($fieldValue)) {
-					$fieldValue = \Vtiger_Util_Helper::getDefaultMandatoryValue($fieldType);
+					$fieldValue = \FreeCRM\Modules\Vtiger\Util::getDefaultMandatoryValue($fieldType);
 				}
 				$element[$fieldName] = $fieldValue;
 			}

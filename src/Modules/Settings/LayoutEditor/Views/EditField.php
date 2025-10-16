@@ -23,7 +23,7 @@ class EditField extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 	 */
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser() && !Settings_LayoutEditor_Field_Model::getInstance($request->get('fieldId')->isEditable())) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}

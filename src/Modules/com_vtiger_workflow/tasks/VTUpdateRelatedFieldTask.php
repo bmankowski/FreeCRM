@@ -74,7 +74,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$relatedDataEx = explode('::', $relatedData);
 		$relatedModuleName = $relatedDataEx[0];
 		$relatedFieldName = $relatedDataEx[1];
-		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModuleName);
+		$targetModel = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModuleName);
 		if (!$targetModel->getRelationModel()) {
 			return false;
 		}

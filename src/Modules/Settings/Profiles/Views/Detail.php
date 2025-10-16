@@ -44,7 +44,7 @@ class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ALL_BASIC_ACTIONS', \Vtiger_Action_Model::getAllBasic(true));
 		$viewer->assign('ALL_UTILITY_ACTIONS', \Vtiger_Action_Model::getAllUtility(true));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}

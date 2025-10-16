@@ -207,7 +207,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function unBlock($id)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		return \App\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'blocked' => self::UNBLOCKED_BY_USER,
@@ -271,7 +271,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			}
 			$emails = [];
 			foreach ($usersId as $id) {
-				$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Users');
+				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, 'Users');
 				$emails[] = $recordModel->get('email1');
 			}
 			\App\Mailer::sendFromTemplate([

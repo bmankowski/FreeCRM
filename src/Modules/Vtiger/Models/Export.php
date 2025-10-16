@@ -275,13 +275,13 @@ class Export extends Model
 					$value = '';
 				}
 			} elseif ($uitype === 52 || $type === 'owner') {
-				$value = \Vtiger_Util_Helper::getOwnerName($value);
+				$value = \FreeCRM\Modules\Vtiger\Util::getOwnerName($value);
 			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
 				foreach ($owners as $owner) {
-					$values[] = \Vtiger_Util_Helper::getOwnerName($owner);
+					$values[] = \FreeCRM\Modules\Vtiger\Util::getOwnerName($owner);
 				}
 				$value = implode(',', $values);
 			} elseif ($type === 'reference') {

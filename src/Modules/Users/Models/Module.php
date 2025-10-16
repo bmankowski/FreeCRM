@@ -37,7 +37,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of Users_Record_Model>
+	 * @return <Array of \FreeCRM\Modules\Users\Models\Record>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
@@ -316,7 +316,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		}
 		$recordModel->saveToDb();
 		//After adding new user, set the default activity types for new user
-		\Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		\FreeCRM\Modules\Vtiger\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\User::getCurrentUserRealId() === $recordModel->getId()) {
 			Vtiger_Session::set('language', $recordModel->get('language'));
 		}

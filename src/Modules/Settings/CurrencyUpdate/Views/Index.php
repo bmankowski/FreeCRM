@@ -19,13 +19,13 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		// synchronise bank list
 		$moduleModel->refreshBanks();
 
 		$downloadBtn = !$request->isEmpty('download') ? $request->get('download') : false;
-		$date = !$request->isEmpty('duedate') ? \Vtiger_Datetime_UIType::getDBInsertedValue($request->get('duedate')) : false;
+		$date = !$request->isEmpty('duedate') ? \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBInsertedValue($request->get('duedate')) : false;
 
 		$dateCur = '';
 		if ($date) {

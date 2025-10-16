@@ -129,18 +129,18 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				$value = \App\Module::getModuleName($value);
 				break;
 			case 'status':
-				if (isset(Settings_AdvancedPermission_Module_Model::$status[$value])) {
-					$value = Settings_AdvancedPermission_Module_Model::$status[$value];
+				if (isset(\FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$status[$value])) {
+					$value = \FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$status[$value];
 				}
 				break;
 			case 'action':
-				if (isset(Settings_AdvancedPermission_Module_Model::$action[$value])) {
-					$value = Settings_AdvancedPermission_Module_Model::$action[$value];
+				if (isset(\FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$action[$value])) {
+					$value = \FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$action[$value];
 				}
 				break;
 			case 'priority':
-				if (isset(Settings_AdvancedPermission_Module_Model::$priority[$value])) {
-					$value = Settings_AdvancedPermission_Module_Model::$priority[$value];
+				if (isset(\FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$priority[$value])) {
+					$value = \FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$priority[$value];
 				}
 				break;
 			case 'members':

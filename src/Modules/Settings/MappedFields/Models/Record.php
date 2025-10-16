@@ -37,7 +37,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$this->module = \Vtiger_Module_Model::getInstance($moduleName);
+		$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 

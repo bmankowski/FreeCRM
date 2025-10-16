@@ -23,7 +23,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$user = $request->get('user');
 		$folders = $request->get('folders');
-		$mailScannerRecordModel = \Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$mailScannerRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$mailScannerRecordModel->setFolderList($user, $folders);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([

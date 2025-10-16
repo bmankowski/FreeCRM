@@ -34,7 +34,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 			}
 		}
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $field => $value) {

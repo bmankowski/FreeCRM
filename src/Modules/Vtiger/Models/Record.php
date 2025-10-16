@@ -109,7 +109,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 		if (empty($displayName)) {
 			$displayName = $this->getDisplayName();
 		}
-		return \Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public function getSearchName()
 	{
 		$displayName = $this->get('searchlabel');
-		return \Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
 	}
 
 	public function isWatchingRecord()
@@ -151,7 +151,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Function to get the Module to which the record belongs
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{

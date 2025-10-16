@@ -20,7 +20,7 @@ class ActivityTypes extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Calendar_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \FreeCRM\Modules\Settings\Calendar\Models\Module::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

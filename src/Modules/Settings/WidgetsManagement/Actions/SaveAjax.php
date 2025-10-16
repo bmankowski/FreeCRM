@@ -16,13 +16,13 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$mode = $request->get('mode');
 		if ($mode == 'delete' && !$currentUserModel->isAdminUser()) {
 			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 		$sourceModule = $request->get('sourceModule');
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'Save')) {
 			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
@@ -46,7 +46,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			if (!$data['action'])
 				$data['action'] = 'saveDetails';
 			$action = $data['action'];
-			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+			$widgetsManagementModel = new \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module();
 			$result = $widgetsManagementModel->$action($data, $moduleName, $addToUser);
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
@@ -65,7 +65,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			if (!$action){
 				$action = 'removeWidget';
 			}
-			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+			$widgetsManagementModel = new \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module();
 			$result = $widgetsManagementModel->$action($data);
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();

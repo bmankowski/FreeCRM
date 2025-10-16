@@ -144,7 +144,7 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 			$taskType = get_class($taskObject);
 			if ($taskType === 'VTCreateEntityTask' && $taskObject->field_value_mapping) {
-				$relationModuleModel = \Vtiger_Module_Model::getInstance($taskObject->entity_type);
+				$relationModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
@@ -153,7 +153,7 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 						if ($mappingInfo['value'] == 'assigned_user_id') {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {
-							$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
+							$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($mappingInfo['value'], 'Users');
 							$ownerName = $userRecordModel->get('user_name');
 
 							if (!$ownerName) {

@@ -17,7 +17,7 @@ class CreateApp extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
@@ -38,7 +38,7 @@ class CreateApp extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
 			$accountId = $recordModel->get('accounts_id');
 			if ($recordModel && !empty($accountId)) {
-				$recordModel->set('accountsModel', \Vtiger_Record_Model::getInstanceById($accountId));
+				$recordModel->set('accountsModel', \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($accountId));
 			}
 		} else {
 			$recordModel = false;

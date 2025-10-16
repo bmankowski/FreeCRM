@@ -26,7 +26,7 @@ Class Settings_ModuleManager_List_View extends \FreeCRM\Modules\Settings\Vtiger\
 		$viewer->assign('IMPORT_MODULE_URL', \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getNewModuleImportUrl());
 		$viewer->assign('IMPORT_USER_MODULE_URL', \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getUserModuleImportUrl());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
 	}

@@ -16,7 +16,7 @@
  */
 function getInventoryCurrencyInfo($module, $id)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 
 	\App\Log::trace("Entering into function getInventoryCurrencyInfo($module, $id).");
@@ -55,7 +55,7 @@ function getAllCurrencies($available = 'available')
  */
 function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 	if ($productid != '') {
@@ -164,7 +164,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
  */
 function getProductBaseCurrency($productid, $module = 'Products')
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	if ($module == 'Services') {
 		$sql = "select currency_id from vtiger_service where serviceid=?";
@@ -184,7 +184,7 @@ function getProductBaseCurrency($productid, $module = 'Products')
  */
 function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$nameCache = $productid . $mode . $module;
 	$convRate = Vtiger_Cache::get('getBaseConversionRateForProduct', $nameCache);
 	if ($convRate !== false) {

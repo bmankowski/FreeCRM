@@ -25,7 +25,7 @@ class Watermark extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 	public function Delete(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$pdfModel = \Vtiger_PDF_Model::getInstanceById($recordId);
+		$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
 		$output = Settings_PDF_Record_Model::deleteWatermark($pdfModel);
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
@@ -39,7 +39,7 @@ class Watermark extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$newName = basename($_FILES['watermark']['name'][0]);
 		$newName = explode('.', $newName);
 		$newName = $templateId . '.' . end($newName);
-		$targetDir = Settings_PDF_Module_Model::$uploadPath;
+		$targetDir = \FreeCRM\Modules\Settings\PDF\Models\Module::$uploadPath;
 		$targetFile = $targetDir . $newName;
 		$uploadOk = 1;
 

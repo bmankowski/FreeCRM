@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Project_Record_Model extends Vtiger_Record_Model
+Class Project_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 	
 }

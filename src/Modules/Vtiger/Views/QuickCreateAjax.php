@@ -45,7 +45,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 			}
 		}
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
@@ -84,7 +84,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \Vtiger_Util_Helper::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \FreeCRM\Modules\Vtiger\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}

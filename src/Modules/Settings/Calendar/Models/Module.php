@@ -100,7 +100,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function updateCalendarConfig($params)
 	{
 		if ($params['table']) {
-			Users_Colors_Model::updateColor($params);
+			\FreeCRM\Modules\Users\Models\Colors::updateColor($params);
 		} else {
 			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']]
 			)->execute();
@@ -141,7 +141,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		$keys = ['name', 'label', 'value', 'table', 'field'];
 		$calendarConfig = [];
 		foreach (self::getCalendarColorPicklist() as $picklistName) {
-			$picklistValues = Users_Colors_Model::getValuesFromField($picklistName);
+			$picklistValues = \FreeCRM\Modules\Users\Models\Colors::getValuesFromField($picklistName);
 			foreach ($picklistValues as $picklistValue) {
 				$picklistValue['id'] = $picklistValue['value'];
 				$picklistValue['table'] = 'vtiger_' . $picklistName;

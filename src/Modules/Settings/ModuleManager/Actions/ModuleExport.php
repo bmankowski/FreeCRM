@@ -34,7 +34,7 @@ Class Settings_ModuleManager_ModuleExport_Action extends \FreeCRM\Modules\Settin
 	{
 		$moduleName = $request->get('forModule');
 
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		if (!$moduleModel->isExportable()) {
 			echo 'Module not exportable!';

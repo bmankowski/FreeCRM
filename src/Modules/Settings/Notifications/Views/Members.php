@@ -45,7 +45,7 @@ class Members extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 	{
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->get('srcModule');
-		$watchdogModel = \Vtiger_Watchdog_Model::getInstance($srcModule);
+		$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_TO_ADD', true);
 		$viewer->assign('SRC_MODULE', $srcModule);
@@ -64,7 +64,7 @@ class Members extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->get('srcModule');
 		$member = $request->get('member');
-		$watchdogModel = \Vtiger_Watchdog_Model::getInstance($srcModule);
+		$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MEMBER', $member);
 		$viewer->assign('SRC_MODULE', $srcModule);

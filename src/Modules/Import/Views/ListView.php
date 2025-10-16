@@ -74,7 +74,7 @@ class ListView extends Popup
 
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$listViewModel = Import_ListView_Model::getInstance($moduleName, $cvId);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);

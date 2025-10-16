@@ -44,13 +44,13 @@ class Watchdog extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$user = $request->get('user');
 		}
 		if (empty($record)) {
-			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleName, $user);
+			$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($moduleName, $user);
 			$watchdog->changeModuleState($state);
 		} else {
-			$watchdog = Vtiger_Watchdog_Model::getInstanceById($record, $moduleName, $user);
+			$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($record, $moduleName, $user);
 			$watchdog->changeRecordState($state);
 		}
-		Vtiger_Watchdog_Model::reloadCache();
+		\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($state);
 		$response->emit();

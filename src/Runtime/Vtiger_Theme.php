@@ -157,7 +157,7 @@ class Vtiger_Theme extends FreeCRM_Viewer
 	 */
 	public static function getAllSkins()
 	{
-		return Vtiger_Util_Helper::getAllSkins();
+		return \FreeCRM\Modules\Vtiger\Util::getAllSkins();
 	}
 
 	/**

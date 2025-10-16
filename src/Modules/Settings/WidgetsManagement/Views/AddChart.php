@@ -15,7 +15,7 @@ class AddChart extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 
 	public function getReports()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? AND owner = ?';
 		$params = ['chart', $currentUser->getId()];

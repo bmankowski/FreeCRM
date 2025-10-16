@@ -25,7 +25,7 @@ class DashBoard extends VtigerDashBoard
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
 		}
 		$viewer = $this->getViewer($request);
 		$modulesWithWidget = \FreeCRM\Modules\Vtiger\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);

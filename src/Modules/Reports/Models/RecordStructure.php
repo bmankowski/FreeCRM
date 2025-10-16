@@ -31,12 +31,12 @@ class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 		}
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if ($moduleName === 'Calendar') {
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = array();
 			$calendarRecordStructure = $recordStructureInstance->getStructure();
 
 			$eventsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($eventsModel);
+			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($eventsModel);
 			$eventRecordStructure = $recordStructureInstance->getStructure();
 
 			$blockLabel = 'LBL_CUSTOM_INFORMATION';
@@ -49,7 +49,7 @@ class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 			}
 			$moduleRecordStructure = $calendarRecordStructure;
 		} else {
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = $recordStructureInstance->getStructure();
 		}
 		$this->structuredValues[$moduleName] = $moduleRecordStructure;

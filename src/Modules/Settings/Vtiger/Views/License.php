@@ -21,7 +21,7 @@ class License extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$userLang = $currentUser->get('language');
 		$viewer->assign('USERLANG', $userLang);
 		$viewer->view('License.tpl', $qualifiedModuleName);

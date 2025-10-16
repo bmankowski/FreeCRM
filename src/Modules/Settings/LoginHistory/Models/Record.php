@@ -54,7 +54,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			case 'login_time':
 			case 'logout_time':
 				if ($this->get($fieldName) !== '0000-00-00 00:00:00') {
-					return \Vtiger_Datetime_UIType::getDateTimeValue($this->get($fieldName));
+					return \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDateTimeValue($this->get($fieldName));
 				} else {
 					return '---';
 				}

@@ -193,7 +193,7 @@ class VTJsonCondition {
 					$value = $value . ':00'; // time fields will not have seconds appended to it, so we are adding 
 					break;
 				case 'multiReferenceValue':
-					$value = Vtiger_MultiReferenceValue_UIType::COMMA . $value . Vtiger_MultiReferenceValue_UIType::COMMA;
+					$value = \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA . $value . \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA;
 					break;
 				case 'sharedOwner':
 					if ($condition === 'is' || $condition === 'is not') {
@@ -426,13 +426,13 @@ class VTJsonCondition {
 				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
 				return false;
 			case 'is Watching Record':
-				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
+				$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {
 					return true;
 				}
 				return false;
 			case 'is Not Watching Record':
-				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
+				$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {
 					return false;
 				}

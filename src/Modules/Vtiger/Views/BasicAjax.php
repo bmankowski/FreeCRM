@@ -79,7 +79,7 @@ class BasicAjax extends \Vtiger_Index_View
 		$customViewModel = new \FreeCRM\Modules\CustomView\Models\Record();
 		$customViewModel->setModule($moduleName);
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		$viewer->assign('SEARCHABLE_MODULES', \FreeCRM\Modules\Vtiger\Models\Module::getSearchableModules());
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);

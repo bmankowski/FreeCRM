@@ -48,7 +48,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		}
 		$keyLength = 10;
 		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
-		$userModel = Users_Record_Model::getInstanceById($userID, 'Users');
+		$userModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($userID, 'Users');
 		$digesta1 = md5($userModel->get('user_name') . ':YetiDAV:' . $key);
 		$db = \App\Db::getInstance();
 		$result = $db->createCommand()->insert('dav_users', [
@@ -99,7 +99,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();
 		$db->createCommand()->delete('dav_principals', ['userid' => $params['user']])->execute();
 
-		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
+		$user = \FreeCRM\Modules\Users\Models\Record::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
 		$davStorageDir = vglobal('davStorageDir');
 		vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
@@ -112,7 +112,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function createUserDirectory($params)
 	{
-		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
+		$user = \FreeCRM\Modules\Users\Models\Record::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
 		$path = '/' . $user_name . '/';
 		$davStorageDir = vglobal('davStorageDir');

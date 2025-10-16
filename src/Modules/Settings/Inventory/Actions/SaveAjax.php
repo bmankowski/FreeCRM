@@ -25,7 +25,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
@@ -106,7 +106,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$params = $request->get('param');
 		$type = $params['view'];
 
-		$recordModel = Settings_Inventory_Module_Model::getCleanInstance();
+		$recordModel = \FreeCRM\Modules\Settings\Inventory\Models\Module::getCleanInstance();
 		$status = $recordModel->setConfig($type, $params['param']);
 
 		if (!$status) {

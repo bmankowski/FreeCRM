@@ -24,7 +24,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$supportedModuleModels = \Vtiger_Module_Model::getAll(array(0, 2));
+		$supportedModuleModels = \FreeCRM\Modules\Vtiger\Models\Module::getAll(array(0, 2));
 		return $supportedModuleModels;
 	}
 

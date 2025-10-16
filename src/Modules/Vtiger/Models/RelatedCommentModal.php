@@ -17,7 +17,7 @@ class RelatedCommentModal extends Model
 		$instance = new $modelClassName();
 
 		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModuleName);
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModuleName);
 		$instance->set('relationListView', $relationListView)
 			->set('record', $record)
 			->set('moduleName', $moduleName)

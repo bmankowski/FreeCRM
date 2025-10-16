@@ -15,7 +15,7 @@ require_once(ROOT_DIRECTORY . "/src/events/include.php");
  */
 function vtws_deleteUser($id, $newOwnerId, $user)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();

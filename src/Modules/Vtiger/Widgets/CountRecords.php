@@ -43,7 +43,7 @@ class CountRecords extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 		$countRecords = [];
 		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		foreach ($modules as $relatedModuleName) {
-			$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+			$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName);
 			if (!\App\Module::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
 				continue;
 			}

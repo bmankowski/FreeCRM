@@ -11,7 +11,7 @@
 function vtws_describe($elementType, $user)
 {
 
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $elementType);
 	$handlerPath = $webserviceObject->getHandlerPath();

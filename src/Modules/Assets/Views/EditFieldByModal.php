@@ -26,7 +26,7 @@ class EditFieldByModal extends \Vtiger_Index_View
 		$ID = $request->get('record');
 
 		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $ID)->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$fields = [];
 		foreach ($structuredValues as $fildsInBlock) {

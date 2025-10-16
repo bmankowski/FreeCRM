@@ -80,8 +80,8 @@ class TaskType extends \Vtiger_Record_Model
 	{
 		$taskTypeName = $this->get('tasktypename');
 		switch ($taskTypeName) {
-			case 'VTCreateTodoTask' : return \Vtiger_Module_Model::getInstance('Calendar');
-			case 'VTCreateEventTask' : return \Vtiger_Module_Model::getInstance('Events');
+			case 'VTCreateTodoTask' : return \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+			case 'VTCreateEventTask' : return \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
 		}
 	}
 }

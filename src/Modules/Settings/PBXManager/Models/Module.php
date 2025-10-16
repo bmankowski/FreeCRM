@@ -59,9 +59,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function getModule($raw = true)
 	{
-		$moduleName = Settings_PBXManager_Module_Model::getModuleName();
+		$moduleName = \FreeCRM\Modules\Settings\PBXManager\Models\Module::getModuleName();
 		if (!$raw) {
-			$parentModule = Settings_PBXManager_Module_Model::getParentName();
+			$parentModule = \FreeCRM\Modules\Settings\PBXManager\Models\Module::getParentName();
 			if (!empty($parentModule)) {
 				$moduleName = $parentModule . ':' . $moduleName;
 			}

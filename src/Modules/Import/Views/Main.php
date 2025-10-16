@@ -74,7 +74,7 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 	/**
 	 * Show import status
 	 * @param array $importInfo
-	 * @param Users_Record_Model $user
+	 * @param \FreeCRM\Modules\Users\Models\Record $user
 	 * @throws \Exception\AppException
 	 */
 	public static function showImportStatus($importInfo, $user)

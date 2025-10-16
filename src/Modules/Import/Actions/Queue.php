@@ -83,7 +83,7 @@ class Queue extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Import info
 	 * @param string $module
-	 * @param Users_Record_Model $user
+	 * @param \FreeCRM\Modules\Users\Models\Record $user
 	 * @return null|array
 	 */
 	public static function getImportInfo($module, $user)

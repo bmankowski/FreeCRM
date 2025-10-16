@@ -143,7 +143,7 @@ class Util {
 	public static function formatDateIntoStrings($date, $time = false)
 	{
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$dateTimeInUserFormat = \Vtiger_Datetime_UIType::getDisplayDateTimeValue($date . ' ' . $time);
+		$dateTimeInUserFormat = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($date . ' ' . $time);
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
 		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
@@ -201,7 +201,7 @@ class Util {
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$dateTimeInUserFormat = explode(' ', \Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
+		$dateTimeInUserFormat = explode(' ', \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($dateTime));
 
 		if (count($dateTimeInUserFormat) == 3) {
 			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;

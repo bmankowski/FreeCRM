@@ -54,7 +54,7 @@ class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$label = $request->get('tab_label');
 
 		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$count = $relationListView->getRelatedEntriesCount();
 		$result = array();
 		$result['module'] = $moduleName;

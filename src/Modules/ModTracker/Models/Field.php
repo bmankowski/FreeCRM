@@ -60,7 +60,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to set parent to this model
-	 * @param Vtiger_Record_Model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function setParent($parent)
 	{
@@ -70,7 +70,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get parent
-	 * @return Vtiger_Record_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getParent()
 	{
@@ -79,7 +79,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to set Field instance
-	 * @param Vtiger_Field_Model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function setFieldInstance($fieldModel)
 	{
@@ -89,7 +89,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get Field instance
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getFieldInstance()
 	{

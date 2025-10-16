@@ -63,7 +63,7 @@ class Widget extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
-		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
+		$viewer->assign('PRIVILEGESMODEL', \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel());
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();
 			$tplName = $widgetInstance->getConfigTplName();

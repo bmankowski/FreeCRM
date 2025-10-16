@@ -62,7 +62,7 @@ class DataTransform
 
 	public static function sanitizeForInsert($row, $meta)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$associatedToUser = false;
 		$parentTypeId = null;
 		if (strtolower($meta->getEntityName()) == "emails") {
@@ -185,7 +185,7 @@ class DataTransform
 
 	public static function sanitizeReferences($row, $meta)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 		$references = $meta->getReferenceFieldDetails();
 		foreach ($references as $field => $typeList) {
@@ -226,7 +226,7 @@ class DataTransform
 
 	public static function sanitizeOwnerFields($row, $meta, $t = null)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		$ownerFields = $meta->getOwnerFields();
 		foreach ($ownerFields as $index => $field) {
 			if (isset($row[$field]) && $row[$field] != null) {

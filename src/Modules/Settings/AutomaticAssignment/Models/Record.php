@@ -120,13 +120,13 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	{
 		switch ($name) {
 			case 'value':
-				return \Vtiger_Field_Model::getInstance($this->get('field'), \Vtiger_Module_Model::getInstance($this->get('tabid')));
+				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance($this->get('field'), \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
 			case 'roles':
 			case 'roleid':
-				return \Vtiger_Field_Model::getInstance('roleid', \Vtiger_Module_Model::getInstance('Users'));
+				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance('roleid', \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users'));
 			case 'smowners':
 			case 'assign':
-				return \Vtiger_Field_Model::getInstance('assigned_user_id', \Vtiger_Module_Model::getInstance($this->get('tabid')));
+				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
 			default:
 				break;
 		}

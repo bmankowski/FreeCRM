@@ -39,7 +39,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = \Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}

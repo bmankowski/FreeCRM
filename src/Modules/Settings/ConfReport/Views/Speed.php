@@ -15,7 +15,7 @@ class Speed extends \Vtiger_BasicModal_View
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
@@ -25,7 +25,7 @@ class Speed extends \Vtiger_BasicModal_View
 	{
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('TESTS', Settings_ConfReport_Module_Model::testSpeed());
+		$viewer->assign('TESTS', \FreeCRM\Modules\Settings\ConfReport\Models\Module::testSpeed());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Speed.tpl', $qualifiedModule);
 	}

@@ -32,7 +32,7 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$type = $request->get('fieldType');
 		$moduleName = $request->get('sourceModule');
 		$blockId = $request->get('blockid');
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
+		$moduleModel = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($moduleName);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		try {
 			$fieldModel = $moduleModel->addField($type, $blockId, $request->getAll());
@@ -52,7 +52,7 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 	public function save(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$fieldId = $request->get('fieldid');
-		$fieldInstance = \Vtiger_Field_Model::getInstance($fieldId);
+		$fieldInstance = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldId);
 		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
 			if ($key == 'mandatory') {
@@ -147,8 +147,8 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$moduleName = $request->get('rmodule');
 		$picklistValues = [];
 		if (!empty($fieldName) && !empty($moduleName) && $fieldName != '-') {
-			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-			$fieldInstance = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$fieldInstance = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
 			if ($picklistValues === null) {
 				$picklistValues = [];

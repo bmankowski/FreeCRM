@@ -19,7 +19,7 @@ class logs extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$OSSMailScanner_Record_Model = \Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$OSSMailScanner_Record_Model = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 
 		$cron_history_action_list = $OSSMailScanner_Record_Model->get_scan_history();
 		$viewer = $this->getViewer($request);

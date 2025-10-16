@@ -27,7 +27,7 @@ class DocumentsFileUpload extends Base
 	 * Function to get the value for ListView
 	 * @param string $value
 	 * @param integer $record
-	 * @param Vtiger_Record_Model
+	 * @param \FreeCRM\Modules\Vtiger\Models\Record
 	 * @return string
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

@@ -291,7 +291,7 @@ function getListQuery($module, $where = '')
 
 function getEntityId($module, $entityName)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	\App\Log::trace("in getEntityId " . $entityName);
 
@@ -347,7 +347,7 @@ function popup_decode_html($str)
  */
 function getFirstModule($module, $fieldname)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
 	$result = $adb->pquery($sql, array(\App\Module::getModuleId($module), $fieldname));
 

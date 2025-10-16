@@ -58,7 +58,7 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				Settings_PDF_Record_Model::save($pdfModel, 'import');
 
 				if ($pdfModel->getId() && $imagePath != '' && $base64Image) {
-					$targetDir = Settings_PDF_Module_Model::$uploadPath;
+					$targetDir = \FreeCRM\Modules\Settings\PDF\Models\Module::$uploadPath;
 					$imageExt = end(explode('.', basename($imagePath)));
 					$imageData = base64_decode($base64Image);
 					$newFilePath = $targetDir . $pdfModel->getId() . '.' . $imageExt;

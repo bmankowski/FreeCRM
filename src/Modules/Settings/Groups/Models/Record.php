@@ -95,7 +95,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getMembers()
 	{
 		if (!isset($this->members)) {
-			$this->members = Settings_Groups_Member_Model::getAllByGroup($this);
+			$this->members = \FreeCRM\Modules\Settings\Groups\Models\Member::getAllByGroup($this);
 		}
 		return $this->members;
 	}
@@ -163,21 +163,21 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$noOfMembers = count($members);
 			for ($i = 0; $i < $noOfMembers; ++$i) {
 				$id = $members[$i];
-				$idComponents = Settings_Groups_Member_Model::getIdComponentsFromQualifiedId($id);
+				$idComponents = \FreeCRM\Modules\Settings\Groups\Models\Member::getIdComponentsFromQualifiedId($id);
 				if ($idComponents && count($idComponents) == 2) {
 					$memberType = $idComponents[0];
 					$memberId = $idComponents[1];
 
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_USERS) {
+					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_USERS) {
 						$db->createCommand()->insert('vtiger_users2group', ['userid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS) {
+					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_GROUPS) {
 						$db->createCommand()->insert('vtiger_group2grouprel', ['containsgroupid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLES) {
+					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_ROLES) {
 						$db->createCommand()->insert('vtiger_group2role', ['roleid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
+					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
 						$db->createCommand()->insert('vtiger_group2rs', ['roleandsubid' => $memberId, 'groupid' => $groupId])->execute();
 					}
 				}
@@ -296,7 +296,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		}
 		if ($nonAdmin) {
 			foreach ($userIdsList as $key => $userId) {
-				$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
+				$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 				if ($userRecordModel->isAdminUser()) {
 					unset($userIdsList[$key]);
 				}
@@ -316,7 +316,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
 		$newOwnerModel = $this->getInstance($transferGroupId);
 		if (!$newOwnerModel) {
-			$newOwnerModel = Users_Record_Model::getInstanceById($transferGroupId, 'Users');
+			$newOwnerModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($transferGroupId, 'Users');
 		}
 		$ownerModel = $this->getInstance($groupId);
 		vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
@@ -454,7 +454,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		foreach ($data['group_members'] as $member) {
 			$info = explode(':', $member);
 			if ($info[0] == 'Users') {
-				$userModel = Users_Record_Model::getInstanceById($info[1], 'Users');
+				$userModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($info[1], 'Users');
 				$groupMembers[] = $userModel->getName();
 			}
 			if ($info[0] == 'Roles' || $info[0] == 'RoleAndSubordinates') {

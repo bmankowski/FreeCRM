@@ -26,7 +26,7 @@ class Keys extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USERS', Users_Record_Model::getAll());
+		$viewer->assign('USERS', \FreeCRM\Modules\Users\Models\Record::getAll());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ENABLEDAV', !in_array('dav', $enabledServices));
 		$viewer->view('Keys.tpl', $qualifiedModuleName);

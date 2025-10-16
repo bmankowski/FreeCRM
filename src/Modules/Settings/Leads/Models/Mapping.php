@@ -128,7 +128,7 @@ class Mapping extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getFieldsInfo($fieldIdsList)
 	{
-		$leadModel = \Vtiger_Module_Model::getInstance($this->getName());
+		$leadModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getName());
 		$leadId = $leadModel->getId();
 		$dataReader = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'uitype', 'typeofdata', 'fieldname', 'tablename', 'tabid'])
 			->from('vtiger_field')

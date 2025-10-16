@@ -255,7 +255,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('REPORT_MODEL', $reportModel);
 		$viewer->assign('PRIMARY_MODULE', $primaryModule);
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 

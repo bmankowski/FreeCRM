@@ -36,13 +36,13 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	public function showFieldLayout(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
+		$supportedModulesList = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getSupportedModules();
 
 		if (empty($sourceModule)) {
 			//To get the first element
 			$sourceModule = reset($supportedModulesList);
 		}
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
+		$moduleModel = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($sourceModule);
 		$fieldModels = $moduleModel->getFields();
 		$blockModels = $moduleModel->getBlocks();
 
@@ -70,8 +70,8 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('SELECTED_MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCKS', $blockModels);
 		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
-		$viewer->assign('DISPLAY_TYPE_LIST', \Vtiger_Field_Model::showDisplayTypeList());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('DISPLAY_TYPE_LIST', \FreeCRM\Modules\Vtiger\Models\Field::showDisplayTypeList());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
@@ -83,14 +83,14 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	public function showRelatedListLayout(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
+		$supportedModulesList = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getSupportedModules();
 
 		if (empty($sourceModule)) {
 			//To get the first element
 			$moduleName = reset($supportedModulesList);
-			$sourceModule = \Vtiger_Module_Model::getInstance($moduleName)->getName();
+			$sourceModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName)->getName();
 		}
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
+		$moduleModel = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($sourceModule);
 		$relatedModuleModels = $moduleModel->getRelations();
 
 		$qualifiedModule = $request->getModule(false);

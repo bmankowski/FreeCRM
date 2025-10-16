@@ -39,7 +39,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Constructor
 	 * @param array $importInfo
-	 * @param Users_Record_Model $user
+	 * @param \FreeCRM\Modules\Users\Models\Record $user
 	 */
 	public function __construct($importInfo, $user)
 	{

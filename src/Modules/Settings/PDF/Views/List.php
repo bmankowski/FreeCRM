@@ -17,7 +17,7 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('SUPPORTED_MODULE_MODELS', Settings_PDF_Module_Model::getSupportedModules());
+		$viewer->assign('SUPPORTED_MODULE_MODELS', \FreeCRM\Modules\Settings\PDF\Models\Module::getSupportedModules());
 		parent::preProcess($request, $display);
 	}
 }

@@ -26,7 +26,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the Module to which the record belongs
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{
@@ -333,7 +333,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Static Function to get the instance of the User Record model for the current user
-	 * @return Users_Record_Model instance
+	 * @return \FreeCRM\Modules\Users\Models\Record instance
 	 */
 	protected static $currentUserModels = [];
 
@@ -362,7 +362,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Static Function to get the instance of the User Record model from the given Users object
-	 * @return Users_Record_Model instance
+	 * @return \FreeCRM\Modules\Users\Models\Record instance
 	 */
 	public static function getInstanceFromUserObject($userObject)
 	{

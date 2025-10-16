@@ -56,7 +56,7 @@ class Notification {
 	 */
 	private function existNotifications($userId, $startDate, $endDate)
 	{
-		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule($userId, true);
+		$scheduleData = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule($userId, true);
 		$modules = $scheduleData['modules'];
 		return \FreeCRM\Modules\Notification\Models\Module::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
 	}

@@ -25,7 +25,7 @@ class TextParser extends \App\TextParser\Base
 	{
 		$html = '';
 		$relationModuleName = 'Products';
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
 		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);

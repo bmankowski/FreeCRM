@@ -89,7 +89,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 	public function __create($elementType, $element)
 	{
 		require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-		$db = PearDatabase::getInstance();
+		$db = \FreeCRM\database\PearDatabase::getInstance();
 
 		$this->id = $this->getNextId($elementType, $element);
 

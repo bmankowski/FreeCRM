@@ -34,7 +34,7 @@ class ModalAjax extends \FreeCRM\Modules\Settings\Inventory\Views\CreditLimits
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('CURRENCY', \Vtiger_Util_Helper::getBaseCurrency());
+		$viewer->assign('CURRENCY', \FreeCRM\Modules\Vtiger\Util::getBaseCurrency());
 		echo $viewer->view('Modal.tpl', $qualifiedModuleName, true);
 	}
 }

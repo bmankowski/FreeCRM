@@ -77,7 +77,7 @@ class EstimatedValueByStatus extends \Vtiger_Index_View
 		$data = $request->get('data');
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
+			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, $moduleName);
 		else
 			$owner = $request->get('owner');
 		if ($owner == 'all')

@@ -64,8 +64,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$record = $request->get('record');
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
 		$selectedModule = \App\Module::getModuleName($recordModel->get('tabid'));
-		$moduleModel = \Vtiger_Module_Model::getInstance($selectedModule);
-		$recordStructureInstance = \Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModule);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

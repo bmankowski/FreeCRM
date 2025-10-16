@@ -207,7 +207,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns instance of the module where import takes place
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getImportModuleModel()
 	{

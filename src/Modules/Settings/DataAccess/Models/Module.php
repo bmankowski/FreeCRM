@@ -132,7 +132,7 @@ class Module extends \Vtiger_Module_Model
 	{
 		if ($baseModule === 'All')
 			return $baseModule;
-		$baseModuleModel = \Vtiger_Module_Model::getInstance($baseModule);
+		$baseModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($baseModule);
 		$list = $baseModuleModel->getFields();
 		$output = array();
 		if (count($list)) {

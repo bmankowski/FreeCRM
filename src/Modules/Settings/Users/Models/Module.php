@@ -237,7 +237,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		if (!empty($difference)) {
 			foreach ($difference as $id => $locks) {
 				if (strpos($id, 'H') === false) {
-					$name = Users_Record_Model::getInstanceById($id, 'Users');
+					$name = \FreeCRM\Modules\Users\Models\Record::getInstanceById($id, 'Users');
 				} else {
 					$name = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($id);
 				}
@@ -256,7 +256,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::changeType('delete');
 			foreach ($difference as $id => $locks) {
 				if (strpos($id, 'H') === false) {
-					$name = Users_Record_Model::getInstanceById($id, 'Users');
+					$name = \FreeCRM\Modules\Users\Models\Record::getInstanceById($id, 'Users');
 				} else {
 					$name = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($id);
 				}

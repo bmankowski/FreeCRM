@@ -68,7 +68,7 @@ Class Settings_Profiles_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 	}
 
 	/**

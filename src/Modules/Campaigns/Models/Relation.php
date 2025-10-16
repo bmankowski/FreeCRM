@@ -39,7 +39,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 
 	/**
 	 * Function to get relation field for relation module and parent module
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getRelationField()
 	{

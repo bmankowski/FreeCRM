@@ -55,7 +55,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to get the module
-	 * @return Vtiger_Module_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{

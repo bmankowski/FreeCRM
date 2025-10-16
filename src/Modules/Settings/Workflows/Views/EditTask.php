@@ -54,7 +54,7 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
 			if ($taskObject->entity_type && $taskObject->field_value_mapping) {
-				$relationModuleModel = \Vtiger_Module_Model::getInstance($taskObject->entity_type);
+				$relationModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
@@ -63,7 +63,7 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 						if ($mappingInfo['value'] == 'assigned_user_id') {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {
-							$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
+							$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceByName($mappingInfo['value']);
 							if ($userRecordModel) {
 								$ownerName = $userRecordModel->getId();
 							} else {
@@ -85,7 +85,7 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	}
 	if ($taskType === 'FreeCRM\\Modules\\com_vtiger_workflow\\tasks\\VTSendPdf' || $taskType === 'VTSendPdf') {
 		// Prepare PDF templates for the template
-		$pdfTemplates = \Vtiger_PDF_Model::getTemplatesByModule($sourceModule);
+		$pdfTemplates = \FreeCRM\Modules\Vtiger\Models\PDF::getTemplatesByModule($sourceModule);
 		$viewer->assign('PDF_TEMPLATES', $pdfTemplates);
 		
 		// Prepare SMTP accounts
@@ -120,7 +120,7 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', \FreeCRM\Modules\Settings\Workflows\Models\Module::getExpressions());
-		$userModel = Users_Record_Model::getCurrentUserModel();
+		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('dateFormat', $userModel->get('date_format'));
 		$viewer->assign('timeFormat', $userModel->get('hour_format'));
 		$viewer->assign('MODULE', $moduleName);

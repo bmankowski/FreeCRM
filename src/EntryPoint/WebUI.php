@@ -219,7 +219,7 @@ class WebUI extends EntryPoint
 	protected function triggerCheckPermission(Vtiger_Controller $handler, Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
 			$message = vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND');

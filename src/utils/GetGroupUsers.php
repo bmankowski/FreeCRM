@@ -32,7 +32,7 @@ class GetGroupUsers
 	 */
 	public function getAllUsersInGroup($groupid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \FreeCRM\database\PearDatabase::getInstance();
 		
 		\App\Log::trace("Entering getAllUsersInGroup(" . $groupid . ") method...");
 		//Retreiving from the user2grouptable

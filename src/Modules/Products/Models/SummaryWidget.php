@@ -40,7 +40,7 @@ class SummaryWidget {
 		$pagingModel->set('limit', $limit);
 
 		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $fromModule);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $mod);
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $mod);
 		$recordsModels = $relationListView->getEntries($pagingModel);
 		$recordsHeader = $relationListView->getHeaders();
 		array_splice($recordsHeader, 3);
@@ -66,7 +66,7 @@ class SummaryWidget {
 			if (!\App\Privilege::isPermitted($moduleName)) {
 				continue;
 			}
-			$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
+			$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 			if (!$relationListView->getRelationModel()) {
 				continue;
 			}

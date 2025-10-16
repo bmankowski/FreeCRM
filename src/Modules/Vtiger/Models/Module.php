@@ -563,7 +563,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to get the field mode
 	 * @param string $fieldName - field name
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getField($fieldName)
 	{
@@ -573,7 +573,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to get the field by column name.
 	 * @param string $columnName - column name
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getFieldByColumn($columnName)
 	{
@@ -588,7 +588,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Get field by field name
 	 * @param string $fieldName
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 * @throws \Exception\AppException
 	 */
 	public function getFieldByName($fieldName)
@@ -1122,7 +1122,7 @@ class Module extends \vtlib\Module
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
-				$modTrackerRecorModel = new ModTracker_Record_Model();
+				$modTrackerRecorModel = new \FreeCRM\Modules\ModTracker\Models\Record();
 				$modTrackerRecorModel->setData($row)->setParent($row['crmid'], $row['module']);
 				$time = $modTrackerRecorModel->get('changedon');
 				$activites[$time] = $modTrackerRecorModel;
@@ -1159,8 +1159,8 @@ class Module extends \vtlib\Module
 		}
 		$moduleName = 'Calendar';
 		$currentActivityLabels = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
-		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
+		$nowInUserFormat = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateValue(date('Y-m-d H:i:s'));
+		$nowInDBFormat = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 
 		$referenceLinkClass = \FreeCRM\Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);

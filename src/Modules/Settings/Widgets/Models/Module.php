@@ -44,7 +44,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	{
 		$modules = \vtlib\Functions::getAllModules();
 		foreach ($modules as $id => $module) {
-			$moduleModel = \Vtiger_Module_Model::getInstance($module['name']);
+			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module['name']);
 			if (!$moduleModel->isSummaryViewSupported()) {
 				unset($modules[$id]);
 			}
@@ -62,7 +62,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		$moduleName = vtlib\Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
-		$moduleModel = \Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
 			$action = str_replace('.php', "", $ff);

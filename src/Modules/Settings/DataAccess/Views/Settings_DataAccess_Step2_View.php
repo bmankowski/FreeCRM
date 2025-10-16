@@ -34,7 +34,7 @@ Class \Settings_DataAccess_Step2_View extends \FreeCRM\Modules\Settings\Vtiger\V
 			$viewer->assign('BASE_INFO', $docInfo['basic_info']);
 			$countRequiredConditions = count($docInfo['required_conditions']);
 			for ($i = 0; $i < $countRequiredConditions; $i++) {
-				$fieldModel = \Vtiger_Field_Model::getInstance($docInfo['required_conditions'][$i]['fieldname'], \Vtiger_Module_Model::getInstance($baseModule));
+				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($docInfo['required_conditions'][$i]['fieldname'], \FreeCRM\Modules\Vtiger\Models\Module::getInstance($baseModule));
 				$docInfo['required_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 
@@ -43,7 +43,7 @@ Class \Settings_DataAccess_Step2_View extends \FreeCRM\Modules\Settings\Vtiger\V
 			$countOptionalConditions = count($docInfo['optional_conditions']);
 			for ($i = 0; $i < $countOptionalConditions; $i++) {
 
-				$fieldModel = \Vtiger_Field_Model::getInstance($docInfo['optional_conditions'][$i]['fieldname'], \Vtiger_Module_Model::getInstance($baseModule));
+				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($docInfo['optional_conditions'][$i]['fieldname'], \FreeCRM\Modules\Vtiger\Models\Module::getInstance($baseModule));
 				$docInfo['optional_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 			$viewer->assign('OPTIONAL_CONDITIONS', $docInfo['optional_conditions']);

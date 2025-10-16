@@ -32,7 +32,7 @@ class TreeRecords extends \Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$baseModuleName = 'Accounts';
 
-		$multiReferenceFirld = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($baseModuleName, $moduleName);
+		$multiReferenceFirld = \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($baseModuleName, $moduleName);
 		$multiReferenceFirld = reset($multiReferenceFirld);
 		if (count($multiReferenceFirld) === 0) {
 			return;

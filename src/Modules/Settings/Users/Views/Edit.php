@@ -19,10 +19,10 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
 				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 			}

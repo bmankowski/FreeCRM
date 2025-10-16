@@ -170,7 +170,7 @@ class RuleMember extends \Vtiger_Record_Model
 			$rules[self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $roleModel->getName());
 		}
 
-		$allUsers = Users_Record_Model::getAll();
+		$allUsers = \FreeCRM\Modules\Users\Models\Record::getAll();
 		foreach ($allUsers as $userId => $userModel) {
 			$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_USERS, $userId);
 			$rule = new self();

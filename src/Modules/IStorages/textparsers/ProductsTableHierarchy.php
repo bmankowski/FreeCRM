@@ -30,7 +30,7 @@ class TextParser extends \App\TextParser\Base
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		// Products from main storage
-		$relationListView = Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
 		// Summary table with products from all storages
 		$allEntries[$this->textParser->record] = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
@@ -59,7 +59,7 @@ class TextParser extends \App\TextParser\Base
 			if (is_array($storageInfo) && intval($storageId) && $storageId != $this->textParser->record) {
 				// Getting storage products if it is child of main storage
 				$storageRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($storageId);
-				$storageRelationListView = Vtiger_RelationListView_Model::getInstance($storageRecordModel, $relationModuleName);
+				$storageRelationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($storageRecordModel, $relationModuleName);
 				$allEntries[$storageId] = $storageRelationListView->getEntries($pagingModel);
 			}
 		}

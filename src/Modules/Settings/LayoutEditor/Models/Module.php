@@ -449,7 +449,7 @@ class Module extends \Vtiger_Module_Model
 
 	public static function getInstanceByName($moduleName)
 	{
-		$moduleInstance = \Vtiger_Module_Model::getInstance($moduleName);
+		$moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$objectProperties = get_object_vars($moduleInstance);
 		$selfInstance = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {

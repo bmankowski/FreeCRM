@@ -69,7 +69,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$startDate = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
 		if ($startTime) {
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($startTime);
-			$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start') . ' ' . $startTime);
+			$startDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . ' ' . $startTime);
 			list($startDate, $startTime) = explode(' ', $startDateTime);
 		}
 		$recordModel->set('date_start', $startDate);
@@ -79,7 +79,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$endDate = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('due_date'));
 		if ($endTime) {
 			$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-			$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
+			$endDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}
 		$recordModel->set('time_end', $endTime);

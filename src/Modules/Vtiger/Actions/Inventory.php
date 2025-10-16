@@ -70,7 +70,7 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			return;
 		}
 
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
+		$baseCurrency = \FreeCRM\Modules\Vtiger\Util::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
 			$selectedCurrency = \vtlib\Functions::getCurrencySymbolandRate($currency);

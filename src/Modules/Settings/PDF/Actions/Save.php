@@ -23,12 +23,12 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$moduleName = $request->get('module_name');
 
 		if ($recordId) {
-			$pdfModel = \Vtiger_PDF_Model::getInstanceById($recordId, $moduleName);
+			$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId, $moduleName);
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
 		}
 
-		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
+		$stepFields = \FreeCRM\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			if ($field == 'body_content') {
 				$value = $request->getForHtml($field);

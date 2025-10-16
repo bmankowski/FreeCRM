@@ -17,7 +17,7 @@ class ExportTemplate extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 	public function process(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$pdfModel = \Vtiger_PDF_Model::getInstanceById($recordId);
+		$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');
 		header('Pragma: public');
@@ -34,7 +34,7 @@ class ExportTemplate extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$xmlField = $xml->createElement('field');
 
 		$cDataColumns = ['header_content', 'body_content', 'footer_content', 'conditions'];
-		foreach (Settings_PDF_Module_Model::$allFields as $field) {
+		foreach (\FreeCRM\Modules\Settings\PDF\Models\Module::$allFields as $field) {
 			if (in_array($field, $cDataColumns)) {
 				$name = $xmlField->appendChild($xml->createElement($field));
 				$name->appendChild($xml->createCDATASection(html_entity_decode($pdfModel->getRaw($field))));

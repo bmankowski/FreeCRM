@@ -163,7 +163,7 @@ class TimeControl extends \Vtiger_Index_View
 		$time = $request->get('time');
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
@@ -219,7 +219,7 @@ class TimeControl extends \Vtiger_Index_View
 	public function getDays($startDate, $endDate)
 	{
 		$holidayDays = \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidays([$startDate, $endDate]);
-		$notWorkingDaysType = Settings_Calendar_Module_Model::getNotWorkingDays();
+		$notWorkingDaysType = \FreeCRM\Modules\Settings\Calendar\Models\Module::getNotWorkingDays();
 		$begin = strtotime($startDate);
 		$end = strtotime($endDate);
 		$workDays = 0;

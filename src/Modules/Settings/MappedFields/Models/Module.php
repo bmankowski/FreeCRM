@@ -101,7 +101,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function getSupportedModules()
 	{
 		$restrictedModules = ['OSSMailView', 'ModComments'];
-		$moduleModels = \Vtiger_Module_Model::getAll([0, 2]);
+		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isEntityModule() && !in_array($moduleModel->getName(), $restrictedModules)) {
@@ -152,7 +152,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if ($moduleModel) {
 			$objectProperties = get_object_vars($moduleModel);
 			$moduleModel = new self();
@@ -216,7 +216,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
-		$moduleModel = \Vtiger_Module_Model::getInstance($this->getName());
+		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
 		$moduleFields = $moduleMeta->getAccessibleFields();
 		$fields = [];
@@ -372,7 +372,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				if (empty($value)) {
 					break;
 				}
-				$instances[$combine[$fieldsKey]] = \Vtiger_Module_Model::getInstance((string) $fieldsValue);
+				$instances[$combine[$fieldsKey]] = \FreeCRM\Modules\Vtiger\Models\Module::getInstance((string) $fieldsValue);
 			} elseif ($fieldsKey == 'fields') {
 				foreach ($fieldsValue as $fieldKey => $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {

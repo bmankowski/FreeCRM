@@ -21,9 +21,9 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$sourceModule = $request->get('sourceModule');
-		$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+		$widgetsManagementModel = new \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module();
 		$dashboardModules = $widgetsManagementModel->getSelectableDashboard();
 
 		if (empty($sourceModule)){
@@ -32,7 +32,7 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 		$currentDashboard = $request->get('dashboardId');
 		if(empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$currentDashboard = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
 		}
 		$viewer = $this->getViewer($request);
 		// get widgets list
@@ -43,18 +43,18 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$widgetsWithLimit = $widgetsManagementModel->getWidgetsWithLimit();
 		$authorization = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
 		$bloks = $widgetsManagementModel->getBlocksId($currentDashboard);
-		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
+		$specialWidgets = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($sourceModule);
 		$filterSelect = $widgetsManagementModel->getFilterSelect();
 		$filterSelectDefault = $widgetsManagementModel->getFilterSelectDefault();
 		$widgetsWithFilterUsers = $widgetsManagementModel->getWidgetsWithFilterUsers();
 		$restrictFilter = $widgetsManagementModel->getRestrictFilter();
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
-		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
+		$viewer->assign('DASHBOARD_TYPES', \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDashboardTypes());
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
-		$viewer->assign('DATE_SELECT_DEFAULT', Settings_WidgetsManagement_Module_Model::getDateSelectDefault());
-		$viewer->assign('WIDGETS_WITH_FILTER_DATE', Settings_WidgetsManagement_Module_Model::getWidgetsWithDate());
+		$viewer->assign('DATE_SELECT_DEFAULT', \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDateSelectDefault());
+		$viewer->assign('WIDGETS_WITH_FILTER_DATE', \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getWidgetsWithDate());
 		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);

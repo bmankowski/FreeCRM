@@ -97,10 +97,10 @@ class ClosedTicketsByPriority extends \Vtiger_Index_View
 		$time = $request->get('time');
 		$owner = $request->get('owner');
 		if (empty($owner)) {
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));

@@ -10,7 +10,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-Class Reservations_Record_Model extends Vtiger_Record_Model
+Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 {
 
 	const recalculateStatus = 'Accepted';

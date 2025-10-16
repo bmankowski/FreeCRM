@@ -566,7 +566,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$usersList = [];
 		for ($i = 0; $i < $numOfRows; $i++) {
 			$userId = $db->query_result($result, $i, 'userid');
-			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');
+			$usersList[$userId] = \FreeCRM\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 		}
 		return $usersList;
 	}

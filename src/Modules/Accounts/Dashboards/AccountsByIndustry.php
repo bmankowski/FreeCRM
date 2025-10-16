@@ -91,7 +91,7 @@ class AccountsByIndustry extends \Vtiger_Index_View
 
 		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Accounts');
+			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Accounts');
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
@@ -106,7 +106,7 @@ class AccountsByIndustry extends \Vtiger_Index_View
 			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		} else {
-			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time !== false) {
 				$dates = $time;
 			}

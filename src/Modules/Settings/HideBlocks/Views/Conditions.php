@@ -35,7 +35,7 @@ Class Settings_HideBlocks_Conditions_View extends \FreeCRM\Modules\Settings\Vtig
 			
 		}
 		$moduleModel = Settings_HideBlocks_Record_Model::getModuleInstanceByBlockId($blockId);
-		$recordStrucure = \Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$recordStrucure = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$blockInstance = vtlib\Block::getInstance($blockId, $moduleModel);
@@ -68,7 +68,7 @@ Class Settings_HideBlocks_Conditions_View extends \FreeCRM\Modules\Settings\Vtig
 		$viewer->assign('BLOCKID', $blockId);
 		$viewer->assign('ENABLED', $request->get('enabled'));
 		$viewer->assign('VIEWS', $views);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('Conditions.tpl', $qualifiedModuleName);
 	}
 

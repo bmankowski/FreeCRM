@@ -39,7 +39,7 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 
-		$viewer->assign('ALL_USERS', Users_Record_Model::getAll());
+		$viewer->assign('ALL_USERS', \FreeCRM\Modules\Users\Models\Record::getAll());
 		$viewer->assign('ALL_GROUPS', Settings_Groups_Record_Model::getAll());
 
 		echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);

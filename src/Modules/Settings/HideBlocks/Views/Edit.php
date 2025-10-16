@@ -43,7 +43,7 @@ Class Settings_HideBlocks_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Vie
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCKS', $moduleModel->getAllBlock());
 		$viewer->assign('VIEWS', $moduleModel->getViews());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

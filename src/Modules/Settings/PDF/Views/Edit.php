@@ -38,7 +38,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$pdfModel = \Vtiger_PDF_Model::getInstanceById($recordId);
+			$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
@@ -62,8 +62,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				break;
 
 			case 'step6':
-				$moduleModel = \Vtiger_Module_Model::getInstance($pdfModel->get('module_name'));
-				$recordStructureInstance = \Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($pdfModel->get('module_name'));
+				$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('ADVANCE_CRITERIA', \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
 				$viewer->view('Step6.tpl', $qualifiedModuleName);
@@ -97,7 +97,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 			case 'step1':
 			default:
-				$allModules = Settings_PDF_Module_Model::getSupportedModules();
+				$allModules = \FreeCRM\Modules\Settings\PDF\Models\Module::getSupportedModules();
 				$viewer->assign('ALL_MODULES', $allModules);
 				$viewer->view('Step1.tpl', $qualifiedModuleName);
 				break;

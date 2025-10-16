@@ -37,7 +37,7 @@ function vtws_login($username, $pwd)
 
 function vtws_getActiveToken($userId)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	$sql = "select * from vtiger_ws_userauthtoken where userid=? and expiretime >= ?";
 	$result = $adb->pquery($sql, array($userId, time()));
@@ -51,7 +51,7 @@ function vtws_getActiveToken($userId)
 
 function vtws_getUserAccessKey($userId)
 {
-	$adb = PearDatabase::getInstance();
+	$adb = \FreeCRM\database\PearDatabase::getInstance();
 
 	$sql = "select * from vtiger_users where id=?";
 	$result = $adb->pquery($sql, array($userId));

@@ -106,7 +106,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$moduleModels = \Vtiger_Module_Model::getAll([0, 2]);
+		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isEntityModule()) {
@@ -169,6 +169,6 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getTemplatesByModule($moduleName)
 	{
-		return \Vtiger_PDF_Model::getTemplatesByModule($moduleName);
+		return \FreeCRM\Modules\Vtiger\Models\PDF::getTemplatesByModule($moduleName);
 	}
 }

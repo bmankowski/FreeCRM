@@ -198,7 +198,7 @@ class ModTracker_ModTrackerHandler_Handler {
 	public function addNotification($moduleName, $recordId, $watchdogTitle, $watchdogMessage = '')
 	{
 		if ($watchdogTitle) {
-			$watchdog = \Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+			$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordId, $moduleName);
 			$users = $watchdog->getWatchingUsers([\App\User::getCurrentUserRealId()]);
 			if (!empty($users)) {
 				$currentUser = \App\User::getCurrentUserModel();

@@ -28,7 +28,7 @@ Class Settings_Groups_Detail_View extends \FreeCRM\Modules\Settings\Vtiger\Views
 
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}

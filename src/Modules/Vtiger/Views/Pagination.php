@@ -32,7 +32,7 @@ class Pagination extends \Vtiger_Index_View
 		$parentId = $request->get('record');
 
 		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$totalCount = (int) $relationListView->getRelatedEntriesCount();
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);

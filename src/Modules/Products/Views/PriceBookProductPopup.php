@@ -81,7 +81,7 @@ class PriceBookProductPopup extends \Vtiger_Index_View
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName);
 
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;

@@ -29,7 +29,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	public function gatewayInfo(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$recordModel = Settings_PBXManager_Record_Model::getInstance();
-		$moduleModel = Settings_PBXManager_Module_Model::getCleanInstance();
+		$moduleModel = \FreeCRM\Modules\Settings\PBXManager\Models\Module::getCleanInstance();
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('RECORD_ID', $recordModel->get('id'));

@@ -70,7 +70,7 @@ class Field extends \vtlib\Field
 	 * Function which sets value for given name
 	 * @param string $name - name for which value need to be assinged
 	 * @param <type> $value - values that need to be assigned
-	 * @return Vtiger_Field_Model
+	 * @return \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function set($name, $value)
 	{

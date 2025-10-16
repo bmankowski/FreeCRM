@@ -236,7 +236,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (is_object($module) && is_a($module, '\Vtiger_Module_Model')) {
 			$tabId = $module->getId();
 		} else {
-			$module = \Vtiger_Module_Model::getInstance($module);
+			$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
 			$tabId = $module->getId();
 		}
 		if (!$tabId) {
@@ -254,7 +254,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (is_object($field) && is_a($field, '\Vtiger_Field_Model')) {
 			$fieldId = $field->getId();
 		} else {
-			$field = \Vtiger_Field_Model::getInstance($field, $profileTabModel);
+			$field = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($field, $profileTabModel);
 			$fieldId = $field->getId();
 		}
 		if (!$fieldId) {
@@ -352,8 +352,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getModulePermissions()
 	{
 		if (!isset($this->module_permissions)) {
-			$allModules = \Vtiger_Module_Model::getAll(array(0), \FreeCRM\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
-			$eventModule = \Vtiger_Module_Model::getInstance('Events');
+			$allModules = \FreeCRM\Modules\Vtiger\Models\Module::getAll(array(0), \FreeCRM\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
+			$eventModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
 			$allModules[$eventModule->getId()] = $eventModule;
 			$profileTabPermissions = $this->getProfileTabPermissions();
 			$profileActionPermissions = $this->getProfileActionPermissions();
@@ -442,8 +442,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');
 		$profilePermissions = $this->get('profile_permissions');
-		$calendarModule = \Vtiger_Module_Model::getInstance('Calendar');
-		$eventModule = \Vtiger_Module_Model::getInstance('Events');
+		$calendarModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$eventModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
 		$eventFieldsPermissions = $profilePermissions[$eventModule->getId()]['fields'];
 		$profilePermissions[$eventModule->getId()] = $profilePermissions[$calendarModule->getId()];
 		$profilePermissions[$eventModule->getId()]['fields'] = $eventFieldsPermissions;
@@ -477,7 +477,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$params = array($profileId, \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT, $this->tranformInputPermissionValue($this->get('editall')));
 		$db->pquery($sql, $params);
 
-		$allModuleModules = \Vtiger_Module_Model::getAll(array(0), \FreeCRM\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
+		$allModuleModules = \FreeCRM\Modules\Vtiger\Models\Module::getAll(array(0), \FreeCRM\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
 		if (count($allModuleModules) > 0) {
 			$actionModels = \Vtiger_Action_Model::getAll(true);
@@ -875,7 +875,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$profileId = $this->getId();
 		if (!empty($profileId)) {
 			$db = \FreeCRM\database\PearDatabase::getInstance();
-			$userRecordModel = Users_Record_Model::getCurrentUserModel();
+			$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Module::getModuleId($module);
 			$userModuleModel = Users_Module_Model::getInstance($module);

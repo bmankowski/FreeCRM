@@ -47,7 +47,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	public function step1(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -98,7 +98,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = \Vtiger_Module_Model::getInstance($selectedModuleName);
+			$selectedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 
@@ -154,7 +154,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = \Vtiger_Module_Model::getInstance($selectedModuleName);
+			$selectedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 

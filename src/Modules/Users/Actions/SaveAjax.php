@@ -71,7 +71,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
-			$fieldValue = $displayValue = \Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
+			$fieldValue = $displayValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
@@ -207,7 +207,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	public function updateUserColor(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Users_Colors_Model::updateUserColor($params);
+		\FreeCRM\Modules\Users\Models\Colors::updateUserColor($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -219,7 +219,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	public function updateGroupColor(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Users_Colors_Model::updateGroupColor($params);
+		\FreeCRM\Modules\Users\Models\Colors::updateGroupColor($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -231,7 +231,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	public function updateModuleColor(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Users_Colors_Model::updateModuleColor($params);
+		\FreeCRM\Modules\Users\Models\Colors::updateModuleColor($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -247,7 +247,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => Users_Colors_Model::generateColor($params),
+			'color' => \FreeCRM\Modules\Users\Models\Colors::generateColor($params),
 			'message' => LanguageTranslator::translate('LBL_GENERATED_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
@@ -256,7 +256,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	public function updateColorForProcesses(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Users_Colors_Model::updateColor($params);
+		\FreeCRM\Modules\Users\Models\Colors::updateColor($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -268,7 +268,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	public function activeColor(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$color = Users_Colors_Model::activeColor($params);
+		$color = \FreeCRM\Modules\Users\Models\Colors::activeColor($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

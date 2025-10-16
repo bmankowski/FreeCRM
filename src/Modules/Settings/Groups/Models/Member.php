@@ -158,7 +158,7 @@ class Member extends \Vtiger_Record_Model
 	{
 		list($type, $recordId) = self::getIdComponentsFromQualifiedId($this->getId());
 		switch ($type) {
-			case 'Users' : $recordModel = Users_Record_Model::getCleanInstance($type);
+			case 'Users' : $recordModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance($type);
 				$recordModel->setId($recordId);
 				return $recordModel->getDetailViewUrl();
 
@@ -198,7 +198,7 @@ class Member extends \Vtiger_Record_Model
 	{
 		$members = [];
 
-		$allUsers = Users_Record_Model::getAll($onlyActive);
+		$allUsers = \FreeCRM\Modules\Users\Models\Record::getAll($onlyActive);
 		foreach ($allUsers as $userId => $userModel) {
 			$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_USERS, $userId);
 			$member = new self();

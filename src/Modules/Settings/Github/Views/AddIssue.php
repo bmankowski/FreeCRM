@@ -2,6 +2,8 @@
 
 namespace FreeCRM\Modules\Settings\Github\Views;
 use FreeCRM\Modules\Settings\Github\Models\Client as Settings_Github_Client_Model;
+use FreeCRM\Modules\Users\Models\Record as Users_Record_Model;
+use FreeCRM\Modules\Settings\ConfReport\Models\Module as Settings_ConfReport_Module_Model;
 
 
 
@@ -11,7 +13,7 @@ use FreeCRM\Modules\Settings\Github\Models\Client as Settings_Github_Client_Mode
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class AddIssue extends \Vtiger_BasicModal_View
+class AddIssue extends \FreeCRM\Modules\Vtiger\Views\BasicModal
 {
 
 	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)

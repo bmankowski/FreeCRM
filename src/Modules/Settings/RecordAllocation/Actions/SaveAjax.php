@@ -28,14 +28,14 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		$data = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$oldValues = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($data['type'], $data['module']);
+		$oldValues = \FreeCRM\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($data['type'], $data['module']);
 		$oldValues = array_merge((array) $oldValues[$data['userid'][0]]['users'], (array) $oldValues[$data['userid'][0]]['groups']);
 
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$moduleInstance->set('type', $data['type']);
 		$moduleInstance->save(array_filter($data));
-		Settings_RecordAllocation_Module_Model::resetDataVariable();
-		$newValues = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($data['type'], $data['module']);
+		\FreeCRM\Modules\Settings\RecordAllocation\Models\Module::resetDataVariable();
+		$newValues = \FreeCRM\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($data['type'], $data['module']);
 		$newValues = array_merge((array) $newValues[$data['userid'][0]]['users'], (array) $newValues[$data['userid'][0]]['groups']);
 		$prevDetail['userId'] = implode(',', $oldValues);
 		$newDetail['userId'] = implode(',', $newValues);

@@ -23,7 +23,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = \FreeCRM\Modules\Settings\SalesProcesses\Models\Module::getCleanInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
