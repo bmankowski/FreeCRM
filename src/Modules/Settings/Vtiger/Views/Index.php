@@ -120,7 +120,7 @@ class Index extends \Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
-		$clientModel = Settings_Github_Client_Model::getInstance();
+		$clientModel = \FreeCRM\Modules\Settings\Github\Models\Client::getInstance();
 		$isAuthor = $request->get('author');
 		$isAuthor = $isAuthor == 'true' ? true : false;
 		$pageNumber = $request->get('page');

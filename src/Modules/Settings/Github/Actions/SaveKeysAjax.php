@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Settings\Github\Actions;
-use FreeCRM\Modules\Settings\GithubModels\Client as Settings_Github_Client_Model;
+use FreeCRM\Modules\Settings\Github\Models\Client as Settings_Github_Client_Model;
 
 
 

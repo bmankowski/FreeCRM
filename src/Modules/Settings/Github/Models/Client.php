@@ -1,7 +1,7 @@
 <?php
 
 namespace FreeCRM\Modules\Settings\Github\Models;
-use FreeCRM\Modules\Settings\GithubModels\Issues;
+use FreeCRM\Modules\Settings\Github\Models\Issues;
 
 
 
