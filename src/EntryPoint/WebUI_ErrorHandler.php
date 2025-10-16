@@ -22,6 +22,7 @@
 namespace FreeCRM\EntryPoint;
 
 use FreeCRM\AppConfig;
+use App\Debugger;
 
 class WebUI_ErrorHandler
 {
@@ -60,7 +61,7 @@ class WebUI_ErrorHandler
             return;
         }
         
-        $content = $message . PHP_EOL . \App\Debugger::getBacktrace() . PHP_EOL;
+        $content = $message . PHP_EOL . Debugger::getBacktrace() . PHP_EOL;
         @file_put_contents(
             'cache/logs/system.log',
             $content,

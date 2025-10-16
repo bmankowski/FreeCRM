@@ -16,8 +16,8 @@ use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class DetailView extends Model
 {
 
-	protected $module = false;
-	protected $record = false;
+	protected $module;
+	protected $record;
 	public $widgetsList = [];
 	public $widgets = [];
 

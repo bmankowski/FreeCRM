@@ -629,7 +629,6 @@ $languageStrings = [
 	'EmailTemplate' => 'Szablony mailowe',
 	'Support End Date' => 'Data zakończenia wsparcia',
 	'Key Metrics' => 'Podsumowanie',
-	'Open Tickets' => 'Otwarte zgłoszenia',
 	'Email Templates' => 'Szablony mailowe',
 	'LBL_NO_FOUND_RECORDS' => 'Nie znaleźliśmy żadnych rekordów w module: ', //OpenSaaS
 	//OpenSaaS na potrzeby widżetu Historii
