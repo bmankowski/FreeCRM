@@ -22,7 +22,6 @@
 
 namespace App;
 
-use App\database\PearDatabase;
 use App\Utils\VTCacheUtils;
 use App\Cache;
 use App\Log;
@@ -30,12 +29,7 @@ use App\Module;
 use App\Db;
 use App\User;
 use App\Privilege;
-use App\Record;
-use App\Field;
-use Db\Query;
-use EventHandler;
-use \App\Modules\Vtiger\Models\Relation;
-use Vtiger_Record_Model;
+use App\Http\Request as AppRequest;
 
 require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
 require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
@@ -78,7 +72,7 @@ class CRMEntity
 	{
 		$modName = $module;
 		if (is_numeric($module)) {
-			$modName = App\Module::getModuleName($module);
+			$modName = \App\Module::getModuleName($module);
 		}
 		if ($module === 'Calendar' || $module === 'Events') {
 			$module = 'Calendar';
@@ -1030,8 +1024,8 @@ class CRMEntity
 		$tabid = Module::getModuleId($module);
 		$current_user = vglobal('current_user');
 		if ($current_user) {
-			$privileges = App\User::getPrivilegesFile($current_user->id);
-			$sharingPrivileges = App\User::getSharingFile($current_user->id);
+			$privileges = \App\User::getPrivilegesFile($current_user->id);
+			$sharingPrivileges = \App\User::getSharingFile($current_user->id);
 		} else {
 			return '';
 		}
@@ -1533,7 +1527,7 @@ class CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 * @param string $module
-	 * @param string $tableColumns
+	 * @param array $tableColumns
 	 * @param string $selectedColumns
 	 * @param boolean $ignoreEmpty
 	 * @return string
@@ -1551,7 +1545,7 @@ class CRMEntity
 		}
 		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 
-		// Select Custom Field Table Columns if present
+		// Select Custom Field Table Columns if present, BMN i do not understand it TODO: correct this
 		if (isset($this->customFieldTable))
 			$query .= ", " . $this->customFieldTable[0] . ".* ";
 

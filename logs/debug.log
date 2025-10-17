@@ -1903,7 +1903,7 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/F
 [2025-09-30 15:02:12] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
 [2025-09-30 15:02:12] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
 [2025-09-30 15:02:12] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
-[2025-09-30 15:02:12] DEBUG: [Exception] Call to undefined method App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
+[2025-09-30 15:02:12] DEBUG: [Exception] Call to undefined method \App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
     "exception": "Error",
     "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php",
     "line": 452,
@@ -1915,7 +1915,7 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/F
 [2025-09-30 15:02:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
 [2025-09-30 15:02:19] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
 [2025-09-30 15:02:19] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
-[2025-09-30 15:02:19] DEBUG: [Exception] Call to undefined method App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
+[2025-09-30 15:02:19] DEBUG: [Exception] Call to undefined method \App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
     "exception": "Error",
     "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php",
     "line": 452,
@@ -1927,7 +1927,7 @@ Failed to prepare SQL: SELECT * FROM `vtiger_tab` in /home/bmankowski/projects/F
 [2025-09-30 15:04:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
 [2025-09-30 15:04:02] DEBUG: modules/Vtiger/OperationNotPermitted.tpl
 [2025-09-30 15:04:02] DEBUG: getTemplatePath on return: modules/Vtiger/OperationNotPermitted.tpl
-[2025-09-30 15:04:02] DEBUG: [Exception] Call to undefined method App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
+[2025-09-30 15:04:02] DEBUG: [Exception] Call to undefined method \App\User::getPrivilegesFile() in /home/bmankowski/projects/FreeCRM/modules/Users/Users.php on line 452 {
     "exception": "Error",
     "file": "\/home\/bmankowski\/projects\/FreeCRM\/modules\/Users\/Users.php",
     "line": 452,

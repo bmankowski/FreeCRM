@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\WidgetsManagement\Models;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,8 +11,6 @@ use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsMana
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-
-use App\Modules\Vtiger\Models\Widget as Vtiger_Widget_Model;
 
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
@@ -111,7 +107,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function appoints the proper owner
-	 * @param Vtiger_Widget_Model $widgetModel
+	 * @param \App\Modules\Vtiger\Models\Widget $widgetModel
 	 * @param string $moduleName
 	 * @param mixed $owner
 	 * @return mixed
@@ -243,7 +239,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$widgets = [];
 		while ($row = $dataReader->read()) {
 			$moduleName = \App\Module::getModuleName($row['tabid']);
-			$widgets[$moduleName][] = Vtiger_Widget_Model::getInstanceFromValues($row);
+			$widgets[$moduleName][] = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
 		}
 		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
 		return $widgets;
@@ -382,7 +378,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		while ($row = $dataReader->read()) {
 			$blockId = $row['id'];
 			$tabId = $row['tabid'];
-			$moduleName = vtlib\Functions::getModuleName($tabId);
+			$moduleName = \vtlib\Functions::getModuleName($tabId);
 			$data[$moduleName][$blockId]['name'] = $row['rolename'];
 			$data[$moduleName][$blockId]['code'] = $row['authorized'];
 		}
@@ -418,7 +414,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
+			$widgets[$row['linklabel']] = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
 		}
 		\App\Log::trace('Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets() method ...');
 		return $widgets;
@@ -448,19 +444,19 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$blockId = '';
 		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
-				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
-				$minilistWidgetModel = new \Vtiger_MiniList_Model();
+				$minilistWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$minilistWidgetModel = new \App\Modules\Vtiger\Models\MiniList();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$data[$row['blockid']][] = $minilistWidget;
 			} else if ($row['linklabel'] == 'ChartFilter') {
-				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new \Vtiger_ChartFilter_Model();
+				$chartFilterWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new \App\Modules\Vtiger\Models\ChartFilter();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
 				$chartFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
 				$data[$row['blockid']][] = $chartFilterWidget;
 			} else
-				$data[$row['blockid']][] = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$data[$row['blockid']][] = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
 		}
 		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule() method ...");
 		return $data;
