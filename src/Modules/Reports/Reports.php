@@ -385,9 +385,9 @@ class Reports extends \App\CRMEntity
 	 */
 	public function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
 	{
-		$srptdetails = "";
-		$adb = \App\database\PearDatabase::getInstance();
-		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+	$srptdetails = "";
+	$adb = \App\database\PearDatabase::getInstance();
+	$currentUser = \App\User::getCurrentUserModel();
 
 	$mod_strings = vglobal('mod_strings');
 	$returndata = [];
