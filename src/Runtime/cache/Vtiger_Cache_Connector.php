@@ -32,25 +32,25 @@ class Vtiger_Cache_Connector
 	
 	public function get(string $ns, string $key)
 	{
-		// Use the new App\Cache system for compatibility
+		// Use the new \App\Cache system for compatibility
 		return \App\Cache::get($ns . '_' . $key);
 	}
 	
 	public function set(string $ns, string $key, $value)
 	{
-		// Use the new App\Cache system for compatibility
+		// Use the new \App\Cache system for compatibility
 		return \App\Cache::set($ns . '_' . $key, $value);
 	}
 	
 	public function has(string $ns, string $key)
 	{
-		// Use the new App\Cache system for compatibility
+		// Use the new \App\Cache system for compatibility
 		return \App\Cache::has($ns . '_' . $key);
 	}
 	
 	public function delete(string $ns, string $key)
 	{
-		// Use the new App\Cache system for compatibility
+		// Use the new \App\Cache system for compatibility
 		return \App\Cache::delete($ns . '_' . $key);
 	}
 	

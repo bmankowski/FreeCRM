@@ -75,29 +75,29 @@ class DataTransform
 				}
 			}
 		}
-		// added to handle the setting reminder time
-		if (strtolower($meta->getEntityName()) == "events") {
-			if (isset($row['reminder_time']) && $row['reminder_time'] != null && $row['reminder_time'] != 0) {
-				AppRequest::set('set_reminder', 'Yes');
-				AppRequest::set('mode', 'edit');
+	// added to handle the setting reminder time
+	if (strtolower($meta->getEntityName()) == "events") {
+		if (isset($row['reminder_time']) && $row['reminder_time'] != null && $row['reminder_time'] != 0) {
+			\App\Http\AppRequest::set('set_reminder', 'Yes');
+			\App\Http\AppRequest::set('mode', 'edit');
 
-				$reminder = $row['reminder_time'];
-				$seconds = (int) $reminder % 60;
-				$minutes = (int) ($reminder / 60) % 60;
-				$hours = (int) ($reminder / (60 * 60)) % 24;
-				$days = (int) ($reminder / (60 * 60 * 24));
+			$reminder = $row['reminder_time'];
+			$seconds = (int) $reminder % 60;
+			$minutes = (int) ($reminder / 60) % 60;
+			$hours = (int) ($reminder / (60 * 60)) % 24;
+			$days = (int) ($reminder / (60 * 60 * 24));
 
-				//at vtiger there cant be 0 minutes reminder so we are setting to 1
-				if ($minutes == 0) {
-					$minutes = 1;
-				}
-
-				AppRequest::set('remmin', $minutes);
-				AppRequest::set('remhrs', $hours);
-				AppRequest::set('remdays', $days);
-			} else {
-				AppRequest::set('set_reminder', 'No');
+			//at vtiger there cant be 0 minutes reminder so we are setting to 1
+			if ($minutes == 0) {
+				$minutes = 1;
 			}
+
+			\App\Http\AppRequest::set('remmin', $minutes);
+			\App\Http\AppRequest::set('remhrs', $hours);
+			\App\Http\AppRequest::set('remdays', $days);
+		} else {
+			\App\Http\AppRequest::set('set_reminder', 'No');
+		}
 		} elseif (strtolower($meta->getEntityName()) == "calendar") {
 			if (empty($row['sendnotification']) || strtolower($row['sendnotificaiton']) == 'no' || $row['sendnotificaiton'] == '0' || $row['sendnotificaiton'] == 'false' || strtolower($row['sendnotificaiton']) == 'n') {
 				unset($row['sendnotification']);

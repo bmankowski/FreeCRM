@@ -13,7 +13,7 @@ $rows = (new \App\Db\Query())->from('s_#__multireference')->all();
 foreach ($rows as &$multireference) {
 	if ((int) $multireference['type'] === 0) {
 		$entity = CRMEntity::getInstance($multireference['source_module']);
-		$queryGenerator = new App\QueryGenerator($multireference['source_module']);
+		$queryGenerator = new \App\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addCondition('id', $multireference['lastid'], 'a');
 		$queryGenerator->setOrder('id', 'ASC');
@@ -21,7 +21,7 @@ foreach ($rows as &$multireference) {
 		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 		$dataReader = $queryGenerator->createQuery()->limit($limit)->createCommand()->query();
 		unset($queryGenerator);
-		$queryGenerator = new App\QueryGenerator($multireference['source_module']);
+		$queryGenerator = new \App\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addCondition('id', $multireference['lastid'], 'a');
 		$queryGenerator->setOrder('id', 'DESC');

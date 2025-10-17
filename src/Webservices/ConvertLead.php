@@ -54,7 +54,7 @@ function vtws_convertlead($entityvalues, $user)
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 	}
 
-	$eventHandler = new App\EventHandler();
+	$eventHandler = new \App\EventHandler();
 	$eventHandler->setParams(['entityValues' => $entityvalues, 'user' => $user, 'leadInfo' => $leadInfo]);
 	$eventHandler->trigger('EntityBeforeConvertLead');
 

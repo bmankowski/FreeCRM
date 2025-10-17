@@ -28,16 +28,16 @@ class Privilege
 		if (!$userId) {
 			$userId = \App\User::getCurrentUserId();
 		}
-		$userPrivileges = \App\User::getPrivilegesFile($userId);
-		$permission = false;
-		if (($moduleName == 'Users' || $moduleName == 'Home' || $moduleName == 'uploads') && AppRequest::get('parenttab') != 'Settings') {
-			//These modules dont have security right now
-			static::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
-			\App\Log::trace('Exiting isPermitted method ... - yes');
-			return true;
-		}
-		//Checking the Access for the Settings Module
-		if ($moduleName == 'Settings' || $moduleName == 'Administration' || $moduleName == 'System' || AppRequest::get('parenttab') == 'Settings') {
+	$userPrivileges = \App\User::getPrivilegesFile($userId);
+	$permission = false;
+	if (($moduleName == 'Users' || $moduleName == 'Home' || $moduleName == 'uploads') && \App\Http\AppRequest::get('parenttab') != 'Settings') {
+		//These modules dont have security right now
+		static::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
+		\App\Log::trace('Exiting isPermitted method ... - yes');
+		return true;
+	}
+	//Checking the Access for the Settings Module
+	if ($moduleName == 'Settings' || $moduleName == 'Administration' || $moduleName == 'System' || \App\Http\AppRequest::get('parenttab') == 'Settings') {
 			if (!$userPrivileges['is_admin']) {
 				$permission = false;
 			} else {

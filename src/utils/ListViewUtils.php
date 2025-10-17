@@ -161,12 +161,12 @@ function getListQuery($module, $where = '')
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_contactdetails vtiger_contactdetails2
 				ON vtiger_contactdetails.reportsto = vtiger_contactdetails2.contactid
-			LEFT JOIN vtiger_customerdetails
-				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
-			if (AppRequest::get('from_dashboard') === true && AppRequest::get('type') == 'dbrd') {
-				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
-					"vtiger_contactdetails.contactid";
-			}
+		LEFT JOIN vtiger_customerdetails
+			ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
+		if (\App\Http\AppRequest::get('from_dashboard') === true && \App\Http\AppRequest::get('type') == 'dbrd') {
+			$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
+				"vtiger_contactdetails.contactid";
+		}
 
 			$query .= " %s WHERE vtiger_crmentity.deleted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);

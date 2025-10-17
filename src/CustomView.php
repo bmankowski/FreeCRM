@@ -197,11 +197,11 @@ class CustomView
 	 */
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
 	{
-		if (AppRequest::has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = AppRequest::get('orderby');
+		if (\App\Http\AppRequest::has('orderby')) {
+			$_SESSION['lvs'][$moduleName]['sortby'] = \App\Http\AppRequest::get('orderby');
 		}
-		if (AppRequest::has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = AppRequest::get('sortorder');
+		if (\App\Http\AppRequest::has('sortorder')) {
+			$_SESSION['lvs'][$moduleName]['sorder'] = \App\Http\AppRequest::get('sortorder');
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
@@ -222,7 +222,7 @@ class CustomView
 		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
-		if (!AppRequest::isEmpty('viewname') && (AppRequest::get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+		if (!\App\Http\AppRequest::isEmpty('viewname') && (\App\Http\AppRequest::get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
 		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
@@ -458,7 +458,7 @@ class CustomView
 		if (isset($this->defaultViewId)) {
 			return $this->defaultViewId;
 		}
-		if ($noCache || AppRequest::isEmpty('viewname')) {
+		if ($noCache || \App\Http\AppRequest::isEmpty('viewname')) {
 
 			if (!$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
@@ -469,7 +469,7 @@ class CustomView
 				$viewId = $this->getMandatoryFilter();
 			}
 		} else {
-			$viewId = AppRequest::get('viewname');
+			$viewId = \App\Http\AppRequest::get('viewname');
 			if (!is_numeric($viewId)) {
 				if ($viewId === 'All') {
 					$viewId = $this->getMandatoryFilter();
@@ -545,9 +545,9 @@ class CustomView
 			if ($statusUseridInfo) {
 				$status = $statusUseridInfo['status'];
 				$userId = $statusUseridInfo['userid'];
-				if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
-					$permission = true;
-				} elseif (AppRequest::get('view') !== 'ChangeStatus') {
+			if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
+				$permission = true;
+			} elseif (\App\Http\AppRequest::get('view') !== 'ChangeStatus') {
 					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getId()) {
 						$permission = true;
 					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {

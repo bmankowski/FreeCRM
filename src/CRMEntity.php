@@ -490,7 +490,7 @@ class CRMEntity
 				Privilege::setUpdater($moduleName, $id, 6, 0);
 			}
 			//Event triggering code
-			$eventHandler = new App\EventHandler();
+			$eventHandler = new \App\EventHandler();
 			$eventHandler->setRecordModel(\App\Modules\Vtiger\Models\Record::getInstanceById($id));
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityAfterRestore');
@@ -1480,14 +1480,14 @@ class CRMEntity
 	public function getSortOrder()
 	{
 
-		$currentModule = vglobal('currentModule');
-		Log::trace("Entering getSortOrder() method ...");
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::getForSql('sorder'));
-		else
-			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
-		Log::trace("Exiting getSortOrder() method ...");
-		return $sorder;
+	$currentModule = vglobal('currentModule');
+	Log::trace("Entering getSortOrder() method ...");
+	if (\App\Http\AppRequest::has('sorder'))
+		$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::getForSql('sorder'));
+	else
+		$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
+	Log::trace("Exiting getSortOrder() method ...");
+	return $sorder;
 	}
 
 	/**
@@ -1505,10 +1505,10 @@ class CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::getForSql('order_by'));
-		else
-			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
+	if (\App\Http\AppRequest::has('order_by'))
+		$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::getForSql('order_by'));
+	else
+		$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
 		Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}

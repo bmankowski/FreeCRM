@@ -35,7 +35,7 @@ class Vtiger_Base_Model
 	 */
 	public function get($key)
 	{
-		return isset($this->valueMap[$key]) ? $this->valueMap[$key] : false;
+		return isset($this->valueMap[$key]) ? $this->valueMap[$key] : null;
 	}
 
 	/**

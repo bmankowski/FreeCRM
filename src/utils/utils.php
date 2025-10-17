@@ -532,7 +532,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 	\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 	require_once(ROOT_DIRECTORY . '/src/events/include.php');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
-		$eventHandler = new App\EventHandler();
+		$eventHandler = new \App\EventHandler();
 		$eventHandler->setModuleName($sourceModule);
 		$eventHandler->setParams([
 			'CRMEntity' => $focus,
@@ -572,7 +572,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 		'sourceRecordId' => $sourceRecordId,
 		'destinationModule' => $destinationModule,
 	];
-	$eventHandler = new App\EventHandler();
+	$eventHandler = new \App\EventHandler();
 	$eventHandler->setModuleName($sourceModule);
 	foreach ($destinationRecordIds as &$destinationRecordId) {
 		$data['destinationRecordId'] = $destinationRecordId;

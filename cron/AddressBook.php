@@ -43,7 +43,7 @@ while ($row = $dataReader->read()) {
 	$metainfo = \App\Module::getEntityInfo($moduleName);
 	$queryFields = array_merge(['id'], $metainfo['fieldnameArr'], $emailFields);
 
-	$queryGenerator = new App\QueryGenerator($moduleName, $currentUser->id);
+	$queryGenerator = new \App\QueryGenerator($moduleName, $currentUser->id);
 	$queryGenerator->setFields($queryFields);
 	if ($last !== false) {
 		$queryGenerator->addCondition('id', $last['record'], 'a');

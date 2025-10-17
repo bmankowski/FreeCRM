@@ -18,7 +18,7 @@ Vtiger_Loader::register();
 \App\EntryPoint\WebUI::initialize();
 
 try {
-	$webUI = new App\Main\File();
+	$webUI = new \App\Main\File();
 	$webUI->process(AppRequest::init());
 } catch (Exception $e) {
 	\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
