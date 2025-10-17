@@ -3602,11 +3602,11 @@ span[name=existingImages] img{
 	position: relative;
 	left: 0;
 	z-index: 1030;
-	-webkit-transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
-	transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
+	-webkit-transition: left ease-in-out 0.05s, width ease-in-out 0.05s;
+	transition: left ease-in-out 0.05s, width ease-in-out 0.05s;
 	background: #ffffff;
 	min-height: 100%;
-	transition-delay: 0.5s;
+	transition-delay: 0s;
 }
 .baseContainer .basePanel:after {
 	content: "";
@@ -3620,25 +3620,25 @@ span[name=existingImages] img{
 
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader{
 	left: 230px;
-	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	-webkit-transition: left ease-in-out 0.05s 0s, z-index 0.05s 0.05s;
+	transition: left ease-in-out 0.05s 0s, z-index 0.05s 0.05s;
 }
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, 
 .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel{
 	left: 180px;
 	z-index: 0;
-	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	-webkit-transition: left ease-in-out 0.05s 0s, z-index 0.05s 0.05s;
+	transition: left ease-in-out 0.05s 0s, z-index 0.05s 0.05s;
 }
 .bodyHeader.open,.footerContainer.open{
 	left: 210px;
-	-webkit-transition: left ease-in-out 0.3s;
-	transition: left ease-in-out 0.3s;
+	-webkit-transition: left ease-in-out 0.05s;
+	transition: left ease-in-out 0.05s;
 }
 .baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
 .baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
-	-webkit-transition: left ease-in-out 0.35s;
-	transition: left ease-in-out 0.35s;
+	-webkit-transition: left ease-in-out 0.05s;
+	transition: left ease-in-out 0.05s;
 }
 .footerContainer{
 	height: 33px;
@@ -3698,9 +3698,9 @@ span[name=existingImages] img{
 	right: 0;
 	left: 50px;
 	z-index: 1031;
-	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition-delay: 0.5s;
+	-webkit-transition: left ease-in-out 0.05s, z-index 0.05s 0.05s;
+	transition: left ease-in-out 0.05s, z-index 0.05s 0.05s;
+	transition-delay: 0s;
 }
 .noSpaces{
 	padding: 0 !important;
@@ -3914,8 +3914,8 @@ html,body,.baseContainer
 	background: #fff;
 	z-index: 2000;
 	padding: 10px;
-	-webkit-transition: left ease-in-out 0.35s;
-	transition: left ease-in-out 0.35s;
+	-webkit-transition: left ease-in-out 0.05s;
+	transition: left ease-in-out 0.05s;
 	border: 1px solid #afafaf;
 	border-radius: 3px;
 }
@@ -3936,8 +3936,8 @@ html,body,.baseContainer
 	z-index: 1050;
 	background: #3f3f3f;
 	overflow: scroll;
-	-webkit-transition: left ease-in-out 0.35s;
-	transition: left ease-in-out 0.35s;
+	-webkit-transition: left ease-in-out 0.05s;
+	transition: left ease-in-out 0.05s;
 }
 .mobileLeftPanel{
 	font-size:14px;
@@ -4312,8 +4312,8 @@ html,body,.baseContainer
 	.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
 	.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
 		width: calc(100% - 180px);
-		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+		-webkit-transition: all ease-in-out 0.05s 0s, z-index 0.05s 0.05s;
+		transition: all ease-in-out 0.05s 0s, z-index 0.05s 0.05s;
 	}
 	.pull-left-md{
 		float:left;
