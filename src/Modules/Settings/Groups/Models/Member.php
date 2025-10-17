@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Models;
+namespace App\Modules\Settings\Groups\Models;
 
 
 /* +***********************************************************************************
@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\Settings\Groups\Models;
  * Roles Record Model Class
  */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class Member extends \Vtiger_Record_Model
 {
 
@@ -158,13 +158,13 @@ class Member extends \Vtiger_Record_Model
 	{
 		list($type, $recordId) = self::getIdComponentsFromQualifiedId($this->getId());
 		switch ($type) {
-			case 'Users' : $recordModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance($type);
+			case 'Users' : $recordModel = \App\Modules\Users\Models\Record::getCleanInstance($type);
 				$recordModel->setId($recordId);
 				return $recordModel->getDetailViewUrl();
 
 
 			case 'RoleAndSubordinates' :
-			case 'Roles' : $recordModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
+			case 'Roles' : $recordModel = new \App\Modules\Settings\Roles\Models\Record();
 				$recordModel->set('roleid', $recordId);
 				return $recordModel->getEditViewUrl();
 
@@ -198,7 +198,7 @@ class Member extends \Vtiger_Record_Model
 	{
 		$members = [];
 
-		$allUsers = \FreeCRM\Modules\Users\Models\Record::getAll($onlyActive);
+		$allUsers = \App\Modules\Users\Models\Record::getAll($onlyActive);
 		foreach ($allUsers as $userId => $userModel) {
 			$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_USERS, $userId);
 			$member = new self();
@@ -212,7 +212,7 @@ class Member extends \Vtiger_Record_Model
 			$members[self::MEMBER_TYPE_GROUPS][$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $groupModel->getName());
 		}
 
-		$allRoles = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		foreach ($allRoles as $roleId => $roleModel) {
 			$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_ROLES, $roleId);
 			$member = new self();

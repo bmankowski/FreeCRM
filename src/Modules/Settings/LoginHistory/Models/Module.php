@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LoginHistory\Models;
+namespace App\Modules\Settings\LoginHistory\Models;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\LoginHistory\Models;
  * @license licenses/License.html
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 'vtiger_loginhistory';

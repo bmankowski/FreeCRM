@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Actions;
+namespace App\Modules\ModComments\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,10 +12,10 @@ namespace FreeCRM\Modules\ModComments\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$request->set('assigned_user_id', \App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
@@ -24,15 +24,15 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		foreach ($responseFieldsToSent as &$fieldName) {
 			$fieldModel = $fieldModelList[$fieldName];
 			$fieldValue = $recordModel->get($fieldName);
-			$result[$fieldName] = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
+			$result[$fieldName] = \App\Modules\Vtiger\Util::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
 		}
 
 		$result['success'] = true;
-		$result['modifiedtime'] = \FreeCRM\Modules\Vtiger\Util::formatDateDiffInStrings($recordModel->get('modifiedtime'));
-		$result['modifiedtimetitle'] = \FreeCRM\Modules\Vtiger\Util::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
+		$result['modifiedtime'] = \App\Modules\Vtiger\Util::formatDateDiffInStrings($recordModel->get('modifiedtime'));
+		$result['modifiedtimetitle'] = \App\Modules\Vtiger\Util::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

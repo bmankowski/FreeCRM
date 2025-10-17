@@ -1,10 +1,10 @@
 <?php
 /* +**********************************************************************************
- * The contents of this file are subject to the FreeCRM Public License Version 1.0
+ * The contents of this file are subject to the App Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: FreeCRM Open Source
- * The Initial Developer of the Original Code is FreeCRM.
- * Portions created by FreeCRM are Copyright (C) FreeCRM.
+ * The Original Code is: App Open Source
+ * The Initial Developer of the Original Code is App.
+ * Portions created by App are Copyright (C) App.
  * All Rights Reserved.
  * @author Bartłomiej Mańkowski <bmankowski@itconnect.pl>
  * ********************************************************************************** */
@@ -14,9 +14,9 @@
  * Provides Smarty modifier 't' for template translations
  */
 
-namespace FreeCRM;
+namespace App;
 
-use FreeCRM\Runtime\Vtiger_Language_Handler;
+use App\Runtime\Vtiger_Language_Handler;
 use Exception;
 
 class LanguageTranslator

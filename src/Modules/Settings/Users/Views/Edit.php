@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Users\Views;
+namespace App\Modules\Settings\Users\Views;
 
 
 /* +***********************************************************************************
@@ -16,25 +16,25 @@ namespace FreeCRM\Modules\Settings\Users\Views;
 Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
 				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 			}
 		}
-		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \FreeCRM\AppConfig::security('SHOW_MY_PREFERENCES')))) {
+		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \App\AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -44,9 +44,9 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 
 	/**
 	 * Pre process settings
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function preProcessSettings(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcessSettings(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -62,20 +62,20 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcessSettings(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcessSettings(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -89,7 +89,7 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		return $headerScriptInstances;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		parent::process($request);
 	}

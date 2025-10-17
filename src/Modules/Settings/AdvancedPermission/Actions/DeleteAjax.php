@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AdvancedPermission\Actions;
+namespace App\Modules\Settings\AdvancedPermission\Actions;
 
 
 
@@ -11,11 +11,11 @@ namespace FreeCRM\Modules\Settings\AdvancedPermission\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
+use App\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -26,7 +26,7 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
 		header("Location: {$moduleModel->getDefaultUrl()}");
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

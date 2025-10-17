@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CronTasks\Models;
+namespace App\Modules\Settings\CronTasks\Models;
 
 
 /* +***********************************************************************************
@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\Settings\CronTasks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
+use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
 
-use FreeCRM\Modules\Settings\CronTasks\Models\Module as Settings_CronTasks_Module_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Settings\CronTasks\Models\Module as Settings_CronTasks_Module_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	static $STATUS_DISABLED = 0;
@@ -110,8 +110,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getLastEndDateTime()
 	{
 		if ($this->get('lastend') != NULL) {
-			$lastScannedTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
-			$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$lastScannedTime = \App\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
+			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$hourFormat = $userModel->get('hour_format');
 			if ($hourFormat == '24') {
 				return $lastScannedTime;
@@ -160,7 +160,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
 				}
-				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
+				$fieldValue = \App\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
 				break;
 			case 'laststart' :
 			case 'lastend' : $fieldValue = intval($fieldValue);
@@ -206,7 +206,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			->where(['id' => $recordId])
 			->one();
 		if ($row) {
-			$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($row)->setModule($moduleModel);
@@ -257,7 +257,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function getMinimumFrequency()
 	{
-		$frequency = \FreeCRM\AppConfig::main('MINIMUM_CRON_FREQUENCY');
+		$frequency = \App\AppConfig::main('MINIMUM_CRON_FREQUENCY');
 		if (!empty($frequency)) {
 			return $frequency * 60;
 		}

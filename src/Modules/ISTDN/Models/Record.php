@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ISTDN\Models;
+namespace App\Modules\ISTDN\Models;
 
 /**
  * Record Class for ISTDN
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\ISTDN\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];

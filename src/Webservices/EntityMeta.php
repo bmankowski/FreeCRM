@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 abstract class EntityMeta
 {
@@ -96,7 +96,7 @@ abstract class EntityMeta
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
-				foreach (\FreeCRM\Modules\Vtiger\Models\Field::$referenceTypes as $type) {
+				foreach (\App\Modules\Vtiger\Models\Field::$referenceTypes as $type) {
 					if (strcasecmp($webserviceField->getFieldDataType(), $type) === 0) {
 						$this->referenceFieldDetails[$fieldName] = $webserviceField->getReferenceList();
 					}

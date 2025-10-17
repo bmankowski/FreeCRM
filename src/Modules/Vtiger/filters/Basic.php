@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 class Basic {
 

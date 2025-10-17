@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Views;
+namespace App\Modules\Reports\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,8 +13,8 @@ namespace FreeCRM\Modules\Reports\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Modules\Vtiger\Views\Index as Vtiger_Index_View;
+use App\Http\Vtiger_Request;
+use App\Modules\Vtiger\Views\Index as Vtiger_Index_View;
 class ListView extends Vtiger_Index_View
 {
 
@@ -22,21 +22,21 @@ class ListView extends Vtiger_Index_View
 	protected $listViewEntries = false;
 	protected $listViewCount = false;
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new Reports_ListView_Model();
@@ -60,7 +60,7 @@ class ListView extends Vtiger_Index_View
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 
@@ -98,16 +98,16 @@ class ListView extends Vtiger_Index_View
 		}
 	}
 
-	public function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$folders = $moduleModel->getFolders();
 		$folderId = $request->get('viewname');
 		if (empty($folderId) || $folderId == 'undefined') {
@@ -138,7 +138,7 @@ class ListView extends Vtiger_Index_View
 			$pageNumber = '1';
 		}
 		$viewer->assign('MODULE', $moduleName);
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 
@@ -154,7 +154,7 @@ class ListView extends Vtiger_Index_View
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$noOfEntries = count($this->listViewEntries);
 
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -169,7 +169,7 @@ class ListView extends Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}
@@ -187,7 +187,7 @@ class ListView extends Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -199,9 +199,9 @@ class ListView extends Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -220,7 +220,7 @@ class ListView extends Vtiger_Index_View
 	 * Function returns the number of records for the current filter
 	 * @param Vtiger_Request $request
 	 */
-	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -241,7 +241,7 @@ class ListView extends Vtiger_Index_View
 	 * Function to get listView count
 	 * @param Vtiger_Request $request
 	 */
-	public function getListViewCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getListViewCount(\App\Http\Vtiger_Request $request)
 	{
 		$folderId = $request->get('viewname');
 		if (empty($folderId)) {
@@ -258,10 +258,10 @@ class ListView extends Vtiger_Index_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	public function getPageCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

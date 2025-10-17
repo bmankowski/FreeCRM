@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -18,12 +18,12 @@ class Processes {
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__ . " | Process: $process, Type: $type");
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$processList = [
 			'marketing' => 'yetiforce_proc_marketing',
 			'sales' => 'yetiforce_proc_sales',
 		];
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('ProcessesModel', $process . $type);
+		$cache = \App\Runtime\Vtiger_Cache::get('ProcessesModel', $process . $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
@@ -44,12 +44,12 @@ class Processes {
 				$config[$param] = $value;
 			}
 			if ($procesParam != false && $param == $procesParam) {
-				\FreeCRM\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
+				\App\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
 				\App\Log::trace('End ' . __METHOD__);
 				return $value;
 			}
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type, $config);
+		\App\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

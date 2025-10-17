@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IPreOrder;
+namespace App\Modules\IPreOrder;
 
 /**
  * IPreOrder CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\IPreOrder;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class IPreOrder extends Vtiger_CRMEntity

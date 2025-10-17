@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AdvancedPermission\Views;
+namespace App\Modules\Settings\AdvancedPermission\Views;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\AdvancedPermission\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -22,7 +22,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('step2');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -34,9 +34,9 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Edit view first step
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function step1(\FreeCRM\Http\Vtiger_Request $request)
+	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -56,16 +56,16 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Edit view second step
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function step2(\FreeCRM\Http\Vtiger_Request $request)
+	public function step2(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
 		$selectedModule = \App\Module::getModuleName($recordModel->get('tabid'));
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModule);
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($selectedModule);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
@@ -77,7 +77,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('EditViewS2.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [

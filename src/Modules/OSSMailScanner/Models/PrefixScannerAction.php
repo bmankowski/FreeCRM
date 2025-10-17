@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\Models;
+namespace App\Modules\OSSMailScanner\Models;
 
 /**
  * Base for action creating relations on the basis of prefix
@@ -17,7 +17,7 @@ abstract class PrefixScannerAction
 
 	public function findAndBind()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$mailId = $this->mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;
@@ -48,7 +48,7 @@ abstract class PrefixScannerAction
 		if (\App\Cache::has('getRecordByPrefix', $this->prefix)) {
 			$crmId = \App\Cache::get('getRecordByPrefix', $this->prefix);
 		} else {
-			$moduleObject = \FreeCRM\CRMEntity::getInstance($this->moduleName);
+			$moduleObject = \App\CRMEntity::getInstance($this->moduleName);
 			$tableIndex = $moduleObject->tab_name_index[$this->tableName];
 			$crmId = (new \App\Db\Query())
 				->select([$tableIndex])

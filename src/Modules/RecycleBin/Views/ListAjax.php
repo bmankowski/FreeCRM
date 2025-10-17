@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\RecycleBin\Views;
+namespace App\Modules\RecycleBin\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\RecycleBin\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ListAjax extends \Vtiger_Index_View
 {
 
@@ -23,17 +23,17 @@ class ListAjax extends \Vtiger_Index_View
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

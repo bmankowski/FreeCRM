@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Project\Views;
+namespace App\Modules\Project\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Project\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -24,13 +24,13 @@ class Detail extends \Vtiger_Index_View
 		$this->exposeMethod('showGantt');
 	}
 
-	public function showCharts(\FreeCRM\Http\Vtiger_Request $request)
+	public function showCharts(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($moduleModel)
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -38,20 +38,20 @@ class Detail extends \Vtiger_Index_View
 		$viewer->view('charts/ShowTimeProjectUsers.tpl', $moduleName);
 	}
 
-	public function showGantt(\FreeCRM\Http\Vtiger_Request $request)
+	public function showGantt(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getGanttProject($recordId);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', \App\Json::encode($data));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
@@ -62,7 +62,7 @@ class Detail extends \Vtiger_Index_View
 		return $headerCssInstances;
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

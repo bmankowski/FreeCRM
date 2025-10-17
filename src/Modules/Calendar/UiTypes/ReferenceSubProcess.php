@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\UiTypes;
+namespace App\Modules\Calendar\UiTypes;
 
 /**
  * UIType ReferenceSubProcess Field Class

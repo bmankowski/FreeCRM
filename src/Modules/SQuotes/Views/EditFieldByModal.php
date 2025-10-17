@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SQuotes\Views;
+namespace App\Modules\SQuotes\Views;
 
 /**
  * EditFieldByModal View Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\SQuotes\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class EditFieldByModal extends \Vtiger_Index_View
 {
 
@@ -17,6 +17,6 @@ class EditFieldByModal extends \Vtiger_Index_View
 
 	public function getConditionToRestricts($moduleName, $ID)
 	{
-		return \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CloseRecord', $ID);
+		return \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CloseRecord', $ID);
 	}
 }

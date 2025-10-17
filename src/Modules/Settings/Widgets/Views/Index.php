@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Widgets\Views;
-use FreeCRM\Modules\Settings\Widgets\Models\Module;
+namespace App\Modules\Settings\Widgets\Views;
+use App\Modules\Settings\Widgets\Models\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\Widgets\Models\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -27,7 +27,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$source = vtlib\Functions::getModuleId($sourceModule);
 		if ($source == '')
 			$source = 6;
-		$moduleModel = \FreeCRM\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
 		$RelatedModule = $moduleModel->getRelatedModule($source);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
@@ -43,7 +43,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
@@ -56,7 +56,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerCssInstances;
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

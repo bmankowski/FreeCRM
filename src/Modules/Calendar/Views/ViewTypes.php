@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Calendar\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ViewTypes extends \Vtiger_Index_View
 {
 
@@ -23,12 +23,12 @@ class ViewTypes extends \Vtiger_Index_View
 		$this->exposeMethod('getSharedUsersList');
 	}
 
-	public function getViewTypes(\FreeCRM\Http\Vtiger_Request $request)
+	public function getViewTypes(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$calendarViews = \FreeCRM\Modules\Calendar\Models\Module::getCalendarViewTypes($currentUser->id);
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$calendarViews = \App\Modules\Calendar\Models\Module::getCalendarViewTypes($currentUser->id);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEWTYPES', $calendarViews);
@@ -39,15 +39,15 @@ class ViewTypes extends \Vtiger_Index_View
 	 * Function to get Shared Users
 	 * @param Vtiger_Request $request
 	 */
-	public function getSharedUsersList(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSharedUsersList(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 
 		$moduleName = $request->getModule();
-		$sharedUsers = \FreeCRM\Modules\Calendar\Models\Module::getSharedUsersOfCurrentUser($currentUser->id);
-		$sharedUsersInfo = \FreeCRM\Modules\Calendar\Models\Module::getSharedUsersInfoOfCurrentUser($currentUser->id);
+		$sharedUsers = \App\Modules\Calendar\Models\Module::getSharedUsersOfCurrentUser($currentUser->id);
+		$sharedUsersInfo = \App\Modules\Calendar\Models\Module::getSharedUsersInfoOfCurrentUser($currentUser->id);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SHAREDUSERS', $sharedUsers);

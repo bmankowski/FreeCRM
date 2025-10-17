@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace App\Modules\com_vtiger_workflow;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

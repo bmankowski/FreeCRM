@@ -10,10 +10,10 @@
  * ********************************************************************************** */
 namespace vtlib;
 
-use FreeCRM\Http\AppRequest;
-use FreeCRM\Http\Vtiger_Response;
-use FreeCRM\AppConfig;
-use FreeCRM\Runtime\FreeCRM_Viewer;
+use App\Http\AppRequest;
+use App\Http\Vtiger_Response;
+use App\AppConfig;
+use App\Runtime\CRM_Viewer;
 
 class Functions
 {
@@ -41,7 +41,7 @@ class Functions
 
 	public static function userCurrencyId($userid)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if (!isset(self::$userIdCurrencyIdCache[$userid])) {
 			$result = $adb->pquery('SELECT id,currency_id FROM vtiger_users', []);
 			while ($row = $adb->fetch_array($result)) {
@@ -86,7 +86,7 @@ class Functions
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		if ($show_symbol) {
-			return sprintf("%s : %s", \FreeCRM\Runtime\Vtiger_Language_Handler::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
+			return sprintf("%s : %s", \App\Runtime\Vtiger_Language_Handler::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
 		return $currencyInfo['currency_name'];
 	}
@@ -278,7 +278,7 @@ class Functions
 
 	public static function getUserName($id)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if (!self::$userIdNameCache[$id]) {
 			$result = $adb->pquery('SELECT id, user_name FROM vtiger_users');
 			while ($row = $adb->fetch_array($result)) {
@@ -387,7 +387,7 @@ class Functions
 
 	public static function getInventoryTermsAndCondition()
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$sql = "select tandc from vtiger_inventory_tandc";
 		$result = $adb->pquery($sql, []);
 		$tandc = $adb->query_result($result, 0, "tandc");
@@ -469,7 +469,7 @@ class Functions
 
 	public static function getTicketComments($ticketid)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$moduleName = self::getCRMRecordType($ticketid);
 		$commentlist = '';
 		$sql = "SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?";
@@ -482,7 +482,7 @@ class Functions
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br><br>' . \App\Runtime\Vtiger_Language_Handler::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 
@@ -567,7 +567,7 @@ class Functions
 
 	public static function getActivityType($id)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$query = "select activitytype from vtiger_activity where activityid=?";
 		$res = $adb->pquery($query, array($id));
 		$activity_type = $adb->query_result($res, 0, "activitytype");
@@ -601,7 +601,7 @@ class Functions
 	 */
 	public static function getUnitPrice($productid, $module = 'Products')
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if ($module == 'Services') {
 			$query = "select unit_price from vtiger_service where serviceid=?";
 		} else {
@@ -617,8 +617,8 @@ class Functions
 		$hour = floor($decTime);
 		$min = round(60 * ($decTime - $hour));
 		return array(
-			'short' => $hour . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_H') . ' ' . $min . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_M'),
-			'full' => $hour . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS') . ' ' . $min . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES'),
+			'short' => $hour . \App\Runtime\Vtiger_Language_Handler::translate('LBL_H') . ' ' . $min . \App\Runtime\Vtiger_Language_Handler::translate('LBL_M'),
+			'full' => $hour . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS') . ' ' . $min . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES'),
 		);
 	}
 
@@ -629,28 +629,28 @@ class Functions
 		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
 		$years = floor($years);
 		if (!empty($years)) {
-			$short[] = $years == 1 ? $years . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_Y') : $years . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YRS');
-			$full[] = $years == 1 ? $years . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YEAR') : $years . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YEARS');
+			$short[] = $years == 1 ? $years . \App\Runtime\Vtiger_Language_Handler::translate('LBL_Y') : $years . \App\Runtime\Vtiger_Language_Handler::translate('LBL_YRS');
+			$full[] = $years == 1 ? $years . \App\Runtime\Vtiger_Language_Handler::translate('LBL_YEAR') : $years . \App\Runtime\Vtiger_Language_Handler::translate('LBL_YEARS');
 		}
 		$days = self::myBcmod(($timeMinutesRange), (60 * 24 * 365));
 		$days = ($days) / (24 * 60);
 		$days = floor($days);
 		if (!empty($days)) {
-			$short[] = $days . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_D');
-			$full[] = $days == 1 ? $days . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DAY') : $days . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DAYS');
+			$short[] = $days . \App\Runtime\Vtiger_Language_Handler::translate('LBL_D');
+			$full[] = $days == 1 ? $days . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DAY') : $days . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DAYS');
 		}
 		$hours = self::myBcmod(($timeMinutesRange), (24 * 60));
 		$hours = ($hours) / (60);
 		$hours = floor($hours);
 		if (!empty($hours)) {
-			$short[] = $hours . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_H');
-			$full[] = $hours == 1 ? $hours . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOUR') : $hours . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS');
+			$short[] = $hours . \App\Runtime\Vtiger_Language_Handler::translate('LBL_H');
+			$full[] = $hours == 1 ? $hours . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOUR') : $hours . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS');
 		}
 		$minutes = self::myBcmod(($timeMinutesRange), (60));
 		$minutes = floor($minutes);
 		if (!empty($timeMinutesRange) || $showEmptyValue) {
-			$short[] = $minutes . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_M');
-			$full[] = $minutes == 1 ? $minutes . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTE') : $minutes . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES');
+			$short[] = $minutes . \App\Runtime\Vtiger_Language_Handler::translate('LBL_M');
+			$full[] = $minutes == 1 ? $minutes . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTE') : $minutes . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES');
 		}
 
 		return [
@@ -726,7 +726,7 @@ class Functions
 			}
 			$response->emit();
 		} else {
-			$viewer = new FreeCRM_Viewer();
+			$viewer = new CRM_Viewer();
 			$viewer->assign('MESSAGE', $message);
 			$viewer->view($tpl, 'Vtiger');
 		}
@@ -795,7 +795,7 @@ class Functions
 	 */
 	public static function get_group_options()
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$sql = "select groupname,groupid from vtiger_groups";
 		$result = $adb->pquery($sql, []);
 		return $result;

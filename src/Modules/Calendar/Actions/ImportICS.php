@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Actions;
+namespace App\Modules\Calendar\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -18,13 +18,13 @@ require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_parameters.p
 require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/ical-parser-class.php';
 require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCalLastImport.php';
 
-class ImportICS extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ImportICS extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -32,13 +32,13 @@ class ImportICS extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ics = $request->get('ics') . '.ics';
 		$icsUrl = 'cache/import/' . $ics;
 		if (file_exists($icsUrl)) {
-			$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$userId = $currentUserModel->getId();
 
 			$lastImport = new iCalLastImport();
@@ -53,7 +53,7 @@ class ImportICS extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 			$requiredFields = array();
 			$modules = array($eventModule, $todoModule);
-			$calendarModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$calendarModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 			foreach ($modules as $module) {
 				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
@@ -78,7 +78,7 @@ class ImportICS extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$totalCount[$module] ++;
 				$activityFieldsList = $activity->generateArray($icalActivities[$i]);
 
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 
@@ -111,8 +111,8 @@ class ImportICS extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		} else {
 			$return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($return, $moduleName));
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(\App\Runtime\Vtiger_Language_Handler::translate($return, $moduleName));
 		$response->emit();
 	}
 }

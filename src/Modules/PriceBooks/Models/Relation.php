@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks\Models;
+namespace App\Modules\PriceBooks\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\PriceBooks\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Vtiger\Models\Relation
 {
 
 	/**
@@ -25,7 +25,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 	{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 
-		$priceBookModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
+		$priceBookModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
 		$priceBookModel->updateListPrice($destinationRecordId, $listPrice);
 	}
 
@@ -39,7 +39,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		if ($sourceModuleName == 'PriceBooks' && ($destinationModuleName == 'Products' || $destinationModuleName == 'Services')) {
-			$priceBookModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
+			$priceBookModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
 			$priceBookModel->deleteListPrice($relatedRecordId);
 		} else {
 			parent::deleteRelation($sourceRecordId, $relatedRecordId);

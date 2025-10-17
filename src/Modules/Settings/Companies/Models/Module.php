@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Companies\Models;
+namespace App\Modules\Settings\Companies\Models;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\Companies\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 's_yf_companies';

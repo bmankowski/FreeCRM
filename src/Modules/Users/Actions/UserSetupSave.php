@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Users\Actions;
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 
-class UserSetupSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class UserSetupSave extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userModuleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($moduleName);
-		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModuleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);
+		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		//Handling the user preferences 
 		$userRecordModel->set('language', $request->get('lang_name'));

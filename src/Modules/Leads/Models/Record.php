@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Models;
+namespace App\Modules\Leads\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Leads\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -30,14 +30,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function getAccountFieldsForLeadConvert()
 	{
 		$accountsFields = array();
-		$privilegeModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$privilegeModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleName = 'Accounts';
 
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {
+		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {
 			return;
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 			//Fields that need to be shown
@@ -60,7 +60,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				}
 			}
 			foreach ($complusoryFields as $complusoryField) {
-				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($complusoryField, $moduleModel);
+				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($complusoryField, $moduleModel);
 				if ($fieldModel->getPermissions(false)) {
 					$industryFieldModel = $moduleModel->getField($complusoryField);
 					$industryLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
@@ -86,16 +86,16 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$mappingFields = $this->get('mappingFields');
 
 		if (!$mappingFields) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$mappingFields = array();
 
 			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', array());
 			$numOfRows = $db->num_rows($result);
 
-			$accountInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Accounts');
+			$accountInstance = \App\Modules\Vtiger\Models\Module::getInstance('Accounts');
 			$accountFieldInstances = $accountInstance->getFieldsById();
 
-			$leadInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Leads');
+			$leadInstance = \App\Modules\Vtiger\Models\Module::getInstance('Leads');
 			$leadFieldInstances = $leadInstance->getFieldsById();
 
 			for ($i = 0; $i < $numOfRows; $i++) {
@@ -120,7 +120,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function returns the fields required for Lead Convert
-	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Field>
+	 * @return <Array of \App\Modules\Vtiger\Models\Field>
 	 */
 	public function getConvertLeadFields()
 	{
@@ -138,7 +138,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateEventUrl()
 	{
-		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -148,7 +148,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateTaskUrl()
 	{
-		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 }

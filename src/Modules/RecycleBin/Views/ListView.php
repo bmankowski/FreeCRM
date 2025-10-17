@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\RecycleBin\Views;
+namespace App\Modules\RecycleBin\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,17 +13,17 @@ namespace FreeCRM\Modules\RecycleBin\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ListView extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$moduleModel = \FreeCRM\Modules\RecycleBin\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\RecycleBin\Models\Module::getInstance($moduleName);
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 
@@ -37,19 +37,19 @@ class ListView extends \Vtiger_Index_View
 		}
 	}
 
-	public function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->view('ListViewContents.tpl', $request->getModule());
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('ListViewPostProcess.tpl', $request->getModule());
@@ -59,7 +59,7 @@ class ListView extends \Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
@@ -79,7 +79,7 @@ class ListView extends \Vtiger_Index_View
 			$pageNumber = '1';
 		}
 
-		$moduleModel = \FreeCRM\Modules\RecycleBin\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\RecycleBin\Models\Module::getInstance($moduleName);
 		//If sourceModule is empty, pick the first module name from the list
 		if (empty($sourceModule)) {
 			foreach ($moduleModel->getAllModuleList() as $model) {
@@ -92,10 +92,10 @@ class ListView extends \Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -133,7 +133,7 @@ class ListView extends \Vtiger_Index_View
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('DELETED_RECORDS_TOTAL_COUNT', $moduleModel->getDeletedRecordsTotalCount());
 
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}
@@ -151,9 +151,9 @@ class ListView extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -173,14 +173,14 @@ class ListView extends \Vtiger_Index_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	public function getPageCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
 		$listViewCount = $listViewModel->getListViewCount($request);
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 
@@ -199,7 +199,7 @@ class ListView extends \Vtiger_Index_View
 	 * Function returns the number of records for the current filter
 	 * @param Vtiger_Request $request
 	 */
-	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');

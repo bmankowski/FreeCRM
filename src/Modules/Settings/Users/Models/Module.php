@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Users\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
+namespace App\Modules\Settings\Users\Models;
+use App\Modules\Settings\Vtiger\Models\Tracker;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public static function getInstance($name = 'Settings:Vtiger')
@@ -25,7 +25,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getConfig($type)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM yetiforce_auth WHERE type = ?;', [$type]);
 		if ($db->num_rows($result) == 0) {
@@ -107,7 +107,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			return self::$usersID[$data];
 		}
 		if (substr($data, 0, 1) === 'H') {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$return = [];
 			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? AND deleted=0 AND status <> ?', [$data, 'Inactive']);
 			while ($userid = $db->getSingleValue($result)) {
@@ -237,9 +237,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		if (!empty($difference)) {
 			foreach ($difference as $id => $locks) {
 				if (strpos($id, 'H') === false) {
-					$name = \FreeCRM\Modules\Users\Models\Record::getInstanceById($id, 'Users');
+					$name = \App\Modules\Users\Models\Record::getInstanceById($id, 'Users');
 				} else {
-					$name = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($id);
+					$name = \App\Modules\Settings\Roles\Models\Record::getInstanceById($id);
 				}
 				$name = $name->getName();
 				if ($oldValues[$id])
@@ -247,18 +247,18 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				else
 					$prev[$name] = '';
 				$post[$name] = implode(',', $newValues[$id]);
-				\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
+				\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
 			}
 		}
 
 		$difference = vtlib\Functions::arrayDiffAssocRecursive($oldValues, $newValues);
 		if (!empty($difference)) {
-			\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::changeType('delete');
+			\App\Modules\Settings\Vtiger\Models\Tracker::changeType('delete');
 			foreach ($difference as $id => $locks) {
 				if (strpos($id, 'H') === false) {
-					$name = \FreeCRM\Modules\Users\Models\Record::getInstanceById($id, 'Users');
+					$name = \App\Modules\Users\Models\Record::getInstanceById($id, 'Users');
 				} else {
-					$name = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($id);
+					$name = \App\Modules\Settings\Roles\Models\Record::getInstanceById($id);
 				}
 				$name = $name->getName();
 				$prev[$name] = implode(',', $oldValues[$id]);
@@ -266,7 +266,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 					$post[$name] = implode(',', $newValues[$id]);
 				else
 					$post[$name] = '';
-				\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
+				\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
 			}
 		}
 	}

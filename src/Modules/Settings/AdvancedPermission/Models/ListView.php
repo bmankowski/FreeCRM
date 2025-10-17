@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AdvancedPermission\Models;
+namespace App\Modules\Settings\AdvancedPermission\Models;
 
 
 
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Settings\AdvancedPermission\Models;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 	/*

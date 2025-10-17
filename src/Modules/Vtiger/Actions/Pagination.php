@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /**
  * Actions to pagination
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Pagination extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Pagination extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -16,16 +16,16 @@ class Pagination extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('getTotalCount');
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}
 
-	public function getTotalCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getTotalCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('viewname');
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $viewName);
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $viewName);
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
@@ -36,12 +36,12 @@ class Pagination extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$data = [
 			'totalCount' => $totalCount
 		];
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($data);
 		$response->emit();
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

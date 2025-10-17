@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Assets\Models;
+namespace App\Modules\Assets\Models;
 
 /**
  * Record Class for Assets
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Assets\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];
@@ -39,7 +39,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if ($this->isEmpty('product')) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
-		$productsRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($this->get('product'), 'Products');
+		$productsRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($this->get('product'), 'Products');
 		$renewable = $productsRecordModel->get('renewable');
 		if (!$renewable) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
@@ -48,9 +48,9 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			return 'PLL_RENEWED_VERIFICATION';
 		}
 		$dateInService = strtotime($this->get('dateinservice'));
-		$renewalTime = \FreeCRM\AppConfig::module('Assets', 'RENEWAL_TIME');
+		$renewalTime = \App\AppConfig::module('Assets', 'RENEWAL_TIME');
 		$dateRenewable = strtotime('-' . $renewalTime, $dateInService);
-		$classFunction = \FreeCRM\AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = \App\AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
 		$methodExist = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
 			$methodExist = true;

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TreesManager\Models;
+namespace App\Modules\Settings\TreesManager\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -13,8 +13,8 @@ namespace FreeCRM\Modules\Settings\TreesManager\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -172,7 +172,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$parameters = [
 				'id' => $treeID,
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $module),
+				'text' => \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $module),
 				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
 				'icon' => $row['icon']
 			];
@@ -320,11 +320,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to get the instance of Role model, given role id
 	 * @param integer $record
-	 * @return \FreeCRM\Modules\Settings\Roles\Models\Record instance, if exists. Null otherwise
+	 * @return \App\Modules\Settings\Roles\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($record)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_trees_templates WHERE templateid = ?';
 		$params = array($record);
 		$result = $db->pquery($sql, $params);

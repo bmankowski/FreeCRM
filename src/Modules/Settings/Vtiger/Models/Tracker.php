@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
+namespace App\Modules\Settings\Vtiger\Models;
 
-use FreeCRM\Modules\Users\Models\Privileges as Users_Privileges_Model;
+use App\Modules\Users\Models\Privileges as Users_Privileges_Model;
 
 /**
  * Main class to save modification in settings
@@ -25,7 +25,7 @@ class Tracker
 	static function addBasic($type)
 	{
 		$db = \App\Db::getInstance('log');
-		if ($type == 'view' && \FreeCRM\Http\AppRequest::isAjax()) {
+		if ($type == 'view' && \App\Http\AppRequest::isAjax()) {
 			self::lockTracking();
 		}
 		if (self::$id != false || self::$lockTrack) {
@@ -34,7 +34,7 @@ class Tracker
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
 				'user_id' => \App\User::getCurrentUserId(),
 				'type' => self::$types[$type],
-				'module_name' => \FreeCRM\Http\AppRequest::get('module'),
+				'module_name' => \App\Http\AppRequest::get('module'),
 				'record_id' => self::$recordId ? self::$recordId : 0,
 				'date' => date('Y-m-d H:i:s'),
 				'action' => _PROCESS_NAME

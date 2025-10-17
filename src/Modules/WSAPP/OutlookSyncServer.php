@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP;
+namespace App\Modules\WSAPP;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -35,7 +35,7 @@ class OutlookSyncServer extends SyncServer
 	public function put($key, $element, $user)
 	{
 		
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$appid = parent::appid_with_key($key);
 		if (empty($appid)) {
 			throw new WebServiceException('WSAPP04', "Access restricted to app");

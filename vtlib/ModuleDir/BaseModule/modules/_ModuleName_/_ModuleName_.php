@@ -11,7 +11,7 @@
 
 include_once 'modules/Vtiger/CRMEntity.php';
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 class _ModuleName_ extends Vtiger_CRMEntity
 {
 

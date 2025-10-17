@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users;
+namespace App\Modules\Users;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -35,7 +35,7 @@ require_once ROOT_DIRECTORY . '/src/Modules/Users/UserTimeZones.php';
 /** Main class for the user module
  *
  */
-class Users extends \FreeCRM\CRMEntity
+class Users extends \App\CRMEntity
 {
 
 	// Stored fields
@@ -164,7 +164,7 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->db = \FreeCRM\database\PearDatabase::getInstance();
+		$this->db = \App\database\PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Users');
 		$this->column_fields['currency_name'] = '';
 		$this->column_fields['currency_code'] = '';
@@ -181,8 +181,8 @@ class Users extends \FreeCRM\CRMEntity
 	{
 
 		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\FreeCRM\Http\AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
+		if (\App\Http\AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder method ...");
@@ -199,12 +199,12 @@ class Users extends \FreeCRM\CRMEntity
 		\App\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (\FreeCRM\Http\AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
+		if (\App\Http\AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -406,7 +406,7 @@ class Users extends \FreeCRM\CRMEntity
 	public function getCryptType()
 	{
 		$crypt_res = null;
-		$crypt_type = \FreeCRM\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$crypt_type = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if (isset($this->id)) {
 			// Get the type of crypt used on password before actual comparision
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where id=?";
@@ -439,18 +439,18 @@ class Users extends \FreeCRM\CRMEntity
 		\App\Log::trace('Starting password change for ' . $userName);
 
 		if (empty($newPassword)) {
-			$this->error_string = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_2');
+			$this->error_string = \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
 		if (!$currentUser->isAdmin()) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $userName);
-				$this->error_string = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_INCORRECT_OLD');
+				$this->error_string = \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_INCORRECT_OLD');
 				return false;
 			}
 		}
 		//set new password
-		$crypt_type = \FreeCRM\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$crypt_type = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		$encryptedNewPassword = $this->encrypt_password($newPassword, $crypt_type);
 
 		\App\Db::getInstance()->createCommand()->update($this->table_name, [
@@ -492,13 +492,13 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function retrieve_user_id($userName)
 	{
-		if (\FreeCRM\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('userName');
 			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
 				return $users[$userName]['id'];
 			}
 		}
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
 		if ($row && $row['deleted'] == '0') {
@@ -538,7 +538,7 @@ class Users extends \FreeCRM\CRMEntity
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = \FreeCRM\Http\AppRequest::get($fileindex . '_hidden');
+				$files['original_name'] = \App\Http\AppRequest::get($fileindex . '_hidden');
 				$this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -552,7 +552,7 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function retrieve_entity_info($record, $module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 
@@ -672,7 +672,7 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function getHomeStuffOrder($id)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if (!is_array($this->homeorder_array)) {
 			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'CVLVT', 'HLT',
 				'GRT', 'MNL', 'LTFAQ');
@@ -711,7 +711,7 @@ class Users extends \FreeCRM\CRMEntity
 	{
 		$homeModComptVisibility = 1;
 		if ($inVal == 'postinstall') {
-			if (\FreeCRM\Http\AppRequest::get($home_string) != '') {
+			if (\App\Http\AppRequest::get($home_string) != '') {
 				$homeModComptVisibility = 0;
 			} else if (in_array($home_string, $this->default_widgets)) {
 				$homeModComptVisibility = 0;
@@ -722,7 +722,7 @@ class Users extends \FreeCRM\CRMEntity
 
 	public function insertUserdetails($inVal)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$uid = $this->id;
 		$s1 = $adb->getUniqueID("vtiger_homestuff");
 		$visibility = $this->getDefaultHomeModuleVisibility('ALVT', $inVal);
@@ -803,14 +803,14 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function saveHomeStuffOrder($id)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {
 			$countHomeorderArray = count($this->homeorder_array);
 			for ($i = 0; $i < $countHomeorderArray; $i++) {
-				if (\FreeCRM\Http\AppRequest::get($this->homeorder_array[$i]) != '') {
+				if (\App\Http\AppRequest::get($this->homeorder_array[$i]) != '') {
 					$save_array[] = $this->homeorder_array[$i];
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
@@ -892,7 +892,7 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public function mark_deleted($id)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
@@ -906,12 +906,12 @@ class Users extends \FreeCRM\CRMEntity
 	 */
 	public static function getActiveAdminId()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
+		$cache = \App\Runtime\Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
 		} else {
-			if (\FreeCRM\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
 					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
@@ -938,7 +938,7 @@ class Users extends \FreeCRM\CRMEntity
 	public static function getActiveAdminUser()
 	{
 		$adminId = self::getActiveAdminId();
-		$user = \FreeCRM\CRMEntity::getInstance('Users');
+		$user = \App\CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
 	}

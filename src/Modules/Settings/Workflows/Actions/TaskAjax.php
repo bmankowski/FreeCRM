@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Actions;
-use FreeCRM\Modules\Settings\WorkflowsModels\TaskRecord;
+namespace App\Modules\Settings\Workflows\Actions;
+use App\Modules\Settings\WorkflowsModels\TaskRecord;
 
 
 /* +***********************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\WorkflowsModels\TaskRecord;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
-class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+class TaskAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -29,7 +29,7 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('Save');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -38,36 +38,36 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		}
 	}
 
-	public function Delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function Delete(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {
-			$taskRecordModel = \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);
+			$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);
 			$taskRecordModel->delete();
-			$response = new \FreeCRM\Http\Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setResult(array('ok'));
 			$response->emit();
 		}
 	}
 
-	public function ChangeStatus(\FreeCRM\Http\Vtiger_Request $request)
+	public function ChangeStatus(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {
-			$taskRecordModel = \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);
+			$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);
 			$taskObject = $taskRecordModel->getTaskObject();
 			if ($request->get('status') == 'true')
 				$taskObject->active = true;
 			else
 				$taskObject->active = false;
 			$taskRecordModel->save();
-			$response = new \FreeCRM\Http\Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setResult(array('ok'));
 			$response->emit();
 		}
 	}
 
-	public function ChangeStatusAllTasks(\FreeCRM\Http\Vtiger_Request $request)
+	public function ChangeStatusAllTasks(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$status = $request->get('status');
@@ -75,7 +75,7 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($record);
 			$taskList = $workflowModel->getTasks();
 			foreach ($taskList as $task) {
-				$taskRecordModel = \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getInstance($task->getId());
+				$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($task->getId());
 				$taskObject = $taskRecordModel->getTaskObject();
 				if ($status == 'true')
 					$taskObject->active = true;
@@ -83,23 +83,23 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 					$taskObject->active = false;
 				$taskRecordModel->save();
 			}
-			$response = new \FreeCRM\Http\Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setResult(array('success' => true, 'count' => count($taskList)));
 			$response->emit();
 		}
 	}
 
-	public function Save(\FreeCRM\Http\Vtiger_Request $request)
+	public function Save(\App\Http\Vtiger_Request $request)
 	{
 
 		$workflowId = $request->get('for_workflow');
 		if (!empty($workflowId)) {
 			$record = $request->get('task_id');
 			if ($record) {
-				$taskRecordModel = \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);
+				$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);
 			} else {
 				$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
-				$taskRecordModel = \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getCleanInstance($workflowModel, $request->get('taskType'));
+				$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getCleanInstance($workflowModel, $request->get('taskType'));
 			}
 
 			$taskObject = $taskRecordModel->getTaskObject();
@@ -144,7 +144,7 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 			$taskType = get_class($taskObject);
 			if ($taskType === 'VTCreateEntityTask' && $taskObject->field_value_mapping) {
-				$relationModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
+				$relationModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
@@ -153,7 +153,7 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 						if ($mappingInfo['value'] == 'assigned_user_id') {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {
-							$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($mappingInfo['value'], 'Users');
+							$userRecordModel = \App\Modules\Users\Models\Record::getInstanceById($mappingInfo['value'], 'Users');
 							$ownerName = $userRecordModel->get('user_name');
 
 							if (!$ownerName) {
@@ -168,13 +168,13 @@ class TaskAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			}
 
 			$taskRecordModel->save();
-			$response = new \FreeCRM\Http\Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setResult(array('for_workflow' => $workflowId));
 			$response->emit();
 		}
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Actions;
+namespace App\Modules\Settings\Mail\Actions;
 
 
 
@@ -11,16 +11,16 @@ namespace FreeCRM\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Mail\Models\Module as Settings_Mail_Module_Model;
+use App\Modules\Settings\Mail\Models\Module as Settings_Mail_Module_Model;
 class DownloadAttachment extends \Vtiger_Mass_Action
 {
 
 	/**
 	 * Checking permission 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -30,9 +30,9 @@ class DownloadAttachment extends \Vtiger_Mass_Action
 	
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('record');
 		$selectedFile = (int) $request->get('selectedFile');
@@ -51,9 +51,9 @@ class DownloadAttachment extends \Vtiger_Mass_Action
 	
 	/**
 	 * Validate Request
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

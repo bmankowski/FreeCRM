@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSEmployees\Models;
+namespace App\Modules\OSSEmployees\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSEmployees\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -28,7 +28,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
 			'linkicon' => 'glyphicon glyphicon-user'
 		];
-		$linkModelLists['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($linkModel);
+		$linkModelLists['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($linkModel);
 		return $linkModelLists;
 	}
 }

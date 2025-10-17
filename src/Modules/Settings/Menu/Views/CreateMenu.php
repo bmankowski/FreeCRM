@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Menu\Views;
-use FreeCRM\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
-use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
+namespace App\Modules\Settings\Menu\Views;
+use App\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
+use App\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -15,7 +15,7 @@ use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class CreateMenu extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class CreateMenu extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -25,7 +25,7 @@ class CreateMenu extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('step2');
 	}
 
-	public function step1(\FreeCRM\Http\Vtiger_Request $request)
+	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
@@ -36,7 +36,7 @@ class CreateMenu extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$viewer->view('CreateMenuStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(\FreeCRM\Http\Vtiger_Request $request)
+	public function step2(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$type = $request->get('mtype');

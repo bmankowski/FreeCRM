@@ -85,7 +85,7 @@ All 5 partially migrated modules have been successfully fixed and are now PSR-4 
 ## Technical Improvements
 
 ### Common Fixes Applied
-1. **Double Namespace Removal:** `\FreeCRM\\FreeCRM\` → `\FreeCRM\`
+1. **Double Namespace Removal:** `\App\\App\` → `\App\`
 2. **Class Name Alignment:** Ensured class names match filenames
 3. **Namespace Hierarchy:** Added subdirectories to namespaces (e.g., `\helpers`, `\readers`)
 4. **Reserved Keyword Avoidance:** Renamed `List.php` to `ListView.php`

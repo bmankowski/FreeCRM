@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SupportProcesses\Actions;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
+namespace App\Modules\Settings\SupportProcesses\Actions;
+use App\Modules\Settings\SupportProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -23,14 +23,14 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('updateConfig');
 	}
 
-	public function updateConfig(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateConfig(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
-		$moduleModel = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getCleanInstance();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$moduleModel = \App\Modules\Settings\SupportProcesses\Models\Module::getCleanInstance();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $moduleModel->updateTicketStatusNotModify($param),
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}

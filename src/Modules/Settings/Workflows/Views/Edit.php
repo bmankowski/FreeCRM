@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Views;
-use FreeCRM\Modules\Settings\WorkflowsModels\TaskType;
-use FreeCRM\Modules\Settings\WorkflowsModels\RecordStructure;
+namespace App\Modules\Settings\Workflows\Views;
+use App\Modules\Settings\WorkflowsModels\TaskType;
+use App\Modules\Settings\WorkflowsModels\RecordStructure;
 
 
 /* +**********************************************************************************
@@ -14,13 +14,13 @@ use FreeCRM\Modules\Settings\WorkflowsModels\RecordStructure;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if ($mode) {
@@ -30,7 +30,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -45,9 +45,9 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step1(\FreeCRM\Http\Vtiger_Request $request)
+	public function step1(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -66,13 +66,13 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 			}
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$workflowManager = new VTWorkflowManager($db);
 		$viewer->assign('MAX_ALLOWED_SCHEDULED_WORKFLOWS', $workflowManager->getMaxAllowedScheduledWorkflows());
 		$viewer->assign('SCHEDULED_WORKFLOW_COUNT', $workflowManager->getScheduledWorkflowsCount());
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
-		$viewer->assign('ALL_MODULES', \FreeCRM\Modules\Settings\Workflows\Models\Module::getSupportedModules());
-		$viewer->assign('TRIGGER_TYPES', \FreeCRM\Modules\Settings\Workflows\Models\Module::getTriggerTypes());
+		$viewer->assign('ALL_MODULES', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
+		$viewer->assign('TRIGGER_TYPES', \App\Modules\Settings\Workflows\Models\Module::getTriggerTypes());
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -83,7 +83,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(\FreeCRM\Http\Vtiger_Request $request)
+	public function step2(\App\Http\Vtiger_Request $request)
 	{
 
 		$viewer = $this->getViewer($request);
@@ -98,7 +98,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
+			$selectedModule = \App\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 
@@ -114,17 +114,17 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$workFlowModel->set($name, $value);
 		}
 		//Added to support advance filters
-		$recordStructureInstance = \FreeCRM\Modules\Settings\Workflows\Models\RecordStructure::getInstanceForWorkFlowModule($workFlowModel, \FreeCRM\Modules\Settings\Workflows\Models\RecordStructure::RECORD_STRUCTURE_MODE_FILTER);
+		$recordStructureInstance = \App\Modules\Settings\Workflows\Models\RecordStructure::getInstanceForWorkFlowModule($workFlowModel, \App\Modules\Settings\Workflows\Models\RecordStructure::RECORD_STRUCTURE_MODE_FILTER);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
 		$viewer->assign('MODULE_MODEL', $selectedModule);
 		$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
 		$viewer->assign('DATE_FILTERS', \Vtiger_AdvancedFilter_Helper::getDateFilter($qualifiedModuleName));
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', \FreeCRM\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOptions());
-		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \FreeCRM\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOpsByFieldType());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOptions());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
-		$viewer->assign('FIELD_EXPRESSIONS', \FreeCRM\Modules\Settings\Workflows\Models\Module::getExpressions());
+		$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Settings\Workflows\Models\Module::getExpressions());
 
 		// Added to show filters only when saved from vtiger6
 		if ($workFlowModel->isFilterSavedInNew()) {
@@ -140,7 +140,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	public function Step3(\FreeCRM\Http\Vtiger_Request $request)
+	public function Step3(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -154,12 +154,12 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
+			$selectedModule = \App\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
 
 		$moduleModel = $workFlowModel->getModule();
-		$viewer->assign('TASK_TYPES', \FreeCRM\Modules\Settings\Workflows\Models\TaskType::getAllForModule($moduleModel));
+		$viewer->assign('TASK_TYPES', \App\Modules\Settings\Workflows\Models\TaskType::getAllForModule($moduleModel));
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
@@ -170,7 +170,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -193,7 +193,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

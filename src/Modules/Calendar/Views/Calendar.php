@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,14 +13,14 @@ namespace FreeCRM\Modules\Calendar\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Calendar extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -28,7 +28,7 @@ class Calendar extends \Vtiger_Index_View
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $request->getModule());
@@ -39,12 +39,12 @@ class Calendar extends \Vtiger_Index_View
 		}
 	}
 
-	protected function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'CalendarViewPreProcess.tpl';
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = array(
@@ -58,7 +58,7 @@ class Calendar extends \Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 
@@ -73,23 +73,23 @@ class Calendar extends \Vtiger_Index_View
 		return $headerCssInstances;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
-		$viewer->assign('EVENT_LIMIT', \FreeCRM\AppConfig::module('Calendar', 'EVENT_LIMIT'));
-		$viewer->assign('WEEK_VIEW', \FreeCRM\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', \FreeCRM\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('EVENT_LIMIT', \App\AppConfig::module('Calendar', 'EVENT_LIMIT'));
+		$viewer->assign('WEEK_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
-				'current' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
-				'history' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')
+				'current' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
+				'history' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')
 		]));
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Models;
+namespace App\Modules\Settings\ModuleManager\Models;
 
 
 /* +***********************************************************************************

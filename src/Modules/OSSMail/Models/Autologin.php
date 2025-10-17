@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Models;
+namespace App\Modules\OSSMail\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -16,8 +16,8 @@ class Autologin {
 
 	public static function getAutologinUsers()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$user_id = $currentUserModel->getId();
 		$users = [];
 		$sql = 'SELECT rcuser_id, crmuser_id, username, password FROM roundcube_users_autologin '

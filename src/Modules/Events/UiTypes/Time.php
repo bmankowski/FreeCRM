@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\UiTypes;
+namespace App\Modules\Events\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

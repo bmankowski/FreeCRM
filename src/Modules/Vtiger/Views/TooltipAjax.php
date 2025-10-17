@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,11 +13,11 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class TooltipAjax extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -27,7 +27,7 @@ class TooltipAjax extends \Vtiger_Index_View
 		echo $viewer->view('TooltipContents.tpl', $moduleName, true);
 	}
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 

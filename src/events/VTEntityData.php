@@ -13,7 +13,7 @@
  * A wrapper around CRMEntity instances
  */
 
-namespace FreeCRM\events;
+namespace App\events;
 
 class VTEntityData
 {

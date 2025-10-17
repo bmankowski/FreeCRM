@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TreesManager\Models;
+namespace App\Modules\Settings\TreesManager\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\TreesManager\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 
@@ -31,7 +31,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listQuery = $this->getBasicListQuery();
 
 		$startIndex = $pagingModel->getStartIndex();
@@ -39,7 +39,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
@@ -68,7 +68,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 			$record->setData($row);
 
 			$recordModule = vtlib\Functions::getModuleName($row['module']);
-			$record->set('module', \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModule, $recordModule));
+			$record->set('module', \App\Runtime\Vtiger_Language_Handler::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
 				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);

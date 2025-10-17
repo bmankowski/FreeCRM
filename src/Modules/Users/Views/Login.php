@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Views;
+namespace App\Modules\Users\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Users\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Runtime\Vtiger_View_Controller;
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\AppConfig;
+use App\Runtime\Vtiger_View_Controller;
+use App\Http\Vtiger_Request;
+use App\AppConfig;
 
-class Login extends \FreeCRM\Runtime\Vtiger_View_Controller
+class Login extends \App\Runtime\Vtiger_View_Controller
 {
 
 	public function loginRequired()
@@ -24,12 +24,12 @@ class Login extends \FreeCRM\Runtime\Vtiger_View_Controller
 		return false;
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -42,24 +42,24 @@ class Login extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('CURRENT_VERSION', \App\Version::get());
-		$viewer->assign('LANGUAGE_SELECTION', \FreeCRM\AppConfig::main('langInLoginView'));
-		$viewer->assign('LAYOUT_SELECTION', \FreeCRM\AppConfig::main('layoutInLoginView'));
+		$viewer->assign('LANGUAGE_SELECTION', \App\AppConfig::main('langInLoginView'));
+		$viewer->assign('LAYOUT_SELECTION', \App\AppConfig::main('layoutInLoginView'));
 		$viewer->assign('ERROR', $request->get('error'));
 		$viewer->assign('FPERROR', $request->get('fpError'));
 		$viewer->assign('STATUS', $request->get('status'));
@@ -67,7 +67,7 @@ class Login extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$viewer->view('Login.tpl', 'Users');
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Vtiger\Models;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -18,7 +18,7 @@ class DashBoard extends Model
 
 	/**
 	 * Function to get Module instance
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{
@@ -27,7 +27,7 @@ class DashBoard extends Model
 
 	/**
 	 * Function to set the module instance
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleInstance - module model
+	 * @param \App\Modules\Vtiger\Models\Module $moduleInstance - module model
 	 * @return Vtiger_DetailView_Model
 	 */
 	public function setModule($moduleInstance)
@@ -47,13 +47,13 @@ class DashBoard extends Model
 
 	/**
 	 * Function returns List of User's selected Dashboard Widgets
-	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Widget>
+	 * @return <Array of \App\Modules\Vtiger\Models\Widget>
 	 */
 	public function getDashboards($action = 1)
 	{
 
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$currentUserPrivilegeModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserPrivilegeModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		if ($action == 'Header')
@@ -71,21 +71,21 @@ class DashBoard extends Model
 			if ($row['linklabel'] == 'Mini List') {
 				if (!$row['isdefault'])
 					$row['deleteFromList'] = true;
-				$minilistWidget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
-				$minilistWidgetModel = new \FreeCRM\Modules\Vtiger\Models\MiniList();
+				$minilistWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$minilistWidgetModel = new \App\Modules\Vtiger\Models\MiniList();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
 			} elseif ($row['linklabel'] == 'ChartFilter') {
 				if (!$row['isdefault'])
 					$row['deleteFromList'] = true;
-				$charFilterWidget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new \FreeCRM\Modules\Vtiger\Models\ChartFilter();
+				$charFilterWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new \App\Modules\Vtiger\Models\ChartFilter();
 				$chartFilterWidgetModel->setWidgetModel($charFilterWidget);
 				$charFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
 				$widgets[] = $charFilterWidget;
 			} else
-				$widgets[] = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$widgets[] = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
 		}
 
 		foreach ($widgets as $index => $widget) {
@@ -125,7 +125,7 @@ class DashBoard extends Model
 
 	/**
 	 * Function to get the default widgets(Deprecated)
-	 * @return \FreeCRM\Modules\Vtiger\Models\Widget[]
+	 * @return \App\Modules\Vtiger\Models\Widget[]
 	 */
 	public function getDefaultWidgets()
 	{
@@ -138,8 +138,8 @@ class DashBoard extends Model
 	public function verifyDashboard($moduleName)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$blockId = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$blockId = \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
 		if (count($blockId) == 0) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 			return;
@@ -182,13 +182,13 @@ class DashBoard extends Model
 	/**
 	 * Function to get the instance
 	 * @param string $moduleName - module name
-	 * @return \FreeCRM\Modules\Vtiger\Models\DashBoard
+	 * @return \App\Modules\Vtiger\Models\DashBoard
 	 */
 	public static function getInstance($moduleName)
 	{
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
 		$instance = new $modelClassName();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $instance->setModule($moduleModel);
 	}
 
@@ -199,7 +199,7 @@ class DashBoard extends Model
 	 */
 	public static function getModulesWithWidgets($moduleName = false, $dashboard)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$query = (new \App\Db\Query())->select('vtiger_module_dashboard_widgets.module, vtiger_module_dashboard_blocks.tabid')
 			->from('vtiger_module_dashboard')

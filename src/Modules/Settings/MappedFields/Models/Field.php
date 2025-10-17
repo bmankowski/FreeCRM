@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Models;
-use FreeCRM\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
+namespace App\Modules\Settings\MappedFields\Models;
+use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
 
 
 
@@ -12,7 +12,7 @@ use FreeCRM\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
+use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
 class Field extends \Vtiger_Field_Model
 {
 

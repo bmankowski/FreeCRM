@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\HideBlocks\Views;
-use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
+namespace App\Modules\Settings\HideBlocks\Views;
+use App\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Reco
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_HideBlocks_Conditions_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$blockId = $request->get('blockid');
@@ -35,7 +35,7 @@ Class Settings_HideBlocks_Conditions_View extends \FreeCRM\Modules\Settings\Vtig
 			
 		}
 		$moduleModel = Settings_HideBlocks_Record_Model::getModuleInstanceByBlockId($blockId);
-		$recordStrucure = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$blockInstance = vtlib\Block::getInstance($blockId, $moduleModel);
@@ -54,8 +54,8 @@ Class Settings_HideBlocks_Conditions_View extends \FreeCRM\Modules\Settings\Vtig
 		}
 		$viewer->assign('MANDATORY_FIELDS', $mandatoryFields);
 		$viewer->assign('DATE_FILTERS', \Vtiger_AdvancedFilter_Helper::getDateFilter($qualifiedModuleName));
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', \FreeCRM\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOptions());
-		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \FreeCRM\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOpsByFieldType());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOptions());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getName');
 		$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 		if ($recordModel)
@@ -68,16 +68,16 @@ Class Settings_HideBlocks_Conditions_View extends \FreeCRM\Modules\Settings\Vtig
 		$viewer->assign('BLOCKID', $blockId);
 		$viewer->assign('ENABLED', $request->get('enabled'));
 		$viewer->assign('VIEWS', $views);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('Conditions.tpl', $qualifiedModuleName);
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Views;
+namespace App\Modules\Services\Views;
 
 /**
  * Services TreeView View Class
@@ -9,11 +9,11 @@ namespace FreeCRM\Modules\Services\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class TreeRecords extends \Vtiger_Index_View
 {
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 

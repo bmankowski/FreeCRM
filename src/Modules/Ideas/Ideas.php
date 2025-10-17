@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Ideas;
+namespace App\Modules\Ideas;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Ideas;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Ideas extends Vtiger_CRMEntity
@@ -96,10 +96,10 @@ class Ideas extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 
-			$ModuleInstance = \FreeCRM\CRMEntity::getInstance('Ideas');
+			$ModuleInstance = \App\CRMEntity::getInstance('Ideas');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ID', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Ideas'));
 
@@ -109,7 +109,7 @@ class Ideas extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Ideas'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

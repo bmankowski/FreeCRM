@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Views;
+namespace App\Modules\Leads\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,43 +13,43 @@ namespace FreeCRM\Modules\Leads\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ConvertLead extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('ConvertLead')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
 		$recordId = $request->get('record');
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
-		if (!\FreeCRM\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		if (!\App\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligeModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligeModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$viewer = $this->getViewer($request);
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$moduleModel = $recordModel->getModule();
 		$marketingProcessConfig = Vtiger_Processes_Model::getConfig('marketing', 'conversion');
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('CURRENT_USER_PRIVILEGE', $currentUserPriviligeModel);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('CONVERT_LEAD_FIELDS', $recordModel->getConvertLeadFields());

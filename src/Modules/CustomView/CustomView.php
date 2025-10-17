@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CustomView;
+namespace App\Modules\CustomView;
 
 /* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -32,7 +32,7 @@ $adv_filter_options = array(
 	'bw' => 'between',
 );
 
-class CustomView extends \FreeCRM\CRMEntity
+class CustomView extends \App\CRMEntity
 {
 
 	public $module_list = [];
@@ -93,7 +93,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getCustomViewByCvid($cvid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
@@ -133,7 +133,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getCustomViewCombo($viewid = '', $markselected = true)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
@@ -161,7 +161,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		$result = $adb->pquery($ssql, $sparams);
 		while ($cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
-				$cvrow['viewname'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('COMBO_ALL');
+				$cvrow['viewname'] = \App\Runtime\Vtiger_Language_Handler::translate('COMBO_ALL');
 			}
 
 			$option = '';
@@ -190,15 +190,15 @@ class CustomView extends \FreeCRM\CRMEntity
 					$shtml_user .= $option;
 				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
-						$shtml_public = "<option disabled>--- " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PUBLIC') . " ---</option>";
+						$shtml_public = "<option disabled>--- " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
 				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
-						$shtml_pending = "<option disabled>--- " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PENDING') . " ---</option>";
+						$shtml_pending = "<option disabled>--- " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
 				} else {
 					if ($shtml_others == '')
-						$shtml_others = "<option disabled>--- " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_OTHERS') . " ---</option>";
+						$shtml_others = "<option disabled>--- " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_OTHERS') . " ---</option>";
 					$shtml_others .= $option;
 				}
 			}
@@ -220,7 +220,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getColumnsListByCvid($cvid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 
@@ -230,18 +230,18 @@ class CustomView extends \FreeCRM\CRMEntity
 		$result = $adb->pquery($sSQL, [$cvid]);
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
-			\App\Log::trace("Error !!!: " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
+			\App\Log::trace("Error !!!: " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
 			throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \App\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$columnlist = $handler->getColumnList();
 				}
 			} else {
-				\App\Log::trace("Error !!!: " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
+				\App\Log::trace("Error !!!: " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
 				throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {
@@ -260,7 +260,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getStdFilterByCvid($cvid)
 	{
-		$stdFilter = \FreeCRM\Runtime\Vtiger_Cache::get('getStdFilterByCvid', $cvid);
+		$stdFilter = \App\Runtime\Vtiger_Cache::get('getStdFilterByCvid', $cvid);
 		if ($stdFilter !== false) {
 			return $stdFilter;
 		}
@@ -274,7 +274,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		} else {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \App\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$stdfilterrow = $handler->getStdCriteria();
@@ -282,7 +282,7 @@ class CustomView extends \FreeCRM\CRMEntity
 			}
 		}
 		$stdFilter = \App\CustomView::resolveDateFilterValue($stdfilterrow);
-		\FreeCRM\Runtime\Vtiger_Cache::set('getStdFilterByCvid', $cvid, $stdFilter);
+		\App\Runtime\Vtiger_Cache::set('getStdFilterByCvid', $cvid, $stdFilter);
 		return $stdFilter;
 	}
 
@@ -292,7 +292,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getAdvFilterByCvid($cvid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$advft_criteria = [];
 		$dataReaderGroup = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
 				->where(['cvid' => $cvid])
@@ -327,7 +327,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		if (!is_numeric($cvid)) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \FreeCRM\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \App\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$advftCriteria = $handler->getAdvftCriteria($this);
@@ -405,7 +405,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function isFieldPresent_ByColumnTable($columnname, $tablename)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if (!isset($this->_fieldby_tblcol_cache[$tablename])) {
 			$query = 'SELECT columnname FROM vtiger_field WHERE tablename = ? and presence in (0,2)';
@@ -436,7 +436,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getCvColumnListSQL($cvid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$columnslist = $this->getColumnsListByCvid($cvid);
 		if (isset($columnslist)) {
 			foreach ($columnslist as $columnname => $value) {
@@ -489,7 +489,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getCVStdFilterSQL($cvid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$stdfiltersql = '';
 		$stdfilterlist = [];
@@ -662,7 +662,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
 	{
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$currentModule = vglobal('currentModule');
 		$mod_strings = vglobal('mod_strings');
@@ -757,7 +757,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	{
 
 		\App\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$adv_chk_value = $value;
 		$value = '(';
@@ -940,7 +940,7 @@ class CustomView extends \FreeCRM\CRMEntity
 	 */
 	public function getCustomActionDetails($cvid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$sSQL = "select vtiger_customaction.* from vtiger_customaction inner join vtiger_customview on vtiger_customaction.cvid = vtiger_customview.cvid";
 		$sSQL .= " where vtiger_customaction.cvid=?";

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,21 +11,21 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class KeyMetrics extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
 		$data = $request->getAll();
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		$keyMetrics = $this->getKeyMetricsWithCount();
 
@@ -45,7 +45,7 @@ class KeyMetrics extends \Vtiger_Index_View
 	// NOTE: Move this function to appropriate model.
 	protected function getKeyMetricsWithCount()
 	{
-		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		vglobal('current_user', $current_user);
 		require_once ROOT_DIRECTORY . '/src/Modules/CustomView/ListViewTop.php';
 		$metriclists = getMetricList();

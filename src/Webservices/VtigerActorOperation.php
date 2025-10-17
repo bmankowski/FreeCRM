@@ -10,7 +10,7 @@
 
 require_once ROOT_DIRECTORY . '/src/Webservices/VtigerCRMActorMeta.php';
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 class VtigerActorOperation extends WebserviceEntityOperation
 {
@@ -89,7 +89,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 	public function __create($elementType, $element)
 	{
 		require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$this->id = $this->getNextId($elementType, $element);
 

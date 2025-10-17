@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Models;
+namespace App\Modules\SMSNotifier\Models;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Provider extends \FreeCRM\Modules\Vtiger\Models\Model
+class Provider extends \App\Modules\Vtiger\Models\Model
 {
 
 	/**
@@ -23,7 +23,7 @@ class Provider extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		if (!empty($providerName)) {
 			$providerName = trim($providerName);
-			$className = \FreeCRM\Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
+			$className = \App\Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
 			return new $className();
 		}
 		return false;

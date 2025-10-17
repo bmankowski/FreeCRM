@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SalesProcesses\Models;
+namespace App\Modules\Settings\SalesProcesses\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -26,12 +26,12 @@ class Module extends \Vtiger_Record_Model
 	{
 
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
+		$cache = \App\Runtime\Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$params = [];
 		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
 		$sql = 'SELECT * FROM yetiforce_proc_sales';
@@ -58,7 +58,7 @@ class Module extends \Vtiger_Record_Model
 				$config[$db->query_result_raw($result, $i, 'type')][$param] = $value;
 			}
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
+		\App\Runtime\Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

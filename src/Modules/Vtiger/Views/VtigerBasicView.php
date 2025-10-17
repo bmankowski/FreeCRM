@@ -17,9 +17,9 @@
  * ******************************************************************************
  * Contributor(s): YetiForce.com */
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\AppConfig;
-use FreeCRM\Runtime\Vtiger_Language_Handler;
+use App\Http\Vtiger_Request;
+use App\AppConfig;
+use App\Runtime\Vtiger_Language_Handler;
 
 abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 {
@@ -29,19 +29,19 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		parent::__construct();
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 
 		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
 		$companyDetails = App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
-		$currentDate = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
+		$currentDate = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
 		$viewer->assign('CURRENTDATE', $currentDate);
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
@@ -51,13 +51,13 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
 
-		$homeModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Home');
+		$homeModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-		if (\FreeCRM\AppConfig::performance('GLOBAL_SEARCH')) {
-			$viewer->assign('SEARCHABLE_MODULES', \FreeCRM\Modules\Vtiger\Models\Module::getSearchableModules());
+		if (\App\AppConfig::performance('GLOBAL_SEARCH')) {
+			$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Vtiger\Models\Module::getSearchableModules());
 		}
-		if (\FreeCRM\AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
+		if (\App\AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
 		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
@@ -69,21 +69,21 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 
 	protected function getMenu()
 	{
-		return \FreeCRM\Modules\Vtiger\Models\Menu::getAll(true);
+		return \App\Modules\Vtiger\Models\Menu::getAll(true);
 	}
 
-	protected function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'BasicHeader.tpl';
 	}
 
 	//Note: To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		parent::postProcess($request);
@@ -92,16 +92,16 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \FreeCRM\Runtime\Vtiger_Language_Handler::getShortLanguageName() . '.js',
+			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \App\Runtime\Vtiger_Language_Handler::getShortLanguageName() . '.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
@@ -134,7 +134,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return $headerScriptInstances;
 	}
 
-	public function getGuiderModels(\FreeCRM\Http\Vtiger_Request $request)
+	public function getGuiderModels(\App\Http\Vtiger_Request $request)
 	{
 		return [];
 	}

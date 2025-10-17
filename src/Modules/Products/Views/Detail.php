@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Views;
+namespace App\Modules\Products\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,16 +13,16 @@ namespace FreeCRM\Modules\Products\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
-	public function showModuleDetailView(\FreeCRM\Http\Vtiger_Request $request)
+	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
 		$viewer = $this->getViewer($request);
@@ -32,12 +32,12 @@ class Detail extends \Vtiger_Index_View
 		return parent::showModuleDetailView($request);
 	}
 
-	public function showModuleBasicView(\FreeCRM\Http\Vtiger_Request $request)
+	public function showModuleBasicView(\App\Http\Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

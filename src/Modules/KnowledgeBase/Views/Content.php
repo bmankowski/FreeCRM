@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Views;
+namespace App\Modules\KnowledgeBase\Views;
 
 /**
  * @package YetiForce.Views
@@ -8,11 +8,11 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Content extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
@@ -20,9 +20,9 @@ class Content extends \Vtiger_Index_View
 			$previewContent->process($request);
 		} else {
 			$moduleName = $request->getModule();
-			$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+			$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 			$pagingModel->set('limit', 'no_limit');
-			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName);
+			$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName);
 			$listEntries = $listViewModel->getListViewEntries($pagingModel);
 			$headers = $listViewModel->getListViewHeaders();
 

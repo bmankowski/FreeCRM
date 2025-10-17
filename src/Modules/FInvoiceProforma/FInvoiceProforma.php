@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\FInvoiceProforma;
+namespace App\Modules\FInvoiceProforma;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\FInvoiceProforma;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class FInvoiceProforma extends Vtiger_CRMEntity
@@ -93,7 +93,7 @@ class FInvoiceProforma extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			
 		} else if ($eventType == 'module.disabled') {

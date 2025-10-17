@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CurrencyUpdate\Views;
-use FreeCRM\Modules\Settings\CurrencyUpdate\Models\Module as Settings_CurrencyUpdate_Module_Model;
+namespace App\Modules\Settings\CurrencyUpdate\Views;
+use App\Modules\Settings\CurrencyUpdate\Models\Module as Settings_CurrencyUpdate_Module_Model;
 
 
 
@@ -10,22 +10,22 @@ use FreeCRM\Modules\Settings\CurrencyUpdate\Models\Module as Settings_CurrencyUp
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		// synchronise bank list
 		$moduleModel->refreshBanks();
 
 		$downloadBtn = !$request->isEmpty('download') ? $request->get('download') : false;
-		$date = !$request->isEmpty('duedate') ? \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBInsertedValue($request->get('duedate')) : false;
+		$date = !$request->isEmpty('duedate') ? \App\Modules\Vtiger\UiTypes\Datetime::getDBInsertedValue($request->get('duedate')) : false;
 
 		$dateCur = '';
 		if ($date) {

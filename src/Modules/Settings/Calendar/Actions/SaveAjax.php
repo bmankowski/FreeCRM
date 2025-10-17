@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Calendar\Actions;
+namespace App\Modules\Settings\Calendar\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -26,69 +26,69 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('generateColor');
 	}
 
-	public function generateColor(\FreeCRM\Http\Vtiger_Request $request)
+	public function generateColor(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		$color = \FreeCRM\Modules\Settings\Calendar\Models\Module::generateColor();
+		$color = \App\Modules\Settings\Calendar\Models\Module::generateColor();
 		$params['color'] = $color;
 		if (isset($params['viewtypesid']) && $params['viewtypesid']) {
-			\FreeCRM\Modules\Settings\Calendar\Models\Module::updateModuleColor($params);
+			\App\Modules\Settings\Calendar\Models\Module::updateModuleColor($params);
 		} else {
-			\FreeCRM\Modules\Settings\Calendar\Models\Module::updateCalendarConfig($params);
+			\App\Modules\Settings\Calendar\Models\Module::updateCalendarConfig($params);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
 			'color' => $color,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GENERATED_COLOR', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_GENERATED_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function UpdateModuleColor(\FreeCRM\Http\Vtiger_Request $request)
+	public function UpdateModuleColor(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateModuleColor($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Calendar\Models\Module::updateModuleColor($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function UpdateModuleActiveType(\FreeCRM\Http\Vtiger_Request $request)
+	public function UpdateModuleActiveType(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateModuleActiveType($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Calendar\Models\Module::updateModuleActiveType($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function UpdateCalendarConfig(\FreeCRM\Http\Vtiger_Request $request)
+	public function UpdateCalendarConfig(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateCalendarConfig($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Calendar\Models\Module::updateCalendarConfig($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CHANGES', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CHANGES', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateNotWorkingDays(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateNotWorkingDays(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		\FreeCRM\Modules\Settings\Calendar\Models\Module::updateNotWorkingDays($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Calendar\Models\Module::updateNotWorkingDays($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
 		));
 		$response->emit();
 	}

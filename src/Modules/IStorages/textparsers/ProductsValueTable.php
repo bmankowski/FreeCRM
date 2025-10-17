@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages;
+namespace App\Modules\IStorages;
 
 /**
  * IStorages storage products value table parser class
@@ -25,8 +25,8 @@ class TextParser extends \App\TextParser\Base
 	{
 		$html = '';
 		$relationModuleName = 'Products';
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
@@ -55,18 +55,18 @@ class TextParser extends \App\TextParser\Base
 							$class = 'class="width20"';
 							break;
 					}
-					$html .= '<th ' . $class . ' style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width10" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty/Unit', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VALUE') . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_VALUE') . '</th>';
 			$html .= '</tr></thead><tbody>';
 			$totalValue = 0;
 			foreach ($entries as $entry) {
 				$html .= '<tr>';
 				$entryId = $entry->getId();
-				$entryRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
+				$entryRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
 				$qtyInStock = $entryRecordModel->get('qtyinstock');
 				$qtyPerUnit = $entryRecordModel->get('qty_per_unit');
 				$unitPrice = $entryRecordModel->get('unit_price');

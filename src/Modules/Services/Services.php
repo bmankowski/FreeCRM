@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services;
+namespace App\Modules\Services;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Services;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Services extends \FreeCRM\CRMEntity
+class Services extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_service';
@@ -268,7 +268,7 @@ class Services extends \FreeCRM\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -443,7 +443,7 @@ class Services extends \FreeCRM\CRMEntity
 	{
 
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -491,7 +491,7 @@ class Services extends \FreeCRM\CRMEntity
 		\App\Log::error('return_module:--' . $return_module);
 		\App\Log::error('return_id:---' . $return_id);
 		if ($return_module == 'Accounts') {
-			$focus = \FreeCRM\CRMEntity::getInstance($return_module);
+			$focus = \App\CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
 			array_push($entityIds, $return_id);
 			$return_modules = ['Accounts', 'Contacts'];

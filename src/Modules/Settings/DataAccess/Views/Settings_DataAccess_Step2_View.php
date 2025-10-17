@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Views;
+namespace App\Modules\Settings\DataAccess\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class \Settings_DataAccess_Step2_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class \Settings_DataAccess_Step2_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
@@ -30,11 +30,11 @@ Class \Settings_DataAccess_Step2_View extends \FreeCRM\Modules\Settings\Vtiger\V
 		$viewer = $this->getViewer($request);
 
 		if ($idTpl && $baseModule != 'All') {
-			$docInfo = \FreeCRM\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($idTpl);
+			$docInfo = \App\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($idTpl);
 			$viewer->assign('BASE_INFO', $docInfo['basic_info']);
 			$countRequiredConditions = count($docInfo['required_conditions']);
 			for ($i = 0; $i < $countRequiredConditions; $i++) {
-				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($docInfo['required_conditions'][$i]['fieldname'], \FreeCRM\Modules\Vtiger\Models\Module::getInstance($baseModule));
+				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($docInfo['required_conditions'][$i]['fieldname'], \App\Modules\Vtiger\Models\Module::getInstance($baseModule));
 				$docInfo['required_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 
@@ -43,7 +43,7 @@ Class \Settings_DataAccess_Step2_View extends \FreeCRM\Modules\Settings\Vtiger\V
 			$countOptionalConditions = count($docInfo['optional_conditions']);
 			for ($i = 0; $i < $countOptionalConditions; $i++) {
 
-				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($docInfo['optional_conditions'][$i]['fieldname'], \FreeCRM\Modules\Vtiger\Models\Module::getInstance($baseModule));
+				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($docInfo['optional_conditions'][$i]['fieldname'], \App\Modules\Vtiger\Models\Module::getInstance($baseModule));
 				$docInfo['optional_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 			$viewer->assign('OPTIONAL_CONDITIONS', $docInfo['optional_conditions']);
@@ -55,13 +55,13 @@ Class \Settings_DataAccess_Step2_View extends \FreeCRM\Modules\Settings\Vtiger\V
 		$viewer->assign('SUMMARY', $request->get('summary'));
 		$viewer->assign('BASE_MODULE', $baseModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('FIELD_LIST', \FreeCRM\Modules\Settings\DataAccess\Models\Module::getListBaseModuleField($baseModule));
-		$viewer->assign('CONDITION_BY_TYPE', \FreeCRM\Modules\Settings\DataAccess\Models\Module::getConditionByType());
+		$viewer->assign('FIELD_LIST', \App\Modules\Settings\DataAccess\Models\Module::getListBaseModuleField($baseModule));
+		$viewer->assign('CONDITION_BY_TYPE', \App\Modules\Settings\DataAccess\Models\Module::getConditionByType());
 
 		echo $viewer->view('Step2.tpl', $qualifiedModuleName, true);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

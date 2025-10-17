@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Actions;
+namespace App\Modules\HelpDesk\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,28 +11,28 @@ namespace FreeCRM\Modules\HelpDesk\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ConvertFAQ extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ConvertFAQ extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted('Faq', 'EditView');
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted('Faq', 'EditView');
 
 		if (!$recordPermission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
 		$result = array();
 		if (!empty($recordId)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 
-			$faqRecordModel = \FreeCRM\Modules\Faq\Models\Record::getInstanceFromHelpDesk($recordModel);
+			$faqRecordModel = \App\Modules\Faq\Models\Record::getInstanceFromHelpDesk($recordModel);
 
 			$answer = $faqRecordModel->get('faq_answer');
 			if ($answer) {

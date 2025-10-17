@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Basic TreeView Model Class
@@ -63,7 +63,7 @@ class TreeView extends Model
 				->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
 				->one();
 		if (!$fieldTemp) {
-			\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
+			\vtlib\Functions::throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
 		}
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
@@ -100,7 +100,7 @@ class TreeView extends Model
 	/**
 	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model
 	 * @param string name of the module
-	 * @return \FreeCRM\Modules\Vtiger\Models\TreeView instance
+	 * @return \App\Modules\Vtiger\Models\TreeView instance
 	 */
 	public static function getInstance($moduleModel)
 	{
@@ -108,7 +108,7 @@ class TreeView extends Model
 		if (isset(self::$_cached_instance[$moduleName])) {
 			return self::$_cached_instance[$moduleName];
 		}
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'TreeView', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'TreeView', $moduleName);
 		$instance = new $modelClassName();
 		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		return self::$_cached_instance[$moduleName];
@@ -121,7 +121,7 @@ class TreeView extends Model
 	public function getTreeList()
 	{
 		$tree = [];
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
 		while ($row = $db->getRow($result)) {
@@ -134,7 +134,7 @@ class TreeView extends Model
 				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName()),
+				'text' => \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName()),
 				'state' => ($row['state']) ? $row['state'] : '',
 				'icon' => $row['icon']
 			];

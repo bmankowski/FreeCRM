@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -35,9 +35,9 @@ class Reference extends Base
 		$referenceModuleList = $fieldModel->getReferenceList();
 		$referenceEntityType = \vtlib\Functions::getCRMRecordType($value);
 		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
-			return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($referenceEntityType);
+			return \App\Modules\Vtiger\Models\Module::getInstance($referenceEntityType);
 		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
-			return \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');
+			return \App\Modules\Vtiger\Models\Module::getInstance('Users');
 		}
 		return null;
 	}
@@ -46,7 +46,7 @@ class Reference extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param int $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -64,7 +64,7 @@ class Reference extends Base
 				return $name;
 			}
 			$name = \vtlib\Functions::textLength($name, vglobal('href_max_length'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \App\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';
@@ -89,7 +89,7 @@ class Reference extends Base
 				return $name;
 			}
 			$name = \vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \App\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';
@@ -118,7 +118,7 @@ class Reference extends Base
 		if ($fieldName === 'modifiedby') {
 			return 'uitypes/OwnerFieldSearchView.tpl';
 		}
-		if (\FreeCRM\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (\App\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'uitypes/ReferenceSearchView.tpl';
 		}
 		return parent::getListSearchTemplateName();
@@ -127,7 +127,7 @@ class Reference extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

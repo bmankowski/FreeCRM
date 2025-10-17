@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Faq\Models;
+namespace App\Modules\Faq\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Faq\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -22,8 +22,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstanceFromHelpDesk($parentRecordModel)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Faq');
-		$fieldMappingList = \FreeCRM\Modules\Faq\Models\Record::getTicketToFAQMappingFields();
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Faq');
+		$fieldMappingList = \App\Modules\Faq\Models\Record::getTicketToFAQMappingFields();
 
 		foreach ($fieldMappingList as $fieldMapping) {
 			$ticketField = $fieldMapping['ticketField'];
@@ -39,12 +39,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		//Updating the answer of Faq
 		$answer = $recordModel->get('faq_answer');
 		if ($answer) {
-			$answer = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SOLUTION', 'Faq') . ":\r\n" . $answer;
+			$answer = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SOLUTION', 'Faq') . ":\r\n" . $answer;
 		}
 
 		$commentsList = $parentRecordModel->getCommentsList();
 		if ($commentsList) {
-			$answer .= "\r\n\r\n" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMMENTS', 'Faq') . ":";
+			$answer .= "\r\n\r\n" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_COMMENTS', 'Faq') . ":";
 			foreach ($commentsList as $comment) {
 				$answer .= "\r\n$comment";
 			}

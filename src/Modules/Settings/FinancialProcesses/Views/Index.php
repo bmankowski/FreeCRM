@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\FinancialProcesses\Views;
-use FreeCRM\Modules\Settings\FinancialProcessesViews\Index;
+namespace App\Modules\Settings\FinancialProcesses\Views;
+use App\Modules\Settings\FinancialProcessesViews\Index;
 
 
 /* +***********************************************************************************************************************************
@@ -14,19 +14,19 @@ use FreeCRM\Modules\Settings\FinancialProcessesViews\Index;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\FinancialProcesses\Views\Index::process() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\FinancialProcesses\Views\Index::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
 		$viewer->view('Index.tpl', $qualifiedModule);
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\FinancialProcesses\Views\Index::process() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\FinancialProcesses\Views\Index::process() method ...");
 	}
 }

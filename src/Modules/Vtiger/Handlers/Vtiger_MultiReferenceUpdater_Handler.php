@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Handlers;
+namespace App\Modules\Vtiger\Handlers;
 
 /**
  * Multi Reference Updater Handler Class
@@ -18,9 +18,9 @@ class Vtiger_MultiReferenceUpdater_Handler {
 	public function entityAfterLink(\App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		$fields = \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
+		$fields = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
 		foreach ($fields as &$field) {
-			$fieldModel = new \FreeCRM\Modules\Vtiger\Models\Field();
+			$fieldModel = new \App\Modules\Vtiger\Models\Field();
 			$fieldModel->initialize($field);
 			$uitypeModel = $fieldModel->getUITypeModel();
 			$uitypeModel->addValue($params['CRMEntity'], $params['sourceRecordId'], $params['destinationRecordId']);
@@ -34,9 +34,9 @@ class Vtiger_MultiReferenceUpdater_Handler {
 	public function entityAfterUnLink(\App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		$fields = \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
+		$fields = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
 		foreach ($fields as &$field) {
-			$fieldModel = new \FreeCRM\Modules\Vtiger\Models\Field();
+			$fieldModel = new \App\Modules\Vtiger\Models\Field();
 			$fieldModel->initialize($field);
 			$uitypeModel = $fieldModel->getUITypeModel();
 			$uitypeModel->reloadValue($params['sourceModule'], $params['sourceRecordId']);
@@ -51,7 +51,7 @@ class Vtiger_MultiReferenceUpdater_Handler {
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$moduleName = $eventHandler->getModuleName();
-		$moduleIds = \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::getMultiReferenceModules($moduleName);
+		$moduleIds = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getMultiReferenceModules($moduleName);
 		if ($moduleIds) {
 			$previousValue = $recordModel->getPreviousValue();
 			$referenceFields = $recordModel->getModule()->getFieldsByReference();
@@ -59,12 +59,12 @@ class Vtiger_MultiReferenceUpdater_Handler {
 				if (isset($previousValue[$fieldName]) && !$recordModel->isNew()) {
 					$module = \App\Record::getType($previousValue[$fieldName]);
 					if ($module && in_array(\vtlib\Functions::getModuleId($module), $moduleIds)) {
-						\FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::setRecordToCron($module, $moduleName, $previousValue[$fieldName]);
+						\App\Modules\Vtiger\UiTypes\MultiReferenceValue::setRecordToCron($module, $moduleName, $previousValue[$fieldName]);
 					}
 				}
 				$module = \App\Record::getType($recordModel->get($fieldName));
 				if ($module && in_array(\vtlib\Functions::getModuleId($module), $moduleIds)) {
-					\FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::setRecordToCron($module, $moduleName, $recordModel->get($fieldName));
+					\App\Modules\Vtiger\UiTypes\MultiReferenceValue::setRecordToCron($module, $moduleName, $recordModel->get($fieldName));
 				}
 			}
 		}

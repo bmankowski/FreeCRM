@@ -13,7 +13,7 @@
  *
  */
 
-namespace FreeCRM\Utils;
+namespace App\Utils;
 
 require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once(ROOT_DIRECTORY . '/src/utils/GetParentGroups.php');

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -28,7 +28,7 @@ class Notebook extends Model
 
 	public function save($request)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$content = $request->get('contents');
 		$noteBookId = $request->get('widgetid');
 		$date_var = date("Y-m-d H:i:s");
@@ -47,7 +47,7 @@ class Notebook extends Model
 
 	public static function getUserInstance($widgetId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets 
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid 
 			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, \App\User::getCurrentUserId()]);

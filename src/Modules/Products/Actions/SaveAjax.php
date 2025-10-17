@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Actions;
+namespace App\Modules\Products\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,13 +11,13 @@ namespace FreeCRM\Modules\Products\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		//the new values are added to $_REQUEST for Ajax Save, are removing the Tax details depend on the 'ajxaction' value
-		\FreeCRM\Http\AppRequest::set('ajxaction', 'DETAILVIEW');
+		\App\Http\AppRequest::set('ajxaction', 'DETAILVIEW');
 		parent::process($request);
 	}
 }

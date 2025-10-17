@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,18 +11,18 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class BasicAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
@@ -30,7 +30,7 @@ class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$parentRecordId = $request->get('parent_id');
 		$parentModuleName = $request->get('parent_module');
 
-		$searchModuleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($searchModule);
+		$searchModuleModel = \App\Modules\Users\Models\Module::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
 
 		$result = array();
@@ -42,7 +42,7 @@ class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

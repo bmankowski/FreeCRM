@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceUsers\Views;
+namespace App\Modules\Settings\WebserviceUsers\Views;
 
 
 
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Settings\WebserviceUsers\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+use App\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

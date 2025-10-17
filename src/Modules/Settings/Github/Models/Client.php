@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Github\Models;
-use FreeCRM\Modules\Settings\Github\Models\Issues;
+namespace App\Modules\Settings\Github\Models;
+use App\Modules\Settings\Github\Models\Issues;
 
 
 
@@ -53,9 +53,9 @@ class Client
 		}
 		$issuesModel = [];
 		foreach ($issues->items as $issue) {
-			$issuesModel[] = \FreeCRM\Modules\Settings\Github\Models\Issues::getInstanceFromArray($issue);
+			$issuesModel[] = \App\Modules\Settings\Github\Models\Issues::getInstanceFromArray($issue);
 		}
-		\FreeCRM\Modules\Settings\Github\Models\Issues::$totalCount = $issues->total_count;
+		\App\Modules\Settings\Github\Models\Issues::$totalCount = $issues->total_count;
 		return $issuesModel;
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class CRMEntity extends \FreeCRM\CRMEntity
+class CRMEntity extends \App\CRMEntity
 {
 
 	public $db; // Used in class functions of CRMEntity
@@ -29,7 +29,7 @@ class CRMEntity extends \FreeCRM\CRMEntity
 	public function __construct()
 	{
 		$this->column_fields = getColumnFields(get_class($this));
-		$this->db = \FreeCRM\database\PearDatabase::getInstance();
+		$this->db = \App\database\PearDatabase::getInstance();
 	}
 
 	/**
@@ -65,7 +65,7 @@ class CRMEntity extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index =" .
@@ -158,7 +158,7 @@ class CRMEntity extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = " .

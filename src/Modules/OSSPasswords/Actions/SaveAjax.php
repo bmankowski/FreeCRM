@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords\Actions;
+namespace App\Modules\OSSPasswords\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\OSSPasswords\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Starting Quick Edit OSSPasswords');
 
@@ -83,7 +83,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \App\Modules\Vtiger\Util::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() !== 'currency' && $fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'time' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
@@ -105,8 +105,8 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

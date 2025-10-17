@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -21,9 +21,9 @@ include_once 'src/Modules/Vtiger/helpers/ShortURL.php';
 
 class ForgotPassword {
 
-	public function changePassword(\FreeCRM\Http\Vtiger_Request $request)
+	public function changePassword(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = FreeCRM_Viewer::getInstance();
+		$viewer = CRM_Viewer::getInstance();
 		$userName = $request->get('username');
 		$newPassword = $request->get('password');
 		$confirmPassword = $request->get('confirmPassword');
@@ -51,9 +51,9 @@ class ForgotPassword {
 		$viewer->view('FPLogin.tpl', 'Users');
 	}
 
-	public function requestForgotPassword(\FreeCRM\Http\Vtiger_Request $request)
+	public function requestForgotPassword(\App\Http\Vtiger_Request $request)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$username = \App\Purifier::purify($request->get('user_name'));
 		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
 		if ($adb->num_rows($result) > 0) {
@@ -94,11 +94,11 @@ class ForgotPassword {
 		}
 	}
 
-	public static function run(\FreeCRM\Http\Vtiger_Request $request)
+	public static function run(\App\Http\Vtiger_Request $request)
 	{
 		$instance = new self();
 		if ($request->has('user_name') && $request->has('emailId')) {
-			if (\FreeCRM\AppConfig::security('RESET_LOGIN_PASSWORD')) {
+			if (\App\AppConfig::security('RESET_LOGIN_PASSWORD')) {
 				$instance->requestForgotPassword($request);
 			} else {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -109,4 +109,4 @@ class ForgotPassword {
 	}
 }
 
-Users_ForgotPassword_Action::run(\FreeCRM\Http\AppRequest::init());
+Users_ForgotPassword_Action::run(\App\Http\AppRequest::init());

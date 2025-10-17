@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MailSmtp\Models;
+namespace App\Modules\Settings\MailSmtp\Models;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\MailSmtp\Models;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 's_#__mail_smtp';

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -16,9 +16,9 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Vtiger Field Model Class
  */
 
-use FreeCRM\Webservices\WebserviceField;
+use App\Webservices\WebserviceField;
 
-use FreeCRM\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
+use App\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
 
 class Field extends \vtlib\Field
 {
@@ -70,7 +70,7 @@ class Field extends \vtlib\Field
 	 * Function which sets value for given name
 	 * @param string $name - name for which value need to be assinged
 	 * @param <type> $value - values that need to be assigned
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public function set($name, $value)
 	{
@@ -158,7 +158,7 @@ class Field extends \vtlib\Field
 			if (empty($moduleObj)) {
 				return false;
 			}
-			$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstanceFromModuleObject($moduleObj);
+			$this->module = \App\Modules\Vtiger\Models\Module::getInstanceFromModuleObject($moduleObj);
 		}
 		return $this->module;
 	}
@@ -194,7 +194,7 @@ class Field extends \vtlib\Field
 	public function getWebserviceFieldObject()
 	{
 		if ($this->webserviceField === false) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
 			$row = [];
 			$row['uitype'] = $this->get('uitype');
@@ -396,7 +396,7 @@ class Field extends \vtlib\Field
 
 		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
-				$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+				$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
 			} else {
 				$picklistValues = \App\Fields\Picklist::getPickListValues($this->getName());
@@ -413,7 +413,7 @@ class Field extends \vtlib\Field
 
 			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
-				$fieldPickListValues[$value] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $this->getModuleName());
+				$fieldPickListValues[$value] = \App\Runtime\Vtiger_Language_Handler::translate($value, $this->getModuleName());
 			}
 			return $fieldPickListValues;
 		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
@@ -433,7 +433,7 @@ class Field extends \vtlib\Field
 		foreach ($allModules as $module) {
 			$modules[$module['tabid']] = [
 				'name' => $module['name'],
-				'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module['name'], $module['name'])
+				'label' => \App\Runtime\Vtiger_Language_Handler::translate($module['name'], $module['name'])
 			];
 		}
 		return $modules;
@@ -616,12 +616,12 @@ class Field extends \vtlib\Field
 	/**
 	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
 	 * @param vtlib\Field $fieldObj - vtlib field object
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field instance
+	 * @return \App\Modules\Vtiger\Models\Field instance
 	 */
 	public static function getInstanceFromFieldObject(\vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
-		$className = \FreeCRM\Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
+		$className = \App\Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
 		$fieldModel = new $className();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;
@@ -722,7 +722,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getFieldInfo()
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$fieldDataType = $this->getFieldDataType();
 
 		$this->fieldInfo['mandatory'] = $this->isMandatory();
@@ -735,7 +735,7 @@ class Field extends \vtlib\Field
 		$this->fieldInfo['defaultvalue'] = $this->hasDefaultValue();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
-		$this->fieldInfo['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('label'), $this->getModuleName());
+		$this->fieldInfo['label'] = \App\Runtime\Vtiger_Language_Handler::translate($this->get('label'), $this->getModuleName());
 
 		switch ($fieldDataType) {
 			case 'picklist' :
@@ -769,14 +769,14 @@ class Field extends \vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!\FreeCRM\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\FreeCRM\Http\AppRequest::get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || \FreeCRM\Http\AppRequest::get('mode') === 'showAdvancedSearch') {
+				if (!\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Http\AppRequest::get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || \App\Http\AppRequest::get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
-					$pickListValues[\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USERS', $this->getModuleName())] = $userList;
-					$pickListValues[\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+					$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_USERS', $this->getModuleName())] = $userList;
+					$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
-					if (\FreeCRM\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+					if (\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				} else {
@@ -801,22 +801,22 @@ class Field extends \vtlib\Field
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
 				break;
 			case 'email':
-				if (\FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(\FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
+				if (\App\AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
 					$validate = false;
-					if (empty(\FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
+					if (empty(\App\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \App\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
 						$validate = true;
 					}
-					if (in_array($this->getModuleName(), \FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
+					if (in_array($this->getModuleName(), \App\AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
 						$validate = false;
 					}
 					if ($validate) {
-						$this->fieldInfo['restrictedDomains'] = \FreeCRM\AppConfig::security('RESTRICTED_DOMAINS_VALUES');
+						$this->fieldInfo['restrictedDomains'] = \App\AppConfig::security('RESTRICTED_DOMAINS_VALUES');
 					}
 				}
 				break;
 		}
 
-		if (in_array($fieldDataType, \FreeCRM\Modules\Vtiger\Models\Field::$referenceTypes) && \FreeCRM\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (in_array($fieldDataType, \App\Modules\Vtiger\Models\Field::$referenceTypes) && \App\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
 		return $this->fieldInfo;
@@ -848,12 +848,12 @@ class Field extends \vtlib\Field
 
 	/**
 	 * Function to retrieve field model for specific block and module
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $blockModel - block instance
+	 * @param \App\Modules\Vtiger\Models\Module $blockModel - block instance
 	 * @return <array> List of field model
 	 */
 	public static function getAllForModule($moduleModel)
 	{
-		$fieldModelList = \FreeCRM\Runtime\Vtiger_Cache::get('ModuleFields', $moduleModel->id);
+		$fieldModelList = \App\Runtime\Vtiger_Cache::get('ModuleFields', $moduleModel->id);
 		if (!$fieldModelList) {
 			$fieldObjects = parent::getAllForModule($moduleModel);
 
@@ -867,11 +867,11 @@ class Field extends \vtlib\Field
 				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
 				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
 				$fieldModelList[$block][] = $fieldModelObject;
-				\FreeCRM\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-				\FreeCRM\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+				\App\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
+				\App\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
 			}
 
-			\FreeCRM\Runtime\Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
+			\App\Runtime\Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
 		}
 		return $fieldModelList;
 	}
@@ -880,18 +880,18 @@ class Field extends \vtlib\Field
 	 * Function to get instance
 	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
-	 * @return <\FreeCRM\Modules\Vtiger\Models\Field>
+	 * @return <\App\Modules\Vtiger\Models\Field>
 	 */
 	public static function getInstance($value, $module = false)
 	{
 		$fieldObject = null;
 		if ($module) {
-			$fieldObject = \FreeCRM\Runtime\Vtiger_Cache::get('field-' . $module->getId(), $value);
+			$fieldObject = \App\Runtime\Vtiger_Cache::get('field-' . $module->getId(), $value);
 		}
 		if (!$fieldObject) {
 			$fieldObject = parent::getInstance($value, $module);
 			if ($module) {
-				\FreeCRM\Runtime\Vtiger_Cache::set('field-' . $module->getId(), $value, $fieldObject);
+				\App\Runtime\Vtiger_Cache::set('field-' . $module->getId(), $value, $fieldObject);
 			}
 		}
 
@@ -907,7 +907,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getDocumentFolders()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 
@@ -1170,15 +1170,15 @@ class Field extends \vtlib\Field
 	 */
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$fieldModel = \FreeCRM\Runtime\Vtiger_Cache::get('FieldModel', $fieldId);
+		$fieldModel = \App\Runtime\Vtiger_Cache::get('FieldModel', $fieldId);
 		if ($fieldModel) {
 			return $fieldModel;
 		}
 		$field = \App\Field::getFieldInfo($fieldId);
-		$className = \FreeCRM\Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
+		$className = \App\Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field);
-		\FreeCRM\Runtime\Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
+		\App\Runtime\Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
 		return $fieldModel;
 	}
 

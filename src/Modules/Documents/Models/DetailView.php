@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Models;
+namespace App\Modules\Documents\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -23,7 +23,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
@@ -35,7 +35,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkurl' => $recordModel->getDownloadFileURL(),
 				'linkicon' => 'glyphicon glyphicon-download-alt'
 			);
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 		$basicActionLink = array(
 			'linktype' => 'DETAILVIEW',
@@ -43,19 +43,19 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 			'linkurl' => $recordModel->checkFileIntegrityURL(),
 			'linkicon' => 'glyphicon glyphicon-saved'
 		);
-		$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+		$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 
 		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
-			if ($currentUserModel->hasModulePermission('OSSMail') && \FreeCRM\AppConfig::main('isActiveSendingMails')) {
+			if ($currentUserModel->hasModulePermission('OSSMail') && \App\AppConfig::main('isActiveSendingMails')) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
+					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
 					'linkhref' => true,
 					'linktarget' => '_blank',
 					'linkurl' => 'index.php?module=OSSMail&view=compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
 					'linkicon' => 'glyphicon glyphicon-envelope'
 				);
-				$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+				$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 			}
 		}
 
@@ -75,12 +75,12 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RELATIONS', $moduleName),
+			'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATIONS', $moduleName),
 			'linkKey' => 'LBL_RECORD_SUMMARY',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
 			'linkicon' => '',
-			'related' => \App\Json::encode(\FreeCRM\Modules\Documents\Models\Record::getReferenceModuleByDocId($recordModel->getId())),
-			'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
+			'related' => \App\Json::encode(\App\Modules\Documents\Models\Record::getReferenceModuleByDocId($recordModel->getId())),
+			'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
 		];
 		return $relatedLinks;
 	}

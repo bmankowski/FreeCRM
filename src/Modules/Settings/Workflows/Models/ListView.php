@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Models;
+namespace App\Modules\Settings\Workflows\Models;
 
 
 /* +***********************************************************************************
@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\Settings\Workflows\Models;
  * Settings List View Model Class
  */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 
@@ -34,7 +34,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 
 		$listFields = $module->listFields;
 		unset($listFields['all_tasks']);
@@ -53,7 +53,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
@@ -71,15 +71,15 @@ class ListView extends \Settings_Vtiger_ListView_Model
 
 			//To handle translation of calendar to To Do
 			if ($module_name == 'Calendar') {
-				$module_name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TASK', $module_name);
+				$module_name = \App\Runtime\Vtiger_Language_Handler::translate('LBL_TASK', $module_name);
 			} else {
-				$module_name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name);
+				$module_name = \App\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name);
 			}
 			$workflowModel = $record->getInstance($row['workflow_id']);
 			$taskList = $workflowModel->getTasks();
 			$row['module_name'] = $module_name;
-			$row['execution_condition'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
-			$row['summary'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['summary'], 'Settings:Workflows');
+			$row['execution_condition'] = \App\Runtime\Vtiger_Language_Handler::translate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
+			$row['summary'] = \App\Runtime\Vtiger_Language_Handler::translate($row['summary'], 'Settings:Workflows');
 			$row['all_tasks'] = count($taskList);
 			$row['active_tasks'] = $workflowModel->getActiveCountFromRecord($taskList);
 

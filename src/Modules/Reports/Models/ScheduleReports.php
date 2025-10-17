@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Models;
+namespace App\Modules\Reports\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
-class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 {
 
 	public $scheduledFormat = 'CSV';
@@ -34,7 +34,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public static function getInstanceById($recordId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$scheduledReportModel = new self();
 
 		if (!empty($recordId)) {
@@ -59,7 +59,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function saveScheduleReport()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$reportid = $this->get('reportid');
 		$scheduleid = $this->get('scheduleid');
@@ -78,7 +78,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 			$date = $this->get('schdate');
 			$dateDBFormat = DateTimeField::convertToDBFormat($date);
 			$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-			$currentTime = \FreeCRM\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
+			$currentTime = \App\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
 			if ($nextTriggerTime > $currentTime) {
 				$this->set('next_trigger_time', $nextTriggerTime);
 			} else {
@@ -177,7 +177,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 		$recipientsEmails = [];
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				if (!\FreeCRM\Modules\Vtiger\Util::isUserDeleted($userId)) {
+				if (!\App\Modules\Vtiger\Util::isUserDeleted($userId)) {
 					$userName = \App\Fields\Owner::getUserLabel($userId);
 					$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {
@@ -204,7 +204,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 			$to[$email] = $name;
 		}
 		require_once ROOT_DIRECTORY . '/src/Modules/Report/Models/Record.php';
-		$reportRecordModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($this->get('reportid'));
+		$reportRecordModel = \App\Modules\Reports\Models\Record::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
 		\vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
 		$reportname = decode_html($reportRecordModel->getName());
@@ -286,7 +286,7 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public function updateNextTriggerTime()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
 		\vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
@@ -374,16 +374,16 @@ class ScheduleReports extends \FreeCRM\Modules\Vtiger\Models\Model
 													<td> </td>
 												</tr>
 												<tr>
-													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '</td>
+													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '</td>
 												</tr>
 												<tr>
 													<td align="center">
 													<table width="75%" cellspacing="0" cellpadding="10" border="0" style="border: 2px solid rgb(180, 180, 179); background-color: rgb(226, 226, 225); font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal;">
 															<tr>
-																<td><b>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_NAME', $currentModule) . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
+																<td><b>' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_NAME', $currentModule) . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
 															</tr>
 															<tr>
-																<td><b>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DESCRIPTION', $currentModule) . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
+																<td><b>' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DESCRIPTION', $currentModule) . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
 															</tr>
 													</table>
 													</td>

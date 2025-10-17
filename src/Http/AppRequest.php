@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-namespace FreeCRM\Http;
+namespace App\Http;
 
 class AppRequest
 {

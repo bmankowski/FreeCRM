@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Models;
+namespace App\Modules\Products\Models;
 
 /**
  * Products TreeView Model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Products\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeView extends \FreeCRM\Modules\Vtiger\Models\Model
+class TreeView extends \App\Modules\Vtiger\Models\Model
 {
 
 	public function isActive()
@@ -18,9 +18,9 @@ class TreeView extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	private function getRecords()
 	{
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($this->getModuleName());
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($this->getModuleName());
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		$tree = [];
 		foreach ($listEntries as $item) {

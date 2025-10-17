@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Settings\Vtiger\Actions;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 
 /* +**********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Basic extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Basic extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -22,15 +22,15 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('updateFieldPinnedStatus');
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -39,10 +39,10 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function updateFieldPinnedStatus(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateFieldPinnedStatus(\App\Http\Vtiger_Request $request)
 	{
 		$fieldId = $request->get('fieldid');
-		$menuItemModel = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getInstanceById($fieldId);
+		$menuItemModel = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstanceById($fieldId);
 
 		$pin = $request->get('pin');
 		if ($pin == 'true') {
@@ -51,12 +51,12 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$menuItemModel->unMarkPinned();
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('SUCCESS' => 'OK'));
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

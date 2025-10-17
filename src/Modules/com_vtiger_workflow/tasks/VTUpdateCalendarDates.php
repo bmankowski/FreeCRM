@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /**
  * Update the dates of created events automatically
@@ -20,7 +20,7 @@ class VTUpdateCalendarDates extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -30,12 +30,12 @@ class VTUpdateCalendarDates extends VTTask
 		if (count($delta) == 0) {
 			return;
 		}
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_activity_update_dates INNER JOIN com_vtiger_workflowtasks ON com_vtiger_workflowtasks.task_id = vtiger_activity_update_dates.task_id '
 			. 'WHERE vtiger_activity_update_dates.parent = ?', [$entityId]);
 		while ($row = $adb->fetch_array($result)) {
 			$task = new \ArrayObject(unserialize($row['task']));
-			$rowRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($row['activityid'], 'Calendar');
+			$rowRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($row['activityid'], 'Calendar');
 
 			if ($task['datefield_start'] == 'wfRunTime') {
 				$baseDateStart = date('Y-m-d H:i:s');

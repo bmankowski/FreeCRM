@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reservations;
+namespace App\Modules\Reservations;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Reservations;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Reservations extends Vtiger_CRMEntity
@@ -101,10 +101,10 @@ class Reservations extends Vtiger_CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		$registerLink = false;
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance('Reservations');
+			$moduleInstance = \App\CRMEntity::getInstance('Reservations');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
 			$moduleInstance = vtlib\Module::getInstance($modulename);

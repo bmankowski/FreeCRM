@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Views;
+namespace App\Modules\OSSMail\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,21 +13,21 @@ namespace FreeCRM\Modules\OSSMail\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class CheckConfig extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		require_once ROOT_DIRECTORY . '/src/Modules/OSSMail/Views/CheckConfigCore.php';
 	}

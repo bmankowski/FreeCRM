@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl\Models;
+namespace App\Modules\OSSTimeControl\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
+class Calendar extends \App\Modules\Vtiger\Models\Model
 {
 
 	public function getEntity()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$module = 'OSSTimeControl';
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$query = getListQuery($module);
 		$params = array();
 		if ($this->get('start') && $this->get('end')) {
@@ -59,7 +59,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 			$item = [];
 			$crmid = $record['osstimecontrolid'];
 			$item['id'] = $crmid;
-			$item['title'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['name'], $module);
+			$item['title'] = \App\Runtime\Vtiger_Language_Handler::translate($record['name'], $module);
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $crmid;
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
@@ -91,10 +91,10 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public static function getInstance()
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
+		$instance = \App\Runtime\Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			\FreeCRM\Runtime\Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
+			\App\Runtime\Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;

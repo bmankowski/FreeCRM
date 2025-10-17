@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Actions;
+namespace App\Modules\SMSNotifier\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\SMSNotifier\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassSaveAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MassSaveAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -27,17 +27,17 @@ class MassSaveAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function that saves SMS records
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$phoneFieldList = $request->get('fields');
 		$message = $request->get('message');
 
 		foreach ($recordIds as $recordId) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$numberSelected = false;
 			foreach ($phoneFieldList as $fieldname) {
 				$fieldValue = $recordModel->get($fieldname);
@@ -51,11 +51,11 @@ class MassSaveAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 
 		if (!empty($toNumbers)) {
 			$sourceModule=$request->get('source_module');
-			\FreeCRM\Modules\SMSNotifier\Models\Record::SendSMS($message, $toNumbers, $currentUserModel->getId(), $recordIds, $sourceModule);
+			\App\Modules\SMSNotifier\Models\Record::SendSMS($message, $toNumbers, $currentUserModel->getId(), $recordIds, $sourceModule);
 			$response->setResult(true);
 		} else {
 			$response->setResult(false);

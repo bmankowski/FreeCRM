@@ -12,18 +12,18 @@
 Class OSSMailView_summary_View extends Vtiger_Edit_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 	}

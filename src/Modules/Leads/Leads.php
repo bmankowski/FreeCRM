@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads;
+namespace App\Modules\Leads;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\Leads;
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
-class Leads extends \FreeCRM\CRMEntity
+class Leads extends \App\CRMEntity
 {
 
 	public $table_name = "vtiger_leaddetails";
@@ -126,7 +126,7 @@ class Leads extends \FreeCRM\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

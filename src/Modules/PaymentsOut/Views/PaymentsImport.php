@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PaymentsOut\Views;
+namespace App\Modules\PaymentsOut\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,11 +13,11 @@ namespace FreeCRM\Modules\PaymentsOut\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class PaymentsImport extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		$type = array();

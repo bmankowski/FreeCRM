@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -140,7 +140,7 @@ class Paging extends Model
 	/**
 	 * calculates page range
 	 * @param int $recordCount
-	 * @return \FreeCRM\Modules\Vtiger\Models\Paging
+	 * @return \App\Modules\Vtiger\Models\Paging
 	 */
 	public function calculatePageRange($recordCount)
 	{

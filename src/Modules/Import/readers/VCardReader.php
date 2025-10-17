@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Import\readers;
+namespace App\Modules\Import\readers;
 
-use FreeCRM\Modules\Import\readers\FileReader;
+use App\Modules\Import\readers\FileReader;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -28,7 +28,7 @@ class VCardReader extends FileReader
 
 	public function getFirstRowData($hasHeader = true)
 	{
-		$default_charset = \FreeCRM\AppConfig::main('default_charset');
+		$default_charset = \App\AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		if (empty(self::$fileContents)) {
@@ -58,7 +58,7 @@ class VCardReader extends FileReader
 	 */
 	public function read()
 	{
-		$defaultCharset = \FreeCRM\AppConfig::main('default_charset');
+		$defaultCharset = \App\AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		$this->createTable();

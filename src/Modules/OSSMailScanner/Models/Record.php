@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\Models;
+namespace App\Modules\OSSMailScanner\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -17,13 +17,13 @@ namespace FreeCRM\Modules\OSSMailScanner\Models;
  * removed deprecated function getTypeFolder
  */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	public static function getActionsList()
 	{
 		$accountsPriority = ['CreatedEmail', 'CreatedHelpDesk', 'BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindSSalesProcesses'];
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSMailScanner');
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSMailScanner');
 		$iterator = new DirectoryIterator($moduleModel->actionsDir);
 		$actions = [];
 		foreach ($iterator as $i => $fileInfo) {
@@ -43,7 +43,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getIdentities($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM roundcube_identities WHERE user_id = ?";
 		$result = $db->pquery($sql, array($id), true);
 		$output = [];
@@ -58,7 +58,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function deleteIdentities($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = "DELETE FROM roundcube_identities WHERE identity_id = ?";
 		$result = $db->pquery($sql, array($id), true);
 	}
@@ -80,13 +80,13 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function setActions($userid, $vale)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery("UPDATE roundcube_users SET actions = ? WHERE user_id = ?", array($vale, $userid), true);
 	}
 
 	public static function setFolderList($user, $foldersByType)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 		$result = $db->pquery('SELECT * FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ?', [$user]);
 		$oldFoldersByType = [];
@@ -119,7 +119,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getConfigFolderList($folder = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$return = null;
 		if ($folder) {
 			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' && value LIKE '%$folder%' ORDER BY parameter");
@@ -135,7 +135,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getConfig($conf_type)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$queryParams = [];
 		$sql = '';
 		if ($conf_type != '' || $conf_type != false) {
@@ -159,12 +159,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$value = null;
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE', 'OSSMailScanner');
+		return \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
 	public static function getUidFolder($accountID, $folder)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$uid = 0;
 		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? && BINARY folder = ?', [$accountID, $folder]);
 		while ($value = $db->getSingleValue($result)) {
@@ -175,7 +175,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getFolders($accountID)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$rows = [];
 		$result = $db->pquery('SELECT * FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ?', [$accountID]);
 		while ($row = $db->getRow($result)) {
@@ -200,7 +200,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$mail->setAccount($account);
 		$mail->setFolder($folder);
 		foreach ($actions as &$action) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
+			$handlerClass = \App\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
 			$handler = new $handlerClass();
 			if ($handler) {
 				\App\Log::trace('Start action: ' . $action);
@@ -216,12 +216,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function manualScanMail($params)
 	{
-		$account = \FreeCRM\Modules\OSSMail\Models\Record::getAccountByHash($params['rcId']);
+		$account = \App\Modules\OSSMail\Models\Record::getAccountByHash($params['rcId']);
 		if (!$account) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$params['folder'] = urldecode($params['folder']);
-		$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+		$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$mail = $mailModel->getMail($mbox, $params['uid']);
 		if (!$mail) {
@@ -268,18 +268,18 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 		if ($get_emails) {
 			for ($i = $msgno; $i <= $num_msg; $i++) {
-				$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+				$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 
 				$uid = imap_uid($mbox, $i);
 				$mail = $mailModel->getMail($mbox, $uid, $i);
 
 				self::executeActions($account, $mail, $folder);
 				unset($mail);
-				$adb = \FreeCRM\database\PearDatabase::getInstance();
+				$adb = \App\database\PearDatabase::getInstance();
 				$adb->pquery('UPDATE vtiger_ossmailscanner_folders_uid SET uid=? WHERE user_id=? && BINARY folder = ?', [$uid, $account['user_id'], $folder]);
 				$countEmails++;
 				self::updateScanHistory($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
-				if ($countEmails >= \FreeCRM\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+				if ($countEmails >= \App\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 					return $countEmails;
 				}
 			}
@@ -290,7 +290,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getEmailSearch($module = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$return = [];
 		$queryParams = ['Users'];
 		$query = (new \App\Db\Query())->from('vtiger_field')
@@ -317,7 +317,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getEmailSearchList()
 	{
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('Mail', 'EmailSearchList');
+		$cache = \App\Runtime\Vtiger_Cache::get('Mail', 'EmailSearchList');
 		if ($cache !== false) {
 			return $cache;
 		}
@@ -328,7 +328,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!empty($value)) {
 			$return = explode(',', $value);
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
+		\App\Runtime\Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
 		return $return;
 	}
 
@@ -373,7 +373,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function get_cron()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$return = false;
 		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE module = ?", array('OSSMailScanner'));
 		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
@@ -389,14 +389,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		\App\Log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
-			\App\Log::info(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
+			\App\Log::info(\App\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			return \App\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
-		$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
-		$scannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+		$scannerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$countEmails = 0;
 		$scanId = 0;
-		$accounts = \FreeCRM\Modules\OSSMail\Models\Record::getAccountsList();
+		$accounts = \App\Modules\OSSMail\Models\Record::getAccountsList();
 		if (!$accounts) {
 			\App\Log::info('There are no accounts to be scanned');
 			return false;
@@ -413,7 +413,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				if (is_resource($mbox)) {
 					$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 					imap_close($mbox);
-					if ($countEmails >= \FreeCRM\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+					if ($countEmails >= \App\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 						\App\Log::info('Reached the maximum number of scanned mails');
 						self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 						self::setCronStatus('1');
@@ -479,14 +479,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function add_scan_history($array)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery("INSERT INTO vtiger_ossmails_logs (start_time,status,user) VALUES (?,1,?)", array(date('Y-m-d H:i:s'), $array['user']));
 		return $adb->getLastInsertID();
 	}
 
 	public static function updateScanHistory($id, $array)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "update vtiger_ossmails_logs set end_time=?,status=? ,count=? ,action=? where id=?";
 		$dane = array(date('Y-m-d H:i:s'), $array['status'], $array['count'], $array['action'], $id);
 		$adb->pquery($sql, $dane);
@@ -494,7 +494,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function checkLogStatus()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$return = false;
 		$result = $adb->pquery("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC", []);
 		if ($adb->getRowCount($result) > 0) {
@@ -512,7 +512,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getActiveScan()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_ossmails_logs WHERE status = '1'", array(''));
 		return $adb->getRowCount($result);
 	}
@@ -558,7 +558,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		$checkCronStatus = self::checkCronStatus();
 		if ($checkCronStatus != false) {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_log_cron WHERE laststart = ?", array($checkCronStatus));
 			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_log_cron (laststart,status) VALUES (?,0)", array($checkCronStatus));
@@ -566,8 +566,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$mail_status = \App\Mailer::addMail([
 						//'smtp_id' => 1,
 						'to' => $config['email'],
-						'subject' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Email_FromName', 'OSSMailScanner'),
-						'content' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Email_Body', 'OSSMailScanner'),
+						'subject' => \App\Runtime\Vtiger_Language_Handler::translate('Email_FromName', 'OSSMailScanner'),
+						'content' => \App\Runtime\Vtiger_Language_Handler::translate('Email_Body', 'OSSMailScanner'),
 				]);
 				$adb->pquery("update vtiger_ossmailscanner_log_cron set status = ? WHERE laststart = ?", array($mail_status, $checkCronStatus));
 			}
@@ -593,7 +593,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			return $this->user;
 		}
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT id,user_name,first_name,last_name FROM vtiger_users WHERE status = ?';
 		$result = $adb->pquery($sql, ['Active']);
 		$this->user = $adb->getArray($result);
@@ -607,7 +607,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if ($this->group) {
 			return $this->group;
 		}
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT groupid as id,groupname FROM vtiger_groups';
 		$result = $adb->query($sql);
 		$this->group = $adb->getArray($result);
@@ -638,7 +638,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$mail->set('body', $row['content']);
 
 		foreach ($actions as $action) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
+			$handlerClass = \App\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
 			$handler = new $handlerClass();
 			if ($handler) {
 				$handler->process($mail);
@@ -649,7 +649,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function AccontDelete($id)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM roundcube_users WHERE user_id = '$id';", []);
 	}
 }

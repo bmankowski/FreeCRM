@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Views;
+namespace App\Modules\Documents\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Documents\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -23,10 +23,10 @@ class Detail extends \Vtiger_Index_View
 		$this->exposeMethod('showDocumentRelations');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$fileType = $recordModel->get('filetype');
 		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
 
@@ -38,7 +38,7 @@ class Detail extends \Vtiger_Index_View
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record record model
+	 * @param \App\Modules\Vtiger\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)
@@ -50,17 +50,17 @@ class Detail extends \Vtiger_Index_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView(\FreeCRM\Http\Vtiger_Request $request)
+	public function showModuleBasicView(\App\Http\Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function showDocumentRelations(\FreeCRM\Http\Vtiger_Request $request)
+	public function showDocumentRelations(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$data = \FreeCRM\Modules\Documents\Models\Record::getReferenceModuleByDocId($recordId);
+		$data = \App\Modules\Documents\Models\Record::getReferenceModuleByDocId($recordId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('MODULE_NAME', $moduleName);

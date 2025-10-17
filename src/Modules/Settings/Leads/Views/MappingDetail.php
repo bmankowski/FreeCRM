@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Leads\Views;
+namespace App\Modules\Settings\Leads\Views;
 
 
 /* +**********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\Leads\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
-class MappingDetail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
+class MappingDetail extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -29,10 +29,10 @@ class MappingDetail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

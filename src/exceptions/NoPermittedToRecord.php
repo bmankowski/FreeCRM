@@ -12,13 +12,13 @@ class NoPermittedToRecord extends NoPermitted
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\FreeCRM\Http\Vtiger_Session::init();
+		\App\Http\Vtiger_Session::init();
 
-		$request = \FreeCRM\Http\AppRequest::init();
+		$request = \App\Http\AppRequest::init();
 		$record = $request->get('record');
 		if(empty($record))
 			$record = 0;
-		$userName = \FreeCRM\Http\Vtiger_Session::get('full_user_name');
+		$userName = \App\Http\Vtiger_Session::get('full_user_name');
 		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),

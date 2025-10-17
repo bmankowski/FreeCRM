@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Models;
+namespace App\Modules\OSSMail\Models;
 
 /**
  *
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\OSSMail\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public function getDefaultViewName()
@@ -24,7 +24,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
 
 		$settingsLinks[] = array(
@@ -68,13 +68,13 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$type = $request->get('type');
 
 		$return = [];
-		if (!empty($record) && isRecordExists($record) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
+		if (!empty($record) && isRecordExists($record) && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
+			$recordModel_OSSMailView = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$return['to'] = $email;
 			}
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName === 'Campaigns') {
 				$subject = '';
@@ -107,8 +107,8 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			$return['filePath'] = $request->get('pdf_path');
 		}
 		if (!empty($moduleName)) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-			$moduleConfig = \FreeCRM\AppConfig::module($moduleName);
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$moduleConfig = \App\AppConfig::module($moduleName);
 			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
 				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
 			}
@@ -136,7 +136,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	public static function getComposeParameters()
 	{
 		if (!self::$composeParam) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$result = $db->pquery('SELECT parameter,value FROM vtiger_ossmailscanner_config WHERE conf_type = ?', ['email_list']);
 			$config = [];
 			$numRowsResult = $db->num_rows($result);
@@ -152,14 +152,14 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	public static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
-		if (!empty($record) && isRecordExists($record) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
+		if (!empty($record) && isRecordExists($record) && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
+			$recordModel_OSSMailView = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$url .= $email;
 			}
 			$url .= '?';
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
@@ -207,7 +207,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		}
 
 		if (!empty($srecord) && !empty($smoduleName)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($srecord);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
@@ -240,14 +240,14 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
-		$mailtoLimit = \FreeCRM\AppConfig::module('Mail', 'MAILTO_LIMIT');
+		$mailtoLimit = \App\AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
-			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
-			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
-			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
-			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
-			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
+			$content .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
+			$content .= \App\Runtime\Vtiger_Language_Handler::translate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
+			$content .= \App\Runtime\Vtiger_Language_Handler::translate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
+			$content .= \App\Runtime\Vtiger_Language_Handler::translate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
+			$content .= \App\Runtime\Vtiger_Language_Handler::translate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
@@ -259,7 +259,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				}
 			}
 		} else {
-			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
+			$content .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {

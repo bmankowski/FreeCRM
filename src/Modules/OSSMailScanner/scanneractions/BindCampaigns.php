@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
+namespace App\Modules\OSSMailScanner\scanneractions;
 
 /**
  * Mail scanner action bind Campaigns
@@ -24,11 +24,11 @@ class BindCampaigns extends Model
 			$crmidsToaddress = $mail->findEmailAdress('toaddress', false, true);
 			$crmidsCcaddress = $mail->findEmailAdress('ccaddress', false, true);
 			$crmidsBccaddress = $mail->findEmailAdress('bccaddress', false, true);
-			$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsToaddress);
-			$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsCcaddress);
-			$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsBccaddress);
+			$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsToaddress);
+			$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsCcaddress);
+			$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsBccaddress);
 
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			foreach ($campaignIds as $campaignId) {
 				foreach ($crmIds as $recordId) {
 					$db->update('vtiger_campaign_records', [

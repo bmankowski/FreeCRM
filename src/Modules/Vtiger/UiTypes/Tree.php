@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType Tree Field Class
@@ -33,7 +33,7 @@ class Tree extends Base
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$template = $this->get('field')->getFieldParams();
-		$name = \FreeCRM\Runtime\Vtiger_Cache::get('TreeData' . $template, $tree);
+		$name = \App\Runtime\Vtiger_Cache::get('TreeData' . $template, $tree);
 		if ($name) {
 			return $name;
 		}
@@ -56,11 +56,11 @@ class Tree extends Base
 					->from('vtiger_trees_templates_data')
 					->where(['templateid' => $template, 'tree' => $parent])
 					->scalar();
-				$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
+				$parentName = '(' . \App\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
 			}
-			$name = $parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $module);
+			$name = $parentName . \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $module);
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('TreeData' . $template, $tree, $name);
+		\App\Runtime\Vtiger_Cache::set('TreeData' . $template, $tree, $name);
 		return $name;
 	}
 
@@ -87,7 +87,7 @@ class Tree extends Base
 	public function getAllValue()
 	{
 		$template = $this->get('field')->getFieldParams();
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$values = [];
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
 		while ($row = $adb->getRow($result)) {
@@ -102,16 +102,16 @@ class Tree extends Base
 				$parent = end($pieces);
 				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?", array($template, $parent));
 				$parentName = $adb->getSingleValue($result3);
-				$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
+				$parentName = '(' . \App\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
 			}
-			$values[$row['tree']] = array($parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->get('field')->getModuleName()), $parent);
+			$values[$row['tree']] = array($parentName . \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->get('field')->getModuleName()), $parent);
 		}
 		return $values;
 	}
 
 	public static function getDisplayValueByField($tree, $field, $module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? && fieldname = ?', array(\vtlib\Functions::getModuleId($module), $field));
 		if ($adb->num_rows($result) == 0) {
 			return false;
@@ -119,7 +119,7 @@ class Tree extends Base
 		$template = $adb->query_result_raw($result, 0, 'fieldparams');
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', array($template, $tree));
 		if ($adb->num_rows($result)) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($adb->query_result_raw($result, 0, 'name'), $module);
+			return \App\Runtime\Vtiger_Language_Handler::translate($adb->query_result_raw($result, 0, 'name'), $module);
 		}
 		return false;
 	}

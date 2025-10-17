@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SMSNotifier\Models;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
+namespace App\Modules\Settings\SMSNotifier\Models;
+use App\Modules\Settings\SMSNotifierModels\Field;
 
 
 /* +***********************************************************************************
@@ -28,7 +28,7 @@ class Field extends \Vtiger_Field_Model
 	/**
 	 * Function to get instance of this model
 	 * @param <Array> $rowData
-	 * @return <\FreeCRM\Modules\Settings\SMSNotifier\Models\Field> field model
+	 * @return <\App\Modules\Settings\SMSNotifier\Models\Field> field model
 	 */
 	public static function getInstanceByRow($rowData)
 	{

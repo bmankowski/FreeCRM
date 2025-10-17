@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Actions;
+namespace App\Modules\SMSNotifier\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,21 +12,21 @@ namespace FreeCRM\Modules\SMSNotifier\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CheckServerInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class CheckServerInfo extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$db = \App\database\PearDatabase::getInstance();
+		$response = new \App\Http\Vtiger_Response();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_smsnotifier_servers WHERE isactive = 1', array());
 		if ($db->num_rows($result)) {

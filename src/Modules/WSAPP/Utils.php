@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP;
+namespace App\Modules\WSAPP;
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -15,7 +15,7 @@ require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
 function wsapp_getHandler($appType)
 {
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	$result = $db->pquery("SELECT * FROM vtiger_wsapp_handlerdetails WHERE type=?", array($appType));
 
 	$handlerResult = array();
@@ -29,7 +29,7 @@ function wsapp_getHandler($appType)
 
 function wsapp_getApplicationName($key)
 {
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 
 	$result = $db->pquery("SELECT name from vtiger_wsapp WHERE appkey=?", array($key));
 	$name = false;
@@ -42,7 +42,7 @@ function wsapp_getApplicationName($key)
 function wsapp_getRecordEntityNameIds($entityNames, $modules, $user)
 {
 	$entityMetaList = array();
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 
 	if (empty($entityNames))
 		return;
@@ -108,7 +108,7 @@ function wsapp_checkIfRecordsAssignToUser($recordsIds, $userIds)
 		return $assignedRecordIds;
 	if (!is_array($userIds))
 		$userIds = [$userIds];
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	$query = sprintf("SELECT * FROM vtiger_crmentity where crmid IN (%s) and smownerid in (%s)", generateQuestionMarks($recordsIds), generateQuestionMarks($userIds));
 	$params = [];
 	foreach ($recordsIds as $id) {
@@ -128,7 +128,7 @@ function wsapp_checkIfRecordsAssignToUser($recordsIds, $userIds)
 
 function wsapp_getAppKey($appName)
 {
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	$query = "SELECT * FROM vtiger_wsapp WHERE name=?";
 	$params = array($appName);
 	$result = $db->pquery($query, $params);
@@ -141,7 +141,7 @@ function wsapp_getAppKey($appName)
 
 function wsapp_getAppSyncType($appKey)
 {
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	$query = "SELECT type FROM vtiger_wsapp WHERE appkey=?";
 	$params = array($appKey);
 	$result = $db->pquery($query, $params);
@@ -154,7 +154,7 @@ function wsapp_getAppSyncType($appKey)
 
 function wsapp_RegisterHandler($type, $handlerClass, $handlerPath)
 {
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	$query = "SELECT 1 FROM vtiger_wsapp_handlerdetails where type=?";
 	$result = $db->pquery($query, array($type));
 	if ($db->num_rows($result) > 0) {

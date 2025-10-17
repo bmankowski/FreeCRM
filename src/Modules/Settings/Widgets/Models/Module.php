@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Widgets\Models;
+namespace App\Modules\Settings\Widgets\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -13,8 +13,8 @@ namespace FreeCRM\Modules\Settings\Widgets\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public static function getWidgets($module = false)
@@ -44,7 +44,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	{
 		$modules = \vtlib\Functions::getAllModules();
 		foreach ($modules as $id => $module) {
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module['name']);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module['name']);
 			if (!$moduleModel->isSummaryViewSupported()) {
 				unset($modules[$id]);
 			}
@@ -62,13 +62,13 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		$moduleName = vtlib\Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
 			$action = str_replace('.php', "", $ff);
 			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
 				$folderFiles[$action] = $action;
-				$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
+				$modelClassName = \App\Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
 				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
 					unset($folderFiles[$action]);
@@ -85,7 +85,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function getRelatedModule($tabid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
 				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0';
 		$result = $adb->pquery($sql, array($tabid));
@@ -107,7 +107,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 						->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
 						->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$filetrs[$value['related_tabid']][$row['fieldname']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
+					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
@@ -117,7 +117,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function getCheckboxs($modules)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$checkboxs = [];
 		$tabid = [];
 		foreach ($modules as $key => $value) {
@@ -128,7 +128,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 						->andWhere(['<>', 'columnname', 'was_read'])
 						->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
+					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
@@ -138,7 +138,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function getFields($tabid, $uitype = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$fieldlabel = $fieldsList = [];
 		$params = [$tabid];
 		$sql = "SELECT fieldid,columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND displaytype <> '2' AND vtiger_field.presence in (0,2)";
@@ -149,8 +149,8 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		$result = $adb->pquery($sql, $params, true);
 		$Num = $adb->num_rows($result);
 		while ($row = $adb->fetch_array($result)) {
-			$fieldlabel[$row['fieldid']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
-			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
+			$fieldlabel[$row['fieldid']] = \App\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
+			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $value['name']);
 		}
 		return array('labels' => $fieldlabel, 'table' => $fieldsList);
 	}
@@ -204,13 +204,13 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function removeWidget($wid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_widgets WHERE id = ?;', array($wid));
 	}
 
 	public function getWidgetInfo($wid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
 		$result = $adb->pquery($sql, array($wid));
 		$resultrow = $adb->raw_query_result_rowdata($result);
@@ -220,7 +220,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getLastSequence($tabid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT MAX(sequence) as max FROM vtiger_widgets WHERE tabid = ?';
 		$result = $adb->pquery($sql, array($tabid));
 		return $adb->query_result($result, 0, 'max');
@@ -241,11 +241,11 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public function getWYSIWYGFields($tabid, $module)
 	{
 		$field = [];
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;";
 		$result = $adb->pquery($sql, [$tabid, '300']);
 		while ($row = $adb->fetch_array($result)) {
-			$field[$row['fieldname']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $module);
+			$field[$row['fieldname']] = \App\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $module);
 		}
 		return $field;
 	}
@@ -256,7 +256,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			\App\Module::getModuleId('SSalesProcesses') => [ 0 =>
 				[
 					'type' => 1,
-					'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
+					'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
 					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']]
 				]
 			]
@@ -281,7 +281,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		$moduleName = \App\Module::getModuleName($moduleId);
 		if ($moduleName === 'Documents') {
 			$linkList[] = [
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MASS_ADD', $moduleName),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_MASS_ADD', $moduleName),
 				'linkurl' => 'javascript:\Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'glyphicon glyphicon-plus',
 				'linkclass' => 'btn-sm btn-primary'

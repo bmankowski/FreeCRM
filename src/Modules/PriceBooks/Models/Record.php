@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks\Models;
+namespace App\Modules\PriceBooks\Models;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\PriceBooks\Models;
 /**
  * PriceBooks Record Model Class
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**

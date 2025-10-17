@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Companies\Views;
+namespace App\Modules\Settings\Companies\Views;
 
 
 
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Settings\Companies\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Companies\Models\Record as Settings_Companies_Record_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Companies\Models\Record as Settings_Companies_Record_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	/**
 	 * Process function
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -31,8 +31,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		} else {
 			$recordModel = new Settings_Companies_Record_Model();
 		}
-		$viewer->assign('COMPANY_COLUMNS', \FreeCRM\Modules\Settings\Companies\Models\Module::getColumnNames());
-		$viewer->assign('INDUSTRY_LIST', \FreeCRM\Modules\Settings\Companies\Models\Module::getIndustryList());
+		$viewer->assign('COMPANY_COLUMNS', \App\Modules\Settings\Companies\Models\Module::getColumnNames());
+		$viewer->assign('INDUSTRY_LIST', \App\Modules\Settings\Companies\Models\Module::getIndustryList());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
@@ -41,10 +41,10 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Get footer JS scripts
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [

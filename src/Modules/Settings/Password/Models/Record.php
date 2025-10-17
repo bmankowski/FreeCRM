@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Password\Models;
+namespace App\Modules\Settings\Password\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -55,22 +55,22 @@ class Record extends \Vtiger_Record_Model
 		$conf = self::getPassDetail();
 		$moduleName = 'Settings:Password';
 		if (strlen($pass) > $conf['max_length']) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate("characters", $moduleName);
+			return \App\Runtime\Vtiger_Language_Handler::translate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Runtime\Vtiger_Language_Handler::translate("characters", $moduleName);
 		}
 		if (strlen($pass) < $conf['min_length']) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate("Minimum password length", $moduleName) . ' ' . $conf['min_length'] . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate("characters", $moduleName);
+			return \App\Runtime\Vtiger_Language_Handler::translate("Minimum password length", $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Runtime\Vtiger_Language_Handler::translate("characters", $moduleName);
 		}
 		if ($conf['numbers'] == 'true' && !preg_match("#[0-9]+#", $pass)) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate("Password should contain numbers", $moduleName);
+			return \App\Runtime\Vtiger_Language_Handler::translate("Password should contain numbers", $moduleName);
 		}
 		if ($conf['big_letters'] == 'true' && !preg_match("#[A-Z]+#", $pass)) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate("Uppercase letters from A to Z", $moduleName);
+			return \App\Runtime\Vtiger_Language_Handler::translate("Uppercase letters from A to Z", $moduleName);
 		}
 		if ($conf['small_letters'] == 'true' && !preg_match("#[a-z]+#", $pass)) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate("Lowercase letters a to z", $moduleName);
+			return \App\Runtime\Vtiger_Language_Handler::translate("Lowercase letters a to z", $moduleName);
 		}
 		if ($conf['special'] == 'true' && !preg_match("/[!@#$%^&*()\-_=+{};:,<.>]/", $pass)) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate("Password should contain special characters", $moduleName);
+			return \App\Runtime\Vtiger_Language_Handler::translate("Password should contain special characters", $moduleName);
 		}
 		return false;
 	}

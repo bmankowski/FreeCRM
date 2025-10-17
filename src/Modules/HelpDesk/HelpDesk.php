@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk;
+namespace App\Modules\HelpDesk;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\HelpDesk;
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
 
-class HelpDesk extends \FreeCRM\CRMEntity
+class HelpDesk extends \App\CRMEntity
 {
 
 	public $table_name = "vtiger_troubletickets";
@@ -101,7 +101,7 @@ class HelpDesk extends \FreeCRM\CRMEntity
 	{
 		if ($with_module == 'ServiceContracts') {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
-			$serviceContract = \FreeCRM\CRMEntity::getInstance("ServiceContracts");
+			$serviceContract = \App\CRMEntity::getInstance("ServiceContracts");
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
 			$serviceContract->updateServiceContractState($with_crmid);
 		} else {
@@ -162,8 +162,8 @@ class HelpDesk extends \FreeCRM\CRMEntity
 	 */
 	public function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$adb = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 
 		if ($mode != 'edit') {//this will be updated when we create new ticket
 			$updatelog = "Ticket created. Assigned to ";
@@ -231,7 +231,7 @@ class HelpDesk extends \FreeCRM\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

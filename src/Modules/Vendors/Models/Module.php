@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vendors\Models;
+namespace App\Modules\Vendors\Models;
 
 /**
  * Vendors module model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vendors\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**

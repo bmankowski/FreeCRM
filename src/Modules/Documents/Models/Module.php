@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Models;
+namespace App\Modules\Documents\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -58,7 +58,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
 		foreach ($reqPopUpFields as &$fieldName) {
 			if (!isset($popupFields[$fieldName])) {
-				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
+				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
 				if ($fieldModel->getPermissions()) {
 					$popupFields[$fieldName] = $fieldName;
 				}

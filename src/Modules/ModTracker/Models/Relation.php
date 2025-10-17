@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModTracker\Models;
+namespace App\Modules\ModTracker\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\ModTracker\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Vtiger\Models\Relation
 {
 
 	public function getValue()
@@ -32,7 +32,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 
 	public function getLinkedRecord()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$targetId = $this->get('targetid');
 		$targetModule = $this->get('targetmodule');
@@ -42,9 +42,9 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 		$noOfRows = $db->num_rows($result);
 		$moduleModels = [];
 		if ($noOfRows) {
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($targetModule);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($targetModule);
 			$row = $db->getRow($result);
-			$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $targetModule);
+			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();
 			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 			$recordInstance->set('id', $row['crmid']);
@@ -61,7 +61,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 	public static function reviewChangesQueue($data, $module)
 	{
 		$db = \App\Db::getInstance();
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$id = (new \App\Db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
 		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,
@@ -80,8 +80,8 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 	public static function reviewChanges($recordsList, $userId = false)
 	{
 		foreach ($recordsList as $record) {
-			$result = \FreeCRM\Modules\ModTracker\Models\Record::setLastReviewed($record);
-			\FreeCRM\Modules\ModTracker\Models\Record::unsetReviewed($record, $userId, $result);
+			$result = \App\Modules\ModTracker\Models\Record::setLastReviewed($record);
+			\App\Modules\ModTracker\Models\Record::unsetReviewed($record, $userId, $result);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\readers;
+namespace App\Modules\Import\readers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -25,7 +25,7 @@ class FileReader {
 	{
 		$this->request = $request;
 		$this->user = $user;
-		$this->moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->request->get('module'));
+		$this->moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->request->get('module'));
 	}
 
 	public function getStatus()
@@ -107,7 +107,7 @@ class FileReader {
 	{
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($this->user);
+		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		$fieldMapping = $this->request->get('field_mapping');
 		$moduleFields = $this->moduleModel->getFields();
 		$columns = [
@@ -117,7 +117,7 @@ class FileReader {
 		];
 		foreach ($fieldMapping as $fieldName => $index) {
 			if ($field = $moduleFields[$fieldName]) {
-				$stringTypes = array_merge(\FreeCRM\Modules\Vtiger\Models\Field::$referenceTypes, ['owner', 'currencyList', 'sharedOwner']);
+				$stringTypes = array_merge(\App\Modules\Vtiger\Models\Field::$referenceTypes, ['owner', 'currencyList', 'sharedOwner']);
 				if (in_array($field->getFieldDataType(), $stringTypes)) {
 					$columns[$fieldName] = $schema->createColumnSchemaBuilder('string', 255);
 				} else {
@@ -128,7 +128,7 @@ class FileReader {
 		$db->createTable($tableName, $columns);
 
 		if ($this->moduleModel->isInventory()) {
-			$inventoryTableName = \FreeCRM\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
+			$inventoryTableName = \App\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
 			$columns = [
 				'id' => $schema->createColumnSchemaBuilder('integer', 19)
@@ -162,7 +162,7 @@ class FileReader {
 	public function addRecordToDB($data)
 	{
 		$db = \App\Db::getInstance();
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($this->user);
+		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		$result = $db->createCommand()->insert($tableName, $data)->execute();
 		$this->numberOfRecordsRead++;
 		return $db->getLastInsertID($tableName . '_id_seq');
@@ -176,7 +176,7 @@ class FileReader {
 	public function addInventoryToDB($inventoryData, $importId)
 	{
 		$db = \App\Db::getInstance();
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
+		$tableName = \App\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
 		foreach ($inventoryData as $data) {
 			$data['id'] = $importId;
 			$db->createCommand()->insert($tableName, $data)->execute();

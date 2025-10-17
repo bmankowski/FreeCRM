@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Calendar\Views;
+namespace App\Modules\Settings\Calendar\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,14 +13,14 @@ namespace FreeCRM\Modules\Settings\Calendar\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ActivityTypes extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class ActivityTypes extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = \FreeCRM\Modules\Settings\Calendar\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Calendar\Models\Module::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -28,7 +28,7 @@ class ActivityTypes extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('ActivityTypes.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -41,7 +41,7 @@ class ActivityTypes extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(

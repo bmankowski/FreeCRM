@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Models;
+namespace App\Modules\ModComments\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,13 +11,13 @@ namespace FreeCRM\Modules\ModComments\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
@@ -67,7 +67,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);
 	}
 }

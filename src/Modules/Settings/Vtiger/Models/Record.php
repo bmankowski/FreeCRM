@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
+namespace App\Modules\Settings\Vtiger\Models;
 
 
 /* +***********************************************************************************
@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\Settings\Vtiger\Models;
  * Settings Vtiger Record Model Class
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 abstract class Record extends \App\Base
 {
 

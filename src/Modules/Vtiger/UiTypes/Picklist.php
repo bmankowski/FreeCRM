@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -30,7 +30,7 @@ class Picklist extends Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString($value, $this->get('field')->getModuleName());
+		return \App\Runtime\Vtiger_Language_Handler::getTranslatedString($value, $this->get('field')->getModuleName());
 	}
 
 	public function getListSearchTemplateName()

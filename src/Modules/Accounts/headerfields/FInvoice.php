@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts;
+namespace App\Modules\Accounts;
 
 /**
  * Invoice Header Field Class
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Accounts;
  */
 class HeaderField {
 
-	public function process(\FreeCRM\Modules\Vtiger\Models\DetailView $viewModel)
+	public function process(\App\Modules\Vtiger\Models\DetailView $viewModel)
 	{
 		$row = (new \App\Db\Query())->select('MAX(saledate) AS date, SUM(sum_total) as total')->from('u_#__finvoice')
 			->innerJoin('vtiger_crmentity', 'u_#__finvoice.finvoiceid = vtiger_crmentity.crmid')
@@ -18,7 +18,7 @@ class HeaderField {
 		if (!empty($row['date']) && !empty($row['total'])) {
 			return [
 				'class' => 'btn-success',
-				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true),
+				'title' => \App\Runtime\Vtiger_Language_Handler::translate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true),
 				'badge' => DateTimeField::convertToUserFormat($row['date'])
 			];
 		}

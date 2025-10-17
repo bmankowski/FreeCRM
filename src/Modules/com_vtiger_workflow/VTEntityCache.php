@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace App\Modules\com_vtiger_workflow;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -57,10 +57,10 @@ class VTWorkflowEntity {
 	 */
 	function getModuleName()
 	{
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Runtime\Vtiger_Cache::getInstance();
 
 		if ($this->moduleName == null) {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$wsId = $this->data['id'];
 			$parts = explode('x', $wsId);
 			if ($cache->getModuleName($parts[0])) {
@@ -96,7 +96,7 @@ class VTWorkflowEntity {
 		$wsId = $this->data['id'];
 		$parts = explode('x', $wsId);
 		$recordId = $parts[1];
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->moduleName);
 		if ($recordModel->getPreviousValue()) {
 			return true;
 		} else {

@@ -24,7 +24,7 @@ class LanguageExport extends Package
 	 */
 	public static function __getUniqueId()
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -90,7 +90,7 @@ class LanguageExport extends Package
 	 */
 	public function export_Language($prefix)
 	{
-		$db = \FreeCRM\Database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
 		$languageresultrow = $db->fetch_array($sqlresult);
 		$langname = decode_html($languageresultrow['name']);
@@ -136,7 +136,7 @@ class LanguageExport extends Package
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
 				name VARCHAR(50), prefix VARCHAR(10), label VARCHAR(30), lastupdated DATETIME, sequence INT, isdefault INT(1), active INT(1))', true
 			);
-			$adb = \FreeCRM\Database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
 				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
@@ -159,7 +159,7 @@ class LanguageExport extends Package
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
@@ -199,7 +199,7 @@ class LanguageExport extends Package
 
 		self::__initSchema();
 
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);
 		self::log("Deregistering Language $prefix ... DONE");
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\UiTypes;
+namespace App\Modules\HelpDesk\UiTypes;
 
 /**
  * UIType RangeTime Field Class

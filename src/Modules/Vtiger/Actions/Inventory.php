@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
-use FreeCRM\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
+namespace App\Modules\Vtiger\Actions;
+use App\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
 
 /**
  * Basic Inventory Action Class
@@ -10,7 +10,7 @@ use FreeCRM\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Inventory extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -20,15 +20,15 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('getDetails');
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -41,7 +41,7 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function verifies whether the Account's credit limit has been reached
 	 * @param Vtiger_Request $request
 	 */
-	public function checkLimits(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkLimits(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -49,17 +49,17 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$price = $request->get('price');
 		$limitFieldName = 'creditlimit';
 		$balanceFieldName = 'inventorybalance';
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 
-		$moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Accounts');
-		$limitField = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($limitFieldName, $moduleInstance);
-		$balanceField = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($balanceFieldName, $moduleInstance);
+		$moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance('Accounts');
+		$limitField = \App\Modules\Vtiger\Models\Field::getInstance($limitFieldName, $moduleInstance);
+		$balanceField = \App\Modules\Vtiger\Models\Field::getInstance($balanceFieldName, $moduleInstance);
 		if (!$limitField->isActiveField() || !$balanceField->isActiveField()) {
 			$response->setResult(['status' => true]);
 			$response->emit();
 			return;
 		}
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, 'Accounts');
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, 'Accounts');
 		$limitID = $recordModel->get($limitFieldName);
 		$balance = $recordModel->get($balanceFieldName);
 		if (!empty($limitID)) {
@@ -70,7 +70,7 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			return;
 		}
 
-		$baseCurrency = \FreeCRM\Modules\Vtiger\Util::getBaseCurrency();
+		$baseCurrency = \App\Modules\Vtiger\Util::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
 			$selectedCurrency = \vtlib\Functions::getCurrencySymbolandRate($currency);
@@ -81,7 +81,7 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$status = $totalPrice > $limit ? false : true;
 		if (!$status) {
-			$viewer = new FreeCRM_Viewer();
+			$viewer = new CRM_Viewer();
 			$viewer->assign('PRICE', $price);
 			$viewer->assign('BALANCE', $balance);
 			$viewer->assign('SYMBOL', $symbol);
@@ -97,7 +97,7 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function getUnitPrice(\FreeCRM\Http\Vtiger_Request $request)
+	public function getUnitPrice(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$recordModule = $request->get('recordModule');
@@ -105,15 +105,15 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$unitPriceValues = false;
 
 		if (in_array($recordModule, ['Products', 'Services'])) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $recordModule);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $recordModule);
 			$unitPriceValues = $recordModel->getListPriceValues($record);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($unitPriceValues);
 		$response->emit();
 	}
 
-	public function getDetails(\FreeCRM\Http\Vtiger_Request $request)
+	public function getDetails(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$idList = $request->get('idlist');
@@ -128,14 +128,14 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$info[] = $this->getRecordDetail($id, $currencyId, $moduleName, $fieldName);
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($info);
 		$response->emit();
 	}
 
 	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$recordModuleName = $recordModel->getModuleName();
 		$info = [
 			'id' => $recordId,
@@ -158,8 +158,8 @@ class Inventory extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$autoFields = [];
 		if ($autoCompleteField) {
 			foreach ($autoCompleteField as $field) {
-				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($field['module']);
-				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($field['field'], $moduleModel);
+				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($field['module']);
+				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($field['field'], $moduleModel);
 				$fieldValue = $recordModel->get($field['field']);
 				if (!empty($fieldValue)) {
 					$autoFields[$field['tofield']] = $fieldValue;

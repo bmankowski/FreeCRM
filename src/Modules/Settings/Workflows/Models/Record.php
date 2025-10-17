@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Models;
-use FreeCRM\Modules\Settings\WorkflowsModels\TaskType;
-use FreeCRM\Modules\Settings\WorkflowsModels\TaskRecord;
+namespace App\Modules\Settings\Workflows\Models;
+use App\Modules\Settings\WorkflowsModels\TaskType;
+use App\Modules\Settings\WorkflowsModels\TaskRecord;
 
 
 /* +***********************************************************************************
@@ -18,13 +18,13 @@ use FreeCRM\Modules\Settings\WorkflowsModels\TaskRecord;
  * Workflow Record Model Class
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	public function getId()
@@ -75,18 +75,18 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 
 	public function getTasks($active = false)
 	{
-		return \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getAllForWorkflow($this, $active);
+		return \App\Modules\Settings\Workflows\Models\TaskRecord::getAllForWorkflow($this, $active);
 	}
 
 	public function getTaskTypes()
 	{
-		return \FreeCRM\Modules\Settings\Workflows\Models\TaskType::getAllForModule($this->getModule());
+		return \App\Modules\Settings\Workflows\Models\TaskType::getAllForModule($this->getModule());
 	}
 
 	public function isDefault()
@@ -100,7 +100,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 
 		$wf = $this->getWorkflowObject();
@@ -124,7 +124,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function delete()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wm->delete($this->getId());
 	}
@@ -192,7 +192,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public static function getInstance($workflowId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wf = $wm->retrieve($workflowId);
 		return self::getInstanceFromWorkflowObject($wf);
@@ -200,7 +200,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public static function getCleanInstance($moduleName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
@@ -238,7 +238,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public static function getActiveCount()
 	{
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
 		$taskManager = new VTTaskManager($db);
 		$taskList = $taskManager->getTasks();
@@ -380,7 +380,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			if ($row['reference_module'] == $moduleName && $tabModuleName != $moduleName) {
 				if (!\App\Module::isModuleActive($tabModuleName))
 					continue;
-				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName)];
+				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \App\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName)];
 			} else {
 				$dataTypeInfo = explode('~', $row['typeofdata']);
 				if ($dataTypeInfo[1] === 'M') { // If the current reference field is mandatory
@@ -406,9 +406,9 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getReferenceFieldName($relatedModule)
 	{
 		if ($relatedModule) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
-			$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
 
 			foreach ($referenceFieldsList as $fieldName => $fieldModel) {
@@ -422,7 +422,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function updateNextTriggerTime()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$wm = new VTWorkflowManager($db);
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
@@ -434,7 +434,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getTasksForExport()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'SELECT summary, task FROM com_vtiger_workflowtasks WHERE workflow_id = ?;';
 		$result = $db->pquery($query, [$this->getId()]);
@@ -449,7 +449,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public static function getAllAmountWorkflowsAmount()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT workflow_id FROM com_vtiger_workflows;';
 		$result = $db->query($query);
 		$numRows = $db->getRowCount($result);

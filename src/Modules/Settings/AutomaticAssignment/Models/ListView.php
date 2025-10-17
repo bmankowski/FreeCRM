@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AutomaticAssignment\Models;
+namespace App\Modules\Settings\AutomaticAssignment\Models;
 
 
 /*
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\AutomaticAssignment\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 

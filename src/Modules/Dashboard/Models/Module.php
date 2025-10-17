@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Dashboard\Models;
+namespace App\Modules\Dashboard\Models;
 
-use FreeCRM\Modules\Vtiger\Models\Module as VtigerModule;
+use App\Modules\Vtiger\Models\Module as VtigerModule;
 
 /**
  * Dashboard Module Model Class

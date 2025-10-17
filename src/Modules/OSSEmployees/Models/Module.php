@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSEmployees\Models;
+namespace App\Modules\OSSEmployees\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSEmployees\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**

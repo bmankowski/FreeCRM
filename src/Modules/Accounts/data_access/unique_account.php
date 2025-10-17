@@ -18,34 +18,34 @@ Class DataAccess_unique_account
 
 	public function process($moduleName, $ID, $recordForm, $config)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$params = [];
 		$hierarchyAll = [];
 		$save = true;
 		$where = '';
 		$hierarchyCheck = false;
 		if ($ID != 0 && $ID != '' && !array_key_exists('vat_id', $recordForm)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$vatId = $recordModel->get('vat_id');
 		} else {
 			if (array_key_exists('vat_id', $recordForm))
 				$vatId = $recordForm['vat_id'];
 		}
 		if ($ID != 0 && $ID != '' && !array_key_exists('accountname', $recordForm)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$accountName = $recordModel->get('accountname');
 		} else {
 			if (array_key_exists('accountname', $recordForm))
 				$accountName = $recordForm['accountname'];
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$hierarchyField = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('account_id', $moduleModel);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$hierarchyField = \App\Modules\Vtiger\Models\Field::getInstance('account_id', $moduleModel);
 		if ($hierarchyField->isActiveField()) {
 			if (array_key_exists('account_id', $recordForm))
 				$hierarchyValue = $recordForm['account_id'];
 			elseif ($ID != 0 && $ID != '' && !array_key_exists('account_id', $recordForm)) {
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 				$hierarchyValue = $recordModel->get('account_id');
 			}
 			if ($hierarchyValue) {
@@ -89,12 +89,12 @@ Class DataAccess_unique_account
 			while ($id = $db->getSingleValue($result)) {
 				$metaData = \vtlib\Functions::getCRMRecordMetadata($id);
 				$save = false;
-				$deletedLabel = $metaData['deleted'] ? ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
+				$deletedLabel = $metaData['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
 			}
 		}
 		if ($save === true && empty($recordForm['account_id']) === false && $ID > 0) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$hierarchyValueOld = $recordModel->get('account_id');
 			if ($hierarchyValueOld != $recordForm['account_id']) {
 				$hierarchyAll = $this->getHierarchy($recordForm['account_id'], $moduleName, '');
@@ -103,8 +103,8 @@ Class DataAccess_unique_account
 						'save_record' => false,
 						'type' => 0,
 						'info' => [
-							'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-							'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_IS_CHILD', $moduleName),
+							'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+							'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_IS_CHILD', $moduleName),
 							'type' => 'error'
 						]
 					];
@@ -112,20 +112,20 @@ Class DataAccess_unique_account
 			}
 		}
 		if ($save === false) {
-			$permission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DuplicateRecord');
-			$text = '<div class="marginLeft10">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
+			$permission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DuplicateRecord');
+			$text = '<div class="marginLeft10">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {
-				$title = '<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
+				$title = '<strong>' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
 				if (!empty($ID)) {
 					$text .= '<form class="form-horizontal"><div class="checkbox">
 							<label>
-								<input type="checkbox" name="cache"> ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
+								<input type="checkbox" name="cache"> ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
 							</label>
 						</div></form>';
 				}
 				if ($recordForm['view'] == 'quick_edit') {
-					$text = '<div class="alert alert-warning" role="alert">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
+					$text = '<div class="alert alert-warning" role="alert">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
 				}
 			}
 			return [
@@ -150,7 +150,7 @@ Class DataAccess_unique_account
 	public function getHierarchy($id, $moduleName, $recordId)
 	{
 		$hierarchyAll = [];
-		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+		$focus = \App\CRMEntity::getInstance($moduleName);
 		$hierarchy = $focus->getAccountHierarchy($id);
 		unset($hierarchy['entries'][$recordId]);
 		foreach ($hierarchy['entries'] as $hId => $value) {

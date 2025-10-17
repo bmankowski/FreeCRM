@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages;
+namespace App\Modules\IStorages;
 
 /**
  * IStorages products table with storages hierarchy parser class
@@ -24,13 +24,13 @@ class TextParser extends \App\TextParser\Base
 	public function process()
 	{
 		$html = '';
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$relationModuleName = 'Products';
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		// Products from main storage
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
 		// Summary table with products from all storages
 		$allEntries[$this->textParser->record] = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
@@ -58,8 +58,8 @@ class TextParser extends \App\TextParser\Base
 			$storageIdsArray[] = $storageId;
 			if (is_array($storageInfo) && intval($storageId) && $storageId != $this->textParser->record) {
 				// Getting storage products if it is child of main storage
-				$storageRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($storageId);
-				$storageRelationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($storageRecordModel, $relationModuleName);
+				$storageRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($storageId);
+				$storageRelationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($storageRecordModel, $relationModuleName);
 				$allEntries[$storageId] = $storageRelationListView->getEntries($pagingModel);
 			}
 		}
@@ -120,17 +120,17 @@ class TextParser extends \App\TextParser\Base
 							$class = 'class="width25"';
 							break;
 					}
-					$html .= '<th ' . $class . ' style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width15" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width15" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate('Qty/Unit', $relationModuleName) . '</th>';
 			$html .= '</tr></thead><tbody>';
 			$productsInTable = [];
 			foreach ($allEntries as $entries) {
 				foreach ($entries as $entry) {
 					$entryId = $entry->getId();
-					$entryRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
+					$entryRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
 					$productId = $entryRecordModel->get('id');
 					if (isset($productsQty[$productId]) && in_array($productId, $productsInTable) === false) {
 						$storagesQtyString = '[';

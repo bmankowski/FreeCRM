@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents;
+namespace App\Modules\Documents;
 
 /* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Documents;
  * ****************************************************************************** */
 
 // Note is used to store customer information.
-class Documents extends \FreeCRM\CRMEntity
+class Documents extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_notes';
@@ -74,8 +74,8 @@ class Documents extends \FreeCRM\CRMEntity
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		if (\FreeCRM\Http\AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
+		if (\App\Http\AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['NOTES_SORT_ORDER'] != '') ? ($_SESSION['NOTES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder() method ...');
@@ -91,12 +91,12 @@ class Documents extends \FreeCRM\CRMEntity
 		\App\Log::trace('Entering getOrderBy() method ...');
 
 		$use_default_order_by = '';
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (\FreeCRM\Http\AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
+		if (\App\Http\AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['NOTES_ORDER_BY'] != '') ? ($_SESSION['NOTES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace('Exiting getOrderBy method ...');
@@ -109,8 +109,8 @@ class Documents extends \FreeCRM\CRMEntity
 	 */
 	public function getSortOrderForFolder($folderId)
 	{
-		if (\FreeCRM\Http\AppRequest::has('sorder') && \FreeCRM\Http\AppRequest::get('folderid') == $folderId) {
-			$sorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
+		if (\App\Http\AppRequest::has('sorder') && \App\Http\AppRequest::get('folderid') == $folderId) {
+			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
 		} elseif (is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) &&
 			!empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
 			$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
@@ -127,11 +127,11 @@ class Documents extends \FreeCRM\CRMEntity
 	public function getOrderByForFolder($folderId)
 	{
 		$use_default_order_by = '';
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
-		if (\FreeCRM\Http\AppRequest::has('order_by') && \FreeCRM\Http\AppRequest::get('folderid') == $folderId) {
-			$order_by = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
+		if (\App\Http\AppRequest::has('order_by') && \App\Http\AppRequest::get('folderid') == $folderId) {
+			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
 		} elseif (is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) &&
 			!empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
 			$order_by = $_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId];
@@ -286,7 +286,7 @@ class Documents extends \FreeCRM\CRMEntity
 	 */
 	public function isFolderPresent($folderid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?', array($folderid));
 		if (!empty($result) && $adb->num_rows($result) > 0)
 			return true;
@@ -298,7 +298,7 @@ class Documents extends \FreeCRM\CRMEntity
 	 */
 	public function getFolderDefault()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 
@@ -316,7 +316,7 @@ class Documents extends \FreeCRM\CRMEntity
 	{
 		parent::restore($modulename, $id);
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$fresult = $adb->pquery('SELECT folderid FROM vtiger_notes WHERE notesid = ?', array($id));
 		if (!empty($fresult) && $adb->num_rows($fresult)) {
 			$folderid = $adb->query_result($fresult, 0, 'folderid');

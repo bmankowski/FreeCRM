@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Models;
+namespace App\Modules\Documents\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	public function getDownloadFileURL()
@@ -90,7 +90,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function updateDownloadCount()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$notesId = $this->get('id');
 
 		$result = $db->pquery("SELECT filedownloadcount FROM vtiger_notes WHERE notesid = ?", array($notesId));
@@ -106,7 +106,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getReferenceModuleByDocId($record)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT DISTINCT vtiger_crmentity.setype 
 			   FROM vtiger_crmentity INNER JOIN vtiger_senotesrel 
 				   ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid 
@@ -200,7 +200,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$file = $this->file;
 			}
 			if ($file['name'] != '' && $file['size'] > 0) {
-				$file['original_name'] = \FreeCRM\Http\AppRequest::get('0_hidden');
+				$file['original_name'] = \App\Http\AppRequest::get('0_hidden');
 				$this->uploadAndSaveFile($file);
 			}
 		} else {

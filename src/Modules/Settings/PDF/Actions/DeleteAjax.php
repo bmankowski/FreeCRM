@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Actions;
+namespace App\Modules\Settings\PDF\Actions;
 
 
 
@@ -12,16 +12,16 @@ namespace FreeCRM\Modules\Settings\PDF\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
+		$response = new \App\Http\Vtiger_Response();
+		$recordModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
 		if (Settings_PDF_Record_Model::delete($recordModel)) {
 			$response->setResult(array('success' => 'true'));
 		} else {

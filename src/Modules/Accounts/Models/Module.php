@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts\Models;
+namespace App\Modules\Accounts\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Accounts\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -47,7 +47,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Record>
+	 * @return <Array of \App\Modules\Vtiger\Models\Record>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{

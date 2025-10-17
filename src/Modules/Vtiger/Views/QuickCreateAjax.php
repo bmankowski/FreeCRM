@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,26 +13,26 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!(\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView'))) {
+		if (!(\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$fieldList = $moduleModel->getFields();
@@ -45,7 +45,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 			}
 		}
 
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
@@ -70,7 +70,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 				}
 			}
 		}
-		$viewer->assign('QUICKCREATE_LINKS', \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
+		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
@@ -79,17 +79,17 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \FreeCRM\Modules\Vtiger\Util::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Vtiger\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
@@ -102,7 +102,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		return $jsScriptInstances;
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

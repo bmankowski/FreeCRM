@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -39,7 +39,7 @@ class Multipicklist extends Base
 		$moduleName = $this->get('field')->getModuleName();
 		$countValue = count($value);
 		for ($i = 0; $i < $countValue; $i++) {
-			$trValue[] = \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);
+			$trValue[] = \App\Runtime\Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);
 		}
 		$trValue = implode(' |##| ', $trValue);
 
@@ -60,7 +60,7 @@ class Multipicklist extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

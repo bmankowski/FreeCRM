@@ -60,11 +60,6 @@ class ComposerStaticInitYT
         array (
             'Linfo\\' => 6,
         ),
-        'F' => 
-        array (
-            'FreeCRM\\Modules\\' => 16,
-            'FreeCRM\\' => 8,
-        ),
         'E' => 
         array (
             'Exception\\' => 10,
@@ -77,7 +72,6 @@ class ComposerStaticInitYT
         ),
         'A' => 
         array (
-            'App\\Rector\\' => 11,
             'App\\' => 4,
             'Api\\' => 4,
             'Antlr\\Antlr4\\Runtime\\' => 21,
@@ -125,14 +119,6 @@ class ComposerStaticInitYT
         array (
             0 => __DIR__ . '/..' . '/linfo/linfo/src/Linfo',
         ),
-        'FreeCRM\\Modules\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/Modules',
-        ),
-        'FreeCRM\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'Exception\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/exceptions',
@@ -149,13 +135,9 @@ class ComposerStaticInitYT
         array (
             0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
         ),
-        'App\\Rector\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/Rector',
-        ),
         'App\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yetiforce',
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'Api\\' => 
         array (

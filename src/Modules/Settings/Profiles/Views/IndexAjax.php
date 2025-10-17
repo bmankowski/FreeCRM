@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Profiles\Views;
+namespace App\Modules\Settings\Profiles\Views;
 
 
 /* +**********************************************************************************
@@ -12,15 +12,15 @@ namespace FreeCRM\Modules\Settings\Profiles\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class IndexAjax extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}

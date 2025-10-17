@@ -10,9 +10,9 @@
  * ********************************************************************************** */
 
 
-namespace FreeCRM\Http;
+namespace App\Http;
 
-use FreeCRM\AppConfig;
+use App\AppConfig;
 use App\Json;
 use App\Purifier;
 use Exception;

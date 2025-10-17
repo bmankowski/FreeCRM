@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Views;
+namespace App\Modules\Settings\Groups\Views;
 
 
 /* +***********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\Groups\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-Class Settings_Groups_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+Class Settings_Groups_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -31,21 +31,21 @@ Class Settings_Groups_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views\I
 			$viewer->assign('MODE', '');
 		}
 
-		$viewer->assign('MEMBER_GROUPS', \FreeCRM\Modules\Settings\Groups\Models\Member::getAll(true));
+		$viewer->assign('MEMBER_GROUPS', \App\Modules\Settings\Groups\Models\Member::getAll(true));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

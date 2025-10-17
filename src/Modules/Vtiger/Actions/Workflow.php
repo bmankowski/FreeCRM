@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Workflow extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Workflow extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -21,19 +21,19 @@ class Workflow extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('execute');
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -42,14 +42,14 @@ class Workflow extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function execute(\FreeCRM\Http\Vtiger_Request $request)
+	public function execute(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$ids = $request->get('ids');
 		$user = $request->get('user');
 		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids, $user);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

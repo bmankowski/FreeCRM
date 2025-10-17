@@ -153,18 +153,18 @@ class PackageExport
 			$zip->copyDirectoryFromDisk("cron/modules/$module", "cron");
 
 		//Copy module templates files
-		if (is_dir('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . '/modules/' . $module))
-			$zip->copyDirectoryFromDisk('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
+		if (is_dir('layouts/' . \CRM_Viewer::getDefaultLayoutName() . '/modules/' . $module))
+			$zip->copyDirectoryFromDisk('layouts/' . \CRM_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
 
 		//Copy Settings module templates files, if any
-		if (is_dir('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
-			$zip->copyDirectoryFromDisk('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
+		if (is_dir('layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
+			$zip->copyDirectoryFromDisk('layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
 
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
 
 		foreach ($layoutDirectories as $key => $layoutName) {
-			if ($layoutName != 'layouts/' . \FreeCRM_Viewer::getDefaultLayoutName()) {
+			if ($layoutName != 'layouts/' . \CRM_Viewer::getDefaultLayoutName()) {
 				$moduleLayout = $layoutName . "/modules/$module";
 				if (is_dir($moduleLayout)) {
 					$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
@@ -181,8 +181,8 @@ class PackageExport
 		$this->__copyLanguageFiles($zip, $module);
 
 		//Copy image file
-		if (file_exists('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
-			$zip->copyFileFromDisk('layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
+		if (file_exists('layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
+			$zip->copyFileFromDisk('layouts/' . \CRM_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
 		}
 
 		// Copty config files
@@ -243,7 +243,7 @@ class PackageExport
 	 */
 	public function export_Dependencies($moduleInstance)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$moduleid = $moduleInstance->id;
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab_info WHERE tabid = ?", array($moduleid));
@@ -273,7 +273,7 @@ class PackageExport
 	 */
 	public function export_Module()
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$moduleid = $this->moduleInstance->id;
 
@@ -378,7 +378,7 @@ class PackageExport
 	 */
 	public function export_Blocks($moduleInstance)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_blocks WHERE tabid = ?", Array($moduleInstance->id));
 		$resultrows = $adb->num_rows($sqlresult);
 
@@ -424,7 +424,7 @@ class PackageExport
 	 */
 	public function export_Fields($moduleInstance, $blockid)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$fieldresult = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid=? && block=?", Array($moduleInstance->id, $blockid));
 		$fieldcount = $adb->num_rows($fieldresult);
@@ -542,7 +542,7 @@ class PackageExport
 	 */
 	public function export_CustomViews($moduleInstance)
 	{
-		$db = \FreeCRM\Database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$customviewres = $db->pquery("SELECT * FROM vtiger_customview WHERE entitytype = ?", [$moduleInstance->name]);
 		if (!$customviewres->rowCount())
@@ -601,7 +601,7 @@ class PackageExport
 	 */
 	public function export_SharingAccess($moduleInstance)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$deforgshare = $adb->pquery("SELECT * FROM vtiger_def_org_share WHERE tabid=?", Array($moduleInstance->id));
 		$deforgshareCount = $adb->num_rows($deforgshare);
@@ -659,7 +659,7 @@ class PackageExport
 		if (!$moduleInstance->isentitytype)
 			return;
 
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT distinct(actionname) FROM vtiger_profile2utility, vtiger_actionmapping
 			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', Array($moduleInstance->id));
 
@@ -685,7 +685,7 @@ class PackageExport
 		if (!$moduleInstance->isentitytype)
 			return;
 
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE tabid = ?", Array($moduleInstance->id));
 		if ($adb->num_rows($result)) {
 			$this->openNode('relatedlists');
@@ -812,7 +812,7 @@ class PackageExport
 	 */
 	public function exportInventory()
 	{
-		$db = \FreeCRM\Database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
 		$tableName = $inventoryFieldModel->getTableName('fields');
 

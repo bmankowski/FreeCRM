@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\Views;
+namespace App\Modules\Notification\Views;
 
 /**
  * Notifications reminders
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Notification\Views;
  * Class for Notifications reminders
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Reminders extends \Vtiger_Index_View
 {
 
@@ -21,12 +21,12 @@ class Reminders extends \Vtiger_Index_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$entries = $moduleModel->getEntries(\FreeCRM\AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'));
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$entries = $moduleModel->getEntries(\App\AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'));
 		$colors = ['PLL_SYSTEM' => '#FF9800', 'PLL_USERS' => '#1baee2'];
 		$viewer->assign('RECORDS', $entries);
 		$viewer->assign('COLORS', $colors);

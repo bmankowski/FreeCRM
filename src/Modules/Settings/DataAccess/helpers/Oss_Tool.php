@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-namespace FreeCRM\Modules\Settings\DataAccess\helpers;
+namespace App\Modules\Settings\DataAccess\helpers;
  
 include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
 include_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
@@ -378,7 +378,7 @@ class Oss_Tool
 	 */
 	private static function generateFieldName()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$id = $db->getUniqueID("vtiger_field");
 
 		return 'cf_' . $id;

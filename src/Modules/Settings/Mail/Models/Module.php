@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Settings\Mail\Models;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 
 
@@ -11,7 +11,7 @@ use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 's_#__mail_queue';
@@ -26,7 +26,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getDefaultUrl()
 	{
-		$menu = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
+		$menu = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
 		return 'index.php?module=Mail&parent=Settings&view=List&fieldid=' . $menu->get('fieldid');
 	}
 

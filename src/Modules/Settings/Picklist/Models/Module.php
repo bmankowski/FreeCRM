@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Picklist\Models;
-use FreeCRM\Modules\Settings\PicklistModels\Field;
+namespace App\Modules\Settings\Picklist\Models;
+use App\Modules\Settings\PicklistModels\Field;
 
 
 /* +**********************************************************************************
@@ -32,7 +32,7 @@ class Module extends \Vtiger_Module_Model
 			if ((!in_array($fieldModel->get('displaytype'), [1, 10]) && $fieldName != 'salutationtype') || !in_array($fieldModel->get('presence'), $presence)) {
 				continue;
 			}
-			$fields[$fieldName] = \FreeCRM\Modules\Settings\Picklist\Models\Field::getInstanceFromFieldObject($fieldModel);
+			$fields[$fieldName] = \App\Modules\Settings\Picklist\Models\Field::getInstanceFromFieldObject($fieldModel);
 		}
 		return $fields;
 	}
@@ -117,7 +117,7 @@ class Module extends \Vtiger_Module_Model
 
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$adb = \App\Db::getInstance();
 		if (!is_array($valueToDeleteId)) {
 			$valueToDeleteId = array($valueToDeleteId);
@@ -138,7 +138,7 @@ class Module extends \Vtiger_Module_Model
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
 
-		$fieldModel = \FreeCRM\Modules\Settings\Picklist\Models\Field::getInstance($pickListFieldName, $this);
+		$fieldModel = \App\Modules\Settings\Picklist\Models\Field::getInstance($pickListFieldName, $this);
 		//if role based then we need to delete all the values in role based picklist
 		if ($fieldModel->isRoleBased()) {
 			$picklistValueIdToDelete = array();
@@ -221,7 +221,7 @@ class Module extends \Vtiger_Module_Model
 
 	public function updateSequence($pickListFieldName, $picklistValues)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
 		$set = ' CASE ';

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Views;
+namespace App\Modules\Settings\MappedFields\Views;
 
 
 
@@ -11,17 +11,17 @@ namespace FreeCRM\Modules\Settings\MappedFields\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$step = strtolower($request->getMode());
 		$this->step($step, $request);
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -36,7 +36,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step($step, \FreeCRM\Http\Vtiger_Request $request)
+	public function step($step, \App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -62,8 +62,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				break;
 			case 'step3':
 				$moduleSourceName = vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
-				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleSourceName);
-				$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleSourceName);
+				$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('SOURCE_MODULE', $moduleSourceName);
 				$viewer->assign('ADVANCE_CRITERIA', \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
@@ -85,7 +85,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		}
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

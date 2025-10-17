@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MailSmtp\Actions;
+namespace App\Modules\Settings\MailSmtp\Actions;
 
 
 
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Settings\MailSmtp\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MailSmtp\Models\Record as Settings_MailSmtp_Record_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
+use App\Modules\Settings\MailSmtp\Models\Record as Settings_MailSmtp_Record_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -32,9 +32,9 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
 	
 	/**
 	 * Validate Request
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

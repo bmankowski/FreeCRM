@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OpenStreetMap\Models;
+namespace App\Modules\OpenStreetMap\Models;
 
 /**
  * Module Model
@@ -9,8 +9,8 @@ namespace FreeCRM\Modules\OpenStreetMap\Models;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\AppConfig;
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+use App\AppConfig;
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -20,7 +20,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function isAllowModules($moduleName)
 	{
-		return in_array($moduleName, \FreeCRM\AppConfig::module($this->getName(), 'ALLOW_MODULES'));
+		return in_array($moduleName, \App\AppConfig::module($this->getName(), 'ALLOW_MODULES'));
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getAllowedModules()
 	{
-		$allAllowedModules = \FreeCRM\AppConfig::module($this->getName(), 'ALLOW_MODULES');
+		$allAllowedModules = \App\AppConfig::module($this->getName(), 'ALLOW_MODULES');
 		foreach ($allAllowedModules as $key => $moduleName) {
 			if (!\App\Privilege::isPermitted($moduleName)) {
 				unset($allAllowedModules[$key]);

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -29,7 +29,7 @@ class ShortURL {
 
 	static function generateURL(array $options)
 	{
-		$site_URL = \FreeCRM\AppConfig::main('site_URL');
+		$site_URL = \App\AppConfig::main('site_URL');
 		if (!isset($options['onetime']))
 			$options['onetime'] = 0;
 		$uid = self::generate($options);
@@ -38,7 +38,7 @@ class ShortURL {
 
 	static function generate(array $options)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$uid = uniqid("", true);
 
@@ -60,7 +60,7 @@ class ShortURL {
 
 	static function handle($uid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
 		if ($rs && $db->num_rows($rs)) {
@@ -95,7 +95,7 @@ class ShortURL {
 
 	public function getInstance($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$self = new self();
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($id));
 		if ($rs && $db->num_rows($rs)) {
@@ -128,7 +128,7 @@ class ShortURL {
 
 	public function delete()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($this->id));
 	}
 }

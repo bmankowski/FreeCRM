@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Profiles\Views;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Profiles\Views;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -14,23 +14,23 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
-Class Settings_Profiles_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
+Class Settings_Profiles_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->get('record')) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
-			$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_EDIT', $moduleName);
+			$title = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_EDIT', $moduleName);
 		}
 		return $title;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->initialize($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -39,7 +39,7 @@ Class Settings_Profiles_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
-	public function initialize(\FreeCRM\Http\Vtiger_Request $request)
+	public function initialize(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -68,15 +68,15 @@ Class Settings_Profiles_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

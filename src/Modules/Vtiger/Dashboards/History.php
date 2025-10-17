@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class History extends \Vtiger_Index_View
 {
@@ -24,7 +24,7 @@ class History extends \Vtiger_Index_View
 		$type = $request->get('type');
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
 		$limit = (int) $widget->get('limit');
 
 		if (empty($limit)) {
@@ -33,14 +33,14 @@ class History extends \Vtiger_Index_View
 		if (empty($page)) {
 			$page = 1;
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', $limit);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$history = $moduleModel->getHistory($pagingModel, $type);
 
-		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
+		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

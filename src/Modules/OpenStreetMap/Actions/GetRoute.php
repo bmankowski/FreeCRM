@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OpenStreetMap\Actions;
+namespace App\Modules\OpenStreetMap\Actions;
 
 /**
  * Action to get markers
@@ -8,10 +8,10 @@ namespace FreeCRM\Modules\OpenStreetMap\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class GetRoute extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class GetRoute extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$flon = $request->get('flon');
 		$flat = $request->get('flat');
@@ -49,7 +49,7 @@ class GetRoute extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$coordinates = [];
 		$travel = 0;
 		$description = '';
-		$urlToRoute = \FreeCRM\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
+		$urlToRoute = \App\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
 		foreach ($tracks as $track) {
 			$url = $urlToRoute.'?format=geojson&flat='.$track['startLat'].'&flon='.$track['startLon'].'&tlat='.$track['endLat'].'&tlon='.$track['endLon'].'&lang='.$language.'&instructions=1';
 			$curl = curl_init();
@@ -80,7 +80,7 @@ class GetRoute extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				'distance' => $distance
 			]
 		];
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

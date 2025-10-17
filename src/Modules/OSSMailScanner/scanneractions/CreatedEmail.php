@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
+namespace App\Modules\OSSMailScanner\scanneractions;
 
 /**
  * Mail scanner action creating mail
@@ -22,7 +22,7 @@ class CreatedEmail {
 		$account = $mail->getAccount();
 		$type = $mail->getTypeEmail();
 		$mailId = $mail->getMailCrmId();
-		$exceptionsAll = \FreeCRM\Modules\OSSMailScanner\Models\Record::getConfig('exceptions');
+		$exceptionsAll = \App\Modules\OSSMailScanner\Models\Record::getConfig('exceptions');
 
 		if ($type == 0) {
 			$mailForExceptions = $mail->get('toaddress');
@@ -46,7 +46,7 @@ class CreatedEmail {
 			$toIds = array_merge($toIds, $mail->findEmailAdress('ccaddress'));
 			$toIds = array_merge($toIds, $mail->findEmailAdress('bccaddress'));
 
-			$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
+			$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
 			$record->set('subject', $mail->isEmpty('subject') ? '-' : $mail->get('subject'));
 			$record->set('to_email', $mail->get('toaddress'));
@@ -74,7 +74,7 @@ class CreatedEmail {
 			$id = $record->getId();
 
 			$mail->setMailCrmId($id);
-			\FreeCRM\Modules\OSSMail\Models\Record::_SaveAttachments($id, $mail);
+			\App\Modules\OSSMail\Models\Record::_SaveAttachments($id, $mail);
 			$db = \App\Db::getInstance();
 			$db->createCommand()->update('vtiger_crmentity', [
 				'createdtime' => $mail->get('udate_formated'),

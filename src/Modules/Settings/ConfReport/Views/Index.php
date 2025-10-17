@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ConfReport\Views;
+namespace App\Modules\Settings\ConfReport\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,10 +13,10 @@ namespace FreeCRM\Modules\Settings\ConfReport\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		\App\Cache::clear();
 		$viewer = $this->getViewer($request);

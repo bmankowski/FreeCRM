@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MarketingProcesses\Models;
+namespace App\Modules\Settings\MarketingProcesses\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -26,7 +26,7 @@ class Module extends \Vtiger_Record_Model
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('MarketingProcesses', $type);
+		$cache = \App\Runtime\Vtiger_Cache::get('MarketingProcesses', $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
@@ -47,7 +47,7 @@ class Module extends \Vtiger_Record_Model
 				$config[$param] = $value;
 			}
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('MarketingProcesses', $type, $config);
+		\App\Runtime\Vtiger_Cache::set('MarketingProcesses', $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Views;
+namespace App\Modules\Settings\DataAccess\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,10 +13,10 @@ namespace FreeCRM\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Condition extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Condition extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$baseModule = $request->get('base_module');
@@ -27,7 +27,7 @@ class Condition extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NUM', ++$num);
 		$viewer->assign('BASE_MODULE', $baseModule);
-		$viewer->assign('FIELD_LIST', \FreeCRM\Modules\Settings\DataAccess\Models\Module::getListBaseModuleField($baseModule));
+		$viewer->assign('FIELD_LIST', \App\Modules\Settings\DataAccess\Models\Module::getListBaseModuleField($baseModule));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		echo $viewer->view('Condition.tpl', $qualifiedModuleName, true);
 	}

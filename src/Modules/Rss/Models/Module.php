@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Rss\Models;
+namespace App\Modules\Rss\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,18 +11,18 @@ namespace FreeCRM\Modules\Rss\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = array(
 			array(
@@ -33,7 +33,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			)
 		);
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 		$quickWidgets = array(
 			array(
@@ -44,7 +44,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			),
 		);
 		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 		}
 
 		return $links;
@@ -55,7 +55,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getRssSources()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = 'Select *from vtiger_rss';
 		$result = $db->pquery($sql, array());

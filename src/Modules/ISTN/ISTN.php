@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ISTN;
+namespace App\Modules\ISTN;
 
 /**
  * ISTN CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\ISTN;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class ISTN extends Vtiger_CRMEntity

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ISTDN\Views;
+namespace App\Modules\ISTDN\Views;
 
 /**
  * EditFieldByModal View Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\ISTDN\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class EditFieldByModal extends \Vtiger_Index_View
 {
 

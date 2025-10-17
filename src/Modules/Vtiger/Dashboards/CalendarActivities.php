@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Vtiger\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class CalendarActivities extends \Vtiger_Index_View
 {
@@ -24,12 +24,12 @@ class CalendarActivities extends \Vtiger_Index_View
 	 */
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
 
-		$stateActivityLabels = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel();
+		$stateActivityLabels = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel();
 
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
@@ -46,21 +46,21 @@ class CalendarActivities extends \Vtiger_Index_View
 				'vtiger_activity.status' => $params['status']
 			]
 		];
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
-		$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 
 		$colorList = [];
 		foreach ($calendarActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+			$colorList[$activityModel->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 		}
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
 		$viewer->assign('WIDGET', $widget);

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -28,7 +28,7 @@ class ModuleMeta extends Model
 	 */
 	public static function getInstance($name, $user)
 	{
-		$self = new \FreeCRM\Modules\Vtiger\Models\ModuleMeta();
+		$self = new \App\Modules\Vtiger\Models\ModuleMeta();
 		$self->moduleName = $name;
 		$self->user = $user;
 
@@ -134,7 +134,7 @@ class ModuleMeta extends Model
 	public function getMandatoryImportableFields()
 	{
 
-		$focus = \FreeCRM\CRMEntity::getInstance($this->moduleName);
+		$focus = \App\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
@@ -155,7 +155,7 @@ class ModuleMeta extends Model
 	 */
 	public function getImportableFields($blocks = false)
 	{
-		$focus = \FreeCRM\CRMEntity::getInstance($this->moduleName);
+		$focus = \App\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getImportableFields')) {
 			$importableFields = $focus->getImportableFields();
 		} else {
@@ -226,7 +226,7 @@ class ModuleMeta extends Model
 	 */
 	public function getMandatoryFields()
 	{
-		$focus = \FreeCRM\CRMEntity::getInstance($this->moduleName);
+		$focus = \App\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
@@ -234,7 +234,7 @@ class ModuleMeta extends Model
 			$mandatoryFields = [];
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if ($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $this->isEditableField($fieldInstance)) {
-					$mandatoryFields[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldInstance->getFieldLabelKey(), $this->moduleName);
+					$mandatoryFields[$fieldName] = \App\Runtime\Vtiger_Language_Handler::translate($fieldInstance->getFieldLabelKey(), $this->moduleName);
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -47,7 +47,7 @@ class Link extends \vtlib\Link
 	 * Function to set the value of a given property
 	 * @param string $propertyName
 	 * @param <Object> $propertyValue
-	 * @return \FreeCRM\Modules\Vtiger\Models\Link instance
+	 * @return \App\Modules\Vtiger\Models\Link instance
 	 */
 	public function set($propertyName, $propertyValue)
 	{
@@ -164,10 +164,10 @@ class Link extends \vtlib\Link
 
 	/**
 	 * Function to Add link to the child link list
-	 * @param \FreeCRM\Modules\Vtiger\Models\Link $link - link model
-	 * @result \FreeCRM\Modules\Vtiger\Models\Link - current Instance;
+	 * @param \App\Modules\Vtiger\Models\Link $link - link model
+	 * @result \App\Modules\Vtiger\Models\Link - current Instance;
 	 */
-	public function addChildLink(\FreeCRM\Modules\Vtiger\Models\Link $link)
+	public function addChildLink(\App\Modules\Vtiger\Models\Link $link)
 	{
 		$this->childlinks[] = $link;
 		return $this;
@@ -180,7 +180,7 @@ class Link extends \vtlib\Link
 
 	/**
 	 * Function to get all the child links
-	 * @result <array> - list of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @result <array> - list of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getChildLinks()
 	{
@@ -219,7 +219,7 @@ class Link extends \vtlib\Link
 		//Check if the link is not javascript
 		if (!$this->isPageLoadLink()) {
 			//To convert single quotes and double quotes
-			$url = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($url);
+			$url = \App\Modules\Vtiger\Util::toSafeHTML($url);
 			return $url;
 		}
 		$module = $parent = false;
@@ -273,9 +273,9 @@ class Link extends \vtlib\Link
 
 		//to append the reference field in one to many relation
 		if (!empty($module) && !empty($sourceModule) && !empty($sourceRecord) && empty($parent)) {
-			$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-			$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
-			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+			$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
+			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 			if ($relationModel && $relationModel->isDirectRelation()) {
 				$fieldList = $relatedModuleModel->getFields();
 				foreach ($fieldList as $fieldName => $fieldModel) {
@@ -295,14 +295,14 @@ class Link extends \vtlib\Link
 
 		$url = implode('&', $parametersParts);
 		//To convert single quotes and double quotes
-		$url = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($url);
+		$url = \App\Modules\Vtiger\Util::toSafeHTML($url);
 		return $url;
 	}
 
 	/**
 	 * Function to get the instance of Vtiger Link Model from the given array of key-value mapping
 	 * @param array $valueMap
-	 * @return \FreeCRM\Modules\Vtiger\Models\Link instance
+	 * @return \App\Modules\Vtiger\Models\Link instance
 	 */
 	public static function getInstanceFromValues($valueMap)
 	{
@@ -322,7 +322,7 @@ class Link extends \vtlib\Link
 	/**
 	 * Function to get the instance of Vtiger Link Model from a given \vtlib\Link object
 	 * @param \vtlib\Link $linkObj
-	 * @return \FreeCRM\Modules\Vtiger\Models\Link instance
+	 * @return \App\Modules\Vtiger\Models\Link instance
 	 */
 	public static function getInstanceFromLinkObject(\vtlib\Link $linkObj)
 	{
@@ -359,21 +359,21 @@ class Link extends \vtlib\Link
 	 * @param <Number> $tabid
 	 * @param <Array> $type
 	 * @param <Array> $parameters
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$links = \FreeCRM\Runtime\Vtiger_Cache::get('links-' . $tabid, $type);
+		$links = \App\Runtime\Vtiger_Cache::get('links-' . $tabid, $type);
 		if (!$links) {
 			$links = parent::getAllByType($tabid, $type, $parameters);
-			\FreeCRM\Runtime\Vtiger_Cache::set('links-' . $tabid, $type, $links);
+			\App\Runtime\Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
 
 		$linkModels = [];
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = \vtlib\Functions::getQueryParams($linkObject->linkurl);
-				if (!(isset($queryParams['module']) && !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($queryParams['module']))) {
+				if (!(isset($queryParams['module']) && !\App\Modules\Users\Models\Privileges::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
 			}

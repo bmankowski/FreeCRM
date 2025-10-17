@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reservations\Models;
+namespace App\Modules\Reservations\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Reservations\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Field extends \FreeCRM\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	/**

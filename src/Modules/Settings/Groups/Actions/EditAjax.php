@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Actions;
+namespace App\Modules\Settings\Groups\Actions;
 
 
 /* +***********************************************************************************
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Settings\Groups\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-Class Settings_Groups_EditAjax_Action extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+Class Settings_Groups_EditAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
 	public function __construct()
@@ -22,7 +22,7 @@ Class Settings_Groups_EditAjax_Action extends \FreeCRM\Modules\Settings\Vtiger\A
 		$this->exposeMethod('checkDuplicate');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -31,16 +31,16 @@ Class Settings_Groups_EditAjax_Action extends \FreeCRM\Modules\Settings\Vtiger\A
 		}
 	}
 
-	public function checkDuplicate(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkDuplicate(\App\Http\Vtiger_Request $request)
 	{
 		$groupName = $request->get('groupname');
 		$recordId = $request->get('record');
 
 		$recordModel = Settings_Groups_Record_Model::getInstanceByName(decode_html($groupName), array($recordId));
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if (!empty($recordModel)) {
-			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => false));
 		}

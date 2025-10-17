@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Import\readers;
+namespace App\Modules\Import\readers;
 
-use FreeCRM\Modules\Import\readers\FileReader;
+use App\Modules\Import\readers\FileReader;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -116,7 +116,7 @@ class CSVReader extends FileReader
 	 */
 	public function read()
 	{
-		$defaultCharset = \FreeCRM\AppConfig::main('default_charset');
+		$defaultCharset = \App\AppConfig::main('default_charset');
 		$fileHandler = $this->getFileHandler();
 		$this->createTable();
 

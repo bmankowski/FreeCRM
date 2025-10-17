@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Faq\Views;
+namespace App\Modules\Faq\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,34 +13,34 @@ namespace FreeCRM\Modules\Faq\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class Edit extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
 		} else if (!empty($record)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
 
 			$parentId = $request->get('parentId');
 			$parentModule = $request->get('parentModule');
 			if ($parentId && $parentModule === 'HelpDesk') {
-				$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $parentModule);
-				$recordModel = \FreeCRM\Modules\Faq\Models\Record::getInstanceFromHelpDesk($parentRecordModel);
+				$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $parentModule);
+				$recordModel = \App\Modules\Faq\Models\Record::getInstanceFromHelpDesk($parentRecordModel);
 			}
 		}
 
@@ -54,7 +54,7 @@ class Edit extends \Vtiger_Index_View
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 
 		$viewMode = $request->get('view_mode');
@@ -93,8 +93,8 @@ class Edit extends \Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \FreeCRM\Modules\Vtiger\Util::getMaxUploadSize());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Vtiger\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}

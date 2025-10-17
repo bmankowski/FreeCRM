@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Portal\Models;
+namespace App\Modules\Portal\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Portal\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public function getSideBarLinks($linkParams)
@@ -22,7 +22,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => '',
 		);
-		$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+		$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		return $links;
 	}
 
@@ -48,7 +48,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function getRecord($recordId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', array($recordId));
 
@@ -65,7 +65,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function getWebsiteUrl($recordId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', array($recordId));
 
 		return $db->query_result($result, 0, 'portalurl');
@@ -73,7 +73,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function getAllRecords()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$record = array();
 
 		$result = $db->pquery('SELECT portalid, portalname FROM vtiger_portal', array());
@@ -94,7 +94,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'DELETE FROM vtiger_portal';
 		$params = array();

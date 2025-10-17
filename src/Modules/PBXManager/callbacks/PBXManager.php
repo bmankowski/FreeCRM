@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager;
+namespace App\Modules\PBXManager;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -38,4 +38,4 @@ class Callbacks {
 }
 
 $pbxmanager = new PBXManager_PBXManager_Callbacks();
-$pbxmanager->process(\FreeCRM\Http\AppRequest::init());
+$pbxmanager->process(\App\Http\AppRequest::init());

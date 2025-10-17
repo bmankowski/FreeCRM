@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,14 +11,14 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class SaveWidgetPositions extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$positionsMap = $request->get('positionsmap');
 
@@ -26,14 +26,14 @@ class SaveWidgetPositions extends \Vtiger_Index_View
 			foreach ($positionsMap as $id => $position) {
 				list ($linkid, $widgetid) = explode('-', $id);
 				if ($widgetid) {
-					\FreeCRM\Modules\Vtiger\Models\Widget::updateWidgetPosition($position, NULL, $widgetid, $currentUser->getId());
+					\App\Modules\Vtiger\Models\Widget::updateWidgetPosition($position, NULL, $widgetid, $currentUser->getId());
 				} else {
-					\FreeCRM\Modules\Vtiger\Models\Widget::updateWidgetPosition($position, $linkid, NULL, $currentUser->getId());
+					\App\Modules\Vtiger\Models\Widget::updateWidgetPosition($position, $linkid, NULL, $currentUser->getId());
 				}
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('Save' => 'OK'));
 		$response->emit();
 	}

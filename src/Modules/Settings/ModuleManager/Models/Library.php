@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Models;
+namespace App\Modules\Settings\ModuleManager\Models;
 
 
 
@@ -109,7 +109,7 @@ class Library
 			return false;
 		}
 		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.zip';
-		$mode = \FreeCRM\AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : \App\Version::get($lib['name']);
+		$mode = \App\AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : \App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
 			stream_context_set_default([

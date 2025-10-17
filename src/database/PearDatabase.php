@@ -13,9 +13,9 @@
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
-namespace FreeCRM\database;
+namespace App\database;
 
-use FreeCRM\AppConfig;
+use App\AppConfig;
 
 class PearDatabase
 {
@@ -634,7 +634,7 @@ class PearDatabase
 
 	public function checkExistTable($tableName, $cache = true)
 	{
-		$tablePresent = \FreeCRM\Runtime\Vtiger_Cache::get('checkExistTable', $tableName);
+		$tablePresent = \App\Runtime\Vtiger_Cache::get('checkExistTable', $tableName);
 		if ($tablePresent !== false && $cache) {
 			return $tablePresent;
 		}
@@ -649,7 +649,7 @@ class PearDatabase
 			$tablePresent = 0;
 		}
 		$this->dieOnError = $dieOnError;
-		\FreeCRM\Runtime\Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
+		\App\Runtime\Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
 		return $tablePresent;
 	}
 
@@ -821,7 +821,7 @@ class PearDatabase
 		if (!AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
 			return;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance('log');
+		$db = \App\database\PearDatabase::getInstance('log');
 		$now = date('Y-m-d H:i:s');
 		$group = $this->logSqlTimeGroup;
 		$logTable = 'l_yf_sqltime';

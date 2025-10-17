@@ -11,16 +11,16 @@
 
 
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Runtime\FreeCRM_Viewer;
-use FreeCRM\LanguageTranslator;
-use FreeCRM\Runtime\Vtiger_Theme;
-use FreeCRM\Runtime\Yeti_Layout;
-use FreeCRM\Runtime\Vtiger_Language_Handler;
-use FreeCRM\Vtiger_Loader;
-use FreeCRM\Runtime\Vtiger_CssScript_Model;
+use App\Http\Vtiger_Request;
+use App\Runtime\CRM_Viewer;
+
+use App\Runtime\Vtiger_Theme;
+use App\Runtime\Yeti_Layout;
+use App\Runtime\Vtiger_Language_Handler;
+use App\Vtiger_Loader;
+use App\Runtime\Vtiger_CssScript_Model;
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
 
@@ -35,12 +35,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
    public function getViewer(Vtiger_Request $vtigerRequest)
    {
 	   if ($this->viewer === null) {
-		   $viewer = FreeCRM_Viewer::getInstance();
-		   $viewer->assign('APPTITLE', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('APPTITLE'));
+		   $viewer = CRM_Viewer::getInstance();
+		   $viewer->assign('APPTITLE', \App\Runtime\Vtiger_Language_Handler::translate('APPTITLE'));
 		   $viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 		   $viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
 		   if ($vtigerRequest->isAjax()) {
-			   $viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+			   $viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 			   if ($vtigerRequest->get('parent') === 'Settings') {
 				   $viewer->assign('QUALIFIED_MODULE', $vtigerRequest->getModule(false));
 			   }
@@ -57,7 +57,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $moduleName = $vtigerRequest->getModule(false);
 	   $moduleNameArray = explode(':', $moduleName);
 	   $moduleLabel = end($moduleNameArray) === 'Vtiger' ? 'YetiForce' : end($moduleNameArray);
-	   $title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleLabel, $moduleName);
+	   $title = \App\Runtime\Vtiger_Language_Handler::translate($moduleLabel, $moduleName);
 	   $pageTitle = $this->getBreadcrumbTitle($vtigerRequest);
 	   if ($pageTitle) {
 		   $title .= ' - ' . $pageTitle;
@@ -89,7 +89,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 	   $viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
 	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-	   $viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+	   $viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 	   $viewer->assign('MODULE', $moduleName);
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
 	   $viewer->assign('MODULE_NAME', $moduleName);
@@ -130,7 +130,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
    public function postProcess(Vtiger_Request $vtigerRequest)
    {
 	   $viewer = $this->getViewer($vtigerRequest);
-	   $currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+	   $currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 	   $viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 	   $viewer->assign('COMPANY_LOGO', \App\Company::getInstanceById()->getLogo());
 	   $viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($vtigerRequest));
@@ -282,7 +282,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				   continue;
 			   }
 		   // Checking if file exists in default layout
-		   $layoutPath = 'layouts/' . FreeCRM_Viewer::getDefaultLayoutName();
+		   $layoutPath = 'layouts/' . CRM_Viewer::getDefaultLayoutName();
 		   $fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $jsFile;
@@ -361,7 +361,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				   continue;
 			   }
 		   // Checking if file exists in default layout
-		   $layoutPath = 'layouts/' . FreeCRM_Viewer::getDefaultLayoutName();
+		   $layoutPath = 'layouts/' . CRM_Viewer::getDefaultLayoutName();
 		   $fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   if ($preLayoutPath === '' || $preLayoutPath === '0') {

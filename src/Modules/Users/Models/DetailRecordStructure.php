@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
+namespace App\Modules\Users\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
+class DetailRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**
@@ -25,7 +25,7 @@ class DetailRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructu
 		}
 
 		$values = array();
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 		$moduleModel = $this->getModule();

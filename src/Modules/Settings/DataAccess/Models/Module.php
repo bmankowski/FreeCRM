@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Models;
+namespace App\Modules\Settings\DataAccess\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -132,7 +132,7 @@ class Module extends \Vtiger_Module_Model
 	{
 		if ($baseModule === 'All')
 			return $baseModule;
-		$baseModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($baseModule);
+		$baseModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($baseModule);
 		$list = $baseModuleModel->getFields();
 		$output = array();
 		if (count($list)) {
@@ -285,9 +285,9 @@ class Module extends \Vtiger_Module_Model
 	{
 		$actionsName = explode(self::$separator, $name);
 		if ($typ)
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Action_' . $actionsName[1], 'DataAccess');
+			return \App\Runtime\Vtiger_Language_Handler::translate('Action_' . $actionsName[1], 'DataAccess');
 		else
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Action_Desc_' . $actionsName[1], 'DataAccess');
+			return \App\Runtime\Vtiger_Language_Handler::translate('Action_Desc_' . $actionsName[1], 'DataAccess');
 	}
 
 	public static function listAccesDataDirector($module = false)
@@ -330,7 +330,7 @@ class Module extends \Vtiger_Module_Model
 	public static function executeAjaxHandlers($module, $param)
 	{
 		require_once ROOT_DIRECTORY . '/src/Modules/Settings/DataAccess/helpers/DataAccess_Conditions.php';
-		$conditions = new \FreeCRM\Modules\Settings\DataAccess\helpers\DataAccess_Conditions();
+		$conditions = new \App\Modules\Settings\DataAccess\helpers\DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
 		$output = [];
@@ -411,7 +411,7 @@ class Module extends \Vtiger_Module_Model
 		if (empty($recordData)) {
 			$recordData = $recordModel->getData();
 		}
-		$conditions = new \FreeCRM\Modules\Settings\DataAccess\helpers\DataAccess_Conditions();
+		$conditions = new \App\Modules\Settings\DataAccess\helpers\DataAccess_Conditions();
 		foreach ($colorList as $row) {
 			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData, $recordModel);
 			if ($conditionResult['test'] === true) {

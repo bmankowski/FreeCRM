@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /**
  * Watchdog Action Class
@@ -9,19 +9,19 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Watchdog extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Watchdog extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (empty($recordId)) {
-			if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingModule')) {
+			if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingModule')) {
 				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		} else {
-			if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId) || !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingRecords')) {
+			if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId) || !\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingRecords')) {
 				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
@@ -34,7 +34,7 @@ class Watchdog extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -44,14 +44,14 @@ class Watchdog extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$user = $request->get('user');
 		}
 		if (empty($record)) {
-			$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($moduleName, $user);
+			$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstance($moduleName, $user);
 			$watchdog->changeModuleState($state);
 		} else {
-			$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($record, $moduleName, $user);
+			$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($record, $moduleName, $user);
 			$watchdog->changeRecordState($state);
 		}
-		\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Vtiger\Models\Watchdog::reloadCache();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($state);
 		$response->emit();
 	}

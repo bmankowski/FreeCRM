@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PickListDependency\Models;
+namespace App\Modules\Settings\PickListDependency\Models;
 
 
 /* +***********************************************************************************
@@ -13,10 +13,10 @@ namespace FreeCRM\Modules\Settings\PickListDependency\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 'vtiger_picklist_dependency';
@@ -70,7 +70,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 		$modulesModelsList = array();
 		foreach ($modules as $moduleLabel => $moduleName) {
-			$instance = new \Vtiger_Module_Model();
+			$instance = new \App\Modules\Vtiger\Models\Module();
 			$instance->name = $moduleName;
 			$instance->label = $moduleLabel;
 			$modulesModelsList[] = $instance;

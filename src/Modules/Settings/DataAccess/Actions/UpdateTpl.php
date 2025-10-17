@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Actions;
+namespace App\Modules\Settings\DataAccess\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class UpdateTpl extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class UpdateTpl extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$baseModule = $request->get('base_module');
 		$summary = $request->get('summary');
@@ -34,8 +34,8 @@ class UpdateTpl extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 				'summary' => $summary
 				], ['dataaccessid' => $tplId])
 			->execute();
-		\FreeCRM\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionAll, $tplId);
-		\FreeCRM\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionOption, $tplId, false);
+		\App\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionAll, $tplId);
+		\App\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionOption, $tplId, false);
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Index");
 	}
 }

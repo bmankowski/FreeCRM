@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Calendar Module Model Class
  */
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -84,12 +84,12 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
 		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
 			[
@@ -112,7 +112,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				'linkicon' => '',
 			],
 		];
-		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && \FreeCRM\AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && \App\AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
@@ -121,7 +121,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			];
 		}
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = [];
@@ -165,10 +165,10 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		);
 
 		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 		}
 		foreach ($quickWidgetsRight as $quickWidgetRight) {
-			$links['SIDEBARWIDGETRIGHT'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidgetRight);
+			$links['SIDEBARWIDGETRIGHT'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidgetRight);
 		}
 
 		return $links;
@@ -207,7 +207,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$keysValuesToReplace = array('taskpriority' => 'priority');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
@@ -230,7 +230,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
@@ -258,7 +258,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public static function getSharedUsersOfCurrentUser($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id as userid
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 			WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
@@ -282,7 +282,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public static function getSharedUsersInfoOfCurrentUser($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = "SELECT shareduserid,color,visible FROM vtiger_shareduserinfo where userid = ?";
 		$result = $db->pquery($query, array($id));
@@ -306,7 +306,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public static function getCalendarViewTypes($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = "SELECT * FROM vtiger_calendar_user_activitytypes 
 			INNER JOIN vtiger_calendar_default_activitytypes on vtiger_calendar_default_activitytypes.id=vtiger_calendar_user_activitytypes.defaultid 
@@ -348,7 +348,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function deleteSharedUsers($currentUserId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$delquery = "DELETE FROM vtiger_sharedcalendar WHERE userid=?";
 		$db->pquery($delquery, array($currentUserId));
 	}
@@ -360,7 +360,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function insertSharedUsers($currentUserId, $sharedIds, $sharedType = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		foreach ($sharedIds as $sharedId) {
 			if ($sharedId != $currentUserId) {
 				$sql = "INSERT INTO vtiger_sharedcalendar VALUES (?,?)";
@@ -384,11 +384,11 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getRecentRecords($limit = 10)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = parent::getDeletedRecordCondition();
-		$nonAdminQuery .= \FreeCRM\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName());
+		$nonAdminQuery .= \App\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName());
 
 		$query = 'SELECT * FROM vtiger_crmentity ';
 		if ($nonAdminQuery) {
@@ -414,13 +414,13 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public static function getCalendarReminder($allReminder = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('Calendar');
-		$permissionToSendEmail = $permission && \FreeCRM\AppConfig::main('isActiveSendingMails') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$permissionToSendEmail = $permission && \App\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
 		if (!empty($activityReminder)) {
 			$currentTime = time();
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
@@ -437,16 +437,16 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			} else {
 				$query->where(['vtiger_activity_reminder_popup.status' => 0]);
 			}
-			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
+			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time])->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC]);
 
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Calendar');
+				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
 					$url = "index.php?module=OSSMail&view=compose&mod=" . \vtlib\Functions::getCRMRecordType($link) . "&record=$link";
-					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_MAIL') . "</a>");
+					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;
 			}
@@ -457,7 +457,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	/**
 	 * Function gives fields based on the type
 	 * @param string $type - field type
-	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\Field> - list of field models
+	 * @return <Array of \App\Modules\Vtiger\Models\Field> - list of field models
 	 */
 	public function getFieldsByType($type)
 	{
@@ -488,7 +488,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getSettingLinks()
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$settingLinks = [];
 
 		if ($currentUserModel->isAdminUser()) {
@@ -534,7 +534,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	{
 		if ($data) {
 			$activityStatus = $data['activitystatus'];
-			if (in_array($activityStatus, \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history'))) {
+			if (in_array($activityStatus, \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history'))) {
 				return false;
 			}
 
@@ -549,7 +549,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				$dBFomatedDate = DateTimeField::convertToDBFormat($userFormatedString);
 				$dates[$key] = strtotime($dBFomatedDate . " " . $timeFormatedString);
 			}
-			$activityStatusLabels = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel();
+			$activityStatusLabels = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel();
 			if (!empty($data['activitystatus']) && isset($activityStatusLabels[$data['activitystatus']])) {
 				$state = $activityStatusLabels[$data['activitystatus']];
 			} else {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\Views;
+namespace App\Modules\Notification\Views;
 
 /**
  * Show modal with configuration
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Notification\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class NotificationConfig extends \Vtiger_Index_View
 {
 
@@ -19,7 +19,7 @@ class NotificationConfig extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return string
 	 */
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -28,23 +28,23 @@ class NotificationConfig extends \Vtiger_Index_View
 	 * Function gets module settings
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$moduleList = \FreeCRM\Modules\Vtiger\Models\Watchdog::getSupportedModules();
+		$moduleList = \App\Modules\Vtiger\Models\Watchdog::getSupportedModules();
 		foreach ($moduleList as $tabId => &$module) {
 			if (!\App\Privilege::isPermitted($module->getName(), 'WatchingModule')) {
 				unset($moduleList[$tabId]);
 			}
 		}
-		$watchingModules = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModules();
-		$scheduleData = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule();
+		$watchingModules = \App\Modules\Vtiger\Models\Watchdog::getWatchingModules();
+		$scheduleData = \App\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule();
 		$selectedAllModules = count($moduleList) === count($watchingModules) ? true : false;
 		$selectedAllSendNotice = count($moduleList) === count($scheduleData['modules']) ? true : false;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_LIST', $moduleList);
-		$viewer->assign('WATCHING_MODEL', \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($moduleName));
+		$viewer->assign('WATCHING_MODEL', \App\Modules\Vtiger\Models\Watchdog::getInstance($moduleName));
 		$viewer->assign('WATCHING_MODULES', $watchingModules);
 		$viewer->assign('SELECT_ALL_MODULES', $selectedAllModules);
 		$viewer->assign('IS_ALL_EMAIL_NOTICE', $selectedAllSendNotice);
@@ -59,9 +59,9 @@ class NotificationConfig extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return array - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
+	 * @return array - List of \App\Modules\Vtiger\Models\CssScript instances
 	 */
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Models;
+namespace App\Modules\OSSMailView\Models;
 
 /**
  * OSSMailView Relation mail
@@ -8,17 +8,17 @@ namespace FreeCRM\Modules\OSSMailView\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Vtiger\Models\Relation
 {
 
 	public function addRelation($mailId, $crmid, $date = false)
 	{
 		$return = false;
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		\FreeCRM\CRMEntity::trackLinkedInfo($crmid);
+		$db = \App\database\PearDatabase::getInstance();
+		\App\CRMEntity::trackLinkedInfo($crmid);
 		$destinationModuleName = \App\Record::getType($crmid);
 		$data = [
-			'CRMEntity' => \FreeCRM\CRMEntity::getInstance($destinationModuleName),
+			'CRMEntity' => \App\CRMEntity::getInstance($destinationModuleName),
 			'sourceModule' => $destinationModuleName,
 			'sourceRecordId' => $crmid,
 			'destinationModule' => 'OSSMailView',
@@ -33,7 +33,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 		$result = $db->pquery($query, [$mailId, $crmid]);
 		if ($db->getRowCount($result) == 0) {
 			if (!$date) {
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($mailId, 'OSSMailView');
+				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($mailId, 'OSSMailView');
 				$date = $recordModel->get('date');
 			}
 			$db->insert('vtiger_ossmailview_relation', [
@@ -42,7 +42,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 				'date' => $date
 			]);
 
-			if ($parentId = \FreeCRM\Modules\Users\Models\Privileges::getParentRecord($crmid)) {
+			if ($parentId = \App\Modules\Users\Models\Privileges::getParentRecord($crmid)) {
 				$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 				$result = $db->pquery($query, [$mailId, $parentId]);
 				if ($db->getRowCount($result) == 0) {
@@ -51,7 +51,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 						'crmid' => $parentId,
 						'date' => $date
 					]);
-					if ($parentId = \FreeCRM\Modules\Users\Models\Privileges::getParentRecord($parentId)) {
+					if ($parentId = \App\Modules\Users\Models\Privileges::getParentRecord($parentId)) {
 						$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 						$result = $db->pquery($query, [$mailId, $parentId]);
 						if ($db->getRowCount($result) == 0) {

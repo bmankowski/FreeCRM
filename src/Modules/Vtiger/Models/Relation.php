@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -38,8 +38,8 @@ class Relation extends Model
 
 	/**
 	 * Function sets the relation's parent module model
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleModel
-	 * @return \FreeCRM\Modules\Vtiger\Models\Relation
+	 * @param \App\Modules\Vtiger\Models\Module $moduleModel
+	 * @return \App\Modules\Vtiger\Models\Relation
 	 */
 	public function setParentModuleModel($moduleModel)
 	{
@@ -49,19 +49,19 @@ class Relation extends Model
 
 	/**
 	 * Function that returns the relation's parent module model
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getParentModuleModel()
 	{
 		if (empty($this->parentModule)) {
-			$this->parentModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('tabid'));
+			$this->parentModule = \App\Modules\Vtiger\Models\Module::getInstance($this->get('tabid'));
 		}
 		return $this->parentModule;
 	}
 
 	/**
 	 * Set relation's parent module model
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $relationModel
+	 * @param \App\Modules\Vtiger\Models\Module $relationModel
 	 * @return $this
 	 */
 	public function setRelationModuleModel($relationModel)
@@ -72,12 +72,12 @@ class Relation extends Model
 
 	/**
 	 * Function that returns the relation's related module model
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getRelationModuleModel()
 	{
 		if (!$this->relatedModule) {
-			$this->relatedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('related_tabid'));
+			$this->relatedModule = \App\Modules\Vtiger\Models\Module::getInstance($this->get('related_tabid'));
 		}
 		return $this->relatedModule;
 	}
@@ -196,8 +196,8 @@ class Relation extends Model
 
 	/**
 	 * Get relation list model instance
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $parentModuleModel
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $relatedModuleModel
+	 * @param \App\Modules\Vtiger\Models\Module $parentModuleModel
+	 * @param \App\Modules\Vtiger\Models\Module $relatedModuleModel
 	 * @param string|boolean $label
 	 * @return \self|boolean
 	 */
@@ -208,7 +208,7 @@ class Relation extends Model
 			return self::$cachedInstances[$relKey];
 		}
 		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
-			$relationModelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			if (method_exists($relationModel, 'setExceptionData')) {
@@ -227,7 +227,7 @@ class Relation extends Model
 		}
 		$row = $query->one();
 		if ($row) {
-			$relationModelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			self::$cachedInstances[$relKey] = $relationModel;
@@ -267,7 +267,7 @@ class Relation extends Model
 
 	/**
 	 * Get query fields
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field[] with field name as key
+	 * @return \App\Modules\Vtiger\Models\Field[] with field name as key
 	 */
 	public function getQueryFields()
 	{
@@ -311,7 +311,7 @@ class Relation extends Model
 
 	/**
 	 * Function to get relation field for relation module and parent module
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public function getRelationField()
 	{
@@ -403,17 +403,17 @@ class Relation extends Model
 		$queryGenerator = $this->getQueryGenerator();
 		$relatedModuleName = $this->getRelationModuleName();
 		$moduleName = $this->getParentModuleModel()->getName();
-		$referenceLinkClass = \FreeCRM\Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
+		$referenceLinkClass = \App\Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
 			$queryGenerator->addNativeCondition(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
 		} else {
-			$referenceProcessClass = \FreeCRM\Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
+			$referenceProcessClass = \App\Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
 			$referenceProcessInstance = new $referenceProcessClass();
 			if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
 				$queryGenerator->addNativeCondition(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
 			} else {
-				$referenceSubProcessClass = \FreeCRM\Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
+				$referenceSubProcessClass = \App\Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
 				$referenceSubProcessInstance = new $referenceSubProcessClass();
 				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
 					$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
@@ -422,12 +422,12 @@ class Relation extends Model
 				}
 			}
 		}
-		switch (\FreeCRM\Http\AppRequest::get('time')) {
+		switch (\App\Http\AppRequest::get('time')) {
 			case 'current':
-				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
+				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 				break;
 			case 'history':
-				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')]);
+				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')]);
 				break;
 		}
 	}
@@ -459,7 +459,7 @@ class Relation extends Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$relatedModuleName = $this->getRelationModuleName();
-		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
+		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
 		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = vtiger_crmentity.crmid']);
 		$queryGenerator->addNativeCondition([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()]);
 	}
@@ -523,7 +523,7 @@ class Relation extends Model
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		$sourceModuleFocus = \FreeCRM\CRMEntity::getInstance($sourceModuleName);
+		$sourceModuleFocus = \App\CRMEntity::getInstance($sourceModuleName);
 		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
 
@@ -550,7 +550,7 @@ class Relation extends Model
 				$crmid = $relatedRecordId;
 			}
 			$data = [
-				'CRMEntity' => \FreeCRM\CRMEntity::getInstance($destinationModuleName),
+				'CRMEntity' => \App\CRMEntity::getInstance($destinationModuleName),
 				'sourceModule' => $destinationModuleName,
 				'sourceRecordId' => $crmid,
 				'destinationModule' => $moduleName,
@@ -577,7 +577,7 @@ class Relation extends Model
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
 			}
-			$destinationModuleFocus = \FreeCRM\CRMEntity::getInstance($destinationModuleName);
+			$destinationModuleFocus = \App\CRMEntity::getInstance($destinationModuleName);
 			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
 		}
@@ -628,8 +628,8 @@ class Relation extends Model
 			\App\Cache::save('getAllRelations', $cacheName, $relationList);
 		}
 		$relationModels = [];
-		$relationModelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
-		$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+		$privilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		foreach ($relationList as &$row) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
@@ -704,7 +704,7 @@ class Relation extends Model
 
 	public static function updateRelationSequenceAndPresence($relatedInfoList, $sourceModuleTabId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_relatedlists SET sequence=CASE ';
 		$relation_ids = [];
 		foreach ($relatedInfoList as $relatedInfo) {
@@ -739,7 +739,7 @@ class Relation extends Model
 
 	public static function removeRelationById($relationId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if ($relationId) {
 			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
 			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
@@ -749,7 +749,7 @@ class Relation extends Model
 
 	public static function updateRelationSequence($modules)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		foreach ($modules as $module) {
 			$db->update('vtiger_relatedlists', [
 				'sequence' => (int) $module['index'] + 1

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CallHistory\Models;
+namespace App\Modules\CallHistory\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\CallHistory\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -22,21 +22,21 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 
-		$linkModelListDetails = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$linkModelListDetails = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.
 		//Since ui will be look ugly if you need many basic links
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
 		/*
-		  if(\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId) && $recordPermissionToEditView) {
+		  if(\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId) && $recordPermissionToEditView) {
 		  $deletelinkModel = array(
 		  'linktype' => 'DETAILVIEW',
-		  'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_'. $moduleName, $moduleName)),
+		  'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_'. $moduleName, $moduleName)),
 		  'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("'.$recordModel->getDeleteUrl().'")',
 		  'linkicon' => ''
 		  );
-		  $linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
+		  $linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		  }
 		 */
 		if (!empty($detailViewBasiclinks)) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Views;
+namespace App\Modules\Products\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Products\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class PriceBookProductPopup extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -24,7 +24,7 @@ class PriceBookProductPopup extends \Vtiger_Index_View
 
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('PriceBookProductPopup.tpl', 'Products');
 	}
@@ -32,9 +32,9 @@ class PriceBookProductPopup extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->get('module');
@@ -55,7 +55,7 @@ class PriceBookProductPopup extends \Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('cvid');
@@ -75,15 +75,15 @@ class PriceBookProductPopup extends \Vtiger_Index_View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName);
 
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -95,7 +95,7 @@ class PriceBookProductPopup extends \Vtiger_Index_View
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
 			$listViewModel->set('src_record', $sourceRecord);
-			$sourceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
+			$sourceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			$currencyId = $sourceRecordModel->get('currency_id');
 		}
 		if ((!empty($searchKey)) && (!empty($searchValue))) {

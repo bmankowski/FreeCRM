@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /**
  * ProductsSoldToRenew Dashboard Class
@@ -8,14 +8,14 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class ProductsSoldToRenew extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
@@ -27,7 +27,7 @@ class ProductsSoldToRenew extends \Vtiger_Index_View
 			$widgetId = $request->get('widgetid');
 		}
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
 		$this->setWidgetModel($widget);
 		$data = $this->setData($data);
@@ -70,7 +70,7 @@ class ProductsSoldToRenew extends \Vtiger_Index_View
 	public function getTargetModuleModel()
 	{
 		if (!$this->targetModuleModel) {
-			$this->targetModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
+			$this->targetModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
 	}

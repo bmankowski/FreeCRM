@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar;
+namespace App\Modules\Calendar;
 /* * *******************************************************************************
  * * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -18,7 +18,7 @@ namespace FreeCRM\Modules\Calendar;
  */
 function getSharedCalendarId($sharedid)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$query = "SELECT * from vtiger_sharedcalendar where sharedid=?";
 	$result = $adb->pquery($query, array($sharedid));
 	if ($adb->num_rows($result) != 0) {
@@ -79,7 +79,7 @@ function getActivityDetails($description, $user_id, $from = '')
 {
 	
 	$currentUser = vglobal('current_user');
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 	$current_language = vglobal('current_language');
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
@@ -96,26 +96,26 @@ function getActivityDetails($description, $user_id, $from = '')
 	$name = \App\Fields\Owner::getUserLabel($user_id);
 
 	// Show the start date and end date in the users date format and in his time zone
-	$inviteeUser = \FreeCRM\CRMEntity::getInstance('Users');
+	$inviteeUser = \App\CRMEntity::getInstance('Users');
 	$inviteeUser->retrieveCurrentUserInfoFromFile($user_id);
 	$startDate = new DateTimeField($description['st_date_time']);
 	$endDate = new DateTimeField($description['end_date_time']);
 
 	if ($from == "invite")
-		$msg = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_strings['LBL_ACTIVITY_INVITATION']);
+		$msg = \App\Runtime\Vtiger_Language_Handler::translate($mod_strings['LBL_ACTIVITY_INVITATION']);
 	else
-		$msg = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
+		$msg = \App\Runtime\Vtiger_Language_Handler::translate($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
 
 	$currentUsername = \App\Fields\Owner::getUserLabel($currentUser->id);
-	$status = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($description['status'], 'Calendar');
+	$status = \App\Runtime\Vtiger_Language_Handler::translate($description['status'], 'Calendar');
 	$list = $name . ',';
 	$list .= '<br><br>' . $msg . ' ' . $reply . '.<br> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br>';
 	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_SUBJECT"] . ' : ' . $description['subject'];
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($inviteeUser->time_zone, 'Users');
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate($inviteeUser->time_zone, 'Users');
 	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_STATUS"] . ': ' . $status;
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($description['taskpriority']);
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($description['relatedto']);
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \App\Runtime\Vtiger_Language_Handler::translate($description['taskpriority']);
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \App\Runtime\Vtiger_Language_Handler::translate($description['relatedto']);
 	if (!empty($description['contact_name'])) {
 		$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_CONTACT_LIST"] . ' ' . $description['contact_name'];
 	} else
@@ -144,8 +144,8 @@ function twoDigit($no)
  */
 function calendarview_getSelectedUserId()
 {
-	$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
-	$onlyForUser = htmlspecialchars(strip_tags(\FreeCRM\Http\AppRequest::getForSql('onlyforuser')), ENT_QUOTES, \FreeCRM\AppConfig::main('default_charset'));
+	$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+	$onlyForUser = htmlspecialchars(strip_tags(\App\Http\AppRequest::getForSql('onlyforuser')), ENT_QUOTES, \App\AppConfig::main('default_charset'));
 	if ($onlyForUser == '')
 		$onlyForUser = $currentUser->id;
 	return $onlyForUser;
@@ -153,8 +153,8 @@ function calendarview_getSelectedUserId()
 
 function calendarview_getSelectedUserFilterQuerySuffix()
 {
-	$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+	$adb = \App\database\PearDatabase::getInstance();
 	$onlyForUser = calendarview_getSelectedUserId();
 	$qcondition = '';
 	if (!empty($onlyForUser)) {

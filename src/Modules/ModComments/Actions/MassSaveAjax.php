@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Actions;
+namespace App\Modules\ModComments\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,24 +12,24 @@ namespace FreeCRM\Modules\ModComments\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassSaveAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MassSaveAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		foreach ($recordModels as &$recordModel) {
 			$recordModel->save();
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
@@ -37,17 +37,17 @@ class MassSaveAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
-	private function getRecordModelsFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	private function getRecordModelsFromRequest(\App\Http\Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$recordModels = [];
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		foreach ($recordIds as &$recordId) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$recordModel->set('commentcontent', $request->get('commentcontent'));
 			$recordModel->set('related_to', $recordId);
 			$recordModel->set('assigned_user_id', $currentUserModel->getId());

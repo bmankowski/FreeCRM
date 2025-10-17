@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Inventory\Views;
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Modules\Settings\Inventory\Models\Record as Settings_Inventory_Record_Model;
+namespace App\Modules\Settings\Inventory\Views;
+use App\Http\Vtiger_Request;
+use App\Modules\Settings\Inventory\Models\Record as Settings_Inventory_Record_Model;
 
 
 
@@ -12,7 +12,7 @@ use FreeCRM\Modules\Settings\Inventory\Models\Record as Settings_Inventory_Recor
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class CreditLimits extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class CreditLimits extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function getView()
@@ -38,7 +38,7 @@ class CreditLimits extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('INVENTORY_DATA', $allData);
 		$viewer->assign('VIEW', $view);
-		$viewer->assign('CURRENCY', \FreeCRM\Modules\Vtiger\Util::getBaseCurrency());
+		$viewer->assign('CURRENCY', \App\Modules\Vtiger\Util::getBaseCurrency());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

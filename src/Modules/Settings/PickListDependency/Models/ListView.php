@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PickListDependency\Models;
+namespace App\Modules\Settings\PickListDependency\Models;
 
 
 /* +***********************************************************************************
@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\Settings\PickListDependency\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 
@@ -54,7 +54,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 		$dependentPicklists = Vtiger_DependencyPicklist::getDependentPicklistFields($forModule);
 
 		$noOfRecords = count($dependentPicklists);
-		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
+		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
 
 		$listViewRecordModels = array();
 		for ($i = 0; $i < $noOfRecords; $i++) {
@@ -63,7 +63,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 			unset($dependentPicklists[$i]['module']);
 			$record->setData($dependentPicklists[$i]);
 			$record->set('sourceModule', $module);
-			$record->set('sourceLabel', \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $module));
+			$record->set('sourceLabel', \App\Runtime\Vtiger_Language_Handler::translate($module, $module));
 			$listViewRecordModels[] = $record;
 		}
 		$pagingModel->calculatePageRange($noOfRecords);

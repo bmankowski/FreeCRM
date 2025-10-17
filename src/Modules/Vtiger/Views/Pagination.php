@@ -3,9 +3,9 @@
 
 
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Pagination extends \Vtiger_Index_View
 {
 
@@ -16,7 +16,7 @@ class Pagination extends \Vtiger_Index_View
 		$this->exposeMethod('getRelationPagination');
 	}
 
-	public function getRelationPagination(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRelationPagination(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
@@ -25,14 +25,14 @@ class Pagination extends \Vtiger_Index_View
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$totalCount = (int) $relationListView->getRelatedEntriesCount();
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
@@ -48,7 +48,7 @@ class Pagination extends \Vtiger_Index_View
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
 
-	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPagination(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$cvId = $request->get('viewname');
@@ -61,15 +61,15 @@ class Pagination extends \Vtiger_Index_View
 		if (empty($pageNumber)) {
 			$pageNumber = \App\CustomView::getCurrentPage($moduleName, $cvId);
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
 
 		$totalCount = (int) $request->get('totalCount');
 		$operator = '';
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
-			$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
+			$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');
 			$operator = $request->get('operator');

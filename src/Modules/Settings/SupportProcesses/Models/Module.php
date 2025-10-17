@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SupportProcesses\Models;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
+namespace App\Modules\Settings\SupportProcesses\Models;
+use App\Modules\Settings\SupportProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public static function getCleanInstance()
@@ -29,9 +29,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function getTicketStatus()
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
 		$return = \App\Fields\Picklist::getPickListValues('ticketstatus');
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
 		return $return;
 	}
 
@@ -63,7 +63,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function updateTicketStatusNotModify($data)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
 		\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
 			'ticket_status_indicate_closing' => ''
 			], ['id' => 1])->execute();
@@ -73,7 +73,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				'ticket_status_indicate_closing' => $data
 				], ['id' => 1])->execute();
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
 		return true;
 	}
 

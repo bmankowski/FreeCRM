@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Handlers;
+namespace App\Modules\PBXManager\Handlers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -19,7 +19,7 @@ class PBXManager_PBXManagerHandler_Handler {
 	 */
 	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
-		(new \FreeCRM\Modules\PBXManager\Models\Record())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
+		(new \App\Modules\PBXManager\Models\Record())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
 	}
 
 	/**
@@ -33,7 +33,7 @@ class PBXManager_PBXManagerHandler_Handler {
 			'crmid' => $recordModel->getId(),
 			'setype' => $eventHandler->getModuleName(),
 		];
-		$pbxRecordModel = new \FreeCRM\Modules\PBXManager\Models\Record;
+		$pbxRecordModel = new \App\Modules\PBXManager\Models\Record;
 		$fields = $recordModel->getModule()->getFieldsByType('phone');
 		foreach ($fields as $fieldName => &$fieldModel) {
 			if (!$recordModel->isEmpty($fieldName)) {
@@ -54,7 +54,7 @@ class PBXManager_PBXManagerHandler_Handler {
 			'crmid' => $recordModel->getId(),
 			'setype' => $eventHandler->getModuleName(),
 		];
-		$pbxRecordModel = new \FreeCRM\Modules\PBXManager\Models\Record;
+		$pbxRecordModel = new \App\Modules\PBXManager\Models\Record;
 		$fields = $recordModel->getModule()->getFieldsByType('phone');
 		foreach ($fields as $fieldName => &$fieldModel) {
 			if (!$recordModel->isEmpty($fieldName)) {

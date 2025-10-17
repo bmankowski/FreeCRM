@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Picklist\Models;
+namespace App\Modules\Settings\Picklist\Models;
 
 
 /* +**********************************************************************************
@@ -40,7 +40,7 @@ class Field extends \Vtiger_Field_Model
 			$intersectionMode = true;
 		}
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
 		$idColName = $fieldName . 'id';

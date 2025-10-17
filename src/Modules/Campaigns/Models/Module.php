@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Campaigns\Models;
+namespace App\Modules\Campaigns\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Campaigns\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**

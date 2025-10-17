@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Campaigns;
+namespace App\Modules\Campaigns;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\Campaigns;
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
 
-class Campaigns extends \FreeCRM\CRMEntity
+class Campaigns extends \App\CRMEntity
 {
 
 	public $table_name = "vtiger_campaign";

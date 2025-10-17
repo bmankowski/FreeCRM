@@ -11,7 +11,7 @@
 
 function vtws_relatedtypes($elementType, $user)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	$allowedTypes = vtws_listtypes(null, $user);
 

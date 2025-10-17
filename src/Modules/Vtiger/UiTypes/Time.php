@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -31,7 +31,7 @@ class Time extends Base
 	 */
 	public static function getDisplayTimeValue($time)
 	{
-		$date = new \FreeCRM\Fields\DateTimeField($time);
+		$date = new \App\Fields\DateTimeField($time);
 		return $date->getDisplayTime();
 	}
 
@@ -44,18 +44,18 @@ class Time extends Base
 	{
 		if ($time) {
 			list($hours, $minutes, $seconds) = explode(':', $time);
-			$format = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('PM');
+			$format = \App\Runtime\Vtiger_Language_Handler::translate('PM');
 
 			if ($hours > 12) {
 				$hours = (int) $hours - 12;
 			} else if ($hours < 12) {
-				$format = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('AM');
+				$format = \App\Runtime\Vtiger_Language_Handler::translate('AM');
 			}
 
 			//If hours zero then we need to make it as 12 AM
 			if ($hours == '00') {
 				$hours = '12';
-				$format = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('AM');
+				$format = \App\Runtime\Vtiger_Language_Handler::translate('AM');
 			}
 
 			return "$hours:$minutes $format";
@@ -101,8 +101,8 @@ class Time extends Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
-		$value = \FreeCRM\Fields\DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
+		$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$value = \App\Fields\DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');
 		if ($userModel->get('hour_format') == '12') {
 			return self::getTimeValueInAMorPM($value);
@@ -127,7 +127,7 @@ class Time extends Base
 
 	public static function getDBTimeFromUserValue($value)
 	{
-		$time = \FreeCRM\Fields\DateTimeField::convertToDBTimeZone(date(\FreeCRM\Fields\DateTimeField::getPHPDateFormat()) . ' ' . $value);
+		$time = \App\Fields\DateTimeField::convertToDBTimeZone(date(\App\Fields\DateTimeField::getPHPDateFormat()) . ' ' . $value);
 		$value = $time->format('H:i:s');
 		return $value;
 	}
@@ -135,7 +135,7 @@ class Time extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

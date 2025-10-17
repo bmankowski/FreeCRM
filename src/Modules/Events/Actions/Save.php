@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\Actions;
+namespace App\Modules\Events\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,15 +12,15 @@ namespace FreeCRM\Modules\Events\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	/**
 	 * Function to save record
 	 * @param Vtiger_Request $request - values of the record
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record - record Model of saved record
+	 * @return \App\Modules\Vtiger\Models\Record - record Model of saved record
 	 */
-	public function saveRecord(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveRecord(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$data = $recordModel->getData();
@@ -45,9 +45,9 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record
+	 * @return \App\Modules\Vtiger\Models\Record
 	 */
-	public function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ((int) $request->get('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {

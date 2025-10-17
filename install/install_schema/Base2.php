@@ -8,9 +8,9 @@ namespace Importers;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
+use App\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowEventHandler as Vtiger_Workflow_Handler;
+use App\Modules\com_vtiger_workflow\VTWorkflowEventHandler as Vtiger_Workflow_Handler;
 class Base2 extends \App\Db\Importers\Base
 {
 

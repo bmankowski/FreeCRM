@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SMSNotifier\Actions;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Record;
+namespace App\Modules\Settings\SMSNotifier\Actions;
+use App\Modules\Settings\SMSNotifierModels\Record;
 
 
 /* +***********************************************************************************
@@ -13,18 +13,18 @@ use FreeCRM\Modules\Settings\SMSNotifierModels\Record;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
 		if ($recordId) {
-			$recordModel = \FreeCRM\Modules\Settings\SMSNotifier\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
+			$recordModel = \App\Modules\Settings\SMSNotifier\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
 		} else {
-			$recordModel = \FreeCRM\Modules\Settings\SMSNotifier\Models\Record::getCleanInstance($qualifiedModuleName);
+			$recordModel = \App\Modules\Settings\SMSNotifier\Models\Record::getCleanInstance($qualifiedModuleName);
 		}
 
 		$editableFields = $recordModel->getEditableFields();
@@ -37,7 +37,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$allProviders = $recordModel->getModule()->getAllProviders();
 		foreach ($allProviders as $provider) {
 			if ($provider->getName() === $selectedProvider) {
-				$fieldsInfo = \FreeCRM\Modules\Settings\SMSNotifier\Models\ProviderField::getInstanceByProvider($provider);
+				$fieldsInfo = \App\Modules\Settings\SMSNotifier\Models\ProviderField::getInstanceByProvider($provider);
 				foreach ($fieldsInfo as $fieldInfo) {
 					$recordModel->set($fieldInfo['name'], $request->get($fieldInfo['name']));
 					$parameters[$fieldInfo['name']] = $request->get($fieldInfo['name']);
@@ -47,17 +47,17 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$recordModel->save();
-			$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_SUCCESSFULLY', $qualifiedModuleName)));
+			$response->setResult(array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_SUCCESSFULLY', $qualifiedModuleName)));
 		} catch (Exception $e) {
 			$response->setError($e->getMessage());
 		}
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -8,14 +8,14 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Runtime\Vtiger_View_Controller;
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Runtime\Vtiger_Theme;
+use App\Runtime\Vtiger_View_Controller;
+use App\Http\Vtiger_Request;
+use App\Runtime\Vtiger_Theme;
 
-use FreeCRM\Runtime\Vtiger_JsScript_Model;
-use FreeCRM\Runtime\Vtiger_CssScript_Model;
+use App\Runtime\Vtiger_JsScript_Model;
+use App\Runtime\Vtiger_CssScript_Model;
 
-use FreeCRM\AppConfig;
+use App\AppConfig;
 
 abstract class Vtiger_Header_View extends Vtiger_View_Controller
 {
@@ -26,7 +26,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	}
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
@@ -55,13 +55,13 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 
 	/**
 	 * Function to get the list of Header Links
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Link instances
 	 */
-	public function getMenuHeaderLinks(\FreeCRM\Http\Vtiger_Request $request)
+	public function getMenuHeaderLinks(\App\Http\Vtiger_Request $request)
 	{
-		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$headerLinks = [];
-		if (\FreeCRM\Modules\Users\Models\Module::getSwitchUsers()) {
+		if (\App\Modules\Users\Models\Module::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
@@ -72,7 +72,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linkclass' => 'showModal',
 			];
 		}
-		if (\FreeCRM\AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
@@ -106,18 +106,18 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
-			$headerLinkInstance = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
+			$headerLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
 			if (isset($headerLink['childlinks'])) {
 				foreach ($headerLink['childlinks'] as $childLink) {
-					$headerLinkInstance->addChildLink(\FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($childLink));
+					$headerLinkInstance->addChildLink(\App\Modules\Vtiger\Models\Link::getInstanceFromValues($childLink));
 				}
 			}
 			$headerLinkInstances[] = $headerLinkInstance;
 		}
-		$headerLinks = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
+		$headerLinks = \App\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
 		foreach ($headerLinks as $headerType => $headerLinks) {
 			foreach ($headerLinks as $headerLink) {
-				$headerLinkInstances[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromLinkObject($headerLink);
+				$headerLinkInstances[] = \App\Modules\Vtiger\Models\Link::getInstanceFromLinkObject($headerLink);
 			}
 		}
 		return $headerLinkInstances;
@@ -126,12 +126,12 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$headerScripts = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
+		$headerScripts = \App\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
 		foreach ($headerScripts as $headerType => $headerScriptsValue) {
 			foreach ($headerScriptsValue as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
@@ -145,7 +145,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getHeaderCss(Vtiger_Request $request)
 	{
@@ -154,7 +154,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		$baseStyleCssPath = $this->checkAndConvertCssStyles(['~' . $baseStyleCssPath]);
 		$headerCssInstances = array_merge($headerCssInstances, $baseStyleCssPath);
 
-		$headerCss = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
+		$headerCss = \App\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
 		$cssScriptModel = new Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);

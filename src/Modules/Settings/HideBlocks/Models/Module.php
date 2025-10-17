@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\HideBlocks\Models;
-use FreeCRM\Modules\Settings\HideBlocksModels\Module;
+namespace App\Modules\Settings\HideBlocks\Models;
+use App\Modules\Settings\HideBlocksModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\HideBlocksModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 'vtiger_blocks_hide';
@@ -44,7 +44,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get list of Blocks
-	 * @return <Array> list of Block models \FreeCRM\Modules\Settings\HideBlocks\Models\Module
+	 * @return <Array> list of Block models \App\Modules\Settings\HideBlocks\Models\Module
 	 */
 	public function getBlocks()
 	{

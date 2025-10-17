@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,27 +12,27 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class FindDuplicates extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
 		parent::preProcess($request, $display);
 	}
 
-	public function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'FindDuplicatePreProcess.tpl';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('FindDuplicateContents.tpl', $moduleName);
@@ -41,9 +41,9 @@ class FindDuplicates extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -60,12 +60,12 @@ class FindDuplicates extends \Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$currentUser = vglobal('current_user');
 		$viewer = $this->getViewer($request);
 		$module = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 
 		$massActionLink = array(
 			'linktype' => 'LISTVIEWBASIC',
@@ -73,7 +73,7 @@ class FindDuplicates extends \Vtiger_Index_View
 			'linkurl' => 'Javascript:Vtiger_FindDuplicates_Js.massDeleteRecords("index.php?module=' . $module . '&action=MassDelete")',
 			'linkicon' => ''
 		);
-		$massActionLinks[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+		$massActionLinks[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		$viewer->assign('LISTVIEW_LINKS', $massActionLinks);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 
@@ -81,7 +81,7 @@ class FindDuplicates extends \Vtiger_Index_View
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pageLimit = $pagingModel->getPageLimit();
 
@@ -135,7 +135,7 @@ class FindDuplicates extends \Vtiger_Index_View
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('DUPLICATE_SEARCH_FIELDS', $duplicateSearchFields);
 
-		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getAllFilterByModule($module);
+		$customViewModel = \App\Modules\CustomView\Models\Record::getAllFilterByModule($module);
 		$viewer->assign('VIEW_NAME', $customViewModel->getId());
 	}
 
@@ -143,7 +143,7 @@ class FindDuplicates extends \Vtiger_Index_View
 	 * Function returns the number of records for the current filter
 	 * @param Vtiger_Request $request
 	 */
-	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$duplicateSearchFields = $request->get('fields');

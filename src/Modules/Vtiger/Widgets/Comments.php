@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Widgets;
+namespace App\Modules\Vtiger\Widgets;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Comments extends \FreeCRM\Modules\Vtiger\Widgets\Basic
+class Comments extends \App\Modules\Vtiger\Widgets\Basic
 {
 
 	public $dbParams = array('relatedmodule' => 'ModComments');
@@ -30,7 +30,7 @@ class Comments extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 	public function getWidget()
 	{
 		$widget = [];
-		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
+		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		if ($this->moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView')) {
 			$this->Config['url'] = $this->getUrl();
 			$widget = $this->Config;

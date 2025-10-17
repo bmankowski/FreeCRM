@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PaymentsIn\Models;
+namespace App\Modules\PaymentsIn\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\PaymentsIn\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	public function getAdvancedLinks()

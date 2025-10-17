@@ -1,13 +1,13 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords\Views;
+namespace App\Modules\OSSPasswords\Views;
 
 //The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
 
 class InRelation extends \Vtiger_Index_View
 {
 
-	public function getScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getScripts(\App\Http\Vtiger_Request $request)
 	{
 		$jsFileNames = [
 			'libraries.jquery.clipboardjs.clipboard',
@@ -17,7 +17,7 @@ class InRelation extends \Vtiger_Index_View
 		return $jsScriptInstances;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

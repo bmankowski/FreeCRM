@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceUsers\Actions;
+namespace App\Modules\Settings\WebserviceUsers\Actions;
 
 
 
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Settings\WebserviceUsers\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
+use App\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
 	/**
 	 * Save
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('param');
 		$typeApi = $request->get('typeApi');
@@ -32,7 +32,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		}
 		$result = $recordModel->save($data);
 
-		$responceToEmit = new \FreeCRM\Http\Vtiger_Response();
+		$responceToEmit = new \App\Http\Vtiger_Response();
 		$responceToEmit->setResult($result);
 		$responceToEmit->emit();
 	}

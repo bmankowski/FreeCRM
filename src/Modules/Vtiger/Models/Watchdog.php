@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Watching Model Class
@@ -54,7 +54,7 @@ class Watchdog extends Model
 		if (\App\Cache::staticHas('WatchdogModel', $cacheName)) {
 			return \App\Cache::staticGet('WatchdogModel', $cacheName);
 		}
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
 		$instance->set('moduleId', $moduleId ? $moduleId : \App\Module::getModuleId($moduleName));
@@ -62,7 +62,7 @@ class Watchdog extends Model
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		if (\FreeCRM\AppConfig::module('ModTracker', 'WATCHDOG') === false) {
+		if (\App\AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->isActive = false;
 		}
 		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);
@@ -367,10 +367,10 @@ class Watchdog extends Model
 						$name = \App\Fields\Owner::getUserLabel($data[1]);
 						break;
 					case 'Groups':
-						$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getGroupName($data[1]), $this->get('module'));
+						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getGroupName($data[1]), $this->get('module'));
 						break;
 					default:
-						$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($data[1]), $this->get('module'));
+						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($data[1]), $this->get('module'));
 						break;
 				}
 				$row['type'] = $data[0];
@@ -459,6 +459,6 @@ class Watchdog extends Model
 	 */
 	public static function getSupportedModules()
 	{
-		return \FreeCRM\Modules\Vtiger\Models\Module::getAll([0], ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments', 'Notification'], true);
+		return \App\Modules\Vtiger\Models\Module::getAll([0], ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Views;
+namespace App\Modules\Products\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Products\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Widget extends \Vtiger_Index_View
 {
 
@@ -23,7 +23,7 @@ class Widget extends \Vtiger_Index_View
 		$this->exposeMethod('showProductsServices');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -32,7 +32,7 @@ class Widget extends \Vtiger_Index_View
 		}
 	}
 
-	public function showProductsServices(\FreeCRM\Http\Vtiger_Request $request)
+	public function showProductsServices(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fromModule = $request->get('fromModule');

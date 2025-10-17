@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Rss\Actions;
+namespace App\Modules\Rss\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,29 +12,29 @@ namespace FreeCRM\Modules\Rss\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$moduleName = $request->getModule();
 		$url = $request->get('feedurl');
-		$recordModel = \FreeCRM\Modules\Rss\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Rss\Models\Record::getCleanInstance($moduleName);
 		$result = $recordModel->validateRssUrl($url);
 		if ($result) {
 			$recordModel->saveRecord($url);
-			$response->setResult(['success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()]);
+			$response->setResult(['success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()]);
 		} else {
-			$response->setResult(['success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_INVALID_RSS_URL', $moduleName)]);
+			$response->setResult(['success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('JS_INVALID_RSS_URL', $moduleName)]);
 		}
 
 		$response->emit();

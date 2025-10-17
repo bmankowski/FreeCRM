@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\HideBlocks\Actions;
-use FreeCRM\Modules\Settings\HideBlocksModels\Module;
-use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
+namespace App\Modules\Settings\HideBlocks\Actions;
+use App\Modules\Settings\HideBlocksModels\Module;
+use App\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -15,10 +15,10 @@ use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Reco
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$blockId = $request->get('blockid');
@@ -37,10 +37,10 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$recordModel->set('views', $views);
 		$recordModel->save();
 		$returnUrl = $recordModel->getDetailViewUrl();
-		header("Location: " . \FreeCRM\Modules\Settings\HideBlocks\Models\Module::getListViewUrl());
+		header("Location: " . \App\Modules\Settings\HideBlocks\Models\Module::getListViewUrl());
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

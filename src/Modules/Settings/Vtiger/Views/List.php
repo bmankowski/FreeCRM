@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
+namespace App\Modules\Settings\Vtiger\Views;
 
 
 /* +**********************************************************************************
@@ -12,10 +12,10 @@ namespace FreeCRM\Modules\Settings\Vtiger\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use FreeCRM\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
+class List extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	protected $listViewEntries = false;
@@ -26,7 +26,7 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		parent::__construct();
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -37,7 +37,7 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -47,7 +47,7 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -138,10 +138,10 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

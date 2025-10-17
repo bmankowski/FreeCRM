@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -19,13 +19,13 @@ class Languages extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::getLanguageLabel($value);
+		return \App\Runtime\Vtiger_Language_Handler::getLanguageLabel($value);
 	}
 
 	/**
@@ -34,6 +34,6 @@ class Languages extends Base
 	 */
 	public function getPicklistValues()
 	{
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::getAllLanguages();
+		return \App\Runtime\Vtiger_Language_Handler::getAllLanguages();
 	}
 }

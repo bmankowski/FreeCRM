@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Vtiger\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,14 +13,14 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class MiniList extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
@@ -32,13 +32,13 @@ class MiniList extends \Vtiger_Index_View
 			$widgetId = $request->get('widgetid');
 		}
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
+			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 
-		$minilistWidgetModel = new \FreeCRM\Modules\Vtiger\Models\MiniList();
+		$minilistWidgetModel = new \App\Modules\Vtiger\Models\MiniList();
 		$minilistWidgetModel->setWidgetModel($widget);
 
 		$viewer->assign('WIDGET', $widget);

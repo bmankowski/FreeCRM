@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Actions;
+namespace App\Modules\Calendar\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,13 +12,13 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Calendar extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -33,7 +33,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -41,7 +41,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function getEvents(\FreeCRM\Http\Vtiger_Request $request)
+	public function getEvents(\App\Http\Vtiger_Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->get('user'));
@@ -61,12 +61,12 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$entity = $record->getEntity();
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
 	}
 
-	public function updateEvent(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateEvent(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');
@@ -82,7 +82,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$succes = false;
 			if (!empty($recordId)) {
 				try {
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 					$recordData = $recordModel->entity->column_fields;
 					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
 					$due_date = $end['date'];
@@ -106,7 +106,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($succes);
 		$response->emit();
 	}

@@ -2,14 +2,14 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
-class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class QuickExport extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -20,7 +20,7 @@ class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('ExportToExcel');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -29,7 +29,7 @@ class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function ExportToExcel(\FreeCRM\Http\Vtiger_Request $request)
+	public function ExportToExcel(\App\Http\Vtiger_Request $request)
 	{
 		require_once 'libraries/PHPExcel/PHPExcel.php';
 		$module = $request->getModule(false); //this is the type of things in the current view
@@ -48,7 +48,7 @@ class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($filter);
 		$headers = $queryGenerator->getListViewFields();
-		$customView = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($filter);
+		$customView = \App\Modules\CustomView\Models\Record::getInstanceById($filter);
 		//get the column headers, they go in row 0 of the spreadsheet
 		foreach ($headers as &$fieldsModel) {
 			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(LanguageTranslator::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
@@ -56,12 +56,12 @@ class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 		$row++;
 
-		$targetModuleFocus = \FreeCRM\CRMEntity::getInstance($module);
+		$targetModuleFocus = \App\CRMEntity::getInstance($module);
 		//ListViewController has lots of paging stuff and things we don't want
 		//so lets just itterate across the list of IDs we have and get the field values
 		foreach ($recordIds as $id) {
 			$col = 0;
-			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $module);
+			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $module);
 			foreach ($headers as &$fieldsModel) {
 				//depending on the uitype we might want the raw value, the display value or something else.
 				//we might also want the display value sans-links so we can use strip_tags for that
@@ -117,7 +117,7 @@ class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		header('Content-Type: application/x-msexcel');
 		header('Content-Length: ' . @filesize($tempFileName));
-		$filename = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $module) . '-' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate(decode_html($customView->get('viewname')), $module) . ".xls";
+		$filename = \App\Runtime\Vtiger_Language_Handler::translate($module, $module) . '-' . \App\Runtime\Vtiger_Language_Handler::translate(decode_html($customView->get('viewname')), $module) . ".xls";
 		header("Content-Disposition: attachment; filename=\"$filename\"");
 
 		$fp = fopen($tempFileName, 'rb');
@@ -126,7 +126,7 @@ class QuickExport extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		unlink($tempFileName);
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

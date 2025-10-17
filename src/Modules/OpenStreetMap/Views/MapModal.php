@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OpenStreetMap\Views;
+namespace App\Modules\OpenStreetMap\Views;
 
 /**
  * Map Modal Class
@@ -9,22 +9,22 @@ namespace FreeCRM\Modules\OpenStreetMap\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class MapModal extends \Vtiger_Index_View
 {
 
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-fullscreen';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		if (!$request->isEmpty('srcModule')) {
-			$srcModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($request->get('srcModule'));
+			$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->get('srcModule'));
 			$fields = $srcModuleModel->getFields();
 			$fieldsToGroup = [];
 			foreach ($fields as &$fieldModel) {
@@ -48,7 +48,7 @@ class MapModal extends \Vtiger_Index_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$jsFileNames = array(
 			'~libraries/leaflet/leaflet.js',
@@ -59,7 +59,7 @@ class MapModal extends \Vtiger_Index_View
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
-	public function getModalCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalCss(\App\Http\Vtiger_Request $request)
 	{
 		$cssFileNames = [
 			'~libraries/leaflet/leaflet.css',

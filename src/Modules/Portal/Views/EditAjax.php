@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Portal\Views;
+namespace App\Modules\Portal\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Portal\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class EditAjax extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -24,7 +24,7 @@ class EditAjax extends \Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 
 		if (!empty($recordId)) {
-			$data = \FreeCRM\Modules\Portal\Models\Module::getRecord($recordId);
+			$data = \App\Modules\Portal\Models\Module::getRecord($recordId);
 
 			$viewer->assign('RECORD', $recordId);
 			$viewer->assign('BOOKMARK_NAME', $data['bookmarkName']);

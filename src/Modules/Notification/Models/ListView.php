@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\Models;
+namespace App\Modules\Notification\Models;
 
 /**
  * ListView model for Notification module
@@ -8,19 +8,19 @@ namespace FreeCRM\Modules\Notification\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the Quick Links for the List view of the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getHederLinks($linkParams)
 	{
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
 		$headerLinks = [];
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
@@ -39,7 +39,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
-			$links['LIST_VIEW_HEADER'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
+			$links['LIST_VIEW_HEADER'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
 		}
 		return $links;
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -41,7 +41,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to get the record
-	 * @return <\FreeCRM\Modules\Vtiger\Models\Record>
+	 * @return <\App\Modules\Vtiger\Models\Record>
 	 */
 	public function getRecord()
 	{
@@ -55,7 +55,7 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to get the module
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{
@@ -108,13 +108,13 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to retieve the instance from record model
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordModel - record instance
+	 * @param <\App\Modules\Vtiger\Models\Record> $recordModel - record instance
 	 * @return Vtiger_RecordStructure_Model
 	 */
 	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{
 		$moduleModel = $recordModel->getModule();
-		$className = \FreeCRM\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->getName(true));
+		$className = \App\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->getName(true));
 		$instance = new $className();
 		$instance->setModule($moduleModel)->setRecord($recordModel);
 		return $instance;
@@ -122,12 +122,12 @@ class RecordStructure extends Model
 
 	/**
 	 * Function to retieve the instance from module model
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleModel - module instance
+	 * @param \App\Modules\Vtiger\Models\Module $moduleModel - module instance
 	 * @return Vtiger_RecordStructure_Model
 	 */
 	public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{
-		$className = \FreeCRM\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->get('name'));
+		$className = \App\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->get('name'));
 		$instance = new $className();
 		$instance->setModule($moduleModel);
 		return $instance;

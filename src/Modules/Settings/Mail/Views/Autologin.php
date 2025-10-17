@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Views;
-use FreeCRM\Modules\Settings\MailModels\Autologin;
+namespace App\Modules\Settings\Mail\Views;
+use App\Modules\Settings\MailModels\Autologin;
 
 
 /* +***********************************************************************************************************************************
@@ -14,19 +14,19 @@ use FreeCRM\Modules\Settings\MailModels\Autologin;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Autologin extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Autologin extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', \FreeCRM\Modules\Settings\Mail\Models\Autologin::getInstance());
+		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Mail\Models\Autologin::getInstance());
 		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('Autologin.tpl', $qualifiedModuleName);
@@ -34,10 +34,10 @@ class Autologin extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

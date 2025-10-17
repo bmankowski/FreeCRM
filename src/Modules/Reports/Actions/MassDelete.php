@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Actions;
+namespace App\Modules\Reports\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,50 +12,50 @@ namespace FreeCRM\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MassDelete extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$parentModule = 'Reports';
-		$recordIds = \FreeCRM\Modules\Reports\Models\Record::getRecordsListFromRequest($request);
+		$recordIds = \App\Modules\Reports\Models\Record::getRecordsListFromRequest($request);
 
 		$reportsDeleteDenied = array();
 		foreach ($recordIds as $recordId) {
-			$recordModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Reports\Models\Record::getInstanceById($recordId);
 			if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 				$success = $recordModel->delete();
 				if (!$success) {
-					$reportsDeleteDenied[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModel->getName(), $parentModule);
+					$reportsDeleteDenied[] = \App\Runtime\Vtiger_Language_Handler::translate($recordModel->getName(), $parentModule);
 				}
 			} else {
-				$reportsDeleteDenied[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModel->getName(), $parentModule);
+				$reportsDeleteDenied[] = \App\Runtime\Vtiger_Language_Handler::translate($recordModel->getName(), $parentModule);
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if (empty($reportsDeleteDenied)) {
-			$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)));
+			$response->setResult(array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)));
 		} else {
-			$response->setError($reportsDeleteDenied, \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DENIED_REPORTS', $parentModule));
+			$response->setError($reportsDeleteDenied, \App\Runtime\Vtiger_Language_Handler::translate('LBL_DENIED_REPORTS', $parentModule));
 		}
 
 		$response->emit();

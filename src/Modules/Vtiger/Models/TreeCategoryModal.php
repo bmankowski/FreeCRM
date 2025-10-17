@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Basic TreeCategoryModal Model Class
@@ -40,7 +40,7 @@ class TreeCategoryModal extends Model
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, \vtlib\Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);
@@ -50,15 +50,15 @@ class TreeCategoryModal extends Model
 	/**
 	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model
 	 * @param string name of the module
-	 * @return \FreeCRM\Modules\Vtiger\Models\TreeView instance
+	 * @return \App\Modules\Vtiger\Models\TreeView instance
 	 */
-	public static function getInstance(\FreeCRM\Modules\Vtiger\Models\Module $moduleModel)
+	public static function getInstance(\App\Modules\Vtiger\Models\Module $moduleModel)
 	{
 		$moduleName = $moduleModel->get('name');
 		if (isset(self::$_cached_instance[$moduleName])) {
 			return self::$_cached_instance[$moduleName];
 		}
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
 		self::$_cached_instance[$moduleName] = $instance;
@@ -70,16 +70,16 @@ class TreeCategoryModal extends Model
 		if ($this->has('relationType')) {
 			return $this->get('relationType');
 		}
-		$srcModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('srcModule'));
-		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($srcModuleModel, $this->get('module'));
+		$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->get('srcModule'));
+		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($srcModuleModel, $this->get('module'));
 		$this->set('relationType', $relationModel->getRelationType());
 		return $this->get('relationType');
 	}
 
 	public function isDeletable()
 	{
-		$srcModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('srcModule'));
-		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($srcModuleModel, $this->get('module'));
+		$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->get('srcModule'));
+		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($srcModuleModel, $this->get('module'));
 		return $relationModel->isDeletable();
 	}
 
@@ -95,7 +95,7 @@ class TreeCategoryModal extends Model
 	private function getTreeList()
 	{
 		$trees = [];
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$isDeletable = $this->isDeletable();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
@@ -110,7 +110,7 @@ class TreeCategoryModal extends Model
 				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName())
+				'text' => \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName())
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
@@ -133,7 +133,7 @@ class TreeCategoryModal extends Model
 
 	private function getSelectedTreeList()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tree FROM u_yf_crmentity_rel_tree WHERE crmid = ? AND relmodule = ?', [$this->get('srcRecord'), $this->get('module')->getId()]);
 		return $db->getArrayColumn($result);
 	}
@@ -143,9 +143,9 @@ class TreeCategoryModal extends Model
 		$currentModule = vglobal('currentModule');
 		vglobal('currentModule', $this->get('srcModule'));
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $this->getModuleName());
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $this->getModuleName());
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 
@@ -160,12 +160,12 @@ class TreeCategoryModal extends Model
 	private function getAllRecords()
 	{
 
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
 		if (!empty($this->get('srcModule'))) {
 			$listViewModel->set('src_module', $this->get('srcModule'));
 			$listViewModel->set('src_record', $this->get('srcRecord'));
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);

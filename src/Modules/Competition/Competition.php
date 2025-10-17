@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Competition;
+namespace App\Modules\Competition;
 
 /**
  * @package YetiForce.CRMEntity
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Competition;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Competition extends Vtiger_CRMEntity
@@ -90,9 +90,9 @@ class Competition extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance('Competition');
+			$moduleInstance = \App\CRMEntity::getInstance('Competition');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Competition']);
 
@@ -102,7 +102,7 @@ class Competition extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Competition'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId('Competition'));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId('Competition'));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -122,7 +122,7 @@ class Competition extends Vtiger_CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

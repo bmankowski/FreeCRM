@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SupportProcesses\Views;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
+namespace App\Modules\Settings\SupportProcesses\Views;
+use App\Modules\Settings\SupportProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,23 +14,23 @@ use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\SupportProcesses\Views\Index::process() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\SupportProcesses\Views\Index::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		$ticketStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus();
-		$ticketStatusNotModify = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
+		$ticketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus();
+		$ticketStatusNotModify = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$viewer->assign('TICKETSTATUSNOTMODIFY', $ticketStatusNotModify);
 		$viewer->assign('TICKETSTATUS', $ticketStatus);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
 		$viewer->view('Index.tpl', $qualifiedModule);
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\SupportProcesses\Views\Index::process() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\SupportProcesses\Views\Index::process() method ...");
 	}
 }

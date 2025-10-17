@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Views;
+namespace App\Modules\Settings\Workflows\Views;
 
 
 
@@ -10,10 +10,10 @@ namespace FreeCRM\Modules\Settings\Workflows\Views;
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Import extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__);
@@ -59,14 +59,14 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 						}
 					}
 				}
-				$workflowModel = \FreeCRM\Modules\Settings\Workflows\Models\Module::getInstance('Settings:Workflows');
+				$workflowModel = \App\Modules\Settings\Workflows\Models\Module::getInstance('Settings:Workflows');
 				$messages = $workflowModel->importWorkflow($params);
 
 				$viewer->assign('RECORDID', $messages['id']);
 				$viewer->assign('UPLOAD', true);
 				$viewer->assign('MESSAGES', $messages);
 			} else {
-				$viewer->assign('UPLOAD_ERROR', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
+				$viewer->assign('UPLOAD_ERROR', \App\Runtime\Vtiger_Language_Handler::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);
 			}
 		}
@@ -76,7 +76,7 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

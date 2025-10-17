@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SSalesProcesses\Dashboards;
+namespace App\Modules\SSalesProcesses\Dashboards;
 
 /**
  * Widget show estimated value sale
@@ -82,14 +82,14 @@ class TeamsEstimatedSales extends \Vtiger_Index_View
 	 * Main function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$time = $request->get('time');
 		$compare = $request->get('compare') === 'true';
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
 		if (empty($time)) {
 			$time = ['start' => ''];
 			$date = new \DateTime();

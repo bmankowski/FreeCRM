@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Notification\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * Notifications Dashboard Class
@@ -9,7 +9,7 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class NotificationsByRecipient extends \Vtiger_Index_View
 {
@@ -43,7 +43,7 @@ class NotificationsByRecipient extends \Vtiger_Index_View
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
-		$listView = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName)->getListViewUrl();
+		$listView = \App\Modules\Vtiger\Models\Module::getInstance($moduleName)->getListViewUrl();
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$query = new \App\Db\Query();
@@ -75,10 +75,10 @@ class NotificationsByRecipient extends \Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), \App\Modules\Users\Models\Record::getCurrentUserModel()->getId());
 		$time = $request->get('time');
 		if (empty($time)) {
-			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
+			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));

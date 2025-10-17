@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 
 
-namespace FreeCRM\Modules\Settings\DataAccess\helpers;
+namespace App\Modules\Settings\DataAccess\helpers;
 class DataAccess_ConditionsTest
 {
 

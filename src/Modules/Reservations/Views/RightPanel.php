@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reservations\Views;
+namespace App\Modules\Reservations\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Reservations\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class RightPanel extends \Vtiger_Index_View
 {
 
@@ -24,11 +24,11 @@ class RightPanel extends \Vtiger_Index_View
 		$this->exposeMethod('getTypesList');
 	}
 
-	public function getUsersList(\FreeCRM\Http\Vtiger_Request $request)
+	public function getUsersList(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers());
 		$viewer->assign('ALL_ACTIVEGROUP_LIST', \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups());
@@ -36,11 +36,11 @@ class RightPanel extends \Vtiger_Index_View
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 
-	public function getTypesList(\FreeCRM\Http\Vtiger_Request $request)
+	public function getTypesList(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('ALL_ACTIVETYPES_LIST', Reservations_Calendar_Model::getCalendarTypes());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $currentUser);

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LangManagement\Views;
-use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
+namespace App\Modules\Settings\LangManagement\Views;
+use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManage
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -31,7 +31,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -50,7 +50,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

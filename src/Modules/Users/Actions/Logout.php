@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -11,26 +11,26 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Logout extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Logout extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
-		if (\FreeCRM\AppConfig::main('session_regenerate_id')) {
+		if (\App\AppConfig::main('session_regenerate_id')) {
 			Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 		}
 		Vtiger_Session::destroy();
 
 		//Track the logout History
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);
 		$moduleModel->saveLogoutHistory();
 		//End
 		header('Location: index.php');

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /**
  * Switch Users Action Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Users\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class SwitchUsers extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -16,11 +16,11 @@ class SwitchUsers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$userId = $request->get('id');
 		require('user_privileges/switchUsers.php');
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getRealId();
 		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
 			$db = \App\Db::getInstance('log');
@@ -42,9 +42,9 @@ class SwitchUsers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function proccess
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();
 		$userId = $request->get('id');
 		$user = new Users();

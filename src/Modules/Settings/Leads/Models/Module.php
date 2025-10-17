@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Leads\Models;
-use FreeCRM\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
+namespace App\Modules\Settings\Leads\Models;
+use App\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
 
 
 /* +***********************************************************************************

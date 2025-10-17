@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CustomView\Views;
-use FreeCRM\Modules\Settings\CustomView\Models\Module as Settings_CustomView_Module_Model;
-use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
+namespace App\Modules\Settings\CustomView\Views;
+use App\Modules\Settings\CustomView\Models\Module as Settings_CustomView_Module_Model;
+use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 
@@ -13,17 +13,17 @@ use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManage
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULE_MODELS', Settings_CustomView_Module_Model::getSupportedModules());
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$supportedModuleId = $request->get('sourceModule');
@@ -43,10 +43,10 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -63,10 +63,10 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param \FreeCRM\Http\Vtiger_Request $request - request model
+	 * @param \App\Http\Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(

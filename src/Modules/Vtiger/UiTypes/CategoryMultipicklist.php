@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType Category multipicklist
@@ -17,7 +17,7 @@ class CategoryMultipicklist extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $tree
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param boolean $rawText
 	 * @return string
 	 */
@@ -53,10 +53,10 @@ class CategoryMultipicklist extends Base
 					end($pieces);
 					$parent = prev($pieces);
 					$parentName = isset($treeData[$parent]) ? $treeData[$parent]['label'] : '';
-					$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
-					$names[] = $parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['label'], $module);
+					$parentName = '(' . \App\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
+					$names[] = $parentName . \App\Runtime\Vtiger_Language_Handler::translate($row['label'], $module);
 				} else {
-					$names[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['label'], $module);
+					$names[] = \App\Runtime\Vtiger_Language_Handler::translate($row['label'], $module);
 				}
 			}
 		}
@@ -66,7 +66,7 @@ class CategoryMultipicklist extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return string
 	 */
 	public function getDBValue($value, $recordModel = false)

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SRecurringOrders;
+namespace App\Modules\SRecurringOrders;
 
 /**
  * @package YetiForce.CRMEntity
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\SRecurringOrders;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class SRecurringOrders extends Vtiger_CRMEntity
@@ -91,9 +91,9 @@ class SRecurringOrders extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance('SRecurringOrders');
+			$moduleInstance = \App\CRMEntity::getInstance('SRecurringOrders');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRecurringOrders']);
 
@@ -103,7 +103,7 @@ class SRecurringOrders extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SRecurringOrders'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

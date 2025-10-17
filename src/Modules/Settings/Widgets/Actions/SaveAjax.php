@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Widgets\Actions;
-use FreeCRM\Modules\Settings\Widgets\Models\Module;
+namespace App\Modules\Settings\Widgets\Actions;
+use App\Modules\Settings\Widgets\Models\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\Widgets\Models\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -25,38 +25,38 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('updateSequence');
 	}
 
-	public function saveWidget(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveWidget(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Widgets\Models\Module::saveWidget($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Widgets\Models\Module::saveWidget($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Saved changes', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Saved changes', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function removeWidget(\FreeCRM\Http\Vtiger_Request $request)
+	public function removeWidget(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Widgets\Models\Module::removeWidget($params['wid']);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Widgets\Models\Module::removeWidget($params['wid']);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Removed widget', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Removed widget', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateSequence(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateSequence(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Widgets\Models\Module::updateSequence($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Widgets\Models\Module::updateSequence($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Update has been completed', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Update has been completed', $request->getModule(false))
 		));
 		$response->emit();
 	}

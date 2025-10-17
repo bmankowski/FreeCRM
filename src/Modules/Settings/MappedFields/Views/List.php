@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Views;
+namespace App\Modules\Settings\MappedFields\Views;
 
 
 
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\MappedFields\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
+use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
+class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULE_MODELS', Settings_MappedFields_Module_Model::getSupportedModules());

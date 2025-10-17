@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
+namespace App\Modules\Users\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Colors extends \FreeCRM\Modules\Vtiger\Models\Model
+class Colors extends \App\Modules\Vtiger\Models\Model
 {
 
 	public static function getAllField()
@@ -43,7 +43,7 @@ class Colors extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function getUserColors()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->query('SELECT * FROM vtiger_users');
 
 		$userColors = [];
@@ -60,7 +60,7 @@ class Colors extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function updateUserColor($params)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_users SET cal_color = ? WHERE id = ?;', array($params['color'], $params['id']));
 	}
 
@@ -87,7 +87,7 @@ class Colors extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function getGroupColors()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->query('SELECT * FROM vtiger_groups');
 
 		$groupColors = [];
@@ -103,7 +103,7 @@ class Colors extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function updateGroupColor($params)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_groups SET color = ? WHERE groupid = ?;', array($params['color'], $params['id']));
 	}
 

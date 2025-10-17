@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\Views;
+namespace App\Modules\Events\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Events\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 	

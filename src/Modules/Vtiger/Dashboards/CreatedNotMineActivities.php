@@ -6,7 +6,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
 		$page = $request->get('page');
@@ -15,20 +15,20 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$orderBy = $request->get('orderby');
 		$data = $request->getAll();
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
+			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$params = [];
-		$params['status'] = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
+		$params['status'] = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 		$params['user'] = $currentUser->getId();
 		$conditions = [
 			'condition' => [
@@ -39,7 +39,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 			]
 		];
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
 
 		$viewer = $this->getViewer($request);
@@ -50,8 +50,8 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACTIVITIES', $overDueActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', \FreeCRM\AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', \FreeCRM\AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \App\AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', \App\AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

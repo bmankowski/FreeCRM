@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Actions;
+namespace App\Modules\Settings\PDF\Actions;
 
 
 
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Settings\PDF\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
-class Watermark extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
+class Watermark extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	public function __construct()
@@ -22,24 +22,24 @@ class Watermark extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$this->exposeMethod('Upload');
 	}
 
-	public function Delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function Delete(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
+		$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
 		$output = Settings_PDF_Record_Model::deleteWatermark($pdfModel);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
 	}
 
-	public function Upload(\FreeCRM\Http\Vtiger_Request $request)
+	public function Upload(\App\Http\Vtiger_Request $request)
 	{
 		$templateId = $request->get('template_id');
 		$newName = basename($_FILES['watermark']['name'][0]);
 		$newName = explode('.', $newName);
 		$newName = $templateId . '.' . end($newName);
-		$targetDir = \FreeCRM\Modules\Settings\PDF\Models\Module::$uploadPath;
+		$targetDir = \App\Modules\Settings\PDF\Models\Module::$uploadPath;
 		$targetFile = $targetDir . $newName;
 		$uploadOk = 1;
 

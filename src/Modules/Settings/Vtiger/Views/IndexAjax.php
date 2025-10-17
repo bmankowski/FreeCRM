@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Settings\Vtiger\Views;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 
 /* +**********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class IndexAjax extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -23,17 +23,17 @@ class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('realignSettingsShortCutBlock');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -43,22 +43,22 @@ class IndexAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		}
 	}
 
-	public function getSettingsShortCutBlock(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSettingsShortCutBlock(\App\Http\Vtiger_Request $request)
 	{
 		$fieldid = $request->get('fieldid');
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$pinnedSettingsShortcuts = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();
+		$pinnedSettingsShortcuts = \App\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts[$fieldid]);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('SettingsShortCut.tpl', $qualifiedModuleName);
 	}
 
-	public function realignSettingsShortCutBlock(\FreeCRM\Http\Vtiger_Request $request)
+	public function realignSettingsShortCutBlock(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$pinnedSettingsShortcuts = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();
+		$pinnedSettingsShortcuts = \App\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('ReAlignSettingsShortCut.tpl', $qualifiedModuleName);

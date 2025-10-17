@@ -11,7 +11,7 @@
  * 
  * Usage: php refactor/scripts/validate-module.php ModuleName
  * 
- * @author FreeCRM Modernization Team
+ * @author App Modernization Team
  */
 
 // Configuration
@@ -108,8 +108,8 @@ function getExpectedNamespace($filePath, $moduleName) {
 	$relativePath = str_replace(MODULES_BASE, '', $filePath);
 	$pathParts = explode('/', dirname($relativePath));
 	
-	// FreeCRM\Modules\ModuleName\SubDir\...
-	$namespace = 'FreeCRM\\Modules\\' . $moduleName;
+	// App\Modules\ModuleName\SubDir\...
+	$namespace = 'App\\Modules\\' . $moduleName;
 	
 	// Add subdirectories (skip the module name itself)
 	for ($i = 1; $i < count($pathParts); $i++) {

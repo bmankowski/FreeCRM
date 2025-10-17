@@ -98,7 +98,7 @@ Examples:
 1. **Namespace Addition:** Added proper namespaces to 500+ files
 2. **Class Name Alignment:** Fixed 200+ class names to match filenames
 3. **Subdirectory Namespaces:** Fixed 150+ files in nested directories
-4. **Double Namespace Fix:** Corrected `\FreeCRM\\FreeCRM\` patterns
+4. **Double Namespace Fix:** Corrected `\App\\App\` patterns
 5. **Extends Clauses:** Added use statements for 300+ parent classes
 
 ## Module-by-Module Breakdown
@@ -139,7 +139,7 @@ Examples:
 5. **Git History:** Every change tracked and revertible
 
 ### Common Patterns Fixed
-- Double namespace references: `\FreeCRM\\FreeCRM\` → `\FreeCRM\`
+- Double namespace references: `\App\\App\` → `\App\`
 - PHP reserved keywords: Rename `List.php` → `ListView.php`
 - Subdirectory namespaces: Include full path in namespace
 - Class/file mismatches: Ensure names align

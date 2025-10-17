@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager;
+namespace App\Modules\PBXManager;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\PBXManager;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 require_once ROOT_DIRECTORY . '/src/events/include.php';
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
-class PBXManager extends \FreeCRM\CRMEntity
+class PBXManager extends \App\CRMEntity
 {
 
 	protected $incominglinkLabel = 'Incoming Calls';
@@ -208,7 +208,7 @@ class PBXManager extends \FreeCRM\CRMEntity
 	public function addSettingsLinks()
 	{
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
 		$integrationBlockCount = $adb->num_rows($integrationBlock);
 
@@ -238,7 +238,7 @@ class PBXManager extends \FreeCRM\CRMEntity
 	public function removeSettingsLinks()
 	{
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
 		\App\Log::info('Settings Field Removed');
 	}
@@ -249,7 +249,7 @@ class PBXManager extends \FreeCRM\CRMEntity
 	public function addActionMapping()
 	{
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 
@@ -280,7 +280,7 @@ class PBXManager extends \FreeCRM\CRMEntity
 	public function removeActionMapping()
 	{
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 

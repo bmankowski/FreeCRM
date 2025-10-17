@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModTracker\Actions;
-use FreeCRM\Modules\Settings\ModTrackerModels\Module;
+namespace App\Modules\Settings\ModTracker\Actions;
+use App\Modules\Settings\ModTrackerModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\ModTrackerModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	public function __construct()
@@ -23,18 +23,18 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$this->exposeMethod('changeActiveStatus');
 	}
 
-	public function changeActiveStatus(\FreeCRM\Http\Vtiger_Request $request)
+	public function changeActiveStatus(\App\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('id');
 		$status = $request->get('status');
-		$moduleModel = new \FreeCRM\Modules\Settings\ModTracker\Models\Module();
+		$moduleModel = new \App\Modules\Settings\ModTracker\Models\Module();
 		$moduleModel->changeActiveStatus($id, $status == 'true' ? 1 : 0 );
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($status == 'true') {
-			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
 		} else {
-			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
 		}
 		$response->emit();
 	}

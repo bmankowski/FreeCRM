@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PaymentsOut;
+namespace App\Modules\PaymentsOut;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\PaymentsOut;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class PaymentsOut extends Vtiger_CRMEntity
@@ -103,9 +103,9 @@ class PaymentsOut extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
-			$ModuleInstance = \FreeCRM\CRMEntity::getInstance($modulename);
+			$ModuleInstance = \App\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
@@ -114,7 +114,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('Payments'));
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
 			$this->addWorkflow($modulename);
 		} else if ($event_type == 'module.disabled') {
 			
@@ -134,7 +134,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager();
 		$emm->addEntityMethod($moduleName, $functionName, "src/Modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);

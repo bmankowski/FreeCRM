@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Actions;
+namespace App\Modules\Settings\Roles\Actions;
 
 
 /* +***********************************************************************************
@@ -12,30 +12,30 @@ namespace FreeCRM\Modules\Settings\Roles\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class MoveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class MoveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$parentRoleId = $request->get('parent_roleid');
 
-		$parentRole = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($parentRoleId);
-		$recordModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
+		$parentRole = \App\Modules\Settings\Roles\Models\Record::getInstanceById($parentRoleId);
+		$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		try {
 			$recordModel->moveTo($parentRole);
 		} catch (\Exception\AppException $e) {

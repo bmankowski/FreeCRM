@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\UiTypes;
+namespace App\Modules\Notification\UiTypes;
 
 /**
  * Uitype model 
@@ -24,7 +24,7 @@ class String extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record id record
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordInstance 
+	 * @param <\App\Modules\Vtiger\Models\Record> $recordInstance 
 	 * @param mixed $rawText
 	 * @return string
 	 */

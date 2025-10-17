@@ -49,7 +49,7 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 
 	// Initialize from DB if cache information is not available or force flag is set
 	if ($tabrows === false || $force) {
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$tabres = $adb->query("SELECT * FROM vtiger_tab");
 		$tabrows = [];
 		if ($tabres) {
@@ -69,7 +69,7 @@ function vtlib_prefetchModuleActiveInfo($force = true)
  */
 function vtlib_RecreateUserPrivilegeFiles()
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$userres = $adb->query('SELECT id FROM vtiger_users WHERE deleted = 0');
 	if ($userres && $adb->num_rows($userres)) {
 		while ($userrow = $adb->fetch_array($userres)) {
@@ -248,7 +248,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 {
 
 	\App\Log::trace('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	$columnname = $adb->quote($fieldColumnname, false);
 	$tablename = 'vtiger_' . $fieldColumnname;
@@ -294,7 +294,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
  */
 function vtlib_getPicklistValues($columnname)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	$tablename = "vtiger_$columnname";
 	$tablename = $adb->quote($tablename, false);

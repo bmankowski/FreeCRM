@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Views;
+namespace App\Modules\KnowledgeBase\Views;
 
 /**
  * Popup view for KnowledgeBase module
@@ -9,17 +9,17 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class FullScreen extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$previewView = new KnowledgeBase_PreviewContent_View();
 		$previewView->process($request, false);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'));
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'));
 		$type = str_replace('PLL_', '', $recordModel->get('knowledgebase_view'));
 		$template = ucfirst(strtolower($type)) . 'View.tpl';
 		$viewer->assign('IS_POPUP', true);

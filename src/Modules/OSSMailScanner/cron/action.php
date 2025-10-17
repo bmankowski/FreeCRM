@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\cron;
+namespace App\Modules\OSSMailScanner\cron;
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -11,9 +11,9 @@ namespace FreeCRM\Modules\OSSMailScanner\cron;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 $user_name = '';
 if (PHP_SAPI == 'cgi-fcgi') {
-	$user_name = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->user_name;
+	$user_name = \App\Modules\Users\Models\Record::getCurrentUserModel()->user_name;
 }
 $recordModel->executeCron(PHP_SAPI . ' - ' . $user_name);

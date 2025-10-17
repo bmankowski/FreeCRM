@@ -1,9 +1,9 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace App\Modules\com_vtiger_workflow;
 
-use FreeCRM\events\VTEventHandler;
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+use App\events\VTEventHandler;
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -31,7 +31,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 	{
 		$util = new VTWorkflowUtils();
 		$user = $util->adminUser();
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$recordModel = $eventHandler->getRecordModel();
 		$entityData = $recordModel; // For now, use record model directly
 		$isNew = $recordModel->getPreviousValue() ? false : true;

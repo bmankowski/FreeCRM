@@ -340,7 +340,7 @@ class_alias('FreeCRM\\Modules\\Users\\Models\\Record', 'Users_Record_Model');
 
 ### 3. **Deprecation Notices**
 ```php
-class Users_Record_Model extends \FreeCRM\Modules\Users\Models\Record {
+class Users_Record_Model extends \App\Modules\Users\Models\Record {
     public function __construct() {
         trigger_error('Users_Record_Model is deprecated, use FreeCRM\Modules\Users\Models\Record', E_USER_DEPRECATED);
         parent::__construct();

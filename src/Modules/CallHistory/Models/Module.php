@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CallHistory\Models;
+namespace App\Modules\CallHistory\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\CallHistory\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -38,7 +38,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		if ($actionName == 'EditView' || $actionName == 'Edit' || $actionName == 'CreateView')
 			return false;
 		else
-			return ($this->isActive() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \App\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
 	}
 
 	/**

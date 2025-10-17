@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Home\Views;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Home\Views;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,27 +13,27 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Views\DashBoard as VtigerDashBoard;
+use App\Modules\Vtiger\Views\DashBoard as VtigerDashBoard;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class DashBoard extends VtigerDashBoard
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
-			$currentDashboard = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
+			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
 		}
 		$viewer = $this->getViewer($request);
-		$modulesWithWidget = \FreeCRM\Modules\Vtiger\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);
+		$modulesWithWidget = \App\Modules\Vtiger\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$this->preProcessDisplay($request);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

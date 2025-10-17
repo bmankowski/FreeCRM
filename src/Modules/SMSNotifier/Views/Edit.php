@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Views;
+namespace App\Modules\SMSNotifier\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\SMSNotifier\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Edit extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}

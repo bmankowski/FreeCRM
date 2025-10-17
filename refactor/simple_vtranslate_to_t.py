@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple \FreeCRM\Runtime\Vtiger_Language_Handler::translate to modifier 't' refactoring tool
+Simple \App\Runtime\Vtiger_Language_Handler::translate to modifier 't' refactoring tool
 Handles only basic cases to avoid syntax errors
 """
 
@@ -19,58 +19,58 @@ class SimpleVtranslateRefactorer:
         
         # Only handle simple, safe patterns
         self.patterns = [
-            # Pattern 1: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key') -> "key"|t
+            # Pattern 1: \App\Runtime\Vtiger_Language_Handler::translate('key') -> "key"|t
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_]*)[\'"]\)\}', r'{"\1"|t}'),
             
-            # Pattern 2: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', 'module') -> "key"|t:'module'
+            # Pattern 2: \App\Runtime\Vtiger_Language_Handler::translate('key', 'module') -> "key"|t:'module'
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_]*)[\'"],\s*[\'"]([A-Za-z_][A-Za-z0-9_]*)[\'"]\)\}', r'{"\1"|t:"\2"}'),
             
-            # Pattern 3: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $MODULE_NAME) -> "key"|t:$MODULE_NAME
+            # Pattern 3: \App\Runtime\Vtiger_Language_Handler::translate('key', $MODULE_NAME) -> "key"|t:$MODULE_NAME
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$MODULE_NAME)\)\}', r'{"\1"|t:\2}'),
             
-            # Pattern 4: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $QUALIFIED_MODULE) -> "key"|t:$QUALIFIED_MODULE
+            # Pattern 4: \App\Runtime\Vtiger_Language_Handler::translate('key', $QUALIFIED_MODULE) -> "key"|t:$QUALIFIED_MODULE
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$QUALIFIED_MODULE)\)\}', r'{"\1"|t:\2}'),
             
-            # Pattern 5: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $MODULE) -> "key"|t:$MODULE
+            # Pattern 5: \App\Runtime\Vtiger_Language_Handler::translate('key', $MODULE) -> "key"|t:$MODULE
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$MODULE)\)\}', r'{"\1"|t:\2}'),
             
-            # Pattern 6: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $RELATED_MODULE) -> "key"|t:$RELATED_MODULE
+            # Pattern 6: \App\Runtime\Vtiger_Language_Handler::translate('key', $RELATED_MODULE) -> "key"|t:$RELATED_MODULE
             (r'\{vtranslate\([\'"]([A-Za-z_][A-Za-z0-9_\s]*)[\'"]\s*,\s*(\$RELATED_MODULE)\)\}', r'{"\1"|t:\2}'),
             
-            # Pattern 7: \FreeCRM\Runtime\Vtiger_Language_Handler::translate($VARIABLE, $MODULE) -> $VARIABLE|t:$MODULE
+            # Pattern 7: \App\Runtime\Vtiger_Language_Handler::translate($VARIABLE, $MODULE) -> $VARIABLE|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 8: \FreeCRM\Runtime\Vtiger_Language_Handler::translate($OBJECT->method(), $MODULE) -> $OBJECT->method()|t:$MODULE
+            # Pattern 8: \App\Runtime\Vtiger_Language_Handler::translate($OBJECT->method(), $MODULE) -> $OBJECT->method()|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\(\)),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 9: \FreeCRM\Runtime\Vtiger_Language_Handler::translate($OBJECT->method(), $MODULE_NAME) -> $OBJECT->method()|t:$MODULE_NAME
+            # Pattern 9: \App\Runtime\Vtiger_Language_Handler::translate($OBJECT->method(), $MODULE_NAME) -> $OBJECT->method()|t:$MODULE_NAME
             (r'\{vtranslate\(([^,]+),\s*(\$MODULE_NAME)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 10: \FreeCRM\Runtime\Vtiger_Language_Handler::translate($OBJECT->method('param'), $MODULE) -> $OBJECT->method('param')|t:$MODULE
+            # Pattern 10: \App\Runtime\Vtiger_Language_Handler::translate($OBJECT->method('param'), $MODULE) -> $OBJECT->method('param')|t:$MODULE
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*->[A-Za-z_][A-Za-z0-9_]*\([^)]*\)),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 11: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key'|modifier, $MODULE) -> 'key'|modifier|t:$MODULE
+            # Pattern 11: \App\Runtime\Vtiger_Language_Handler::translate('key'|modifier, $MODULE) -> 'key'|modifier|t:$MODULE
             (r'\{vtranslate\(([^\s,]+(?:\|[^\s,]+)*),\s*(\$MODULE)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 12: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', 'string_literal') -> "key"|t:"string_literal"
+            # Pattern 12: \App\Runtime\Vtiger_Language_Handler::translate('key', 'string_literal') -> "key"|t:"string_literal"
             (r'\{vtranslate\([\'"]([^\'"]*)[\'"],\s*[\'"]([^\'"]*)[\'"]\)\}', r'{"\1"|t:"\2"}'),
             
-            # Pattern 13: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $MODULENAME) -> "key"|t:$MODULENAME
+            # Pattern 13: \App\Runtime\Vtiger_Language_Handler::translate('key', $MODULENAME) -> "key"|t:$MODULENAME
             (r'\{vtranslate\([\'"]([^\'"]*)[\'"]\s*,\s*(\$MODULENAME)\)\}', r'{"\1"|t:\2}'),
             
-            # Pattern 14: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $RELATED_MODULE_NAME) -> "key"|t:$RELATED_MODULE_NAME
+            # Pattern 14: \App\Runtime\Vtiger_Language_Handler::translate('key', $RELATED_MODULE_NAME) -> "key"|t:$RELATED_MODULE_NAME
             (r'\{vtranslate\([\'"]([^\'"]*)[\'"]\s*,\s*(\$RELATED_MODULE_NAME)\)\}', r'{"\1"|t:\2}'),
             
-            # Pattern 15: \FreeCRM\Runtime\Vtiger_Language_Handler::translate($VARIABLE) -> $VARIABLE|t (only single variables, not complex expressions)
+            # Pattern 15: \App\Runtime\Vtiger_Language_Handler::translate($VARIABLE) -> $VARIABLE|t (only single variables, not complex expressions)
             (r'\{vtranslate\((\$[A-Za-z_][A-Za-z0-9_]*)\)\}', r'{\1|t}'),
             
-            # Pattern 16: \FreeCRM\Runtime\Vtiger_Language_Handler::translate($VARIABLE, 'string_literal') -> $VARIABLE|t:"string_literal" (no braces in first param)
+            # Pattern 16: \App\Runtime\Vtiger_Language_Handler::translate($VARIABLE, 'string_literal') -> $VARIABLE|t:"string_literal" (no braces in first param)
             (r'\{vtranslate\(([^,){}]+)\s*,\s*[\'"]([^\'"]*)[\'"]\)\}', r'{\1|t:"\2"}'),
             
-            # Pattern 17: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key'|modifier, $VARIABLE) -> 'key'|modifier|t:$VARIABLE (special case for |cat, no braces in first param)
+            # Pattern 17: \App\Runtime\Vtiger_Language_Handler::translate('key'|modifier, $VARIABLE) -> 'key'|modifier|t:$VARIABLE (special case for |cat, no braces in first param)
             (r'\{vtranslate\(([^\s,{}]+(?:\|[^\s,{}]+)*),\s*([^)]+)\)\}', r'{\1|t:\2}'),
             
-            # Pattern 18: \FreeCRM\Runtime\Vtiger_Language_Handler::translate(complex_expression_without_comma) -> complex_expression|t (single parameter only, no braces inside)
+            # Pattern 18: \App\Runtime\Vtiger_Language_Handler::translate(complex_expression_without_comma) -> complex_expression|t (single parameter only, no braces inside)
             (r'\{vtranslate\(([^,){}]*(?:\([^)]*\)[^,){}]*)*)\)\}', r'{\1|t}'),
         ]
     
@@ -137,7 +137,7 @@ class SimpleVtranslateRefactorer:
             print(f"Error: Path '{target_path}' does not exist")
             return
         
-        print(f"=== Simple \FreeCRM\Runtime\Vtiger_Language_Handler::translate to modifier 't' refactoring tool ===")
+        print(f"=== Simple \App\Runtime\Vtiger_Language_Handler::translate to modifier 't' refactoring tool ===")
         print(f"{'Mode: DRY RUN' if self.dry_run else 'Mode: LIVE (changes will be applied)'}")
         print(f"Target: {target}")
         print(f"File pattern: {self.file_pattern}")
@@ -164,7 +164,7 @@ class SimpleVtranslateRefactorer:
         
         # Process each file
         for file_path in tpl_files:
-            # Skip files that don't contain \FreeCRM\Runtime\Vtiger_Language_Handler::translate
+            # Skip files that don't contain \App\Runtime\Vtiger_Language_Handler::translate
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     if 'vtranslate(' not in f.read():
@@ -186,10 +186,10 @@ class SimpleVtranslateRefactorer:
             print("Refactoring completed successfully!")
             print("Remember to test your application after these changes.")
         else:
-            print("No simple \FreeCRM\Runtime\Vtiger_Language_Handler::translate patterns found to refactor.")
+            print("No simple \App\Runtime\Vtiger_Language_Handler::translate patterns found to refactor.")
 
 def main():
-    parser = argparse.ArgumentParser(description='Simple \FreeCRM\Runtime\Vtiger_Language_Handler::translate to modifier t refactoring tool')
+    parser = argparse.ArgumentParser(description='Simple \App\Runtime\Vtiger_Language_Handler::translate to modifier t refactoring tool')
     parser.add_argument('target', help='Target file or directory to process')
     parser.add_argument('--dry-run', action='store_true', help='Show what would be changed without making changes')
     parser.add_argument('--verbose', action='store_true', help='Show detailed output')

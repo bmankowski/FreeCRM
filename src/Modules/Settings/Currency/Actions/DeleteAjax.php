@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Currency\Actions;
+namespace App\Modules\Settings\Currency\Actions;
 
 
 /* +**********************************************************************************
@@ -12,13 +12,13 @@ namespace FreeCRM\Modules\Settings\Currency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Currency\Models\Module as Settings_Currency_Module_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+use App\Modules\Settings\Currency\Models\Module as Settings_Currency_Module_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$record = $request->get('record');
 			$transforCurrencyToId = $request->get('transform_to_id');
@@ -33,7 +33,7 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

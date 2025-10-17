@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 /**
  * Advanced Filter Class
@@ -166,7 +166,7 @@ class AdvancedFilter {
 		foreach (\App\CustomView::getDateFilterTypes() as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-			$comparatorInfo['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($comparatorInfo['label'], $moduleName);
+			$comparatorInfo['label'] = \App\Runtime\Vtiger_Language_Handler::translate($comparatorInfo['label'], $moduleName);
 			$dateFilters[$comparatorKey] = $comparatorInfo;
 		}
 		return $dateFilters;
@@ -219,7 +219,7 @@ class AdvancedFilter {
 				$referenceModules = array('Users');
 			}
 			foreach ($referenceModules as $refModule) {
-				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($refModule);
+				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
 				foreach ($blockModelList as $blockLabel => $blockModel) {
 					$fieldModelList = $blockModel->getFields();
@@ -227,7 +227,7 @@ class AdvancedFilter {
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
 								$name = "$(relatedRecord : $parentFieldName|$fieldName|$refModule)$";
-								$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field->get('label'), $baseModuleModel->getName()) . ' : (' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($refModule, $refModule) . ') ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $refModule);
+								$label = \App\Runtime\Vtiger_Language_Handler::translate($field->get('label'), $baseModuleModel->getName()) . ' : (' . \App\Runtime\Vtiger_Language_Handler::translate($refModule, $refModule) . ') ' . \App\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $refModule);
 								$fieldModel->set('workflow_columnname', $name);
 								if (!empty($recordId)) {
 									$fieldValueType = $recordModel->getFieldFilterValueType($name);

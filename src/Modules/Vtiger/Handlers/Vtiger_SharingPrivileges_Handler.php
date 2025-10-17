@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Handlers;
+namespace App\Modules\Vtiger\Handlers;
 
 /**
  * Sharing privileges handler
@@ -17,14 +17,14 @@ class Vtiger_SharingPrivileges_Handler {
 	 */
 	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
-		if (!\FreeCRM\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+		if (!\App\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();
 		$removeUser = $recordModel->getPreviousValue('assigned_user_id');
 		if ($removeUser) {
 			$addUser = $recordModel->get('assigned_user_id');
-			$recordsByModule = \FreeCRM\Modules\Users\Models\Privileges::getSharedRecordsRecursively($recordModel->getId(), $recordModel->getModuleName());
+			$recordsByModule = \App\Modules\Users\Models\Privileges::getSharedRecordsRecursively($recordModel->getId(), $recordModel->getModuleName());
 			if (!$recordsByModule) {
 				return false;
 			}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CInternalTickets;
+namespace App\Modules\CInternalTickets;
 
 /**
  * CInternalTickets CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\CInternalTickets;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class CInternalTickets extends Vtiger_CRMEntity
@@ -84,7 +84,7 @@ class CInternalTickets extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			
 		} else if ($eventType == 'module.disabled') {

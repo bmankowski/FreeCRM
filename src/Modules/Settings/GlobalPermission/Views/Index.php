@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\GlobalPermission\Views;
-use FreeCRM\Modules\Settings\GlobalPermissionModels\Record;
+namespace App\Modules\Settings\GlobalPermission\Views;
+use App\Modules\Settings\GlobalPermissionModels\Record;
 
 
 /* +***********************************************************************************************************************************
@@ -14,14 +14,14 @@ use FreeCRM\Modules\Settings\GlobalPermissionModels\Record;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$globalPermissions = \FreeCRM\Modules\Settings\GlobalPermission\Models\Record::getGlobalPermissions();
+		$globalPermissions = \App\Modules\Settings\GlobalPermission\Models\Record::getGlobalPermissions();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('GLOBALPERMISSIONS', $globalPermissions);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

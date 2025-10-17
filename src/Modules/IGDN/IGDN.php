@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IGDN;
+namespace App\Modules\IGDN;
 
 /**
  * IGDN CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\IGDN;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class IGDN extends Vtiger_CRMEntity

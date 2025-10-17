@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Models;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Roles\Models;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -17,8 +17,8 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * Roles Record Model Class
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -59,7 +59,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to set the immediate parent role
-	 * @return <\FreeCRM\Modules\Settings\Roles\Models\Record> instance
+	 * @return <\App\Modules\Settings\Roles\Models\Record> instance
 	 */
 	public function setParent($parentRole)
 	{
@@ -69,7 +69,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the immediate parent role
-	 * @return <\FreeCRM\Modules\Settings\Roles\Models\Record> instance
+	 * @return <\App\Modules\Settings\Roles\Models\Record> instance
 	 */
 	public function getParent()
 	{
@@ -88,7 +88,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the immediate children roles
-	 * @return <Array> - List of \FreeCRM\Modules\Settings\Roles\Models\Record instances
+	 * @return <Array> - List of \App\Modules\Settings\Roles\Models\Record instances
 	 */
 	public function getChildren()
 	{
@@ -141,11 +141,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the children roles
-	 * @return <Array> - List of \FreeCRM\Modules\Settings\Roles\Models\Record instances
+	 * @return <Array> - List of \App\Modules\Settings\Roles\Models\Record instances
 	 */
 	public function getAllChildren()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$parentRoleString = $this->getParentRoleString();
 
@@ -168,7 +168,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getProfileIdList()
 	{
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
 
 		$result = $db->pquery($query, array($this->getId()));
@@ -192,7 +192,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			return false;
 		}
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'SELECT directly_related_to_role, vtiger_profile.profileid FROM vtiger_role2profile 
                   INNER JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_role2profile.profileid 
@@ -257,8 +257,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to add a child role to the current role
-	 * @param <\FreeCRM\Modules\Settings\Roles\Models\Record> $role
-	 * @return \FreeCRM\Modules\Settings\Roles\Models\Record instance
+	 * @param <\App\Modules\Settings\Roles\Models\Record> $role
+	 * @return \App\Modules\Settings\Roles\Models\Record instance
 	 */
 	public function addChildRole($role)
 	{
@@ -269,7 +269,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to move the current role and all its children nodes to the new parent role
-	 * @param <\FreeCRM\Modules\Settings\Roles\Models\Record> $newParentRole
+	 * @param <\App\Modules\Settings\Roles\Models\Record> $newParentRole
 	 */
 	public function moveTo($newParentRole)
 	{
@@ -355,7 +355,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)->execute();
 		}
 		$profileIds = $this->get('profileIds');
-		$oldRole = \FreeCRM\Runtime\Vtiger_Cache::get('RolesArray', $roleId);
+		$oldRole = \App\Runtime\Vtiger_Cache::get('RolesArray', $roleId);
 		if ($oldRole !== false) {
 			$oldProfileIds = array_keys($this->getProfiles());
 			if ($profileIds === false || !empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))) ||
@@ -387,11 +387,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to delete the role
-	 * @param <\FreeCRM\Modules\Settings\Roles\Models\Record> $transferToRole
+	 * @param <\App\Modules\Settings\Roles\Models\Record> $transferToRole
 	 */
 	public function delete($transferToRole)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$roleId = $this->getId();
 		$transferRoleId = $transferToRole->getId();
 
@@ -470,11 +470,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to get all the roles
 	 * @param boolean $baseRole
-	 * @return <Array> list of Role models <\FreeCRM\Modules\Settings\Roles\Models\Record>
+	 * @return <Array> list of Role models <\App\Modules\Settings\Roles\Models\Record>
 	 */
 	public static function getAll($baseRole = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$params = [];
 
 		$sql = 'SELECT * FROM vtiger_role';
@@ -498,11 +498,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to get the instance of Role model, given role id
 	 * @param <Integer> $roleId
-	 * @return \FreeCRM\Modules\Settings\Roles\Models\Record instance, if exists. Null otherwise
+	 * @return \App\Modules\Settings\Roles\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($roleId)
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('\FreeCRM\Modules\Settings\Roles\Models\Record', $roleId);
+		$instance = \App\Runtime\Vtiger_Cache::get('\App\Modules\Settings\Roles\Models\Record', $roleId);
 		if ($instance !== false) {
 			return $instance;
 		}
@@ -510,8 +510,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
-			\FreeCRM\Runtime\Vtiger_Cache::set('\FreeCRM\Modules\Settings\Roles\Models\Record', $roleId, $instance);
-			\FreeCRM\Runtime\Vtiger_Cache::set('RolesArray', $roleId, $row);
+			\App\Runtime\Vtiger_Cache::set('\App\Modules\Settings\Roles\Models\Record', $roleId, $instance);
+			\App\Runtime\Vtiger_Cache::set('RolesArray', $roleId, $row);
 			return $instance;
 		}
 		return $instance;
@@ -519,11 +519,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the instance of Base Role model
-	 * @return \FreeCRM\Modules\Settings\Roles\Models\Record instance, if exists. Null otherwise
+	 * @return \App\Modules\Settings\Roles\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getBaseRole()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->query('SELECT * FROM vtiger_role WHERE depth=0 LIMIT 1');
 		if ($db->getRowCount($result) > 0) {
@@ -559,14 +559,14 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getUsers()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($this->getId()));
 		$numOfRows = $db->num_rows($result);
 
 		$usersList = [];
 		for ($i = 0; $i < $numOfRows; $i++) {
 			$userId = $db->query_result($result, $i, 'userid');
-			$usersList[$userId] = \FreeCRM\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+			$usersList[$userId] = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 		}
 		return $usersList;
 	}

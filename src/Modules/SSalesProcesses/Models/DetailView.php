@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SSalesProcesses\Models;
+namespace App\Modules\SSalesProcesses\Models;
 
 /**
  * SSalesProcesses DetailView Model Class
@@ -10,8 +10,8 @@ namespace FreeCRM\Modules\SSalesProcesses\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewRelatedLinks()
@@ -30,7 +30,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
 			];
 		}
 		return $relatedLinks;

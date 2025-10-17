@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceApps\Views;
+namespace App\Modules\Settings\WebserviceApps\Views;
 
 
 
@@ -10,10 +10,10 @@ namespace FreeCRM\Modules\Settings\WebserviceApps\Views;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, $display);
 		$moduleName = $request->getModule();
@@ -24,12 +24,12 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('IndexPreProcess.tpl', $qualifiedModuleName);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$listServers = \FreeCRM\Modules\Settings\WebserviceApps\Models\Module::getServers();
+		$listServers = \App\Modules\Settings\WebserviceApps\Models\Module::getServers();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('LIST_SERVERS', $listServers);

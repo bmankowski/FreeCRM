@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Basic Inventory Model Class
@@ -16,16 +16,16 @@ class Inventory {
 	/**
 	 * Get invnetory instance
 	 * @param string $moduleName Module name
-	 * @return \FreeCRM\Modules\Vtiger\Models\Inventory instance
+	 * @return \App\Modules\Vtiger\Models\Inventory instance
 	 */
 	public static function getInstance($moduleName)
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('Inventory', $moduleName);
+		$instance = \App\Runtime\Vtiger_Cache::get('Inventory', $moduleName);
 		if (!$instance) {
-			$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Inventory', $moduleName);
+			$modelClassName = \App\Loader::getComponentClassName('Model', 'Inventory', $moduleName);
 			$instance = new $modelClassName();
 			$instance->initialize($moduleName);
-			\FreeCRM\Runtime\Vtiger_Cache::set('Inventory', $moduleName, $instance);
+			\App\Runtime\Vtiger_Cache::set('Inventory', $moduleName, $instance);
 		}
 		return $instance;
 	}
@@ -124,7 +124,7 @@ class Inventory {
 		$discountField = 'discount';
 		$name = '';
 		if (!empty($relatedRecord)) {
-			$accountRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedRecord);
+			$accountRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relatedRecord);
 			$discount = $accountRecordModel->get($discountField);
 			$name = $accountRecordModel->getName();
 		}
@@ -145,10 +145,10 @@ class Inventory {
 		$name = '';
 		$taxField = Vtiger_InventoryField_Model::getTaxField('Accounts');
 		if ($accountField != '' && $taxField != false) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$relationFieldValue = $recordModel->get($accountField);
 			if ($relationFieldValue != 0) {
-				$accountRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relationFieldValue, 'Accounts');
+				$accountRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relationFieldValue, 'Accounts');
 				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField));
 				$name = $accountRecordModel->getName();
 			}
@@ -183,7 +183,7 @@ class Inventory {
 	public function createInventoryTables()
 	{
 		$db = \App\Db::getInstance();
-		$focus = \FreeCRM\CRMEntity::getInstance($this->name);
+		$focus = \App\CRMEntity::getInstance($this->name);
 		$moduleLowerCase = strtolower($this->name);
 		$basetable = $focus->table_name;
 		$importer = new \App\Db\Importers\Base();
@@ -229,7 +229,7 @@ class Inventory {
 				'charset' => 'utf8'
 		]];
 		$base = new \App\Db\Importer();
-		$base->dieOnError = \FreeCRM\AppConfig::debug('SQL_DIE_ON_ERROR');
+		$base->dieOnError = \App\AppConfig::debug('SQL_DIE_ON_ERROR');
 		foreach ($tables as $postFix => $data) {
 			$tableName = $basetable . $postFix;
 			if (!$db->isTableExists($tableName)) {

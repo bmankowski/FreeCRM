@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Actions;
+namespace App\Modules\Reports\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,21 +11,21 @@ namespace FreeCRM\Modules\Reports\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		if (!\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+		if (!\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 	
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$recordModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($request->get('record'), $moduleName);
+		$response = new \App\Http\Vtiger_Response();
+		$recordModel = \App\Modules\Reports\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 			$recordModel->delete();
 			$response->setResult([LanguageTranslator::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);

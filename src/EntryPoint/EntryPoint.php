@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-namespace FreeCRM\EntryPoint;
+namespace App\EntryPoint;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 /**
  * Abstract Entry Point

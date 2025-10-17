@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\API\Handlers;
+namespace App\Modules\API\Handlers;
 
 /**
  * Api CalDAV Handler Class

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Views;
+namespace App\Modules\Settings\Groups\Views;
 
 
 /* +***********************************************************************************
@@ -12,21 +12,21 @@ namespace FreeCRM\Modules\Settings\Groups\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -39,7 +39,7 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 
-		$viewer->assign('ALL_USERS', \FreeCRM\Modules\Users\Models\Record::getAll());
+		$viewer->assign('ALL_USERS', \App\Modules\Users\Models\Record::getAll());
 		$viewer->assign('ALL_GROUPS', Settings_Groups_Record_Model::getAll());
 
 		echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);

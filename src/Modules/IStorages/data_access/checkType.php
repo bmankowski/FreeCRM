@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages;
+namespace App\Modules\IStorages;
 
 /**
  * Lock save
@@ -15,7 +15,7 @@ class checkType {
 	public function process($moduleName, $id, $recordData, $config)
 	{
 		if ((empty($recordData['storage_type']) || $recordData['storage_type'] == 'PLL_INTERNAL') && empty($recordData['parentid'])) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$query = 'SELECT u_yf_istorages.istorageid FROM u_yf_istorages 
 				INNER JOIN vtiger_crmentity ON u_yf_istorages.istorageid = vtiger_crmentity.crmid 
 				WHERE parentid = ? AND vtiger_crmentity.deleted = ?';
@@ -38,8 +38,8 @@ class checkType {
 				'save_record' => $saveRecord,
 				'type' => 0,
 				'info' => [
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_PARENT_STORAGE', $moduleName),
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_PARENT_STORAGE', $moduleName),
 					'type' => 'error'
 				]
 			];

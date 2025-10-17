@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Auto assign record View Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class AutoAssignRecord extends \Vtiger_Index_View
 {
 
@@ -19,11 +19,11 @@ class AutoAssignRecord extends \Vtiger_Index_View
 	 * @return boolean
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $request->getModule());
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $request->getModule());
 			if ($recordModel && $recordModel->isEditable()) {
 				return true;
 			}
@@ -36,7 +36,7 @@ class AutoAssignRecord extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return string
 	 */
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -45,14 +45,14 @@ class AutoAssignRecord extends \Vtiger_Index_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$users = [];
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
-		$autoAssignModel = Settings_\FreeCRM\Modules\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$autoAssignModel = Settings_\App\Modules\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $autoAssignModel->searchRecord($recordModel);
 
 		$viewer = $this->getViewer($request);
@@ -67,9 +67,9 @@ class AutoAssignRecord extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\JsScript[] - List of \FreeCRM\Modules\Vtiger\Models\CssScript instances
+	 * @return \App\Modules\Vtiger\Models\JsScript[] - List of \App\Modules\Vtiger\Models\CssScript instances
 	 */
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [

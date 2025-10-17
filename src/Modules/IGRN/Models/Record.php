@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IGRN\Models;
+namespace App\Modules\IGRN\Models;
 
 /**
  * Record Class for IGRN
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\IGRN\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];

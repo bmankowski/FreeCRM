@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ProjectTask\Models;
+namespace App\Modules\ProjectTask\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ProjectTask\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 	
 }

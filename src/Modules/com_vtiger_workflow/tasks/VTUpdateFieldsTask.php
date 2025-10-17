@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -26,7 +26,7 @@ class VTUpdateFieldsTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -110,9 +110,9 @@ class VTUpdateFieldsTask extends VTTask
 			$curid = $currency_details[$i]['curid'];
 			$cur_checkname = 'cur_' . $curid . '_check';
 			$cur_valuename = 'curname' . $curid;
-			if ($cur_valuename == \FreeCRM\Http\AppRequest::get('base_currency') && (\FreeCRM\Http\AppRequest::get($cur_checkname) == 'on' || \FreeCRM\Http\AppRequest::get($cur_checkname) == 1)) {
+			if ($cur_valuename == \App\Http\AppRequest::get('base_currency') && (\App\Http\AppRequest::get($cur_checkname) == 'on' || \App\Http\AppRequest::get($cur_checkname) == 1)) {
 				$fieldValue = $fieldValue * $currency_details[$i]['conversionrate'];
-				\FreeCRM\Http\AppRequest::set($cur_valuename, $fieldValue);
+				\App\Http\AppRequest::set($cur_valuename, $fieldValue);
 			}
 		}
 		return $fieldValue;

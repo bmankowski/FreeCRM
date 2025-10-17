@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Rss\Actions;
+namespace App\Modules\Rss\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,29 +11,29 @@ namespace FreeCRM\Modules\Rss\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class MakeDefaultAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MakeDefaultAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'ListView', $record)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \FreeCRM\Modules\Rss\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Rss\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordModel->makeDefault();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('message' => 'JS_RSS_MADE_AS_DEFAULT', 'record' => $recordId, 'module' => $moduleName));
 		$response->emit();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TimeControlProcesses\Models;
+namespace App\Modules\Settings\TimeControlProcesses\Models;
 
 
 /* +***********************************************************************************************************************************

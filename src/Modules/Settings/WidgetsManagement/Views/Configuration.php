@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WidgetsManagement\Views;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Settings\WidgetsManagement\Views;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,16 +14,16 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$sourceModule = $request->get('sourceModule');
-		$widgetsManagementModel = new \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module();
+		$widgetsManagementModel = new \App\Modules\Settings\WidgetsManagement\Models\Module();
 		$dashboardModules = $widgetsManagementModel->getSelectableDashboard();
 
 		if (empty($sourceModule)){
@@ -32,7 +32,7 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 		$currentDashboard = $request->get('dashboardId');
 		if(empty($currentDashboard)) {
-			$currentDashboard = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
+			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
 		}
 		$viewer = $this->getViewer($request);
 		// get widgets list
@@ -41,20 +41,20 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$defaultValues = $widgetsManagementModel->getDefaultValues();
 		$size = $widgetsManagementModel->getSize();
 		$widgetsWithLimit = $widgetsManagementModel->getWidgetsWithLimit();
-		$authorization = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$authorization = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$bloks = $widgetsManagementModel->getBlocksId($currentDashboard);
-		$specialWidgets = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($sourceModule);
+		$specialWidgets = \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($sourceModule);
 		$filterSelect = $widgetsManagementModel->getFilterSelect();
 		$filterSelectDefault = $widgetsManagementModel->getFilterSelectDefault();
 		$widgetsWithFilterUsers = $widgetsManagementModel->getWidgetsWithFilterUsers();
 		$restrictFilter = $widgetsManagementModel->getRestrictFilter();
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
-		$viewer->assign('DASHBOARD_TYPES', \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDashboardTypes());
+		$viewer->assign('DASHBOARD_TYPES', \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardTypes());
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
-		$viewer->assign('DATE_SELECT_DEFAULT', \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDateSelectDefault());
-		$viewer->assign('WIDGETS_WITH_FILTER_DATE', \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getWidgetsWithDate());
+		$viewer->assign('DATE_SELECT_DEFAULT', \App\Modules\Settings\WidgetsManagement\Models\Module::getDateSelectDefault());
+		$viewer->assign('WIDGETS_WITH_FILTER_DATE', \App\Modules\Settings\WidgetsManagement\Models\Module::getWidgetsWithDate());
 		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);

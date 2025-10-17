@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\BruteForce\Views;
+namespace App\Modules\Settings\BruteForce\Views;
 
 
 
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Settings\BruteForce\Views;
  * @author YetiForce.com
  */
 
-use FreeCRM\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	/**
 	 * Function gets module settings
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		$viewer = $this->getViewer($request);

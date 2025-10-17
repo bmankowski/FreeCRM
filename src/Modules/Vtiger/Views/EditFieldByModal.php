@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * EditFieldByModal View Class
@@ -9,34 +9,34 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class EditFieldByModal extends \Vtiger_Index_View
 {
 
 	protected $showFields = [];
 	protected $restrictItems = [];
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');
 
 		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $ID)->getRecord();
-		$recordStrucure = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_SUMMARY);
+		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_SUMMARY);
 		$structuredValues = $recordStrucure->getStructure();
 
 		$viewer = $this->getViewer($request);

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reservations\Views;
+namespace App\Modules\Reservations\Views;
 
 /**
  * 
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Reservations\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 

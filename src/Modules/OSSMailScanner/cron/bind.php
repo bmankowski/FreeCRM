@@ -1,14 +1,14 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\cron;
+namespace App\Modules\OSSMailScanner\cron;
 /**
  * Refreshing relationships mail cron file
  * @package YetiForce.Cron
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$db = \FreeCRM\database\PearDatabase::getInstance();
-$scanerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+$db = \App\database\PearDatabase::getInstance();
+$scanerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 $result = $db->query("SELECT vtiger_ossmailview.*,roundcube_users.actions FROM vtiger_ossmailview INNER JOIN roundcube_users ON roundcube_users.user_id = vtiger_ossmailview.rc_user WHERE vtiger_ossmailview.verify = 1");
 while ($row = $db->getRow($result)) {
 	$scanerModel->bindMail($row);
@@ -33,7 +33,7 @@ while ($relationRow = $db->getRow($result)) {
 	if ($bind === false) {
 		continue;
 	}
-	$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relationRow['crmid'], $moduleName);
+	$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relationRow['crmid'], $moduleName);
 	$where = [];
 	if ($bind == 'prefix') {
 		$recordNumber = $recordModel->getRecordNumber();

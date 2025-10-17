@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -43,7 +43,7 @@ class ListUpdatedRecord {
 			->limit($limit)
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$row['setype'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']);
+			$row['setype'] = \App\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']);
 			$recordList [] = $row;
 		}
 		if (empty($recordList)) {

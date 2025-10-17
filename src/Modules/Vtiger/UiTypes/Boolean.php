@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -32,9 +32,9 @@ class Boolean extends Base
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes' || true === $value) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->get('field')->getModuleName());
+			return \App\Runtime\Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->get('field')->getModuleName());
 		} else if ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
+			return \App\Runtime\Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
 		}
 
 		return $value;
@@ -48,7 +48,7 @@ class Boolean extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

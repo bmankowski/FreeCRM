@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Views;
+namespace App\Modules\Settings\LayoutEditor\Views;
 
 
 /* +**********************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\LayoutEditor\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -22,7 +22,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('showRelatedListLayout');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if ($this->isMethodExposed($mode)) {
@@ -33,16 +33,16 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		}
 	}
 
-	public function showFieldLayout(\FreeCRM\Http\Vtiger_Request $request)
+	public function showFieldLayout(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$supportedModulesList = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getSupportedModules();
+		$supportedModulesList = \App\Modules\Settings\LayoutEditor\Models\Module::getSupportedModules();
 
 		if (empty($sourceModule)) {
 			//To get the first element
 			$sourceModule = reset($supportedModulesList);
 		}
-		$moduleModel = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($sourceModule);
+		$moduleModel = \App\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($sourceModule);
 		$fieldModels = $moduleModel->getFields();
 		$blockModels = $moduleModel->getBlocks();
 
@@ -51,7 +51,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		foreach ($fieldModels as $fieldModel) {
 			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
 			if (!$fieldModel->isActiveField()) {
-				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $sourceModule);
+				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \App\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $sourceModule);
 			}
 		}
 
@@ -70,8 +70,8 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('SELECTED_MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCKS', $blockModels);
 		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
-		$viewer->assign('DISPLAY_TYPE_LIST', \FreeCRM\Modules\Vtiger\Models\Field::showDisplayTypeList());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('DISPLAY_TYPE_LIST', \App\Modules\Vtiger\Models\Field::showDisplayTypeList());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
@@ -80,17 +80,17 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 
-	public function showRelatedListLayout(\FreeCRM\Http\Vtiger_Request $request)
+	public function showRelatedListLayout(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$supportedModulesList = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getSupportedModules();
+		$supportedModulesList = \App\Modules\Settings\LayoutEditor\Models\Module::getSupportedModules();
 
 		if (empty($sourceModule)) {
 			//To get the first element
 			$moduleName = reset($supportedModulesList);
-			$sourceModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName)->getName();
+			$sourceModule = \App\Modules\Vtiger\Models\Module::getInstance($moduleName)->getName();
 		}
-		$moduleModel = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($sourceModule);
+		$moduleModel = \App\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($sourceModule);
 		$relatedModuleModels = $moduleModel->getRelations();
 
 		$qualifiedModule = $request->getModule(false);
@@ -104,7 +104,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

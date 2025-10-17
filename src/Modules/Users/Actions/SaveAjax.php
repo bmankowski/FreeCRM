@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
-use FreeCRM\Modules\Settings\PasswordModels\Record;
+namespace App\Modules\Users\Actions;
+use App\Modules\Settings\PasswordModels\Record;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,10 +13,10 @@ use FreeCRM\Modules\Settings\PasswordModels\Record;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as Users_Module_Model;
 require_once ROOT_DIRECTORY . '/src/Webservices/Custom/ChangePassword.php';
 
-class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
 
 	public function __construct()
@@ -35,9 +35,9 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$this->exposeMethod('changeAccessKey');
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $request->get('userid');
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
@@ -53,7 +53,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		$mode = $request->get('mode');
@@ -71,7 +71,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
-			$fieldValue = $displayValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($recordModel->get($fieldName));
+			$fieldValue = $displayValue = \App\Modules\Vtiger\Util::toSafeHTML($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
@@ -79,7 +79,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 				$displayValue = Vtiger_Language_Handler::getLanguageLabel($fieldValue);
 			}
 			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === '&nbsp;')) {
-				$displayValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE', 'Users');
+				$displayValue = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE', 'Users');
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
@@ -87,8 +87,8 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -96,13 +96,13 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		$fieldName = $request->get('field');
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($fieldName === 'is_admin' && (!$currentUserModel->isAdminUser() || !$request->get('value'))) {
 			$recordModel->set($fieldName, 'off');
 			$recordModel->set('is_owner', 0);
@@ -113,29 +113,29 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		return $recordModel;
 	}
 
-	public function userExists(\FreeCRM\Http\Vtiger_Request $request)
+	public function userExists(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$userName = $request->get('user_name');
-		$userModuleModel = \FreeCRM\Modules\Users\Models\Module::getCleanInstance($module);
+		$userModuleModel = \App\Modules\Users\Models\Module::getCleanInstance($module);
 		$status = $userModuleModel->checkDuplicateUser($userName);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($status);
 		$response->emit();
 	}
 
-	public function savePassword(\FreeCRM\Http\Vtiger_Request $request)
+	public function savePassword(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$userModel = vglobal('current_user');
 		$newPassword = $request->get('new_password');
 		$oldPassword = $request->get('old_password');
-		$checkPassword = \FreeCRM\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
+		$checkPassword = \App\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
 		if (!$checkPassword) {
 			$wsUserId = vtws_getWebserviceEntityId($module, $request->get('userid'));
 			$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($checkPassword) {
 			$response->setError($checkPassword, $checkPassword);
 		} elseif ($wsStatus['message']) {
@@ -151,7 +151,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	 * @param Vtiger_Request $request
 	 * @throws WebServiceException
 	 */
-	public function editPasswords(\FreeCRM\Http\Vtiger_Request $request)
+	public function editPasswords(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$userModel = vglobal('current_user');
@@ -159,7 +159,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$oldPassword = $request->get('old_password');
 		$userIds = $request->get('userids');
 
-		$checkPassword = \FreeCRM\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
+		$checkPassword = \App\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
 
 		if (!$checkPassword) {
 			foreach ($userIds as $userId) {
@@ -168,7 +168,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($checkPassword) {
 			$response->setError($checkPassword, $checkPassword);
 		} else if ($wsStatus['message']) {
@@ -184,108 +184,108 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	 * @param Vtiger_Request Object
 	 */
 
-	public function restoreUser(\FreeCRM\Http\Vtiger_Request $request)
+	public function restoreUser(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('userid');
 
-		$recordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = \App\Modules\Users\Models\Record::getInstanceById($record, $moduleName);
 		$recordModel->set('status', 'Active');
 		$recordModel->save();
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", array(0, $record));
 
-		$userModuleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($moduleName);
+		$userModuleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(array('message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
 		$response->emit();
 	}
 
-	public function updateUserColor(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateUserColor(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Users\Models\Colors::updateUserColor($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Users\Models\Colors::updateUserColor($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateGroupColor(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateGroupColor(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Users\Models\Colors::updateGroupColor($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Users\Models\Colors::updateGroupColor($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateModuleColor(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateModuleColor(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Users\Models\Colors::updateModuleColor($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Users\Models\Colors::updateModuleColor($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function generateColor(\FreeCRM\Http\Vtiger_Request $request)
+	public function generateColor(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => \FreeCRM\Modules\Users\Models\Colors::generateColor($params),
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GENERATED_COLOR', $request->getModule(false))
+			'color' => \App\Modules\Users\Models\Colors::generateColor($params),
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_GENERATED_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
 	}
 
-	public function updateColorForProcesses(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateColorForProcesses(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Users\Models\Colors::updateColor($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Users\Models\Colors::updateColor($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function activeColor(\FreeCRM\Http\Vtiger_Request $request)
+	public function activeColor(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$color = \FreeCRM\Modules\Users\Models\Colors::activeColor($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$color = \App\Modules\Users\Models\Colors::activeColor($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
 			'color' => $color,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function changeAccessKey(\FreeCRM\Http\Vtiger_Request $request)
+	public function changeAccessKey(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
-			$recordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($recordId, $moduleName);
+			$recordModel = \App\Modules\Users\Models\Record::getInstanceById($recordId, $moduleName);
 			$oldAccessKey = $recordModel->get('accesskey');
 
 			$entity = $recordModel->getEntity();
@@ -297,9 +297,9 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];
 			if ($newAccessKey != $oldAccessKey) {
-				$response->setResult(array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
+				$response->setResult(array('message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
 			} else {
-				$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
+				$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
 			}
 		} catch (Exception $ex) {
 			$response->setError($ex->getMessage());

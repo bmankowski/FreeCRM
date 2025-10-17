@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Models;
+namespace App\Modules\Reports\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -23,8 +23,8 @@ class Report extends Reports
 
 	public function Reports($reportId = "")
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 
 		$this->initListOfModules();
@@ -123,7 +123,7 @@ class Report extends Reports
 	{
 		foreach ($this->module_list as $key => $value) {
 			if (isPermitted($key, 'index') == "yes") {
-				$modules [$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $key);
+				$modules [$key] = \App\Runtime\Vtiger_Language_Handler::translate($key, $key);
 			}
 		}
 		asort($modules);

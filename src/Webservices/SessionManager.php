@@ -18,7 +18,7 @@ $maxWebServiceSessionIdleTime = 1800; //Max life span session should be kept ali
 // Till Here.
 
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 class SessionManager
 {

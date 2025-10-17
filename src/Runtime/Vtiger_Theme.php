@@ -9,11 +9,11 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
-use FreeCRM\Vtiger_Loader;
+use App\Vtiger_Loader;
 
-class Vtiger_Theme extends FreeCRM_Viewer
+class Vtiger_Theme extends CRM_Viewer
 {
 
 	/**
@@ -157,7 +157,7 @@ class Vtiger_Theme extends FreeCRM_Viewer
 	 */
 	public static function getAllSkins()
 	{
-		return \FreeCRM\Modules\Vtiger\Util::getAllSkins();
+		return \App\Modules\Vtiger\Util::getAllSkins();
 	}
 
 	/**

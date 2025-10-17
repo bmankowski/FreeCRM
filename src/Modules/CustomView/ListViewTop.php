@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CustomView;
+namespace App\Modules\CustomView;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -32,8 +32,8 @@ namespace FreeCRM\Modules\CustomView;
  */
 function getMetricList($filters = [])
 {
-	$db = \FreeCRM\database\PearDatabase::getInstance();
-	$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+	$db = \App\database\PearDatabase::getInstance();
+	$privilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 	$ssql = 'select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype where vtiger_customview.setmetrics = 1 ';
 	$sparams = [];
@@ -53,7 +53,7 @@ function getMetricList($filters = [])
 	$metriclists = [];
 	while ($row = $db->getRow($result)) {
 		if (\App\Module::isModuleActive($row['entitytype'])) {
-			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($row['entitytype'])) {
+			if (\App\Modules\Users\Models\Privileges::isPermitted($row['entitytype'])) {
 				$metriclists[] = [
 					'id' => $row['cvid'],
 					'name' => $row['viewname'],

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Models;
+namespace App\Modules\OSSMailView\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSMailView\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	protected $modules_email_actions_widgets = [];
@@ -31,7 +31,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function get($key)
 	{
 		$value = parent::get($key);
-		if ($key === 'content' && \FreeCRM\Http\AppRequest::get('view') == 'Detail') {
+		if ($key === 'content' && \App\Http\AppRequest::get('view') == 'Detail') {
 			return \vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \vtlib\Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {
@@ -52,7 +52,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function showEmailsList($srecord, $smodule, $config, $type, $filter = 'All')
 	{
 		$return = [];
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$widgets = $this->modules_email_actions_widgets;
 		$queryParams = [];
 		if (!empty($widgets[$smodule])) {
@@ -129,7 +129,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		$return = false;
 		if (!empty($ids) && $ids != '0') {
-			$recordModelMailScanner = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+			$recordModelMailScanner = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 			$config = $recordModelMailScanner->getConfig('email_list');
 			if (strpos($ids, ',')) {
 				$idsArray = explode(",", $ids);
@@ -152,7 +152,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$returnEmail = '';
 		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
 			$accountId = '';
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
 			switch ($module) {
 				case 'HelpDesk':
 					$accountId = $recordModel->get('parent_id');
@@ -169,9 +169,9 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$returnEmail = $this->findEmail($accountId, $setype);
 			}
 		} else {
-			$emailFields = \FreeCRM\Modules\OSSMailScanner\Models\Record::getEmailSearch($module);
+			$emailFields = \App\Modules\OSSMailScanner\Models\Record::getEmailSearch($module);
 			if (count($emailFields) > 0) {
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
+				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
 				foreach ($emailFields as $emailField) {
 					$email = $recordModel->get($emailField['columnname']);
 					if (!empty($email)) {
@@ -186,7 +186,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function delete_rel($recordId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_ossmailview_files WHERE ossmailviewid = ? ", array($recordId), true);
 		$countResult = $adb->num_rows($result);
 		for ($i = 0; $i < $countResult; $i++) {
@@ -198,7 +198,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function bindSelectedRecords($selectedIds)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$this->addLog('Action_Bind', count($selectedIds));
 		$db->pquery(sprintf('UPDATE vtiger_ossmailview SET `verify` = ? WHERE ossmailviewid in (%s);', $db->generateQuestionMarks($selectedIds)), [1, $selectedIds]);
 	}
@@ -211,14 +211,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function ChangeTypeAllRecords($mail_type)
 	{
 		$MailType = $this->getMailType();
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$this->addLog('Action_ChangeType', 'all');
 		$adb->pquery("UPDATE vtiger_ossmailview SET `ossmailview_sendtype` = ?, `type` = ?;", array($MailType[$mail_type], $mail_type), true);
 	}
 
 	public function ChangeTypeSelectedRecords($selectedIds, $mail_type)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$MailType = $this->getMailType();
 		$this->addLog('Action_ChangeType', count($selectedIds));
 		$selectedIdsSql = implode(",", $selectedIds);
@@ -227,8 +227,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function addLog($action, $info)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+		$adb = \App\database\PearDatabase::getInstance();
+		$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 		$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?); ", array($action, $info, $user_id), true);
 	}
 
@@ -252,14 +252,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function delete()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_ossmailview_relation SET `deleted` = ? WHERE ossmailviewid = ?;', [1, $this->getId()]);
 		parent::delete();
 	}
 
 	public function checkMailExist($uid, $folder, $rcId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? && mbox = ? && rc_user = ?';
 		$result = $db->pquery($query, [$uid, $folder, $rcId]);
 		return $db->getRowCount($result) > 0 ? $db->getSingleValue($result) : false;
@@ -267,7 +267,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getRelatedRecords($record)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$relations = [];
 		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype FROM vtiger_ossmailview_relation'
 			. ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid'
@@ -286,8 +286,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function addRelated($params)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$crmid = $params['crmid'];
 		$newModule = $params['newModule'];
@@ -312,14 +312,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		} else {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Add relationship', 'OSSMail');
+		return \App\Runtime\Vtiger_Language_Handler::translate('Add relationship', 'OSSMail');
 	}
 
 	public static function removeRelated($params)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->delete('vtiger_ossmailview_relation', 'ossmailviewid = ? && crmid = ?', [$params['mailId'], $params['crmid']]);
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Removed relationship', 'OSSMail');
+		return \App\Runtime\Vtiger_Language_Handler::translate('Removed relationship', 'OSSMail');
 	}
 
 	public function isEditable()
@@ -329,7 +329,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function setReloadRelationRecord($moduleName, $record = 0)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM s_yf_mail_relation_updater WHERE crmid = ?', [$record]);
 		if ($db->getRowCount($result) == 0) {
 			\App\Db::getInstance()->createCommand()->insert('s_#__mail_relation_updater', [

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Actions;
+namespace App\Modules\Settings\PDF\Actions;
 
 
 
@@ -11,13 +11,13 @@ namespace FreeCRM\Modules\Settings\PDF\Actions;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ExportTemplate extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class ExportTemplate extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
+		$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');
 		header('Pragma: public');
@@ -34,7 +34,7 @@ class ExportTemplate extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$xmlField = $xml->createElement('field');
 
 		$cDataColumns = ['header_content', 'body_content', 'footer_content', 'conditions'];
-		foreach (\FreeCRM\Modules\Settings\PDF\Models\Module::$allFields as $field) {
+		foreach (\App\Modules\Settings\PDF\Models\Module::$allFields as $field) {
 			if (in_array($field, $cDataColumns)) {
 				$name = $xmlField->appendChild($xml->createElement($field));
 				$name->appendChild($xml->createCDATASection(html_entity_decode($pdfModel->getRaw($field))));

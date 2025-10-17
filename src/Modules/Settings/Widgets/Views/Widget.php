@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Widgets\Views;
-use FreeCRM\Modules\Settings\Widgets\Models\Module;
+namespace App\Modules\Settings\Widgets\Views;
+use App\Modules\Settings\Widgets\Models\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\Widgets\Models\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Widget extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Widget extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if ($mode) {
@@ -27,13 +27,13 @@ class Widget extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		}
 	}
 
-	public function createStep1(\FreeCRM\Http\Vtiger_Request $request)
+	public function createStep1(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$sourceModule = $request->get('mod');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = \FreeCRM\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SOUNRCE_MODULE', $sourceModule);
@@ -41,14 +41,14 @@ class Widget extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('WidgetList.tpl', $qualifiedModuleName);
 	}
 
-	public function createStep2(\FreeCRM\Http\Vtiger_Request $request)
+	public function createStep2(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$type = $request->get('type');
 		$tabId = $request->get('tabId');
-		$moduleModel = \FreeCRM\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
 		$RelatedModule = $moduleModel->getRelatedModule($tabId);
 		$widgetName = '\Vtiger_' . $type . '_Widget';
 		$viewer->assign('TYPE', $type);
@@ -63,7 +63,7 @@ class Widget extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
-		$viewer->assign('PRIVILEGESMODEL', \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel());
+		$viewer->assign('PRIVILEGESMODEL', \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel());
 		if (class_exists($widgetName)) {
 			$widgetInstance = new $widgetName();
 			$tplName = $widgetInstance->getConfigTplName();
@@ -71,12 +71,12 @@ class Widget extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		}
 	}
 
-	public function edit(\FreeCRM\Http\Vtiger_Request $request)
+	public function edit(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$wid = $request->get('id');
-		$moduleModel = \FreeCRM\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
 		$WidgetInfo = $moduleModel->getWidgetInfo($wid);
 		$RelatedModule = $moduleModel->getRelatedModule($WidgetInfo['tabid']);
 		$type = $WidgetInfo['type'];

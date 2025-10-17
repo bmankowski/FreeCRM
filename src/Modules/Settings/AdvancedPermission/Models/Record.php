@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AdvancedPermission\Models;
+namespace App\Modules\Settings\AdvancedPermission\Models;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\AdvancedPermission\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -129,18 +129,18 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				$value = \App\Module::getModuleName($value);
 				break;
 			case 'status':
-				if (isset(\FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$status[$value])) {
-					$value = \FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$status[$value];
+				if (isset(\App\Modules\Settings\AdvancedPermission\Models\Module::$status[$value])) {
+					$value = \App\Modules\Settings\AdvancedPermission\Models\Module::$status[$value];
 				}
 				break;
 			case 'action':
-				if (isset(\FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$action[$value])) {
-					$value = \FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$action[$value];
+				if (isset(\App\Modules\Settings\AdvancedPermission\Models\Module::$action[$value])) {
+					$value = \App\Modules\Settings\AdvancedPermission\Models\Module::$action[$value];
 				}
 				break;
 			case 'priority':
-				if (isset(\FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$priority[$value])) {
-					$value = \FreeCRM\Modules\Settings\AdvancedPermission\Models\Module::$priority[$value];
+				if (isset(\App\Modules\Settings\AdvancedPermission\Models\Module::$priority[$value])) {
+					$value = \App\Modules\Settings\AdvancedPermission\Models\Module::$priority[$value];
 				}
 				break;
 			case 'members':
@@ -153,18 +153,18 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 								$name = \App\Fields\Owner::getUserLabel($id);
 								break;
 							case 'Groups' :
-								$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getGroupName($id));
+								$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
+								$name = \App\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
 								break;
 							case 'RoleAndSubordinates' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
+								$name = \App\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
 								break;
 						}
-						$values[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($type) . ': ' . $name;
+						$values[] = \App\Runtime\Vtiger_Language_Handler::translate($type) . ': ' . $name;
 					}
 					$value = implode(', ', $values);
 				}

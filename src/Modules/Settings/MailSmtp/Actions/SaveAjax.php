@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MailSmtp\Actions;
+namespace App\Modules\Settings\MailSmtp\Actions;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\MailSmtp\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MailSmtp\Models\Record as Settings_MailSmtp_Record_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\MailSmtp\Models\Record as Settings_MailSmtp_Record_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	/**
@@ -26,9 +26,9 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	/**
 	 * Function updates smtp configuration 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function updateSmtp(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateSmtp(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('param');
 		$mailer = new \App\Mailer();
@@ -66,7 +66,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		} else {
 			$result = ['success' => false, 'message' => \App\Purifier::purify($testMailer['error'])];
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

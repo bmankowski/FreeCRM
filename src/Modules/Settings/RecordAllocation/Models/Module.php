@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\RecordAllocation\Models;
+namespace App\Modules\Settings\RecordAllocation\Models;
 
 
 
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Settings\RecordAllocation\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	private static $data = [];

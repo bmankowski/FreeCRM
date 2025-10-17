@@ -12,17 +12,17 @@
 Class PaymentsOut_step1_View extends Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$paymentsOut = array();
-		$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);

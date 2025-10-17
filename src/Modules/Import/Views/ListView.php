@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\Views;
+namespace App\Modules\Import\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Import\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Modules\Vtiger\Views\Popup;
+use App\Http\Vtiger_Request;
+use App\Modules\Vtiger\Views\Popup;
 
 class ListView extends Popup
 {
@@ -30,7 +30,7 @@ class ListView extends Popup
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$mode = $request->get('mode');
@@ -48,7 +48,7 @@ class ListView extends Popup
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $request->get('for_module');
 		$cvId = $request->get('viewname');
@@ -56,7 +56,7 @@ class ListView extends Popup
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -72,11 +72,11 @@ class ListView extends Popup
 			$pageNumber = '1';
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$listViewModel = Import_ListView_Model::getInstance($moduleName, $cvId);
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		if (!empty($orderBy)) {
@@ -108,15 +108,15 @@ class ListView extends Popup
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 	}
 
-	public function getImportDetails(\FreeCRM\Http\Vtiger_Request $request)
+	public function getImportDetails(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$forModule = $request->get('forModule');
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$importRecords = Import_Data_Action::getImportDetails($user, $forModule);
 		$viewer->assign('IMPORT_RECORDS', $importRecords);
 		$viewer->assign('TYPE', $request->get('type'));

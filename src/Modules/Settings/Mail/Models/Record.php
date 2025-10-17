@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Settings\Mail\Models;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 
 
@@ -12,8 +12,8 @@ use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -58,7 +58,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getDetailViewUrl()
 	{
-		$menu = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
+		$menu = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
 		return 'index.php?module=Mail&parent=Settings&view=Detail&record=' . $this->getId() . '&fieldid=' . $menu->get('fieldid');
 	}
 
@@ -77,7 +77,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
-					$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
+					$value = \App\Runtime\Vtiger_Language_Handler::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
 				}
 				break;
 			case 'owner':

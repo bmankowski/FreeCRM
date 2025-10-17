@@ -19,9 +19,9 @@
  */
 
 
-namespace FreeCRM\EntryPoint;
+namespace App\EntryPoint;
 
-use FreeCRM\AppConfig;
+use App\AppConfig;
 use App\Debugger;
 
 class WebUI_ErrorHandler

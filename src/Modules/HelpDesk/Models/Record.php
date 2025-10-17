@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Models;
+namespace App\Modules\HelpDesk\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\HelpDesk\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -30,7 +30,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getCommentsList()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$commentsList = array();
 
 		$result = $db->pquery("SELECT commentcontent AS comments FROM vtiger_modcomments WHERE related_to = ?", array($this->getId()));
@@ -82,10 +82,10 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function saveToDb()
 	{
 		parent::saveToDb();
-		$forModule = \FreeCRM\Http\AppRequest::get('return_module');
-		$forCrmid = \FreeCRM\Http\AppRequest::get('return_id');
-		if (\FreeCRM\Http\AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
-			\FreeCRM\CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \FreeCRM\Http\AppRequest::get('module'), $this->getId());
+		$forModule = \App\Http\AppRequest::get('return_module');
+		$forCrmid = \App\Http\AppRequest::get('return_id');
+		if (\App\Http\AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
+			\App\CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \App\Http\AppRequest::get('module'), $this->getId());
 		}
 	}
 }

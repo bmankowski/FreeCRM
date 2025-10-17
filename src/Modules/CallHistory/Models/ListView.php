@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CallHistory\Models;
+namespace App\Modules\CallHistory\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\CallHistory\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	/**
@@ -28,11 +28,11 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		return $links;
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Project;
+namespace App\Modules\Project;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -22,7 +22,7 @@ class TaskCompleted {
 	{
 		
 		\App\Log::trace("Entering TaskCompleted::process() method ...");
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_projecttask.projecttaskid

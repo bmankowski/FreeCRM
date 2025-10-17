@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LoginHistory\Models;
+namespace App\Modules\Settings\LoginHistory\Models;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\LoginHistory\Models;
  * @license licenses/License.html
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -54,14 +54,14 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			case 'login_time':
 			case 'logout_time':
 				if ($this->get($fieldName) !== '0000-00-00 00:00:00') {
-					return \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDateTimeValue($this->get($fieldName));
+					return \App\Modules\Vtiger\UiTypes\Datetime::getDateTimeValue($this->get($fieldName));
 				} else {
 					return '---';
 				}
 			case 'user_name':
 				return $this->getHtmlEncode($fieldName);
 			case 'status':
-				return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get($fieldName), 'Settings::Vtiger');
+				return \App\Runtime\Vtiger_Language_Handler::translate($this->get($fieldName), 'Settings::Vtiger');
 			default:
 				return $this->get($fieldName);
 		}

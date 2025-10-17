@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Rss\Models;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Record;
+namespace App\Modules\Rss\Models;
+use App\Modules\Settings\SMSNotifierModels\Record;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -16,7 +16,7 @@ require_once 'libraries/RSSFeeds/Feed.php';
 // for rss caching
 Feed::$cacheDir = 'cache/rss_cache';
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -102,7 +102,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function delete()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$recordId = $this->getId();
 
 		$sql = 'DELETE FROM vtiger_rss where rssid = ?';
@@ -114,7 +114,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function makeDefault()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$recordId = $this->getId();
 
 		$sql = 'UPDATE vtiger_rss set starred = 0';
@@ -164,7 +164,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get clean record instance by using moduleName
 	 * @param string $qualifiedModuleName
-	 * @return <\FreeCRM\Modules\Settings\SMSNotifier\Models\Record>
+	 * @return <\App\Modules\Settings\SMSNotifier\Models\Record>
 	 */
 	static public function getCleanInstance($qualifiedModuleName)
 	{
@@ -197,7 +197,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getDefaultRss()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT rssid FROM vtiger_rss where starred = 1', array());
 		$recordId = $db->query_result($result, '0', 'rssid');

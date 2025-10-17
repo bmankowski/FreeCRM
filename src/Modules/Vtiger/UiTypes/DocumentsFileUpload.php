@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -27,7 +27,7 @@ class DocumentsFileUpload extends Base
 	 * Function to get the value for ListView
 	 * @param string $value
 	 * @param integer $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record
+	 * @param \App\Modules\Vtiger\Models\Record
 	 * @return string
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
@@ -39,7 +39,7 @@ class DocumentsFileUpload extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param <Integer> $record
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Record>
+	 * @param <\App\Modules\Vtiger\Models\Record>
 	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
@@ -55,10 +55,10 @@ class DocumentsFileUpload extends Base
 						->scalar();
 					if ($fileId) {
 						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
-							' title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+							' title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {
-					$value = '<a href="' . $value . '" target="_blank" title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+					$value = '<a href="' . $value . '" target="_blank" title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 				}
 			}
 		}
@@ -68,7 +68,7 @@ class DocumentsFileUpload extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Quick detail modal view class
@@ -9,9 +9,9 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class QuickDetailModal extends \Vtiger_Index_View
 {
 
@@ -21,31 +21,31 @@ class QuickDetailModal extends \Vtiger_Index_View
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!is_numeric($recordId)) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'DetailView', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modalRightSiteBar';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->get('record'));
 		$recordModel = $detailModel->getRecord();
 		$detailModel->getWidgets();
-		$handlerClass = \FreeCRM\Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$handlerClass = \App\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
 
 		$widgets = [];
@@ -59,10 +59,10 @@ class QuickDetailModal extends \Vtiger_Index_View
 					if ($detailView->isMethodExposed($method)) {
 						$label = '';
 						if (!empty($widget['label'])) {
-							$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($widget['label'], $moduleName);
+							$label = \App\Runtime\Vtiger_Language_Handler::translate($widget['label'], $moduleName);
 						} elseif ($widget['type'] === 'RelatedModule') {
 							$relatedModule = \App\Module::getModuleName($widget['data']['relatedmodule']);
-							$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relatedModule, $relatedModule);
+							$label = \App\Runtime\Vtiger_Language_Handler::translate($relatedModule, $relatedModule);
 						}
 						$widgets[] = ['title' => $label, 'content' => $detailView->$method($widgetRequest)];
 					}

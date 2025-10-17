@@ -9,7 +9,7 @@
  * ********************************************************************************** */
 
 
-namespace FreeCRM;
+namespace App;
 
 class Vtiger_Loader
 {

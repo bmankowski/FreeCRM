@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads;
+namespace App\Modules\Leads;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -22,7 +22,7 @@ class TotalComments {
 	{
 		
 		\App\Log::trace("Entering TotalComments::process() method ...");
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$modcomments = 'SELECT COUNT(modcommentsid) AS comments FROM vtiger_modcomments
 			WHERE vtiger_modcomments.related_to = ?';
 		$result_modcomments = $adb->pquery($modcomments, array($instance->getId()));

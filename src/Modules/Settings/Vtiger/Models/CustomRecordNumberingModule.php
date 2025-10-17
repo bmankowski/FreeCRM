@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule;
+namespace App\Modules\Settings\Vtiger\Models;
+use App\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule;
 
 
 /* +***********************************************************************************
@@ -23,7 +23,7 @@ class CustomRecordNumberingModule extends \Vtiger_Module_Model
 	public function getFocus()
 	{
 		if (!isset($this->focus)) {
-			$this->focus = \FreeCRM\CRMEntity::getInstance($this->getName());
+			$this->focus = \App\CRMEntity::getInstance($this->getName());
 		}
 		return $this->focus;
 	}
@@ -31,7 +31,7 @@ class CustomRecordNumberingModule extends \Vtiger_Module_Model
 	/**
 	 * Function to get Instance of this module
 	 * @param string $moduleName
-	 * @return <\FreeCRM\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule> $moduleModel
+	 * @return <\App\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule> $moduleModel
 	 */
 	public static function getInstance($moduleName, $tabId = false)
 	{
@@ -49,7 +49,7 @@ class CustomRecordNumberingModule extends \Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? AND presence = ? AND tabid IN (SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = ?);';
 		$result = $db->pquery($sql, [1, 0, 4]);
@@ -57,7 +57,7 @@ class CustomRecordNumberingModule extends \Vtiger_Module_Model
 
 		for ($i = 0; $i < $numOfRows; $i++) {
 			$tabId = $db->query_result($result, $i, 'tabid');
-			$modulesModels[$tabId] = \FreeCRM\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule::getInstance($db->query_result($result, $i, 'name'), $tabId);
+			$modulesModels[$tabId] = \App\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule::getInstance($db->query_result($result, $i, 'name'), $tabId);
 		}
 
 		return $modulesModels;

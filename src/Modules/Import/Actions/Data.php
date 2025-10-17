@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\Actions;
+namespace App\Modules\Import\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Import\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Data extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public $id;
@@ -39,7 +39,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Constructor
 	 * @param array $importInfo
-	 * @param \FreeCRM\Modules\Users\Models\Record $user
+	 * @param \App\Modules\Users\Models\Record $user
 	 */
 	public function __construct($importInfo, $user)
 	{
@@ -52,7 +52,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->user = $user;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
@@ -77,7 +77,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$defaultValues = $this->defaultValues;
 			}
 		}
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->module);
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
 			$mandatoryFieldName = $fieldInstance->getName();
 			if (empty($defaultValues[$mandatoryFieldName])) {
@@ -144,7 +144,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function updateModuleSequenceNumber()
 	{
 		$moduleName = $this->module;
-		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+		$focus = \App\CRMEntity::getInstance($moduleName);
 		$focus->updateMissingSeqNumber($moduleName);
 	}
 
@@ -155,7 +155,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 */
 	public function updateImportStatus($entryId, $entityInfo)
 	{
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($this->user);
+		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		$entityId = isset($entityInfo['id']) ? $entityInfo['id'] : null;
 		\App\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityId], ['id' => $entryId])->execute();
 	}
@@ -167,7 +167,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	public function importRecords()
 	{
 		$moduleName = $this->module;
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($this->user);
+		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 
 		$query = new \App\Db\Query();
 		$query->from($tableName)->where(['temp_status' => self::IMPORT_RECORD_NONE]);
@@ -176,10 +176,10 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$query->limit($importBatchLimit);
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$isInventory = $moduleModel->isInventory();
 		if ($isInventory) {
-			$inventoryTableName = \FreeCRM\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
+			$inventoryTableName = \App\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
 		}
 
 		$fieldMapping = $this->fieldMapping;
@@ -202,7 +202,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$mergeType = $this->mergeType;
 			$createRecord = false;
 
-			if (!empty($mergeType) && $mergeType !== \FreeCRM\Modules\Import\Models\Module::AUTO_MERGE_NONE) {
+			if (!empty($mergeType) && $mergeType !== \App\Modules\Import\Models\Module::AUTO_MERGE_NONE) {
 				$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);
 				$queryGenerator->setFields(['id']);
 				$moduleFields = $queryGenerator->getModuleFields();
@@ -236,15 +236,15 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$baseRecordId = $query->scalar();
 				if ($baseRecordId) {
 					switch ($mergeType) {
-						case \FreeCRM\Modules\Import\Models\Module::AUTO_MERGE_IGNORE:
+						case \App\Modules\Import\Models\Module::AUTO_MERGE_IGNORE:
 							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
 							break;
-						case \FreeCRM\Modules\Import\Models\Module::AUTO_MERGE_OVERWRITE:
+						case \App\Modules\Import\Models\Module::AUTO_MERGE_OVERWRITE:
 							$fieldData = $this->transformForImport($fieldData);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
 							$entityInfo['status'] = self::IMPORT_RECORD_UPDATED;
 							break;
-						case \FreeCRM\Modules\Import\Models\Module::AUTO_MERGE_MERGEFIELDS:
+						case \App\Modules\Import\Models\Module::AUTO_MERGE_MERGEFIELDS:
 							$defaultFieldValues = $this->getDefaultFieldValues();
 							foreach ($fieldData as $fieldName => &$fieldValue) {
 								if (empty($fieldValue) && !empty($defaultFieldValues[$fieldName])) {
@@ -337,7 +337,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 					$fieldObject = $this->inventoryFieldMapData[$mapData['field']][$entityName];
 				} else {
 					$moduleObject = vtlib\Module::getInstance($entityName);
-					$fieldObject = $moduleObject ? \FreeCRM\Modules\Vtiger\Models\Field::getInstance($mapData['field'], $moduleObject) : null;
+					$fieldObject = $moduleObject ? \App\Modules\Vtiger\Models\Field::getInstance($mapData['field'], $moduleObject) : null;
 					if (!is_array($this->inventoryFieldMapData[$mapData['field']])) {
 						$this->inventoryFieldMapData[$mapData['field']] = [];
 					}
@@ -369,7 +369,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function transforms value for reference type field
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return mixed
 	 */
@@ -393,7 +393,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function transforms value for owner type field
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return int
 	 */
@@ -445,7 +445,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function transforms value for multipicklist type field
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return string
 	 */
@@ -468,7 +468,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function transforms value for reference type field
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return bool|int
 	 */
@@ -531,7 +531,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function transforms value for picklist type field
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return string
 	 */
@@ -569,7 +569,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function transforms value for tree type field
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return string
 	 */
@@ -602,7 +602,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 */
 	public function transformForImport($fieldData, $fillDefault = true, $checkMandatoryFieldValues = true)
 	{
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->module);
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		foreach ($fieldData as $fieldName => $fieldValue) {
 			$fieldInstance = $moduleModel->getFieldByName($fieldName);
@@ -612,7 +612,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue);
-			} elseif (in_array($fieldInstance->getFieldDataType(), \FreeCRM\Modules\Vtiger\Models\Field::$referenceTypes)) {
+			} elseif (in_array($fieldInstance->getFieldDataType(), \App\Modules\Vtiger\Models\Field::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
@@ -673,7 +673,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 */
 	public function createEntityRecord($moduleName, $entityLabel)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 		$mandatoryFields = array_keys($moduleModel->getMandatoryFieldModels());
 		$entityNameFields = $moduleModel->getNameFields();
@@ -706,7 +706,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$statusCount = ['TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
 			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0];
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($this->user);
+		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		$query = (new \App\Db\Query())->select(['temp_status'])->from($tableName);
 		$dataReader = $query->createCommand()->query();
 		while (($status = $dataReader->readColumn(0)) !== false) {
@@ -756,7 +756,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$importStatusCount = $importDataController->getImportStatusCount();
 
 			$emailSubject = 'vtiger CRM - Scheduled Import Report for ' . $importDataController->module;
-			$viewer = new FreeCRM_Viewer();
+			$viewer = new CRM_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
 			$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
@@ -805,12 +805,12 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$db = \App\Db::getInstance();
 		$importRecords = [];
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($user);
+		$tableName = \App\Modules\Import\Models\Module::getDbTableName($user);
 		$query = new \App\Db\Query();
 		$query->from($tableName)->where(['temp_status' => [self::IMPORT_RECORD_SKIPPED, self::IMPORT_RECORD_FAILED]]);
 		$dataReader = $query->createCommand()->query();
 		if ($dataReader->count()) {
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($forModule);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($forModule);
 			$columnNames = $db->getTableSchema($tableName)->getColumnNames();
 			foreach ($columnNames as $key => $fieldName) {
 				if ($key > 2) {
@@ -818,7 +818,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 			while ($row = $dataReader->read()) {
-				$record = new \FreeCRM\Modules\Vtiger\Models\Base();
+				$record = new \App\Modules\Vtiger\Models\Base();
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}
@@ -865,7 +865,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 */
 	public function createRecordByModel($moduleName, $fieldData)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);
@@ -892,7 +892,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 */
 	public function updateRecordByModel($rekord, $fieldData, $moduleName = false)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($rekord, $moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($rekord, $moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);
@@ -913,7 +913,7 @@ class Data extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{
-		$inventoryModel = new \FreeCRM\Modules\Vtiger\Models\Base();
+		$inventoryModel = new \App\Modules\Vtiger\Models\Base();
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MailSmtp\Models;
+namespace App\Modules\Settings\MailSmtp\Models;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\MailSmtp\Models;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -136,9 +136,9 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getDisplayCheckboxValue($value)
 	{
 		if (0 === $value) {
-			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO');
+			$value = \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO');
 		} else {
-			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YES');
+			$value = \App\Runtime\Vtiger_Language_Handler::translate('LBL_YES');
 		}
 		return $value;
 	}

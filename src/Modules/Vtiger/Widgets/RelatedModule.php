@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Widgets;
-use FreeCRM\Modules\Settings\Widgets\Models\Module;
+namespace App\Modules\Vtiger\Widgets;
+use App\Modules\Settings\Widgets\Models\Module;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\Widgets\Models\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
+class RelatedModule extends \App\Modules\Vtiger\Widgets\Basic
 {
 
 	public function getUrl()
@@ -28,7 +28,7 @@ class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 	public function getWidget()
 	{
 		$widget = [];
-		$model = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->Data['relatedmodule']);
+		$model = \App\Modules\Vtiger\Models\Module::getInstance($this->Data['relatedmodule']);
 		if ($model->isPermitted('DetailView')) {
 			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
@@ -42,7 +42,7 @@ class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
 			}
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
-				$switchHeaderData = \FreeCRM\Modules\Settings\Widgets\Models\Module::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
+				$switchHeaderData = \App\Modules\Settings\Widgets\Models\Module::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
 				if ($switchHeaderData) {
 					switch ($switchHeaderData['type']) {
 						case 1:
@@ -61,7 +61,7 @@ class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 					}
 				}
 			}
-			$this->Config['buttonHeader'] = \FreeCRM\Modules\Settings\Widgets\Models\Module::getHeaderButtons($this->Data['relatedmodule']);
+			$this->Config['buttonHeader'] = \App\Modules\Settings\Widgets\Models\Module::getHeaderButtons($this->Data['relatedmodule']);
 			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] !== '-') {
 				if (strpos($this->Data['checkbox'], '.') !== false) {
 					$separateData = explode('.', $this->Data['checkbox']);
@@ -89,15 +89,15 @@ class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 	public function getCheckboxLables($model, $type, $prefix)
 	{
 		$on = $prefix . 'ON_' . strtoupper($this->Data[$type]);
-		$translateOn = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($on, $model->getName());
+		$translateOn = \App\Runtime\Vtiger_Language_Handler::translate($on, $model->getName());
 		if ($on == $translateOn) {
-			$translateOn = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YES', $model->getName());
+			$translateOn = \App\Runtime\Vtiger_Language_Handler::translate('LBL_YES', $model->getName());
 		}
 		$off = $prefix . 'OFF_' . strtoupper($this->Data[$type]);
-		$translateOff = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($off, $model->getName());
+		$translateOff = \App\Runtime\Vtiger_Language_Handler::translate($off, $model->getName());
 
 		if ($off == $translateOff) {
-			$translateOff = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO', $model->getName());
+			$translateOff = \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO', $model->getName());
 		}
 		$this->Config[$type . 'Lables'] = ['on' => $translateOn, 'off' => $translateOff];
 	}

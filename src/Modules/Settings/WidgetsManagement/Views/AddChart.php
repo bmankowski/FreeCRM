@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WidgetsManagement\Views;
+namespace App\Modules\Settings\WidgetsManagement\Views;
 
 
 
@@ -10,13 +10,13 @@ namespace FreeCRM\Modules\Settings\WidgetsManagement\Views;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class AddChart extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+class AddChart extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
 	public function getReports()
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? AND owner = ?';
 		$params = ['chart', $currentUser->getId()];
 		$result = $db->pquery($query, $params);
@@ -27,7 +27,7 @@ class AddChart extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 		return $recordsReport;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule(false);

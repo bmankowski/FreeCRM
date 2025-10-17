@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\API\Models;
+namespace App\Modules\API\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -20,7 +20,7 @@ class DAV {
 	{
 		$dav = new self();
 		\App\Log::trace(__METHOD__ . ' | Start CardDAV Sync ');
-		$crmUsers = \FreeCRM\Modules\Users\Models\Record::getAll();
+		$crmUsers = \App\Modules\Users\Models\Record::getAll();
 		$davUsers = self::getAllUser(1);
 		foreach ($crmUsers as $key => $user) {
 			if (array_key_exists($key, $davUsers)) {
@@ -43,7 +43,7 @@ class DAV {
 	{
 		$dav = new self();
 		\App\Log::trace(__METHOD__ . ' | Start CalDAV Sync ');
-		$crmUsers = \FreeCRM\Modules\Users\Models\Record::getAll();
+		$crmUsers = \App\Modules\Users\Models\Record::getAll();
 		$davUsers = self::getAllUser(2);
 		foreach ($crmUsers as $key => $user) {
 			if (array_key_exists($key, $davUsers)) {

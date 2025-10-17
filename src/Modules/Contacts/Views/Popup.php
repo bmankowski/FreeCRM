@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Contacts\Views;
+namespace App\Modules\Contacts\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,16 +13,16 @@ namespace FreeCRM\Modules\Contacts\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Popup extends \Vtiger_Index_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 * @param Vtiger_Request $request
-	 * @param FreeCRM_Viewer $viewer
+	 * @param CRM_Viewer $viewer
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');
@@ -30,33 +30,33 @@ class Popup extends \Vtiger_Index_View
 		$relParentModule = 'Accounts';
 		//list of records is narrowed to contacts related to help desks account, only in Help Desk Contacts relation view
 		if ($moduleName == 'Contacts' && $sourceModule == 'HelpDesk' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=HelpDesk') === 0) {
-			$helpDeskRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'HelpDesk');
+			$helpDeskRecord = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'HelpDesk');
 			$relId = $helpDeskRecord->get('parent_id');
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'SSalesProcesses' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=SSalesProcesses') === 0) {
-			$moduleRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'SSalesProcesses');
+			$moduleRecord = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'SSalesProcesses');
 			$relId = $moduleRecord->get('related_to');
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'Project' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=Project') === 0) {
-			$moduleRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'Project');
+			$moduleRecord = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, 'Project');
 			$relId = $moduleRecord->get('linktoaccountscontacts');
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 

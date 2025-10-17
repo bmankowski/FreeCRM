@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Handlers;
+namespace App\Modules\HelpDesk\Handlers;
 
 /**
  * HelpDesk Handler Class
@@ -18,8 +18,8 @@ class HelpDesk_TicketRangeTime_Handler {
 	{
 		$params = $eventHandler->getParams();
 		if (in_array($params['destinationModule'], ['Calendar', 'Events', 'Activity', 'ModComments'])) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
-			\FreeCRM\Modules\HelpDesk\Models\Record::updateTicketRangeTimeField($recordModel, true);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
+			\App\Modules\HelpDesk\Models\Record::updateTicketRangeTimeField($recordModel, true);
 		}
 	}
 
@@ -31,6 +31,6 @@ class HelpDesk_TicketRangeTime_Handler {
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		\App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['from_portal' => 0], ['ticketid' => $recordModel->getId()])->execute();
-		\FreeCRM\Modules\HelpDesk\Models\Record::updateTicketRangeTimeField($recordModel);
+		\App\Modules\HelpDesk\Models\Record::updateTicketRangeTimeField($recordModel);
 	}
 }

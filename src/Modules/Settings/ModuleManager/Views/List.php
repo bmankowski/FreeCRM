@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Views;
+namespace App\Modules\Settings\ModuleManager\Views;
 
 
 /* +***********************************************************************************
@@ -12,21 +12,21 @@ namespace FreeCRM\Modules\Settings\ModuleManager\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_ModuleManager_List_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_ModuleManager_List_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$viewer->assign('ALL_MODULES', \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getAll());
-		$viewer->assign('RESTRICTED_MODULES_LIST', \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getActionsRestrictedModulesList());
-		$viewer->assign('IMPORT_MODULE_URL', \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getNewModuleImportUrl());
-		$viewer->assign('IMPORT_USER_MODULE_URL', \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getUserModuleImportUrl());
+		$viewer->assign('ALL_MODULES', \App\Modules\Settings\ModuleManager\Models\Module::getAll());
+		$viewer->assign('RESTRICTED_MODULES_LIST', \App\Modules\Settings\ModuleManager\Models\Module::getActionsRestrictedModulesList());
+		$viewer->assign('IMPORT_MODULE_URL', \App\Modules\Settings\ModuleManager\Models\Module::getNewModuleImportUrl());
+		$viewer->assign('IMPORT_USER_MODULE_URL', \App\Modules\Settings\ModuleManager\Models\Module::getUserModuleImportUrl());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
 	}

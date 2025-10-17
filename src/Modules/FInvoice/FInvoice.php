@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\FInvoice;
+namespace App\Modules\FInvoice;
 
 /**
  * FInvoice CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\FInvoice;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class FInvoice extends Vtiger_CRMEntity
@@ -94,7 +94,7 @@ class FInvoice extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			
 		} else if ($eventType == 'module.disabled') {

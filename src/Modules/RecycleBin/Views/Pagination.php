@@ -3,9 +3,9 @@
 
 
 
-namespace FreeCRM\Modules\RecycleBin\Views;
+namespace App\Modules\RecycleBin\Views;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Pagination extends \Vtiger_Index_View
 {
 
@@ -15,7 +15,7 @@ class Pagination extends \Vtiger_Index_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPagination(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -36,7 +36,7 @@ class Pagination extends \Vtiger_Index_View
 			$pageNumber = '1';
 		}
 
-		$moduleModel = \FreeCRM\Modules\RecycleBin\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\RecycleBin\Models\Module::getInstance($moduleName);
 		//If sourceModule is empty, pick the first module name from the list
 		if (empty($sourceModule)) {
 			foreach ($moduleModel->getAllModuleList() as $model) {
@@ -49,10 +49,10 @@ class Pagination extends \Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}

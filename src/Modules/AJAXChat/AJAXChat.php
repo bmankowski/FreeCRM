@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\AJAXChat;
+namespace App\Modules\AJAXChat;
 
 /**
  * 
@@ -19,8 +19,8 @@ class AJAXChat {
 			$moduleInstance->deleteLink('HEADERSCRIPT', 'Chat', 'layouts/_layoutName_/modules/AJAXChat/Chat.js');
 			return;
 		} else if ($event_type == 'module.enabled') {
-			if (\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('AJAXChat')) {
-				throw new \Exception\NotAllowedMethod(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'AJAXChat'));
+			if (\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('AJAXChat')) {
+				throw new \Exception\NotAllowedMethod(\App\Runtime\Vtiger_Language_Handler::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'AJAXChat'));
 			}
 			$moduleInstance = vtlib\Module::getInstance($modulename);
 			$moduleInstance->addLink('HEADERSCRIPT', 'Chat', 'layouts/_layoutName_/modules/AJAXChat/Chat.js');

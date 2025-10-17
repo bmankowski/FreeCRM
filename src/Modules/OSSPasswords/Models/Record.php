@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords\Models;
+namespace App\Modules\OSSPasswords\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSPasswords\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 	/*
 	 * Funkcja odszyfrowywująca i przekazująca dalej hasło
@@ -22,7 +22,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getPassword($recordId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = '';
 		// check if passwords are encrypted
@@ -87,7 +87,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getConfiguration()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_passwords_config;';
 
@@ -110,7 +110,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$passLength = strlen($password);
 
 		if ($passLength == 0) {
-			return array('error' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NULLPASS', 'OSSPasswords'));
+			return array('error' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NULLPASS', 'OSSPasswords'));
 		}
 
 		$config = $this->getConfiguration();
@@ -118,9 +118,9 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$max = $config['pass_length_max'];
 
 		if ($passLength < $min)
-			return array('error' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PASS_TOOSHORT', 'OSSPasswords'));
+			return array('error' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PASS_TOOSHORT', 'OSSPasswords'));
 		else if ($passLength > $max)
-			return array('error' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PASS_TOOLONG', 'OSSPasswords'));
+			return array('error' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PASS_TOOLONG', 'OSSPasswords'));
 
 		$onlyStars = true;
 		for ($i = 0; $i < $passLength; $i++) {
@@ -131,7 +131,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		}
 
 		if ($onlyStars)
-			return array('error' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ONLY_STARS', 'OSSPasswords'));
+			return array('error' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_ONLY_STARS', 'OSSPasswords'));
 
 		return array('error' => false, 'message' => '');
 	}

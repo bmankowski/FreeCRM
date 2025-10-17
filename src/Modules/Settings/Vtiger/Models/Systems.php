@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
+namespace App\Modules\Settings\Vtiger\Models;
 
 
 /* +***********************************************************************************
@@ -30,7 +30,7 @@ class Systems extends \Vtiger_Record_Model
 
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$id = $this->getId();
 		$params = array();
@@ -52,12 +52,12 @@ class Systems extends \Vtiger_Record_Model
 
 	public static function getInstanceFromServerType($type, $componentName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE server_type = ?', self::tableName);
 		$params = [$type];
 		$result = $db->pquery($query, $params);
 		try {
-			$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', $componentName, 'Settings:Vtiger');
+			$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', $componentName, 'Settings:Vtiger');
 		} catch (Exception $e) {
 			$modelClassName = self;
 		}

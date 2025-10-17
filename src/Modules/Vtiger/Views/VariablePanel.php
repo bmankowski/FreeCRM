@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Variable panel view class
@@ -9,8 +9,8 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
-class VariablePanel extends \FreeCRM\Runtime\Vtiger_View_Controller
+use App\Http\Vtiger_Request;
+class VariablePanel extends \App\Runtime\Vtiger_View_Controller
 {
 
 	/**
@@ -19,11 +19,11 @@ class VariablePanel extends \FreeCRM\Runtime\Vtiger_View_Controller
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -37,7 +37,7 @@ class VariablePanel extends \FreeCRM\Runtime\Vtiger_View_Controller
 	 * Process function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

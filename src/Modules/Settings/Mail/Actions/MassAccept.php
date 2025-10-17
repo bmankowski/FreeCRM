@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Actions;
+namespace App\Modules\Settings\Mail\Actions;
 
 
 
@@ -15,10 +15,10 @@ class MassAccept extends \Vtiger_Mass_Action
 
 	/**
 	 * Checking permission 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -28,9 +28,9 @@ class MassAccept extends \Vtiger_Mass_Action
 	
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		$selectedIds = $request->get('selected_ids');
@@ -38,9 +38,9 @@ class MassAccept extends \Vtiger_Mass_Action
 		$recordIds = $this->getRecordsListFromRequest($request);
 		
 		foreach ($recordIds as $recordId) {
-			\FreeCRM\Modules\Settings\Mail\Models\Config::acceptanceRecord($recordId);
+			\App\Modules\Settings\Mail\Models\Config::acceptanceRecord($recordId);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
 	}

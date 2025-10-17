@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Profiles\Views;
+namespace App\Modules\Settings\Profiles\Views;
 
 
 /* +***********************************************************************************
@@ -15,22 +15,22 @@ namespace FreeCRM\Modules\Settings\Profiles\Views;
 Class Settings_Profiles_EditAjax_View extends \Settings_Profiles_Edit_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		echo $this->getContents($request);
 	}
 
-	public function getContents(\FreeCRM\Http\Vtiger_Request $request)
+	public function getContents(\App\Http\Vtiger_Request $request)
 	{
 		$this->initialize($request);
 
@@ -42,10 +42,10 @@ Class Settings_Profiles_EditAjax_View extends \Settings_Profiles_Edit_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getScripts(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 

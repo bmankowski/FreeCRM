@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IIDN\Models;
+namespace App\Modules\IIDN\Models;
 
 /**
  * Field Class for IIDN
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\IIDN\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Field extends \FreeCRM\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	public function isAjaxEditable()

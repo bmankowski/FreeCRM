@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CronTasks\Views;
+namespace App\Modules\Settings\CronTasks\Views;
 
 
 /* +***********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\CronTasks\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
-class EditAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
+class EditAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

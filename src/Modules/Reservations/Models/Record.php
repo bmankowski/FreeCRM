@@ -10,14 +10,14 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
+Class Reservations_Record_Model extends \App\Modules\Vtiger\Models\Record
 {
 
 	const recalculateStatus = 'Accepted';
 
 	public function recalculateTimeControl($data)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$ticketid = $data->get('ticketid');
 		$projectid = $data->get('projectid');
 		$projecttaskid = $data->get('projecttaskid');
@@ -30,25 +30,25 @@ Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 		self::recalculateServiceContracts($servicecontractsid);
 
 		if (self::checkID($projecttaskid)) {
-			$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projecttaskid, 'ProjectTask');
+			$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($projecttaskid, 'ProjectTask');
 			$projectid = $ModuleNameInstance->get('projectid');
 			if (self::checkID($projectid)) {
 				self::recalculateProject($projectid);
-				$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
+				$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
 				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 			}
 		}
 		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
+			$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
 			$projectid = $ModuleNameInstance->get('projectid');
 			if (self::checkID($projectid)) {
 				self::recalculateProject($projectid);
-				$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
+				$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
 				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 			}
 		}
 		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
+			$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
 			self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 		}
 	}
@@ -58,7 +58,7 @@ Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!self::checkID($ProjectTaskID)) {
 			return false;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sum_time = 0;
 		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projecttaskid = ?;", array(0, self::recalculateStatus, $ProjectTaskID), true);
 		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
@@ -72,7 +72,7 @@ Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!self::checkID($ServiceContractsID)) {
 			return false;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sum_time = 0;
 		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && servicecontractsid = ? && projecttaskid = ? && ticketid = ? && projectid = ?;", array(0, self::recalculateStatus, $ServiceContractsID, 0, 0, 0), true);
 		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
@@ -135,7 +135,7 @@ Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!self::checkID($ProjectID)) {
 			return false;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sum_time = 0;
 		//////// sum_time
 		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
@@ -173,7 +173,7 @@ Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!self::checkID($HelpDeskID)) {
 			return false;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sum_time = 0;
 		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && ticketid = ?;", array(0, self::recalculateStatus, $HelpDeskID), true);
 		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
@@ -187,7 +187,7 @@ Class Reservations_Record_Model extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!self::checkID($ProjectID)) {
 			return false;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		//////// sum_time
 		$projectIDS = array();
 		$sum_time_result = $db->pquery("SELECT reservationsid FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);

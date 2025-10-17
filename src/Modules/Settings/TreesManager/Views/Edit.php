@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TreesManager\Views;
+namespace App\Modules\Settings\TreesManager\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,11 +13,11 @@ namespace FreeCRM\Modules\Settings\TreesManager\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -44,11 +44,11 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('ACCESS', $access);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleId);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -63,7 +63,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(

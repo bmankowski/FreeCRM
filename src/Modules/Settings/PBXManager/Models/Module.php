@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PBXManager\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Settings\PBXManager\Models;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	/**
@@ -59,9 +59,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function getModule($raw = true)
 	{
-		$moduleName = \FreeCRM\Modules\Settings\PBXManager\Models\Module::getModuleName();
+		$moduleName = \App\Modules\Settings\PBXManager\Models\Module::getModuleName();
 		if (!$raw) {
-			$parentModule = \FreeCRM\Modules\Settings\PBXManager\Models\Module::getParentName();
+			$parentModule = \App\Modules\Settings\PBXManager\Models\Module::getParentName();
 			if (!empty($parentModule)) {
 				$moduleName = $parentModule . ':' . $moduleName;
 			}
@@ -71,7 +71,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function getMenuItem()
 	{
-		$menuItem = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_PBXMANAGER');
+		$menuItem = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_PBXMANAGER');
 		return $menuItem;
 	}
 

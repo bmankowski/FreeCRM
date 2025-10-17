@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Models;
+namespace App\Modules\Services\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Services\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 	
 }

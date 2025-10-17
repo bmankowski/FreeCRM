@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Models;
-use FreeCRM\Modules\Settings\MailModels\Autologin;
+namespace App\Modules\Settings\Mail\Models;
+use App\Modules\Settings\MailModels\Autologin;
 
 
 /* +***********************************************************************************************************************************
@@ -53,7 +53,7 @@ class Autologin
 	/**
 	 * Function to get instance
 	 * @param boolean true/false
-	 * @return <\FreeCRM\Modules\Settings\Mail\Models\Autologin>
+	 * @return <\App\Modules\Settings\Mail\Models\Autologin>
 	 */
 	public static function getInstance()
 	{

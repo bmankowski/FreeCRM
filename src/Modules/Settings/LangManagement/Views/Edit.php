@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LangManagement\Views;
-use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
+namespace App\Modules\Settings\LangManagement\Views;
+use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,20 +14,20 @@ use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManage
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -57,7 +57,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('SD', $ShowDifferences);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		if ($tpl == 'editLang') {
 			$viewer->view('Edit.tpl', $qualifiedModuleName);
 		} else {

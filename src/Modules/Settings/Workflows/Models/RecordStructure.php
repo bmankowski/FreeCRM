@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Models;
+namespace App\Modules\Settings\Workflows\Models;
 
 
 /* +***********************************************************************************
@@ -30,7 +30,7 @@ class RecordStructure extends \Vtiger_RecordStructure_Model
 
 	public static function getInstanceForWorkFlowModule($workFlowModel, $mode)
 	{
-		$className = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', 'Settings:Workflows');
+		$className = \App\Vtiger_Loader::getComponentClassName('Model', $mode . 'RecordStructure', 'Settings:Workflows');
 		$instance = new $className();
 		$instance->setWorkFlowModel($workFlowModel);
 		$instance->setModule($workFlowModel->getModule());

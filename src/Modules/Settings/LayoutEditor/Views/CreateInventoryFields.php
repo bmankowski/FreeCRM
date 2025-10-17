@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Views;
+namespace App\Modules\Settings\LayoutEditor\Views;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\LayoutEditor\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class CreateInventoryFields extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class CreateInventoryFields extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -20,7 +20,7 @@ class CreateInventoryFields extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('step2');
 	}
 
-	public function step1(\FreeCRM\Http\Vtiger_Request $request)
+	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('type');
@@ -41,7 +41,7 @@ class CreateInventoryFields extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('CreateInventoryFieldsStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(\FreeCRM\Http\Vtiger_Request $request)
+	public function step2(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$type = $request->get('mtype');

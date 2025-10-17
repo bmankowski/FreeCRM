@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords\Views;
+namespace App\Modules\OSSPasswords\Views;
 
 /**
  * @package YetiForce.views
@@ -9,19 +9,19 @@ namespace FreeCRM\Modules\OSSPasswords\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		// get min, max, allow_chars from vtiger_passwords_config
 		$passwordConfig = (new \App\Db\Query())->from('vtiger_passwords_config')->one();
 
 		$moduleName = $request->getModule();
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$fieldList = $moduleModel->getFields();
@@ -34,7 +34,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 			}
 		}
 
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $field => $value) {
@@ -51,12 +51,12 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$relatedModule = 'OSSPasswords';
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('QUICKCREATE_LINKS', \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
+		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('RELATEDMODULE', $relatedModule);
 		$viewer->assign('GENERATEPASS', 'Generate Password');
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('VALIDATE_STRINGS', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Very Weak', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Weak', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Better', $relatedModule) . ',' .
-			\FreeCRM\Runtime\Vtiger_Language_Handler::translate('Medium', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Strong', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Very Strong', $relatedModule));
+		$viewer->assign('VALIDATE_STRINGS', \App\Runtime\Vtiger_Language_Handler::translate('Very Weak', $relatedModule) . ',' . \App\Runtime\Vtiger_Language_Handler::translate('Weak', $relatedModule) . ',' . \App\Runtime\Vtiger_Language_Handler::translate('Better', $relatedModule) . ',' .
+			\App\Runtime\Vtiger_Language_Handler::translate('Medium', $relatedModule) . ',' . \App\Runtime\Vtiger_Language_Handler::translate('Strong', $relatedModule) . ',' . \App\Runtime\Vtiger_Language_Handler::translate('Very Strong', $relatedModule));
 		$viewer->assign('Very Weak', 'Very Weak');
 		$viewer->assign('Weak', 'Weak');
 		$viewer->assign('Better', 'Better');
@@ -73,7 +73,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('passLengthMin', $passwordConfig['pass_length_min']);
 		$viewer->assign('passLengthMax', $passwordConfig['pass_length_max']);
 		$viewer->assign('allowChars', $passwordConfig['pass_allow_chars']);

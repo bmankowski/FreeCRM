@@ -14,7 +14,7 @@
  *
  */
 
-namespace FreeCRM\utils;
+namespace App\utils;
 
 require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once(ROOT_DIRECTORY . '/src/utils/GetParentGroups.php');
@@ -32,7 +32,7 @@ class GetGroupUsers
 	 */
 	public function getAllUsersInGroup($groupid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		
 		\App\Log::trace("Entering getAllUsersInGroup(" . $groupid . ") method...");
 		//Retreiving from the user2grouptable

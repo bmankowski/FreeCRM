@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSEmployees;
+namespace App\Modules\OSSEmployees;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSEmployees;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class OSSEmployees extends Vtiger_CRMEntity
@@ -109,7 +109,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 */
 	public function getEmployeeHierarchy($id)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
 
@@ -121,7 +121,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 		foreach ($this->list_fields_name as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
-				$listview_header[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldname);
+				$listview_header[] = \App\Runtime\Vtiger_Language_Handler::translate($fieldname);
 			}
 		}
 
@@ -165,7 +165,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
 		$query = "SELECT parentid FROM vtiger_ossemployees " .
@@ -216,7 +216,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function __getChildEmployees($id, &$child_accounts, $depth)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
@@ -260,7 +260,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			//block with fields in summary
 			$tabid = \App\Module::getModuleId($modulename);

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SharingAccess\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
+namespace App\Modules\Settings\SharingAccess\Actions;
+use App\Modules\Settings\Vtiger\Models\Tracker;
 
 
 /* +***********************************************************************************************************************************
@@ -14,11 +14,11 @@ use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
-Class Settings_SharingAccess_SaveAjax_Action extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
+use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
+Class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$modulePermissions = $request->get('permissions');
 		$modulePermissions[4] = $modulePermissions[6];
@@ -42,11 +42,11 @@ Class Settings_SharingAccess_SaveAjax_Action extends \FreeCRM\Modules\Settings\V
 				
 			}
 		}
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $postValues);
+		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $postValues);
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->emit();
 	}
 }

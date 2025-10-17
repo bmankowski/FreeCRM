@@ -3,17 +3,17 @@
 
 
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
+use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class TreePopup extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -34,7 +34,7 @@ class TreePopup extends \Vtiger_Index_View
 	 * Tree in popup
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -46,10 +46,10 @@ class TreePopup extends \Vtiger_Index_View
 		if (!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $moduleName));
+			\vtlib\Functions::throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if (!$recordModel)
-			\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $moduleName));
+			\vtlib\Functions::throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		if ($request->get('multiple')) {
 			$type = 'category';
 		}
@@ -61,11 +61,11 @@ class TreePopup extends \Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('IS_MULTIPLE', $request->get('multiple'));
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -76,9 +76,9 @@ class TreePopup extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -99,7 +99,7 @@ class TreePopup extends \Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

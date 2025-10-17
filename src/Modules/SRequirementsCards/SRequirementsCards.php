@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SRequirementsCards;
+namespace App\Modules\SRequirementsCards;
 
 /**
  * @package YetiForce.CRMEntity
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\SRequirementsCards;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class SRequirementsCards extends Vtiger_CRMEntity
@@ -88,7 +88,7 @@ class SRequirementsCards extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RC', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRequirementsCards']);
@@ -99,7 +99,7 @@ class SRequirementsCards extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SRequirementsCards'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

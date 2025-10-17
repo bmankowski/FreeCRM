@@ -12,12 +12,12 @@
  * Class to handler language translations
  */
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
-use FreeCRM\database\PearDatabase;
-use FreeCRM\Vtiger_Loader;
-use FreeCRM\Http\Vtiger_Session;
-use FreeCRM\AppConfig;
+use App\database\PearDatabase;
+use App\Vtiger_Loader;
+use App\Http\Vtiger_Session;
+use App\AppConfig;
 use App\Purifier;
 use App\Log;
 use App\Module;
@@ -297,7 +297,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguageLabel($name)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', [$name]);
 		if ($db->num_rows($languageResult)) {
 			return $db->query_result($languageResult, 0, 'label');

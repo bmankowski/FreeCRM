@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OpenStreetMap\Actions;
+namespace App\Modules\OpenStreetMap\Actions;
 
 /**
  * Action to get markers
@@ -8,14 +8,14 @@ namespace FreeCRM\Modules\OpenStreetMap\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class GetMarkers extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class GetMarkers extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$data = [];
 		$sourceModule = $request->get('srcModule');
-		$srcModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('srcModuleModel', $srcModuleModel);
 		$coordinatesModel->set('radius', (int) $request->get('radius'));
@@ -33,7 +33,7 @@ class GetMarkers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$coordinatesModel->set('search_params', $request->get('search_params'));
 		$coordinatesModel->set('request', $request);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($request->getModule());
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->getModule());
 		$coordinatesCenter = $coordinatesModel->getCoordinatesCenter();
 		if ($moduleModel->isAllowModules($sourceModule) && !$request->isEmpty('viewname')) {
 			$data ['coordinates'] = $coordinatesModel->getCoordinatesCustomView();
@@ -45,7 +45,7 @@ class GetMarkers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$legend = [];
 			foreach (OpenStreetMap_Coordinate_Model::$colors as $key => $value) {
 				$legend [] = [
-					'value' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $sourceModule),
+					'value' => \App\Runtime\Vtiger_Language_Handler::translate($key, $sourceModule),
 					'color' => $value
 				];
 			}
@@ -54,7 +54,7 @@ class GetMarkers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		if (!empty($coordinatesCenter)) {
 			$data['coordinatesCeneter'] = $coordinatesCenter;
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($data);
 		$response->emit();
 	}

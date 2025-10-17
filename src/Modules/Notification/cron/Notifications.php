@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification;
+namespace App\Modules\Notification;
 
 /**
  * Cron - Send notifications via mail
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Notification;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-$db = \FreeCRM\database\PearDatabase::getInstance();
+$db = \App\database\PearDatabase::getInstance();
 $notifications = new Cron_Notification();
 $result = $db->query('SELECT * FROM u_yf_watchdog_schedule');
 while ($row = $db->getRow($result)) {
@@ -27,7 +27,7 @@ class Notification {
 	 */
 	public function executeScheduled($row)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$currentTime = time();
 		$timestampEndDate = empty($row['last_execution']) ? $currentTime : strtotime($row['last_execution'] . ' +' . $row['frequency'] . 'min');
 		if ($currentTime >= $timestampEndDate) {
@@ -56,9 +56,9 @@ class Notification {
 	 */
 	private function existNotifications($userId, $startDate, $endDate)
 	{
-		$scheduleData = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule($userId, true);
+		$scheduleData = \App\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule($userId, true);
 		$modules = $scheduleData['modules'];
-		return \FreeCRM\Modules\Notification\Models\Module::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
+		return \App\Modules\Notification\Models\Module::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
 	}
 
 	/**
@@ -92,9 +92,9 @@ class Notification {
 				->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
 				->createCommand()->queryAllByGroup(2);
 		foreach ($notifications as $userId => $noticesByUser) {
-			$noticesByUser = array_slice($noticesByUser, 0, \FreeCRM\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
+			$noticesByUser = array_slice($noticesByUser, 0, \App\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
-				$notice = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($noticeId);
+				$notice = \App\Modules\Vtiger\Models\Record::getInstanceById($noticeId);
 				$notice->setMarked();
 			}
 		}

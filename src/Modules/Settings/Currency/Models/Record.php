@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Currency\Models;
+namespace App\Modules\Settings\Currency\Models;
 
 
 /* +**********************************************************************************
@@ -13,12 +13,12 @@ namespace FreeCRM\Modules\Settings\Currency\Models;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
+use App\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
 
-use FreeCRM\Modules\Settings\Currency\Models\Module as Settings_Currency_Module_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Settings\Currency\Models\Module as Settings_Currency_Module_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	public function getId()
@@ -125,7 +125,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public static function getAllNonMapped($includedIds = array())
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if (!is_array($includedIds)) {
 			if (!empty($includedIds)) {
 				$includedIds = array($includedIds);

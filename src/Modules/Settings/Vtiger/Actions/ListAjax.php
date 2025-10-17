@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Actions;
+namespace App\Modules\Settings\Vtiger\Actions;
 
 
 /* +**********************************************************************************
@@ -12,10 +12,10 @@ namespace FreeCRM\Modules\Settings\Vtiger\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use FreeCRM\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
-class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\ListAjax
+use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
+class ListAjax extends \App\Modules\Settings\Vtiger\Views\ListAjax
 {
 
 	public function __construct()
@@ -26,9 +26,9 @@ class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\ListAjax
 
 	/**
 	 * Function returns the number of records for the current filter
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -39,13 +39,13 @@ class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\ListAjax
 		$result['viewname'] = $cvId;
 		$result['count'] = $count;
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function getListViewCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getListViewCount(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
@@ -59,7 +59,7 @@ class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\ListAjax
 		return $listViewModel->getListViewCount();
 	}
 
-	public function getPageCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{
 		$numOfRecords = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();
@@ -71,7 +71,7 @@ class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\ListAjax
 		$result = array();
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $numOfRecords;
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

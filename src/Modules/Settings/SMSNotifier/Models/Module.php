@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SMSNotifier\Models;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
+namespace App\Modules\Settings\SMSNotifier\Models;
+use App\Modules\Settings\SMSNotifierModels\Field;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 'vtiger_smsnotifier_servers';
@@ -36,7 +36,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 		$fieldModelsList = array();
 		foreach ($fieldsList as $fieldInfo) {
-			$fieldModelsList[$fieldInfo['name']] = \FreeCRM\Modules\Settings\SMSNotifier\Models\Field::getInstanceByRow($fieldInfo);
+			$fieldModelsList[$fieldInfo['name']] = \App\Modules\Settings\SMSNotifier\Models\Field::getInstanceByRow($fieldInfo);
 		}
 		return $fieldModelsList;
 	}
@@ -79,7 +79,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function deleteRecords($recordIdsList = array())
 	{
 		if ($recordIdsList) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$db->delete('vtiger_smsnotifier_servers', 'id IN (' . generateQuestionMarks($recordIdsList) . ')', $recordIdsList);
 			return true;
 		}

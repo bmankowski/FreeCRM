@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Models;
+namespace App\Modules\Services\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Services\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -24,7 +24,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			return $activeStatus;
 		}
 		$recordId = $this->getId();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT discontinued FROM vtiger_service WHERE serviceid = ?', array($recordId));
 		$activeStatus = $db->query_result($result, 'discontinued');
 		return $activeStatus;

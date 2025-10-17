@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\Vtiger;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 
-use FreeCRM\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
+use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class Util {
 
 	/**
@@ -67,12 +67,12 @@ class Util {
 		$seconds = strtotime($currentDateTime) - strtotime($dateTime);
 
 		if ($seconds == 0)
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_JUSTNOW');
+			return \App\Runtime\Vtiger_Language_Handler::translate('LBL_JUSTNOW');
 		if ($seconds > 0) {
 			$prefix = '';
-			$suffix = ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AGO');
+			$suffix = ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_AGO');
 		} else if ($seconds < 0) {
-			$prefix = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUE') . ' ';
+			$prefix = \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUE') . ' ';
 			$suffix = '';
 			$seconds = -($seconds);
 		}
@@ -111,7 +111,7 @@ class Util {
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . " " . (($count == 1) ? \FreeCRM\Runtime\Vtiger_Language_Handler::translate("$text") : \FreeCRM\Runtime\Vtiger_Language_Handler::translate("{$text}S"));
+		return $count . " " . (($count == 1) ? \App\Runtime\Vtiger_Language_Handler::translate("$text") : \App\Runtime\Vtiger_Language_Handler::translate("{$text}S"));
 	}
 
 	/**
@@ -142,8 +142,8 @@ class Util {
 	 */
 	public static function formatDateIntoStrings($date, $time = false)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$dateTimeInUserFormat = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($date . ' ' . $time);
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$dateTimeInUserFormat = \App\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($date . ' ' . $time);
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
 		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
@@ -153,20 +153,20 @@ class Util {
 			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
 		}
 
-		$today = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d H:i:s'));
-		$tomorrow = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
-		$userDate = \FreeCRM\Fields\DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
+		$today = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d H:i:s'));
+		$tomorrow = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
+		$userDate = \App\Fields\DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
 
 		if ($dateInUserFormat == $today) {
-			$todayInfo = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TODAY');
+			$todayInfo = \App\Runtime\Vtiger_Language_Handler::translate('LBL_TODAY');
 			if ($time) {
-				$todayInfo .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
+				$todayInfo .= ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($todayInfo)";
 		} elseif ($dateInUserFormat == $tomorrow) {
-			$tomorrowInfo = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TOMORROW');
+			$tomorrowInfo = \App\Runtime\Vtiger_Language_Handler::translate('LBL_TOMORROW');
 			if ($time) {
-				$tomorrowInfo .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
+				$tomorrowInfo .= ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
@@ -174,9 +174,9 @@ class Util {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
 			$date = strtotime($dateInUserFormat);
-			$dayInfo = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_' . date('D', $date));
+			$dayInfo = \App\Runtime\Vtiger_Language_Handler::translate('LBL_' . date('D', $date));
 			if ($time) {
-				$dayInfo .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
+				$dayInfo .= ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($dayInfo)";
 		}
@@ -200,8 +200,8 @@ class Util {
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$dateTimeInUserFormat = explode(' ', \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($dateTime));
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$dateTimeInUserFormat = explode(' ', \App\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($dateTime));
 
 		if (count($dateTimeInUserFormat) == 3) {
 			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
@@ -217,11 +217,11 @@ class Util {
 			$seconds = '';
 		}
 
-		$dateDay = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\FreeCRM\Fields\DateTimeField::getDayFromDate($dateTime), 'Calendar');
+		$dateDay = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\DateTimeField::getDayFromDate($dateTime), 'Calendar');
 		$formatedDate = $dateInUserFormat;
 		if (!$allday) {
 			$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
-			$formatedDate .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
+			$formatedDate .= ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 		}
 		$formatedDate .= " ($dateDay)";
 		return $formatedDate;
@@ -253,12 +253,12 @@ class Util {
 	 */
 	public static function getOwnerName($ownerId)
 	{
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Runtime\Vtiger_Cache::getInstance();
 		if ($cache->hasOwnerDbName($ownerId)) {
 			return $cache->getOwnerDbName($ownerId);
 		}
 
-		$ownerModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($ownerId, 'Users');
+		$ownerModel = \App\Modules\Users\Models\Record::getInstanceById($ownerId, 'Users');
 		$userName = $ownerModel->get('user_name');
 		$ownerName = '';
 		if ($userName) {
@@ -299,7 +299,7 @@ class Util {
 	/**
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <DateTime> $dateTime
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Users> $userObject
+	 * @param <\App\Modules\Vtiger\Models\Users> $userObject
 	 * @return string date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
@@ -307,13 +307,13 @@ class Util {
 		require_once ROOT_DIRECTORY . '/src/Runtime/LanguageHandler.php';
 		require_once ROOT_DIRECTORY . '/src/Runtime/Globals.php';
 		if ($userObject) {
-			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
+			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+			$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		}
 
 		$date = new \DateTime($dateTime);
-		$dateTimeField = new \FreeCRM\Fields\DateTimeField($date->format('Y-m-d H:i:s'));
+		$dateTimeField = new \App\Fields\DateTimeField($date->format('Y-m-d H:i:s'));
 
 		$date = $dateTimeField->getDisplayDate($userModel);
 		$time = $dateTimeField->getDisplayTime($userModel);
@@ -323,7 +323,7 @@ class Util {
 	/**
 	 * Function to get the time value in user preferred hour format
 	 * @param <Time> $time
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Users> $userObject
+	 * @param <\App\Modules\Vtiger\Models\Users> $userObject
 	 * @return string time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
@@ -331,9 +331,9 @@ class Util {
 		require_once ROOT_DIRECTORY . '/src/Runtime/LanguageHandler.php';
 		require_once ROOT_DIRECTORY . '/src/Runtime/Globals.php';
 		if ($userObject) {
-			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
+			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+			$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		}
 
 		if ($userModel->get('hour_format') == '12') {
@@ -349,8 +349,8 @@ class Util {
 	 */
 	public static function getCurrentInfoOfUser()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
 		if ($db->num_rows($result))
 			return $db->query_result_rowdata($result, 0);
@@ -424,7 +424,7 @@ class Util {
 
 	public static function setCalendarDefaultActivityTypesForUser($userId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$userEntries = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE userid=?', array($userId));
 		$activityIds = [];
 		if ($db->num_rows($userEntries) <= 0) {
@@ -456,7 +456,7 @@ class Util {
 
 	public static function isUserDeleted($userid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
 		$count = $db->num_rows($result);
 		if ($count > 0)
@@ -477,7 +477,7 @@ class Util {
 		switch ($dataType) {
 			case 'date':
 				$dateObject = new \DateTime();
-				$value = \FreeCRM\Fields\DateTimeField::convertToUserFormat($dateObject->format('Y-m-d'));
+				$value = \App\Fields\DateTimeField::convertToUserFormat($dateObject->format('Y-m-d'));
 				break;
 			case 'time' :
 				$value = '00:00:00';

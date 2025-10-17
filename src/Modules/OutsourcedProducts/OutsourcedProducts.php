@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OutsourcedProducts;
+namespace App\Modules\OutsourcedProducts;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OutsourcedProducts;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class OutsourcedProducts extends Vtiger_CRMEntity
@@ -113,10 +113,10 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 
@@ -147,7 +147,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

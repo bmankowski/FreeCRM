@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Views;
+namespace App\Modules\Products\Views;
 
 /**
  * Products TreeView View Class
@@ -9,18 +9,18 @@ namespace FreeCRM\Modules\Products\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class TreeRecords extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('SELECTABLE_CATEGORY', \FreeCRM\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+		$viewer->assign('SELECTABLE_CATEGORY', \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
@@ -32,15 +32,15 @@ class TreeRecords extends \Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$baseModuleName = 'Accounts';
 
-		$multiReferenceFirld = \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($baseModuleName, $moduleName);
+		$multiReferenceFirld = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($baseModuleName, $moduleName);
 		$multiReferenceFirld = reset($multiReferenceFirld);
 		if (count($multiReferenceFirld) === 0) {
 			return;
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($baseModuleName, $filter);
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {
 			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
@@ -65,11 +65,11 @@ class TreeRecords extends \Vtiger_Index_View
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function postProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$baseModuleName = 'Accounts';
-		$viewer->assign('CUSTOM_VIEWS', \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName));
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName));
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 		parent::postProcess($request, false);
 	}

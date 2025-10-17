@@ -31,7 +31,7 @@ Class DataAccess_check_alltask
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
 					'type' => 'error'
 				]
 			];
@@ -41,7 +41,7 @@ Class DataAccess_check_alltask
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT * FROM vtiger_activitystatus ORDER BY sortorderid", [], true);
 		$fields = [];
 		while ($row = $db->fetch_array($result)) {

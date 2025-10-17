@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Actions;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Roles\Actions;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -14,17 +14,17 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	/**
 	 * Checking permission
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\AppException
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
@@ -32,9 +32,9 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -44,15 +44,15 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		if (!empty($recordId)) {
-			$recordModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
 		} else {
-			$recordModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
+			$recordModel = new \App\Modules\Settings\Roles\Models\Record();
 		}
 
 		$roleProfiles = $request->get('profiles');
 		$parentRoleId = $request->get('parent_roleid');
 		if ($recordModel && !empty($parentRoleId)) {
-			$parentRole = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($parentRoleId);
+			$parentRole = \App\Modules\Settings\Roles\Models\Record::getInstanceById($parentRoleId);
 			$recordModel->set('change_owner', $request->get('change_owner'))
 				->set('searchunpriv', $request->get('searchunpriv'))
 				->set('listrelatedrecord', $request->get('listRelatedRecord'))
@@ -84,7 +84,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		header("Location: $redirectUrl");
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

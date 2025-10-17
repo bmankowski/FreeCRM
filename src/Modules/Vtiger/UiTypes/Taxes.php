@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType Taxes Field Class
@@ -24,7 +24,7 @@ class Taxes extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -109,7 +109,7 @@ class Taxes extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

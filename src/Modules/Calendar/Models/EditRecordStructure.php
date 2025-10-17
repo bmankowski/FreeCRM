@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Calendar Edit View Record Structure Model
  */
-class EditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
+class EditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**
@@ -49,16 +49,16 @@ class EditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
 									$fieldValue = $fieldValue . ' ' . $recordModel->get('time_end');
 								}
 							} else if ($fieldName == 'visibility' && empty($fieldValue)) {
-								$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+								$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 								$sharedType = $currentUserModel->get('calendarsharedtype');
 								if ($sharedType == 'public' || $sharedType == 'selectedusers')
 									$fieldValue = 'Public';
 							} else if ($fieldName == 'activitystatus' && empty($fieldValue)) {
-								$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+								$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 								$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 								$fieldValue = $defaulteventstatus;
 							} else if ($fieldName == 'activitytype' && empty($fieldValue)) {
-								$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+								$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 								$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 								$fieldValue = $defaultactivitytype;
 							}

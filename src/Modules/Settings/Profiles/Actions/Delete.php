@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Profiles\Actions;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Profiles\Actions;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -13,10 +13,10 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class Delete extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -30,14 +30,14 @@ class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 			$recordModel->delete($transferToProfile);
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$result = array('success' => true);
 
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

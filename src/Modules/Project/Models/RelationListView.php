@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Project\Models;
+namespace App\Modules\Project\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Project\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
+class RelationListView extends \App\Modules\Vtiger\Models\Model
 {
 
 	public function getCreateViewUrl()

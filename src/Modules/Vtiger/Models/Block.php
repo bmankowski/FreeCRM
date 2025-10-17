@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
+use App\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 class Block extends \vtlib\Block
 {
 
@@ -21,7 +21,7 @@ class Block extends \vtlib\Block
 	public function getFields()
 	{
 		if (empty($this->fields)) {
-			$moduleFields = \FreeCRM\Modules\Vtiger\Models\Field::getAllForModule($this->module);
+			$moduleFields = \App\Modules\Vtiger\Models\Field::getAllForModule($this->module);
 			$this->fields = [];
 			// if block does not contains any fields 
 			if (!isset($moduleFields[$this->id])) {
@@ -67,7 +67,7 @@ class Block extends \vtlib\Block
 
 	public function __update()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_blocks SET blocklabel=?,display_status=? WHERE blockid=?';
 		$params = array($this->label, $this->display_status, $this->id);
@@ -76,7 +76,7 @@ class Block extends \vtlib\Block
 
 	/**
 	 * Function to check whether the current block is hide
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $record
+	 * @param \App\Modules\Vtiger\Models\Record $record
 	 * @param string $view
 	 * @return boolean
 	 */
@@ -142,15 +142,15 @@ class Block extends \vtlib\Block
 	/**
 	 * Function to retrieve block instances for a module
 	 * @param <type> $moduleModel - module instance
-	 * @return <array> - list of \FreeCRM\Modules\Vtiger\Models\Block
+	 * @return <array> - list of \App\Modules\Vtiger\Models\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{
-		$blockObjects = \FreeCRM\Runtime\Vtiger_Cache::get('ModuleBlock', $moduleModel->getName());
+		$blockObjects = \App\Runtime\Vtiger_Cache::get('ModuleBlock', $moduleModel->getName());
 
 		if (!$blockObjects) {
 			$blockObjects = parent::getAllForModule($moduleModel);
-			\FreeCRM\Runtime\Vtiger_Cache::set('ModuleBlock', $moduleModel->getName(), $blockObjects);
+			\App\Runtime\Vtiger_Cache::set('ModuleBlock', $moduleModel->getName(), $blockObjects);
 		}
 		$blockModelList = [];
 
@@ -172,12 +172,12 @@ class Block extends \vtlib\Block
 	/**
 	 * Function to retrieve block instance from vtlib\Block object
 	 * @param vtlib\Block $blockObject - vtlib block object
-	 * @return \FreeCRM\Modules\Vtiger\Models\Block
+	 * @return \App\Modules\Vtiger\Models\Block
 	 */
 	public static function getInstanceFromBlockObject(\vtlib\Block $blockObject)
 	{
 		$objectProperties = get_object_vars($blockObject);
-		$blockClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);
+		$blockClassName = \App\Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);
 		$blockModel = new $blockClassName();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$blockModel->$properName = $propertyValue;
@@ -187,7 +187,7 @@ class Block extends \vtlib\Block
 
 	public static function updateSequenceNumber($sequenceList)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence = CASE blockid ';
 		foreach ($sequenceList as $blockId => $sequence) {
 			$query .= ' WHEN ' . $blockId . ' THEN ' . $sequence;
@@ -198,7 +198,7 @@ class Block extends \vtlib\Block
 
 	public static function checkFieldsExists($blockId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT 1 FROM vtiger_field WHERE block=?';
 		$result = $db->pquery($query, array($blockId));
 		return ($db->num_rows($result) > 0) ? true : false;
@@ -210,14 +210,14 @@ class Block extends \vtlib\Block
 	 */
 	public static function pushDown($fromSequence, $sourceModuleTabId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence=sequence+1 WHERE sequence > ? and tabid=?';
 		$result = $db->pquery($query, array($fromSequence, $sourceModuleTabId));
 	}
 
 	public static function getAllBlockSequenceList($moduleTabId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT blockid,sequence FROM vtiger_blocks where tabid=?';
 		$result = $db->pquery($query, array($moduleTabId));
 		$response = [];

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Portal\Actions;
+namespace App\Modules\Portal\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,21 +11,21 @@ namespace FreeCRM\Modules\Portal\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 {
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request){
+	public function checkPermission(\App\Http\Vtiger_Request $request){
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$module = $request->getModule();
 		$moduleModel = new Portal_Module_Model();
 		$moduleModel->deleteRecord($recordId);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(array('message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
 		$response->emit();
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModTracker\Models;
+namespace App\Modules\ModTracker\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ModTracker\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Field extends \FreeCRM\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 	protected $data = [];
 
@@ -60,7 +60,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to set parent to this model
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record
+	 * @param \App\Modules\Vtiger\Models\Record
 	 */
 	public function setParent($parent)
 	{
@@ -70,7 +70,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get parent
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record
+	 * @return \App\Modules\Vtiger\Models\Record
 	 */
 	public function getParent()
 	{
@@ -79,7 +79,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to set Field instance
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field
+	 * @param \App\Modules\Vtiger\Models\Field
 	 */
 	public function setFieldInstance($fieldModel)
 	{
@@ -89,7 +89,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get Field instance
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public function getFieldInstance()
 	{
@@ -106,7 +106,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = \vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \vtlib\Functions::textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$value = \App\Purifier::purify(\vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPreValue', $value);
@@ -124,7 +124,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = \vtlib\Functions::textLength($value, \FreeCRM\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \vtlib\Functions::textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$value = \App\Purifier::purify(\vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPostValue', $value);

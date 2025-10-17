@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification;
+namespace App\Modules\Notification;
 
 /**
  * Notification CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Notification;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Notification extends Vtiger_CRMEntity
@@ -89,7 +89,7 @@ class Notification extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			
 		} else if ($eventType == 'module.disabled') {

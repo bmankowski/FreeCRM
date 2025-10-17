@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Actions;
+namespace App\Modules\Settings\Vtiger\Actions;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\Vtiger\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class SystemWarnings extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class SystemWarnings extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
 	public function __construct()
@@ -22,9 +22,9 @@ class SystemWarnings extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 
 	/**
 	 * Update ignore status
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function update(\FreeCRM\Http\Vtiger_Request $request)
+	public function update(\App\Http\Vtiger_Request $request)
 	{
 		$className = $request->get('id');
 		if (!class_exists($className)) {
@@ -33,19 +33,19 @@ class SystemWarnings extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$instace = new $className;
 		$result = $instace->update($request->get('params'));
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
 	/**
 	 * Update ignore status
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function cancel(\FreeCRM\Http\Vtiger_Request $request)
+	public function cancel(\App\Http\Vtiger_Request $request)
 	{
 		\Vtiger_Session::set('SystemWarnings', true);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

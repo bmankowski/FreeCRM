@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Models;
+namespace App\Modules\Settings\Roles\Models;
 
 
 /* +***********************************************************************************
@@ -16,7 +16,7 @@ namespace FreeCRM\Modules\Settings\Roles\Models;
  * Settings Module Model Class
  */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 'vtiger_role';

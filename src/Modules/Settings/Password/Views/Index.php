@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Password\Views;
-use FreeCRM\Modules\Settings\PasswordModels\Record;
+namespace App\Modules\Settings\Password\Views;
+use App\Modules\Settings\PasswordModels\Record;
 
 
 /* +***********************************************************************************************************************************
@@ -14,20 +14,20 @@ use FreeCRM\Modules\Settings\PasswordModels\Record;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_Password_Index_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_Password_Index_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('DETAIL', \FreeCRM\Modules\Settings\Password\Models\Record::getPassDetail());
+		$viewer->assign('DETAIL', \App\Modules\Settings\Password\Models\Record::getPassDetail());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

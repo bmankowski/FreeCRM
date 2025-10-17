@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Action Model Class
  */
-class Utility extends \FreeCRM\Modules\Vtiger\Models\Action
+class Utility extends \App\Modules\Vtiger\Models\Action
 {
 
 	public function isUtilityTool()

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Campaigns\Models;
+namespace App\Modules\Campaigns\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Campaigns\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Vtiger\Models\Relation
 {
 
 	/**
@@ -25,7 +25,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 			$relatedModuleName = $this->getRelationModuleModel()->getName();
 
 			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-				$db = \FreeCRM\database\PearDatabase::getInstance();
+				$db = \App\database\PearDatabase::getInstance();
 
 				$updateQuery = 'UPDATE vtiger_campaign_records SET campaignrelstatusid = CASE crmid ';
 				foreach ($statusDetails as $relatedRecordId => $status) {
@@ -39,7 +39,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 
 	/**
 	 * Function to get relation field for relation module and parent module
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public function getRelationField()
 	{

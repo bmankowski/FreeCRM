@@ -2,26 +2,26 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\PaymentsIn\Actions;
+namespace App\Modules\PaymentsIn\Actions;
 
-class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class GenerateRecords extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'Save')) {
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$bag = false;
 		$paymentsIn = $request->get('paymentsIn');
 		foreach ($paymentsIn as $fields) {
-			$ossPaymentsIn = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$ossPaymentsIn = \App\CRMEntity::getInstance($moduleName);
 			$ossPaymentsIn->column_fields['paymentsname'] = 'Name';
 			$ossPaymentsIn->column_fields['paymentsvalue'] = $fields['amount'];
 			$ossPaymentsIn->column_fields['paymentscurrency'] = $fields['third_letter_currency_code'];
@@ -34,12 +34,12 @@ class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if ($bag) {
-			$result = ['success' => true, 'return' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('MSG_SAVE_OK', $moduleName)];
+			$result = ['success' => true, 'return' => \App\Runtime\Vtiger_Language_Handler::translate('MSG_SAVE_OK', $moduleName)];
 		} else {
-			$result = ['success' => false, 'return' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('MSG_SAVE_ERROR', $moduleName)];
+			$result = ['success' => false, 'return' => \App\Runtime\Vtiger_Language_Handler::translate('MSG_SAVE_ERROR', $moduleName)];
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

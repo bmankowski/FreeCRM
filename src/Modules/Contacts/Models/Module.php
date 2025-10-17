@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Contacts\Models;
+namespace App\Modules\Contacts\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Contacts\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -28,22 +28,22 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$queryWhere = ' WHERE `u_yf_crmentity_search_label`.`userid` LIKE \'%s\' && `u_yf_crmentity_search_label`.`searchlabel` LIKE \'%s\' ';
 
 		if ($parentId && $parentModule == 'Accounts') {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid';
 			$queryWhere .= 'AND vtiger_contactdetails.parentid = %s';
 			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);
 		} else if ($parentId && $parentModule == 'HelpDesk') {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid INNER JOIN vtiger_contactdetails ON ON vtiger_troubletickets.contact_id = vtiger_contactdetails.contactid';
 			$queryWhere .= 'AND vtiger_troubletickets.ticketid = %s';
 			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);
 		} else if ($parentId && $parentModule == 'Campaigns') {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_contactdetails.contactid';
 			$queryWhere .= 'AND vtiger_campaign_records.campaignid = %s';
 			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);
 		} else if ($parentId && $parentModule == 'Vendors') {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid INNER JOIN vtiger_vendorcontactrel ON vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid';
 			$queryWhere .= 'AND vtiger_vendorcontactrel.vendorid = %s';
 			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);

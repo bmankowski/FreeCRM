@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Actions;
+namespace App\Modules\Settings\Mail\Actions;
 
 
 
@@ -11,16 +11,16 @@ namespace FreeCRM\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Mail\Models\Record as Settings_Mail_Record_Model;
+use App\Modules\Settings\Mail\Models\Record as Settings_Mail_Record_Model;
 class MassDelete extends \Vtiger_Mass_Action
 {
 
 	/**
 	 * Checking permission 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -30,9 +30,9 @@ class MassDelete extends \Vtiger_Mass_Action
 	
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$selectedIds = $request->get('selected_ids');
 		$recordIds = $this->getRecordsListFromRequest($request);
@@ -40,7 +40,7 @@ class MassDelete extends \Vtiger_Mass_Action
 			$recordModel = Settings_Mail_Record_Model::getInstance($recordId);
 			$recordModel->delete();
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Competition\Models;
+namespace App\Modules\Competition\Models;
 
 /**
  * Competition module model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Competition\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**

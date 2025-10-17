@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PaymentsIn\Views;
+namespace App\Modules\PaymentsIn\Views;
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -14,17 +14,17 @@ namespace FreeCRM\Modules\PaymentsIn\Views;
 Class PaymentsIn_step1_View extends Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$paymentsIn = array();
-		$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);

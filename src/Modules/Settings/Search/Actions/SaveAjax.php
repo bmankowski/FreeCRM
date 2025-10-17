@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Search\Actions;
-use FreeCRM\Modules\Settings\SearchModels\Module;
+namespace App\Modules\Settings\Search\Actions;
+use App\Modules\Settings\SearchModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\SearchModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -25,41 +25,41 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('SaveSequenceNumber');
 	}
 
-	public function Save(\FreeCRM\Http\Vtiger_Request $request)
+	public function Save(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Search\Models\Module::save($params);
+		\App\Modules\Settings\Search\Models\Module::save($params);
 		$message = 'LBL_SAVE_CHANGES_LABLE';
 		if ($params['name'] == 'turn_off')
 			$message = 'LBL_SAVE_CHANGES_SEARCHING';
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($message, $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate($message, $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function UpdateLabels(\FreeCRM\Http\Vtiger_Request $request)
+	public function UpdateLabels(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\FreeCRM\Modules\Settings\Search\Models\Module::updateLabels($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Search\Models\Module::updateLabels($params);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Update has been completed', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Update has been completed', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function SaveSequenceNumber(\FreeCRM\Http\Vtiger_Request $request)
+	public function SaveSequenceNumber(\App\Http\Vtiger_Request $request)
 	{
 		$updatedFieldsList = $request->get('updatedFields');
 
 		//This will update the modules sequence 
-		\FreeCRM\Modules\Settings\Search\Models\Module::updateSequenceNumber($updatedFieldsList);
+		\App\Modules\Settings\Search\Models\Module::updateSequenceNumber($updatedFieldsList);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('success' => true));
 		$response->emit();
 	}

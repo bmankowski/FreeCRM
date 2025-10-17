@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Users\Views;
+namespace App\Modules\Settings\Users\Views;
 
 
 
@@ -11,11 +11,11 @@ namespace FreeCRM\Modules\Settings\Users\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Users\Models\Module as Users_Module_Model;
-class SwitchUsers extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Users\Models\Module as Users_Module_Model;
+class SwitchUsers extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -28,7 +28,7 @@ class SwitchUsers extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('SwitchUsers.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

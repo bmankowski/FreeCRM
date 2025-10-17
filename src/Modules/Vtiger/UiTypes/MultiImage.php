@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType MultiImage Field Class
@@ -56,7 +56,7 @@ class MultiImage extends Base
 	 * Function to get the Display Value
 	 * @param string $value
 	 * @param int $recordId
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $noLimit
 	 * @return string
 	 */
@@ -64,7 +64,7 @@ class MultiImage extends Base
 	{
 		$imageIcons = '<div class="multiImageContenDiv">';
 		if ($recordId) {
-			if (!\FreeCRM\AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
+			if (!\App\AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
 				$images = $this->getMultiImageQuery($value, ['name'], false)->column('name');
 				return implode(', ', $images);
 			}
@@ -95,14 +95,14 @@ class MultiImage extends Base
 	 * Function to get the List Display Value
 	 * @param string $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$images = $this->getDisplayValue($value, $record, $recordInstance, true);
-		return !\FreeCRM\AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
+		return !\App\AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
 	}
 
 	/**
@@ -133,7 +133,7 @@ class MultiImage extends Base
 		$query->from('u_#__attachments')
 			->where(['attachmentid' => explode(',', $value)]);
 		if ($limit) {
-			$query->limit(\FreeCRM\AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
+			$query->limit(\App\AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
 		}
 		return $query;
 	}

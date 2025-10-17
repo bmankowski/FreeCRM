@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OpenStreetMap\Models;
+namespace App\Modules\OpenStreetMap\Models;
 
 /**
  * Coordiante model
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OpenStreetMap\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
+class Coordinate extends \App\Modules\Vtiger\Models\Model
 {
 
 	const earthRadius = 6378137;
@@ -76,7 +76,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function getCoordinates($address)
 	{
-		$url = \FreeCRM\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
+		$url = \App\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,
@@ -122,7 +122,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 			return [];
 		$coordinatesDetails = reset($coordinatesDetails);
 		if (empty($coordinatesDetails)) {
-			return ['error' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
+			return ['error' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
 		} else {
 			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
 		}
@@ -130,7 +130,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	/**
 	 * Function to get params url
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordModel
+	 * @param <\App\Modules\Vtiger\Models\Record> $recordModel
 	 * @param string $type a,b or c
 	 * @return array
 	 */
@@ -147,7 +147,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	/**
 	 * Function to get coordinates for record
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Record> $recordModel
+	 * @param <\App\Modules\Vtiger\Models\Record> $recordModel
 	 * @return array
 	 */
 	public function getCoordinatesByRecord($recordModel)
@@ -179,7 +179,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
 		$queryGenerator = new \App\QueryGenerator($moduleName);
-		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$queryGenerator->setFields($fields[$moduleName]);
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
@@ -226,17 +226,17 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function getLabelToPopupByArray($data, $moduleName)
 	{
 		$html = '<b><a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $data['crmid'] . '"><span class="description">';
-		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
 				$html .= $data[$fieldName] . '<br>';
 			}
 		}
 		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
-		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_START', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_END', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
+		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_START', 'OpenStreetMap') . '</button><br>';
+		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_END', 'OpenStreetMap') . '</button><br>';
+		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br>';
+		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
 		return $html;
 	}
 
@@ -336,12 +336,12 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$moduleName = $moduleModel->getName();
-		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
 			if ($fieldModel !== false)
 				$groupByFieldColumn = $fieldModel->get('column');
 		}
@@ -409,11 +409,11 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$params = [];
-		$fields = \FreeCRM\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
 			$groupByFieldColumn = $fieldModel->get('column');
 		}
 		$queryGenerator = new \App\QueryGenerator($moduleName);
@@ -475,7 +475,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		$db = \App\Db::getInstance();
 		$dataReader = (new \App\Db\Query())->select(['count' => 'COUNT(*)', 'module_name'])
-				->from('u_#__openstreetmap_cache')->where(['user_id' => \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
+				->from('u_#__openstreetmap_cache')->where(['user_id' => \App\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
 				->groupBy('module_name')
 				->createCommand($db)->query();
 		$records = [];
@@ -492,7 +492,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function readCoordinatesCache()
 	{
 		$modules = $this->get('cache');
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$db = \App\Db::getInstance();
 		$coordinates = [];
@@ -503,7 +503,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 					->where(['user_id' => $userId, 'module_name' => $moduleName])
 					->createCommand($db)->queryColumn(0);
 			if (!empty($records)) {
-				$this->set('srcModuleModel', \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName));
+				$this->set('srcModuleModel', \App\Modules\Vtiger\Models\Module::getInstance($moduleName));
 				$coordinates [$moduleName] = $this->readCoordinatesByRecords($records);
 			}
 		}
@@ -517,7 +517,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function saveCache($records)
 	{
 		$moduleName = $this->get('moduleName');
-		$userId = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId();
+		$userId = \App\Modules\Users\Models\Privileges::getCurrentUserModel()->getId();
 		$insertedData = [];
 		foreach ($records as $recordId) {
 			$insertedData [] = [$userId, $moduleName, $recordId];
@@ -534,7 +534,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		$moduleName = $this->get('moduleName');
 		\App\Db::getInstance()->createCommand()
-			->delete('u_#__openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
+			->delete('u_#__openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => \App\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
 			->execute();
 	}
 
@@ -567,7 +567,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 				->where(['crmids' => $record])->exists()) {
 			\App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_cache', [
 				'module_name' => $moduleName,
-				'user_id' => \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel()->getId(),
+				'user_id' => \App\Modules\Users\Models\Privileges::getCurrentUserModel()->getId(),
 				'crmids' => $record
 			])->execute();
 		}

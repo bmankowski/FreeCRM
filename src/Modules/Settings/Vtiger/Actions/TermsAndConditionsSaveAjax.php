@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\TermsAndConditions;
+namespace App\Modules\Settings\Vtiger\Actions;
+use App\Modules\Settings\Vtiger\Models\TermsAndConditions;
 
 
 /* +***********************************************************************************
@@ -13,20 +13,20 @@ use FreeCRM\Modules\Settings\Vtiger\Models\TermsAndConditions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class TermsAndConditionsSaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class TermsAndConditionsSaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$model = \FreeCRM\Modules\Settings\Vtiger\Models\TermsAndConditions::getInstance();
+		$model = \App\Modules\Settings\Vtiger\Models\TermsAndConditions::getInstance();
 		$model->setText($request->get('tandc'));
 		$model->save();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

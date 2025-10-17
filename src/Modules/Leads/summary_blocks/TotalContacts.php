@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads;
+namespace App\Modules\Leads;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -22,7 +22,7 @@ class TotalContacts {
 	{
 		
 		\App\Log::trace("Entering TotalContacts::process() method ...");
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$contact = 'SELECT COUNT(contactid) as count FROM vtiger_contactdetails
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_contactdetails.contactid
 			WHERE vtiger_crmentity.deleted=0 &&  vtiger_contactdetails.parentid = ?';

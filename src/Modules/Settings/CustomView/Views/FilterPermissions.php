@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CustomView\Views;
-use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
+namespace App\Modules\Settings\CustomView\Views;
+use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 
@@ -11,10 +11,10 @@ use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManage
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class FilterPermissions extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+class FilterPermissions extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$sourceModuleId = $request->get('sourceModule');

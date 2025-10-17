@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,20 +13,20 @@ namespace FreeCRM\Modules\Calendar\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class Detail extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!empty($recordId)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
@@ -35,7 +35,7 @@ class Detail extends \Vtiger_Index_View
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$recordStrucure = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = array();
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
@@ -111,13 +111,13 @@ class Detail extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	public function showModuleDetailView(\FreeCRM\Http\Vtiger_Request $request)
+	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		if (!empty($recordId)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
@@ -125,7 +125,7 @@ class Detail extends \Vtiger_Index_View
 
 		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
-		$recordStrucure = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$moduleModel = $recordModel->getModule();
 
@@ -135,7 +135,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStrucure);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 
@@ -150,7 +150,7 @@ class Detail extends \Vtiger_Index_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView(\FreeCRM\Http\Vtiger_Request $request)
+	public function showModuleBasicView(\App\Http\Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\OSSPasswords\Views;
+namespace App\Modules\Settings\OSSPasswords\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,23 +13,23 @@ namespace FreeCRM\Modules\Settings\OSSPasswords\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ConfigurePass extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
@@ -42,10 +42,10 @@ class ConfigurePass extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
 		// config
@@ -124,7 +124,7 @@ class ConfigurePass extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 					$info = 'Encryption password is already created.';
 				} else if ($newPassword != false) {
 					// create new config
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 
 					$config = ["encode" => ['key' => "$newPassword"]];
 					$recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
@@ -176,7 +176,7 @@ class ConfigurePass extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 					if ($decrypt_aff_rows == $encrypt_aff_rows) {
 						// at end we are saving new password key
-						$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+						$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 						$config = array("encode" => array('key' => "$newKey"));
 						$save_ini = $recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
 						$success = 'Your key has been changed correctly.';
@@ -225,7 +225,7 @@ class ConfigurePass extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		} else if (!empty($uninstall_passwords) && !empty($status)) {
 			\App\Log::trace('Uninstallation started...');
 			$moduleName = $request->getModule();
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			if ($moduleModel) {
 				$moduleModel->delete();
 			}
@@ -234,7 +234,7 @@ class ConfigurePass extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$registerTxt = $register == 0 ? '' : 'checked="checked"';
 
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ERROR', $error);
 		$viewer->assign('INFO', $info);

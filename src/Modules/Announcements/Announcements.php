@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Announcements;
+namespace App\Modules\Announcements;
 
 /**
  * Announcements CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Announcements;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Announcements extends Vtiger_CRMEntity
@@ -86,7 +86,7 @@ class Announcements extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'NO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Announcements'));

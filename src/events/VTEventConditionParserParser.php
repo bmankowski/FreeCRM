@@ -10,7 +10,7 @@
 
 // $ANTLR 3.1 VTEventConditionParser.g 2009-01-23 20:13:10
 
-namespace FreeCRM\Events;
+namespace App\Events;
 
 // Use composer autoloader for ANTLR classes
 require_once __DIR__ . '/../../vendor/autoload.php';

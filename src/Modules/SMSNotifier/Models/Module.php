@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Models;
+namespace App\Modules\SMSNotifier\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -43,7 +43,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		if ($actionName === 'EditView') {
 			return false;
 		}
-		return \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName);
+		return \App\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName);
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SERVER_CONFIG', $this->getName()),
+			'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SERVER_CONFIG', $this->getName()),
 			'linkurl' => 'index.php?module=SMSNotifier&parent=Settings&view=List',
 			'linkicon' => ''
 		);

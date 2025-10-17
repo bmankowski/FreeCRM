@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Models;
+namespace App\Modules\PBXManager\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	const moduletableName = 'vtiger_pbxmanager';
@@ -30,7 +30,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function searchIncomingCall()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s AS module_table INNER JOIN %s AS entity_table  WHERE module_table.callstatus IN(?,?) && module_table.direction=? && module_table.pbxmanagerid=entity_table.crmid && entity_table.deleted=0', self::moduletableName, self::entitytableName);
 		$result = $db->pquery($query, ['ringing', 'in-progress', 'inbound']);
 		$recordModels = [];
@@ -65,7 +65,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function updateCallStatus($recordIds)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$where = sprintf("pbxmanagerid IN (%s) && callstatus='ringing'", generateQuestionMarks($recordIds));
 		$db->update(self::moduletableName, ['callstatus' => 'no-response'], $where, $recordIds);
 	}
@@ -77,8 +77,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveRecordWithArrray($params)
 	{
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('PBXManager');
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('PBXManager');
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('PBXManager');
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('PBXManager');
 		$details = array_change_key_case($params, CASE_LOWER);
 		$fieldModelList = $moduleModel->getFields();
 		if (!isset($details["assigned_user_id"]))
@@ -100,7 +100,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function updateCallDetails($details)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sourceuuid = $this->get('sourceuuid');
 		$query = sprintf('UPDATE %s SET ', self::moduletableName);
 		foreach ($details as $key => $value) {
@@ -120,14 +120,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function updateAssignedUser($userid)
 	{
 		$callid = $this->get('pbxmanagerid');
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->update(self::entitytableName, ['smownerid' => $userid], 'crmid=?', [$callid]);
 		return true;
 	}
 
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$record = new self();
 		$query = sprintf('SELECT * FROM %s WHERE pbxmanagerid=?', self::moduletableName);
 		$params = [$recordId];
@@ -142,7 +142,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getInstanceBySourceUUID($sourceuuid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$record = new self();
 		$query = sprintf('SELECT * FROM %s WHERE sourceuuid=?', self::moduletableName);
 		$params = [$sourceuuid];
@@ -190,7 +190,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function deletePhoneLookUpRecord($recordid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->delete(self::lookuptableName, 'crmid=?', [$recordid]);
 	}
 
@@ -200,7 +200,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public static function lookUpRelatedWithNumber($from)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$fnumber = preg_replace('/[-()\s+]/', '', $from);
 		$rnumber = strrev($fnumber);
 		$query = sprintf('SELECT crmid, fieldname FROM %s WHERE fnumber LIKE "%s" || rnumber LIKE "%s" ', self::lookuptableName, "$fnumber%", "$rnumber%");
@@ -229,11 +229,11 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public static function getUserInfoWithNumber($number)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if (empty($number)) {
 			return false;
 		}
-		$query = \FreeCRM\Modules\PBXManager\Models\Record::buildSearchQueryWithUIType(11, $number, 'Users');
+		$query = \App\Modules\PBXManager\Models\Record::buildSearchQueryWithUIType(11, $number, 'Users');
 		$result = $db->pquery($query, array());
 		if ($db->num_rows($result) > 0) {
 			$user['id'] = $db->query_result($result, 0, 'id');
@@ -294,7 +294,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public static function getUserNumbers()
 	{
 		$numbers = null;
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT id, phone_crm_extension FROM vtiger_users';
 		$result = $db->pquery($query, array());
 		$count = $db->num_rows($result);

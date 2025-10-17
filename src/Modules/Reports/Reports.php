@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports;
+namespace App\Modules\Reports;
 
 /* * *******************************************************************************
  * * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -30,7 +30,7 @@ $old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
 
 $related_modules = [];
 
-class Reports extends \FreeCRM\CRMEntity
+class Reports extends \App\CRMEntity
 {
 
 	/**
@@ -143,7 +143,7 @@ class Reports extends \FreeCRM\CRMEntity
 	// Update the module list for listing columns for report creation.
 	public function updateModuleList($module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if (!isset($module))
 			return;
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
@@ -171,7 +171,7 @@ class Reports extends \FreeCRM\CRMEntity
 	{
 		global $old_related_modules;
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$restricted_modules = array('Events');
 		$restricted_blocks = array('LBL_COMMENTS', 'LBL_COMMENT_INFORMATION');
 
@@ -225,12 +225,12 @@ class Reports extends \FreeCRM\CRMEntity
 
 						if (!empty($blocklabel)) {
 							if ($module == 'Calendar' && $blocklabel == 'LBL_CUSTOM_INFORMATION')
-								$this->module_list[$module][$blockid] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \App\Runtime\Vtiger_Language_Handler::translate($blocklabel, $module);
 							else
-								$this->module_list[$module][$blockid] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \App\Runtime\Vtiger_Language_Handler::translate($blocklabel, $module);
 							$prev_block_label = $blocklabel;
 						} else {
-							$this->module_list[$module][$blockid] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($prev_block_label, $module);
+							$this->module_list[$module][$blockid] = \App\Runtime\Vtiger_Language_Handler::translate($prev_block_label, $module);
 						}
 					}
 				}
@@ -290,7 +290,7 @@ class Reports extends \FreeCRM\CRMEntity
 	{
 
 		global $mod_strings;
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
@@ -337,7 +337,7 @@ class Reports extends \FreeCRM\CRMEntity
 	 */
 	public function sgetAllRpt($fldrId, $paramsList)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$returndata = [];
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
@@ -387,8 +387,8 @@ class Reports extends \FreeCRM\CRMEntity
 	public function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
 	{
 		$srptdetails = "";
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$adb = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 
 		$mod_strings = vglobal('mod_strings');
 		$returndata = [];
@@ -571,8 +571,8 @@ class Reports extends \FreeCRM\CRMEntity
 	 */
 	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$adb = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		if (is_string($block))
 			$block = explode(',', $block);
@@ -632,7 +632,7 @@ class Reports extends \FreeCRM\CRMEntity
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
 			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $module . "__" . $fieldlabel1 . ":" . $fieldname . ":" . $fieldtypeofdata;
 
-			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $module) . " " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel, $module);
+			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \App\Runtime\Vtiger_Language_Handler::translate($module, $module) . " " . \App\Runtime\Vtiger_Language_Handler::translate($fieldlabel, $module);
 			if (!is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
 				!in_array($adv_rel_field_tod_value, $this->adv_rel_fields[$fieldtypeofdata])) {
 				$this->adv_rel_fields[$fieldtypeofdata][] = $adv_rel_field_tod_value;
@@ -657,7 +657,7 @@ class Reports extends \FreeCRM\CRMEntity
 	 */
 	public function getSelectedStandardCriteria($reportid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
 		$result = $adb->pquery($sSQL, array($reportid));
 		$selectedstdfilter = $adb->fetch_array($result);
@@ -729,8 +729,8 @@ class Reports extends \FreeCRM\CRMEntity
 
 	public function getaccesfield($module)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$adb = \App\database\PearDatabase::getInstance();
 		$access_fields = [];
 
 		$profileList = $currentUser->getProfiles();
@@ -770,7 +770,7 @@ class Reports extends \FreeCRM\CRMEntity
 	public function getSelctedSortingColumns($reportid)
 	{
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
@@ -798,7 +798,7 @@ class Reports extends \FreeCRM\CRMEntity
 	 */
 	public function getSelectedColumnsList($reportid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$current_user = vglobal('current_user');
 
@@ -837,8 +837,8 @@ class Reports extends \FreeCRM\CRMEntity
 				$mod = ($mod_arr[0] == '') ? $module : $mod_arr[0];
 				$fieldlabel = trim(str_replace('__', ' ', $fieldlabel));
 				//modified code to support i18n issue
-				$mod_lbl = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod, $module); //module
-				$fld_lbl = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel, $module); //fieldlabel
+				$mod_lbl = \App\Runtime\Vtiger_Language_Handler::translate($mod, $module); //module
+				$fld_lbl = \App\Runtime\Vtiger_Language_Handler::translate($fieldlabel, $module); //fieldlabel
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
@@ -856,7 +856,7 @@ class Reports extends \FreeCRM\CRMEntity
 
 	public function getAdvancedFilterList($reportid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		global $modules;
 
 		$current_user = vglobal('current_user');
@@ -929,7 +929,7 @@ class Reports extends \FreeCRM\CRMEntity
 				}
 
 				//In vtiger6 report filter conditions, if the value has "(double quotes) then it is failed.
-				$criteria['value'] = \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = \App\Modules\Vtiger\Util::toSafeHTML(decode_html($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$advft_criteria[$relcriteriarow['groupid']]['columns'][$j] = $criteria;
@@ -954,7 +954,7 @@ class Reports extends \FreeCRM\CRMEntity
 	 */
 	public function sgetRptFldrSaveReport()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
@@ -994,7 +994,7 @@ class Reports extends \FreeCRM\CRMEntity
 	 */
 	public function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$options = [];
 		if ($reportid != "") {
@@ -1029,8 +1029,8 @@ class Reports extends \FreeCRM\CRMEntity
 	public function sgetColumnstoTotalHTML($module)
 	{
 		//retreive the vtiger_tabid
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$adb = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$tabid = \App\Module::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
@@ -1092,12 +1092,12 @@ class Reports extends \FreeCRM\CRMEntity
 							$selectedcolumn1[$selectedcolumnarray[4]] = $this->columnssummary[$i];
 						}
 					}
-					if (!\FreeCRM\Http\AppRequest::isEmpty('record')) {
-						$options['label'][] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					if (!\App\Http\AppRequest::isEmpty('record')) {
+						$options['label'][] = \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					}
 
 					$columntototalrow['fieldlabel'] = str_replace(" ", "__", $columntototalrow['fieldlabel']);
-					$options [] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					if ($selectedcolumn1[2] == "cb:" . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . "__SUM:2") {
 						$options [] = '<input checked name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					} else {
@@ -1121,7 +1121,7 @@ class Reports extends \FreeCRM\CRMEntity
 						$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MAX:5" type="checkbox" value="">';
 					}
 				} else {
-					$options [] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__AVG:3" type="checkbox" value="" >';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MIN:4"type="checkbox" value="" >';
@@ -1142,12 +1142,12 @@ class Reports extends \FreeCRM\CRMEntity
  */
 function getReportsModuleList($focus)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
 		if (isPermitted($key, 'index') == "yes") {
 			$count_flag = 1;
-			$modules [$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $key);
+			$modules [$key] = \App\Runtime\Vtiger_Language_Handler::translate($key, $key);
 		}
 	}
 	asort($modules);
@@ -1178,7 +1178,7 @@ function getReportRelatedModules($module, $focus)
 function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_groups)
 {
 
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 
 	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";

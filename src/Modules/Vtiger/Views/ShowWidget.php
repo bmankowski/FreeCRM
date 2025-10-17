@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,24 +13,24 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ShowWidget extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
 		$componentName = $request->get('name');
 		$linkId = $request->get('linkid');
 		$id = $request->get('widgetid');
 		if (!empty($componentName)) {
-			$className = \FreeCRM\Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
+			$className = \App\Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
 			if (!empty($className)) {
 				$widget = NULL;
 				if (!empty($linkId)) {
-					$widget = new \FreeCRM\Modules\Vtiger\Models\Widget();
+					$widget = new \App\Modules\Vtiger\Models\Widget();
 					$widget->set('linkid', $linkId);
 					$widget->set('userid', $currentUser->getId());
 					$widget->set('widgetid', $id);
@@ -48,11 +48,11 @@ class ShowWidget extends \Vtiger_Index_View
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('NO_DATA')));
+		$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('NO_DATA')));
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceUsers\Models;
+namespace App\Modules\Settings\WebserviceUsers\Models;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\WebserviceUsers\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	/**

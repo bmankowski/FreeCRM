@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Menu\Models;
-use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
+namespace App\Modules\Settings\Menu\Models;
+use App\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -63,7 +63,7 @@ class Module
 				if ($row['label'] != '') {
 					$name = $row['label'];
 				} elseif ($settings) {
-					$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $row['name'], $row['name']);
+					$name = \App\Runtime\Vtiger_Language_Handler::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $row['name'], $row['name']);
 				}
 				break;
 			case 6: $name = 'LBL_HOME';
@@ -72,9 +72,9 @@ class Module
 				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
 				$data = $query->one();
 				if ($settings) {
-					$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['entitytype'], $data['entitytype']) . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
+					$name = \App\Runtime\Vtiger_Language_Handler::translate($data['entitytype'], $data['entitytype']) . ': ' . \App\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
 				} else {
-					$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
+					$name = \App\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
 				}
 				break;
 			default: $name = $row['label'];
@@ -87,7 +87,7 @@ class Module
 	{
 		switch ($row['type']) {
 			case 0:
-				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($row['module']);
+				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($row['module']);
 				$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
 				break;
 			case 1: $url = $row['dataurl'];
@@ -131,13 +131,13 @@ class Module
 		$filters = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->all();
-		foreach (\FreeCRM\Modules\Vtiger\Models\Module::getAll() as $module) {
+		foreach (\App\Modules\Vtiger\Models\Module::getAll() as $module) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
 			if (file_exists($filterDir)) {
 				$fileFilters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
 				foreach ($fileFilters as $filter) {
 					$name = str_replace('.php', '', $filter->getFilename());
-					$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Filter', $name, $module->get('name'));
+					$handlerClass = \App\Vtiger_Loader::getComponentClassName('Filter', $name, $module->get('name'));
 					if (class_exists($handlerClass)) {
 						$filters[] = [
 							'viewname' => (new $handlerClass())->getViewName(),

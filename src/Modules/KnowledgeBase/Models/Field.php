@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Models;
+namespace App\Modules\KnowledgeBase\Models;
 
 /**
  * Field Class for KnowledgeBase
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Field extends \FreeCRM\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	public function isAjaxEditable()

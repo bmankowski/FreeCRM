@@ -198,8 +198,8 @@ Created `refactor/scripts/batch-migrate.sh` that:
 
 3. **Namespace Duplication:** Fixed double FreeCRM namespace
    ```php
-   // Before: \FreeCRM\\FreeCRM\Loader
-   // After:  \FreeCRM\Loader
+   // Before: \App\\App\Loader
+   // After:  \App\Loader
    ```
 
 ### File Structure

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PickListDependency\Actions;
+namespace App\Modules\Settings\PickListDependency\Actions;
 
 
 /* +**********************************************************************************
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Settings\PickListDependency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+class Index extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
 	public function __construct()
@@ -22,13 +22,13 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$this->exposeMethod('checkCyclicDependency');
 	}
 
-	public function checkCyclicDependency(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkCyclicDependency(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('sourceModule');
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
 		$result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('result' => $result));
 		$response->emit();
 	}

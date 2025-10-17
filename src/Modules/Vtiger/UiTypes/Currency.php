@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -37,9 +37,9 @@ class Currency extends Base
 		if ($value) {
 			if ($uiType === 72) {
 				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-				$value = \FreeCRM\fields\CurrencyField::convertToUserFormat($value, null, true);
+				$value = \App\fields\CurrencyField::convertToUserFormat($value, null, true);
 			} else {
-				$value = \FreeCRM\fields\CurrencyField::convertToUserFormat($value);
+				$value = \App\fields\CurrencyField::convertToUserFormat($value);
 			}
 			if (!$this->edit) {
 				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
@@ -52,7 +52,7 @@ class Currency extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -73,7 +73,7 @@ class Currency extends Base
 	 */
 	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
 	{
-		return \FreeCRM\fields\CurrencyField::convertToUserFormat($value, $user, $skipConversion);
+		return \App\fields\CurrencyField::convertToUserFormat($value, $user, $skipConversion);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Currency extends Base
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
 	{
-		return \FreeCRM\fields\CurrencyField::convertToDBFormat($value, $user, $skipConversion);
+		return \App\fields\CurrencyField::convertToDBFormat($value, $user, $skipConversion);
 	}
 
 	/**
@@ -123,10 +123,10 @@ class Currency extends Base
 				$currencySymbol = $currencyInfo['currency_symbol'];
 			}
 		} else {
-			$currencyModal = new \FreeCRM\fields\CurrencyField($value);
+			$currencyModal = new \App\fields\CurrencyField($value);
 			$currencyModal->initialize();
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
-		return \FreeCRM\fields\CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+		return \App\fields\CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
 }

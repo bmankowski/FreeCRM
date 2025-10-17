@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Inventory\Actions;
-use FreeCRM\HttpVtiger_Request;
-use FreeCRM\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
+namespace App\Modules\Settings\Inventory\Actions;
+use App\HttpVtiger_Request;
+use App\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
 
 
 
@@ -11,7 +11,7 @@ use FreeCRM\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
 	public function __construct()
@@ -25,7 +25,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
@@ -45,7 +45,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		}
 		$recordModel->setType($type);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$id = $recordModel->save();
 			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
@@ -69,10 +69,10 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		if (!$exists) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NAME_EXIST', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NAME_EXIST', $qualifiedModuleName));
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -91,10 +91,10 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		if (!$status) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_OK', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_OK', $qualifiedModuleName));
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -106,7 +106,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$params = $request->get('param');
 		$type = $params['view'];
 
-		$recordModel = \FreeCRM\Modules\Settings\Inventory\Models\Module::getCleanInstance();
+		$recordModel = \App\Modules\Settings\Inventory\Models\Module::getCleanInstance();
 		$status = $recordModel->setConfig($type, $params['param']);
 
 		if (!$status) {
@@ -115,7 +115,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 			$result = array('success' => true);
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

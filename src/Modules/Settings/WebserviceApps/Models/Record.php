@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceApps\Models;
+namespace App\Modules\Settings\WebserviceApps\Models;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\WebserviceApps\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	public function getId()
@@ -29,7 +29,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			return false;
 		}
 		$model = new self();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE id = ? LIMIT 1', [$recordId]);
 		$data = $db->getRow($result);
 		$model->setData($data);

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * FileUpload View Class
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * FileUpload view class
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class FileUpload extends \Vtiger_Index_View
 {
 
@@ -22,13 +22,13 @@ class FileUpload extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$fieldName = $request->get('inputName');
 		if (!empty($record)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $fieldName, false)) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
@@ -43,7 +43,7 @@ class FileUpload extends \Vtiger_Index_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -58,9 +58,9 @@ class FileUpload extends \Vtiger_Index_View
 	/**
 	 * Get scripts for modal window
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\JsScript[]
+	 * @return \App\Modules\Vtiger\Models\JsScript[]
 	 */
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getModalScripts($request);
 		$scripts = [

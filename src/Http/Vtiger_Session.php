@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-namespace FreeCRM\Http;
+namespace App\Http;
 
 // Import dependencies
 include_once 'libraries/HTTP_Session/Session.php';

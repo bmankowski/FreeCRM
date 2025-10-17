@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ISTDN;
+namespace App\Modules\ISTDN;
 
 /**
  * ISTDN CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\ISTDN;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class ISTDN extends Vtiger_CRMEntity

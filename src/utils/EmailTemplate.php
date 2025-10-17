@@ -16,7 +16,7 @@ require_once ROOT_DIRECTORY . '/src/events/SqlResultIterator.php';
  * @author mak
  */
 
-namespace FreeCRM\utils;
+namespace App\utils;
 
 class EmailTemplate
 {
@@ -142,7 +142,7 @@ class EmailTemplate
 				}
 				$sql .= ' ' . $tableList[0] . '.' . $moduleTableIndexList[$tableList[0]] . '=?';
 				$sqlparams = array($recordId);
-				$db = \FreeCRM\database\PearDatabase::getInstance();
+				$db = \App\database\PearDatabase::getInstance();
 				$result = $db->pquery($sql, $sqlparams);
 				$it = new SqlResultIterator($db, $result);
 				//assuming there can only be one row.
@@ -190,10 +190,10 @@ class EmailTemplate
 							$values[$fieldName] = $referencedObjectMeta->getName(vtws_getId(
 									$referencedObjectMeta->getEntityId(), $values[$fieldName]));
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'picklist') === 0) {
-							$values[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(
+							$values[$fieldName] = \App\Runtime\Vtiger_Language_Handler::translate(
 									$values[$fieldName], $module);
 						} elseif (strcasecmp($fieldName, 'salutationtype') === 0 && $webserviceField->getUIType() == '55') {
-							$values[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(
+							$values[$fieldName] = \App\Runtime\Vtiger_Language_Handler::translate(
 									$values[$fieldName], $module);
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'datetime') === 0) {
 							$values[$fieldName] = $values[$fieldName] . ' ' . DateTimeField::getDBTimeZone();
@@ -250,7 +250,7 @@ class EmailTemplate
 
 	public function isActive($field, $mod)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$tabid = \App\Module::getModuleId($mod);
 		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));

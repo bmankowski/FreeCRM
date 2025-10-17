@@ -2,15 +2,15 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\OSSMail\Actions;
+namespace App\Modules\OSSMail\Actions;
 
-class checkMails extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class checkMails extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -18,15 +18,15 @@ class checkMails extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$users = $request->get('users');
 		$output = [];
 		if (count($users) > 0) {
-			\FreeCRM\Modules\OSSMail\Models\Record::updateMailBoxmsgInfo($users);
-			$output = \FreeCRM\Modules\OSSMail\Models\Record::getMailBoxmsgInfo($users);
+			\App\Modules\OSSMail\Models\Record::updateMailBoxmsgInfo($users);
+			$output = \App\Modules\OSSMail\Models\Record::getMailBoxmsgInfo($users);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
 	}

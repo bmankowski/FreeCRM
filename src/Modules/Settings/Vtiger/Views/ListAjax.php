@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
+namespace App\Modules\Settings\Vtiger\Views;
 
 
 /* +**********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\Vtiger\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\List
+class ListAjax extends \App\Modules\Settings\Vtiger\Views\List
 {
 
 	public function __construct()
@@ -20,17 +20,17 @@ class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\List
 		parent::__construct();
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

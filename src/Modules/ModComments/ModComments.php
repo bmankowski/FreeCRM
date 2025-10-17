@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments;
+namespace App\Modules\ModComments;
 
-use FreeCRM\Modules\ModComments\Models\CommentsModel;
+use App\Modules\ModComments\Models\CommentsModel;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -28,7 +28,7 @@ class ModComments extends ModCommentsCore
 		parent::vtlib_handler($modulename, $event_type);
 		if ($event_type == 'module.postinstall') {
 			self::addWidgetTo(array('Leads', 'Contacts', 'Accounts', 'Project', 'ProjectTask'));
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 		} elseif ($event_type == 'module.postupdate') {
@@ -43,7 +43,7 @@ class ModComments extends ModCommentsCore
 	 */
 	static function transferRecords($currentParentId, $targetParentId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_modcomments SET related_to=? WHERE related_to=?", array($targetParentId, $currentParentId));
 	}
 

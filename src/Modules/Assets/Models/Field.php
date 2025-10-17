@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Assets\Models;
+namespace App\Modules\Assets\Models;
 
 /**
  *
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Assets\Models;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Field extends \FreeCRM\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	public function isAjaxEditable()

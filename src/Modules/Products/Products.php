@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products;
+namespace App\Modules\Products;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Products;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Products extends \FreeCRM\CRMEntity
+class Products extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_products';
@@ -128,7 +128,7 @@ class Products extends \FreeCRM\CRMEntity
 	 */
 	public function isparent_check()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$isparent_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$isparent = $adb->num_rows($isparent_query);
 		return $isparent;
@@ -138,7 +138,7 @@ class Products extends \FreeCRM\CRMEntity
 	 */
 	public function ismember_check()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$ismember_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$ismember = $adb->num_rows($ismember_query);
 		return $ismember;
@@ -152,7 +152,7 @@ class Products extends \FreeCRM\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -266,7 +266,7 @@ class Products extends \FreeCRM\CRMEntity
 
 	public function deleteProduct2ProductRelation($record, $return_id, $is_parent)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($is_parent == 0) {
 			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
 			$adb->pquery($sql, array($record, $return_id));

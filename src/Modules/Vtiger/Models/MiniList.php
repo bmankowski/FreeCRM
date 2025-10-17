@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -52,7 +52,7 @@ class MiniList extends Model
 	public function getTargetModuleModel()
 	{
 		if (!$this->targetModuleModel) {
-			$this->targetModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
+			$this->targetModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
 	}
@@ -72,14 +72,14 @@ class MiniList extends Model
 		$this->initListViewController();
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$suffix = '';
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {
 				$customview = $db->fetch_array($customviewrs);
-				$suffix = ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($customview['viewname'], $this->getTargetModule());
+				$suffix = ' - ' . \App\Runtime\Vtiger_Language_Handler::translate($customview['viewname'], $this->getTargetModule());
 			}
-			return $prefix . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+			return $prefix . \App\Runtime\Vtiger_Language_Handler::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
 		return $title;
 	}
@@ -121,9 +121,9 @@ class MiniList extends Model
 				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
 			}
 			$targetModuleName = $this->getTargetModule();
-			$targetModuleFocus = \FreeCRM\CRMEntity::getInstance($targetModuleName);
+			$targetModuleFocus = \App\CRMEntity::getInstance($targetModuleName);
 			$filterId = $this->widgetModel->get('filterid');
-			$filterModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($filterId);
+			$filterModel = \App\Modules\CustomView\Models\Record::getInstanceById($filterId);
 			if (!empty($filterModel->get('sort'))) {
 				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
 				$this->queryGenerator->setOrder($orderby, $sort);

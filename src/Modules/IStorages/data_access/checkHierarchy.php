@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages;
+namespace App\Modules\IStorages;
 
 /**
  * Prevents setting loop of parent storages
@@ -15,7 +15,7 @@ class checkHierarchy {
 	public function process($moduleName, $id, $recordData, $config)
 	{
 		$parentId = $recordData['parentid'];
-		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+		$focus = \App\CRMEntity::getInstance($moduleName);
 		$storages = [];
 
 		if ($id > 0) {
@@ -33,8 +33,8 @@ class checkHierarchy {
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_IS_CHILD', $moduleName),
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_IS_CHILD', $moduleName),
 					'type' => 'error'
 				]
 			];

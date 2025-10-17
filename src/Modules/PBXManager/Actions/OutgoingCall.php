@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Actions;
+namespace App\Modules\PBXManager\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\PBXManager\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class OutgoingCall extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class OutgoingCall extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
@@ -25,12 +25,12 @@ class OutgoingCall extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$response = new \App\Http\Vtiger_Response();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userNumber = $user->phone_crm_extension;
 
 		if ($gateway && $userNumber) {

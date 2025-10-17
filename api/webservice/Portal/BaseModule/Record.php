@@ -83,7 +83,7 @@ class Record extends \Api\Core\BaseAction
 				if (empty($block)) {
 					continue;
 				}
-				$fieldLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleField->get('label'), $moduleName);
+				$fieldLabel = \App\Runtime\Vtiger_Language_Handler::translate($moduleField->get('label'), $moduleName);
 				$displayData[$moduleField->getName()] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
 				$fieldsLabel[$moduleField->getName()] = $fieldLabel;
 				if ($moduleField->isReferenceField()) {
@@ -138,7 +138,7 @@ class Record extends \Api\Core\BaseAction
 	public function put()
 	{
 		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
 		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];
@@ -151,7 +151,7 @@ class Record extends \Api\Core\BaseAction
 	public function post()
 	{
 		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
 		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];

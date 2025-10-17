@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Actions;
+namespace App\Modules\Services\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Services\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class RelationAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 	
 }

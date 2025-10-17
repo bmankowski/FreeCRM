@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP;
+namespace App\Modules\WSAPP;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -74,7 +74,7 @@ class WSAPP {
 
 	public function registerCustomWebservices($operations)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		foreach ($operations as $operation_name => $operation_info) {
 			$checkres = $adb->pquery("SELECT operationid FROM vtiger_ws_operation WHERE name=?", array($operation_name));
@@ -105,7 +105,7 @@ class WSAPP {
 
 	public function registerHandlers()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$handlerDetails = array();
 
@@ -127,7 +127,7 @@ class WSAPP {
 
 	public function registerVtigerCRMApp()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$appName = "vtigerCRM";
 		$type = "user";
 		$uid = uniqid();

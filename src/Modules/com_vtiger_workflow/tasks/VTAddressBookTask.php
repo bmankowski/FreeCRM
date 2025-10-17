@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -26,11 +26,11 @@ class VTAddressBookTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();
 		$entityId = $recordModel->getId();
 
@@ -49,7 +49,7 @@ class VTAddressBookTask extends VTTask
 		}
 		$db->delete($table, 'id = ?', [$entityId]);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$fields = $moduleModel->getFieldsByType('email');
 		foreach ($fields as $field) {
 			$fieldname = $field->getName();
@@ -62,7 +62,7 @@ class VTAddressBookTask extends VTTask
 
 	/**
 	 * Function to get contents of this task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return bool
 	 */
 	public function getContents($recordModel)

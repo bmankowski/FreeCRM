@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Export Model Class
@@ -29,7 +29,7 @@ class Export extends Model
 		if ('xml' === $request->get('export_type')) {
 			$componentName = 'ExportToXml';
 		}
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', $componentName, $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', $componentName, $moduleName);
 		$exportModel = new $modelClassName();
 		$exportModel->initialize($request);
 		return $exportModel;
@@ -40,9 +40,9 @@ class Export extends Model
 		$moduleName = $request->get('source_module');
 		if (!empty($moduleName)) {
 			$this->moduleName = $moduleName;
-			$this->moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$this->moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			$this->moduleFieldInstances = $this->moduleInstance->getFields();
-			$this->focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$this->focus = \App\CRMEntity::getInstance($moduleName);
 		}
 	}
 
@@ -52,7 +52,7 @@ class Export extends Model
 	 */
 	public function exportData(Vtiger_Request $request)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 		$query = $this->getExportQuery($request);
 
@@ -65,9 +65,9 @@ class Export extends Model
 					$fieldModel = $this->moduleFieldInstances[$fieldName];
 					// Check added as querygenerator is not checking this for admin users
 					if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
-						$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+						$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 						if ($exportBlockName) {
-							$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+							$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
 						}
 						$headers[] = $header;
 					}
@@ -75,9 +75,9 @@ class Export extends Model
 			}
 		} else {
 			foreach ($this->moduleFieldInstances as &$fieldModel) {
-				$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+				$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 				if ($exportBlockName) {
-					$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+					$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
 				}
 				$headers[] = $header;
 			}
@@ -90,7 +90,7 @@ class Export extends Model
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {
-				$headers[] = 'Inventory::' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
+				$headers[] = 'Inventory::' . \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
 					$headers[] = 'Inventory::' . $columnName;
 				}
@@ -149,11 +149,11 @@ class Export extends Model
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($mode) {
 			case 'ExportAllData' :
-				$query->limit(\FreeCRM\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(\App\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 
 			case 'ExportCurrentPage' :
-				$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+				$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 				$limit = $pagingModel->getPageLimit();
 				$currentPage = $request->get('page');
 				if (empty($currentPage)) {
@@ -177,7 +177,7 @@ class Export extends Model
 				} else {
 					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->get('excluded_ids')]);
 				}
-				$query->limit(\FreeCRM\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(\App\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 		}
 		return $query;
@@ -230,7 +230,7 @@ class Export extends Model
 	 */
 	public function sanitizeValues($arr)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$roleid = $currentUser->get('roleid');
 		if (empty($this->fieldArray)) {
 			$this->fieldArray = $this->moduleFieldInstances;
@@ -275,13 +275,13 @@ class Export extends Model
 					$value = '';
 				}
 			} elseif ($uitype === 52 || $type === 'owner') {
-				$value = \FreeCRM\Modules\Vtiger\Util::getOwnerName($value);
+				$value = \App\Modules\Vtiger\Util::getOwnerName($value);
 			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
 				foreach ($owners as $owner) {
-					$values[] = \FreeCRM\Modules\Vtiger\Util::getOwnerName($owner);
+					$values[] = \App\Modules\Vtiger\Util::getOwnerName($owner);
 				}
 				$value = implode(',', $values);
 			} elseif ($type === 'reference') {

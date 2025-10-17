@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Calendar\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class InRelation extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -32,11 +32,11 @@ class InRelation extends \Vtiger_Index_View
 			$time = 'current';
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if ($sortOrder == 'ASC') {
@@ -47,7 +47,7 @@ class InRelation extends \Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = \FreeCRM\CRMEntity::getInstance($relatedModuleName);
+			$relatedInstance = \App\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
@@ -96,7 +96,7 @@ class InRelation extends \Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {
@@ -129,12 +129,12 @@ class InRelation extends \Vtiger_Index_View
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
-		if ($relationModel->isFavorites() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
+		if ($relationModel->isFavorites() && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			$viewer->assign('FAVORITES', $favorites);
 			$isFavorites = $relationModel->isFavorites();

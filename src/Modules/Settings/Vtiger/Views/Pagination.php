@@ -1,14 +1,14 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
+namespace App\Modules\Settings\Vtiger\Views;
 
 
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use FreeCRM\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
-class Pagination extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
+class Pagination extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -17,7 +17,7 @@ class Pagination extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPagination(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
@@ -83,6 +83,6 @@ class Pagination extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
 	{
-		return \FreeCRM\Modules\Vtiger\Util::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
+		return \App\Modules\Vtiger\Util::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

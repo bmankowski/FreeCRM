@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PickListDependency\Views;
+namespace App\Modules\Settings\PickListDependency\Views;
 
 
 /* +***********************************************************************************
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Settings\PickListDependency\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\PickListDependency\Models\Module as Settings_PickListDependency_Module_Model;
-class AddDependency extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\PickListDependency\Models\Module as Settings_PickListDependency_Module_Model;
+class AddDependency extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -22,7 +22,7 @@ class AddDependency extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('GetPickListFields');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, $mode)) {
@@ -32,7 +32,7 @@ class AddDependency extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 		$qualifiedModule = $request->getModule(true);
 		$viewer = $this->getViewer($request);
-		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getEntityModules();
+		$moduleModels = \App\Modules\Vtiger\Models\Module::getEntityModules();
 
 		$viewer->assign('MODULES', $moduleModels);
 		echo $viewer->view('AddDependency.tpl', $qualifiedModule);
@@ -40,15 +40,15 @@ class AddDependency extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	/**
 	 * Function returns the picklist field for a module
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function GetPickListFields(\FreeCRM\Http\Vtiger_Request $request)
+	public function GetPickListFields(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('sourceModule');
 
 		$fieldList = Settings_PickListDependency_Module_Model::getAvailablePicklists($module);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($fieldList);
 		$response->emit();
 	}

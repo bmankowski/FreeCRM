@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords\Views;
+namespace App\Modules\OSSPasswords\Views;
 
 /**
  * @package YetiForce.views
@@ -9,13 +9,13 @@ namespace FreeCRM\Modules\OSSPasswords\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
 	protected $record = false;
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -33,7 +33,7 @@ class Detail extends \Vtiger_Index_View
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record record model
+	 * @param \App\Modules\Vtiger\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

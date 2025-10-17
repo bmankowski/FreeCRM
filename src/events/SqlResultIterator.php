@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Events;
+namespace App\Events;
 
 class SqlResultIterator implements \Iterator
 {

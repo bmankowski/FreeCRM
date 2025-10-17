@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -23,7 +23,7 @@ class VTDummyTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{

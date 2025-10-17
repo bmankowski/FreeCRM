@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Views;
+namespace App\Modules\HelpDesk\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\HelpDesk\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -29,9 +29,9 @@ class Detail extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -47,13 +47,13 @@ class Detail extends \Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function showCharts(\FreeCRM\Http\Vtiger_Request $request)
+	public function showCharts(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($moduleModel)
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -61,7 +61,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->view('charts/ShowTimeHelpDesk.tpl', $moduleName);
 	}
 
-	public function showRelatedProductsServices(\FreeCRM\Http\Vtiger_Request $request)
+	public function showRelatedProductsServices(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -75,7 +75,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 'no_limit');
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));

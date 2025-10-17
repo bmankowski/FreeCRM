@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -15,14 +15,14 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		$createPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
+		$createPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
 		if ($createPermission) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
@@ -51,9 +51,9 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView') && \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'EditView');
 		$advancedLinks = [];
-		$importPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Import');
+		$importPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
@@ -63,7 +63,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			);
 		}
 
-		$exportPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
@@ -78,12 +78,12 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param array $linkParams
-	 * @return array - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return array - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$moduleModel = $this->getModule();
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
@@ -104,7 +104,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 		}
 
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
@@ -112,10 +112,10 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
+	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setField(['visibility', 'assigned_user_id', 'activitystatus']);

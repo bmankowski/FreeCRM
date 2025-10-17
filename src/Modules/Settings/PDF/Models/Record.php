@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Models;
+namespace App\Modules\Settings\PDF\Models;
 
 
 
@@ -13,8 +13,8 @@ namespace FreeCRM\Modules\Settings\PDF\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	protected $recordCache = [];
@@ -47,7 +47,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 
@@ -89,10 +89,10 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
-		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \App\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$data = [];
-		$fields = \FreeCRM\Modules\Settings\PDF\Models\Module::getFieldsByStep();
+		$fields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep();
 		foreach ($fields as $field) {
 			$data[$field] = '';
 		}
@@ -112,7 +112,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			case 6:
 			case 7:
 			case 8:
-				$stepFields = \FreeCRM\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
+				$stepFields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
 				$params = [];
 				$fields = [];
 				foreach ($stepFields as $field) {
@@ -129,7 +129,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				return $pdfModel->get('pdfid');
 
 			case 1:
-				$stepFields = \FreeCRM\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
+				$stepFields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
 				if (!$pdfModel->getId()) {
 					$params = [];
 					foreach ($stepFields as $field) {
@@ -149,7 +149,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				return $pdfModel->get('pdfid');
 
 			case 'import':
-				$allFields = \FreeCRM\Modules\Settings\PDF\Models\Module::$allFields;
+				$allFields = \App\Modules\Settings\PDF\Models\Module::$allFields;
 				$params = [];
 				foreach ($allFields as $field) {
 					if ($field === 'conditions') {

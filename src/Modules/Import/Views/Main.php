@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\Views;
+namespace App\Modules\Import\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Import\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
-class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
+use App\Http\Vtiger_Request;
+class Main extends \App\Runtime\Vtiger_View_Controller
 {
 
 	public $request;
 	public $user;
 	public $numberOfRecords;
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
@@ -59,8 +59,8 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
-				Import_Utils_Helper::showErrorPage(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				Import_Utils_Helper::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 			}
 		}
 
@@ -74,14 +74,14 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 	/**
 	 * Show import status
 	 * @param array $importInfo
-	 * @param \FreeCRM\Modules\Users\Models\Record $user
+	 * @param \App\Modules\Users\Models\Record $user
 	 * @throws \Exception\AppException
 	 */
 	public static function showImportStatus($importInfo, $user)
 	{
 		if (empty($importInfo)) {
-			Import_Utils_Helper::showErrorPage(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			Import_Utils_Helper::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
 		}
 		$importDataController = new Import_Data_Action($importInfo, $user);
 		if ($importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_HALTED ||
@@ -106,7 +106,7 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$moduleName = $importInfo['module'];
 		$importId = $importInfo['id'];
 
-		$viewer = new FreeCRM_Viewer();
+		$viewer = new CRM_Viewer();
 
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
@@ -123,7 +123,7 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$moduleName = $importInfo['module'];
 		$ownerId = $importInfo['user_id'];
 
-		$viewer = new FreeCRM_Viewer();
+		$viewer = new CRM_Viewer();
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('OWNER_ID', $ownerId);
@@ -140,7 +140,7 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$moduleName = $importInfo['module'];
 		$importId = $importInfo['id'];
 
-		$viewer = new FreeCRM_Viewer();
+		$viewer = new CRM_Viewer();
 
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
@@ -155,7 +155,7 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$mapName = $this->request->get('save_map_as');
 		if ($saveMap && !empty($mapName)) {
 			$fieldMapping = $this->request->get('field_mapping');
-			$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($this->request, $this->user);
+			$fileReader = \App\Modules\Import\Models\Module::getFileReader($this->request, $this->user);
 			if ($fileReader === null) {
 				return false;
 			}
@@ -184,15 +184,15 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 
 	public function copyFromFileToDB()
 	{
-		$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($this->request, $this->user);
+		$fileReader = \App\Modules\Import\Models\Module::getFileReader($this->request, $this->user);
 		$fileReader->read();
 		$fileReader->deleteFile();
 		if ($fileReader->getStatus() === 'success') {
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
 			return true;
 		} else {
-			Import_Utils_Helper::showErrorPage(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
-				\FreeCRM\Runtime\Vtiger_Language_Handler::translate($fileReader->getErrorMessage(), 'Import'));
+			Import_Utils_Helper::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
+				\App\Runtime\Vtiger_Language_Handler::translate($fileReader->getErrorMessage(), 'Import'));
 			return false;
 		}
 	}
@@ -216,7 +216,7 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 			Import_Map_Model::markAsDeleted($mapId);
 		}
 
-		$viewer = new FreeCRM_Viewer();
+		$viewer = new CRM_Viewer();
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));

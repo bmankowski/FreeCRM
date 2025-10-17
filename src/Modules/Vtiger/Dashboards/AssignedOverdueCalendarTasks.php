@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Vtiger\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -14,14 +14,14 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class AssignedOverdueCalendarTasks extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -31,28 +31,28 @@ class AssignedOverdueCalendarTasks extends \Vtiger_Index_View
 		$orderBy = $request->get('orderby');
 		$data = $request->getAll();
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
+			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$params = [];
-		$params['status'] = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('overdue');
+		$params['status'] = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('overdue');
 		$params['user'] = $currentUser->getId();
 		$conditions = ['condition' => ['vtiger_activity.status' => $params['status'], 'vtiger_crmentity.smcreatorid' => $params['user']]];
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner, false, $params);
 
 		$colorList = [];
 		foreach ($calendarActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+			$colorList[$activityModel->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
@@ -61,8 +61,8 @@ class AssignedOverdueCalendarTasks extends \Vtiger_Index_View
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', \FreeCRM\AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', \FreeCRM\AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \App\AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', \App\AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

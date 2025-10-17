@@ -1,15 +1,15 @@
 <?php
 
-namespace FreeCRM\Modules\Competition\Models;
+namespace App\Modules\Competition\Models;
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

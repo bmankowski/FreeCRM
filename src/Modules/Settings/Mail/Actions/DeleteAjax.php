@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Actions;
+namespace App\Modules\Settings\Mail\Actions;
 
 
 
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Mail\Models\Record as Settings_Mail_Record_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
+use App\Modules\Settings\Mail\Models\Record as Settings_Mail_Record_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 	/**
 	 * Checking permission 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -29,9 +29,9 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
 	
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -44,9 +44,9 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
 	
 	/**
 	 * Validate Request
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Profiles\Actions;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Profiles\Actions;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Profiles_EditAjax_Action extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+Class Settings_Profiles_EditAjax_Action extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -22,7 +22,7 @@ Class Settings_Profiles_EditAjax_Action extends \FreeCRM\Modules\Settings\Vtiger
 		$this->exposeMethod('checkDuplicate');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -31,14 +31,14 @@ Class Settings_Profiles_EditAjax_Action extends \FreeCRM\Modules\Settings\Vtiger
 		}
 	}
 
-	public function checkDuplicate(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkDuplicate(\App\Http\Vtiger_Request $request)
 	{
 		$profileName = $request->get('profilename');
 		$recordId = $request->get('record');
 		$recordModel = Settings_Profiles_Record_Model::getInstanceByName($profileName, false, $recordId);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if (!empty($recordModel)) {
-			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => false));
 		}

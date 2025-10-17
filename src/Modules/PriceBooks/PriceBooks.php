@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks;
+namespace App\Modules\PriceBooks;
 
 /* * *******************************************************************************
  * * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\PriceBooks;
  *
  * ****************************************************************************** */
 
-class PriceBooks extends \FreeCRM\CRMEntity
+class PriceBooks extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_pricebook';

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Views;
+namespace App\Modules\Users\Views;
 
 /**
  * @package YetiForce.Modal
@@ -8,26 +8,26 @@ namespace FreeCRM\Modules\Users\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class SwitchUsers extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		if (!\FreeCRM\Modules\Users\Models\Module::getSwitchUsers()) {
+		if (!\App\Modules\Users\Models\Module::getSwitchUsers()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog modal-sm"><div class="modal-content">';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$users = \FreeCRM\Modules\Users\Models\Module::getSwitchUsers(true);
+		$users = \App\Modules\Users\Models\Module::getSwitchUsers(true);
 		$userId = $request->get('id');
 		$baseUserId = $userId;
 		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {

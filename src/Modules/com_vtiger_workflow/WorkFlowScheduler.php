@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace App\Modules\com_vtiger_workflow;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ('src/Modules/com_vtiger_workflow/WorkflowSchedulerInclude.php');
 require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once ROOT_DIRECTORY . '/src/Modules/Users/Users.php';
@@ -57,7 +57,7 @@ class WorkFlowScheduler {
 
 	public function queueScheduledWorkflowTasks()
 	{
-		$default_timezone = \FreeCRM\AppConfig::main('default_timezone');
+		$default_timezone = \App\AppConfig::main('default_timezone');
 		$adb = $this->db;
 
 		$vtWorflowManager = new VTWorkflowManager($adb);
@@ -79,7 +79,7 @@ class WorkFlowScheduler {
 			if ($tasks) {
 				$records = $this->getEligibleWorkflowRecords($workflow);
 				foreach ($records as &$recordId) {
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 					$data = $recordModel->getData();
 					foreach ($tasks as $task) {
 						if ($task->active) {

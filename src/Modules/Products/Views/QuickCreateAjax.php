@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Views;
+namespace App\Modules\Products\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Products\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
 		$viewer = $this->getViewer($request);

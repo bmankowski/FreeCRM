@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Notifications\Views;
+namespace App\Modules\Settings\Notifications\Views;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\Notifications\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Members extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+class Members extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
 	/**
@@ -25,9 +25,9 @@ class Members extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 
 	/**
 	 * Function gets settings
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -39,13 +39,13 @@ class Members extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 
 	/**
 	 * Function downloads settings for watched members
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function addWatchingMembers(\FreeCRM\Http\Vtiger_Request $request)
+	public function addWatchingMembers(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->get('srcModule');
-		$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
+		$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_TO_ADD', true);
 		$viewer->assign('SRC_MODULE', $srcModule);
@@ -57,14 +57,14 @@ class Members extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 
 	/**
 	 * Function downloads settings for exceptions
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function exceptions(\FreeCRM\Http\Vtiger_Request $request)
+	public function exceptions(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->get('srcModule');
 		$member = $request->get('member');
-		$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
+		$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MEMBER', $member);
 		$viewer->assign('SRC_MODULE', $srcModule);

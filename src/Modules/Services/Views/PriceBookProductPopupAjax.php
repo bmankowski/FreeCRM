@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Views;
+namespace App\Modules\Services\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Services\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class PriceBookProductPopupAjax extends \Vtiger_Index_View
 {
 	

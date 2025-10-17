@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /**
  * ServicesSoldToRenew Dashboard Class

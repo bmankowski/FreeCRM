@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -19,16 +19,16 @@ class UserRole extends Base
 	 * Function to get display value
 	 * @param string $value
 	 * @param int $recordId
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$displayValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
+		$displayValue = \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if ($currentUserModel->isAdmin() && $rawText === false) {
-			$roleRecordModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
+			$roleRecordModel = new \App\Modules\Settings\Roles\Models\Record();
 			$roleRecordModel->set('roleid', $value);
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
 		}
@@ -41,10 +41,10 @@ class UserRole extends Base
 	 */
 	public function getPicklistValues()
 	{
-		$roleModels = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$roleModels = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$roles = [];
 		foreach ($roleModels as $roleId => $roleModel) {
-			$roles[$roleId] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($roleModel->getName(), $this->get('field')->getModuleName());
+			$roles[$roleId] = \App\Runtime\Vtiger_Language_Handler::translate($roleModel->getName(), $this->get('field')->getModuleName());
 		}
 		return $roles;
 	}

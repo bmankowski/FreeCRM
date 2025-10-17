@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SharingAccess\Models;
+namespace App\Modules\Settings\SharingAccess\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -17,9 +17,9 @@ namespace FreeCRM\Modules\Settings\SharingAccess\Models;
  * Sharng Access Vtiger Module Model Class
  */
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
+use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
+use App\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
 class Module extends \Vtiger_Module_Model
 {
 
@@ -92,7 +92,7 @@ class Module extends \Vtiger_Module_Model
 
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';
 		$params = [$this->get('permission'), $this->getId()];
 		$db->pquery($sql, $params);
@@ -104,7 +104,7 @@ class Module extends \Vtiger_Module_Model
 	 */
 	public static function getInstance($value)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$instance = false;
 		$query = false;
 		if (vtlib\Utils::isNumber($value)) {
@@ -167,7 +167,7 @@ class Module extends \Vtiger_Module_Model
 	{
 		$phpMaxExecutionTime = vglobal('php_max_execution_time');
 		set_time_limit($phpMaxExecutionTime);
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		require_once(ROOT_DIRECTORY . '/src/Modules/Users/CreateUserPrivilegeFile.php');
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);

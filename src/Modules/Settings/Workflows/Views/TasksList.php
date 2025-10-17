@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Views;
+namespace App\Modules\Settings\Workflows\Views;
 
 
 /* +**********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\Workflows\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
-class TasksList extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+class TasksList extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

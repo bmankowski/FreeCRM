@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Models;
+namespace App\Modules\Settings\MappedFields\Models;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\MappedFields\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	public function getId()
@@ -37,7 +37,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 

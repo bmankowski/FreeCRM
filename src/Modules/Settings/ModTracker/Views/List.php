@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModTracker\Views;
-use FreeCRM\Modules\Settings\ModTrackerModels\Module;
+namespace App\Modules\Settings\ModTracker\Views;
+use App\Modules\Settings\ModTrackerModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,14 +14,14 @@ use FreeCRM\Modules\Settings\ModTrackerModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class List extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = new \FreeCRM\Modules\Settings\ModTracker\Models\Module();
+		$moduleModel = new \App\Modules\Settings\ModTracker\Models\Module();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

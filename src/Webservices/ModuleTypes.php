@@ -28,9 +28,9 @@ function vtws_listtypes($fieldTypeList, $user)
 	try {
 
 		/**
-		 * @var \FreeCRM\database\PearDatabase
+		 * @var \App\database\PearDatabase
 		 */
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		vtws_preserveGlobal('current_user', $user);
 		//get All the modules the current user is permitted to Access.
@@ -119,8 +119,8 @@ function vtws_listtypes($fieldTypeList, $user)
 	$informationArray = [];
 	foreach ($accessibleModules as $module) {
 		$vtigerModule = ($module == 'Events') ? 'Calendar' : $module;
-		$informationArray[$module] = array('isEntity' => true, 'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $vtigerModule),
-			'singular' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $module, $vtigerModule));
+		$informationArray[$module] = array('isEntity' => true, 'label' => \App\Runtime\Vtiger_Language_Handler::translate($module, $vtigerModule),
+			'singular' => \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $module, $vtigerModule));
 	}
 
 	foreach ($accessibleEntities as $entity) {

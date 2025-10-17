@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Models;
+namespace App\Modules\OSSMail\Models;
 
 /**
  * Address book model class
@@ -16,7 +16,7 @@ class AddressBook {
 	public static function createABFile()
 	{
 		$mails = [];
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->query(sprintf('SELECT * FROM %s', self::TABLE));
 		while ($row = $adb->getRow($result)) {
 			$name = $row['name'];

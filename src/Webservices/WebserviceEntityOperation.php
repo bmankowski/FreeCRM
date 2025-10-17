@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 abstract class WebserviceEntityOperation
 {
@@ -21,7 +21,7 @@ abstract class WebserviceEntityOperation
 
 	/**
 	 *
-	 * @var \FreeCRM\database\PearDatabase
+	 * @var \App\database\PearDatabase
 	 */
 	protected $pearDB;
 	protected static $metaCache = [];

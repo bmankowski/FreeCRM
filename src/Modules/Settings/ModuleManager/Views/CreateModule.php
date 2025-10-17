@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Views;
+namespace App\Modules\Settings\ModuleManager\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\ModuleManager\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_ModuleManager_CreateModule_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_ModuleManager_CreateModule_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Assets;
+namespace App\Modules\Assets;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Assets;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Assets extends \FreeCRM\CRMEntity
+class Assets extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_assets';
@@ -130,7 +130,7 @@ class Assets extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -296,11 +296,11 @@ class Assets extends \FreeCRM\CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
@@ -341,7 +341,7 @@ class Assets extends \FreeCRM\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

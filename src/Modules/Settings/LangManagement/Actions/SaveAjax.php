@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LangManagement\Actions;
-use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
+namespace App\Modules\Settings\LangManagement\Actions;
+use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManage
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	/**
@@ -33,7 +33,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('setAsDefault');
 	}
 
-	public function addTranslation(\FreeCRM\Http\Vtiger_Request $request)
+	public function addTranslation(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$form_data = $params['form_data'];
@@ -48,103 +48,103 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 				break;
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
 
 	/**
 	 * Save translations
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function saveTranslation(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveTranslation(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::saveTranslation($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		]);
 		$response->emit();
 	}
 
-	public function saveView(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveView(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::saveView($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
 
 	/**
 	 * Remove translation
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function deleteTranslation(\FreeCRM\Http\Vtiger_Request $request)
+	public function deleteTranslation(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::deleteTranslation($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		]);
 		$response->emit();
 	}
 
-	public function add(\FreeCRM\Http\Vtiger_Request $request)
+	public function add(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::add($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::save($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($saveResp) {
-			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => false));
 		}
 		$response->emit();
 	}
 
-	public function delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::delete($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($saveResp) {
-			$response->setResult(['success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DeleteDataOK', $request->getModule(false))]);
+			$response->setResult(['success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DeleteDataOK', $request->getModule(false))]);
 		} else {
 			$response->setResult(['success' => false]);
 		}
 		$response->emit();
 	}
 
-	public function setAsDefault(\FreeCRM\Http\Vtiger_Request $request)
+	public function setAsDefault(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($params);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($saveResp['success']) {
-			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));
+			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));
 		} else {
 			$response->setResult(array('success' => false));
 		}

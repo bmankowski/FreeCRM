@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\RecycleBin;
+namespace App\Modules\RecycleBin;
 
 /* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -22,7 +22,7 @@ class RecycleBin {
 	{
 
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			// Mark the module as Standard module

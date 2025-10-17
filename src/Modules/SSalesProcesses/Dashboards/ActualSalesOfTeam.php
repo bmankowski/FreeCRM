@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SSalesProcesses\Dashboards;
+namespace App\Modules\SSalesProcesses\Dashboards;
 
 /**
  * Widget that displays the actual value of the team's sales

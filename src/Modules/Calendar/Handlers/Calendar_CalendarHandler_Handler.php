@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Handlers;
+namespace App\Modules\Calendar\Handlers;
 
 /**
  * Calendar Handler Class
@@ -31,7 +31,7 @@ class Calendar_CalendarHandler_Handler {
 				$ids[$recordModel->getPreviousValue($fieldName)] = $fieldName;
 			}
 		}
-		\FreeCRM\Modules\Calendar\Models\Record::setCrmActivity($ids);
+		\App\Modules\Calendar\Models\Record::setCrmActivity($ids);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Calendar_CalendarHandler_Handler {
 				$ids[$recordModel->get($fieldName)] = $fieldName;
 			}
 		}
-		\FreeCRM\Modules\Calendar\Models\Record::setCrmActivity($ids);
+		\App\Modules\Calendar\Models\Record::setCrmActivity($ids);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Calendar_CalendarHandler_Handler {
 	{
 		$params = $eventHandler->getParams();
 		$fieldName = \App\ModuleHierarchy::getMappingRelatedField($params['sourceModule']);
-		\FreeCRM\Modules\Calendar\Models\Record::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
+		\App\Modules\Calendar\Models\Record::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Calendar_CalendarHandler_Handler {
 		}
 		$recordModel = $eventHandler->getRecordModel();
 		$data = $recordModel->getData();
-		$state = \FreeCRM\Modules\Calendar\Models\Module::getCalendarState($data);
+		$state = \App\Modules\Calendar\Models\Module::getCalendarState($data);
 		if ($state) {
 			$recordModel->set('activitystatus', $state);
 		}

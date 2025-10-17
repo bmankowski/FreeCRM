@@ -115,27 +115,27 @@ function getColumnFields($module)
 	\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
 
 	// Lookup in cache for information
-	$cachedModuleFields = \FreeCRM\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
+	$cachedModuleFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
 
 	if ($cachedModuleFields === false) {
 		$fieldsInfo = vtlib\Functions::getModuleFieldInfos($module);
 		if (!empty($fieldsInfo)) {
 			foreach ($fieldsInfo as $resultrow) {
 				// Update information to cache for re-use
-				\FreeCRM\Utils\VTCacheUtils::updateFieldInfo(
+				\App\Utils\VTCacheUtils::updateFieldInfo(
 					$resultrow['tabid'], $resultrow['fieldname'], $resultrow['fieldid'], $resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'], $resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
 				);
 			}
 		}
 		// For consistency get information from cache
-		$cachedModuleFields = \FreeCRM\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
+		$cachedModuleFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
 	}
 
 	if ($module == 'Calendar') {
-		$cachedEventsFields = \FreeCRM\Utils\VTCacheUtils::lookupFieldInfo_Module('Events');
+		$cachedEventsFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module('Events');
 		if (!$cachedEventsFields) {
 			getColumnFields('Events');
-			$cachedEventsFields = \FreeCRM\Utils\VTCacheUtils::lookupFieldInfo_Module('Events');
+			$cachedEventsFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module('Events');
 		}
 
 		if (!$cachedModuleFields) {
@@ -166,11 +166,11 @@ function getUserId_Ol($username)
 
 	\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
 	\App\Log::trace("in getUserId_Ol " . $username);
-	$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
+	$cache = \App\Runtime\Vtiger_Cache::getInstance();
 	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
 		return $cache->getUserId($username);
 	} else {
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "select id from vtiger_users where user_name=?";
 		$result = $adb->pquery($sql, array($username));
 		$num_rows = $adb->num_rows($result);
@@ -199,7 +199,7 @@ function getActionid($action)
 	if (empty($action)) {
 		return null;
 	}
-	$actionid = \FreeCRM\Runtime\Vtiger_Cache::get('getActionid', $action);
+	$actionid = \App\Runtime\Vtiger_Cache::get('getActionid', $action);
 	if ($actionid) {
 		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
@@ -209,12 +209,12 @@ function getActionid($action)
 		$actionid = $actionIds[$action];
 	}
 	if (empty($actionid)) {
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'select actionid from vtiger_actionmapping where actionname=?';
 		$result = $db->pquery($query, [$action]);
 		$actionid = $db->getSingleValue($result);
 	}
-	\FreeCRM\Runtime\Vtiger_Cache::set('getActionid', $action, $actionid);
+	\App\Runtime\Vtiger_Cache::set('getActionid', $action, $actionid);
 	\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 	return $actionid;
 }
@@ -227,9 +227,9 @@ function getActionname($actionid)
 {
 
 	\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
-	$actionName = \FreeCRM\Runtime\Vtiger_Cache::get('getActionName', $actionid);
+	$actionName = \App\Runtime\Vtiger_Cache::get('getActionName', $actionid);
 	if ($actionName) {
 		\App\Log::trace('Exiting getActionname method ...');
 		return $actionName;
@@ -242,7 +242,7 @@ function getActionname($actionid)
 		$result = $adb->pquery($query, array($actionid));
 		$actionName = $adb->getSingleValue($result);
 	}
-	\FreeCRM\Runtime\Vtiger_Cache::set('getActionName', $actionid, $actionName);
+	\App\Runtime\Vtiger_Cache::set('getActionName', $actionid, $actionName);
 	\App\Log::trace('Exiting getActionname method ...');
 	return $actionName;
 }
@@ -275,7 +275,7 @@ function updateProductQty($product_id, $upd_qty)
 {
 
 	\App\Log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$query = "update vtiger_products set qtyinstock=? where productid=?";
 	$adb->pquery($query, array($upd_qty, $product_id));
 	\App\Log::trace("Exiting updateProductQty method ...");
@@ -366,7 +366,7 @@ function escape_single_quotes($value)
  */
 function formatForSqlLike($str, $flag = 0, $is_field = false)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	if (isset($str)) {
 		if ($is_field === false) {
 			$str = str_replace('%', '\%', $str);
@@ -425,7 +425,7 @@ function get_on_clause($field_list, $uitype_arr, $module)
  */
 function getCallerInfo($number)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	if (empty($number)) {
 		return false;
@@ -457,7 +457,7 @@ function getCallerInfo($number)
  */
 function get_use_asterisk($id)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	if (!\App\Module::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
 		return false;
 	}
@@ -485,7 +485,7 @@ function get_use_asterisk($id)
  * */
 function getRelationTables($module, $secmodule)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$primary_obj = CRMEntity::getInstance($module);
 	$secondary_obj = CRMEntity::getInstance($secmodule);
 
@@ -548,9 +548,9 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 
 		$eventHandler->trigger('EntityAfterUnLink');
 	} else {
-		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}
@@ -668,9 +668,9 @@ function getValidDBInsertDateTimeValue($value)
  */
 function getBlockName($blockid)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
-	$blockname = \FreeCRM\Utils\VTCacheUtils::lookupBlockLabelWithId($blockid);
+	$blockname = \App\Utils\VTCacheUtils::lookupBlockLabelWithId($blockid);
 
 	if (!empty($blockid) && $blockname === false) {
 		$block_res = $adb->pquery('SELECT blocklabel FROM vtiger_blocks WHERE blockid = ?', array($blockid));
@@ -679,7 +679,7 @@ function getBlockName($blockid)
 		} else {
 			$blockname = '';
 		}
-		\FreeCRM\Utils\VTCacheUtils::updateBlockLabelWithId($blockname, $blockid);
+		\App\Utils\VTCacheUtils::updateBlockLabelWithId($blockname, $blockid);
 	}
 	return $blockname;
 }
@@ -701,17 +701,17 @@ function dateDiffAsString($d1, $d2)
 	$seconds = $dateDiff['seconds'];
 
 	if ($years > 0) {
-		$diffString = "$years " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YEARS', $currentModule);
+		$diffString = "$years " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_YEARS', $currentModule);
 	} elseif ($months > 0) {
-		$diffString = "$months " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MONTHS', $currentModule);
+		$diffString = "$months " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MONTHS', $currentModule);
 	} elseif ($days > 0) {
-		$diffString = "$days " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DAYS', $currentModule);
+		$diffString = "$days " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DAYS', $currentModule);
 	} elseif ($hours > 0) {
-		$diffString = "$hours " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS', $currentModule);
+		$diffString = "$hours " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS', $currentModule);
 	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES', $currentModule);
+		$diffString = "$minutes " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES', $currentModule);
 	} else {
-		$diffString = "$seconds " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SECONDS', $currentModule);
+		$diffString = "$seconds " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SECONDS', $currentModule);
 	}
 	return $diffString;
 }
@@ -741,7 +741,7 @@ function getInventoryModules()
  */
 function getActivityRelatedContacts($activityId)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
 	$result = $adb->pquery($query, array($activityId));

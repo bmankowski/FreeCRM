@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PBXManager\Models;
+namespace App\Modules\Settings\PBXManager\Models;
 
 
 /* +***********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	const tableName = 'vtiger_pbxmanager_gateway';

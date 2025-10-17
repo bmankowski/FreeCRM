@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Contacts\Views;
+namespace App\Modules\Contacts\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,20 +12,20 @@ namespace FreeCRM\Modules\Contacts\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Edit extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$recordModel = $this->record;
 		if (!$recordModel) {
 			if (!empty($recordId)) {
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			} else {
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			}
 			$this->record = $recordModel;
 		}
@@ -33,7 +33,7 @@ class Edit extends \Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 
-		$salutationFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('salutationtype', $recordModel->getModule());
+		$salutationFieldModel = \App\Modules\Vtiger\Models\Field::getInstance('salutationtype', $recordModel->getModule());
 		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
 		$salutationType = $request->get('salutationtype');
 		if (!empty($salutationType)) {

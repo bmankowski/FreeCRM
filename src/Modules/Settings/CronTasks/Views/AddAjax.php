@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CronTasks\Views;
+namespace App\Modules\Settings\CronTasks\Views;
 
 
 /* +***********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\CronTasks\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
-class AddAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
+class AddAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -27,7 +27,7 @@ class AddAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('MODULE_LIST', \FreeCRM\Modules\Settings\Workflows\Models\Module::getSupportedModules());
+		$viewer->assign('MODULE_LIST', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('AddAjax.tpl', $qualifiedModuleName);

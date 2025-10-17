@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Views;
+namespace App\Modules\OSSMailView\Views;
 
 /**
  * Change type action class
@@ -9,14 +9,14 @@ namespace FreeCRM\Modules\OSSMailView\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ChangeType extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$type_list = \FreeCRM\Modules\OSSMailView\Models\Record::getMailType();
+		$type_list = \App\Modules\OSSMailView\Models\Record::getMailType();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('TYPE_LIST', $type_list);

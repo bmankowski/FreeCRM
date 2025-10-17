@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments;
+namespace App\Modules\ModComments;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\ModComments;
  * ********************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
 
-class ModCommentsCore extends \FreeCRM\CRMEntity
+class ModCommentsCore extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_modcomments';
@@ -84,7 +84,7 @@ class ModCommentsCore extends \FreeCRM\CRMEntity
 	public function __construct()
 	{
 		$this->column_fields = getColumnFields('ModComments');
-		$this->db = \FreeCRM\database\PearDatabase::getInstance();
+		$this->db = \App\database\PearDatabase::getInstance();
 	}
 
 	public function getSortOrder()
@@ -92,8 +92,8 @@ class ModCommentsCore extends \FreeCRM\CRMEntity
 		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
-		if (!\FreeCRM\Http\AppRequest::isEmpty('sorder'))
-			$sortorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
+		if (!\App\Http\AppRequest::isEmpty('sorder'))
+			$sortorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
@@ -105,13 +105,13 @@ class ModCommentsCore extends \FreeCRM\CRMEntity
 		$currentModule = vglobal('currentModule');
 
 		$use_default_order_by = '';
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
 		$orderby = $use_default_order_by;
-		if (!\FreeCRM\Http\AppRequest::isEmpty('order_by'))
-			$orderby = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
+		if (!\App\Http\AppRequest::isEmpty('order_by'))
+			$orderby = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
@@ -160,7 +160,7 @@ class ModCommentsCore extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -257,7 +257,7 @@ class ModCommentsCore extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";

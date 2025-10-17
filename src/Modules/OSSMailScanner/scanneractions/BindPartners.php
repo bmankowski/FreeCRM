@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
+namespace App\Modules\OSSMailScanner\scanneractions;
 
 /**
  * Mail scanner action bind Partners

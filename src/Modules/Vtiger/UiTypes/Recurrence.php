@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -89,7 +89,7 @@ class Recurrence extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param integer $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param boolean $rawText
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
@@ -98,15 +98,15 @@ class Recurrence extends Base
 		$text = '';
 		if (!$info) {
 			$moduleName = 'Events';
-			$text = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
-				. \FreeCRM\Runtime\Vtiger_Language_Handler::translate($info['freqLabel'], $moduleName) . ' '
-				. \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ' ';
+			$text = \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
+				. \App\Runtime\Vtiger_Language_Handler::translate($info['freqLabel'], $moduleName) . ' '
+				. \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ' ';
 			if (isset($info['COUNT'], $info['UNTIL'])) {
-				$text .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NEVER', $moduleName);
+				$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_NEVER', $moduleName);
 			} else if (isset($info['COUNT'])) {
-				$text .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
+				$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
 			} else {
-				$text .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
+				$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
 			}
 		}
 		return $text;

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 /**
  * Inventory Basic Field Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Basic extends \FreeCRM\Runtime\Vtiger_Base_Model
+class Basic extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $name = '';
@@ -95,11 +95,11 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Base_Model
 		if (is_file($filename)) {
 			return $tpl;
 		}
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . FreeCRM_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
+		$filename = 'layouts' . DIRECTORY_SEPARATOR . CRM_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
 		if (is_file($filename)) {
 			return $tpl;
 		}
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . FreeCRM_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger' . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
+		$filename = 'layouts' . DIRECTORY_SEPARATOR . CRM_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger' . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
 		if (is_file($filename)) {
 			return $tpl;
 		}
@@ -245,7 +245,7 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Base_Model
 	 */
 	public function modulesValues()
 	{
-		$modules = \FreeCRM\Modules\Vtiger\Models\Module::getAll([0], [], true);
+		$modules = \App\Modules\Vtiger\Models\Module::getAll([0], [], true);
 		foreach ($modules AS $module) {
 			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
 		}
@@ -271,8 +271,8 @@ class Basic extends \FreeCRM\Runtime\Vtiger_Base_Model
 		if (isset($fields[$name])) {
 			$mapDetail = $fields[$name];
 			if ($returInstance) {
-				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($mapDetail['module']);
-				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance($mapDetail['field'], $moduleModel);
+				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($mapDetail['module']);
+				return \App\Modules\Vtiger\Models\Field::getInstance($mapDetail['field'], $moduleModel);
 			} else {
 				return $mapDetail;
 			}

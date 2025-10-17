@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
+namespace App\Modules\Settings\Groups\Actions;
+use App\Modules\Settings\Vtiger\Models\Tracker;
 
 
 /* +***********************************************************************************
@@ -13,11 +13,11 @@ use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
@@ -35,22 +35,22 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
 		$prevValues = $recordModel->getDisplayData();
 		$transferToOwner = Settings_Groups_Record_Model::getInstance($transferRecordId);
 		if (!$transferToOwner) {
-			$transferToOwner = \FreeCRM\Modules\Users\Models\Record::getInstanceById($transferRecordId, 'Users');
+			$transferToOwner = \App\Modules\Users\Models\Record::getInstanceById($transferRecordId, 'Users');
 		}
 
 		if ($recordModel && $transferToOwner) {
-			\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail([], $prevValues);
+			\App\Modules\Settings\Vtiger\Models\Tracker::addDetail([], $prevValues);
 			$recordModel->delete($transferToOwner);
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$result = array('success' => true);
 
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

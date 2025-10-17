@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Views;
+namespace App\Modules\Settings\DataAccess\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_DataAccess_ActionConfig_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_DataAccess_ActionConfig_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
@@ -29,9 +29,9 @@ Class Settings_DataAccess_ActionConfig_View extends \FreeCRM\Modules\Settings\Vt
 		$tplId = $request->get('did');
 		$aid = $request->get('aid');
 		$action = $request->get('an');
-		$actionsName = explode(\FreeCRM\Modules\Settings\DataAccess\Models\Module::$separator, $action);
-		$Config = \FreeCRM\Modules\Settings\DataAccess\Models\Module::showConfigDataAccess($tplId, $action, $baseModule);
-		$DataAccess = \FreeCRM\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($tplId, false);
+		$actionsName = explode(\App\Modules\Settings\DataAccess\Models\Module::$separator, $action);
+		$Config = \App\Modules\Settings\DataAccess\Models\Module::showConfigDataAccess($tplId, $action, $baseModule);
+		$DataAccess = \App\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($tplId, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('BASE_MODULE', $baseModule);

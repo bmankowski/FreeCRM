@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType sharedOwner Field Class
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class SharedOwner extends Base
 {
 
@@ -40,14 +40,14 @@ class SharedOwner extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (empty($values)) {
 			return '';
 		} elseif (!is_array($values)) {
@@ -95,7 +95,7 @@ class SharedOwner extends Base
 	 * Function to get the Display Value in ListView
 	 * @param string $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -110,7 +110,7 @@ class SharedOwner extends Base
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
-				$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($shownerid);
+				$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($shownerid);
 				$userModel->setModule('Users');
 				$display[$key] = $userModel->getName();
 				if ($userModel->get('status') === 'Inactive') {
@@ -154,7 +154,7 @@ class SharedOwner extends Base
 	 */
 	public static function getSharedOwners($record, $moduleName = false)
 	{
-		$shownerid = \FreeCRM\Runtime\Vtiger_Cache::get('SharedOwner', $record);
+		$shownerid = \App\Runtime\Vtiger_Cache::get('SharedOwner', $record);
 		if ($shownerid !== false) {
 			return $shownerid;
 		}
@@ -163,7 +163,7 @@ class SharedOwner extends Base
 		$values = $query->column();
 		if (empty($values))
 			$values = [];
-		\FreeCRM\Runtime\Vtiger_Cache::set('SharedOwner', $record, $values);
+		\App\Runtime\Vtiger_Cache::set('SharedOwner', $record, $values);
 		return $values;
 	}
 
@@ -196,7 +196,7 @@ class SharedOwner extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

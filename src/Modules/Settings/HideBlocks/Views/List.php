@@ -12,11 +12,11 @@
  * ************************************************************************************************************************************/
 
 
- namespace FreeCRM\Modules\Settings\HideBlocks\Views;
+ namespace App\Modules\Settings\HideBlocks\Views;
 
 
-use FreeCRM\Modules\Vtiger\Views\List as Vtiger_List_View;
-use FreeCRM\Http\Vtiger_Request;
+use App\Modules\Vtiger\Views\List as Vtiger_List_View;
+use App\Http\Vtiger_Request;
 
 
 class List extends Vtiger_List_View

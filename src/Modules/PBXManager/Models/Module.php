@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Models;
+namespace App\Modules\PBXManager\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -37,7 +37,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		if ($actionName == 'EditView' || $actionName == 'CreateView')
 			return false;
 		else
-			return ($this->isActive() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \App\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
 	}
 
 	/**

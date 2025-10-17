@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\GlobalPermission\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
-use FreeCRM\Modules\Settings\GlobalPermissionModels\Record;
+namespace App\Modules\Settings\GlobalPermission\Actions;
+use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\GlobalPermissionModels\Record;
 
 
 /* +***********************************************************************************************************************************
@@ -15,24 +15,24 @@ use FreeCRM\Modules\Settings\GlobalPermissionModels\Record;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
+class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
 	public function __construct()
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::setRecordId(\FreeCRM\Http\AppRequest::get('profileID'));
+		\App\Modules\Settings\Vtiger\Models\Tracker::setRecordId(\App\Http\AppRequest::get('profileID'));
 		parent::__construct();
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$profileID = $request->get('profileID');
 		$checked = $request->get('checked');
@@ -50,10 +50,10 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 			$prev[$globalActionName] = 1;
 		}
 		$post[$globalActionName] = $checked;
-		\FreeCRM\Modules\Settings\GlobalPermission\Models\Record::save($profileID, $globalactionid, $checked);
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_OK', $request->getModule(false))));
+		\App\Modules\Settings\GlobalPermission\Models\Record::save($profileID, $globalactionid, $checked);
+		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_OK', $request->getModule(false))));
 		$response->emit();
 	}
 }

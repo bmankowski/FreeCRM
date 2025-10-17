@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
+namespace App\Modules\Settings\Vtiger\Views;
 
 
 
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\Vtiger\Views;
 class IconsModal extends \Vtiger_BasicModal_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -34,7 +34,7 @@ class IconsModal extends \Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$scripts = array(
 			'modules.Settings.Vtiger.resources.IconsModal'

@@ -1,9 +1,9 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Inventory\Views;
-use FreeCRM\HttpVtiger_Request;
-use FreeCRM\Modules\Settings\InventoryViews\CreditLimits;
-use FreeCRM\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
+namespace App\Modules\Settings\Inventory\Views;
+use App\HttpVtiger_Request;
+use App\Modules\Settings\InventoryViews\CreditLimits;
+use App\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
 
 
 
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ModalAjax extends \FreeCRM\Modules\Settings\Inventory\Views\CreditLimits
+class ModalAjax extends \App\Modules\Settings\Inventory\Views\CreditLimits
 {
 
 	public function process(Vtiger_Request $request)
@@ -34,7 +34,7 @@ class ModalAjax extends \FreeCRM\Modules\Settings\Inventory\Views\CreditLimits
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('CURRENCY', \FreeCRM\Modules\Vtiger\Util::getBaseCurrency());
+		$viewer->assign('CURRENCY', \App\Modules\Vtiger\Util::getBaseCurrency());
 		echo $viewer->view('Modal.tpl', $qualifiedModuleName, true);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Actions;
+namespace App\Modules\Calendar\Actions;
 
 /**
  * Action to get free time for events
@@ -8,13 +8,13 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class GetFreeTime extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class GetFreeTime extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -23,7 +23,7 @@ class GetFreeTime extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function getFreeTimeInDay($day)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$durationEvent = $currentUser->get('othereventduration');
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
@@ -85,7 +85,7 @@ class GetFreeTime extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		if (\vtlib\Functions::getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
 			$date->add(new DateInterval('P1D'));
-			while (in_array(date_format($date, 'w'), \FreeCRM\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
+			while (in_array(date_format($date, 'w'), \App\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));
 			}
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'));
@@ -95,11 +95,11 @@ class GetFreeTime extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$dateStart = $request->get('dateStart');
 		$dateStart = DateTimeField::convertToDBFormat($dateStart);
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
 		if (\vtlib\Functions::getDateTimeMinutesDiff($startWorkHour, $endWorkHour) > 0) {
@@ -112,7 +112,7 @@ class GetFreeTime extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$data ['date_start'] = $request->get('dateStart');
 			$data ['time_end'] = $startWorkHour;
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($data);
 		$response->emit();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
+namespace App\Modules\Users\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -22,7 +22,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 
@@ -46,7 +46,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				);
 			}
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 			$detailViewPreferenceLinks = array();
 			if (vglobal('systemMode') != 'demo') {
@@ -65,7 +65,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 			);
 
 			foreach ($detailViewPreferenceLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWPREFERENCE'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWPREFERENCE'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 
 			$detailViewActionLinks = [];
@@ -84,7 +84,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => ''
 			);
 			foreach ($detailViewActionLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 			return $linkModelList;
 		}

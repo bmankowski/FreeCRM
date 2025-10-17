@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\Actions;
+namespace App\Modules\OSSMailScanner\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,22 +12,22 @@ namespace FreeCRM\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class cron extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class cron extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult($recordModel->executeCron(\FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->user_name));
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult($recordModel->executeCron(\App\Modules\Users\Models\Record::getCurrentUserModel()->user_name));
 		$response->emit();
 	}
 }

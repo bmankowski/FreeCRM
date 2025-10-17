@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords\Views;
+namespace App\Modules\OSSPasswords\Views;
 
 /**
  * Popup View Class
@@ -9,16 +9,16 @@ namespace FreeCRM\Modules\OSSPasswords\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Popup extends \Vtiger_Index_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 * @param Vtiger_Request $request
-	 * @param FreeCRM_Viewer $viewer
+	 * @param CRM_Viewer $viewer
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');
@@ -29,13 +29,13 @@ class Popup extends \Vtiger_Index_View
 		if ($showFilter && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], "module=$moduleName&src_module=$sourceModule") === 0) {
 			$filterField = ['HelpDesk' => 'parent_id', 'Project' => 'linktoaccountscontacts', 'OSSPasswords' => 'related_to'];
 			$relParentModule = 'Accounts';
-			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
+			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			$relId = $record->get($filterField[$sourceModule]);
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 		parent::initializeListViewContents($request, $viewer);

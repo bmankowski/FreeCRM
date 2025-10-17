@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Actions;
+namespace App\Modules\Documents\Actions;
 
 /**
  * Action to mass upload files
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Documents\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class MassAdd extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MassAdd extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -16,9 +16,9 @@ class MassAdd extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'CreateView')) {
+		if (!\App\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -27,7 +27,7 @@ class MassAdd extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$nameFiles = $request->get('nameFile');
@@ -41,7 +41,7 @@ class MassAdd extends \FreeCRM\Runtime\Vtiger_Action_Controller
 					'error' => $file['error'][$i],
 					'size' => $file['size'][$i],
 				];
-				$recordeModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordeModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 				$recordeModel->set('notes_title', $nameFiles[$i]);
 				$recordeModel->set('assigned_user_id', \App\User::getCurrentUserId());
 				$recordeModel->file = $originalFile;
@@ -50,7 +50,7 @@ class MassAdd extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$recordeModel->save();
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

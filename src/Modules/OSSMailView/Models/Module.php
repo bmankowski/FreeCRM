@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Models;
+namespace App\Modules\OSSMailView\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\OSSMailView\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public function getSettingLinks()
 	{
 		$settingsLinks = parent::getSettingLinks();
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' AND description =  'OSSMailView'", true);
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
@@ -35,16 +35,16 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		if ($actionName == 'EditView' || $actionName == 'CreateView') {
 			return false;
 		} else {
-			return ($this->isActive() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \App\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName));
 		}
 	}
 
 	public function getMailCount($owner, $dateFilter)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if (!$owner) {
-			$currenUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currenUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$owner = $currenUserModel->getId();
 		} else if ($owner === 'all') {
 			$owner = '';
@@ -63,7 +63,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 		$result = $db->pquery('SELECT COUNT(*) count, ossmailview_sendtype FROM vtiger_ossmailview
 						INNER JOIN vtiger_crmentity ON vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid
-						AND deleted = 0 ' . \FreeCRM\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
+						AND deleted = 0 ' . \App\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
 
 		$response = array();
 
@@ -72,7 +72,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			$saleStage = $db->query_result($result, $i, 'ossmailview_sendtype');
 			$response[$i][0] = $saleStage;
 			$response[$i][1] = $db->query_result($result, $i, 'count');
-			$response[$i][2] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saleStage, $this->getName());
+			$response[$i][2] = \App\Runtime\Vtiger_Language_Handler::translate($saleStage, $this->getName());
 		}
 		return $response;
 	}

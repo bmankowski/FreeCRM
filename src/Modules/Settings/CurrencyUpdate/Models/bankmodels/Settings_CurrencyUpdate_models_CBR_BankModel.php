@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CurrencyUpdate\Models;
+namespace App\Modules\Settings\CurrencyUpdate\Models;
 
 
 /**

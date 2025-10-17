@@ -35,7 +35,7 @@ class RecordsList extends \Api\Core\BaseAction
 			$records[$row['id']] = $record;
 		}
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
-			$headers[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->getFieldLabel(), $moduleName);
+			$headers[$fieldName] = \App\Runtime\Vtiger_Language_Handler::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
 		$rowsCount = count($records);
 		return [

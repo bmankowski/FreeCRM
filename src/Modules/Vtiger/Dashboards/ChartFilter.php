@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /**
  * Widget as a chart with a filter
@@ -8,14 +8,14 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class ChartFilter extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -26,7 +26,7 @@ class ChartFilter extends \Vtiger_Index_View
 			$widgetId = $request->get('widgetid');
 		}
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$data = $chartFilterWidgetModel->getChartData();

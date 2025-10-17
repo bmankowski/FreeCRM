@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads;
+namespace App\Modules\Leads;
 
 /**
  * Total emails
@@ -16,12 +16,12 @@ class TotalEmails {
 
 	/**
 	 * Function get number of emails
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $instance
+	 * @param \App\Modules\Vtiger\Models\Record $instance
 	 * @return int - Number of emails
 	 */
-	public function process(\FreeCRM\Modules\Vtiger\Models\Record $instance)
+	public function process(\App\Modules\Vtiger\Models\Record $instance)
 	{
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($instance, $this->reference);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($instance, $this->reference);
 		return (int) $relationListView->getRelatedEntriesCount();
 	}
 }

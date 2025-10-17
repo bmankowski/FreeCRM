@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PickListDependency\Views;
-use FreeCRM\Modules\Settings\PickListDependencyViews\Edit;
+namespace App\Modules\Settings\PickListDependency\Views;
+use App\Modules\Settings\PickListDependencyViews\Edit;
 
 
 /* +**********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\PickListDependencyViews\Edit;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class IndexAjax extends \FreeCRM\Modules\Settings\PickListDependency\Views\Edit
+class IndexAjax extends \App\Modules\Settings\PickListDependency\Views\Edit
 {
 
 	public function __construct()
@@ -22,17 +22,17 @@ class IndexAjax extends \FreeCRM\Modules\Settings\PickListDependency\Views\Edit
 		$this->exposeMethod('getDependencyGraph');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 

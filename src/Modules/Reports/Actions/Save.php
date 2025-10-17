@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Actions;
+namespace App\Modules\Reports\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,31 +12,31 @@ namespace FreeCRM\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$record = $request->get('record');
 		if ($record) {
-			$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
+			$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 			if (!$reportModel->isEditable()) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
 		$record = $request->get('record');
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance();
+		$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance();
 		$reportModel->setModule('Reports');
 		if (!empty($record) && !$request->get('isDuplicate')) {
 			$reportModel->setId($record);

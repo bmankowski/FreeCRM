@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LoginHistory\Actions;
+namespace App\Modules\Settings\LoginHistory\Actions;
 
 
 
@@ -11,11 +11,11 @@ namespace FreeCRM\Modules\Settings\LoginHistory\Actions;
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
-class ListAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\ListAjax
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+class ListAjax extends \App\Modules\Settings\Vtiger\Actions\ListAjax
 {
 
-	public function getListViewCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getListViewCount(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 

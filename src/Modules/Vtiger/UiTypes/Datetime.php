@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Models\Users_Privileges_Model;
-use FreeCRM\Fields\DateTimeField;
+use App\Models\Users_Privileges_Model;
+use App\Fields\DateTimeField;
 class Datetime extends Base
 {
 
@@ -49,7 +49,7 @@ class Datetime extends Base
 		if (empty($date) || $date === '0000-00-00' || $date === '0000-00-00 00:00:00') {
 			return '';
 		}
-		$date = new \FreeCRM\Fields\DateTimeField($date);
+		$date = new \App\Fields\DateTimeField($date);
 		return $date->getDisplayDateTimeValue();
 	}
 
@@ -60,14 +60,14 @@ class Datetime extends Base
 	 */
 	public static function getDBDateTimeValue($date)
 	{
-		$date = new \FreeCRM\Fields\DateTimeField($date);
+		$date = new \App\Fields\DateTimeField($date);
 		return $date->getDBInsertDateTimeValue();
 	}
 
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -83,6 +83,6 @@ class Datetime extends Base
 	 */
 	public static function getDateTimeValue($dateTime)
 	{
-		return \FreeCRM\Modules\Vtiger\Util::convertDateTimeIntoUsersDisplayFormat($dateTime);
+		return \App\Modules\Vtiger\Util::convertDateTimeIntoUsersDisplayFormat($dateTime);
 	}
 }

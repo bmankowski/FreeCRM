@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\Menu;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Settings\Vtiger\Models;
+use App\Modules\Settings\Vtiger\Models\Menu;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 
 /* +***********************************************************************************
@@ -94,24 +94,24 @@ class Module extends \Vtiger_Record_Model
 
 	/**
 	 * Function to get all the Settings menus
-	 * @return <Array> - List of \FreeCRM\Modules\Settings\Vtiger\Models\Menu instances
+	 * @return <Array> - List of \App\Modules\Settings\Vtiger\Models\Menu instances
 	 */
 	public function getMenus()
 	{
-		return \FreeCRM\Modules\Settings\Vtiger\Models\Menu::getAll();
+		return \App\Modules\Settings\Vtiger\Models\Menu::getAll();
 	}
 
 	/**
 	 * Function to get all the Settings menu items for the given menu
-	 * @return <Array> - List of \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem instances
+	 * @return <Array> - List of \App\Modules\Settings\Vtiger\Models\MenuItem instances
 	 */
 	public function getMenuItems($menu = false)
 	{
 		$menuModel = false;
 		if ($menu) {
-			$menuModel = \FreeCRM\Modules\Settings\Vtiger\Models\Menu::getInstance($menu);
+			$menuModel = \App\Modules\Settings\Vtiger\Models\Menu::getInstance($menu);
 		}
-		return \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getAll($menuModel);
+		return \App\Modules\Settings\Vtiger\Models\MenuItem::getAll($menuModel);
 	}
 
 	public function isPagingSupported()
@@ -129,7 +129,7 @@ class Module extends \Vtiger_Record_Model
 		if ($name === 'Settings:Vtiger') {
 			return new self();
 		}
-		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		// Ensure class name is resolved from global namespace
 		if ($modelClassName[0] !== '\\') {
 			$modelClassName = '\\' . $modelClassName;
@@ -149,11 +149,11 @@ class Module extends \Vtiger_Record_Model
 	public function prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId)
 	{
 		if (!empty($selectedMenuId)) {
-			$selectedMenu = \FreeCRM\Modules\Settings\Vtiger\Models\Menu::getInstanceById($selectedMenuId);
+			$selectedMenu = \App\Modules\Settings\Vtiger\Models\Menu::getInstanceById($selectedMenuId);
 		} elseif (!empty($moduleName) && $moduleName != 'Vtiger') {
-			$fieldItem = \FreeCRM\Modules\Settings\Vtiger\Views\Index::getSelectedFieldFromModule($menuModels, $moduleName);
+			$fieldItem = \App\Modules\Settings\Vtiger\Views\Index::getSelectedFieldFromModule($menuModels, $moduleName);
 			if ($fieldItem) {
-				$selectedMenu = \FreeCRM\Modules\Settings\Vtiger\Models\Menu::getInstanceById($fieldItem->get('blockid'));
+				$selectedMenu = \App\Modules\Settings\Vtiger\Models\Menu::getInstanceById($fieldItem->get('blockid'));
 				$fieldId = $fieldItem->get('fieldid');
 			} else {
 				reset($menuModels);
@@ -182,7 +182,7 @@ class Module extends \Vtiger_Record_Model
 						'icon' => $menuItem->get('iconpath'),
 						'dataurl' => $menuItem->getUrl(),
 						'parent' => 'Settings',
-						'moduleName' => \FreeCRM\Modules\Vtiger\Models\Menu::getModuleNameFromUrl($menuItem->getUrl()),
+						'moduleName' => \App\Modules\Vtiger\Models\Menu::getModuleNameFromUrl($menuItem->getUrl()),
 					];
 				}
 				$menu[] = [
@@ -225,7 +225,7 @@ class Module extends \Vtiger_Record_Model
 
 	public static function deleteSettingsField($block, $name)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$blockId = \vtlib\Deprecated::getSettingsBlockId($block);
 		$db->delete('vtiger_settings_field', 'name = ? && blockid=?', [$name, $blockId]);
 	}

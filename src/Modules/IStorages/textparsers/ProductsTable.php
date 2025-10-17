@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages;
+namespace App\Modules\IStorages;
 
 /**
  * IStorages storage products table parser class
@@ -25,13 +25,13 @@ class TextParser extends \App\TextParser\Base
 	{
 		$html = '';
 		$relationModuleName = 'Products';
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		// Gets sum of products quantity in current storage
 		$productsQty = [];
 		$query = 'SELECT SUM(qtyinstock) AS qtyinstock, relcrmid FROM u_yf_istorages_products WHERE crmid = ? GROUP BY relcrmid';
@@ -68,15 +68,15 @@ class TextParser extends \App\TextParser\Base
 							break;
 					}
 
-					$html .= '<th ' . $class . ' style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width15" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width15" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Runtime\Vtiger_Language_Handler::translate('Qty/Unit', $relationModuleName) . '</th>';
 			$html .= '</tr></thead><tbody>';
 			foreach ($entries as $entry) {
 				$entryId = $entry->getId();
-				$entryRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
+				$entryRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
 				$productId = $entryRecordModel->get('id');
 				if (isset($productsQty[$productId])) {
 					$html .= '<tr>';

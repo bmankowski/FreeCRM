@@ -3,9 +3,9 @@
 
 
 
-namespace FreeCRM\Modules\Portal\Views;
+namespace App\Modules\Portal\Views;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Pagination extends \Vtiger_Index_View
 {
 
@@ -15,7 +15,7 @@ class Pagination extends \Vtiger_Index_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPagination(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -37,7 +37,7 @@ class Pagination extends \Vtiger_Index_View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		$listViewModel = new Portal_ListView_Model();

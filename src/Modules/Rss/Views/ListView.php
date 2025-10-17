@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Rss\Views;
+namespace App\Modules\Rss\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,39 +12,39 @@ namespace FreeCRM\Modules\Rss\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ListView extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -56,17 +56,17 @@ class ListView extends \Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$module = $request->getModule();
 		$recordId = $request->get('id');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 		if ($recordId) {
-			$recordInstance = \FreeCRM\Modules\Rss\Models\Record::getInstanceById($recordId, $module);
+			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordId, $module);
 		} else {
-			$recordInstance = \FreeCRM\Modules\Rss\Models\Record::getCleanInstance($module);
+			$recordInstance = \App\Modules\Rss\Models\Record::getCleanInstance($module);
 			$recordInstance->getDefaultRss();
-			$recordInstance = \FreeCRM\Modules\Rss\Models\Record::getInstanceById($recordInstance->getId(), $module);
+			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordInstance->getId(), $module);
 		}
 
 		$viewer = $this->getViewer($request);
@@ -80,9 +80,9 @@ class ListView extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -102,7 +102,7 @@ class ListView extends \Vtiger_Index_View
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Field instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Field instances
 	 */
 	public function getListViewRssHeaders($module)
 	{
@@ -123,7 +123,7 @@ class ListView extends \Vtiger_Index_View
 			)
 		);
 		foreach ($headerFields as $fieldName => $fieldDetails) {
-			$fieldModel = new \FreeCRM\Modules\Vtiger\Models\Field();
+			$fieldModel = new \App\Modules\Vtiger\Models\Field();
 			foreach ($fieldDetails as $name => $value) {
 				$fieldModel->set($name, $value);
 			}

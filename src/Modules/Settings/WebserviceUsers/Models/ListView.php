@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceUsers\Models;
+namespace App\Modules\Settings\WebserviceUsers\Models;
 
 
 
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Settings\WebserviceUsers\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 
@@ -22,9 +22,9 @@ class ListView extends \Settings_Vtiger_ListView_Model
 	 */
 	public function setModule($name)
 	{
-		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
-		$this->module->typeApi = \FreeCRM\Http\AppRequest::get('typeApi');
+		$this->module->typeApi = \App\Http\AppRequest::get('typeApi');
 		return $this;
 	}
 

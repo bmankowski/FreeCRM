@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Actions;
+namespace App\Modules\Settings\DataAccess\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,19 +13,19 @@ namespace FreeCRM\Modules\Settings\DataAccess\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveActionConfig extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class SaveActionConfig extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$tpl_id = $request->get('tpl_id');
 		$base_module = $request->get('base_module');
-		\FreeCRM\Modules\Settings\DataAccess\Models\Module::saveActionConfig($tpl_id, $request->get('an'), $request->get('data'), $request->get('aid'));
+		\App\Modules\Settings\DataAccess\Models\Module::saveActionConfig($tpl_id, $request->get('an'), $request->get('data'), $request->get('aid'));
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Step3&tpl_id=$tpl_id&base_module=$base_module&s=false");
 	}
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
-use FreeCRM\Modules\Settings\Vtiger\Models\ConfigModule;
+namespace App\Modules\Settings\Vtiger\Models;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
+use App\Modules\Settings\Vtiger\Models\ConfigModule;
 
 
 /* +***********************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\Vtiger\Models\ConfigModule;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ConfigModule extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class ConfigModule extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $fileName = 'config/config.inc.php';
@@ -39,7 +39,7 @@ class ConfigModule extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getMenuItem()
 	{
-		$menuItem = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_CONFIG_EDITOR');
+		$menuItem = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_CONFIG_EDITOR');
 		return $menuItem;
 	}
 
@@ -107,7 +107,7 @@ class ConfigModule extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public function getPicklistValues($fieldName)
 	{
 		if ($fieldName === 'default_module') {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
 			$presence = [0];
 			$restrictedModules = array('Integration', 'Dashboard');
@@ -197,7 +197,7 @@ class ConfigModule extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get the instance of Config module model
-	 * @return <\FreeCRM\Modules\Settings\Vtiger\Models\ConfigModule> $moduleModel
+	 * @return <\App\Modules\Settings\Vtiger\Models\ConfigModule> $moduleModel
 	 */
 	public static function getInstance($name = false)
 	{

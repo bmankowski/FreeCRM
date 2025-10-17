@@ -11,7 +11,7 @@
 function vtws_revise($element, $user)
 {
 
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	
 	$idList = vtws_getIdComponents($element['id']);
 

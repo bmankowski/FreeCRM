@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SharingAccess\Views;
-use FreeCRM\Modules\Settings\SharingAccessModels\Action;
+namespace App\Modules\Settings\SharingAccess\Views;
+use App\Modules\Settings\SharingAccessModels\Action;
 
 
 /* +***********************************************************************************************************************************
@@ -14,20 +14,20 @@ use FreeCRM\Modules\Settings\SharingAccessModels\Action;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
-Class Settings_SharingAccess_Index_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
+Class Settings_SharingAccess_Index_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
 		$viewer->assign('ALL_MODULES', Settings_SharingAccess_Module_Model::getAll(true));
-		$viewer->assign('ALL_ACTIONS', \FreeCRM\Modules\Settings\SharingAccess\Models\Action::getAll());
+		$viewer->assign('ALL_ACTIONS', \App\Modules\Settings\SharingAccess\Models\Action::getAll());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('DEPENDENT_MODULES', Settings_SharingAccess_Module_Model::getDependentModules());
 
 		$viewer->view('Index.tpl', $qualifiedModuleName);
@@ -35,10 +35,10 @@ Class Settings_SharingAccess_Index_View extends \FreeCRM\Modules\Settings\Vtiger
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

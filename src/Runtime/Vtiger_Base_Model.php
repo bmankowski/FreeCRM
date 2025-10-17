@@ -12,7 +12,7 @@
  * Base Model Class
  */
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
 class Vtiger_Base_Model
 {

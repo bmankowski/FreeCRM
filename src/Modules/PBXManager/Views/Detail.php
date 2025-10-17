@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Views;
+namespace App\Modules\PBXManager\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\PBXManager\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -30,7 +30,7 @@ class Detail extends \Vtiger_Index_View
 	 * Overided to convert totalduration to minutes
 	 */
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

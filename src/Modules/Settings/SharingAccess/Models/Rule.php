@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SharingAccess\Models;
-use FreeCRM\Modules\Settings\SharingAccessModels\RuleMember;
+namespace App\Modules\Settings\SharingAccess\Models;
+use App\Modules\Settings\SharingAccessModels\RuleMember;
 
 
 /* +***********************************************************************************************************************************
@@ -18,9 +18,9 @@ use FreeCRM\Modules\Settings\SharingAccessModels\RuleMember;
  * Sharng Access Vtiger Module Model Class
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
+use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 class Rule extends \Vtiger_Record_Model
 {
 
@@ -36,10 +36,10 @@ class Rule extends \Vtiger_Record_Model
 		self::READ_WRITE_PERMISSION => 'Read Write'
 	];
 	static $ruleMemberToRelationMapping = [
-		self::RULE_TYPE_GROUPS => \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_GROUPS,
-		self::RULE_TYPE_ROLE => \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_ROLES,
-		self::RULE_TYPE_ROLE_AND_SUBORDINATES => \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES,
-		self::RULE_TYPE_USERS => \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_USERS
+		self::RULE_TYPE_GROUPS => \App\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_GROUPS,
+		self::RULE_TYPE_ROLE => \App\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_ROLES,
+		self::RULE_TYPE_ROLE_AND_SUBORDINATES => \App\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES,
+		self::RULE_TYPE_USERS => \App\Modules\Settings\SharingAccess\Models\RuleMember::RULE_MEMBER_TYPE_USERS
 	];
 	static $dataShareTableColArr = [
 		self::RULE_TYPE_GROUPS => [
@@ -175,7 +175,7 @@ class Rule extends \Vtiger_Record_Model
 	protected function getRuleComponents()
 	{
 		if (!isset($this->rule_details) && $this->getId()) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
 			$sourceType = $relationTypeComponents[0];
@@ -192,14 +192,14 @@ class Rule extends \Vtiger_Record_Model
 			if ($db->num_rows($result)) {
 				$sourceId = $db->query_result($result, 0, $sourceColumnName);
 				$sourceMemberType = self::$ruleMemberToRelationMapping[$sourceType];
-				$qualifiedSourceId = \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::getQualifiedId($sourceMemberType, $sourceId);
-				$sourceMember = \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::getInstance($qualifiedSourceId);
+				$qualifiedSourceId = \App\Modules\Settings\SharingAccess\Models\RuleMember::getQualifiedId($sourceMemberType, $sourceId);
+				$sourceMember = \App\Modules\Settings\SharingAccess\Models\RuleMember::getInstance($qualifiedSourceId);
 				$this->rule_details['source_member'] = $sourceMember;
 
 				$targetId = $db->query_result($result, 0, $targetColumnName);
 				$targetMemberType = self::$ruleMemberToRelationMapping[$targetType];
-				$qualifiedTargetId = \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::getQualifiedId($targetMemberType, $targetId);
-				$targetMember = \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::getInstance($qualifiedTargetId);
+				$qualifiedTargetId = \App\Modules\Settings\SharingAccess\Models\RuleMember::getQualifiedId($targetMemberType, $targetId);
+				$targetMember = \App\Modules\Settings\SharingAccess\Models\RuleMember::getInstance($qualifiedTargetId);
 				$this->rule_details['target_member'] = $targetMember;
 
 				$this->rule_details['permission'] = $db->query_result($result, 0, 'permission');
@@ -379,10 +379,10 @@ class Rule extends \Vtiger_Record_Model
 		}
 
 		$sourceId = $this->get('source_id');
-		$sourceIdComponents = \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::getIdComponentsFromQualifiedId($sourceId);
+		$sourceIdComponents = \App\Modules\Settings\SharingAccess\Models\RuleMember::getIdComponentsFromQualifiedId($sourceId);
 		$sourceType = array_search($sourceIdComponents[0], self::$ruleMemberToRelationMapping);
 		$targetId = $this->get('target_id');
-		$targetIdComponents = \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::getIdComponentsFromQualifiedId($targetId);
+		$targetIdComponents = \App\Modules\Settings\SharingAccess\Models\RuleMember::getIdComponentsFromQualifiedId($targetId);
 		$targetType = array_search($targetIdComponents[0], self::$ruleMemberToRelationMapping);
 		$tableColumnName = self::$dataShareTableColArr[$sourceType][$targetType];
 		$tableName = $tableColumnName['table'];
@@ -407,7 +407,7 @@ class Rule extends \Vtiger_Record_Model
 
 	public function delete()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$ruleId = $this->getId();
 
 		$relationTypeComponents = explode('::', $this->get('relationtype'));
@@ -442,7 +442,7 @@ class Rule extends \Vtiger_Record_Model
 	 */
 	public static function getAllByModule($moduleModel)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ?';
 		$params = array($moduleModel->getId());

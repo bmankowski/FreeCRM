@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\Models;
+namespace App\Modules\Events\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Events\Models;
 /**
  * Events Record Model Class
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -49,7 +49,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getInvities()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [(int) $this->getId()]);
 		$invitees = [];
 		while ($row = $db->getRow($result)) {
@@ -66,7 +66,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getInviteUserMailData()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		return []; // To do
 		$return_id = $this->getId();
 		$cont_qry = "select * from vtiger_cntactivityrel where activityid=?";
@@ -107,12 +107,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$mail_data['group_name'] = \App\Fields\Owner::getGroupName($this->get('assigned_user_id'));
 		$mail_data['mode'] = $this->get('mode');
 
-		$value = getaddEventPopupTime(\FreeCRM\Http\AppRequest::get('time_start'), \FreeCRM\Http\AppRequest::get('time_end'), '24');
+		$value = getaddEventPopupTime(\App\Http\AppRequest::get('time_start'), \App\Http\AppRequest::get('time_end'), '24');
 		$start_hour = $value['starthour'] . ':' . $value['startmin'] . '' . $value['startfmt'];
-		if (\FreeCRM\Http\AppRequest::get('activity_mode') != 'Task')
+		if (\App\Http\AppRequest::get('activity_mode') != 'Task')
 			$end_hour = $value['endhour'] . ':' . $value['endmin'] . '' . $value['endfmt'];
-		$startDate = new DateTimeField(\FreeCRM\Http\AppRequest::get('date_start') . ' ' . $start_hour);
-		$endDate = new DateTimeField(\FreeCRM\Http\AppRequest::get('due_date') . ' ' . $end_hour);
+		$startDate = new DateTimeField(\App\Http\AppRequest::get('date_start') . ' ' . $start_hour);
+		$endDate = new DateTimeField(\App\Http\AppRequest::get('due_date') . ' ' . $end_hour);
 		$mail_data['st_date_time'] = $startDate->getDBInsertDateTimeValue();
 		$mail_data['end_date_time'] = $endDate->getDBInsertDateTimeValue();
 		$mail_data['location'] = $this->get('location');
@@ -127,14 +127,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
+			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $this->getModule();
 			if ($relatedModule->getName() == 'Events') {
-				$relatedModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+				$relatedModule = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 			}
 			$relatedRecordId = $this->getId();
-			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 	}

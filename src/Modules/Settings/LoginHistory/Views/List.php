@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LoginHistory\Views;
-use FreeCRM\Modules\Settings\LoginHistoryModels\Record;
+namespace App\Modules\Settings\LoginHistory\Views;
+use App\Modules\Settings\LoginHistoryModels\Record;
 
 
 
@@ -11,13 +11,13 @@ use FreeCRM\Modules\Settings\LoginHistoryModels\Record;
  * @license licenses/License.html
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
+class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$loginHistoryRecordModel = new \FreeCRM\Modules\Settings\LoginHistory\Models\Record();
+		$loginHistoryRecordModel = new \App\Modules\Settings\LoginHistory\Models\Record();
 		$usersList = $loginHistoryRecordModel->getAccessibleUsers();
 		$viewer->assign('USERSLIST', $usersList);
 		$viewer->assign('SELECTED_USER', $request->get('user_name'));

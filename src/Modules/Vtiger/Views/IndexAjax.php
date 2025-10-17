@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class IndexAjax extends \Vtiger_Index_View
 {
 
@@ -22,17 +22,17 @@ class IndexAjax extends \Vtiger_Index_View
 		$this->exposeMethod('showActiveRecords');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -44,12 +44,12 @@ class IndexAjax extends \Vtiger_Index_View
 	 * Function to show the recently modified or active records for the given module
 	 */
 
-	public function showActiveRecords(\FreeCRM\Http\Vtiger_Request $request)
+	public function showActiveRecords(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recentRecords = $moduleModel->getRecentRecords();
 
 		$viewer->assign('MODULE', $moduleName);
@@ -58,7 +58,7 @@ class IndexAjax extends \Vtiger_Index_View
 		echo $viewer->view('RecordNamesList.tpl', $moduleName, true);
 	}
 
-	public function getRecordsListFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('cvid');
 		$selectedIds = $request->get('selected_ids');
@@ -71,10 +71,10 @@ class IndexAjax extends \Vtiger_Index_View
 		}
 		if (!empty($cvId) && $cvId == 'undefined') {
 			$sourceModule = $request->get('sourceModule');
-			$cvId = \FreeCRM\Modules\CustomView\Models\Record::getAllFilterByModule($sourceModule)->getId();
+			$cvId = \App\Modules\CustomView\Models\Record::getAllFilterByModule($sourceModule)->getId();
 		}
 
-		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
+		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');

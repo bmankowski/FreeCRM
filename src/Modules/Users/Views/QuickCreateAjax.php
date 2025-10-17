@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Views;
+namespace App\Modules\Users\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,24 +12,24 @@ namespace FreeCRM\Modules\Users\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		$recordModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Users\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$fieldList = $moduleModel->getFields();
@@ -51,14 +51,14 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PublicHoliday\Models;
-use FreeCRM\Modules\Settings\PublicHolidayModels\Module;
+namespace App\Modules\Settings\PublicHoliday\Models;
+use App\Modules\Settings\PublicHolidayModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\PublicHolidayModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	/**
@@ -26,7 +26,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function getHolidays($date)
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidays(" . print_r($date, true) . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays(" . print_r($date, true) . ") method ...");
 
 		$query = (new \App\Db\Query())->select('publicholidayid, holidaydate, holidayname, holidaytype')
 			->from('vtiger_publicholiday');
@@ -47,9 +47,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			$holidays[$id]['date'] = $date;
 			$holidays[$id]['name'] = $name;
 			$holidays[$id]['type'] = $type;
-			$holidays[$id]['day'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(date('l', strtotime($date)), 'PublicHoliday');
+			$holidays[$id]['day'] = \App\Runtime\Vtiger_Language_Handler::translate(date('l', strtotime($date)), 'PublicHoliday');
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidays() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays() method ...");
 		return $holidays;
 	}
 
@@ -60,11 +60,11 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function delete($id)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::delete(" . $id . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::delete(" . $id . ") method ...");
 		$deleted = \App\Db::getInstance()->createCommand()
 			->delete('vtiger_publicholiday', ['publicholidayid' => $id])
 			->execute();
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::delete() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::delete() method ...");
 		if ($deleted === 1)
 			return true;
 		else
@@ -80,14 +80,14 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function save($date, $name, $type)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::save(" . $date . ', ' . $name . ', ' . $type . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::save(" . $date . ', ' . $name . ', ' . $type . ") method ...");
 		$saved = \App\Db::getInstance()->createCommand()
 				->insert('vtiger_publicholiday', [
 					'holidaydate' => $date,
 					'holidayname' => $name,
 					'holidaytype' => $type
 				])->execute();
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::save() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::save() method ...");
 		if ($saved === 1)
 			return true;
 		else
@@ -104,7 +104,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function edit($id, $date, $name, $type)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::edit(" . $id . ', ' . $date . ', ' . $name . ', ' . $type . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::edit(" . $id . ', ' . $date . ', ' . $name . ', ' . $type . ") method ...");
 		$saved = \App\Db::getInstance()->createCommand()
 			->update('vtiger_publicholiday', [
 				'holidaydate' => $date,
@@ -112,7 +112,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				'holidaytype' => $type
 				], ['publicholidayid' => $id])
 			->execute();
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::edit() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::edit() method ...");
 		if ($saved === 1)
 			return true;
 		else
@@ -127,16 +127,16 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function checkIfHoliday($date)
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday(" . $date . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday(" . $date . ") method ...");
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT COUNT(1) as num FROM `vtiger_publicholiday` WHERE `holidaydate` = ?;';
 		$params = array($date);
 
 		$result = $db->pquery($sql, $params);
 		$num = $db->query_result($result, 0, 'num');
 
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday() method ...");
 
 		if ($num > 0)
 			return true;
@@ -151,7 +151,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function getHolidayGroupType($date = false)
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType method ...");
 		$query = (new \App\Db\Query())
 			->select(['count' => new \yii\db\Expression('COUNT(publicholidayid)'), 'holidaytype'])
 			->from('vtiger_publicholiday');
@@ -171,7 +171,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				$return[$row['holidaytype']] = $row['count'];
 			}
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType() method ...");
 		return $return;
 	}
 }

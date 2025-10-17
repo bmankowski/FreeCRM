@@ -190,7 +190,7 @@ for MODULE in "${MODULES[@]}"; do
     done
     
     # Fix double FreeCRM namespace
-    find "src/Modules/$MODULE" -name "*.php" -exec sed -i 's/\\FreeCRM\\\\FreeCRM\\/\\FreeCRM\\/g' {} \; 2>/dev/null || true
+    find "src/Modules/$MODULE" -name "*.php" -exec sed -i 's/\\App\\\\App\\/\\App\\/g' {} \; 2>/dev/null || true
     
     # Fix vtlib extends
     find "src/Modules/$MODULE" -name "*.php" -exec sed -i 's/ extends vtlib\\/ extends \\vtlib\\/g' {} \; 2>/dev/null || true

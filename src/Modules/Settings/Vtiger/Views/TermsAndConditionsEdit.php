@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
-use FreeCRM\Modules\Settings\Vtiger\Models\TermsAndConditions;
+namespace App\Modules\Settings\Vtiger\Views;
+use App\Modules\Settings\Vtiger\Models\TermsAndConditions;
 
 
 /* +**********************************************************************************
@@ -13,12 +13,12 @@ use FreeCRM\Modules\Settings\Vtiger\Models\TermsAndConditions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class TermsAndConditionsEdit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class TermsAndConditionsEdit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$model = \FreeCRM\Modules\Settings\Vtiger\Models\TermsAndConditions::getInstance();
+		$model = \App\Modules\Settings\Vtiger\Models\TermsAndConditions::getInstance();
 		$conditionText = $model->getText();
 
 		$viewer = $this->getViewer($request);
@@ -29,18 +29,18 @@ class TermsAndConditionsEdit extends \FreeCRM\Modules\Settings\Vtiger\Views\Inde
 		$viewer->view('TermsAndConditions.tpl', $qualifiedName);
 	}
 
-	public function getPageTitle(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPageTitle(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('INVENTORYTERMSANDCONDITIONS', $qualifiedModuleName);
+		return \App\Runtime\Vtiger_Language_Handler::translate('INVENTORYTERMSANDCONDITIONS', $qualifiedModuleName);
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

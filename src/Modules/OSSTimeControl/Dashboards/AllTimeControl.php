@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module;
+namespace App\Modules\OSSTimeControl\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+use App\Modules\Settings\TimeControlProcessesModels\Module;
 
 /**
  * Wdiget to show work time
@@ -10,7 +10,7 @@ use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class AllTimeControl extends \Vtiger_Index_View
 {
@@ -35,16 +35,16 @@ class AllTimeControl extends \Vtiger_Index_View
 		}
 		$timeDatabase['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($user == 'all') {
 			$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 			$user = array_keys($accessibleUsers);
 		}
 		if (!is_array($user)) {
-			$accessibleUsers[$user] = \FreeCRM\Modules\Users\Models\Record::getInstanceById($user, 'Users')->getName();
+			$accessibleUsers[$user] = \App\Modules\Users\Models\Record::getInstanceById($user, 'Users')->getName();
 			$user = [$user];
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT timecontrol_type, color FROM vtiger_timecontrol_type";
 		$result = $db->query($sql);
 		while ($row = $db->fetch_array($result)) {
@@ -70,7 +70,7 @@ class AllTimeControl extends \Vtiger_Index_View
 		$counter = 0;
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$workingTimeByType[\FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
+			$workingTimeByType[\App\Runtime\Vtiger_Language_Handler::translate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
 			$workingTime[$row['smownerid']][$row['timecontrol_type']] += $row['daytime'];
 			if (!array_key_exists($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_type']] = $counter++;
@@ -84,7 +84,7 @@ class AllTimeControl extends \Vtiger_Index_View
 			foreach ($workingTime as $timeKey => $timeValue) {
 				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
 					$result[$timeTypeKey]['data'][$counter][0] = $counter;
-					$result[$timeTypeKey]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($timeTypeKey, 'OSSTimeControl');
+					$result[$timeTypeKey]['label'] = \App\Runtime\Vtiger_Language_Handler::translate($timeTypeKey, 'OSSTimeControl');
 					$result[$timeTypeKey]['color'] = $colors[$timeTypeKey];
 					if ($timeValue[$timeTypeKey]) {
 						$result[$timeTypeKey]['data'][$counter][1] = $timeValue[$timeTypeKey];
@@ -115,16 +115,16 @@ class AllTimeControl extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
 		$time = $request->get('time');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
-			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
+			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = \vtlib\Functions::currentUserDisplayDateNew();
 				$time['end'] = \vtlib\Functions::currentUserDisplayDateNew();
@@ -134,10 +134,10 @@ class AllTimeControl extends \Vtiger_Index_View
 			}
 		}
 		if (empty($user)) {
-			$user = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
+			$user = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
-		$TCPModuleModel = \FreeCRM\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
+		$TCPModuleModel = \App\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
 		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());

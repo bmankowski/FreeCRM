@@ -1,6 +1,6 @@
 F<?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,18 +12,18 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class SetReadRecord extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class SetReadRecord extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -31,7 +31,7 @@ class SetReadRecord extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$recordModel = $this->saveRecord($request);
 
 		$cvId = $request->get('viewname');
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('viewname' => $cvId, 'module' => $moduleName));
 		$response->emit();
 	}

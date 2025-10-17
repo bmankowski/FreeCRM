@@ -9,9 +9,9 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
-use FreeCRM\Modules\Vtiger\Models\JsScript;
+use App\Modules\Vtiger\Models\JsScript;
 
 
 class Vtiger_JavaScript extends JsScript

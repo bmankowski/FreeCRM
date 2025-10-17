@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Vtiger\Models;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -15,18 +15,18 @@ use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Runtime\Vtiger_Language_Handler;
+use App\Runtime\Vtiger_Language_Handler;
 class Menu {
 
 	/**
 	 * Static Function to get all the accessible menu models with/without ordering them by sequence
 	 * @param boolean $sequenced - true/false
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Menu instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Menu instances
 	 */
 	public static function getAll($sequenced = false, $restrictedModulesList = [])
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
@@ -43,8 +43,8 @@ class Menu {
 	public static function getBreadcrumbs($pageTitle = false)
 	{
 		$breadcrumbs = [];
-		$request = \FreeCRM\Http\AppRequest::init();
-		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$request = \App\Http\AppRequest::init();
+		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
 			require($roleMenu);
@@ -70,26 +70,26 @@ class Menu {
 			if (count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			if ($moduleModel && $moduleModel->getDefaultUrl()) {
 				$breadcrumbs[] = [
-					'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName),
+					'name' => \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName),
 					'url' => $moduleModel->getDefaultUrl()
 				];
 			} else {
 				$breadcrumbs[] = [
-					'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName)
+					'name' => \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName)
 				];
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
 			} elseif ($view == 'Edit' && $request->get('record') == '') {
-				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $moduleName)];
+				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 			} elseif ($view == '') {
-				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOME', $moduleName)];
+				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
 				$recordLabel = \vtlib\Functions::getCRMRecordLabel($request->get('record'));
@@ -100,18 +100,18 @@ class Menu {
 		} elseif ($parent === 'Settings') {
 			$qualifiedModuleName = $request->getModule(false);
 			$breadcrumbs[] = [
-				'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
+				'name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
 			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
 				$fieldId = $request->get('fieldid');
-				$menu = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getAll();
+				$menu = \App\Modules\Settings\Vtiger\Models\MenuItem::getAll();
 				foreach ($menu as &$menuModel) {
 					if (empty($fieldId)) {
 						if ($menuModel->getModule() == $moduleName) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -119,8 +119,8 @@ class Menu {
 					} else {
 						if ($fieldId == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -134,11 +134,11 @@ class Menu {
 					}
 				} else {
 					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
+						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-						$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
-						$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
@@ -156,7 +156,7 @@ class Menu {
 	{
 		if ($parent != 0 && key_exists($parent, $parentList)) {
 			$return [] = [
-				'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentList[$parent]['name'], $module),
+				'name' => \App\Runtime\Vtiger_Language_Handler::translate($parentList[$parent]['name'], $module),
 				'url' => $parentList[$parent]['url'],
 			];
 			if ($parentList[$parent]['parent'] != 0 && key_exists($parentList[$parent]['parent'], $parentList)) {
@@ -183,7 +183,7 @@ class Menu {
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
-			$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($menu['label']);
+			$title = \App\Runtime\Vtiger_Language_Handler::translate($menu['label']);
 		}
 		if (is_string($menu)) {
 			$iconName = vimage_path($menu);

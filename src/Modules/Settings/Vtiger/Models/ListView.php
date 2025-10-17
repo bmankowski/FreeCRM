@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
+namespace App\Modules\Settings\Vtiger\Models;
 
 
 /* +***********************************************************************************
@@ -17,7 +17,7 @@ namespace FreeCRM\Modules\Settings\Vtiger\Models;
  * Settings List View Model Class
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class ListView extends \Vtiger_Record_Model
 {
 
@@ -32,7 +32,7 @@ class ListView extends \Vtiger_Record_Model
 
 	public function setModule($name)
 	{
-		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
 		return $this;
 	}
@@ -62,7 +62,7 @@ class ListView extends \Vtiger_Record_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return \FreeCRM\Modules\Settings\Vtiger\Models\Record[] - Associative array of record id mapped to \Vtiger_Record_Model instance.
+	 * @return \App\Modules\Settings\Vtiger\Models\Record[] - Associative array of record id mapped to \Vtiger_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -73,7 +73,7 @@ class ListView extends \Vtiger_Record_Model
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listQuery = $this->getBasicListQuery();
 
 		$startIndex = $pagingModel->getStartIndex();
@@ -81,7 +81,7 @@ class ListView extends \Vtiger_Record_Model
 
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
@@ -160,7 +160,7 @@ class ListView extends \Vtiger_Record_Model
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
-		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'ListView', $name);
+		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'ListView', $name);
 		$instance = new $modelClassName();
 		return $instance->setModule($name);
 	}

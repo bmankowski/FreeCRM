@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Actions;
+namespace App\Modules\Calendar\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,10 +14,10 @@ namespace FreeCRM\Modules\Calendar\Actions;
 
 require_once ROOT_DIRECTORY . '/src/Webservices/Query.php';
 
-class Feed extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Feed extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		try {
 			$result = array();
@@ -49,7 +49,7 @@ class Feed extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public function queryForRecords($query, $onlymine = true)
 	{
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($onlymine) {
 			$groupIds = $this->getGroupsIdsForUsers($user->getId());
 			$groupWsIds = array();

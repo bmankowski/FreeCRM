@@ -24,7 +24,7 @@ class ThemeExport extends Package
 	 */
 	static function __getUniqueId()
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -89,7 +89,7 @@ class ThemeExport extends Package
 	 */
 	public function export_Theme($layoutName, $themeName)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
 		$layoutresultrow = $adb->fetch_array($sqlresult);
@@ -154,7 +154,7 @@ class ThemeExport extends Package
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
                             name VARCHAR(50), label VARCHAR(30), parent VARCHAR(100), lastupdated DATETIME, isdefault INT(1), active INT(1))', true
 			);
-			$adb = \FreeCRM\Database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
 				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
@@ -177,7 +177,7 @@ class ThemeExport extends Package
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');

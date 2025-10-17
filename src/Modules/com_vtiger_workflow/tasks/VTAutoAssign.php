@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /**
  * Auto assign records Task Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
+use App\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
 require_once('src/Modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
@@ -31,9 +31,9 @@ class VTAutoAssign extends VTTask
 	public function getAutoAssignEntries($moduleName)
 	{
 		$moduleName = \App\Module::getTabName($moduleName);
-		$listViewModel = Settings_\FreeCRM\Modules\Vtiger\Models\ListView::getInstance('Settings:AutomaticAssignment');
+		$listViewModel = Settings_\App\Modules\Vtiger\Models\ListView::getInstance('Settings:AutomaticAssignment');
 		$listViewModel->set('sourceModule', \App\Module::getModuleId($moduleName));
-		$entries = $listViewModel->getListViewEntries(new \FreeCRM\Modules\Vtiger\Models\Paging());
+		$entries = $listViewModel->getListViewEntries(new \App\Modules\Vtiger\Models\Paging());
 		return $entries;
 	}
 }

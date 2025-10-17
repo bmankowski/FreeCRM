@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts;
+namespace App\Modules\Accounts;
 
 class TotalTimeWorked {
 

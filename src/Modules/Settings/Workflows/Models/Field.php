@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Models;
+namespace App\Modules\Settings\Workflows\Models;
 
 
 /* +***********************************************************************************

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-namespace FreeCRM\Fields;
+namespace App\Fields;
 
 use App\Log;
 use App\User;
@@ -101,7 +101,7 @@ class DateTimeField
 	public static function convertToDBFormat($date, $user = null)
 	{
 
-		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		Log::trace('Start ' . __METHOD__ . ' ' . serialize($date));
 		if (empty($user)) {
 			$user = $current_user;
@@ -280,12 +280,12 @@ class DateTimeField
 	public static function convertToUserTimeZone($value, $user = null)
 	{
 
-		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		Log::trace('Start ' . __METHOD__ . "($value) method ...");
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : \FreeCRM\AppConfig::main('default_timezone');
+		$timeZone = $user->time_zone ? $user->time_zone : \App\AppConfig::main('default_timezone');
 		$return = DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
 		Log::trace('End ' . __METHOD__);
 		return $return;
@@ -300,12 +300,12 @@ class DateTimeField
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)
 	{
 
-		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		Log::trace('Start ' . __METHOD__ . "($value)");
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : \FreeCRM\AppConfig::main('default_timezone');
+		$timeZone = $user->time_zone ? $user->time_zone : \App\AppConfig::main('default_timezone');
 
 		if ($formatDate) {
 			$value = self::sanitizeDate($value, $user);

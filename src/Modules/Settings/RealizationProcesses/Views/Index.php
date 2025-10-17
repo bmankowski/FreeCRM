@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\RealizationProcesses\Views;
-use FreeCRM\Modules\Settings\RealizationProcessesModels\Module;
-use FreeCRM\Modules\Settings\RealizationProcessesViews\Index;
+namespace App\Modules\Settings\RealizationProcesses\Views;
+use App\Modules\Settings\RealizationProcessesModels\Module;
+use App\Modules\Settings\RealizationProcessesViews\Index;
 
 
 /* +***********************************************************************************************************************************
@@ -15,23 +15,23 @@ use FreeCRM\Modules\Settings\RealizationProcessesViews\Index;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		$projectStatus = \FreeCRM\Modules\Settings\RealizationProcesses\Models\Module::getProjectStatus();
-		$statusNotModify = \FreeCRM\Modules\Settings\RealizationProcesses\Models\Module::getStatusNotModify();
+		$projectStatus = \App\Modules\Settings\RealizationProcesses\Models\Module::getProjectStatus();
+		$statusNotModify = \App\Modules\Settings\RealizationProcesses\Models\Module::getStatusNotModify();
 		$viewer->assign('STATUS_NOT_MODIFY', $statusNotModify);
 		$viewer->assign('PROJECT_STATUS', $projectStatus);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
 		$viewer->view('Index.tpl', $qualifiedModule);
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
 	}
 }

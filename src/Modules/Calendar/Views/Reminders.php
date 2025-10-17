@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,31 +13,31 @@ namespace FreeCRM\Modules\Calendar\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Reminders extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if ('true' == $request->get('type_remainder')) {
-			$recordModels = \FreeCRM\Modules\Calendar\Models\Module::getCalendarReminder(true);
+			$recordModels = \App\Modules\Calendar\Models\Module::getCalendarReminder(true);
 		} else {
-			$recordModels = \FreeCRM\Modules\Calendar\Models\Module::getCalendarReminder();
+			$recordModels = \App\Modules\Calendar\Models\Module::getCalendarReminder();
 		}
 		$colorList = [];
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
-			$colorList[$record->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $record->getId(), $record);
+			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $record->getId(), $record);
 		}
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-		$permissionToSendEmail = $permission && \FreeCRM\AppConfig::main('isActiveSendingMails') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$permissionToSendEmail = $permission && \App\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
 		$viewer->assign('COLOR_LIST', array_filter($colorList));
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('RECORDS', $recordModels);
 		$viewer->view('Reminders.tpl', $moduleName);
 	}

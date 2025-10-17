@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Actions;
+namespace App\Modules\PBXManager\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\PBXManager\Actions;
 include_once ROOT_DIRECTORY . '/src/Webservices/Create.php';
 include_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
-class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -26,7 +26,7 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('checkPermissionForPolling');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -35,9 +35,9 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
@@ -45,14 +45,14 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function checkModuleViewPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkModuleViewPermission(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$modules = array('Contacts', 'Leads');
 		$view = $request->get('view');
-		\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		foreach ($modules as $module) {
-			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($module, $view)) {
+			if (\App\Modules\Users\Models\Privileges::isPermitted($module, $view)) {
 				$result['modules'][$module] = true;
 			} else {
 				$result['modules'][$module] = false;
@@ -62,11 +62,11 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function searchIncomingCalls(\FreeCRM\Http\Vtiger_Request $request)
+	public function searchIncomingCalls(\App\Http\Vtiger_Request $request)
 	{
-		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getCleanInstance($request->getModule());
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$recordModel = \App\Modules\PBXManager\Models\Record::getCleanInstance($request->getModule());
+		$response = new \App\Http\Vtiger_Response();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$recordModels = $recordModel->searchIncomingCall();
 		// To check whether user have permission on caller record
@@ -78,8 +78,8 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$callerid = $recordModel->get('customer');
 				if ($callerid) {
 					$moduleName = $recordModel->get('customertype');
-					if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $callerid)) {
-						$name = $recordModel->get('customernumber') . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HIDDEN', 'PBXManager');
+					if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $callerid)) {
+						$name = $recordModel->get('customernumber') . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HIDDEN', 'PBXManager');
 						$recordModel->set('callername', $name);
 					} else {
 						$entityNames = getEntityName($moduleName, array($callerid));
@@ -105,9 +105,9 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function createRecord(\FreeCRM\Http\Vtiger_Request $request)
+	public function createRecord(\App\Http\Vtiger_Request $request)
 	{
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->get('modulename');
 		$name = explode("@", $request->get('email'));
 		$element['lastname'] = $name[0];
@@ -115,7 +115,7 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$element['phone'] = $request->get('number');
 		$element['assigned_user_id'] = vtws_getWebserviceEntityId('Users', $user->id);
 
-		$moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$mandatoryFieldModels = $moduleInstance->getMandatoryFieldModels();
 		foreach ($mandatoryFieldModels as $mandatoryField) {
 			$fieldName = $mandatoryField->get('name');
@@ -126,7 +126,7 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			} else {
 				$fieldValue = $defaultValue;
 				if (empty($fieldValue)) {
-					$fieldValue = \FreeCRM\Modules\Vtiger\Util::getDefaultMandatoryValue($fieldType);
+					$fieldValue = \App\Modules\Vtiger\Util::getDefaultMandatoryValue($fieldType);
 				}
 				$element[$fieldName] = $fieldValue;
 			}
@@ -134,7 +134,7 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$entity = vtws_create($moduleName, $element, $user);
 		$this->updateCustomerInPhoneCalls($entity, $request);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
@@ -144,28 +144,28 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$id = vtws_getIdComponents($customer['id']);
 		$sourceuuid = $request->get('callid');
 		$module = $request->get('modulename');
-		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getInstanceBySourceUUID($sourceuuid);
+		$recordModel = \App\Modules\PBXManager\Models\Record::getInstanceBySourceUUID($sourceuuid);
 		$recordModel->updateCallDetails(array('customer' => $id[1], 'customertype' => $module));
 	}
 
 	public function getCallStatus($request)
 	{
 		$phonecallsid = $request->get('callid');
-		$recordModel = \FreeCRM\Modules\PBXManager\Models\Record::getInstanceById($phonecallsid);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$recordModel = \App\Modules\PBXManager\Models\Record::getInstanceById($phonecallsid);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($recordModel->get('callstatus'));
 		$response->emit();
 	}
 
-	public function checkPermissionForPolling(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermissionForPolling(\App\Http\Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$callPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted('PBXManager', 'ReceiveIncomingCalls');
+		\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$callPermission = \App\Modules\Users\Models\Privileges::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");
 
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userNumber = $user->phone_crm_extension;
 
 		$result = false;
@@ -173,7 +173,7 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$result = true;
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

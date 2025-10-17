@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Views;
+namespace App\Modules\Reports\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,8 +13,8 @@ namespace FreeCRM\Modules\Reports\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
-class ExportReport extends \FreeCRM\Runtime\Vtiger_View_Controller
+use App\Http\Vtiger_Request;
+class ExportReport extends \App\Runtime\Vtiger_View_Controller
 {
 
 	public function __construct()
@@ -25,12 +25,12 @@ class ExportReport extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$this->exposeMethod('GetCSV');
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
+		$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -42,12 +42,12 @@ class ExportReport extends \FreeCRM\Runtime\Vtiger_View_Controller
 	 * @param boolean $display
 	 * @return boolean
 	 */
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return false;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return false;
 	}
@@ -64,10 +64,10 @@ class ExportReport extends \FreeCRM\Runtime\Vtiger_View_Controller
 	 * Function exports the report in a Excel sheet
 	 * @param Vtiger_Request $request
 	 */
-	public function GetXLS(\FreeCRM\Http\Vtiger_Request $request)
+	public function GetXLS(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
+		$reportModel = \App\Modules\Reports\Models\Record::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportXLS();
 	}
@@ -76,10 +76,10 @@ class ExportReport extends \FreeCRM\Runtime\Vtiger_View_Controller
 	 * Function exports report in a CSV file
 	 * @param Vtiger_Request $request
 	 */
-	public function GetCSV(\FreeCRM\Http\Vtiger_Request $request)
+	public function GetCSV(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
+		$reportModel = \App\Modules\Reports\Models\Record::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportCSV();
 	}
@@ -88,13 +88,13 @@ class ExportReport extends \FreeCRM\Runtime\Vtiger_View_Controller
 	 * Function displays the report in printable format
 	 * @param Vtiger_Request $request
 	 */
-	public function GetPrintReport(\FreeCRM\Http\Vtiger_Request $request)
+	public function GetPrintReport(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$recordId = $request->get('record');
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($recordId);
+		$reportModel = \App\Modules\Reports\Models\Record::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$printData = $reportModel->getReportPrint();
 

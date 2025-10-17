@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
+namespace App\Modules\Users\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -16,8 +16,8 @@ namespace FreeCRM\Modules\Users\Models;
  * User Privileges Model Class
  */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
-class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+class Privileges extends \App\Modules\Vtiger\Models\Model
 {
 
 	/**
@@ -41,7 +41,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	protected function getGlobalReadPermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
-		return $profileGlobalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW];
+		return $profileGlobalPermissions[\App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW];
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	protected function getGlobalWritePermission()
 	{
 		$profileGlobalPermissions = $this->get('profile_global_permission');
-		return $profileGlobalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT];
+		return $profileGlobalPermissions[\App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT];
 	}
 
 	/**
@@ -61,8 +61,8 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function hasGlobalReadPermission()
 	{
 		return ($this->get("is_admin") == "on" ||
-			$this->getGlobalReadPermission() === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE ||
-			$this->getGlobalWritePermission() === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
+			$this->getGlobalReadPermission() === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE ||
+			$this->getGlobalWritePermission() === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
 	}
 
 	/**
@@ -71,15 +71,15 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function hasGlobalWritePermission()
 	{
-		return ($this->get("is_admin") == "on" || $this->getGlobalWritePermission() === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
+		return ($this->get("is_admin") == "on" || $this->getGlobalWritePermission() === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
 	}
 
 	public function hasGlobalPermission($actionId)
 	{
-		if ($actionId == \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW) {
+		if ($actionId == \App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW) {
 			return $this->hasGlobalReadPermission();
 		}
-		if ($actionId == \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT) {
+		if ($actionId == \App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT) {
 			return $this->hasGlobalWritePermission();
 		}
 		return false;
@@ -93,7 +93,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function hasModulePermission($mixed)
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($mixed);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($mixed);
 		return !empty($moduleModel) && $moduleModel->isActive() && (($this->get('is_admin') == 'on' || $profileTabsPermissions[$moduleModel->getId()] === 0));
 	}
 
@@ -105,13 +105,13 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function hasModuleActionPermission($mixed, $action)
 	{
-		if (!is_object($action) || !($action instanceof \FreeCRM\Modules\Vtiger\Models\Action)) {
-			$action = \FreeCRM\Modules\Vtiger\Models\Action::getInstance($action);
+		if (!is_object($action) || !($action instanceof \App\Modules\Vtiger\Models\Action)) {
+			$action = \App\Modules\Vtiger\Models\Action::getInstance($action);
 		}
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($mixed);
-		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE));
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($mixed);
+		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE));
 	}
 
 	/**
@@ -189,7 +189,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	protected static $lockEditCache = [];
 
-	public static function checkLockEdit($moduleName, \FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public static function checkLockEdit($moduleName, \App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$recordId = $recordModel->getId();
 		if (isset(self::$lockEditCache[$moduleName . $recordId])) {
@@ -203,7 +203,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
 		require_once ROOT_DIRECTORY . '/src/Webservices/Retrieve.php';
-		$workflows = (new VTWorkflowManager(\FreeCRM\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
@@ -248,7 +248,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 		$saveFull = true;
 
 		$db = \App\Db::getInstance();
-		if (\FreeCRM\Http\AppRequest::get('action') == 'SaveAjax' && \FreeCRM\Http\AppRequest::has('field') && \FreeCRM\Http\AppRequest::get('field') != 'shownerid') {
+		if (\App\Http\AppRequest::get('action') == 'SaveAjax' && \App\Http\AppRequest::has('field') && \App\Http\AppRequest::get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {
@@ -280,7 +280,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$modulesSchema = [];
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
@@ -342,12 +342,12 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 
 		$parentRecord = false;
 		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
-			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
 			foreach ($parentModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField() && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record);
 					$value = $recordModel->get($fieldName);
 					if ($value != '' && $value != 0) {
 						$parentRecord = $value;
@@ -363,7 +363,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
@@ -399,7 +399,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 				}
 			}
 		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
 			$query = sprintf($query, $relationInfo['rel'], $relationInfo['table'], $relationInfo['base']);
@@ -510,7 +510,7 @@ class Privileges extends \FreeCRM\Modules\Vtiger\Models\Model
 			if ($value === null || $value === '') {
 				switch ($property) {
 					case 'time_zone':
-						return \FreeCRM\AppConfig::main('default_timezone') ?: 'UTC';
+						return \App\AppConfig::main('default_timezone') ?: 'UTC';
 					case 'currency_symbol_placement':
 						return '$1.0';
 					case 'date_format':

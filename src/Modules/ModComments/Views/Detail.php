@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Views;
+namespace App\Modules\ModComments\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,13 +12,13 @@ namespace FreeCRM\Modules\ModComments\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class View extends \Vtiger_Index_View
 {
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record record model
+	 * @param \App\Modules\Vtiger\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

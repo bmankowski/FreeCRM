@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Actions;
+namespace App\Modules\Settings\ModuleManager\Actions;
 
 
 /* +***********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\ModuleManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_ModuleManager_ModuleExport_Action extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+Class Settings_ModuleManager_ModuleExport_Action extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -21,7 +21,7 @@ Class Settings_ModuleManager_ModuleExport_Action extends \FreeCRM\Modules\Settin
 		$this->exposeMethod('exportModule');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -30,11 +30,11 @@ Class Settings_ModuleManager_ModuleExport_Action extends \FreeCRM\Modules\Settin
 		}
 	}
 
-	protected function exportModule(\FreeCRM\Http\Vtiger_Request $request)
+	protected function exportModule(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('forModule');
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		if (!$moduleModel->isExportable()) {
 			echo 'Module not exportable!';

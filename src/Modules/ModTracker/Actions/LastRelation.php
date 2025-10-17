@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModTracker\Actions;
+namespace App\Modules\ModTracker\Actions;
 
 /**
  * LastRelation Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\ModTracker\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class LastRelation extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class LastRelation extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -16,12 +16,12 @@ class LastRelation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 		$records = $request->get('recordsId');
 		if (!empty($sourceModule)) {
-			if (!in_array($sourceModule, \FreeCRM\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			if (!in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 			foreach ($records as $key => $recordId) {
@@ -38,11 +38,11 @@ class LastRelation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$records = $request->get('recordsId');
-		$result = \FreeCRM\Modules\ModTracker\Models\Record::getLastRelation($records, $request->get('sourceModule'));
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$result = \App\Modules\ModTracker\Models\Record::getLastRelation($records, $request->get('sourceModule'));
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -52,7 +52,7 @@ class LastRelation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return type
 	 */
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

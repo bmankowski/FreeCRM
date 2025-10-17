@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PaymentsIn\helpers\subclass;
+namespace App\Modules\PaymentsIn\helpers\subclass;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except

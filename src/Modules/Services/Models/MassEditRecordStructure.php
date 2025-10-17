@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Models;
+namespace App\Modules\Services\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Services\Models;
 /**
  * Mass Edit Record Structure Model
  */
-class MassEditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
+class MassEditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
 {
 	
 }

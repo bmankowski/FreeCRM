@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Menu\Views;
-use FreeCRM\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
-use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
+namespace App\Modules\Settings\Menu\Views;
+use App\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
+use App\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -15,10 +15,10 @@ use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class EditMenu extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class EditMenu extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');

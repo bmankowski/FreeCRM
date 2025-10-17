@@ -9,10 +9,10 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
-use FreeCRM\database\PearDatabase;
-use FreeCRM\AppConfig;
+use App\database\PearDatabase;
+use App\AppConfig;
 use App\Module;
 use App\Field;
 use App\User;
@@ -93,7 +93,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	private function computeAccess()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$active = Module::isModuleActive($this->getTabName());
 		if ($active === false) {
 			$this->hasAccess = false;
@@ -102,7 +102,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 			$this->hasDeleteAccess = false;
 			return;
 		}
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->user->id);
+		$currentUser = \App\Modules\Users\Models\Privileges::getInstanceById($this->user->id);
 		$profileGlobalPermission = $currentUser->get('profile_global_permission');
 		if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
 			$this->hasAccess = true;
@@ -213,7 +213,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function hasAssignPrivilege($webserviceId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		// administrator's have assign privilege
 		if (\vtlib\Functions::userIsAdministrator($this->user))
@@ -383,7 +383,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function getObjectEntityName($webserviceId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id = $idComponents[1];

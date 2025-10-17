@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ProjectTask;
+namespace App\Modules\ProjectTask;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ProjectTask;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ProjectTask extends \FreeCRM\CRMEntity
+class ProjectTask extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_projecttask';
@@ -145,7 +145,7 @@ class ProjectTask extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -240,7 +240,7 @@ class ProjectTask extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -320,7 +320,7 @@ class ProjectTask extends \FreeCRM\CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			$projectTaskResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectTask'));
 			$projecttaskTabid = $adb->query_result($projectTaskResult, 0, 'tabid');

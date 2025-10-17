@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Profiles\Views;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Profiles\Views;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -14,23 +14,23 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
-class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
+class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->get('record')) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
-			$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAIL', $moduleName);
+			$title = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAIL', $moduleName);
 		}
 		return $title;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -44,7 +44,7 @@ class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ALL_BASIC_ACTIONS', \Vtiger_Action_Model::getAllBasic(true));
 		$viewer->assign('ALL_UTILITY_ACTIONS', \Vtiger_Action_Model::getAllUtility(true));
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}

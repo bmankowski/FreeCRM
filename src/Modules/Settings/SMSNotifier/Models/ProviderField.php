@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SMSNotifier\Models;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
+namespace App\Modules\Settings\SMSNotifier\Models;
+use App\Modules\Settings\SMSNotifierModels\Field;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ProviderField extends \FreeCRM\Modules\Settings\SMSNotifier\Models\Field
+class ProviderField extends \App\Modules\Settings\SMSNotifier\Models\Field
 {
 
 	/**

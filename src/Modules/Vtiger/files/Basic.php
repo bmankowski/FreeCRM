@@ -49,7 +49,7 @@ abstract class Vtiger_Basic_File
 		$record = $request->get('record');
 		$field = $request->get('field');
 		if (!empty($record)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
@@ -68,7 +68,7 @@ abstract class Vtiger_Basic_File
 	public function post(Vtiger_Request $request)
 	{
 		$attachIds = [];
-		$files = \FreeCRM\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
+		$files = \App\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
 		foreach ($files as $key => $file) {
 			foreach ($file as $key => $fileData) {
 				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());

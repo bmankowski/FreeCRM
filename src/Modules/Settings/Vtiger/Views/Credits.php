@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
+namespace App\Modules\Settings\Vtiger\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -14,10 +14,10 @@ namespace FreeCRM\Modules\Settings\Vtiger\Views;
  * Contributor(s): ______________________________________.
  * *********************************************************************************************************************************** */
 
-class Credits extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Credits extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);

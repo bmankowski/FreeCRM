@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModTracker\Models;
+namespace App\Modules\ModTracker\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\ModTracker\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	const UPDATE = 0;
@@ -27,11 +27,11 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get the history of updates on a record
 	 * @param int $parentRecordId
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @param string $type
 	 * @return array - list of  ModTracker_Record_Model
 	 */
-	public static function getUpdates($parentRecordId, \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel, $type)
+	public static function getUpdates($parentRecordId, \App\Modules\Vtiger\Models\Paging $pagingModel, $type)
 	{
 		$recordInstances = [];
 		$startIndex = $pagingModel->getStartIndex();
@@ -64,7 +64,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			->one();
 		if ($row) {
 			$lastReviewedUsers = explode('#', $row['last_reviewed_users']);
-			$lastReviewedUsers[] = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->getRealId();
+			$lastReviewedUsers[] = \App\Modules\Users\Models\Record::getCurrentUserModel()->getRealId();
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $row['id']])
 				->execute();
@@ -76,7 +76,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public static function unsetReviewed($recordId, $userId = false, $exception = false)
 	{
 		if (!$userId) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$userId = $currentUser->getRealId();
 		}
 		$query = new \App\Db\Query();
@@ -99,7 +99,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public static function isNewChange($recordId, $userId = false)
 	{
 		if ($userId === false) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
 
@@ -115,7 +115,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public static function getUnreviewed($recordsId, $userId = false, $sort = false)
 	{
 		if ($userId === false) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
 
@@ -163,7 +163,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function getModule()
 	{
 		if (empty($this->parent)) {
-			return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getModuleName());
+			return \App\Modules\Vtiger\Models\Module::getInstance($this->getModuleName());
 		}
 		return $this->getParent()->getModule();
 	}
@@ -200,7 +200,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function setParent($id, $moduleName)
 	{
-		$this->parent = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
+		$this->parent = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
 	}
 
 	public function getParent()
@@ -260,7 +260,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function isReviewed($userId = false)
 	{
 		if ($userId === false) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
 		$reviewed = $this->get('last_reviewed_users');
@@ -273,13 +273,13 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function getModifiedBy()
 	{
 		$changeUserId = $this->get('whodid');
-		return \FreeCRM\Modules\Users\Models\Record::getInstanceById($changeUserId, 'Users');
+		return \App\Modules\Users\Models\Record::getInstanceById($changeUserId, 'Users');
 	}
 
 	public function getDisplayActivityTime()
 	{
 		$time = $this->getActivityTime();
-		$time = new \FreeCRM\Fields\DateTimeField($time);
+		$time = new \App\Fields\DateTimeField($time);
 		return $time->getFullcalenderDateTimevalue();
 	}
 
@@ -291,7 +291,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function getFieldInstances()
 	{
 		$id = $this->get('id');
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$fieldInstances = [];
 		if ($this->isCreate() || $this->isUpdate()) {
@@ -302,11 +302,11 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				if ($row['fieldname'] == 'record_id' || $row['fieldname'] == 'record_module')
 					continue;
 
-				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($row['fieldname'], $this->getModule());
+				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($row['fieldname'], $this->getModule());
 				if (!$fieldModel)
 					continue;
 
-				$fieldInstance = new \FreeCRM\Modules\ModTracker\Models\Field();
+				$fieldInstance = new \App\Modules\ModTracker\Models\Field();
 				$fieldInstance->setData($row)->setParent($this)->setFieldInstance($fieldModel);
 				$fieldInstances[] = $fieldInstance;
 			}
@@ -317,12 +317,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function getRelationInstance()
 	{
 		$id = $this->get('id');
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if ($this->isRelationLink() || $this->isRelationUnLink()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_relations WHERE id = ?', array($id));
 			$row = $db->query_result_rowdata($result, 0);
-			$relationInstance = new \FreeCRM\Modules\ModTracker\Models\Relation();
+			$relationInstance = new \App\Modules\ModTracker\Models\Relation();
 			$relationInstance->setData($row)->setParent($this);
 		}
 		return $relationInstance;
@@ -412,7 +412,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (count($data) !== count($sourceIds)) {
 			$reSearch = array_diff_key(array_flip($sourceIds), $data);
 			foreach (array_keys($reSearch) as $id) {
-				$result = \FreeCRM\Modules\ModTracker\Models\Record::setLastRelation($id, $sourceModule, true);
+				$result = \App\Modules\ModTracker\Models\Record::setLastRelation($id, $sourceModule, true);
 				if ($result) {
 					$data[key($result)]['type'] = current($result);
 				}

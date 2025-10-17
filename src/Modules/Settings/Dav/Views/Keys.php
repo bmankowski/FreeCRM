@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Dav\Views;
-use FreeCRM\Modules\Settings\DavModels\Module;
+namespace App\Modules\Settings\Dav\Views;
+use App\Modules\Settings\DavModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,19 +14,19 @@ use FreeCRM\Modules\Settings\DavModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Keys extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Keys extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		include 'config/api.php';
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = \FreeCRM\Modules\Settings\Dav\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Dav\Models\Module::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USERS', \FreeCRM\Modules\Users\Models\Record::getAll());
+		$viewer->assign('USERS', \App\Modules\Users\Models\Record::getAll());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ENABLEDAV', !in_array('dav', $enabledServices));
 		$viewer->view('Keys.tpl', $qualifiedModuleName);

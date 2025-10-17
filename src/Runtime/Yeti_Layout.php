@@ -9,12 +9,12 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
-use FreeCRM\Http\Vtiger_Session;
-use FreeCRM\AppConfig;
-use FreeCRM\Vtiger_Loader;
-use FreeCRM\database\PearDatabase;
+use App\Http\Vtiger_Session;
+use App\AppConfig;
+use App\Vtiger_Loader;
+use App\database\PearDatabase;
 
 class Yeti_Layout
 {
@@ -37,19 +37,19 @@ class Yeti_Layout
 			return $basePath . $name;
 		}
 
-		$basePath = 'layouts/' . FreeCRM_Viewer::getDefaultLayoutName() . '/';
+		$basePath = 'layouts/' . CRM_Viewer::getDefaultLayoutName() . '/';
 		return $basePath . $name;
 	}
 
 	public static function getAllLayouts()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT name,label FROM vtiger_layout');
 		$folders = [
-			'basic' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DEFAULT')
+			'basic' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DEFAULT')
 		];
 		while ($row = $db->fetch_array($result)) {
-			$folders[$row['name']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['label']);
+			$folders[$row['name']] = \App\Runtime\Vtiger_Language_Handler::translate($row['label']);
 		}
 
 		return $folders;

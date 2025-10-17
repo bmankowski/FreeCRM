@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Actions;
+namespace App\Modules\OSSMail\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,25 +12,25 @@ namespace FreeCRM\Modules\OSSMail\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ImportMail extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ImportMail extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		if (!\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+		if (!\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$scannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$scannerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$mailScanMail = $scannerModel->manualScanMail($request->get('params'));
 		$return = false;
 		if ($mailScanMail['CreatedEmail']) {
 			$return = $mailScanMail['CreatedEmail'];
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($return);
 		$response->emit();
 	}

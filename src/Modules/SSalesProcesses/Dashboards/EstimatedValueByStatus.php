@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\SSalesProcesses\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\SSalesProcesses\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * Widget show estimated value by status
@@ -40,7 +40,7 @@ class EstimatedValueByStatus extends \Vtiger_Index_View
 	private function getEstimatedValue($owner = false)
 	{
 		$moduleName = 'SSalesProcesses';
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$query = (new \App\Db\Query())->select('SUM(u_#__ssalesprocesses.estimated) AS estimated, u_#__ssalesprocesses.ssalesprocesses_status')
 			->from('u_yf_ssalesprocesses')
 			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
@@ -68,16 +68,16 @@ class EstimatedValueByStatus extends \Vtiger_Index_View
 	 * Main function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, $moduleName);
+			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, $moduleName);
 		else
 			$owner = $request->get('owner');
 		if ($owner == 'all')

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Models;
+namespace App\Modules\PBXManager\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -29,20 +29,20 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 
 		$detailViewLink = array();
 
-		$linkModelListDetails = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$linkModelListDetails = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.
 		//Since ui will be look ugly if you need many basic links
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
-		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
+		if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
 			);
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		}
 
 		if (!empty($detailViewBasiclinks)) {

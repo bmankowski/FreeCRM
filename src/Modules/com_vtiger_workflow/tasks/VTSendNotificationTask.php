@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -26,12 +26,12 @@ class VTSendNotificationTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
 		if (is_numeric($this->template) && $this->template > 0) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$entityId = $recordModel->getId();
 			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
 			$result = $db->pquery($sql, array($entityId));

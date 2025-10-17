@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\Models;
+namespace App\Modules\Notification\Models;
 
 /**
  * Notification Record Model
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Notification\Models;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -20,9 +20,9 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	{
 		$count = (new \App\Db\Query())->from('u_#__notification')
 			->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.smownerid' => \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->getId(), 'vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
+			->where(['vtiger_crmentity.smownerid' => \App\Modules\Users\Models\Record::getCurrentUserModel()->getId(), 'vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
 			->count();
-		$max = \FreeCRM\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
+		$max = \App\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
 		return $count > $max ? $max : $count;
 	}
 
@@ -30,7 +30,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 * Function returns notifications list
 	 * @param int $limit
 	 * @param array $conditions
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record[]
+	 * @return \App\Modules\Vtiger\Models\Record[]
 	 */
 	public function getEntries($limit = false, $conditions = false)
 	{
@@ -48,7 +48,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$dataReader = $query->createCommand()->query();
 		$entries = [];
 		while ($row = $dataReader->read()) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
 			$recordModel->setData($row);
 			$entries[$row['id']] = $recordModel;
 		}
@@ -83,7 +83,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$dataReader = $query->createCommand()->query();
 		$entries = [];
 		while ($row = $dataReader->read()) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
 			$recordModel->setData($row);
 			$entries[$row['notification_type']][$row['notificationid']] = $recordModel;
 		}
@@ -96,7 +96,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getTypes()
 	{
-		$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('notification_type', \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Notification'));
+		$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('notification_type', \App\Modules\Vtiger\Models\Module::getInstance('Notification'));
 		return $fieldModel->getPicklistValues();
 	}
 }

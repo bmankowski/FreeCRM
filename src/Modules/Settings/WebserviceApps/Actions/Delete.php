@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceApps\Actions;
+namespace App\Modules\Settings\WebserviceApps\Actions;
 
 
 
@@ -10,12 +10,12 @@ namespace FreeCRM\Modules\Settings\WebserviceApps\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->delete('w_yf_servers', 'id = ?', [$request->get('id')]);
 	}
 }

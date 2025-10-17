@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl\UiTypes;
+namespace App\Modules\OSSTimeControl\UiTypes;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -41,7 +41,7 @@ class Time extends Base
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
-		$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$date = new DateTime($value);
 
 		if ($fieldName == 'time_end' && empty($value)) {

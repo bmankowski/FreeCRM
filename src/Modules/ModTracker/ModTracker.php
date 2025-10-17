@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModTracker;
+namespace App\Modules\ModTracker;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\ModTracker;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 
-use FreeCRM\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
+use App\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
 include_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
 
 class ModTracker {
@@ -52,7 +52,7 @@ class ModTracker {
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
@@ -186,8 +186,8 @@ class ModTracker {
 	 */
 	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
-		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$adb = \App\database\PearDatabase::getInstance();
 		$datetime = date('Y-m-d H:i:s', $mtime);
 
 		$accessibleModules = $this->getModTrackerEnabledModules();
@@ -287,7 +287,7 @@ class ModTracker {
 
 	public static function getRecordFieldChanges($crmid, $time, $decodeHTML = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$date = date('Y-m-d H:i:s', $time);
 
@@ -325,7 +325,7 @@ class ModTracker {
 	public static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
 		$db = \App\Db::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$currentTime = date('Y-m-d H:i:s');
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,
@@ -336,7 +336,7 @@ class ModTracker {
 			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-		\FreeCRM\Modules\ModTracker\Models\Record::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
+		\App\Modules\ModTracker\Models\Record::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
 		$db->createCommand()->insert('vtiger_modtracker_relations', [
 			'id' => $id,
 			'targetmodule' => $targetModule,
@@ -364,8 +364,8 @@ class ModTracker {
 	public static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
-		if (in_array($sourceModule, \FreeCRM\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
-			\FreeCRM\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
+		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			\App\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}
 
@@ -379,8 +379,8 @@ class ModTracker {
 	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
-		if (in_array($sourceModule, \FreeCRM\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
-			\FreeCRM\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
+		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			\App\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}
 }

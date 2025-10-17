@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SMSNotifier\Actions;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Module;
+namespace App\Modules\Settings\SMSNotifier\Actions;
+use App\Modules\Settings\SMSNotifierModels\Module;
 
 
 /* +***********************************************************************************
@@ -13,29 +13,29 @@ use FreeCRM\Modules\Settings\SMSNotifierModels\Module;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($recordId) {
-			$status = \FreeCRM\Modules\Settings\SMSNotifier\Models\Module::deleteRecords(array($recordId));
+			$status = \App\Modules\Settings\SMSNotifier\Models\Module::deleteRecords(array($recordId));
 			if ($status) {
-				$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETED_SUCCESSFULLY'), $qualifiedModuleName));
+				$response->setResult(array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETED_SUCCESSFULLY'), $qualifiedModuleName));
 			} else {
-				$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_FAILED', $qualifiedModuleName));
+				$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_FAILED', $qualifiedModuleName));
 			}
 		} else {
-			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_RECORD', $qualifiedModuleName));
+			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_RECORD', $qualifiedModuleName));
 		}
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

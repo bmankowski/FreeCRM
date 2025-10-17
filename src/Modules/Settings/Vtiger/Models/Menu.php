@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\Menu;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
+namespace App\Modules\Settings\Vtiger\Models;
+use App\Modules\Settings\Vtiger\Models\Menu;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 
 /* +***********************************************************************************
@@ -75,16 +75,16 @@ class Menu extends \Vtiger_Record_Model
 
 	/**
 	 * Function to get all the menu items of the current menu
-	 * @return array - List of \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem instances
+	 * @return array - List of \App\Modules\Settings\Vtiger\Models\MenuItem instances
 	 */
 	public function getItems()
 	{
-		return \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getAll($this);
+		return \App\Modules\Settings\Vtiger\Models\MenuItem::getAll($this);
 	}
 
 	/**
 	 * Static function to get the list of all the Settings Menus
-	 * @return array - List of \FreeCRM\Modules\Settings\Vtiger\Models\Menu instances
+	 * @return array - List of \App\Modules\Settings\Vtiger\Models\Menu instances
 	 */
 	public static function getAll()
 	{
@@ -97,7 +97,7 @@ class Menu extends \Vtiger_Record_Model
 		$menuModels = [];
 		while ($row = $dataReader->read()) {
 			$blockId = $row[self::$menuId];
-			$menuModels[$blockId] = \FreeCRM\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($row);
+			$menuModels[$blockId] = \App\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($row);
 		}
 		self::$casheMenu = $menuModels;
 		return $menuModels;
@@ -106,7 +106,7 @@ class Menu extends \Vtiger_Record_Model
 	/**
 	 * Static Function to get the instance of Settings Menu model with the given value map array
 	 * @param array $valueMap
-	 * @return <\FreeCRM\Modules\Settings\Vtiger\Models\Menu> instance
+	 * @return <\App\Modules\Settings\Vtiger\Models\Menu> instance
 	 */
 	public static function getInstanceFromArray($valueMap)
 	{
@@ -122,14 +122,14 @@ class Menu extends \Vtiger_Record_Model
 	/**
 	 * Static Function to get the instance of Settings Menu model for given menu id
 	 * @param int $id - Menu Id
-	 * @return <\FreeCRM\Modules\Settings\Vtiger\Models\Menu> instance
+	 * @return <\App\Modules\Settings\Vtiger\Models\Menu> instance
 	 */
 	public static function getInstanceById($id, $module = null)
 	{
 		if (isset(self::$cacheInstance[$id])) {
 			return self::$cacheInstance[$id];
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$menusTable, self::$menuId);
 		$params = [$id];
@@ -138,7 +138,7 @@ class Menu extends \Vtiger_Record_Model
 
 		if ($db->num_rows($result) > 0) {
 			$rowData = $db->query_result_rowdata($result, 0);
-			$instance = \FreeCRM\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($rowData);
+			$instance = \App\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($rowData);
 			self::$cacheInstance[$id] = $instance;
 			return $instance;
 		}
@@ -149,11 +149,11 @@ class Menu extends \Vtiger_Record_Model
 	/**
 	 * Static Function to get the instance of Settings Menu model for the given menu name
 	 * @param string $name - Menu Name
-	 * @return <\FreeCRM\Modules\Settings\Vtiger\Models\Menu> instance
+	 * @return <\App\Modules\Settings\Vtiger\Models\Menu> instance
 	 */
 	public static function getInstance($name)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE label = ?', self::$menusTable);
 		$params = [$name];
@@ -162,17 +162,17 @@ class Menu extends \Vtiger_Record_Model
 
 		if ($db->num_rows($result) > 0) {
 			$rowData = $db->query_result_rowdata($result, 0);
-			return \FreeCRM\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($rowData);
+			return \App\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($rowData);
 		}
 		return false;
 	}
 
 	/**
 	 * Function returns menu items for the current menu
-	 * @return <\FreeCRM\Modules\Settings\Vtiger\Models\MenuItem>
+	 * @return <\App\Modules\Settings\Vtiger\Models\MenuItem>
 	 */
 	public function getMenuItems()
 	{
-		return \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getAll($this);
+		return \App\Modules\Settings\Vtiger\Models\MenuItem::getAll($this);
 	}
 }

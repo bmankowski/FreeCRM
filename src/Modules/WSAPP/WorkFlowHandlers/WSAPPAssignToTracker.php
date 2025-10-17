@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP\WorkFlowHandlers;
+namespace App\Modules\WSAPP\WorkFlowHandlers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -27,7 +27,7 @@ class WSAPPAssignToTracker extends VTEventHandler
 	public function handleEvent($eventName, $entityData)
 	{
 		$current_user = vglobal('current_user');
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$moduleName = $entityData->getModuleName();
 
 		//Specific to VAS

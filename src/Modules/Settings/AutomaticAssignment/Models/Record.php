@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AutomaticAssignment\Models;
+namespace App\Modules\Settings\AutomaticAssignment\Models;
 
 
 
@@ -11,10 +11,10 @@ namespace FreeCRM\Modules\Settings\AutomaticAssignment\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -120,13 +120,13 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	{
 		switch ($name) {
 			case 'value':
-				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance($this->get('field'), \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
+				return \App\Modules\Vtiger\Models\Field::getInstance($this->get('field'), \App\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
 			case 'roles':
 			case 'roleid':
-				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance('roleid', \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users'));
+				return \App\Modules\Vtiger\Models\Field::getInstance('roleid', \App\Modules\Vtiger\Models\Module::getInstance('Users'));
 			case 'smowners':
 			case 'assign':
-				return \FreeCRM\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
+				return \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', \App\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
 			default:
 				break;
 		}
@@ -218,7 +218,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
 						$data = explode(':', $val);
-						$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($data[1]));
+						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($data[1]));
 						$rows[$index]['type'] = $data[0];
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
@@ -234,7 +234,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				if ($this->get($key)) {
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
-						$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getLabel($val));
+						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getLabel($val));
 						$rows[$index]['type'] = \App\Fields\Owner::getType($val);
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
@@ -451,7 +451,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			case 'active':
 				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
 			case 'roleid':
-				return empty($this->get($name)) ? 'LBL_SYSTEM' : \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
+				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
 			default:
 				break;
 		}

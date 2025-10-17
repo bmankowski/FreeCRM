@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Views;
+namespace App\Modules\OSSMailView\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\OSSMailView\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -28,7 +28,7 @@ class Detail extends \Vtiger_Index_View
 		return false;
 	}
 
-	public function showSummary(\FreeCRM\Http\Vtiger_Request $request)
+	public function showSummary(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$viewer = $this->getViewer($request);

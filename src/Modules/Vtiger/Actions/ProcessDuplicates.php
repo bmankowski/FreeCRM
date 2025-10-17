@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,16 +12,16 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class ProcessDuplicates extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ProcessDuplicates extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$records = $request->get('records');
 		if ($records) {
 			foreach ($records as $record) {
-				$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($module, 'EditView', $record);
+				$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($module, 'EditView', $record);
 				if (!$recordPermission) {
 					throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 				}
@@ -29,13 +29,13 @@ class ProcessDuplicates extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$records = $request->get('records');
 		$primaryRecord = $request->get('primaryRecord');
-		$primaryRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($primaryRecord, $moduleName);
+		$primaryRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($primaryRecord, $moduleName);
 
 		$fields = $moduleModel->getFields();
 		foreach ($fields as $field) {
@@ -48,19 +48,19 @@ class ProcessDuplicates extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$deleteRecords = array_diff($records, array($primaryRecord));
 		foreach ($deleteRecords as $deleteRecord) {
-			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($deleteRecord, $moduleName);
+			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($deleteRecord, $moduleName);
 			if ($record->isDeletable()) {
 				$primaryRecordModel->transferRelationInfoOfRecords([$deleteRecord]);
 				$record->delete();
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

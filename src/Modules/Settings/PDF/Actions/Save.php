@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Actions;
+namespace App\Modules\Settings\PDF\Actions;
 
 
 
@@ -12,23 +12,23 @@ namespace FreeCRM\Modules\Settings\PDF\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
-class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
+class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$step = $request->get('step');
 		$moduleName = $request->get('module_name');
 
 		if ($recordId) {
-			$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId, $moduleName);
+			$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId, $moduleName);
 		} else {
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
 		}
 
-		$stepFields = \FreeCRM\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
+		$stepFields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			if ($field == 'body_content') {
 				$value = $request->getForHtml($field);
@@ -50,7 +50,7 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		Settings_PDF_Record_Model::transformAdvanceFilterToWorkFlowFilter($pdfModel);
 		Settings_PDF_Record_Model::save($pdfModel, $step);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);
 		$response->emit();
 	}

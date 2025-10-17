@@ -43,18 +43,18 @@ require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer PSR-4 autoloa
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require_once ROOT_DIRECTORY . '/config/api.php';
 require_once ROOT_DIRECTORY . '/config/config.php';
-\FreeCRM\AppConfig::init($API_CONFIG);
-\FreeCRM\Vtiger_Loader::register();  // For Settings modules in old_modules
+\App\AppConfig::init($API_CONFIG);
+\App\Vtiger_Loader::register();  // For Settings modules in old_modules
 
 // Initialize WebUI services (cache, debugger, error handlers)
-\FreeCRM\EntryPoint\WebUI::initialize();
+\App\EntryPoint\WebUI::initialize();
 
 // Load global class aliases for legacy code
 require_once ROOT_DIRECTORY . '/src/GlobalAliases.php';
 
-$webUI = new \FreeCRM\EntryPoint\WebUI();
-$request = \FreeCRM\Http\AppRequest::init();
-if ($request instanceof \FreeCRM\Http\Vtiger_Request) {
+$webUI = new \App\EntryPoint\WebUI();
+$request = \App\Http\AppRequest::init();
+if ($request instanceof \App\Http\Vtiger_Request) {
 	$webUI->process($request);
 }
 

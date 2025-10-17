@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\Views;
+namespace App\Modules\Events\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Events\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class SharedCalendar extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		header("Location: index.php?module=Calendar&view=SharedCalendar");
 	}

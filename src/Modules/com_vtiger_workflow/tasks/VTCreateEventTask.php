@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -10,24 +10,28 @@ namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/Webservices/Utils.php');
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObject.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObjectMeta.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/DataTransform.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/WebServiceError.php");
-require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
-require_once(ROOT_DIRECTORY . '/src/Webservices/Create.php');
-require_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
 
-require_once("src/Modules/Users/Users.php");
 
-class VTCreateEventTask extends VTTask
+class VTCreateEventTask extends \App\Modules\com_vtiger_workflow\VTTask
 {
 
 	public $executeImmediately = true;
+	private $originalUser=null;
+	private $startDays=null;
+	private $startDirection=null;
+	private $startDatefield=null;
+	private $endDays=null;
+	private $endDirection=null;
+	private $endDatefield=null;
+	private $assigned_user_id=null;
+	private $eventType=null;
+	private $eventName=null;
+	private $description=null;
+	private $sendNotification=null;
+	private $startTime=null;
+	private $endTime=null;
+	private $status=null;
+	private $priority=null;
 
 	public function getFieldNames()
 	{
@@ -39,7 +43,7 @@ class VTCreateEventTask extends VTTask
 
 	function getAdmin()
 	{
-		$user = Users::getActiveAdminUser();
+		$user = \App\Modules\Users\Users::getActiveAdminUser();
 		$currentUser = vglobal('current_user');
 		$this->originalUser = $currentUser;
 		$currentUser = $user;
@@ -48,7 +52,7 @@ class VTCreateEventTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -70,7 +74,7 @@ class VTCreateEventTask extends VTTask
 		if ($this->assigned_user_id === 'currentUser') {
 			$userId = \App\User::getCurrentUserId();
 		} else if ($this->assigned_user_id === 'triggerUser') {
-			$userId = $recordModel->executeUser;
+			$userId = $recordModel->get('executeUser');
 		} else if ($this->assigned_user_id === 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
@@ -107,7 +111,7 @@ class VTCreateEventTask extends VTTask
 		if ($field) {
 			$fields[$field] = $id;
 		}
-		$newRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Events');
+		$newRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
@@ -134,14 +138,14 @@ class VTCreateEventTask extends VTTask
 
 	/**
 	 * To convert time_start & time_end values to db format
-	 * @param type $timeStr
-	 * @return time
+	 * @param string $timeStr
+	 * @return string
 	 */
-	static function convertToDBFormat($timeStr)
+	public static function convertToDBFormat($timeStr): string
 	{
-		$date = new DateTime();
-		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
-		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
+		$date = new \DateTime();
+		$time = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($timeStr);
+		$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
 		return $dbInsertDateTime->format('H:i:s');
 	}
 

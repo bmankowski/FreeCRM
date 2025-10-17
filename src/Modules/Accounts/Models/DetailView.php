@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts\Models;
+namespace App\Modules\Accounts\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Accounts\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -34,7 +34,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => 'glyphicon glyphicon-user'
 			);
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $linkModelList;
 	}
@@ -68,10 +68,10 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		];
 
 		if ($moduleName === 'Leads') {
-			$showPSTab = (!\FreeCRM\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices'));
+			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices'));
 		}
 		if ($moduleName === 'Accounts') {
-			$showPSTab = (!\FreeCRM\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
+			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
 		}
 		if ('Contacts' != $moduleName && $showPSTab) {
 			$relatedLinks[] = array(
@@ -81,10 +81,10 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
-		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
+		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
@@ -92,7 +92,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
@@ -103,11 +103,11 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'Updates',
-				'countRelated' => \FreeCRM\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger'
 			];
 		}
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Companies\Models;
+namespace App\Modules\Settings\Companies\Models;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\Companies\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	public static $logoNames = ['logo_login', 'logo_main', 'logo_mail'];
@@ -114,7 +114,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				$value = \App\Module::getModuleName($value);
 				break;
 			case 'industry':
-				$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value);
+				$value = \App\Runtime\Vtiger_Language_Handler::translate($value);
 				break;
 			case 'logo_login':
 			case 'logo_main':
@@ -133,9 +133,9 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getDisplayCheckboxValue($value)
 	{
 		if (0 === $value) {
-			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO');
+			$value = \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO');
 		} else {
-			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YES');
+			$value = \App\Runtime\Vtiger_Language_Handler::translate('LBL_YES');
 		}
 		return $value;
 	}
@@ -216,10 +216,10 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to check if company duplicated
-	 * @param \FreeCRM\Http\Vtiger_Request $request	
+	 * @param \App\Http\Vtiger_Request $request	
 	 * @return boolean
 	 */
-	public function isCompanyDuplicated(\FreeCRM\Http\Vtiger_Request $request)
+	public function isCompanyDuplicated(\App\Http\Vtiger_Request $request)
 	{
 		$db = \App\Db::getInstance('admin');
 		$query = new \App\Db\Query();

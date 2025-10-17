@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AutomaticAssignment\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
+namespace App\Modules\Settings\AutomaticAssignment\Actions;
+use App\Modules\Settings\Vtiger\Models\Tracker;
 
 
 
@@ -12,8 +12,8 @@ use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
+use App\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
 	/**
@@ -21,7 +21,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 	 */
 	public function __construct()
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
+		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('deleteElement');
@@ -30,9 +30,9 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 
 	/**
 	 * Save
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('param');
 		$recordId = $request->get('record');
@@ -47,16 +47,16 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		$recordModel->checkDuplicate = true;
 		$recordModel->save();
 
-		$responceToEmit = new \FreeCRM\Http\Vtiger_Response();
+		$responceToEmit = new \App\Http\Vtiger_Response();
 		$responceToEmit->setResult($recordModel->getId());
 		$responceToEmit->emit();
 	}
 
 	/**
 	 * Function changes the type of a given role
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function changeRoleType(\FreeCRM\Http\Vtiger_Request $request)
+	public function changeRoleType(\App\Http\Vtiger_Request $request)
 	{
 		$member = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
@@ -68,16 +68,16 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		}
 		$recordModel->changeRoleType($member);
 
-		$responceToEmit = new \FreeCRM\Http\Vtiger_Response();
+		$responceToEmit = new \App\Http\Vtiger_Response();
 		$responceToEmit->setResult($recordModel->getId());
 		$responceToEmit->emit();
 	}
 
 	/**
 	 * Function removes given value from record
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function deleteElement(\FreeCRM\Http\Vtiger_Request $request)
+	public function deleteElement(\App\Http\Vtiger_Request $request)
 	{
 		$member = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
@@ -85,7 +85,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
 		$recordModel->deleteElement($request->get('name'), $request->get('value'));
 
-		$responceToEmit = new \FreeCRM\Http\Vtiger_Response();
+		$responceToEmit = new \App\Http\Vtiger_Response();
 		$responceToEmit->setResult($recordModel->getId());
 		$responceToEmit->emit();
 	}

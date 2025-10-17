@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Models;
+namespace App\Modules\Documents\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	public function getAdvancedLinks()
@@ -29,22 +29,22 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			);
 		}
 
-		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
+					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
 
-		if ($moduleModel->isPermitted('QuickExportToExcel') && !\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -53,7 +53,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			);
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -70,14 +70,14 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		//Opensource fix to make documents module mass editable
 		$massActionLinks = [];
@@ -123,7 +123,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $links;
 	}

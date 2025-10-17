@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\helpers;
+namespace App\Modules\Import\helpers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -68,7 +68,7 @@ class Utils {
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
 	{
-		$viewer = new FreeCRM_Viewer();
+		$viewer = new CRM_Viewer();
 
 		$viewer->assign('ERROR_MESSAGE', $errorMessage);
 		$viewer->assign('ERROR_DETAILS', $errorDetails);
@@ -81,10 +81,10 @@ class Utils {
 	public static function showImportLockedError($lockInfo)
 	{
 
-		$errorMessage = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_MODULE_IMPORT_LOCKED', 'Import');
-		$errorDetails = array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
-			\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USER_NAME', 'Import') => \App\Fields\Owner::getUserLabel($lockInfo['userid']),
-			\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']);
+		$errorMessage = \App\Runtime\Vtiger_Language_Handler::translate('ERR_MODULE_IMPORT_LOCKED', 'Import');
+		$errorDetails = array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
+			\App\Runtime\Vtiger_Language_Handler::translate('LBL_USER_NAME', 'Import') => \App\Fields\Owner::getUserLabel($lockInfo['userid']),
+			\App\Runtime\Vtiger_Language_Handler::translate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']);
 
 		self::showErrorPage($errorMessage, $errorDetails);
 	}
@@ -92,7 +92,7 @@ class Utils {
 	public static function showImportTableBlockedError($moduleName, $user)
 	{
 
-		$errorMessage = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_UNIMPORTED_RECORDS_EXIST', 'Import');
+		$errorMessage = \App\Runtime\Vtiger_Language_Handler::translate('ERR_UNIMPORTED_RECORDS_EXIST', 'Import');
 		$customActions = array('LBL_CLEAR_DATA' => "location.href='index.php?module={$moduleName}&view=Import&mode=clearCorruptedData'");
 
 		self::showErrorPage($errorMessage, '', $customActions);
@@ -100,8 +100,8 @@ class Utils {
 
 	public static function getAssignedToUserList($module)
 	{
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
-		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($cache->getUserList($module, $current_user->id)) {
 			return $cache->getUserList($module, $current_user->id);
 		} else {
@@ -113,8 +113,8 @@ class Utils {
 
 	public static function getAssignedToGroupList($module)
 	{
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
-		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($cache->getGroupList($module, $current_user->id)) {
 			return $cache->getGroupList($module, $current_user->id);
 		} else {
@@ -139,7 +139,7 @@ class Utils {
 
 	public static function validateFileUpload($request)
 	{
-		$current_user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$uploadMaxSize = self::getMaxUploadSize();
 		$importDirectory = self::getImportDirectory();
@@ -150,35 +150,35 @@ class Utils {
 			return false;
 		}
 		if (!is_uploaded_file($_FILES['import_file']['tmp_name'])) {
-			$request->set('error_message', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_UPLOAD_FAILED', 'Import'));
+			$request->set('error_message', \App\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_UPLOAD_FAILED', 'Import'));
 			return false;
 		}
 		if ($_FILES['import_file']['size'] > $uploadMaxSize) {
-			$request->set('error_message', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_ERROR_LARGE_FILE', 'Import') .
-				$uploadMaxSize . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_CHANGE_UPLOAD_SIZE', 'Import'));
+			$request->set('error_message', \App\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_ERROR_LARGE_FILE', 'Import') .
+				$uploadMaxSize . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_CHANGE_UPLOAD_SIZE', 'Import'));
 			return false;
 		}
 		if (!is_writable($importDirectory)) {
-			$request->set('error_message', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_DIRECTORY_NOT_WRITABLE', 'Import'));
+			$request->set('error_message', \App\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_DIRECTORY_NOT_WRITABLE', 'Import'));
 			return false;
 		}
 
 		$fileCopied = move_uploaded_file($_FILES['import_file']['tmp_name'], $temporaryFileName);
 		if (!$fileCopied) {
-			$request->set('error_message', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_FILE_COPY_FAILED', 'Import'));
+			$request->set('error_message', \App\Runtime\Vtiger_Language_Handler::translate('LBL_IMPORT_FILE_COPY_FAILED', 'Import'));
 			return false;
 		}
-		$fileReader = \FreeCRM\Modules\Import\Models\Module::getFileReader($request, $current_user);
+		$fileReader = \App\Modules\Import\Models\Module::getFileReader($request, $current_user);
 
 		if ($fileReader === null) {
-			$request->set('error_message', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_FILE', 'Import'));
+			$request->set('error_message', \App\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_FILE', 'Import'));
 			return false;
 		}
 
 		$hasHeader = $fileReader->hasHeader();
 		$firstRow = $fileReader->getFirstRowData($hasHeader);
 		if ($firstRow === false) {
-			$request->set('error_message', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_ROWS_FOUND', 'Import'));
+			$request->set('error_message', \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_ROWS_FOUND', 'Import'));
 			return false;
 		}
 		return true;

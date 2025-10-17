@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Menu\Views;
-use FreeCRM\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
-use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
+namespace App\Modules\Settings\Menu\Views;
+use App\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
+use App\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -15,10 +15,10 @@ use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$roleId = $request->get('roleid');
@@ -38,10 +38,10 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -55,7 +55,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Views;
+namespace App\Modules\OSSMail\Views;
 
 /**
  *
@@ -9,28 +9,28 @@ namespace FreeCRM\Modules\OSSMail\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class compose extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$this->initAutologin();
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (strpos($this->mainUrl, '?') !== false) {
 			$this->mainUrl .= '&';
 		} else {
 			$this->mainUrl .= '?';
 		}
 		$this->mainUrl .= '_task=mail&_action=compose&_extwin=1';
-		$params = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParam($request);
+		$params = \App\Modules\OSSMail\Models\Module::getComposeParam($request);
 		$key = md5(count($params) . microtime());
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->delete('u_yf_mail_compose_data', '`userid` = ?;', [$currentUser->getId()]);
 		$db->insert('u_yf_mail_compose_data', [
 			'key' => $key,
@@ -41,7 +41,7 @@ class compose extends \Vtiger_Index_View
 		header('Location: ' . $this->mainUrl);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}

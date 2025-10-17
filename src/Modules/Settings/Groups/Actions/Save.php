@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
+namespace App\Modules\Settings\Groups\Actions;
+use App\Modules\Settings\Vtiger\Models\Tracker;
 
 
 /* +***********************************************************************************
@@ -13,11 +13,11 @@ use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -47,14 +47,14 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 			$recordModel->set('modules', $request->get('modules'));
 			$recordModel->save();
 			$postValues = $recordModel->getDisplayData();
-			\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $postValues);
+			\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $postValues);
 		}
 
 		$redirectUrl = $recordModel->getDetailViewUrl();
 		header("Location: $redirectUrl");
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

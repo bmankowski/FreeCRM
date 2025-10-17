@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Models;
+namespace App\Modules\ModComments\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,18 +14,18 @@ namespace FreeCRM\Modules\ModComments\Models;
 /**
  * ModComments ListView Model Class
  */
-class Model extends \FreeCRM\Modules\Vtiger\Models\ListView
+class Model extends \App\Modules\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
 		$links = parent::getListViewLinks($linkParams);
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleModel = $this->getModule();
 
 		unset($links['LISTVIEW']);
@@ -38,7 +38,7 @@ class Model extends \FreeCRM\Modules\Vtiger\Models\ListView
 				'linkurl' => 'index.php?parent=Settings&module=Workflow&sourceModule=' . $this->getName(),
 				'linkicon' => Vtiger_Theme::getImagePath('EditWorkflows.png')
 			);
-			$links['LISTVIEWSETTING'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($settingsLink);
+			$links['LISTVIEWSETTING'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($settingsLink);
 		}
 
 		return $links;

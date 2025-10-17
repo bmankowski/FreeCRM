@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Inventory\Views;
-use FreeCRM\HttpVtiger_Request;
+namespace App\Modules\Settings\Inventory\Views;
+use App\HttpVtiger_Request;
 
 
 
@@ -10,7 +10,7 @@ use FreeCRM\HttpVtiger_Request;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class DiscountConfiguration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class DiscountConfiguration extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function getView()
@@ -24,8 +24,8 @@ class DiscountConfiguration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
-		$config = \FreeCRM\Modules\Settings\Inventory\Models\Module::getConfig($view);
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$config = \App\Modules\Settings\Inventory\Models\Module::getConfig($view);
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGE_LABELS', $this->getPageLabels($request));

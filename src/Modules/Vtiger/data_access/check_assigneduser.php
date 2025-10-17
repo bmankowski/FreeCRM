@@ -16,13 +16,13 @@ Class DataAccess_check_assigneduser
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$allowedUsers = $config['field'];
 		$assignedUser = $record_form['assigned_user_id'];
 		if (!is_array($allowedUsers))
 			$allowedUsers = array($allowedUsers);
 		if (in_array("currentUser", $allowedUsers)) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$allowedUsers[] = $currentUser->get('id');
 			foreach ($allowedUsers as $key => $value) {
 				if ($value == "currentUser") {
@@ -35,7 +35,7 @@ Class DataAccess_check_assigneduser
 				'save_record' => false,
 				'type' => 0,
 				'info' => Array(
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($config['info'], 'DataAccess'),
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate($config['info'], 'DataAccess'),
 					'type' => 'error'
 				)
 			);

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WidgetsManagement\Views;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Settings\WidgetsManagement\Views;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 
 
@@ -11,13 +11,13 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class DashboardType extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+class DashboardType extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$dashboardId = $request->get('dashboardId');
-		$dashboardInfo = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDashboardInfo($dashboardId);
+		$dashboardInfo = \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardInfo($dashboardId);
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DASHBOARD_ID', $dashboardId);

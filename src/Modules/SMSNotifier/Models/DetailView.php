@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Models;
+namespace App\Modules\SMSNotifier\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -22,7 +22,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 
 		$linkModelList = parent::getDetailViewLinks($linkParams);
@@ -33,7 +33,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		for ($i = 0; $i < $countOfList; $i++) {
 			$linkModel = $linkModelDetailViewList[$i];
 			if ($linkModel->get('linklabel') == 'LBL_CHECK_STATUS') {
-				$linkModelList['DETAILVIEW'][$i]->set('linklabel', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CHECK_STATUS', 'SMSNotifier'));
+				$linkModelList['DETAILVIEW'][$i]->set('linklabel', \App\Runtime\Vtiger_Language_Handler::translate('LBL_CHECK_STATUS', 'SMSNotifier'));
 				$linkModelList['DETAILVIEW'][$i]->set('linkurl', $recordModel->getCheckStatusUrl());
 				break;
 			}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -106,7 +106,7 @@ class Widget extends Model
 	/**
 	 * Function to get the instance of Vtiger Widget Model from the given array of key-value mapping
 	 * @param <Array> $valueMap
-	 * @return \FreeCRM\Modules\Vtiger\Models\Widget instance
+	 * @return \App\Modules\Vtiger\Models\Widget instance
 	 */
 	public static function getInstanceFromValues($valueMap)
 	{
@@ -152,16 +152,16 @@ class Widget extends Model
 				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
 				}
-				$minilistWidget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
-				$minilistWidgetModel = new \FreeCRM\Modules\Vtiger\Models\MiniList();
+				$minilistWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$minilistWidgetModel = new \App\Modules\Vtiger\Models\MiniList();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
 			} else if ($row['linklabel'] == 'ChartFilter') {
 				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
 				}
-				$chartFilterWidget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new \FreeCRM\Modules\Vtiger\Models\ChartFilter();
+				$chartFilterWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new \App\Modules\Vtiger\Models\ChartFilter();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
 				$row['title'] = $chartFilterWidgetModel->getTitle();
 			}
@@ -230,7 +230,7 @@ class Widget extends Model
 	 * @param \vtlib\Link $widgetLink
 	 * @param Current Smarty Context $context
 	 */
-	public function processWidget(\FreeCRM\Modules\Vtiger\Models\Link $widgetLink, \FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public function processWidget(\App\Modules\Vtiger\Models\Link $widgetLink, \App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		if (preg_match("/^block:\/\/(.*)/", $widgetLink->get('linkurl'), $matches)) {
 			list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);
@@ -250,7 +250,7 @@ class Widget extends Model
 
 	public static function removeWidgetFromList($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = "SELECT templateid FROM vtiger_module_dashboard_widgets WHERE id = ?";
 		$result = $db->pquery($query, [$id]);
 		$templateId = $db->getSingleValue($result);

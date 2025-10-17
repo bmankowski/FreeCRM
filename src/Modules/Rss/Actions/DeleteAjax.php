@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Rss\Actions;
+namespace App\Modules\Rss\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,18 +11,18 @@ namespace FreeCRM\Modules\Rss\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \FreeCRM\Modules\Rss\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Rss\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordModel->delete();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('record' => $recordId, 'module' => $moduleName));
 		$response->emit();
 	}

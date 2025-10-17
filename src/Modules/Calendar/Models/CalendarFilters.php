@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /**
  * Calendar CalendarWidget Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Calendar\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class CalendarFilters extends \FreeCRM\Modules\Vtiger\Models\Model
+class CalendarFilters extends \App\Modules\Vtiger\Models\Model
 {
 
 	protected $filterPath = 'src/Modules/Calendar/calendarfilters';
@@ -30,7 +30,7 @@ class CalendarFilters extends \FreeCRM\Modules\Vtiger\Models\Model
 			if (!$fileinfo->isDot()) {
 				$name = $fileinfo->getFilename();
 				$name = rtrim($name, '.php');
-				$filterClassName = \FreeCRM\Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
+				$filterClassName = \App\Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
 				$filterInstance = new $filterClassName();
 				if (method_exists($filterInstance, 'checkPermissions') && $filterInstance->checkPermissions()) {
 					$this->filters[] = $filterInstance;

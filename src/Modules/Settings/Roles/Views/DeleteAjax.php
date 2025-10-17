@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Views;
-use FreeCRM\Modules\Settings\RolesViews\IndexAjax;
+namespace App\Modules\Settings\Roles\Views;
+use App\Modules\Settings\RolesViews\IndexAjax;
 
 
 /* +***********************************************************************************
@@ -13,17 +13,17 @@ use FreeCRM\Modules\Settings\RolesViews\IndexAjax;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \FreeCRM\Modules\Settings\Roles\Views\IndexAjax
+class DeleteAjax extends \App\Modules\Settings\Roles\Views\IndexAjax
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 
-		$recordModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /**
  * Watchdog Task Class
@@ -25,7 +25,7 @@ class VTWatchdog extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -35,7 +35,7 @@ class VTWatchdog extends VTTask
 
 		switch ($this->recipients) {
 			case 'watchdog':
-				$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordId, $moduleName);
+				$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($recordId, $moduleName);
 				$users = $watchdog->getWatchingUsers();
 				break;
 			case 'owner':
@@ -52,7 +52,7 @@ class VTWatchdog extends VTTask
 			unset($users[$key]);
 		}
 		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
-		$notification = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
+		$notification = \App\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
 		$notification->set('shownerid', implode(',', $users));
 		$notification->set($relatedField, $recordId);
 		$notification->set('title', $this->title);

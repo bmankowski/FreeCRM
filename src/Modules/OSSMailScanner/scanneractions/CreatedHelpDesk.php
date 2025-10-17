@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
+namespace App\Modules\OSSMailScanner\scanneractions;
 
 /**
  * Mail scanner action creating HelpDesk
@@ -14,7 +14,7 @@ class CreatedHelpDesk {
 	{
 		$id = 0;
 		$prefix = \App\Fields\Email::findRecordNumber($mail->get('subject'), 'HelpDesk');
-		$exceptionsAll = \FreeCRM\Modules\OSSMailScanner\Models\Record::getConfig('exceptions');
+		$exceptionsAll = \App\Modules\OSSMailScanner\Models\Record::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);
 			foreach ($exceptions as $exception) {
@@ -24,7 +24,7 @@ class CreatedHelpDesk {
 			}
 		}
 		$create = true;
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if ($prefix !== false) {
 			$result = $db->pquery('SELECT ticketid FROM vtiger_troubletickets where ticket_no = ? LIMIT 1', [$prefix]);
 			$create = $db->getRowCount($result) == 0;
@@ -44,9 +44,9 @@ class CreatedHelpDesk {
 	{
 		$contactId = (int) $mail->findEmailAdress('fromaddress', 'Contacts', false);
 		$parentId = (int) $mail->findEmailAdress('fromaddress', 'Accounts', false);
-		$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('HelpDesk');
+		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('HelpDesk');
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if (empty($parentId) && !empty($contactId)) {
 			$resultAccount = $db->pquery('SELECT parentid FROM vtiger_contactdetails where contactid = ? LIMIT 1', [$contactId]);
 			if ($db->getRowCount($resultAccount)) {
@@ -76,7 +76,7 @@ class CreatedHelpDesk {
 		$id = $record->getId();
 
 		if (!empty($contactId)) {
-			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($record->getModule(), \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Contacts'));
+			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($record->getModule(), \App\Modules\Vtiger\Models\Module::getInstance('Contacts'));
 			$relationModel->addRelation($id, $contactId);
 		}
 

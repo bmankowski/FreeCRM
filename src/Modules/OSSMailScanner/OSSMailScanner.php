@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner;
-use FreeCRM\Modules\Settings\PicklistModels\Field;
+namespace App\Modules\OSSMailScanner;
+use App\Modules\Settings\PicklistModels\Field;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -14,15 +14,15 @@ use FreeCRM\Modules\Settings\PicklistModels\Field;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 
-use FreeCRM\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
+use App\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
 class OSSMailScanner {
 
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		$registerLink = false;
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			$this->turn_on($moduleName);
@@ -37,30 +37,30 @@ class OSSMailScanner {
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('cron', 'time', ''));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'changeTicketStatus', 'false'));
 			$moduleModel = Settings_Picklist_Module_Model::getInstance('HelpDesk');
-			$fieldModel = \FreeCRM\Modules\Settings\Picklist\Models\Field::getInstance('ticketstatus', $moduleModel);
+			$fieldModel = \App\Modules\Settings\Picklist\Models\Field::getInstance('ticketstatus', $moduleModel);
 			$id = $moduleModel->addPickListValues($fieldModel, 'Answered');
 			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
 			$this->turn_off($moduleName);
 			$adb->pquery('UPDATE vtiger_cron_task SET status=0 WHERE module=?', array('OSSMailScanner'));
-			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_DisabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.enabled') {
 			$adb->pquery('UPDATE vtiger_cron_task SET status=1 WHERE module=?', array('OSSMailScanner'));
 			$this->turn_on($moduleName);
-			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.preuninstall') {
 
 		} else if ($eventType == 'module.preupdate') {
 
 		} else if ($eventType == 'module.postupdate') {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
-				$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+				$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 			}
 		}
@@ -84,7 +84,7 @@ class OSSMailScanner {
 
 	public function turn_off($moduleName)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Scanner'));
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Logs'));
 	}

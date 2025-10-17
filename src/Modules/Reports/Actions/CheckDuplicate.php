@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Actions;
+namespace App\Modules\Reports\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,27 +12,27 @@ namespace FreeCRM\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CheckDuplicate extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class CheckDuplicate extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$reportName = $request->get('reportname');
 		$record = $request->get('record');
 
 		if ($record) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		} else {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		}
 
 		$recordModel->set('reportname', $reportName);
@@ -42,9 +42,9 @@ class CheckDuplicate extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		if (!$recordModel->checkDuplicate()) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $moduleName));
+			$result = array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

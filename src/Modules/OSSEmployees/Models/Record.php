@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSEmployees\Models;
+namespace App\Modules\OSSEmployees\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSEmployees\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -21,7 +21,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getEmployeeHierarchy()
 	{
-		$focus = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
+		$focus = \App\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getEmployeeHierarchy($this->getId());
 		$i = 0;
 		foreach ($hierarchy['entries'] as $employeeId => $employeeInfo) {
@@ -30,7 +30,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				preg_match('/[.\s]+/', $employeeInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $employeeInfo[0], $name);
 
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSEmployees');
+				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSEmployees');
 				$recordModel->setId($employeeId);
 				$hierarchy['entries'][$employeeId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}
@@ -40,7 +40,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getHolidaysEntitlement($recordId, $year, $list = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		if (!$list)
 			$sql .= "AND year = $year;";
@@ -59,7 +59,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function yearExist($recordId, $year)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT year FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		$parametry = array();
 		$result = $adb->pquery($sql, $parametry, true);
@@ -75,7 +75,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getHoliday($recordId, $year)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossholidays WHERE ossemployeesid= $recordId;";
 		$parametry = array();
 		$result = $adb->pquery($sql, $parametry, true);
@@ -130,7 +130,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function checkUser($userId, $return_id = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_crmentity WHERE smownerid = ? && setype = ? && deleted = ?;";
 		$result = $adb->pquery($sql, array($userId, 'OSSEmployees', 0), true);
 		$num = $adb->num_rows($result);
@@ -152,8 +152,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!$employeeID) {
 			return '';
 		}
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($employeeID, 'OSSEmployees');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$moduleModel = \App\Modules\Vtiger\Models\Record::getInstanceById($employeeID, 'OSSEmployees');
+		$adb = \App\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? ";
@@ -177,11 +177,11 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		}
 
 		if ($sum_time != 0 && $sum_time != '') {
-			$text = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DAYWORKSUM', 'OSSEmployees') . ': ' . number_format($sum_time, 2, $current_user->column_fields['currency_decimal_separator'], $current_user->column_fields['currency_grouping_separator']);
+			$text = \App\Runtime\Vtiger_Language_Handler::translate('LBL_DAYWORKSUM', 'OSSEmployees') . ': ' . number_format($sum_time, 2, $current_user->column_fields['currency_decimal_separator'], $current_user->column_fields['currency_grouping_separator']);
 			if ($moduleModel->get('dayworktime') != '') {
-				$text .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FROM') . ' ' . $moduleModel->get('dayworktime');
+				$text .= ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_FROM') . ' ' . $moduleModel->get('dayworktime');
 			}
-			$return = '<span title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Average daily working time', 'OSSEmployees') . '">' . $text . '</span>';
+			$return = '<span title="' . \App\Runtime\Vtiger_Language_Handler::translate('Average daily working time', 'OSSEmployees') . '">' . $text . '</span>';
 		}
 		return $return;
 	}

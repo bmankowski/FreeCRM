@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Home\Models;
+namespace App\Modules\Home\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Home\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Record as VtigerRecord;
+use App\Modules\Vtiger\Models\Record as VtigerRecord;
 
 class Widget extends VtigerRecord
 {

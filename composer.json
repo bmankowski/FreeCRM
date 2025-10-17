@@ -60,11 +60,8 @@
     },
 	"autoload": {
 		"psr-4": {
-			"FreeCRM\\": "src/",
-			"FreeCRM\\Modules\\": "src/Modules/",
 			"vtlib\\": "vtlib/Vtiger/",
-			"App\\": "vendor/yetiforce/",
-			"App\\Rector\\": "src/Rector/",
+			"App\\": "src/",
 			"Api\\": "api/webservice/",
 			"Exception\\": "src/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"

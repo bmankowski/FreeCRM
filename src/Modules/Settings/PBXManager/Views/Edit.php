@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PBXManager\Views;
-use FreeCRM\Modules\Settings\PBXManagerModels\Record as Settings_PBXManager_Record_Model;
+namespace App\Modules\Settings\PBXManager\Views;
+use App\Modules\Settings\PBXManagerModels\Record as Settings_PBXManager_Record_Model;
 
 
 /* +***********************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\PBXManagerModels\Record as Settings_PBXManager_Reco
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Settings_PBXManager_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_PBXManager_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -22,12 +22,12 @@ Class Settings_PBXManager_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Vie
 		$this->exposeMethod('showPopup');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->showPopup($request);
 	}
 
-	public function showPopup(\FreeCRM\Http\Vtiger_Request $request)
+	public function showPopup(\App\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('id');
 		$qualifiedModuleName = $request->getModule(false);

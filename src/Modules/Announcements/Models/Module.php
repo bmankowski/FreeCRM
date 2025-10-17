@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Announcements\Models;
+namespace App\Modules\Announcements\Models;
 
 /**
  * Announcements Module Model Class
@@ -8,14 +8,14 @@ namespace FreeCRM\Modules\Announcements\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	protected $announcements = [];
 
 	public function checkActive()
 	{
-		if (\FreeCRM\Http\AppRequest::get('view') == 'Login' || !$this->isActive()) {
+		if (\App\Http\AppRequest::get('view') == 'Login' || !$this->isActive()) {
 			return false;
 		}
 		$this->loadAnnouncements();
@@ -83,7 +83,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	public function checkStatus($record)
 	{
 		$archive = true;
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$users = $this->getUsers(true);
 		foreach ($users as $userId => $name) {
 			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ? && status = ?', [$record, $userId, 1]);
@@ -92,7 +92,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			}
 		}
 		if ($archive) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $this->getName());
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $this->getName());
 			$recordModel->set('announcementstatus', 'PLL_ARCHIVES');
 			$recordModel->save();
 		}
@@ -100,7 +100,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function getUsers($showAll = true)
 	{
-		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($showAll) {
 			$users = \App\Fields\Owner::getInstance()->getAccessibleUsers('Public');
 		} else {
@@ -111,7 +111,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function getMarkInfo($record, $userId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?', [$record, $userId]);
 		while ($row = $db->getRow($result)) {
 			return $row;

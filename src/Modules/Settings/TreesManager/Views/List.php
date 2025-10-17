@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TreesManager\Views;
+namespace App\Modules\Settings\TreesManager\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,13 +13,13 @@ namespace FreeCRM\Modules\Settings\TreesManager\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
+class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('SUPPORTED_MODULE_MODELS', \FreeCRM\Modules\Settings\Workflows\Models\Module::getSupportedModules());
+		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
 		parent::preProcess($request, $display);
 	}
 }

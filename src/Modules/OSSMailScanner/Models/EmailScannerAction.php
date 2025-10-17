@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\Models;
+namespace App\Modules\OSSMailScanner\Models;
 
 /**
  * Base for action creating relations on the basis of mail address
@@ -12,7 +12,7 @@ class EmailScannerAction {
 
 	public function process(OSSMail_Mail_Model $mail, $moduleName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$mailId = $mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;
@@ -23,10 +23,10 @@ class EmailScannerAction {
 		$crmidsCcaddress = $mail->findEmailAdress('ccaddress', $moduleName, true);
 		$crmidsBccaddress = $mail->findEmailAdress('bccaddress', $moduleName, true);
 		$crmidsReplyToaddress = $mail->findEmailAdress('reply_toaddress', $moduleName, true);
-		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsToaddress);
-		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsCcaddress);
-		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsBccaddress);
-		$crmIds = \FreeCRM\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsReplyToaddress);
+		$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsToaddress);
+		$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsCcaddress);
+		$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsBccaddress);
+		$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsReplyToaddress);
 		$returnIds = [];
 
 		if (!empty($crmIds)) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Models;
+namespace App\Modules\Products\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
+class RelationListView extends \App\Modules\Vtiger\Models\Model
 {
 
 	protected $addRelatedFieldToEntries = [
@@ -24,9 +24,9 @@ class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	/**
 	 * Function extending recordModel object with additional information
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
-	public function getEntryExtend(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public function getEntryExtend(\App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		if ($this->getRelationModel()->getRelationModuleModel()->getName() === 'PriceBooks') {
 			$parentId = $this->getParentRecordModel()->getId();
@@ -38,7 +38,7 @@ class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <\FreeCRM\Modules\Vtiger\Models\Link>
+	 * @return <Array> List of action models <\App\Modules\Vtiger\Models\Link>
 	 */
 	public function getLinks()
 	{
@@ -59,8 +59,8 @@ class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		$headerFields = parent::getHeaders();
 		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'getManyToMany') {
-			$qtyInStockField = new \FreeCRM\Modules\Vtiger\Models\Field();
-			$qtyInStockField->setModule(\FreeCRM\Modules\Vtiger\Models\Module::getInstance('IStorages'));
+			$qtyInStockField = new \App\Modules\Vtiger\Models\Field();
+			$qtyInStockField->setModule(\App\Modules\Vtiger\Models\Module::getInstance('IStorages'));
 			$qtyInStockField->set('name', 'qtyinstock');
 			$qtyInStockField->set('column', 'qtyinstock');
 			$qtyInStockField->set('label', 'FL_QTY_IN_STOCK');
@@ -69,8 +69,8 @@ class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 		}
 		if ($this->getRelationModel()->getRelationModuleModel()->getName() == 'PriceBooks') {
 			//Added to support Unit Price
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('PriceBooks');
-			$unitPriceField = new \FreeCRM\Modules\Vtiger\Models\Field();
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('PriceBooks');
+			$unitPriceField = new \App\Modules\Vtiger\Models\Field();
 			$unitPriceField->setModule($moduleModel);
 			$unitPriceField->set('name', 'unit_price');
 			$unitPriceField->set('column', 'unit_price');
@@ -80,7 +80,7 @@ class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 			$headerFields['unit_price'] = $unitPriceField;
 
 			//Added to support List Price
-			$field = new \FreeCRM\Modules\Vtiger\Models\Field();
+			$field = new \App\Modules\Vtiger\Models\Field();
 			$field->setModule($moduleModel);
 			$field->set('name', 'listprice');
 			$field->set('column', 'listprice');

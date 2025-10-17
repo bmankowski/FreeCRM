@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * View to create chart with a filter
@@ -9,11 +9,11 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ChartFilter extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -36,12 +36,12 @@ class ChartFilter extends \Vtiger_Index_View
 				break;
 			case 'step2':
 				$selectedModule = $request->get('selectedModule');
-				$filters = \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($selectedModule);
+				$filters = \App\Modules\CustomView\Models\Record::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':
 				$selectedModuleName = $request->get('selectedModule');
-				$selectedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
+				$selectedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
 				$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFields());
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;

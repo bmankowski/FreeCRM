@@ -12,7 +12,7 @@
  * 
  * Usage: php refactor/scripts/copy-module.php ModuleName [--dry-run]
  * 
- * @author FreeCRM Modernization Team
+ * @author App Modernization Team
  */
 
 // Configuration
@@ -150,7 +150,7 @@ function transformPhpFile($filePath, $moduleName, $baseDir, $dryRun) {
 		
 		// Determine namespace from file path
 		$pathParts = explode('/', dirname($relativePath));
-		$namespace = 'FreeCRM\\Modules\\' . $moduleName;
+		$namespace = 'App\\Modules\\' . $moduleName;
 		
 		// Add subdirectory to namespace (Models, Views, Actions, etc.)
 		$subDir = end($pathParts);
@@ -202,7 +202,7 @@ function transformPhpFile($filePath, $moduleName, $baseDir, $dryRun) {
 		}
 		
 		// Update Vtiger_Loader references
-		$content = str_replace('Vtiger_Loader::', '\\FreeCRM\\Loader::', $content);
+		$content = str_replace('Vtiger_Loader::', '\\App\\Loader::', $content);
 		
 		// Save transformed content
 		if (!$dryRun && $content !== $originalContent) {

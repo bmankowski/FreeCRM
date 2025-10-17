@@ -14,7 +14,7 @@ function setBuiltIn($json)
 }
 
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 class OperationManager
 {
@@ -164,7 +164,7 @@ class OperationManager
 					return $userDetails;
 				} else {
 					$this->sessionManager->set("authenticatedUserId", $userDetails->id);
-					$adb = \FreeCRM\database\PearDatabase::getInstance();
+					$adb = \App\database\PearDatabase::getInstance();
 					$webserviceObject = VtigerWebserviceObject::fromName($adb, "Users");
 					$userId = vtws_getId($webserviceObject->getEntityId(), $userDetails->id);
 					$vtigerVersion = vtws_getVtigerVersion();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * TimeLineModal View Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class TimeLineModal extends \Vtiger_Index_View
 {
 
@@ -18,7 +18,7 @@ class TimeLineModal extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -32,12 +32,12 @@ class TimeLineModal extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @param type $display
 	 */
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		echo '<div class="modal-header">
-				<button class="close" data-dismiss="modal" title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CLOSE') . '">x</button>
-				<h3 class="modal-title">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TIMELINE', $request->getModule()) . ' </h3>
+				<button class="close" data-dismiss="modal" title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_CLOSE') . '">x</button>
+				<h3 class="modal-title">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_TIMELINE', $request->getModule()) . ' </h3>
 			</div>
 			<div class="modal-body">';
 	}
@@ -46,7 +46,7 @@ class TimeLineModal extends \Vtiger_Index_View
 	 * The final process
 	 * @param Vtiger_Request $request
 	 */
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		parent::postProcess($request);
 		echo '</div>';
@@ -56,14 +56,14 @@ class TimeLineModal extends \Vtiger_Index_View
 	 * Proceess
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$request->set('limit', \FreeCRM\AppConfig::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
+		$request->set('limit', \App\AppConfig::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
 		$request->set('type', Vtiger_HistoryRelation_Widget::getActions());
 		$request->set('noMore', true);
 
-		$viewClassName = \FreeCRM\Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$viewClassName = \App\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$instance = new $viewClassName();
 
 		$this->preProcess($request);

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class NoteBook extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class NoteBook extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -20,7 +20,7 @@ class NoteBook extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('noteBookCreate');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -29,9 +29,9 @@ class NoteBook extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function noteBookCreate(\FreeCRM\Http\Vtiger_Request $request)
+	public function noteBookCreate(\App\Http\Vtiger_Request $request)
 	{
-		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$dataValue['contents'] = $request->get('notePadContent');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 
@@ -52,12 +52,12 @@ class NoteBook extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$result = [];
 		$result['success'] = true;
 		$result['widgetId'] = $db->getLastInsertID('vtiger_module_dashboard_id_seq');
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Leads\Actions;
+namespace App\Modules\Settings\Leads\Actions;
 
 
 /* +***********************************************************************************
@@ -13,11 +13,11 @@ namespace FreeCRM\Modules\Settings\Leads\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
-class MappingSave extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
+class MappingSave extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mapping = $request->get('mapping');
 		$csrfKey = $GLOBALS['csrf']['input-name'];
@@ -26,7 +26,7 @@ class MappingSave extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		}
 		$mappingModel = Settings_Leads_Mapping_Model::getCleanInstance();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($mapping) {
 			$mappingModel->save($mapping);
 			$result = array('status' => true);
@@ -37,7 +37,7 @@ class MappingSave extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		return $response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

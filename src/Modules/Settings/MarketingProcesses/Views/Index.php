@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MarketingProcesses\Views;
-use FreeCRM\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
+namespace App\Modules\Settings\MarketingProcesses\Views;
+use App\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,28 +14,28 @@ use FreeCRM\Modules\Settings\MarketingProcesses\Models\Module as Settings_Market
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('LEADS_MODULE_MODEL', \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Leads'));
-		$viewer->assign('ACCOUNTS_MODULE_MODEL', \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Accounts'));
+		$viewer->assign('LEADS_MODULE_MODEL', \App\Modules\Vtiger\Models\Module::getInstance('Leads'));
+		$viewer->assign('ACCOUNTS_MODULE_MODEL', \App\Modules\Vtiger\Models\Module::getInstance('Accounts'));
 		$viewer->view('Index.tpl', $qualifiedModule);
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

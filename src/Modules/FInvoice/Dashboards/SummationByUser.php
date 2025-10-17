@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\FInvoice\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\FInvoice\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * FInvoice Summation By User Dashboard Class
@@ -10,7 +10,7 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class SummationByUser extends \Vtiger_Index_View
 {
@@ -22,13 +22,13 @@ class SummationByUser extends \Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 		$linkId = $request->get('linkid');
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
 		if ($request->has('time')) {
 			$time = $request->get('time');
 		} else {
-			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
+			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-01');
 				$time['end'] = date('Y-m-t');

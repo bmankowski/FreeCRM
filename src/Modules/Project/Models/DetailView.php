@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Project\Models;
+namespace App\Modules\Project\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,17 +12,17 @@ namespace FreeCRM\Modules\Project\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordId = $recordModel->getId();
 
-		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted('ProjectTask', 'EditView')) {
+		if (\App\Modules\Users\Models\Privileges::isPermitted('ProjectTask', 'EditView')) {
 			$viewLinks = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'Add Project Task',
@@ -30,9 +30,9 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'glyphicon glyphicon-tasks',
 				'linkhint' => 'Add Project Task',
 			];
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
 		}
-		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted('Documents', 'EditView')) {
+		if (\App\Modules\Users\Models\Privileges::isPermitted('Documents', 'EditView')) {
 			$viewLinks = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'Add Note',
@@ -40,7 +40,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'glyphicon glyphicon-file',
 				'linkhint' => 'Add Note',
 			];
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
 		}
 		return $linkModelList;
 	}
@@ -54,21 +54,21 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$parentModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
+		$parentModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CHARTS', $moduleName),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_CHARTS', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'Charts'
 			];
 		}
-		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('Gantt')) {
+		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('Gantt')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GANTT', $moduleName),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_GANTT', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showGantt',
 				'linkicon' => '',
 				'linkKey' => 'LBL_GANTT',

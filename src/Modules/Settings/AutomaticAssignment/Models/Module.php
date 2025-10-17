@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AutomaticAssignment\Models;
+namespace App\Modules\Settings\AutomaticAssignment\Models;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\AutomaticAssignment\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+use App\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	/**
@@ -78,7 +78,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function getSupportedModules()
 	{
-		return \FreeCRM\Modules\Vtiger\Models\Module::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
+		return \App\Modules\Vtiger\Models\Module::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function getFieldsByModule($moduleName)
 	{
 		$accessibleFields = [];
-		$moduleInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		foreach ($moduleInstance->getFields() as $fieldName => $fieldObject) {
 			if (in_array($fieldObject->getFieldDataType(), static::$fieldType) && $fieldObject->isActiveField() && $fieldObject->getUIType() !== 4) {
 				$accessibleFields[$fieldObject->getBlockName()][$fieldName] = $fieldObject;

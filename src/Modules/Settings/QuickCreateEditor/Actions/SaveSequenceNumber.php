@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\QuickCreateEditor\Actions;
-use FreeCRM\Modules\Settings\QuickCreateEditorModels\Module;
+namespace App\Modules\Settings\QuickCreateEditor\Actions;
+use App\Modules\Settings\QuickCreateEditorModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\QuickCreateEditorModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveSequenceNumber extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class SaveSequenceNumber extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	public function __construct()
@@ -22,14 +22,14 @@ class SaveSequenceNumber extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$this->exposeMethod('move');
 	}
 
-	public function move(\FreeCRM\Http\Vtiger_Request $request)
+	public function move(\App\Http\Vtiger_Request $request)
 	{
 		$updatedFieldsList = $request->get('updatedFields');
 
 		//This will update the fields sequence for the updated blocks
-		\FreeCRM\Modules\Settings\QuickCreateEditor\Models\Module::updateFieldSequenceNumber($updatedFieldsList);
+		\App\Modules\Settings\QuickCreateEditor\Models\Module::updateFieldSequenceNumber($updatedFieldsList);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('success' => true));
 		$response->emit();
 	}

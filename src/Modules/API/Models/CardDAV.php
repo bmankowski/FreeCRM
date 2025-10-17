@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\API\Models;
+namespace App\Modules\API\Models;
 
 /**
  * Api CardDAV Model Class
@@ -46,7 +46,7 @@ class CardDAV {
 
 	public function syncCrmRecord($moduleName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$create = $deletes = $updates = 0;
 		$result = $this->getCrmRecordsToSync($moduleName);
 		while ($record = $db->getRow($result)) {
@@ -57,7 +57,7 @@ class CardDAV {
 				$currentUser = vglobal('current_user');
 				vglobal('current_user', $user);
 
-				if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
+				if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
 					$card = $this->getCardDetail($record['crmid']);
 					if ($card === false) {
 						//Creating
@@ -93,7 +93,7 @@ class CardDAV {
 	public function syncAddressBooks()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $this->getDavCardsToSync();
 		$create = $deletes = $updates = 0;
 		while ($card = $db->getRow($result)) {
@@ -101,7 +101,7 @@ class CardDAV {
 				//Creating
 				$this->createRecord('Contacts', $card);
 				$create++;
-			} elseif (!isRecordExists($card['crmid']) || !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($card['setype'], 'DetailView', $card['crmid'])) {
+			} elseif (!isRecordExists($card['crmid']) || !\App\Modules\Users\Models\Privileges::isPermitted($card['setype'], 'DetailView', $card['crmid'])) {
 				// Deleting
 				$this->deletedCard($card);
 				$deletes++;
@@ -110,7 +110,7 @@ class CardDAV {
 				$cardLMT = $card['lastmodified'];
 				if ($crmLMT < $cardLMT) {
 					// Updating
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($card['crmid']);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($card['crmid']);
 					$this->updateRecord($recordModel, $card);
 					$updates++;
 				}
@@ -247,7 +247,7 @@ class CardDAV {
 		\App\Log::trace(__METHOD__ . ' | Start Card ID' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		if (isset($vcard->ORG)) {
-			$lead = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Leads');
+			$lead = \App\Modules\Vtiger\Models\Record::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
 			$lead->set('company', (string) $vcard->ORG);
 			$lead->set('lastname', (string) $vcard->ORG);
@@ -258,7 +258,7 @@ class CardDAV {
 		}
 		$head = $vcard->N->getParts();
 
-		$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$record->set('assigned_user_id', $this->user->get('id'));
 		if ($moduleName == 'Contacts') {
 			$record->set('firstname', $head[1]);
@@ -338,7 +338,7 @@ class CardDAV {
 
 	public function getCrmRecordsToSync($moduleName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if ($moduleName == 'Contacts') {
 			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email, jobtitle, vtiger_crmentity.modifiedtime,vtiger_contactaddress.* '
 				. 'FROM vtiger_contactdetails '
@@ -357,7 +357,7 @@ class CardDAV {
 
 	public function getCardDetail($crmid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM dav_cards WHERE addressbookid = ? && crmid = ?;';
 		$result = $db->pquery($sql, [$this->addressBookId, $crmid]);
 		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
@@ -365,7 +365,7 @@ class CardDAV {
 
 	public function getDavCardsToSync()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT dav_cards.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype FROM dav_cards LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_cards.crmid WHERE addressbookid = ?';
 		$result = $db->pquery($query, [$this->addressBookId]);
 		return $result;

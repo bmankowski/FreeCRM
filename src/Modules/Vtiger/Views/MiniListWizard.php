@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class MiniListWizard extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -33,7 +33,7 @@ class MiniListWizard extends \Vtiger_Index_View
 				break;
 			case 'step2':
 				$selectedModule = $request->get('selectedModule');
-				$filters = \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($selectedModule);
+				$filters = \App\Modules\CustomView\Models\Record::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':

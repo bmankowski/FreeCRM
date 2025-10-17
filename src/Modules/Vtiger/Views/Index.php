@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Index extends \Vtiger_Index_View
 {
 
@@ -22,11 +22,11 @@ class Index extends \Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
-			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 			if (!$permission) {
@@ -35,13 +35,13 @@ class Index extends \Vtiger_Index_View
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			if (!$moduleModel) {
 				// Non-entity or unsupported module (e.g. Home); skip permission block
 				$viewer->assign('CURRENT_VIEW', $request->get('view'));
@@ -50,8 +50,8 @@ class Index extends \Vtiger_Index_View
 				}
 				return;
 			}
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 			if (!$permission) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -68,18 +68,18 @@ class Index extends \Vtiger_Index_View
 		}
 	}
 
-	protected function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'IndexViewPreProcess.tpl';
 	}
 
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -88,7 +88,7 @@ class Index extends \Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -98,9 +98,9 @@ class Index extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -121,7 +121,7 @@ class Index extends \Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

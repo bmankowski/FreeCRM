@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Views;
+namespace App\Modules\Documents\Views;
 
 /**
  * Action to mass upload files
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Documents\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class MassAddDocuments extends \Vtiger_Index_View
 {
 
@@ -18,11 +18,11 @@ class MassAddDocuments extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView')) {
+		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -31,7 +31,7 @@ class MassAddDocuments extends \Vtiger_Index_View
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

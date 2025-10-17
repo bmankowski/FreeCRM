@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,37 +11,37 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class GetData extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('source_module');
 		$recordId = $request->get('record');
 
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$sourceModule = $request->get('source_module');
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 
-		$permitted = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $record);
+		$permitted = \App\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $record);
 		if ($permitted) {
 			vglobal('showsAdditionalLabels', true);
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $sourceModule);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $sourceModule);
 			$data = $recordModel->getData();
 			$response->setResult(array('success' => true, 'data' => array_map('decode_html', $data)));
 		} else {
-			$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED')));
+			$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED')));
 		}
 		$response->emit();
 	}

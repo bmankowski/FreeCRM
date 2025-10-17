@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\FInvoice\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\FInvoice\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * FInvoice Summation By Months Dashboard Class
@@ -10,7 +10,7 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class SummationByMonths extends \Vtiger_Index_View
 {
@@ -25,14 +25,14 @@ class SummationByMonths extends \Vtiger_Index_View
 	{
 		$linkId = $request->get('linkid');
 
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
 		if (!$request->has('owner'))
-			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
+			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		else
 			$owner = $request->get('owner');
 		$data = $this->getWidgetData($moduleName, $owner);
@@ -98,7 +98,7 @@ class SummationByMonths extends \Vtiger_Index_View
 			$data[] = [
 				'data' => $values,
 				'bars' => ['order' => (array_search($y, $years) + 1)],
-				'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YEAR', $moduleName) . ' ' . $y,
+				'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 			];
 		}
 		$response['chart'] = $data;

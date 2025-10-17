@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
+namespace App\Modules\OSSMailScanner\scanneractions;
+use App\Modules\Settings\SupportProcessesModels\Module;
 
 /**
  * Mail scanner action bind HelpDesk
@@ -25,16 +25,16 @@ class BindHelpDesk extends Model
 			if (!\App\Record::isExists($id, $this->moduleName)) {
 				return false;
 			}
-			$conf = \FreeCRM\Modules\OSSMailScanner\Models\Record::getConfig('emailsearch');
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $this->moduleName);
-			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(\FreeCRM\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
-				$recordModel->set('ticketstatus', \FreeCRM\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
+			$conf = \App\Modules\OSSMailScanner\Models\Record::getConfig('emailsearch');
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $this->moduleName);
+			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(\App\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
+				$recordModel->set('ticketstatus', \App\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
 				$recordModel->save();
 			}
-			$ticketStatus = array_flip(\FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify());
+			$ticketStatus = array_flip(\App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify());
 			if ($mail->getTypeEmail() == 1 && isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ($conf['changeTicketStatus'] === 'openTicket') {
-					$recordModel->set('ticketstatus', \FreeCRM\AppConfig::module('Mail', 'HELPDESK_OPENTICKET_STATUS'));
+					$recordModel->set('ticketstatus', \App\AppConfig::module('Mail', 'HELPDESK_OPENTICKET_STATUS'));
 					$recordModel->save();
 				} elseif ($conf['changeTicketStatus'] === 'createTicket') {
 					$mailAccount = $mail->getAccount();

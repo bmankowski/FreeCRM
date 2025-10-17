@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MailSmtp\Views;
+namespace App\Modules\Settings\MailSmtp\Views;
 
 
 
@@ -11,16 +11,16 @@ namespace FreeCRM\Modules\Settings\MailSmtp\Views;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MailSmtp\Models\Record as Settings_MailSmtp_Record_Model;
-class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\MailSmtp\Models\Record as Settings_MailSmtp_Record_Model;
+class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	/**
 	 * Checking permission 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin() || empty($request->get('record'))) {
@@ -30,9 +30,9 @@ class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -41,7 +41,7 @@ class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 

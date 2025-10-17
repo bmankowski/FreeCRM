@@ -9,7 +9,7 @@ if (php_sapi_name() !== 'cli') {
     die('This script must be run from command line');
 }
 
-// Include FreeCRM bootstrap if available
+// Include App bootstrap if available
 $rootDir = dirname(__DIR__);
 if (file_exists($rootDir . '/include.inc')) {
     require_once $rootDir . '/include.inc';

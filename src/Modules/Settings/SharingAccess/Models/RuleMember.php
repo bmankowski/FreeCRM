@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SharingAccess\Models;
-use FreeCRM\Modules\Settings\SharingAccessModels\RuleMember;
+namespace App\Modules\Settings\SharingAccess\Models;
+use App\Modules\Settings\SharingAccessModels\RuleMember;
 
 
 /* +***********************************************************************************************************************************
@@ -18,7 +18,7 @@ use FreeCRM\Modules\Settings\SharingAccessModels\RuleMember;
  * Sharng Access Vtiger Module Model Class
  */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class RuleMember extends \Vtiger_Record_Model
 {
 
@@ -89,7 +89,7 @@ class RuleMember extends \Vtiger_Record_Model
 
 	public static function getInstance($qualifiedId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$idComponents = self::getIdComponentsFromQualifiedId($qualifiedId);
 		$type = $idComponents[0];
@@ -146,7 +146,7 @@ class RuleMember extends \Vtiger_Record_Model
 
 	/**
 	 * Function to get all the rule members
-	 * @return <Array> - Array of \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember instances
+	 * @return <Array> - Array of \App\Modules\Settings\SharingAccess\Models\RuleMember instances
 	 */
 	public static function getAll()
 	{
@@ -159,7 +159,7 @@ class RuleMember extends \Vtiger_Record_Model
 			$rules[self::RULE_MEMBER_TYPE_GROUPS][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $groupModel->getName());
 		}
 
-		$allRoles = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		foreach ($allRoles as $roleId => $roleModel) {
 			$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLES, $roleId);
 			$rule = new self();
@@ -170,7 +170,7 @@ class RuleMember extends \Vtiger_Record_Model
 			$rules[self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $roleModel->getName());
 		}
 
-		$allUsers = \FreeCRM\Modules\Users\Models\Record::getAll();
+		$allUsers = \App\Modules\Users\Models\Record::getAll();
 		foreach ($allUsers as $userId => $userModel) {
 			$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_USERS, $userId);
 			$rule = new self();

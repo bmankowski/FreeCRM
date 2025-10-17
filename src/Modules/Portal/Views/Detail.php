@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Portal\Views;
+namespace App\Modules\Portal\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,22 +12,22 @@ namespace FreeCRM\Modules\Portal\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$module = $request->getModule();
 
-		$url = \FreeCRM\Modules\Portal\Models\Module::getWebsiteUrl($recordId);
-		$recordList = \FreeCRM\Modules\Portal\Models\Module::getAllRecords();
+		$url = \App\Modules\Portal\Models\Module::getWebsiteUrl($recordId);
+		$recordList = \App\Modules\Portal\Models\Module::getAllRecords();
 
 		$viewer = $this->getViewer($request);
 
@@ -39,7 +39,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->view('DetailView.tpl', $module);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

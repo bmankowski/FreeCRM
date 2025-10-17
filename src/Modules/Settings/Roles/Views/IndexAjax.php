@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Views;
-use FreeCRM\Modules\Settings\RolesViews\Index;
+namespace App\Modules\Settings\Roles\Views;
+use App\Modules\Settings\RolesViews\Index;
 
 
 /* +**********************************************************************************
@@ -13,15 +13,15 @@ use FreeCRM\Modules\Settings\RolesViews\Index;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class IndexAjax extends \FreeCRM\Modules\Settings\Roles\Views\Index
+class IndexAjax extends \App\Modules\Settings\Roles\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		return;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}

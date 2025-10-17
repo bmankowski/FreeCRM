@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,19 +11,19 @@ namespace FreeCRM\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Users\Models\Module as Users_Module_Model;
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+use App\Modules\Users\Models\Module as Users_Module_Model;
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		// Check for operation access.
-		$allowed = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record);
+		$allowed = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record);
 
 		if ($allowed) {
 			// Deny access if not administrator or account-owner or self
@@ -43,9 +43,9 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	protected function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ($recordModel->isNew()) {
@@ -70,12 +70,12 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return boolean
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$result = \FreeCRM\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
+		$result = \App\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
 			$settingsModuleModel = \Settings_Users_Module_Model::getInstance();
@@ -83,8 +83,8 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 			$sharedIds = $request->get('sharedusers');
 			$sharedType = $request->get('calendarsharedtype');
-			$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-			$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
@@ -106,7 +106,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 			if ($request->get('relationOperation')) {
-				$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
+				$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
 				$loadUrl = $parentRecordModel->getDetailViewUrl();
 			} else if ($request->get('isPreference')) {
 				$loadUrl = $recordModel->getPreferenceDetailViewUrl();

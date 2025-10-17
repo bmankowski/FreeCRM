@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reservations\Models;
+namespace App\Modules\Reservations\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,24 +12,24 @@ namespace FreeCRM\Modules\Reservations\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
+class Calendar extends \App\Modules\Vtiger\Models\Model
 {
 
 	public function getEntity()
 	{
 		$db = \App\Db::getInstance();
 		$module = 'Reservations';
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$query = (new \App\Db\Query())->from('vtiger_reservations')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_reservations.reservationsid')
 			->innerJoin('vtiger_reservationscf', 'vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid')
 			->where(['vtiger_crmentity.deleted' => 0]);
 
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = \FreeCRM\Fields\DateTimeField::convertToDBTimeZone($this->get('start'), $currentUser, false);
+			$dbStartDateOject = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('start'), $currentUser, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = \FreeCRM\Fields\DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
+			$dbEndDateObject = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query->andWhere([
@@ -106,10 +106,10 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public static function getInstance()
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('reservationsModels', 'Calendar');
+		$instance = \App\Runtime\Vtiger_Cache::get('reservationsModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			\FreeCRM\Runtime\Vtiger_Cache::set('reservationsModels', 'Calendar', clone $instance);
+			\App\Runtime\Vtiger_Cache::set('reservationsModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;
@@ -118,7 +118,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function getCalendarTypes()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?;", ['type', 'vtiger_reservations']);
 		$templateId = $db->query_result($result, 0, 'fieldparams');
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', [$templateId]);

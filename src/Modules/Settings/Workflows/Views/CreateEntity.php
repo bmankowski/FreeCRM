@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Views;
+namespace App\Modules\Settings\Workflows\Views;
 
 
 /* +**********************************************************************************
@@ -13,11 +13,11 @@ namespace FreeCRM\Modules\Settings\Workflows\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
-class CreateEntity extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+class CreateEntity extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -27,7 +27,7 @@ class CreateEntity extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 
 		$relatedModule = $request->get('relatedModule');
-		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 
 		$workflowModuleModel = $workflowModel->getModule();
 
@@ -35,7 +35,7 @@ class CreateEntity extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		$viewer->assign('REFERENCE_FIELD_NAME', $workflowModel->getReferenceFieldName($relatedModule));
 		$viewer->assign('RELATED_MODULE_MODEL', $relatedModuleModel);
-		$viewer->assign('FIELD_EXPRESSIONS', \FreeCRM\Modules\Settings\Workflows\Models\Module::getExpressions());
+		$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Settings\Workflows\Models\Module::getExpressions());
 		$viewer->assign('MODULE_MODEL', $workflowModuleModel);
 		$viewer->assign('SOURCE_MODULE', $workflowModuleModel->getName());
 		$viewer->assign('RELATED_MODULE_MODEL_NAME', '');

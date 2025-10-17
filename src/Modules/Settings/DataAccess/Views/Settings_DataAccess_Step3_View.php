@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Views;
+namespace App\Modules\Settings\DataAccess\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class \Settings_DataAccess_Step3_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class \Settings_DataAccess_Step3_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$db = \App\Db::getInstance();
 		$qualifiedModuleName = $request->getModule(false);
@@ -37,19 +37,19 @@ Class \Settings_DataAccess_Step3_View extends \FreeCRM\Modules\Settings\Vtiger\V
 				$db->createCommand()
 					->update('vtiger_dataaccess', ['module_name' => $baseModule, 'summary' => $summary], ['dataaccessid' => $tplId])
 					->execute();
-				\FreeCRM\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionAll, $tplId);
-				\FreeCRM\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionOption, $tplId, false);
+				\App\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionAll, $tplId);
+				\App\Modules\Settings\DataAccess\Models\Module::updateConditions($conditionOption, $tplId, false);
 			} else {
 				$db->createCommand()
 					->insert('vtiger_dataaccess', ['module_name' => $baseModule, 'summary' => $summary])
 					->execute();
 				$tplId = $db->getLastInsertID('vtiger_dataaccess_dataaccessid_seq');
-				\FreeCRM\Modules\Settings\DataAccess\Models\Module::addConditions($conditionAll, $tplId);
-				\FreeCRM\Modules\Settings\DataAccess\Models\Module::addConditions($conditionOption, $tplId, false);
+				\App\Modules\Settings\DataAccess\Models\Module::addConditions($conditionAll, $tplId);
+				\App\Modules\Settings\DataAccess\Models\Module::addConditions($conditionOption, $tplId, false);
 			}
 		}
 
-		$DataAccess = \FreeCRM\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($tplId, false);
+		$DataAccess = \App\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($tplId, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('STEP', 3);
 		$viewer->assign('TPL_ID', $tplId);
@@ -62,7 +62,7 @@ Class \Settings_DataAccess_Step3_View extends \FreeCRM\Modules\Settings\Vtiger\V
 		echo $viewer->view('Step3.tpl', $qualifiedModuleName, true);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

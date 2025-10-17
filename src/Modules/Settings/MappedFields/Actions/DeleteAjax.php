@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Actions;
+namespace App\Modules\Settings\MappedFields\Actions;
 
 
 
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Settings\MappedFields\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		if ($moduleInstance->delete()) {
 			$response->setResult(array('success' => 'true'));

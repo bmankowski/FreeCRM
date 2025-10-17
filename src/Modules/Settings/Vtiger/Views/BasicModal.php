@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
+namespace App\Modules\Settings\Vtiger\Views;
 
 
 
@@ -10,10 +10,10 @@ namespace FreeCRM\Modules\Settings\Vtiger\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class BasicModal extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class BasicModal extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
@@ -23,7 +23,7 @@ class BasicModal extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		}
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		foreach ($this->getModalScripts($request) as $script) {
 			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';
@@ -31,19 +31,19 @@ class BasicModal extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		echo '</div></div></div>';
 	}
 
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return '';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		//Content
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
@@ -57,7 +57,7 @@ class BasicModal extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		return $scriptInstances;
 	}
 
-	public function getModalCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalCss(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');

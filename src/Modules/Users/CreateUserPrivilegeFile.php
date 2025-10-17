@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users;
+namespace App\Modules\Users;
 /* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -28,7 +28,7 @@ function createUserPrivilegesfile($userid)
 	if ($handle) {
 		$newbuf = '';
 		$newbuf .= "<?php\n";
-		$user_focus = \FreeCRM\CRMEntity::getInstance('Users');
+		$user_focus = \App\CRMEntity::getInstance('Users');
 		$user_focus->retrieve_entity_info($userid, 'Users');
 		$userInfo = [];
 		$user_focus->column_fields["id"] = '';
@@ -59,7 +59,7 @@ function createUserPrivilegesfile($userid)
 			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
 			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
 			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-			$newbuf .= "\$current_user_groups=" . constructSingleArray(\FreeCRM\Modules\Vtiger\Util::getGroupsIdsForUsers($userid)) . ";\n";
+			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\Modules\Vtiger\Util::getGroupsIdsForUsers($userid)) . ";\n";
 			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
 			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
 			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
@@ -68,7 +68,7 @@ function createUserPrivilegesfile($userid)
 		fputs($handle, $newbuf);
 		fclose($handle);
 		\App\PrivilegeFile::createUserPrivilegesFile($userid);
-		\FreeCRM\Modules\Users\Models\Privileges::clearCache($userid);
+		\App\Modules\Users\Models\Privileges::clearCache($userid);
 		\App\User::clearCache($userid);
 	}
 }
@@ -85,7 +85,7 @@ function createUserSharingPrivilegesfile($userid)
 
 	if ($handle) {
 		$newbuf = "<?php\n";
-		$user_focus = \FreeCRM\CRMEntity::getInstance('Users');
+		$user_focus = \App\CRMEntity::getInstance('Users');
 		$user_focus->retrieve_entity_info($userid, 'Users');
 		if ($user_focus->is_admin == 'on') {
 			fputs($handle, $newbuf);
@@ -165,7 +165,7 @@ function createUserSharingPrivilegesfile($userid)
 function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_members, $mod_share_read_per, $mod_share_write_per, $def_org_share)
 {
 
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$related_mod_sharing_permission = [];
 	$mod_share_read_permission = [];
 	$mod_share_write_permission = [];
@@ -501,7 +501,7 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
  */
 function populateSharingtmptables($userid)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 	require('user_privileges/sharing_privileges_' . $userid . '.php');
 	//Deleting from the existing vtiger_tables
@@ -550,7 +550,7 @@ function populateSharingtmptables($userid)
  */
 function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$tabid = \App\Module::getModuleId($module);
 
 	if (!$var_name_arr) {
@@ -628,7 +628,7 @@ function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_na
  */
 function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$tabid = \App\Module::getModuleId($module);
 	$reltabid = \App\Module::getModuleId($relmodule);
 

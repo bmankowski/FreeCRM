@@ -13,9 +13,9 @@
  * Abstract Controller Class
  */
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 
 abstract class Vtiger_Controller
@@ -96,7 +96,7 @@ abstract class Vtiger_Controller
 			return call_user_func_array([$this, $name], $parameters);
 		}
 
-		throw new \Exception(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+		throw new \Exception(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 	}
 
 	/**

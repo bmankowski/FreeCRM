@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CronTasks\Views;
+namespace App\Modules\Settings\CronTasks\Views;
 
 
 /* +***********************************************************************************
@@ -12,13 +12,13 @@ namespace FreeCRM\Modules\Settings\CronTasks\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use FreeCRM\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
+use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
+class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

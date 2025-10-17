@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Models;
+namespace App\Modules\ModComments\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ModComments\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Model extends \FreeCRM\Modules\Vtiger\Models\Model
+class Model extends \App\Modules\Vtiger\Models\Model
 {
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Portal\Views;
+namespace App\Modules\Portal\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Portal\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ListView extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 
@@ -25,7 +25,7 @@ class ListView extends \Vtiger_Index_View
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -33,7 +33,7 @@ class ListView extends \Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, \FreeCRM\Runtime\FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->get('page');
@@ -53,10 +53,10 @@ class ListView extends \Vtiger_Index_View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$listViewModel = new \FreeCRM\Modules\Portal\Models\ListView();
+		$listViewModel = new \App\Modules\Portal\Models\ListView();
 
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
@@ -90,7 +90,7 @@ class ListView extends \Vtiger_Index_View
 		$viewer->assign('PAGING_INFO', $pagingInfo);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

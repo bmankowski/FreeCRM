@@ -34,8 +34,8 @@ if (!class_exists('Vtiger_Language_Handler')) {
     class_alias('Vtiger\Language\Handler', 'Vtiger_Language_Handler');
 }
 
-if (!class_exists('FreeCRM_Viewer')) {
-    class_alias('Vtiger\Runtime\Viewer', 'FreeCRM_Viewer');
+if (!class_exists('CRM_Viewer')) {
+    class_alias('Vtiger\Runtime\Viewer', 'CRM_Viewer');
 }
 
 if (!class_exists('Vtiger_Theme')) {
@@ -114,10 +114,6 @@ if (!class_exists('Campaigns')) {
 // Utility aliases
 if (!class_exists('EmailTemplate')) {
     class_alias('Vtiger\Utils\EmailTemplate', 'EmailTemplate');
-}
-
-if (!class_exists('AppConfig')) {
-    class_alias('Vtiger\Config\AppConfig', 'AppConfig');
 }
 
 if (!class_exists('PearDatabase')) {

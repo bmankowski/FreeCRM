@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Views;
+namespace App\Modules\Settings\PDF\Views;
 
 
 
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\PDF\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
-class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
+class Import extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__);
@@ -58,7 +58,7 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				Settings_PDF_Record_Model::save($pdfModel, 'import');
 
 				if ($pdfModel->getId() && $imagePath != '' && $base64Image) {
-					$targetDir = \FreeCRM\Modules\Settings\PDF\Models\Module::$uploadPath;
+					$targetDir = \App\Modules\Settings\PDF\Models\Module::$uploadPath;
 					$imageExt = end(explode('.', basename($imagePath)));
 					$imageData = base64_decode($base64Image);
 					$newFilePath = $targetDir . $pdfModel->getId() . '.' . $imageExt;
@@ -70,7 +70,7 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				$viewer->assign('RECORDID', $pdfModel->getId());
 				$viewer->assign('UPLOAD', true);
 			} else {
-				$viewer->assign('UPLOAD_ERROR', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
+				$viewer->assign('UPLOAD_ERROR', \App\Runtime\Vtiger_Language_Handler::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);
 			}
 		}
@@ -80,7 +80,7 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

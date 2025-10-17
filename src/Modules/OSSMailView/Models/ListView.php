@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Models;
+namespace App\Modules\OSSMailView\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,15 +12,15 @@ namespace FreeCRM\Modules\OSSMailView\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	public function getBasicLinks()
 	{
 		$basicLinks = array();
 		$moduleModel = $this->getModule();
-		$createPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
-		if ($createPermission && \FreeCRM\AppConfig::main('isActiveSendingMails') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
+		$createPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
+		if ($createPermission && \App\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
 			$basicLinks[] = array(
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_CREATEMAIL',
@@ -35,7 +35,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$massActionLinks = [];
 
@@ -63,7 +63,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			);
 		}
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $links;
 	}

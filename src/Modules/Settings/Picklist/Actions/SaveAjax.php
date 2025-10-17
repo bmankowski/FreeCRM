@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Picklist\Actions;
-use FreeCRM\Modules\Settings\PicklistModels\Field;
+namespace App\Modules\Settings\Picklist\Actions;
+use App\Modules\Settings\PicklistModels\Field;
 
 
 /* +**********************************************************************************
@@ -13,8 +13,8 @@ use FreeCRM\Modules\Settings\PicklistModels\Field;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+use App\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
 	public function __construct()
@@ -27,7 +27,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$this->exposeMethod('enableOrDisable');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		$this->invokeExposedMethod($mode, $request);
@@ -38,7 +38,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 
 	public function updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if ($pickListFieldName == 'activitytype')
 			$defaultFieldName = 'defaultactivitytype';
 		else
@@ -61,25 +61,25 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		for ($i = 0; $i < $rowCount; $i++) {
 			$recordId = $db->query_result_rowdata($result, $i);
 			$recordId = $recordId['id'];
-			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Users');
+			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Users');
 			$record->set($defaultFieldName, $newValue);
 			$record->save();
 		}
 	}
 
-	public function add(\FreeCRM\Http\Vtiger_Request $request)
+	public function add(\App\Http\Vtiger_Request $request)
 	{
 		$newValue = $request->getRaw('newValue');
 		$pickListName = $request->get('picklistName');
 		$moduleName = $request->get('source_module');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
-		$fieldModel = \FreeCRM\Modules\Settings\Picklist\Models\Field::getInstance($pickListName, $moduleModel);
+		$fieldModel = \App\Modules\Settings\Picklist\Models\Field::getInstance($pickListName, $moduleModel);
 		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
 			$userSelectedRoles = $request->get('rolesSelected', []);
 			//selected all roles option
 			if (in_array('all', $userSelectedRoles)) {
-				$roleRecordList = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+				$roleRecordList = \App\Modules\Settings\Roles\Models\Record::getAll();
 				foreach ($roleRecordList as $roleRecord) {
 					$rolesSelected[] = $roleRecord->getId();
 				}
@@ -87,7 +87,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 				$rolesSelected = $userSelectedRoles;
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected);
 			$response->setResult(array('id' => $id['id']));
@@ -97,7 +97,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function rename(\FreeCRM\Http\Vtiger_Request $request)
+	public function rename(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
 
@@ -110,7 +110,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 			$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 		}
 		$moduleModel = new Settings_Picklist_Module_Model();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$status = $moduleModel->renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id);
 			$response->setResult(array('success', $status));
@@ -120,7 +120,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function remove(\FreeCRM\Http\Vtiger_Request $request)
+	public function remove(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		$valueToDelete = $request->getRaw('delete_value');
@@ -131,7 +131,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 			$this->updateDefaultPicklistValues($pickListFieldName, $valueToDelete, $replaceValue);
 		}
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$status = $moduleModel->remove($pickListFieldName, $valueToDelete, $replaceValue, $moduleName);
 			$response->setResult(array('success', $status));
@@ -143,9 +143,9 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 
 	/**
 	 * Function which will assign existing values to the roles
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function assignValueToRole(\FreeCRM\Http\Vtiger_Request $request)
+	public function assignValueToRole(\App\Http\Vtiger_Request $request)
 	{
 		$valueToAssign = $request->getRaw('assign_values');
 		$userSelectedRoles = $request->get('rolesSelected');
@@ -153,7 +153,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$roleIdList = [];
 		//selected all roles option
 		if (in_array('all', $userSelectedRoles)) {
-			$roleRecordList = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+			$roleRecordList = \App\Modules\Settings\Roles\Models\Record::getAll();
 			foreach ($roleRecordList as $roleRecord) {
 				$roleIdList[] = $roleRecord->getId();
 			}
@@ -163,7 +163,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 
 		$moduleModel = new Settings_Picklist_Module_Model();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $valueToAssign, [], $roleIdList);
 			$response->setResult(array('success', true));
@@ -173,12 +173,12 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function saveOrder(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveOrder(\App\Http\Vtiger_Request $request)
 	{
 		$picklistValues = $request->getRaw('picklistValues');
 
 		$moduleModel = new Settings_Picklist_Module_Model();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$moduleModel->updateSequence($request->getForSql('picklistName'), $picklistValues);
 			$response->setResult(array('success', true));
@@ -188,14 +188,14 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function enableOrDisable(\FreeCRM\Http\Vtiger_Request $request)
+	public function enableOrDisable(\App\Http\Vtiger_Request $request)
 	{
 		$enabledValues = $request->getRaw('enabled_values', []);
 		$disabledValues = $request->getRaw('disabled_values', []);
 		$roleSelected = $request->get('rolesSelected');
 
 		$moduleModel = new Settings_Picklist_Module_Model();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $enabledValues, $disabledValues, array($roleSelected));
 			$response->setResult(array('success', true));
@@ -205,7 +205,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

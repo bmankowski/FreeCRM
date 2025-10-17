@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Actions;
+namespace App\Modules\Settings\ModuleManager\Actions;
 
 
 /* +**********************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\ModuleManager\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Basic extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class Basic extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -27,7 +27,7 @@ class Basic extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('deleteModule');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -36,12 +36,12 @@ class Basic extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		}
 	}
 
-	public function updateModuleStatus(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateModuleStatus(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('forModule');
 		$updateStatus = $request->get('updateStatus');
-		$moduleManagerModel = new \FreeCRM\Modules\Settings\ModuleManager\Models\Module();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$moduleManagerModel = new \App\Modules\Settings\ModuleManager\Models\Module();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			if ($request->getBoolean('updateStatus')) {
 				$moduleManagerModel->enableModule($moduleName);
@@ -54,11 +54,11 @@ class Basic extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response->emit();
 	}
 
-	public function importUserModuleStep3(\FreeCRM\Http\Vtiger_Request $request)
+	public function importUserModuleStep3(\App\Http\Vtiger_Request $request)
 	{
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
-		$uploadDir = \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
+		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
 		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
@@ -77,16 +77,16 @@ class Basic extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		unlink($uploadFileName);
 
 		$result = array('success' => true, 'importModuleName' => $importModuleName);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function updateUserModuleStep3(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateUserModuleStep3(\App\Http\Vtiger_Request $request)
 	{
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
-		$uploadDir = \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
+		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
 		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
@@ -109,50 +109,50 @@ class Basic extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		unlink($uploadFileName);
 
 		$result = array('success' => true, 'importModuleName' => $importModuleName);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}
 
-	public function checkModuleName(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkModuleName(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('moduleName');
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
-			$result = array('success' => false, 'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
 		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
-			$result = array('success' => false, 'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
 		} else {
 			$result = array('success' => true);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function createModule(\FreeCRM\Http\Vtiger_Request $request)
+	public function createModule(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$formData = $request->get('formData');
-		$moduleManagerModel = new \FreeCRM\Modules\Settings\ModuleManager\Models\Module();
+		$moduleManagerModel = new \App\Modules\Settings\ModuleManager\Models\Module();
 		$result = array('success' => true, 'text' => ucfirst($formData['module_name']));
 		try {
 			$moduleManagerModel->createModule($formData);
 		} catch (Exception $e) {
 			$result = array('success' => false, 'text' => $e->getMessage());
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function deleteModule(\FreeCRM\Http\Vtiger_Request $request)
+	public function deleteModule(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('forModule');
 		$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -161,7 +161,7 @@ class Basic extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			$result = array('success' => true);
 		} else
 			$result = array('success' => false);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

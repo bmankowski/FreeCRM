@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Views;
+namespace App\Modules\Settings\DataAccess\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_DataAccess_Step1_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Settings_DataAccess_Step1_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
@@ -31,19 +31,19 @@ class Settings_DataAccess_Step1_View extends \FreeCRM\Modules\Settings\Vtiger\Vi
 		$viewer = $this->getViewer($request);
 
 		if ($idTpl) {
-			$docInfo = \FreeCRM\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($idTpl);
+			$docInfo = \App\Modules\Settings\DataAccess\Models\Module::getDataAccessInfo($idTpl);
 
 			$viewer->assign('BASE_INFO', $docInfo['basic_info']);
 			$viewer->assign('TPL_ID', $idTpl);
 		}
 		$viewer->assign('STEP', 1);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('MODULE_LIST', \FreeCRM\Modules\Settings\DataAccess\Models\Module::getSupportedModules());
+		$viewer->assign('MODULE_LIST', \App\Modules\Settings\DataAccess\Models\Module::getSupportedModules());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		echo $viewer->view('Step1.tpl', $qualifiedModuleName, true);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

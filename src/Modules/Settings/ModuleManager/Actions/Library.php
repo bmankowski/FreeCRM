@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Actions;
+namespace App\Modules\Settings\ModuleManager\Actions;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\ModuleManager\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Library extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class Library extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -20,7 +20,7 @@ class Library extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('update');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -31,21 +31,21 @@ class Library extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	/**
 	 * Function to update library
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function update(\FreeCRM\Http\Vtiger_Request $request)
+	public function update(\App\Http\Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\ModuleManager\Models\Library::update($request->get('name'));
+		\App\Modules\Settings\ModuleManager\Models\Library::update($request->get('name'));
 		header("Location: index.php?module=ModuleManager&parent=Settings&view=List");
 	}
 
 	/**
 	 * Function to download library
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function download(\FreeCRM\Http\Vtiger_Request $request)
+	public function download(\App\Http\Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\ModuleManager\Models\Library::download($request->get('name'));
+		\App\Modules\Settings\ModuleManager\Models\Library::download($request->get('name'));
 		header("Location: index.php?module=ModuleManager&parent=Settings&view=List");
 	}
 }

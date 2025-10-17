@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,11 +13,11 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class RelatedList extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -28,14 +28,14 @@ class RelatedList extends \Vtiger_Index_View
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if ($request->has('limit')) {
 			$pagingModel->set('limit', $request->get('limit'));
 		}
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if ($sortOrder == 'ASC') {
@@ -46,7 +46,7 @@ class RelatedList extends \Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = \FreeCRM\CRMEntity::getInstance($relatedModuleName);
+			$relatedInstance = \App\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
@@ -92,7 +92,7 @@ class RelatedList extends \Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$colorList = array();
 		foreach ($models as &$record) {
-			$colorList[$record->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
 		}
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('RELATED_RECORDS', $models);
@@ -103,7 +103,7 @@ class RelatedList extends \Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {
@@ -128,7 +128,7 @@ class RelatedList extends \Vtiger_Index_View
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
-		if ($relationModel->isFavorites() && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
+		if ($relationModel->isFavorites() && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			$viewer->assign('FAVORITES', $favorites);
 			$isFavorites = $relationModel->isFavorites();
@@ -136,7 +136,7 @@ class RelatedList extends \Vtiger_Index_View
 		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->get('view'));
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,9 +12,9 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class MassActionAjax extends \Vtiger_Index_View
 {
 
@@ -28,7 +28,7 @@ class MassActionAjax extends \Vtiger_Index_View
 		$this->exposeMethod('transferOwnership');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -41,7 +41,7 @@ class MassActionAjax extends \Vtiger_Index_View
 	 * Function returns the mass edit form
 	 * @param Vtiger_Request $request
 	 */
-	public function showMassEditForm(\FreeCRM\Http\Vtiger_Request $request)
+	public function showMassEditForm(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -50,8 +50,8 @@ class MassActionAjax extends \Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_MASSEDIT);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_MASSEDIT);
 		$fieldInfo = [];
 		$fieldList = $moduleModel->getFields();
 		foreach ($fieldList as $fieldName => $fieldModel) {
@@ -70,7 +70,7 @@ class MassActionAjax extends \Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MASS_EDIT_FIELD_DETAILS', $fieldInfo);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$searchKey = $request->get('search_key');
@@ -93,7 +93,7 @@ class MassActionAjax extends \Vtiger_Index_View
 	 * Function returns the Add Comment form
 	 * @param Vtiger_Request $request
 	 */
-	public function showAddCommentForm(\FreeCRM\Http\Vtiger_Request $request)
+	public function showAddCommentForm(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
@@ -107,7 +107,7 @@ class MassActionAjax extends \Vtiger_Index_View
 		$viewer->assign('CVID', $cvId);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
@@ -130,7 +130,7 @@ class MassActionAjax extends \Vtiger_Index_View
 	 * Function shows form that will lets you send SMS
 	 * @param Vtiger_Request $request
 	 */
-	public function showSendSMSForm(\FreeCRM\Http\Vtiger_Request $request)
+	public function showSendSMSForm(\App\Http\Vtiger_Request $request)
 	{
 
 		$sourceModule = $request->getModule();
@@ -139,14 +139,14 @@ class MassActionAjax extends \Vtiger_Index_View
 		$excludedIds = $request->get('excluded_ids');
 		$cvId = $request->get('viewname');
 
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$phoneFields = $moduleModel->getFieldsByType('phone');
 		$viewer = $this->getViewer($request);
 
 		if (count($selectedIds) == 1) {
 			$recordId = $selectedIds[0];
-			$selectedRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $sourceModule);
+			$selectedRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $sourceModule);
 			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
 		}
 		$viewer->assign('VIEWNAME', $cvId);
@@ -179,7 +179,7 @@ class MassActionAjax extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return integer
 	 */
-	public function getRecordsListFromRequest(\FreeCRM\Http\Vtiger_Request $request, $module = false)
+	public function getRecordsListFromRequest(\App\Http\Vtiger_Request $request, $module = false)
 	{
 		$cvId = $request->get('viewname');
 		$selectedIds = $request->get('selected_ids');
@@ -196,11 +196,11 @@ class MassActionAjax extends \Vtiger_Index_View
 		$sourceRecord = $request->get('sourceRecord');
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceRecord && $sourceModule) {
-			$sourceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
+			$sourceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			return $sourceRecordModel->getSelectedIdsList($module, $excludedIds);
 		}
 
-		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
+		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');
@@ -219,7 +219,7 @@ class MassActionAjax extends \Vtiger_Index_View
 	 * Function shows the List of Mail Merge Templates
 	 * @param Vtiger_Request $request
 	 */
-	public function showMailMergeTemplates(\FreeCRM\Http\Vtiger_Request $request)
+	public function showMailMergeTemplates(\App\Http\Vtiger_Request $request)
 	{
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
@@ -241,10 +241,10 @@ class MassActionAjax extends \Vtiger_Index_View
 	 * Function shows the duplicate search form
 	 * @param Vtiger_Request $request
 	 */
-	public function showDuplicatesSearchForm(\FreeCRM\Http\Vtiger_Request $request)
+	public function showDuplicatesSearchForm(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 		$fields = $moduleModel->getFields();
 
 		$viewer = $this->getViewer($request);
@@ -253,7 +253,7 @@ class MassActionAjax extends \Vtiger_Index_View
 		$viewer->view('showDuplicateSearch.tpl', $module);
 	}
 
-	public function transferOwnership(\FreeCRM\Http\Vtiger_Request $request)
+	public function transferOwnership(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$transferModel = Vtiger_TransferOwnership_Model::getInstance($module);
@@ -263,7 +263,7 @@ class MassActionAjax extends \Vtiger_Index_View
 		$viewer->assign('REL_BY_FIELDS', $transferModel->getRelationsByFields());
 		$viewer->assign('REL_BY_RELATEDLIST', $transferModel->getRelationsByRelatedList());
 		$viewer->assign('SKIP_MODULES', $transferModel->getSkipModules());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('TransferRecordOwnership.tpl', $module);
 	}
 }

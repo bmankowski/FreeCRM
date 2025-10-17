@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Views;
+namespace App\Modules\Leads\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Leads\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
-class Detail extends \FreeCRM\Modules\Vtiger\Views\Detail
+use App\Http\Vtiger_Request;
+class Detail extends \App\Modules\Vtiger\Views\Detail
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\FreeCRM\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
+		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
 		parent::preProcess($request);
 	}
 }

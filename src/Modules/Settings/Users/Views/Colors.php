@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Users\Views;
+namespace App\Modules\Settings\Users\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\Users\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Colors extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Colors extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$tablesAll = \FreeCRM\Modules\Users\Models\Colors::getTablesAll();
+		$tablesAll = \App\Modules\Users\Models\Colors::getTablesAll();
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = \FreeCRM\Modules\Settings\Calendar\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Calendar\Models\Module::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('TABLES_ALL', $tablesAll);
@@ -30,7 +30,7 @@ class Colors extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Colors.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -43,7 +43,7 @@ class Colors extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(

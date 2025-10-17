@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Skrypt do konwersji konstrukcji App\Language::translate na \FreeCRM\Runtime\Vtiger_Language_Handler::translate w plikach PHP
+# Skrypt do konwersji konstrukcji App\Language::translate na \App\Runtime\Vtiger_Language_Handler::translate w plikach PHP
 # Autor: Assistant
 # Data: $(date)
 
@@ -91,7 +91,7 @@ while IFS= read -r file; do
     fi
     
     # Wykonaj konwersję używając sed
-    # Wzorzec: App\Language::translate('KEY', $MODULE) -> \FreeCRM\Runtime\Vtiger_Language_Handler::translate('KEY', $MODULE)
+    # Wzorzec: App\Language::translate('KEY', $MODULE) -> \App\Runtime\Vtiger_Language_Handler::translate('KEY', $MODULE)
     if [ "$DRY_RUN" = true ]; then
         # Pokaż co zostanie zmienione
         echo "Zmiany w pliku $file:"
@@ -112,11 +112,11 @@ while IFS= read -r file; do
         temp_file=$(mktemp)
         
         # Konwersja główna - różne warianty
-        # 1. App\Language::translate -> \FreeCRM\Runtime\Vtiger_Language_Handler::translate
+        # 1. App\Language::translate -> \App\Runtime\Vtiger_Language_Handler::translate
         sed "s/App\\\\Language::translate/LanguageTranslator::translate/g" "$file" > "$temp_file"
-        # 2. \App\Language::translate -> \FreeCRM\Runtime\Vtiger_Language_Handler::translate
+        # 2. \App\Language::translate -> \App\Runtime\Vtiger_Language_Handler::translate
         sed -i "s/\\\\App\\\\Language::translate/LanguageTranslator::translate/g" "$temp_file"
-        # 3. Language::translate -> \FreeCRM\Runtime\Vtiger_Language_Handler::translate (w namespace App)
+        # 3. Language::translate -> \App\Runtime\Vtiger_Language_Handler::translate (w namespace App)
         sed -i "s/Language::translate/LanguageTranslator::translate/g" "$temp_file"
         
         # Sprawdź czy były jakieś zmiany

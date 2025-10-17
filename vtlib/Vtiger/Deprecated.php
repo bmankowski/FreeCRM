@@ -18,7 +18,7 @@ class Deprecated
 
 	public static function getFullNameFromQResult($result, $row_count, $module)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$rowdata = $adb->query_result_rowdata($result, $row_count);
 		$entity_field_info = \App\Module::getEntityInfo($module);
 		$fieldsName = $entity_field_info['fieldname'];
@@ -65,7 +65,7 @@ class Deprecated
 
 	public static function getBlockId($tabid, $label)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
 		$result = $adb->pquery($query, array($tabid, $label));
 		$noofrows = $adb->num_rows($result);
@@ -79,7 +79,7 @@ class Deprecated
 
 	public static function createModuleMetaFile()
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('select * from vtiger_tab');
 		$result_array = $seq_array = $ownedby_array = [];
 
@@ -161,7 +161,7 @@ class Deprecated
 	 */
 	public static function getIdOfCustomViewByNameAll($module)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		static $cvidCache = [];
 		if (!isset($cvidCache[$module])) {
@@ -283,7 +283,7 @@ class Deprecated
 	 */
 	public static function getSettingsBlockId($label)
 	{
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$blockid = '';
 		$query = "select blockid from vtiger_settings_blocks where label = ?";
 		$result = $adb->pquery($query, array($label));

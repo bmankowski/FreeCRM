@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages\Models;
+namespace App\Modules\IStorages\Models;
 
 /**
  * Module Class for IStorages
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\IStorages\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public static $modulesToCalculate = ['add' => ['IGRN', 'IIDN', 'ISTRN', 'IGRNC'], 'remove' => ['IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'IGDNC']];
@@ -40,7 +40,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$adb = \App\Db::getInstance();
 		$productRecords = [];
 		foreach ($data as $product) {
@@ -48,8 +48,8 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				// If product was added with diffrent units (pcs not packs)
 				// it will calculate it to packs
 				if (isset($productRecords[$product['name']]) === false) {
-					$productRecords[$product['name']] = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Products');
-					$productRecords[$product['name']] = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($product['name']);
+					$productRecords[$product['name']] = \App\Modules\Vtiger\Models\Record::getCleanInstance('Products');
+					$productRecords[$product['name']] = \App\Modules\Vtiger\Models\Record::getInstanceById($product['name']);
 				}
 				$qtyPerUnit = $productRecords[$product['name']]->get('qty_per_unit');
 				$productQty = $product['qty'] / $qtyPerUnit;
@@ -73,7 +73,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$db->pquery($query, array_merge($params, array_keys($qtyInStock)));
 
 		// Saving the amount of product in stock.
-		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo('Products', 'IStorages');
+		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo('Products', 'IStorages');
 		$query = 'SELECT %s,qtyinstock FROM %s  WHERE %s = ? AND %s IN (%s);';
 		$query = sprintf($query, $referenceInfo['rel'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel'], $db->generateQuestionMarks(array_keys($qtyInStock)));
 		$result = $db->pquery($query, array_merge([$storageId], array_keys($qtyInStock)));
@@ -95,7 +95,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public static function getAllQtyInStocks()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sumProduct = [];
 		$sumProductInStorage = [];
 		foreach (self::$modulesToCalculate as $type => $modules) {
@@ -105,7 +105,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 					continue;
 				}
 				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();
-				$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+				$focus = \App\CRMEntity::getInstance($moduleName);
 				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.id LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 && cr.`deleted` = 0 && %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid', $inventoryTableName, $focus->table_name, $inventoryTableName, $focus->table_name, $inventoryTableName, $inventoryTableName, $focus->table_name, $focus->table_index, $inventoryTableName, $focus->table_name, $focus->table_index, $focus->table_name, strtolower($moduleName));
 			}
 			if (!empty($sql)) {
@@ -128,7 +128,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public static function setQtyInStocks($stock)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		list($sumProduct, $sumProductInStorage) = $stock;
 		if (empty($sumProduct)) {
 			$db->update('vtiger_products', ['qtyinstock' => 0]);
@@ -142,7 +142,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			$query .= ' END WHERE `productid` IN (' . $db->generateQuestionMarks(array_keys($sumProduct)) . ')';
 			$db->pquery($query, array_merge($params, array_keys($sumProduct)));
 		}
-		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo('Products', 'IStorages');
+		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo('Products', 'IStorages');
 		$db->delete($referenceInfo['table']);
 		if (!empty($sumProductInStorage)) {
 			foreach ($sumProductInStorage as $ID => $values) {

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Models;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Groups\Models;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -13,15 +13,15 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 require_once ROOT_DIRECTORY . '/src/events/include.php';
 
 /**
  * Roles Record Model Class
  */
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -95,7 +95,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getMembers()
 	{
 		if (!isset($this->members)) {
-			$this->members = \FreeCRM\Modules\Settings\Groups\Models\Member::getAllByGroup($this);
+			$this->members = \App\Modules\Settings\Groups\Models\Member::getAllByGroup($this);
 		}
 		return $this->members;
 	}
@@ -163,21 +163,21 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$noOfMembers = count($members);
 			for ($i = 0; $i < $noOfMembers; ++$i) {
 				$id = $members[$i];
-				$idComponents = \FreeCRM\Modules\Settings\Groups\Models\Member::getIdComponentsFromQualifiedId($id);
+				$idComponents = \App\Modules\Settings\Groups\Models\Member::getIdComponentsFromQualifiedId($id);
 				if ($idComponents && count($idComponents) == 2) {
 					$memberType = $idComponents[0];
 					$memberId = $idComponents[1];
 
-					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_USERS) {
+					if ($memberType == \App\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_USERS) {
 						$db->createCommand()->insert('vtiger_users2group', ['userid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_GROUPS) {
+					if ($memberType == \App\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_GROUPS) {
 						$db->createCommand()->insert('vtiger_group2grouprel', ['containsgroupid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_ROLES) {
+					if ($memberType == \App\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_ROLES) {
 						$db->createCommand()->insert('vtiger_group2role', ['roleid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == \FreeCRM\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
+					if ($memberType == \App\Modules\Settings\Groups\Models\Member::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
 						$db->createCommand()->insert('vtiger_group2rs', ['roleandsubid' => $memberId, 'groupid' => $groupId])->execute();
 					}
 				}
@@ -265,7 +265,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 		if (isset($members['Roles'])) {
 			foreach ($members['Roles'] as $memberModel) {
-				$roleModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
+				$roleModel = new \App\Modules\Settings\Roles\Models\Record();
 				$roleModel->set('roleid', $memberModel->get('roleId'));
 
 				$roleUsers = $roleModel->getUsers();
@@ -277,14 +277,14 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 		if (isset($members['RoleAndSubordinates'])) {
 			foreach ($members['RoleAndSubordinates'] as $memberModel) {
-				$roleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($memberModel->get('roleId'));
+				$roleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($memberModel->get('roleId'));
 				$roleUsers = $roleModel->getUsers();
 				foreach ($roleUsers as $userId => $userRecordModel) {
 					$userIdsList[$userId] = $userId;
 				}
 				$childernRoles = $roleModel->getAllChildren();
 				foreach ($childernRoles as $role) {
-					$childRoleModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
+					$childRoleModel = new \App\Modules\Settings\Roles\Models\Record();
 					$childRoleModel->set('roleid', $role->getId());
 
 					$roleUsers = $childRoleModel->getUsers();
@@ -296,7 +296,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		}
 		if ($nonAdmin) {
 			foreach ($userIdsList as $key => $userId) {
-				$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+				$userRecordModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 				if ($userRecordModel->isAdminUser()) {
 					unset($userIdsList[$key]);
 				}
@@ -316,7 +316,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
 		$newOwnerModel = $this->getInstance($transferGroupId);
 		if (!$newOwnerModel) {
-			$newOwnerModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($transferGroupId, 'Users');
+			$newOwnerModel = \App\Modules\Users\Models\Record::getInstanceById($transferGroupId, 'Users');
 		}
 		$ownerModel = $this->getInstance($groupId);
 		vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
@@ -454,11 +454,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		foreach ($data['group_members'] as $member) {
 			$info = explode(':', $member);
 			if ($info[0] == 'Users') {
-				$userModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($info[1], 'Users');
+				$userModel = \App\Modules\Users\Models\Record::getInstanceById($info[1], 'Users');
 				$groupMembers[] = $userModel->getName();
 			}
 			if ($info[0] == 'Roles' || $info[0] == 'RoleAndSubordinates') {
-				$roleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($info[1]);
+				$roleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($info[1]);
 				$groupMembers[] = $roleModel->getName();
 			}
 			if ($info[0] == 'Groups') {

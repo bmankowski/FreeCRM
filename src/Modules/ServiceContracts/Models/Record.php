@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ServiceContracts\Models;
+namespace App\Modules\ServiceContracts\Models;
 
 /**
  * Service contracts record model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\ServiceContracts\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -17,10 +17,10 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public function saveToDb()
 	{
 		parent::saveToDb();
-		$forModule = \FreeCRM\Http\AppRequest::get('return_module');
-		$forCrmid = \FreeCRM\Http\AppRequest::get('return_id');
-		if (\FreeCRM\Http\AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'HelpDesk') {
-			\FreeCRM\CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \FreeCRM\Http\AppRequest::get('module'), $this->getId());
+		$forModule = \App\Http\AppRequest::get('return_module');
+		$forCrmid = \App\Http\AppRequest::get('return_id');
+		if (\App\Http\AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'HelpDesk') {
+			\App\CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \App\Http\AppRequest::get('module'), $this->getId());
 		}
 	}
 }

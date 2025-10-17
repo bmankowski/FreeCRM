@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Models;
-use FreeCRM\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
+namespace App\Modules\Leads\Models;
+use App\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\MarketingProcesses\Models\Module as Settings_Market
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -27,13 +27,13 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the list of recently visisted records
 	 * @param <Number> $limit
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Record or Module Specific Record Model instances
 	 */
 	public function getRecentRecords($limit = 10)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
 		$query = 'SELECT * FROM vtiger_crmentity ' .
 			' INNER JOIN vtiger_leaddetails ON
@@ -59,7 +59,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$module = $this->getName();
 		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
 		if (!empty($owner)) {
@@ -121,7 +121,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			if ($leadStatusVal == '') {
 				$leadStatusVal = 'LBL_BLANK';
 			}
-			$response[$i][1] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($leadStatusVal, $module);
+			$response[$i][1] = \App\Runtime\Vtiger_Language_Handler::translate($leadStatusVal, $module);
 			$response[$i][2] = $leadStatusVal;
 			$i++;
 		}
@@ -137,7 +137,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	{
 		$convertedInfo = [];
 		if ($recordIdsList) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$query = sprintf('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (%s)', implode(',', $recordIdsList));
 			$result = $db->query($query);
 			while ($row = $db->getRow($result)) {
@@ -198,7 +198,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		\App\Log::trace('Start ' . __METHOD__);
 		if ($recordModel) {
 			$params = [];
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
 			$mappingFields = \App\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "

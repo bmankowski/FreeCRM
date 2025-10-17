@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Currency\Actions;
+namespace App\Modules\Settings\Currency\Actions;
 
 
 /* +**********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\Currency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+use App\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		$record = $request->get('record');
@@ -39,7 +39,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		}
 		//To make sure we are saving record as non deleted. This is useful if we are adding deleted currency
 		$recordModel->set('deleted', 0);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			if ($request->get('currency_status') == 'Inactive' && !empty($record)) {
 				$transforCurrencyToId = $request->get('transform_to_id');
@@ -56,7 +56,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

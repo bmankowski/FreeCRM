@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Contacts;
+namespace App\Modules\Contacts;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -25,7 +25,7 @@ namespace FreeCRM\Modules\Contacts;
  */
 
 // Contact is used to store customer information.
-class Contacts extends \FreeCRM\CRMEntity
+class Contacts extends \App\CRMEntity
 {
 
 	public $table_name = "vtiger_contactdetails";
@@ -171,7 +171,7 @@ class Contacts extends \FreeCRM\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

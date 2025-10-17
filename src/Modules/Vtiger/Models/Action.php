@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -41,7 +41,7 @@ class Action extends Model
 
 	public function isModuleEnabled($module)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if (!$module->isEntityModule()) {
 			return false;
 		}
@@ -60,10 +60,10 @@ class Action extends Model
 
 	public static function getInstanceFromRow($row)
 	{
-		$className = '\FreeCRM\Modules\Vtiger\Models\Action';
+		$className = '\App\Modules\Vtiger\Models\Action';
 		$actionName = $row['actionname'];
 		if (!in_array($actionName, self::$standardActions)) {
-			$className = '\FreeCRM\Modules\Vtiger\Models\Utility';
+			$className = '\App\Modules\Vtiger\Models\Utility';
 		}
 		$actionModel = new $className();
 		return $actionModel->setData($row);
@@ -92,7 +92,7 @@ class Action extends Model
 
 	public static function getInstanceWithIdOrName($value)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
@@ -131,7 +131,7 @@ class Action extends Model
 
 	public static function getAllBasic($configurable = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
@@ -150,7 +150,7 @@ class Action extends Model
 
 	public static function getAllUtility($configurable = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));

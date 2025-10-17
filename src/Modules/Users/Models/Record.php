@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Users\Models;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,8 +12,8 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * All Rights Reserved.
  * *********************************************************************************** */
 
- use FreeCRM\Http\Vtiger_Session;
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+ use App\Http\Vtiger_Session;
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	public function getRealId()
@@ -26,12 +26,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the Module to which the record belongs
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{
 		if (empty($this->module)) {
-			$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Users');
+			$this->module = \App\Modules\Vtiger\Models\Module::getInstance('Users');
 		}
 		return $this->module;
 	}
@@ -261,7 +261,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				return DateTimeField::getDBTimeZone();
 				break;
 			case 'theme':
-				return FreeCRM_Viewer::DEFAULTTHEME;
+				return CRM_Viewer::DEFAULTTHEME;
 				break;
 			case 'is_admin':
 				return 'off';
@@ -309,7 +309,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	protected function transformValues($values)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
-		$cryptType = \FreeCRM\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$cryptType = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
 			$this->set('confirm_password', $entityInstance->encrypt_password($this->get('confirm_password'), $cryptType));
 		}
@@ -333,7 +333,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Static Function to get the instance of the User Record model for the current user
-	 * @return \FreeCRM\Modules\Users\Models\Record instance
+	 * @return \App\Modules\Users\Models\Record instance
 	 */
 	protected static $currentUserModels = [];
 
@@ -362,7 +362,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Static Function to get the instance of the User Record model from the given Users object
-	 * @return \FreeCRM\Modules\Users\Models\Record instance
+	 * @return \App\Modules\Users\Models\Record instance
 	 */
 	public static function getInstanceFromUserObject($userObject)
 	{
@@ -380,7 +380,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public static function getAll($onlyActive = true)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users';
 		$params = [];
@@ -415,7 +415,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$privilegesModel = $this->get('privileges');
 
 		if (empty($privilegesModel)) {
-			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
+			$privilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 
@@ -440,7 +440,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$privilegesModel = $this->get('privileges');
 
 		if (empty($privilegesModel)) {
-			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
+			$privilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 
@@ -456,7 +456,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$privilegesModel = $this->get('privileges');
 
 		if (empty($privilegesModel)) {
-			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
+			$privilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 
@@ -471,10 +471,10 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		}
 		$privileges = $this->get('privileges');
 		if (empty($privileges)) {
-			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
+			$privilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
-		$roleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($this->get('privileges')->get('roleid'));
+		$roleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->get('privileges')->get('roleid'));
 		$this->set('roleDetail', $roleModel);
 		return $roleModel;
 	}
@@ -487,7 +487,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		$userProfiles = $this->get('profiles');
 		if (empty($userProfiles)) {
-			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
+			$privilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$userProfiles = $privilegesModel->get('profiles');
 			$this->set('profiles', $userProfiles);
 		}
@@ -536,7 +536,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$imageDetails = [];
 		$recordId = $this->getId();
@@ -585,7 +585,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		$privilegesModel = $this->get('privileges');
 		if (empty($privilegesModel)) {
-			$privilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->getId());
+			$privilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
 		return $privilegesModel;
@@ -607,7 +607,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
 		$smId = $db->query_result($checkResult, 0, 'smid');
@@ -724,11 +724,11 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstanceByName($userName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
 
 		if ($db->num_rows($result)) {
-			return \FreeCRM\Modules\Users\Models\Record::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
+			return \App\Modules\Users\Models\Record::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
 		}
 		return false;
 	}
@@ -743,7 +743,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function isAccountOwner()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT is_owner FROM vtiger_users WHERE id = ?', [$this->getId()]);
 		$isOwner = $db->getSingleValue($result);
 		if ($isOwner == 1) {
@@ -754,7 +754,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getActiveAdminUsers()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));

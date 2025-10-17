@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\HideBlocks\Models;
-use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
+namespace App\Modules\Settings\HideBlocks\Models;
+use App\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,8 +14,8 @@ use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Reco
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -161,7 +161,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	{
 		$rowData = [];
 		if (!empty($recordId)) {
-			$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$rowData = (new \App\Db\Query())
 				->from('vtiger_blocks_hide')
@@ -177,7 +177,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	static public function getCleanInstance($qualifiedModuleName)
 	{
-		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$recordModel = new $recordModelClass();
 		return $recordModel;
 	}
@@ -193,20 +193,20 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 		switch ($fieldName) {
 			case 'name' :
-				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldValue, $fieldValue);
+				$fieldValue = \App\Runtime\Vtiger_Language_Handler::translate($fieldValue, $fieldValue);
 				break;
 			case 'blocklabel' :
-				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldValue, $this->get('name'));
+				$fieldValue = \App\Runtime\Vtiger_Language_Handler::translate($fieldValue, $this->get('name'));
 				break;
 			case 'enabled' :
-				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('enabled') == 1 ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
+				$fieldValue = \App\Runtime\Vtiger_Language_Handler::translate($this->get('enabled') == 1 ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
 				break;
 			case 'view' :
 				$fieldValue = '';
 				if ($this->get('view') != '') {
 					$selectedViews = explode(',', $this->get('view'));
 					foreach ($selectedViews as $view) {
-						$views[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $this->get('name'));
+						$views[] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $this->get('name'));
 					}
 					$fieldValue = implode($views, ',');
 				}
@@ -221,7 +221,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				->from('vtiger_blocks')
 				->where(['blockid' => $blockId])->scalar();
 		if (!empty($tabid)) {
-			return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($tabid);
+			return \App\Modules\Vtiger\Models\Module::getInstance($tabid);
 		}
 		return false;
 	}

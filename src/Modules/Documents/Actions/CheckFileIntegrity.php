@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Actions;
+namespace App\Modules\Documents\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,36 +12,36 @@ namespace FreeCRM\Modules\Documents\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CheckFileIntegrity extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class CheckFileIntegrity extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new \Exception\NoPermittedToRecord(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', $moduleName));
+		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
+			throw new \Exception\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', $moduleName));
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$documentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$documentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$resultVal = $documentRecordModel->checkFileIntegrity();
 
 		$result = array('success' => $resultVal);
 		if ($resultVal) {
 			$documentRecordModel->updateFileStatus(1);
-			$result['message'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_AVAILABLE', $moduleName);
+			$result['message'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_AVAILABLE', $moduleName);
 		} else {
 			$documentRecordModel->updateFileStatus(0);
-			$result['message'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_NOT_AVAILABLE', $moduleName);
+			$result['message'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_NOT_AVAILABLE', $moduleName);
 		}
 		$result['url'] = $documentRecordModel->getDetailViewUrl();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

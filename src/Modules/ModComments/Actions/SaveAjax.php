@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Actions;
+namespace App\Modules\ModComments\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,10 +12,10 @@ namespace FreeCRM\Modules\ModComments\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\SaveAjax
+class SaveAjax extends \App\Modules\Vtiger\Actions\SaveAjax
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		//Do not allow ajax edit of existing comments
@@ -27,7 +27,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\SaveAjax
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$request->set('assigned_user_id', \App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
@@ -42,8 +42,8 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\SaveAjax
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

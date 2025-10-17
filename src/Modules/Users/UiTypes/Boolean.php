@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\UiTypes;
+namespace App\Modules\Users\UiTypes;
 
 /**
  * UIType Boolean Field Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Users\UiTypes;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Boolean extends \FreeCRM\Modules\Vtiger\UiTypes\Base
+class Boolean extends \App\Modules\Vtiger\UiTypes\Base
 {
 
 	public function getDBValue($value, $recordModel = false)

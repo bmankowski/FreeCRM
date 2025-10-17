@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Contacts\Models;
+namespace App\Modules\Contacts\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Contacts\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -20,7 +20,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateEventUrl()
 	{
-		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -30,7 +30,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateTaskUrl()
 	{
-		$calendarModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -71,7 +71,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$imageDetails = array();
 		$recordId = $this->getId();
 
@@ -125,7 +125,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function insertAttachment()
 	{
-		$module = \FreeCRM\Http\AppRequest::get('module');
+		$module = \App\Http\AppRequest::get('module');
 		$id = $this->getId();
 		$db = \App\Db::getInstance();
 		$fileSaved = false;
@@ -140,7 +140,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				}
 				$fileInstance = \App\Fields\File::loadFromRequest($files);
 				if ($fileInstance->validate('image')) {
-					$files['original_name'] = \FreeCRM\Http\AppRequest::get($fileindex . '_hidden');
+					$files['original_name'] = \App\Http\AppRequest::get($fileindex . '_hidden');
 					$fileSaved = $this->uploadAndSaveFile($files);
 				}
 			}

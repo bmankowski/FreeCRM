@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\scanneractions;
+namespace App\Modules\OSSMailScanner\scanneractions;
 
 /**
  * Mail scanner action bind ServiceContracts
@@ -28,7 +28,7 @@ class BindServiceContracts {
 		}
 
 		if (!empty($accountnumbers)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
 			$query = 'SELECT servicecontractsid FROM vtiger_servicecontracts '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '

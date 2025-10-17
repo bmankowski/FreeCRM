@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\GlobalPermission\Models;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\GlobalPermission\Models;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	const GLOBAL_ACTION_VIEW = 1;

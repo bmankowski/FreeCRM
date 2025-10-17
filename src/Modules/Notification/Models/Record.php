@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\Models;
+namespace App\Modules\Notification\Models;
 
 /**
  * Notification Record Model
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Notification\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -129,12 +129,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$relatedModule = $relatedRecord['module'];
 		}
 		$notificationType = $this->get('notification_type');
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
+		if (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
 			\App\Log::warning('User ' . \vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($notificationType !== 'PLL_USERS' && !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($relatedModule, 'DetailView', $relatedId)) {
+		if ($notificationType !== 'PLL_USERS' && !\App\Modules\Users\Models\Privileges::isPermitted($relatedModule, 'DetailView', $relatedId)) {
 			\App\Log::error('User ' . \vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
@@ -178,7 +178,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$icon = false;
 		switch ($this->get('notification_type')) {
 			case 'PLL_USERS':
-				$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($this->get('smcreatorid'));
+				$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->get('smcreatorid'));
 				$icon = [
 					'type' => 'image',
 					'title' => $userModel->getName(),
@@ -190,7 +190,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$relatedRecord = $this->getRelatedRecord();
 				$icon = [
 					'type' => 'icon',
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relatedRecord['module'], $relatedRecord['module']),
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate($relatedRecord['module'], $relatedRecord['module']),
 					'class' => 'userIcon-' . $relatedRecord['module'],
 				];
 				break;
@@ -200,7 +200,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \FreeCRM\Modules\Vtiger\Models\Link[] - Associate array of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return \App\Modules\Vtiger\Models\Link[] - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordListViewLinksLeftSide()
 	{
@@ -216,7 +216,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

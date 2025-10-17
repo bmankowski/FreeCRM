@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\HideBlocks\Views;
-use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
+namespace App\Modules\Settings\HideBlocks\Views;
+use App\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Reco
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_HideBlocks_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -43,7 +43,7 @@ Class Settings_HideBlocks_Edit_View extends \FreeCRM\Modules\Settings\Vtiger\Vie
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCKS', $moduleModel->getAllBlock());
 		$viewer->assign('VIEWS', $moduleModel->getViews());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

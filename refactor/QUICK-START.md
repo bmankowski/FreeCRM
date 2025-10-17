@@ -153,7 +153,7 @@ Update to use Loader:
 $class = $module . '_Record_Model';
 
 // New:
-$class = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $module);
+$class = \App\Loader::getComponentClassName('Model', 'Record', $module);
 ```
 
 ## Tips

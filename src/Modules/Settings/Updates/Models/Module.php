@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Updates\Models;
+namespace App\Modules\Settings\Updates\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\Updates\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public static function getUpdates()

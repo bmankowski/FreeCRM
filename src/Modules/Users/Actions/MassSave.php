@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,29 +12,29 @@ namespace FreeCRM\Modules\Users\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MassSave extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		foreach ($recordModels as $recordId => $recordModel) {
-			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId)) {
+			if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId)) {
 				$recordModel->save();
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
@@ -42,17 +42,17 @@ class MassSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
-	public function getRecordModelsFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordModelsFromRequest(\App\Http\Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordIds = $this->getRecordsListFromRequest($request);
 
 		if (empty($recordIds) && $request->get('selected_ids') == 'all') {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
 			$sql = "SELECT `id` FROM `vtiger_users`";
 			$result = $db->query($sql, true);
@@ -69,7 +69,7 @@ class MassSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
 			$recordModel->set('id', $recordId);
 
 			foreach ($fieldModelList as $fieldName => $fieldModel) {

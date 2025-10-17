@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\Models;
+namespace App\Modules\Events\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Events\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 	
 }

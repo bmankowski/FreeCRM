@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Views;
+namespace App\Modules\Users\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,31 +12,31 @@ namespace FreeCRM\Modules\Users\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Index extends \Vtiger_Index_View
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser()) {
-			$settingsIndexView = new \FreeCRM\Modules\Settings\Vtiger\Views\Index();
+			$settingsIndexView = new \App\Modules\Settings\Vtiger\Views\Index();
 			$settingsIndexView->preProcessSettings($request);
 		}
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser()) {
-			$settingsIndexView = new \FreeCRM\Modules\Settings\Vtiger\Views\Index();
+			$settingsIndexView = new \App\Modules\Settings\Vtiger\Views\Index();
 			$settingsIndexView->postProcessSettings($request);
 		}
 		parent::postProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 	}
@@ -44,9 +44,9 @@ class Index extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

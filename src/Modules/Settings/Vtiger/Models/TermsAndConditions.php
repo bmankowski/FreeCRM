@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
+namespace App\Modules\Settings\Vtiger\Models;
 
 
 /* +***********************************************************************************

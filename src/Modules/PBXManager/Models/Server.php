@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Models;
+namespace App\Modules\PBXManager\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Server extends \FreeCRM\Modules\Vtiger\Models\Model
+class Server extends \App\Modules\Vtiger\Models\Model
 {
 
 	const tableName = 'vtiger_pbxmanager_gateway';
@@ -44,21 +44,21 @@ class Server extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function checkPermissionForOutgoingCall()
 	{
-		$permission = \FreeCRM\Runtime\Vtiger_Cache::get('outgoingCall', 'PBXManager');
+		$permission = \App\Runtime\Vtiger_Cache::get('outgoingCall', 'PBXManager');
 		if ($permission !== false) {
 			return $permission ? true : false;
 		}
-		\FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$permission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted('PBXManager', 'MakeOutgoingCalls');
+		\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$permission = \App\Modules\Users\Models\Privileges::isPermitted('PBXManager', 'MakeOutgoingCalls');
 
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get('gateway');
 
 		if ($permission && $gateway) {
-			\FreeCRM\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
+			\App\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
 			return true;
 		} else {
-			\FreeCRM\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
+			\App\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
 			return false;
 		}
 	}

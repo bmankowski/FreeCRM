@@ -18,16 +18,16 @@
  * @package Main
  */
 
-namespace FreeCRM\EntryPoint;
+namespace App\EntryPoint;
 
-use FreeCRM\AppConfig;
-use FreeCRM\CRMEntity;
-use FreeCRM\Vtiger_Loader;
+use App\AppConfig;
+use App\CRMEntity;
+use App\Vtiger_Loader;
 use App\Debugger;
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Http\Vtiger_Session;
-use FreeCRM\Runtime\Vtiger_Controller;
-use FreeCRM\Runtime\Vtiger_Language_Handler;
+use App\Http\Vtiger_Request;
+use App\Http\Vtiger_Session;
+use App\Runtime\Vtiger_Controller;
+use App\Runtime\Vtiger_Language_Handler;
 use App\Cache;
 use App\Db;
 use App\Log;
@@ -219,18 +219,18 @@ class WebUI extends EntryPoint
 	protected function triggerCheckPermission(Vtiger_Controller $handler, Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND');
+			$message = \App\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND');
 			throw new \Exception\AppException($message);
 		}
 
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$hasPermission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$hasPermission) {
-			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 
 		$handler->checkPermission($request);
@@ -619,7 +619,7 @@ class WebUI extends EntryPoint
 	private function createHandler($componentType, $componentName, $qualifiedModuleName)
 	{
 		// Use new PSR-4 loader for modern modules
-		$handlerClass = \FreeCRM\Loader::getComponentClassName(
+		$handlerClass = \App\Loader::getComponentClassName(
 			$componentType,
 			$componentName,
 			$qualifiedModuleName
@@ -628,7 +628,7 @@ class WebUI extends EntryPoint
 		$handler = new $handlerClass();
 
 		if (!$handler) {
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		return $handler;

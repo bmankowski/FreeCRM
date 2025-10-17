@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Models;
+namespace App\Modules\Settings\Workflows\Models;
 
 
 /* +***********************************************************************************
@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Settings\Workflows\Models;
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 'com_vtiger_workflows';
@@ -84,7 +84,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getAll(array(0, 2));
+		$moduleModels = \App\Modules\Vtiger\Models\Module::getAll(array(0, 2));
 		$supportedModuleModels = array();
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isWorkflowSupported()) {
@@ -101,7 +101,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getExpressions()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$mem = new VTExpressionsManager($db);
 		return $mem->expressionFunctions();
@@ -131,7 +131,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
 			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
 			WHERE `module_name` =?', [$moduleInstance->name]);
@@ -176,7 +176,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function exportTaskMethod($methodName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'SELECT workflowtasks_entitymethod_id, module_name, method_name, function_path, function_name FROM com_vtiger_workflowtasks_entitymethod WHERE method_name = ?;';
 		$result = $db->pquery($query, [$methodName]);
@@ -194,17 +194,17 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
 			if (file_put_contents($method['function_path'], $scriptData) === false) {
-				$messages['error'][] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
+				$messages['error'][] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
 			}
 		} else {
 			require_once $method['function_path'];
 			if (!function_exists($method['function_name'])) {
-				$messages['error'][] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
+				$messages['error'][] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
 			}
 		}
 

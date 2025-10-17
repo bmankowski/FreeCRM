@@ -36,7 +36,7 @@ define("HTTP_SESSION_STARTED", 1);
 define("HTTP_SESSION_CONTINUED", 2);
 
 // Use the namespaced AppConfig class
-use FreeCRM\AppConfig;
+use App\AppConfig;
 
 /**
  * Class for managing HTTP sessions

@@ -19,11 +19,11 @@ class NoPermittedForAdmin extends \Exception
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\FreeCRM\Http\Vtiger_Session::init();
+		\App\Http\Vtiger_Session::init();
 
-		$request = \FreeCRM\Http\AppRequest::init();
-		$dbLog = \FreeCRM\database\PearDatabase::getInstance('log');
-		$userName = \FreeCRM\Http\Vtiger_Session::get('full_user_name');
+		$request = \App\Http\AppRequest::init();
+		$dbLog = \App\database\PearDatabase::getInstance('log');
+		$userName = \App\Http\Vtiger_Session::get('full_user_name');
 
 		$data = [
 			'username' => empty($userName) ? '-' : $userName,

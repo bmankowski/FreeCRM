@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vendors\Models;
+namespace App\Modules\Vendors\Models;
 
 /**
  * Relation Model
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vendors\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Vtiger\Models\Relation
 {
 
 	/**

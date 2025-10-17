@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Search\Models;
-use FreeCRM\Modules\Settings\SearchModels\Module;
+namespace App\Modules\Settings\Search\Models;
+use App\Modules\Settings\SearchModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\SearchModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public static function getModulesEntity($tabId = false, $onlyActive = false)
@@ -41,7 +41,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function getFieldFromModule()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * from vtiger_field WHERE uitype NOT IN ('15','16','52','53','56','70','120')");
 		$fields = array();
 		while ($row = $adb->fetch_array($result)) {
@@ -93,7 +93,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getFromClauseByColumn($moduleName, $moduleInfoExtend, $columns)
 	{
-		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+		$focus = \App\CRMEntity::getInstance($moduleName);
 		$tableBase = $focus->table_name;
 		$leftJoinTables = [$tableBase];
 		$leftJoin = '  LEFT JOIN ' . $tableBase . ' ON vtiger_crmentity.crmid = ' . $tableBase . '.' . $focus->table_index;
@@ -112,9 +112,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public function updateSequenceNumber($modulesSequence)
 	{
 		
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\Search\Models\Module::updateSequenceNumber(" . $modulesSequence . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\Search\Models\Module::updateSequenceNumber(" . $modulesSequence . ") method ...");
 		$tabIdList = array();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_entityname SET ';
 		$query .=' sequence= CASE ';
@@ -129,6 +129,6 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 		$query .= sprintf(' WHERE tabid IN (%s)', generateQuestionMarks($tabIdList));
 		$db->pquery($query, [$tabIdList]);
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\Search\Models\Module::updateSequenceNumber() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\Search\Models\Module::updateSequenceNumber() method ...");
 	}
 }

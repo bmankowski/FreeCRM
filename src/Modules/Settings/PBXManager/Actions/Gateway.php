@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PBXManager\Actions;
+namespace App\Modules\Settings\PBXManager\Actions;
 
 
 /* +***********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\PBXManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Gateway extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class Gateway extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -20,15 +20,15 @@ class Gateway extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('getSecretKey');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->getSecretKey($request);
 	}
 
-	public function getSecretKey(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSecretKey(\App\Http\Vtiger_Request $request)
 	{
 		$serverModel = PBXManager_Server_Model::getInstance();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$vtigersecretkey = $serverModel->get('vtigersecretkey');
 		if ($vtigersecretkey) {
 			$connector = $serverModel->getConnector();

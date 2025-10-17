@@ -118,14 +118,14 @@ Migrate from global class aliases in `GlobalAliases.php` to explicit `use` state
 Fixed all Smarty 3.x deprecation warnings by registering classes and functions in `src/Runtime/FreeCRM_Viewer.php`:
 
 **Classes registered:**
-- `AppConfig` → `\FreeCRM\AppConfig`
-- `AppRequest` → `\FreeCRM\Http\AppRequest`
-- `Vtiger_Util_Helper` → `\FreeCRM\Modules\Vtiger\Util`
-- `Vtiger_Menu_Model` → `\FreeCRM\Modules\Vtiger\Models\Menu`
-- `Vtiger_Module_Model` → `\FreeCRM\Modules\Vtiger\Models\Module`
-- `Vtiger_Language_Handler` → `\FreeCRM\Runtime\Vtiger_Language_Handler`
-- `Users_Privileges_Model` → `\FreeCRM\Modules\Users\Models\Privileges`
-- `Yeti_Layout` → `\FreeCRM\Runtime\Yeti_Layout`
+- `AppConfig` → `\App\AppConfig`
+- `AppRequest` → `\App\Http\AppRequest`
+- `Vtiger_Util_Helper` → `\App\Modules\Vtiger\Util`
+- `Vtiger_Menu_Model` → `\App\Modules\Vtiger\Models\Menu`
+- `Vtiger_Module_Model` → `\App\Modules\Vtiger\Models\Module`
+- `Vtiger_Language_Handler` → `\App\Runtime\Vtiger_Language_Handler`
+- `Users_Privileges_Model` → `\App\Modules\Users\Models\Privileges`
+- `Yeti_Layout` → `\App\Runtime\Yeti_Layout`
 - `\App\Json` → `\App\Json`
 - `\App\Debugger` → `\App\Debugger`
 - `App\Company` → `\App\Company`

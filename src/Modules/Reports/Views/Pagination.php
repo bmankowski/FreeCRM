@@ -3,15 +3,15 @@
 
 
 
-namespace FreeCRM\Modules\Reports\Views;
+namespace App\Modules\Reports\Views;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Pagination extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -23,13 +23,13 @@ class Pagination extends \Vtiger_Index_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPagination(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request, false);
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new Reports_ListView_Model();
@@ -53,7 +53,7 @@ class Pagination extends \Vtiger_Index_View
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 

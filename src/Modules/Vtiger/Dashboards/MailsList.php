@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class MailsList extends \Vtiger_Index_View
 {
@@ -22,15 +22,15 @@ class MailsList extends \Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$user = $request->get('user');
 		$linkId = $request->get('linkid');
 		$data = $request->getAll();
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('USER', $user);
-		$viewer->assign('ACCOUNTSLIST', \FreeCRM\Modules\OSSMail\Models\Record::getAccountsList(false, true));
+		$viewer->assign('ACCOUNTSLIST', \App\Modules\OSSMail\Models\Record::getAccountsList(false, true));
 		$viewer->assign('DATA', $data);
 		$content = $request->get('content');
 		if (!empty($content)) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks\Views;
+namespace App\Modules\PriceBooks\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\PriceBooks\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -22,7 +22,7 @@ class Detail extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	public function showRelatedList(\FreeCRM\Http\Vtiger_Request $request)
+	public function showRelatedList(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -34,15 +34,15 @@ class Detail extends \Vtiger_Index_View
 			$pageNumber = 1;
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance($relatedModuleName);
+			$moduleInstance = \App\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -64,7 +64,7 @@ class Detail extends \Vtiger_Index_View
 
 		$parentRecordCurrencyId = $parentRecordModel->get('currency_id');
 		if ($parentRecordCurrencyId) {
-			$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
+			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
 
 			foreach ($models as $recordId => $recorModel) {
 				$productIdsList[$recordId] = $recordId;
@@ -88,7 +88,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 			$pagingModel->set('totalCount', (int) $totalCount);
 			$viewer->assign('TOTAL_ENTRIES', $totalCount);
@@ -106,7 +106,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}

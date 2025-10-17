@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Models;
+namespace App\Modules\KnowledgeBase\Models;
 
 /**
  * Detail View Model for KnowledgeBase
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -19,7 +19,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$relatedLinkEntries = [
 			[
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_PREVIEW', $moduleName),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_PREVIEW', $moduleName),
 				'linkKey' => 'LBL_RECORD_PREVIEW',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showPreview',
 				'linkicon' => '',
@@ -29,13 +29,13 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linktype' => 'DETAILVIEWBASIC',
 				'linkurl' => 'javascript:KnowledgeBase_Popup_Js.getInstance().showPresentationContent(' . $recordId . ');',
 				'linkicon' => 'glyphicon glyphicon-resize-full',
-				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FULL_SCREEN', $moduleName),
-				'linkhint' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FULL_SCREEN', $moduleName)
+				'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_FULL_SCREEN', $moduleName),
+				'linkhint' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_FULL_SCREEN', $moduleName)
 			]
 		];
 		$relatedLinks = [];
 		foreach ($relatedLinkEntries as $relatedLinkEntry) {
-			$relatedLinks[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($relatedLinkEntry);
+			$relatedLinks[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($relatedLinkEntry);
 		}
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		foreach ($relatedLinks as $relatedLink) {

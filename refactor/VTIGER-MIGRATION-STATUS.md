@@ -43,7 +43,7 @@ Continue fixing issues with sed:
 ```bash
 # Fix extends clauses for global classes
 find src/Modules/Vtiger -name "*.php" -exec sed -i 's/extends vtlib\\/extends \\vtlib\\/g' {} \;
-find src/Modules/Vtiger -name "*.php" -exec sed -i 's/extends Vtiger_/extends \\FreeCRM\\Modules\\Vtiger\\/g' {} \;
+find src/Modules/Vtiger -name "*.php" -exec sed -i 's/extends Vtiger_/extends \\App\\Modules\\Vtiger\\/g' {} \;
 # ... more fixes
 ```
 

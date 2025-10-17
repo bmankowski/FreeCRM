@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\Actions;
+namespace App\Modules\OSSMailScanner\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,29 +12,29 @@ namespace FreeCRM\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class saveEmailSearchList extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class saveEmailSearchList extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$vale = $request->get('vale');
 		if (!empty($vale)) {
 			$vale = implode(',', $vale);
 		}
-		$OSSMailScannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$OSSMailScannerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$OSSMailScannerModel->setEmailSearchList($vale);
 		$success = true;
-		$data = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_save_fields_info', 'OSSMailScanner');
+		$data = \App\Runtime\Vtiger_Language_Handler::translate('JS_save_fields_info', 'OSSMailScanner');
 		$result = array('success' => $success, 'data' => $data);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

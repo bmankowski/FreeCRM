@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Calendar\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -27,7 +27,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = array(
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DETAILS', $moduleName),
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'linkKey' => 'LBL_RECORD_DETAILS',
@@ -42,7 +42,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'Updates',
-				'countRelated' => \FreeCRM\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger'
 			];
 		}
@@ -57,14 +57,14 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
 		$status = $recordModel->get('activitystatus');
-		$statusActivity = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
+		$statusActivity = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 
 		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && isPermitted($moduleName, 'ActivityComplete', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityCancel', $recordId) == 'yes' && isPermitted($moduleName, 'ActivityPostponed', $recordId) == 'yes' && in_array($status, $statusActivity)) {
 			$basicActionLink = [
@@ -75,7 +75,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'glyphicon glyphicon-ok',
 				'linkclass' => 'showModal closeCalendarRekord'
 			];
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 		if (\App\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
 			$basicActionLink = [
@@ -84,7 +84,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(\'' . $recordModel->get('location') . '\')',
 				'linkicon' => 'glyphicon glyphicon-map-marker',
 			];
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 
 		if ($recordModel->isDeletable() && $recordModel->get('reapeat') === 1) {
@@ -98,9 +98,9 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_RECORD')
+				'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_RECORD')
 			];
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		}
 		return $linkModelList;
 	}

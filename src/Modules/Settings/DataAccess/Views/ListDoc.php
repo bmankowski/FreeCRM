@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Views;
+namespace App\Modules\Settings\DataAccess\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_DataAccess_ListDoc_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+Class Settings_DataAccess_ListDoc_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
@@ -29,7 +29,7 @@ Class Settings_DataAccess_ListDoc_View extends \FreeCRM\Modules\Settings\Vtiger\
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DOC_TPL_LIST', \FreeCRM\Modules\Settings\DataAccess\Models\Module::getDataAccessList($baseModule));
+		$viewer->assign('DOC_TPL_LIST', \App\Modules\Settings\DataAccess\Models\Module::getDataAccessList($baseModule));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('DOCUMENT_LIST', $qualifiedModuleName);
 

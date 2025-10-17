@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Models;
+namespace App\Modules\Settings\Workflows\Models;
 
 
 /* +***********************************************************************************
@@ -48,7 +48,7 @@ class TaskType extends \Vtiger_Record_Model
 
 	public static function getInstanceFromClassName($taskClass)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT * FROM com_vtiger_workflow_tasktypes where classname=?", array($taskClass));
 		$row = $db->query_result_rowdata($result, 0);
 		$taskTypeObject = VTTaskType::getInstance($row);
@@ -80,8 +80,8 @@ class TaskType extends \Vtiger_Record_Model
 	{
 		$taskTypeName = $this->get('tasktypename');
 		switch ($taskTypeName) {
-			case 'VTCreateTodoTask' : return \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
-			case 'VTCreateEventTask' : return \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
+			case 'VTCreateTodoTask' : return \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+			case 'VTCreateEventTask' : return \App\Modules\Vtiger\Models\Module::getInstance('Events');
 		}
 	}
 }

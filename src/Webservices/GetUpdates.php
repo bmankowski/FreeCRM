@@ -17,7 +17,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	return 'Currently not supported';
 
 	global $recordString, $modifiedTimeString;
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	$numRecordsLimit = 100;
 	$ignoreModules = array("Users");
 	$typed = true;

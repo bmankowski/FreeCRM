@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Models;
+namespace App\Modules\Reports\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -16,7 +16,7 @@ require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportRun.php';
 require_once('src/Modules/Reports/ReportUtils.php');
 require_once('Report.php');
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -139,13 +139,13 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$self = new self();
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
 		if ($db->num_rows($reportResult)) {
 			$values = $db->query_result_rowdata($reportResult, 0);
-			$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Reports');
+			$module = \App\Modules\Vtiger\Models\Module::getInstance('Reports');
 			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
 			$self->initialize();
 		}
@@ -165,7 +165,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$self = self::getInstanceById($recordId);
 		}
 		$self->initialize();
-		$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Reports');
+		$module = \App\Modules\Vtiger\Models\Module::getInstance('Reports');
 		$self->setModuleFromInstance($module);
 		return $self;
 	}
@@ -292,7 +292,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedFields()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT vtiger_selectcolumn.columnname FROM vtiger_report
 					INNER JOIN vtiger_selectquery ON vtiger_selectquery.queryid = vtiger_report.queryid
@@ -320,7 +320,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedCalculationFields()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT vtiger_reportsummary.columnname FROM vtiger_reportsummary
 					INNER JOIN vtiger_report ON vtiger_report.reportid = vtiger_reportsummary.reportsummaryid
@@ -340,7 +340,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedSortFields()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT vtiger_reportsortcol.* FROM vtiger_report
 					INNER JOIN vtiger_reportsortcol ON vtiger_report.reportid = vtiger_reportsortcol.reportid
@@ -362,7 +362,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedStandardFilter()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = array();
@@ -408,8 +408,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$reportId = $this->getId();
 		if (empty($reportId)) {
@@ -480,7 +480,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveSortFields()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sortFields = $this->get('sortFields');
 
@@ -505,7 +505,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveCalculationFields()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$calculationFields = $this->get('calculationFields');
 		$countCalculationFields = count($calculationFields);
@@ -519,7 +519,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveStandardFilter()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$standardFilter = $this->get('standardFilter');
 		if (!empty($standardFilter)) {
@@ -534,7 +534,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveSharingInformation()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sharingInfo = $this->get('sharingInfo');
 		if ($sharingInfo) {
 			foreach ($sharingInfo as $key => $value) {
@@ -552,7 +552,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveSelectedFields()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$selectedFields = $this->get('selectedFields');
 
@@ -571,7 +571,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveAdvancedFilters()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$reportId = $this->getId();
 		$advancedFilter = $this->get('advancedFilter');
@@ -671,7 +671,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveScheduleInformation()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$selectedRecipients = $this->get('selectedRecipients');
 		$scheduledInterval = $this->get('scheduledInterval');
@@ -686,7 +686,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function deleteScheduling()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_scheduled_reports WHERE reportid = ?', array($this->getId()));
 	}
 
@@ -719,7 +719,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function returns report's data
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Paging> $pagingModel
+	 * @param <\App\Modules\Vtiger\Models\Paging> $pagingModel
 	 * @param string $filterQuery
 	 * @return <Array>
 	 */
@@ -734,7 +734,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		if ($query === null)
 			$query = $this->get('recordCountQuery');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$count = 0;
 		$result = $adb->query($query, array());
 		if ($adb->num_rows($result) > 0) {
@@ -835,7 +835,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function move($folderId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$db->pquery("UPDATE vtiger_report SET folderid = ? WHERE reportid = ?", array($folderId, $this->getId()));
 	}
@@ -1025,7 +1025,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return <Array>
 	 */
 	public function generateData($pagingModel = false)
@@ -1036,7 +1036,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return <Array>
 	 */
 	public function generateCalculationData()
@@ -1051,7 +1051,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function checkDuplicate()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$record = $this->getId();
 		$params = [];
 		$query = "SELECT 1 FROM vtiger_report WHERE reportname = ?";
@@ -1129,7 +1129,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			if (!empty($fieldList)) {
 				foreach ($fieldList as $column => $label) {
 					foreach ($aggregateFunctions as $function) {
-						$fLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($label, $moduleName) . ' (' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_' . $function, 'Reports') . ')';
+						$fLabel = \App\Runtime\Vtiger_Language_Handler::translate($label, $moduleName) . ' (' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_' . $function, 'Reports') . ')';
 						$fColumn = $column . ':' . $function;
 						$fields[$fColumn] = $fLabel;
 					}
@@ -1151,7 +1151,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function saveReportType()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$data = $this->get('reporttypedata');
 		if (!empty($data)) {
 			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($this->getId()));
@@ -1161,7 +1161,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getReportTypeInfo()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT data FROM vtiger_reporttype WHERE reportid = ?", array($this->getId()));
 
@@ -1181,7 +1181,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		$fields = $this->getPrimaryModuleFields();
 		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($primaryModule);
+		$primaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($primaryModule);
 		$primaryModuleFieldInstances = $primaryModuleModel->getFields();
 
 		if (is_array($fields))
@@ -1217,7 +1217,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$secondaryModuleFieldInstances = array();
 			foreach ($secondaryModules as $secondaryModule) {
 				if (!empty($secondaryModule)) {
-					$secondaryModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($secondaryModule);
+					$secondaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($secondaryModule);
 					$secondaryModuleFieldInstances[$secondaryModule] = $secondaryModuleModel->getFields();
 				}
 			}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSSoldServices\Views;
+namespace App\Modules\OSSSoldServices\Views;
 
 /**
  * View to get hierarchy from Account
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\OSSSoldServices\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class GetHierarchy extends \Vtiger_Index_View
 {
 	

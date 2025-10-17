@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\Models;
+namespace App\Modules\Events\Models;
 
 /**
  * Recurring Events Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Events\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
+class RecuringEvents extends \App\Modules\Vtiger\Models\Model
 {
 
 	public $recordModel;
@@ -36,8 +36,8 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function updateNeverEndingEvents($recordId)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
-		$cleanInstance = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($recordModel->getModuleName());
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$cleanInstance = \App\Modules\Vtiger\Models\Record::getCleanInstance($recordModel->getModuleName());
 		$cleanInstance->setData($recordModel->getData());
 		$this->recordModel = $cleanInstance;
 		$records = $this->getLastRecord($recordId);
@@ -60,7 +60,7 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		$instance = new self();
 		$moduleName = $request->getModule();
-		$instance->recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$instance->recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$instance->isNew = $request->isEmpty('record');
 		if (!$instance->isNew) {
 			$instance->templateRecordId = $request->get('record');
@@ -114,7 +114,7 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function updateOmmitedRecords($records, $dateStart)
 	{
 		foreach ($records as $recordId) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$rule = new \Recurr\Rule($recordModel->get('recurrence'));
 			$rule->setUntil(new \DateTime($dateStart));
 			$recordModel->set('recurrence', $rule->getString());
@@ -129,7 +129,7 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function updateRecord($recordId, $dates)
 	{
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		foreach ($this->changes as $fieldName => $value) {
 			$recordModel->set($fieldName, $this->recordModel->get($fieldName));
 		}
@@ -163,7 +163,7 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 							$this->updateRecord($recordId, $dates[$itemNumber]);
 							unset($dates[$itemNumber]);
 						} else {
-							\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+							\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
 						}
 						$itemNumber++;
 					}
@@ -197,7 +197,7 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 							$this->updateRecord($recordId, $dates[$itemNumber]);
 							unset($dates[$itemNumber]);
 						} else {
-							\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+							\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
 						}
 						$itemNumber++;
 					}
@@ -221,7 +221,7 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 				$records = $this->getRecords($this->recordModel->get('followup'));
 				foreach ($records as $recordId => $data) {
 					if ($recordId !== $this->templateRecordId) {
-						\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+						\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
 					}
 				}
 				break;
@@ -238,7 +238,7 @@ class RecuringEvents extends \FreeCRM\Modules\Vtiger\Models\Model
 						$omittedRecords [] = $recordId;
 						continue;
 					}
-					\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+					\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
 				}
 				break;
 			case self::UPDATE_THIS_EVENT:

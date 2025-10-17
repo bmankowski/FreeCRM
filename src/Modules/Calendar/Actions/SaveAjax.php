@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Actions;
+namespace App\Modules\Calendar\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$user = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$allDay = $request->get('allday');
 		if ('on' === $allDay) {
 			$request->set('time_start', $user->get('start_hour'));
@@ -30,10 +30,10 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			$value = $recordModel->get($fieldName);
 			if (!is_array($value)) {
-				$fieldValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($value);
+				$fieldValue = \App\Modules\Vtiger\Util::toSafeHTML($value);
 			} else {
 				foreach ($value as $key => $item) {
-					$fieldValue[$key] = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($item);
+					$fieldValue[$key] = \App\Modules\Vtiger\Util::toSafeHTML($item);
 				}
 			}
 			$result[$fieldName] = array();
@@ -86,7 +86,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			} elseif (is_array($recordModel->get($fieldName)) && $fieldModel->getFieldDataType() === 'sharedOwner') {
-				$recordFieldValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML(implode(',', $recordModel->get($fieldName)));
+				$recordFieldValue = \App\Modules\Vtiger\Util::toSafeHTML(implode(',', $recordModel->get($fieldName)));
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			} else if ('time_start' !== $fieldName && 'time_end' !== $fieldName && 'duration_hours' !== $fieldName) {
 				$result[$fieldName]['value'] = $fieldValue;
@@ -99,8 +99,8 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -108,9 +108,9 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 
@@ -118,9 +118,9 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		if (!empty($startDate)) {
 			//Start Date and Time values
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
-			$startDate = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
+			$startDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
 			if ($startTime) {
-				$startDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . " " . $startTime);
+				$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . " " . $startTime);
 				list($startDate, $startTime) = explode(' ', $startDateTime);
 			}
 			$recordModel->set('date_start', $startDate);
@@ -130,10 +130,10 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		if (!empty($endDate)) {
 			//End Date and Time values
 			$endTime = $request->get('time_end');
-			$endDate = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('due_date'));
+			$endDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('due_date'));
 			if ($endTime) {
 				$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-				$endDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
+				$endDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 				list($endDate, $endTime) = explode(' ', $endDateTime);
 			}
 			$recordModel->set('time_end', $endTime);

@@ -235,7 +235,7 @@ class PackageImport extends PackageExport
 		return $parameters;
 	}
 
-	public function initParameters(\FreeCRM\Http\Vtiger_Request $request)
+	public function initParameters(\App\Http\Vtiger_Request $request)
 	{
 		$data = [];
 		foreach ($request->getAll() as $name => $value) {
@@ -317,7 +317,7 @@ class PackageImport extends PackageExport
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorText = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$_errorText = \App\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
 			$this->_errorText = $_errorText;
 		}
@@ -330,7 +330,7 @@ class PackageImport extends PackageExport
 			if (\App\Version::check($moduleVersion) === true) {
 				$moduleVersionFound = true;
 			} else {
-				$_errorText = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
+				$_errorText = \App\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
 				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
 				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
 				$this->_errorText = $_errorText;
@@ -428,7 +428,7 @@ class PackageImport extends PackageExport
 				// What files needs to be renamed?
 				[
 				// Templates folder
-				'templates' => 'layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/$module",
+				'templates' => 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
@@ -440,9 +440,9 @@ class PackageImport extends PackageExport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => 'layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => 'layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => 'modules/Settings',
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
@@ -450,7 +450,7 @@ class PackageImport extends PackageExport
 			);
 
 			if ($unzip->checkFileExistsInRootFolder("$module.png")) {
-				$unzip->unzip("$module.png", 'layouts/' . \FreeCRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+				$unzip->unzip("$module.png", 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
 
 			if ($unzip)
@@ -642,7 +642,7 @@ class PackageImport extends PackageExport
 	{
 		if (empty($modulenode->tables) || empty($modulenode->tables->table))
 			return;
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
 
 		// Import the table via queries
@@ -1008,7 +1008,7 @@ class PackageImport extends PackageExport
 	{
 		$dirName = 'cache/updates';
 		$result = false;
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
@@ -1037,7 +1037,7 @@ class PackageImport extends PackageExport
 			Functions::recurseCopy($dirName . '/files', '', true);
 		}
 		$adb->insert('yetiforce_updates', [
-			'user' => \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name'),
+			'user' => \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name'),
 			'name' => $modulenode->label,
 			'from_version' => $modulenode->from_version,
 			'to_version' => $modulenode->to_version,
@@ -1081,7 +1081,7 @@ class PackageImport extends PackageExport
 				Utils::AddColumn($table, $column, $criteria);
 			}
 		}
-		$db = \FreeCRM\Database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
 				'columnname' => $fieldNode->columnname,
 				'label' => $fieldNode->label,

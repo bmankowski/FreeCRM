@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\readers;
+namespace App\Modules\Import\readers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

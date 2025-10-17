@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Basic RelatedCommentModal Model Class
@@ -13,11 +13,11 @@ class RelatedCommentModal extends Model
 
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)
 	{
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
 		$instance = new $modelClassName();
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModuleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModuleName);
 		$instance->set('relationListView', $relationListView)
 			->set('record', $record)
 			->set('moduleName', $moduleName)
@@ -50,7 +50,7 @@ class RelatedCommentModal extends Model
 
 	public function getRelationTable()
 	{
-		$instance = \FreeCRM\CRMEntity::getInstance($this->get('moduleName'));
+		$instance = \App\CRMEntity::getInstance($this->get('moduleName'));
 		if (method_exists($instance, 'setRelationTables')) {
 			$relationTable = $instance->setRelationTables($this->get('relatedModuleName'));
 		}

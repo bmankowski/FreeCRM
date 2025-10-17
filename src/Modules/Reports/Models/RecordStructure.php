@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Models;
+namespace App\Modules\Reports\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Reports\Models;
 /**
  * Vtiger Edit View Record Structure Model
  */
-class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
+class RecordStructure extends \App\Modules\Vtiger\Models\Model
 {
 
 	protected $moduleName = false;
@@ -29,14 +29,14 @@ class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 		if (!empty($this->structuredValues[$moduleName])) {
 			return $this->structuredValues[$moduleName];
 		}
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if ($moduleName === 'Calendar') {
-			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = array();
 			$calendarRecordStructure = $recordStructureInstance->getStructure();
 
-			$eventsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
-			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($eventsModel);
+			$eventsModel = \App\Modules\Vtiger\Models\Module::getInstance('Events');
+			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($eventsModel);
 			$eventRecordStructure = $recordStructureInstance->getStructure();
 
 			$blockLabel = 'LBL_CUSTOM_INFORMATION';
@@ -49,7 +49,7 @@ class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 			}
 			$moduleRecordStructure = $calendarRecordStructure;
 		} else {
-			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = $recordStructureInstance->getStructure();
 		}
 		$this->structuredValues[$moduleName] = $moduleRecordStructure;
@@ -58,7 +58,7 @@ class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	/**
 	 * Function returns the Primary Module Record Structure
-	 * @return <\FreeCRM\Modules\Vtiger\Models\RecordStructure>
+	 * @return <\App\Modules\Vtiger\Models\RecordStructure>
 	 */
 	public function getPrimaryModuleRecordStructure()
 	{
@@ -69,7 +69,7 @@ class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	/**
 	 * Function returns the Secondary Modules Record Structure
-	 * @return <Array of \FreeCRM\Modules\Vtiger\Models\RecordSructures>
+	 * @return <Array of \App\Modules\Vtiger\Models\RecordSructures>
 	 */
 	public function getSecondaryModuleRecordStructure()
 	{

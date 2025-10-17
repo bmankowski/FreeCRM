@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-namespace FreeCRM\Http;
+namespace App\Http;
 
 use App\Json;
 

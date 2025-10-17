@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads;
+namespace App\Modules\Leads;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -22,7 +22,7 @@ class TotalEvent {
 	{
 		
 		\App\Log::trace("Entering TotalEvent::process() method ...");
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$activity = 'SELECT COUNT(vtiger_activity.activityid) AS count
 			FROM vtiger_activity 
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_activity.activityid 

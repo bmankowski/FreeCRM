@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Models;
+namespace App\Modules\Reports\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,22 +11,22 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <\FreeCRM\Modules\Vtiger\Models\DetailView>
+	 * @return <\App\Modules\Vtiger\Models\DetailView>
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($recordId, $moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$recordModel = \App\Modules\Reports\Models\Record::getCleanInstance($recordId, $moduleName);
 
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
@@ -39,33 +39,33 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams = '')
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$moduleModel = $this->getModule();
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();
 
 		$detailViewLinks = array();
-		$printPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Print');
+		$printPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_PRINT', $moduleName),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_PRINT', $moduleName),
 				'linkurl' => $recordModel->getReportPrintURL(),
 				'linkicon' => 'fa fa-print'
 			);
 		}
 
-		$exportPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_CSV', $moduleName),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_CSV', $moduleName),
 				'linkurl' => $recordModel->getReportCSVURL(),
 				'linkicon' => 'fa fa-file-text-o'
 			);
 
-			if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
+			if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
 				$detailViewLinks[] = array(
-					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
+					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 					'linkurl' => $recordModel->getReportExcelURL(),
 					'linkicon' => 'fa fa-file-excel-o'
 				);
@@ -74,7 +74,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 
 		$linkModelList = array();
 		foreach ($detailViewLinks as $detailViewLinkEntry) {
-			$linkModelList[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLinkEntry);
+			$linkModelList[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLinkEntry);
 		}
 
 		return $linkModelList;
@@ -100,7 +100,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 
 		$widgetLinks = array();
 		foreach ($widgets as $widgetDetails) {
-			$widgetLinks[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($widgetDetails);
+			$widgetLinks[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($widgetDetails);
 		}
 		return $widgetLinks;
 	}

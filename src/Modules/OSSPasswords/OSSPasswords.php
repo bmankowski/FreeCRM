@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords;
+namespace App\Modules\OSSPasswords;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,8 +13,8 @@ namespace FreeCRM\Modules\OSSPasswords;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
-class OSSPasswords extends \FreeCRM\CRMEntity
+use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+class OSSPasswords extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_osspasswords';
@@ -134,7 +134,7 @@ class OSSPasswords extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -340,7 +340,7 @@ class OSSPasswords extends \FreeCRM\CRMEntity
 
 		// register modtracker history updates
 		if ($addModTracker) {
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		}
 	}
 }

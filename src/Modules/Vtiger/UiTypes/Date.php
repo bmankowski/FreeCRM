@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Fields\DateTimeField;
+use App\Fields\DateTimeField;
 
 class Date extends Base
 {
@@ -48,7 +48,7 @@ class Date extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -67,7 +67,7 @@ class Date extends Base
 	 */
 	public static function getDBInsertedValue($value)
 	{
-		return \FreeCRM\Fields\DateTimeField::convertToDBFormat($value);
+		return \App\Fields\DateTimeField::convertToDBFormat($value);
 	}
 
 	/**
@@ -90,12 +90,12 @@ class Date extends Base
 
 			//Special Condition for field 'support_end_date' in Contacts Module
 			if ($fieldName === 'support_end_date' && $moduleName === 'Contacts') {
-				$value = \FreeCRM\Fields\DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+1 year")));
+				$value = \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+1 year")));
 			} elseif ($fieldName === 'support_start_date' && $moduleName === 'Contacts') {
-				$value = \FreeCRM\Fields\DateTimeField::convertToUserFormat(date('Y-m-d'));
+				$value = \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d'));
 			}
 		} else {
-			$value = \FreeCRM\Fields\DateTimeField::convertToUserFormat($value);
+			$value = \App\Fields\DateTimeField::convertToUserFormat($value);
 		}
 		return $value;
 	}
@@ -107,7 +107,7 @@ class Date extends Base
 	 */
 	public static function getDisplayDateValue($date)
 	{
-		$date = new \FreeCRM\Fields\DateTimeField($date);
+		$date = new \App\Fields\DateTimeField($date);
 		return $date->getDisplayDate();
 	}
 
@@ -118,7 +118,7 @@ class Date extends Base
 	 */
 	public static function getDisplayDateTimeValue($dateTime)
 	{
-		$date = new \FreeCRM\Fields\DateTimeField($dateTime);
+		$date = new \App\Fields\DateTimeField($dateTime);
 		return $date->getDisplayDateTimeValue();
 	}
 

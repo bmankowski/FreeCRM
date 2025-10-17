@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Models;
+namespace App\Modules\Leads\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Leads\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -44,17 +44,17 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 			$index++;
 		}
 
-		if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
-			$convert = !\FreeCRM\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
+		if (\App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
+			$convert = !\App\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkclass' => 'btn-info btn-convertLead ' . $convert,
-				'linkhint' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CONVERT_LEAD', $moduleName),
+				'linkhint' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
 			);
-			$linkModelList['DETAILVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;
 	}

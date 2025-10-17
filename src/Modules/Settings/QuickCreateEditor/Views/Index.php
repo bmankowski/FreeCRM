@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\QuickCreateEditor\Views;
+namespace App\Modules\Settings\QuickCreateEditor\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\QuickCreateEditor\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -21,7 +21,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('showFieldLayout');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if ($this->isMethodExposed($mode)) {
@@ -32,10 +32,10 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		}
 	}
 
-	public function showFieldLayout(\FreeCRM\Http\Vtiger_Request $request)
+	public function showFieldLayout(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$menuModelsList = \FreeCRM\Modules\Vtiger\Models\Module::getQuickCreateModules();
+		$menuModelsList = \App\Modules\Vtiger\Models\Module::getQuickCreateModules();
 
 		if (empty($sourceModule)) {
 			//To get the first element
@@ -50,9 +50,9 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$sourceModule = array('Calendar', 'Events');
 
 		foreach ($sourceModule as $module) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($module);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($module);
 
-			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
+			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$quickCreateContents[$module] = $recordStructureInstance->getStructure();
 		}
 
@@ -61,7 +61,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule[0]);
 		$viewer->assign('SUPPORTED_MODULES', $menuModelsList);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('RECORDS_STRUCTURE', $quickCreateContents);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 

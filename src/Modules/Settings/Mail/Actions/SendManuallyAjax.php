@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Actions;
+namespace App\Modules\Settings\Mail\Actions;
 
 
 
@@ -10,15 +10,15 @@ namespace FreeCRM\Modules\Settings\Mail\Actions;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class SendManuallyAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SendManuallyAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	/**
 	 * Checking permission 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -28,9 +28,9 @@ class SendManuallyAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('id');
 		$db = \App\Db::getInstance('admin');
@@ -42,16 +42,16 @@ class SendManuallyAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		} else {
 			$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $row['id']])->execute();
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(['success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(['success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
 		$response->emit();
 	}
 
 	/**
 	 * Validate Request
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

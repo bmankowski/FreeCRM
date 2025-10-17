@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Models;
+namespace App\Modules\HelpDesk\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\HelpDesk\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**
@@ -25,7 +25,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		$quotesModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Faq');
+		$quotesModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Faq');
 		if ($quotesModuleModel->isPermitted('DetailView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -33,7 +33,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkurl' => $recordModel->getConvertFAQUrl(),
 				'showLabel' => 1,
 			);
-			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 
 		return $linkModelList;
@@ -45,7 +45,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$moduleName = $recordModel->getModuleName();
 
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$parentModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
+		$parentModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
@@ -65,7 +65,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => \FreeCRM\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
 			];
 		}
 		return $relatedLinks;

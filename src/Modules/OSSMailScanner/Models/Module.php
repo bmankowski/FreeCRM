@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\Models;
+namespace App\Modules\OSSMailScanner\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSMailScanner\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public $actionsDir = false;
@@ -32,7 +32,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name = 'OSSMailScanner' AND description = 'OSSMailScanner'");
 
 		$settingsLinks[] = [

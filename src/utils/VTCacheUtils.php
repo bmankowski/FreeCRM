@@ -12,9 +12,9 @@
  * Class to handle Caching Mechanism and re-use information.
  */
 
-namespace FreeCRM\Utils;
+namespace App\Utils;
 
-use FreeCRM\Runtime\Vtiger_Cache;
+use App\Runtime\Vtiger_Cache;
 
 class VTCacheUtils
 {

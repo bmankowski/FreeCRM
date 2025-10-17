@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users;
+namespace App\Modules\Users;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2

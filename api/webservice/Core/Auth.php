@@ -1,6 +1,6 @@
 <?php
 namespace Api\Core;
-use FreeCRM\AppConfig;
+use App\AppConfig;
 /**
  * API Authorization class
  * @package YetiForce.WebserviceAuth

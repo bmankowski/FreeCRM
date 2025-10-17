@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -48,7 +48,7 @@ class JsScript extends Model
 	/**
 	 * Static Function to get an instance of Vtiger JsScript Model from a given \vtlib\Link object
 	 * @param \vtlib\Link $linkObj
-	 * @return \FreeCRM\Modules\Vtiger\Models\JsScript instance
+	 * @return \App\Modules\Vtiger\Models\JsScript instance
 	 */
 	public static function getInstanceFromLinkObject(\vtlib\Link $linkObj)
 	{

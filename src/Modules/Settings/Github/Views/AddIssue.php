@@ -1,9 +1,9 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Github\Views;
-use FreeCRM\Modules\Settings\Github\Models\Client as Settings_Github_Client_Model;
-use FreeCRM\Modules\Users\Models\Record as Users_Record_Model;
-use FreeCRM\Modules\Settings\ConfReport\Models\Module as Settings_ConfReport_Module_Model;
+namespace App\Modules\Settings\Github\Views;
+use App\Modules\Settings\Github\Models\Client as Settings_Github_Client_Model;
+use App\Modules\Users\Models\Record as Users_Record_Model;
+use App\Modules\Settings\ConfReport\Models\Module as Settings_ConfReport_Module_Model;
 
 
 
@@ -13,10 +13,10 @@ use FreeCRM\Modules\Settings\ConfReport\Models\Module as Settings_ConfReport_Mod
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class AddIssue extends \FreeCRM\Modules\Vtiger\Views\BasicModal
+class AddIssue extends \App\Modules\Vtiger\Views\BasicModal
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -24,7 +24,7 @@ class AddIssue extends \FreeCRM\Modules\Vtiger\Views\BasicModal
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);

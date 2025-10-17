@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Entity Record Model Class
  */
-class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
+class Record extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $module = false;
@@ -109,7 +109,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 		if (empty($displayName)) {
 			$displayName = $this->getDisplayName();
 		}
-		return \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
+		return \App\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
 	}
 
 	/**
@@ -137,13 +137,13 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public function getSearchName()
 	{
 		$displayName = $this->get('searchlabel');
-		return \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
+		return \App\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
 	}
 
 	public function isWatchingRecord()
 	{
 		if (!isset($this->isWatchingRecord)) {
-			$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($this->getId(), $this->getModuleName());
+			$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($this->getId(), $this->getModuleName());
 			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
 		}
 		return $this->isWatchingRecord;
@@ -151,7 +151,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Function to get the Module to which the record belongs
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getModule()
 	{
@@ -161,18 +161,18 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to set the Module to which the record belongs
 	 * @param string $moduleName
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module Specific Record Model instance
 	 */
 	public function setModule($moduleName)
 	{
-		$this->module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 
 	/**
 	 * Function to set the Module to which the record belongs from the Module model instance
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $module
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instance
+	 * @param \App\Modules\Vtiger\Models\Module $module
+	 * @return \App\Modules\Vtiger\Models\Record or Module Specific Record Model instance
 	 */
 	public function setModuleFromInstance($module)
 	{
@@ -187,7 +187,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public function getEntity()
 	{
 		if (empty($this->entity)) {
-			$this->entity = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
+			$this->entity = \App\CRMEntity::getInstance($this->getModuleName());
 		}
 		return $this->entity;
 	}
@@ -195,7 +195,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to set the entity instance of the record
 	 * @param CRMEntity $entity
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record instance
+	 * @return \App\Modules\Vtiger\Models\Record instance
 	 */
 	public function setEntity($entity)
 	{
@@ -215,7 +215,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to set raw data
 	 * @param <Array> $data
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record instance
+	 * @return \App\Modules\Vtiger\Models\Record instance
 	 */
 	public function setRawData($data)
 	{
@@ -350,7 +350,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Function returns the Vtiger_Field_Model
 	 * @param string $fieldName - field name
-	 * @return <\FreeCRM\Modules\Vtiger\Models\Field>
+	 * @return <\App\Modules\Vtiger\Models\Field>
 	 */
 	public function getField($fieldName)
 	{
@@ -377,7 +377,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	 */
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
 		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
@@ -477,7 +477,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	 */
 	public function delete()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->startTransaction();
 
 		$this->getModule()->deleteRecord($this);
@@ -488,16 +488,16 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Static Function to get the instance of a clean Vtiger Record Model for the given module name
 	 * @param string $moduleName
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module Specific Record Model instance
 	 */
 	public static function getCleanInstance($moduleName)
 	{
 		if (\App\Cache::staticHas('RecordModelCleanInstance', $moduleName)) {
 			return clone \App\Cache::staticGet('RecordModelCleanInstance', $moduleName);
 		}
-		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
-		$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$focus = \App\CRMEntity::getInstance($moduleName);
+		$module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
@@ -510,28 +510,28 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	 * Static Function to get the instance of the Vtiger Record Model given the recordid and the module name
 	 * @param <Number> $recordId
 	 * @param string $moduleName
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module Specific Record Model instance
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		if (is_object($module) && is_a($module, '\FreeCRM\Modules\Vtiger\Models\Module')) {
+		if (is_object($module) && is_a($module, '\App\Modules\Vtiger\Models\Module')) {
 			$moduleName = $module->get('name');
 		} elseif (is_string($module)) {
-			$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+			$module = \App\Modules\Vtiger\Models\Module::getInstance($module);
 			$moduleName = $module ? $module->get('name') : $module;
 		} elseif (empty($module)) {
 			$moduleName = \App\Record::getType($recordId);
-			$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		}
 		$cacheName = "$recordId:$moduleName";
 		if (\App\Cache::staticHas('RecordModel', $cacheName)) {
 			return \App\Cache::staticGet('RecordModel', $cacheName);
 		}
 
-		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+		$focus = \App\CRMEntity::getInstance($moduleName);
 		$focus->id = $recordId;
 		$focus->retrieve_entity_info($recordId, $moduleName);
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setEntity($focus)->setData($focus->column_fields)->setModuleFromInstance($module);
 		$instance->setId($recordId);
@@ -543,9 +543,9 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public static function getInstanceByEntity($focus, $recordId)
 	{
 		$moduleName = $focus->moduleName;
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$recordModel = new $modelClassName();
 		$recordModel->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
 		return $recordModel;
@@ -554,12 +554,12 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param string $searchKey
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Record or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $module = false, $limit = false, $operator = false)
 	{
 		if (!$limit) {
-			$limit = \FreeCRM\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+			$limit = \App\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
 		$recordSearch = new \App\RecordSearch($searchKey, $module, $limit);
 		if ($operator) {
@@ -573,7 +573,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
-		$convertedInfo = \FreeCRM\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
+		$convertedInfo = \App\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
 		$labels = \App\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
@@ -587,8 +587,8 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-			$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
@@ -598,7 +598,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public function isViewable()
 	{
 		if (!isset($this->privileges['isViewable'])) {
-			$this->privileges['isViewable'] = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getModuleName(), 'DetailView', $this->getId());
+			$this->privileges['isViewable'] = \App\Modules\Users\Models\Privileges::isPermitted($this->getModuleName(), 'DetailView', $this->getId());
 		}
 		return $this->privileges['isViewable'];
 	}
@@ -617,8 +617,8 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 			$moduleName = $this->getModuleName();
 			$recordId = $this->getId();
 
-			$isPermitted = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $recordId);
-			$checkLockEdit = \FreeCRM\Modules\Users\Models\Privileges::checkLockEdit($moduleName, $this);
+			$isPermitted = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $recordId);
+			$checkLockEdit = \App\Modules\Users\Models\Privileges::checkLockEdit($moduleName, $this);
 
 			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
 		}
@@ -643,7 +643,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 		$recordId = $this->getId();
 		$focus = $this->getEntity();
 		if (!$focus) {
-			$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$focus = \App\CRMEntity::getInstance($moduleName);
 			$this->setEntity($focus);
 		}
 		$lockFields = $focus->getLockFields();
@@ -676,7 +676,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public function isDeletable()
 	{
 		if (!isset($this->privileges['isDeletable'])) {
-			$this->privileges['isDeletable'] = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
+			$this->privileges['isDeletable'] = \App\Modules\Users\Models\Privileges::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
 		}
 		return $this->privileges['isDeletable'];
 	}
@@ -708,7 +708,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
 		$crmId = $db->query_result($checkResult, 0, 'crmid');
 		if ($this->getId() == $crmId) {
@@ -727,7 +727,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	{
 		$description = $this->get('description');
 		if (empty($description)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$result = $db->pquery("SELECT description FROM vtiger_crmentity WHERE crmid = ?", array($this->getId()));
 			$description = $db->query_result($result, 0, "description");
 		}
@@ -743,7 +743,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	{
 		if ($recordIds) {
 			$moduleName = $this->getModuleName();
-			$focus = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$focus = \App\CRMEntity::getInstance($moduleName);
 			if (method_exists($focus, 'transferRelatedRecords')) {
 				$focus->transferRelatedRecords($moduleName, $recordIds, $this->getId());
 			}
@@ -785,7 +785,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	public function trackView()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$id = $this->getId();
 		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
 		if ($id != '') {
@@ -813,7 +813,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 				foreach ($commonFields as $fieldName) {
 					if (\App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
 						if ($fieldName == 'shownerid') {
-							$fieldInstance = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $parentRecordModel->getModule());
+							$fieldInstance = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $parentRecordModel->getModule());
 							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
 						}
 						$this->set($fieldName, $parentRecordModel->get($fieldName));
@@ -846,7 +846,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
 					if ($mapp['source']->getName() == 'shownerid' && empty($parentMapName)) {
-						$fieldInstance = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
+						$fieldInstance = \App\Modules\Vtiger\Models\Field::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
 						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
 					}
 					$value = $parentRecordModel->get($mapp['source']->getName());
@@ -864,7 +864,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	public function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
-		$module = \FreeCRM\CRMEntity::getInstance($parentModuleName);
+		$module = \App\CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
@@ -910,7 +910,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	public static function getInventoryDataById($ID, $moduleName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventoryField->getTableName('data');
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
@@ -937,7 +937,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 		if (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
-			$request = \FreeCRM\Http\AppRequest::init();
+			$request = \App\Http\AppRequest::init();
 		}
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');
@@ -987,7 +987,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public function editFieldByModalPermission($profileAction = false)
 	{
 		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
-			return \FreeCRM\Modules\Users\Models\Privileges::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
+			return \App\Modules\Users\Models\Privileges::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
 		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
 	}
@@ -1039,7 +1039,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 				unset($this->privileges[$name]);
 			}
 		}
-		\FreeCRM\Modules\Users\Models\Privileges::clearLockEditCache($this->getModuleName() . $this->getId());
+		\App\Modules\Users\Models\Privileges::clearLockEditCache($this->getModuleName() . $this->getId());
 	}
 
 	/**
@@ -1050,7 +1050,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment')
 	{
 		$id = $this->getId();
-		$module = \FreeCRM\Http\AppRequest::get('module');
+		$module = \App\Http\AppRequest::get('module');
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();
@@ -1106,9 +1106,9 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 				'path' => $uploadFilePath
 			])->execute();
 
-			if (\FreeCRM\Http\AppRequest::get('mode') === 'edit') {
-				if (!empty($id) && !empty(\FreeCRM\Http\AppRequest::get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \FreeCRM\Http\AppRequest::get('fileid')])->execute();
+			if (\App\Http\AppRequest::get('mode') === 'edit') {
+				if (!empty($id) && !empty(\App\Http\AppRequest::get('fileid'))) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Http\AppRequest::get('fileid')])->execute();
 				}
 			}
 			if ($module === 'Documents') {
@@ -1157,7 +1157,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \FreeCRM\Modules\Vtiger\Models\Link[] - Associate array of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return \App\Modules\Vtiger\Models\Link[] - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordListViewLinksRightSide()
 	{
@@ -1183,7 +1183,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -1191,7 +1191,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \FreeCRM\Modules\Vtiger\Models\Link[] - Associate array of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return \App\Modules\Vtiger\Models\Link[] - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordListViewLinksLeftSide()
 	{
@@ -1254,7 +1254,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -1280,7 +1280,7 @@ class Record extends \FreeCRM\Runtime\Vtiger_Base_Model
 			$userModel = \App\User::getCurrentUserModel();
 			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
-				$autoAssignModel = Settings_\FreeCRM\Modules\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
+				$autoAssignModel = Settings_\App\Modules\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 				$autoAssignRecord = $autoAssignModel->searchRecord($this, $userModel->getRole());
 				return $autoAssignRecord ? true : false;
 			}

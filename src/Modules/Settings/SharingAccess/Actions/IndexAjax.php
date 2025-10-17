@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SharingAccess\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
+namespace App\Modules\Settings\SharingAccess\Actions;
+use App\Modules\Settings\Vtiger\Models\Tracker;
 
 
 /* +***********************************************************************************************************************************
@@ -14,18 +14,18 @@ use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
+use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
+use App\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
 
-use FreeCRM\Http\Vtiger_Response;
-use FreeCRM\Http\Vtiger_Request;
-Class Settings_SharingAccess_IndexAjax_Action extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
+use App\Http\Vtiger_Response;
+use App\Http\Vtiger_Request;
+Class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
 	public function __construct()
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
+		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('saveRule');
 		$this->exposeMethod('deleteRule');
@@ -42,8 +42,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends \FreeCRM\Modules\Settings\
 
 	public function saveRule(Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
+		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
+		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
@@ -59,14 +59,14 @@ Class Settings_SharingAccess_IndexAjax_Action extends \FreeCRM\Modules\Settings\
 		$prevValues['permission'] = $ruleModel->getPermission();
 		$newValues['permission'] = $request->get('permission');
 
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $newValues);
+		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $newValues);
 
 		$ruleModel->set('source_id', $request->get('source_id'));
 		$ruleModel->set('target_id', $request->get('target_id'));
 		$ruleModel->set('permission', $request->get('permission'));
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		try {
 			$ruleModel->save();
 		} catch (\Exception\AppException $e) {
@@ -77,8 +77,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends \FreeCRM\Modules\Settings\
 
 	public function deleteRule(Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addBasic('delete');
+		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
+		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('delete');
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
@@ -86,8 +86,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends \FreeCRM\Modules\Settings\
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		try {
 			$ruleModel->delete();
 		} catch (\Exception\AppException $e) {

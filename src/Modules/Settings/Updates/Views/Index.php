@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Updates\Views;
-use FreeCRM\Modules\Settings\UpdatesModels\Module;
+namespace App\Modules\Settings\Updates\Views;
+use App\Modules\Settings\UpdatesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,12 +14,12 @@ use FreeCRM\Modules\Settings\UpdatesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$updates = \FreeCRM\Modules\Settings\Updates\Models\Module::getUpdates();
+		$updates = \App\Modules\Settings\Updates\Models\Module::getUpdates();
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

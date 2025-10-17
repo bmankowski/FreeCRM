@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl\Views;
+namespace App\Modules\OSSTimeControl\Views;
 
 /**
  * 
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 

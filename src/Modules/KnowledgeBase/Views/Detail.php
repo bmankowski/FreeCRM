@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Views;
+namespace App\Modules\KnowledgeBase\Views;
 
 /**
  * Detail View for KnowledgeBase
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 

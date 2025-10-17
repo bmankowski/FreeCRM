@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Models;
+namespace App\Modules\OSSMail\Models;
 
 /**
  * Mail Scanner bind email action 
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OSSMail\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
+class Mail extends \App\Modules\Vtiger\Models\Model
 {
 
 	protected $mailAccount = [];
@@ -57,7 +57,7 @@ class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
 		$ccEmailUser = $this->findEmailUser($this->get('ccaddress'));
 		$bccEmailUser = $this->findEmailUser($this->get('bccaddress'));
 		$notFound = $toEmailUser['notFound'] + $ccEmailUser['notFound'] + $bccEmailUser['notFound'];
-		$identities = \FreeCRM\Modules\OSSMailScanner\Models\Record::getIdentities($account['user_id']);
+		$identities = \App\Modules\OSSMailScanner\Models\Record::getIdentities($account['user_id']);
 		$type = false;
 		foreach ($identities as $identitie) {
 			if ($identitie['email'] == $this->get('fromaddress')) {
@@ -83,7 +83,7 @@ class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function findEmailUser($emails)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$return = [];
 		$notFound = 0;
 		if (!empty($emails)) {
@@ -110,7 +110,7 @@ class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
 		if ($this->mailCrmId != false) {
 			return $this->mailCrmId;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? && rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
 		if ($db->getRowCount($result) > 0) {
 			$this->mailCrmId = $db->getSingleValue($result);
@@ -144,10 +144,10 @@ class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public function findEmailAdress($field, $searchModule = false, $returnArray = true)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$return = [];
 		$emails = $this->get($field);
-		$emailSearchList = \FreeCRM\Modules\OSSMailScanner\Models\Record::getEmailSearchList();
+		$emailSearchList = \App\Modules\OSSMailScanner\Models\Record::getEmailSearchList();
 
 		if (empty($emails)) {
 			return [];
@@ -168,14 +168,14 @@ class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
 				}
 
 				if ($enableFind) {
-					$instance = \FreeCRM\CRMEntity::getInstance($moduleName);
+					$instance = \App\CRMEntity::getInstance($moduleName);
 					$table_index = $instance->table_index;
 					foreach ($emails as $email) {
 						if (empty($email)) {
 							continue;
 						}
 						$name = 'MSFindEmail_' . $moduleName . '_' . $row[1];
-						$cache = \FreeCRM\Runtime\Vtiger_Cache::get($name, $email);
+						$cache = \App\Runtime\Vtiger_Cache::get($name, $email);
 						if ($cache !== false) {
 							if ($cache != 0) {
 								$return = array_merge($return, $cache);
@@ -190,7 +190,7 @@ class Mail extends \FreeCRM\Modules\Vtiger\Models\Model
 							if (empty($ids)) {
 								$ids = 0;
 							}
-							\FreeCRM\Runtime\Vtiger_Cache::set($name, $email, $ids);
+							\App\Runtime\Vtiger_Cache::set($name, $email, $ids);
 						}
 					}
 				}

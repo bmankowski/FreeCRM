@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Models;
-use FreeCRM\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
+namespace App\Modules\Settings\LayoutEditor\Models;
+use App\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
 
 
 /* +**********************************************************************************
@@ -36,7 +36,7 @@ class Field extends \Vtiger_Field_Model
 		$fieldtype = explode("~", $typeofdata);
 		$tabId = $this->getModuleId();
 
-		$focus = \FreeCRM\CRMEntity::getInstance($fldModule);
+		$focus = \App\CRMEntity::getInstance($fldModule);
 
 		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
 		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);

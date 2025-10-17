@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\RealizationProcesses\Actions;
-use FreeCRM\Modules\Settings\RealizationProcessesModels\Module;
+namespace App\Modules\Settings\RealizationProcesses\Actions;
+use App\Modules\Settings\RealizationProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\RealizationProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveGeneral extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class SaveGeneral extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	public function __construct()
@@ -27,17 +27,17 @@ class SaveGeneral extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 	 * @param <array> request
 	 * @return true if saved, false otherwise
 	 */
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$status = $request->get('status');
 		$moduleId = $request->get('moduleId');
 		$moduleName = $request->getModule(false);
 		try {
-			if (\FreeCRM\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify($moduleId, $status)) {
-				$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG_OK', $moduleName)));
+			if (\App\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify($moduleId, $status)) {
+				$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG_OK', $moduleName)));
 			} else {
-				$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
+				$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
 			}
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

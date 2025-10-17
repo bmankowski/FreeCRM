@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Handlers;
+namespace App\Modules\Vtiger\Handlers;
 
 /**
  * Attachments Handler Class

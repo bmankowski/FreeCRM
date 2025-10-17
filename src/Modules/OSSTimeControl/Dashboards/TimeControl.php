@@ -1,9 +1,9 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module;
-use FreeCRM\Modules\Settings\PublicHolidayModels\Module;
+namespace App\Modules\OSSTimeControl\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+use App\Modules\Settings\TimeControlProcessesModels\Module;
+use App\Modules\Settings\PublicHolidayModels\Module;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -15,7 +15,7 @@ use FreeCRM\Modules\Settings\PublicHolidayModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class TimeControl extends \Vtiger_Index_View
 {
@@ -38,8 +38,8 @@ class TimeControl extends \Vtiger_Index_View
 		if (!$time) {
 			return [];
 		}
-		$date['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($time['start']);
-		$date['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($time['end']);
+		$date['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($time['start']);
+		$date['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($time['end']);
 		$module = 'HelpDesk';
 		$query = (new \App\Db\Query())->select(['daytime' => 'sum_time', 'due_date', 'timecontrol_type'])
 			->from('vtiger_osstimecontrol')
@@ -63,7 +63,7 @@ class TimeControl extends \Vtiger_Index_View
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$workingTimeByType[\FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
+			$workingTimeByType[\App\Runtime\Vtiger_Language_Handler::translate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
 			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['daytime'];
 			if (!array_key_exists($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_type']] = $counter++;
@@ -98,7 +98,7 @@ class TimeControl extends \Vtiger_Index_View
 			foreach ($workingTime as $timeKey => $timeValue) {
 				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
 					$result[$timeTypeKey]['data'][$counter][0] = $counter;
-					$result[$timeTypeKey]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($timeTypeKey, 'OSSTimeControl');
+					$result[$timeTypeKey]['label'] = \App\Runtime\Vtiger_Language_Handler::translate($timeTypeKey, 'OSSTimeControl');
 					$result[$timeTypeKey]['color'] = $colors[$timeTypeKey];
 					if ($timeValue[$timeTypeKey]) {
 						$result[$timeTypeKey]['data'][$counter][1] = $timeValue[$timeTypeKey];
@@ -154,16 +154,16 @@ class TimeControl extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('user');
 		$time = $request->get('time');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
-			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
+			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
@@ -182,14 +182,14 @@ class TimeControl extends \Vtiger_Index_View
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($user, $data['days'][$i]);
 		}
 
-		$publicHolidays = \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType([$time['start'], $time['end']]);
+		$publicHolidays = \App\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType([$time['start'], $time['end']]);
 		if ($publicHolidays) {
 			foreach ($publicHolidays as $key => $value) {
 				$upperCase = strtoupper($key);
 				$viewer->assign($upperCase, $value);
 			}
 		}
-		$TCPModuleModel = \FreeCRM\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
+		$TCPModuleModel = \App\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
 
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
@@ -218,8 +218,8 @@ class TimeControl extends \Vtiger_Index_View
 
 	public function getDays($startDate, $endDate)
 	{
-		$holidayDays = \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidays([$startDate, $endDate]);
-		$notWorkingDaysType = \FreeCRM\Modules\Settings\Calendar\Models\Module::getNotWorkingDays();
+		$holidayDays = \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays([$startDate, $endDate]);
+		$notWorkingDaysType = \App\Modules\Settings\Calendar\Models\Module::getNotWorkingDays();
 		$begin = strtotime($startDate);
 		$end = strtotime($endDate);
 		$workDays = 0;

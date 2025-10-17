@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView;
+namespace App\Modules\OSSMailView;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,8 +13,8 @@ namespace FreeCRM\Modules\OSSMailView;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
-class OSSMailView extends \FreeCRM\CRMEntity
+use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+class OSSMailView extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_ossmailview';
@@ -141,7 +141,7 @@ class OSSMailView extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -306,7 +306,7 @@ class OSSMailView extends \FreeCRM\CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);
 			$displayLabel = 'OSSMailView';
@@ -315,10 +315,10 @@ class OSSMailView extends \FreeCRM\CRMEntity
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'widget_limit', '10'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'target', '_blank'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'permissions', 'vtiger'));
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 			$registerLink = true;
 			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
@@ -330,7 +330,7 @@ class OSSMailView extends \FreeCRM\CRMEntity
 			
 		} else if ($eventType == 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		}
 		$displayLabel = 'Mail View';

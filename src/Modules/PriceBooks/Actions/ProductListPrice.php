@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks\Actions;
+namespace App\Modules\PriceBooks\Actions;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,24 +12,24 @@ namespace FreeCRM\Modules\PriceBooks\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ProductListPrice extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ProductListPrice extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleModel = $request->getModule();
-		$priceBookModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
+		$priceBookModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
 		$listPrice = $priceBookModel->getProductsListPrice($request->get('itemId'));
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array($listPrice));
 		$response->emit();
 	}

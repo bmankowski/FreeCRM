@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Dashboards;
+namespace App\Modules\Reports\Dashboards;
 
 /**
  * Wdiget to show chart from reports
@@ -8,25 +8,25 @@ namespace FreeCRM\Modules\Reports\Dashboards;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class Charts extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$widgetId = $request->get('widgetid');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
 		$data = [];
 		$typeChart = '';
 		$reportId = json_decode($widget->get('data'), true);
 		$reportId = $reportId['reportId'];
 		if (!empty($reportId)) {
-			$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($reportId);
+			$reportModel = \App\Modules\Reports\Models\Record::getInstanceById($reportId);
 			$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
 			$typeChart = $reportChartModel->getChartType();
 			$data = $reportChartModel->getData();

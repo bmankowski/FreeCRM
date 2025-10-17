@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -25,7 +25,7 @@ class VTCreateEntityTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -41,7 +41,7 @@ class VTCreateEntityTask extends VTTask
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
-			$newRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($entityType);
+			$newRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($entityType);
 			$entityModuleHandler = vtws_getModuleHandlerFromName($entityType, $current_user);
 			$handlerMeta = $entityModuleHandler->getMeta();
 			$ownerFields = $handlerMeta->getOwnerFields();
@@ -95,8 +95,8 @@ class VTCreateEntityTask extends VTTask
 			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {
 			$saveContinue = true;
-			$newRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($entityType);
-			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$newRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($entityType);
+			$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			$newRecordModel->setRecordFieldValues($parentRecordModel);
 			if ($newRecordModel->getModule()->isInventory()) {
 				$newRecordModel = $this->setInventoryDataToRequest($newRecordModel);
@@ -192,7 +192,7 @@ class VTCreateEntityTask extends VTTask
 				$invDat[$name . $i] = $value;
 			}
 		}
-		$recordModel->setInventoryRawData(new \FreeCRM\Modules\Vtiger\Models\Base($invDat));
+		$recordModel->setInventoryRawData(new \App\Modules\Vtiger\Models\Base($invDat));
 		return $recordModel;
 	}
 }

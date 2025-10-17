@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts\Models;
+namespace App\Modules\Accounts\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Accounts\Models;
 /**
  * Mass Edit Record Structure Model
  */
-class MassEditRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
+class MassEditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
 {
 	/*
 	 * Function that return Field Restricted are not

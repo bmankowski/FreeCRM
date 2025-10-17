@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType Company Field Class
@@ -24,7 +24,7 @@ class CompanySelect extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $tree
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param boolean $rawText
 	 * @return string
 	 */
@@ -44,7 +44,7 @@ class CompanySelect extends Base
 	 */
 	public function getPicklistValues()
 	{
-		return \FreeCRM\Modules\Settings\Companies\Models\Module::getAllCompanies();
+		return \App\Modules\Settings\Companies\Models\Module::getAllCompanies();
 	}
 
 	/**

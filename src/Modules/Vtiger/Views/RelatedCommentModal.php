@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Update comment for related record
@@ -9,21 +9,21 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class RelatedCommentModal extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -32,7 +32,7 @@ class RelatedCommentModal extends \Vtiger_Index_View
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 
 		$viewer = $this->getViewer($request);

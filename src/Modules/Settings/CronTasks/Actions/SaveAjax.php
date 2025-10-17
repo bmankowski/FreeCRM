@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CronTasks\Actions;
+namespace App\Modules\Settings\CronTasks\Actions;
 
 
 /* +**********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\CronTasks\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		parent::checkPermission($request);
 
@@ -26,7 +26,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -43,12 +43,12 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 
 		$recordModel->save();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(true));
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

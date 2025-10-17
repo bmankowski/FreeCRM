@@ -15,7 +15,7 @@ require_once ROOT_DIRECTORY . '/include/Loader.php';
 Vtiger_Loader::register();
 
 // Initialize WebUI services (cache, debugger, error handlers)
-\FreeCRM\EntryPoint\WebUI::initialize();
+\App\EntryPoint\WebUI::initialize();
 
 try {
 	$webUI = new App\Main\File();

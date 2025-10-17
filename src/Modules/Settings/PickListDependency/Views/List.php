@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PickListDependency\Views;
+namespace App\Modules\Settings\PickListDependency\Views;
 
 
 /* +**********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\PickListDependency\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\PickListDependency\Models\Module as Settings_PickListDependency_Module_Model;
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
+use App\Modules\Settings\PickListDependency\Models\Module as Settings_PickListDependency_Module_Model;
+class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
 		$forModule = $request->get('formodule');
@@ -26,7 +26,7 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
 		parent::preProcess($request, $display);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		if ($request->isAjax()) {
 			$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
@@ -45,10 +45,10 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -62,7 +62,7 @@ class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 

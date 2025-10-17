@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Views;
+namespace App\Modules\Users\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Users\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class PreferenceDetail extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
@@ -39,7 +39,7 @@ class PreferenceDetail extends \Vtiger_Index_View
 	 * @param <type> $request
 	 * @return string
 	 */
-	public function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'PreferenceDetailViewPreProcess.tpl';
 	}
@@ -48,35 +48,35 @@ class PreferenceDetail extends \Vtiger_Index_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView(\FreeCRM\Http\Vtiger_Request $request)
+	public function showModuleBasicView(\App\Http\Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		if ($this->checkPermission($request)) {
 			$viewer = $this->getViewer($request);
 			if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-				$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+				$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 			}
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$selectedModule = $request->getModule();
-			$currentDate = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
+			$currentDate = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
 			$viewer->assign('CURRENTDATE', $currentDate);
 			$viewer->assign('MODULE', $selectedModule);
 			$viewer->assign('MODULE_NAME', $selectedModule);
 			$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 			$viewer->assign('PARENT_MODULE', $request->get('parent'));
-			$viewer->assign('MENUS', \FreeCRM\Modules\Vtiger\Models\Menu::getAll(true));
+			$viewer->assign('MENUS', \App\Modules\Vtiger\Models\Menu::getAll(true));
 			$viewer->assign('VIEW', $request->get('view'));
 			$viewer->assign('USER_MODEL', $currentUser);
 
-			$homeModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Home');
+			$homeModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-			$viewer->assign('SEARCHABLE_MODULES', \FreeCRM\Modules\Vtiger\Models\Module::getSearchableModules());
+			$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Vtiger\Models\Module::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
 			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
@@ -112,20 +112,20 @@ class PreferenceDetail extends \Vtiger_Index_View
 		}
 	}
 
-	protected function preProcessDisplay(\FreeCRM\Http\Vtiger_Request $request)
+	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
-		$dayStartPicklistValues = \FreeCRM\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
+		$dayStartPicklistValues = \App\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
@@ -133,7 +133,7 @@ class PreferenceDetail extends \Vtiger_Index_View
 		return parent::process($request);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

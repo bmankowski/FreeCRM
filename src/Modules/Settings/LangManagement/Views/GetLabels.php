@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LangManagement\Views;
-use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
+namespace App\Modules\Settings\LangManagement\Views;
+use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 
@@ -11,15 +11,15 @@ use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManage
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class GetLabels extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+class GetLabels extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$langBase = $request->get('langBase');

@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 class State
 {

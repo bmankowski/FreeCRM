@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Actions;
+namespace App\Modules\Settings\MappedFields\Actions;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\MappedFields\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -23,7 +23,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('import');
 	}
 
-	public function step1(\FreeCRM\Http\Vtiger_Request $request)
+	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$params = $request->get('param');
@@ -48,12 +48,12 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			$moduleInstance->save();
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($message, $qualifiedModuleName)]);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Runtime\Vtiger_Language_Handler::translate($message, $qualifiedModuleName)]);
 		$response->emit();
 	}
 
-	public function step2(\FreeCRM\Http\Vtiger_Request $request)
+	public function step2(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
 		$recordId = $params['record'];
@@ -63,17 +63,17 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$moduleInstance->setMapping($params['mapping']);
 		$moduleInstance->save(true);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['id' => $moduleInstance->getRecordId()]);
 		$response->emit();
 	}
 
-	public function import(\FreeCRM\Http\Vtiger_Request $request)
+	public function import(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
 		$result = $moduleInstance->import($qualifiedModuleName);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

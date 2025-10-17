@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Actions;
+namespace App\Modules\Reports\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,10 +11,10 @@ namespace FreeCRM\Modules\Reports\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ChartSave extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ChartSave extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 

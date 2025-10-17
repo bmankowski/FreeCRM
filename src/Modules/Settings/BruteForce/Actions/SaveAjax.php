@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\BruteForce\Actions;
+namespace App\Modules\Settings\BruteForce\Actions;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\BruteForce\Actions;
  * @author YetiForce.com
  */
 
-use FreeCRM\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	/**
@@ -27,35 +27,35 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function updates module configuration 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function saveConfig(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveConfig(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$data = $request->get('param');
 		Settings_BruteForce_Module_Model::updateConfig($data);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(['message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_SUCCESS', $moduleName)]);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(['message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_SUCCESS', $moduleName)]);
 		$response->emit();
 	}
 
 	/**
 	 * Function unblocks user
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function unBlock(\FreeCRM\Http\Vtiger_Request $request)
+	public function unBlock(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$id = $request->get('param');
 		$status = Settings_BruteForce_Module_Model::unBlock($id);
 
 		if (!$status) {
-			$return = ['success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UNBLOCK_FAIL', $moduleName)];
+			$return = ['success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNBLOCK_FAIL', $moduleName)];
 		} else {
-			$return = ['success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UNBLOCK_SUCCESS', $moduleName)];
+			$return = ['success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNBLOCK_SUCCESS', $moduleName)];
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($return);
 		$response->emit();
 	}

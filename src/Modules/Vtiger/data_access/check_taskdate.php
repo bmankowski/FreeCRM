@@ -20,7 +20,7 @@ Class DataAccess_check_taskdate
 		if (!isset($projectmilestoneid) || $projectmilestoneid == 0 || $projectmilestoneid == '')
 			return Array('save_record' => true);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($projectmilestoneid, 'ProjectMilestone');
+		$moduleModel = \App\Modules\Vtiger\Models\Record::getInstanceById($projectmilestoneid, 'ProjectMilestone');
 		$projectMilestoneDate = $moduleModel->get('projectmilestonedate');
 		if (!isset($projectMilestoneDate) || $projectMilestoneDate == 0 || $projectMilestoneDate == '')
 			return Array('save_record' => true);
@@ -35,7 +35,7 @@ Class DataAccess_check_taskdate
 				'save_record' => false,
 				'type' => 0,
 				'info' => Array(
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Date can not be greater', 'DataAccess') . ' ( ' . $record_form['targetenddate'] . ' < ' . $projectMilestoneDateUserFormat . ')',
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate('Date can not be greater', 'DataAccess') . ' ( ' . $record_form['targetenddate'] . ' < ' . $projectMilestoneDateUserFormat . ')',
 					'type' => 'error'
 				)
 			);

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSOutsourcedServices\Models;
+namespace App\Modules\OSSOutsourcedServices\Models;
 
 /**
  * OSSOutsourcedServices TreeView Model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OSSOutsourcedServices\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeView extends \FreeCRM\Modules\Vtiger\Models\Model
+class TreeView extends \App\Modules\Vtiger\Models\Model
 {
 
 	public function isActive()

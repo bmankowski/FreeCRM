@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Tree Category Modal Class
@@ -9,21 +9,21 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
+use App\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
 class TreeCategoryModal extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
+		if (!\App\Modules\Users\Models\Privileges::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -33,12 +33,12 @@ class TreeCategoryModal extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return string
 	 */
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -46,7 +46,7 @@ class TreeCategoryModal extends \Vtiger_Index_View
 		$srcRecord = $request->get('src_record');
 		$srcModule = $request->get('src_module');
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$treeCategoryModel = Vtiger_TreeCategoryModal_Model::getInstance($moduleModel);
 		$treeCategoryModel->set('srcRecord', $srcRecord);
 		$treeCategoryModel->set('srcModule', $srcModule);
@@ -57,21 +57,21 @@ class TreeCategoryModal extends \Vtiger_Index_View
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SELECTABLE_CATEGORY', \FreeCRM\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+		$viewer->assign('SELECTABLE_CATEGORY', \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 		$viewer->assign('RELATION_TYPE', $this->relationType);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('TreeCategoryModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js'
 		];
-		if (\FreeCRM\AppConfig::relation('SELECTABLE_CATEGORY')) {
+		if (\App\AppConfig::relation('SELECTABLE_CATEGORY')) {
 			$scripts[] = '~libraries/jquery/jstree/jstree.category.js';
 			$scripts[] = '~libraries/jquery/jstree/jstree.checkbox.js';
 		}
@@ -85,7 +85,7 @@ class TreeCategoryModal extends \Vtiger_Index_View
 		return $scriptInstances;
 	}
 
-	public function getModalCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalCss(\App\Http\Vtiger_Request $request)
 	{
 		$parentCssInstances = parent::getModalCss($request);
 		$cssFileNames = [

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl\Models;
+namespace App\Modules\OSSTimeControl\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public function getCalendarViewUrl()
@@ -40,7 +40,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			],
 		];
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		if ($linkParams['ACTION'] == 'Calendar') {
@@ -58,7 +58,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				'linkicon' => ''
 			];
 			foreach ($quickWidgets as $quickWidget) {
-				$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+				$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 			}
 		}
 
@@ -113,7 +113,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				'vtiger_crmentity.smownerid',
 				'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')
 			])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => \FreeCRM\Modules\OSSTimeControl\Models\Record::recalculateStatus])
+					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => \App\Modules\OSSTimeControl\Models\Record::recalculateStatus])
 					->groupBy('smownerid');
 			\App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();

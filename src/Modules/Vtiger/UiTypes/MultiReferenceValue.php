@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType MultiReferenceValue Field Class
@@ -109,7 +109,7 @@ class MultiReferenceValue extends Base
 	 */
 	public function getRecordValues(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$params = $this->get('field')->getFieldParams();
 		$fieldModel = $this->get('field');
 		// Get current value
@@ -117,7 +117,7 @@ class MultiReferenceValue extends Base
 		// Get value to added
 		$relatedValue = '';
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($destRecord, $params['module']);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($destRecord, $params['module']);
 		if ($params['filterField'] === '-' || ($params['filterField'] !== '-' && $recordModel->get($params['filterField']) === $params['filterValue'])) {
 			$relatedValue = $recordModel->get($fieldInfo['fieldname']);
 		}
@@ -156,9 +156,9 @@ class MultiReferenceValue extends Base
 	{
 		$field = $this->get('field');
 		$params = $field->getFieldParams();
-		$sourceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
+		$sourceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 
-		$targetModel = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($sourceRecordModel, $params['module']);
+		$targetModel = \App\Modules\Vtiger\Models\RelationListView::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$targetModel->getRelationQuery();
 		$queryGenerator = $targetModel->getRelationModel()->getQueryGenerator();
@@ -202,7 +202,7 @@ class MultiReferenceValue extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param integer $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param string $rawText
 	 * @return string
 	 */
@@ -219,7 +219,7 @@ class MultiReferenceValue extends Base
 	 * Function to get the Display Value in ListView
 	 * @param string $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -232,7 +232,7 @@ class MultiReferenceValue extends Base
 			$relModuleName = \vtlib\Functions::getModuleName($fieldInfo['tabid']);
 			$values = array_filter(explode(self::COMMA, $value));
 			foreach ($values as &$value) {
-				$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $relModuleName);
+				$value = \App\Runtime\Vtiger_Language_Handler::translate($value, $relModuleName);
 			}
 			$values = implode(', ', $values);
 		} else {

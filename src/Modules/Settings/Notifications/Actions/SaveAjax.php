@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Notifications\Actions;
+namespace App\Modules\Settings\Notifications\Actions;
 
 
 
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Settings\Notifications\Actions;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	/**
@@ -27,9 +27,9 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 
 	/**
 	 * Function adds/removes members
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function addOrRemoveMembers(\FreeCRM\Http\Vtiger_Request $request)
+	public function addOrRemoveMembers(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('srcModule');
 		$members = $request->get('members');
@@ -38,22 +38,22 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			if (!is_array($members)) {
 				$members = [$members];
 			}
-			$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($module);
+			$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($module);
 			foreach ($members as $member) {
 				$watchdogModel->changeModuleState($state, $member);
 			}
-			\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
+			\App\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
 	/**
 	 * Function sets lock status
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function lock(\FreeCRM\Http\Vtiger_Request $request)
+	public function lock(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('srcModule');
 		$members = $request->get('members');
@@ -62,32 +62,32 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			if (!is_array($members)) {
 				$members = [$members];
 			}
-			$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($module);
+			$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($module);
 			foreach ($members as $member) {
 				$watchdogModel->lock($lock, $member);
 			}
-			\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
+			\App\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
 	/**
 	 * Function sets exceptions for users
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function exceptions(\FreeCRM\Http\Vtiger_Request $request)
+	public function exceptions(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('srcModule');
 		$member = $request->get('member');
 		$exceptions = $request->get('exceptions');
 		if (!empty($member)) {
-			$watchdogModel = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstance($module);
+			$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($module);
 			$watchdogModel->exceptions($exceptions, $member);
-			\FreeCRM\Modules\Vtiger\Models\Watchdog::reloadCache();
+			\App\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

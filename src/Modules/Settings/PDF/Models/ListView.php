@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Models;
+namespace App\Modules\Settings\PDF\Models;
 
 
 
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Settings\PDF\Models;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 
@@ -28,7 +28,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
 		$listFields [] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
@@ -53,12 +53,12 @@ class ListView extends \Settings_Vtiger_ListView_Model
 
 			//To handle translation of calendar to To Do
 			if ($module_name == 'Calendar') {
-				$module_name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TASK', $module_name);
+				$module_name = \App\Runtime\Vtiger_Language_Handler::translate('LBL_TASK', $module_name);
 			} else {
-				$module_name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name);
+				$module_name = \App\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name);
 			}
 			$row['module_name'] = $module_name;
-			$row['summary'] = isset($row['summary']) ? \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['summary'], $qualifiedModuleName) : '';
+			$row['summary'] = isset($row['summary']) ? \App\Runtime\Vtiger_Language_Handler::translate($row['summary'], $qualifiedModuleName) : '';
 
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;

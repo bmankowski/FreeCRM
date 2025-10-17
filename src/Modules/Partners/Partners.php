@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Partners;
+namespace App\Modules\Partners;
 
 /**
  * @package YetiForce.CRMEntity
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Partners;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Partners extends Vtiger_CRMEntity
@@ -89,9 +89,9 @@ class Partners extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance('Partners');
+			$moduleInstance = \App\CRMEntity::getInstance('Partners');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PR', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Partners']);
 
@@ -101,7 +101,7 @@ class Partners extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Partners'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -121,7 +121,7 @@ class Partners extends Vtiger_CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\OSSMailScanner\Views;
-use FreeCRM\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule;
+namespace App\Modules\Settings\OSSMailScanner\Views;
+use App\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule;
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Modules\Vtiger\Models\Record;
+use App\Http\Vtiger_Request;
+use App\Modules\Vtiger\Models\Record;
 
 /**
  * @package YetiForce.Views
@@ -12,7 +12,7 @@ use FreeCRM\Modules\Vtiger\Models\Record;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	private $prefixesForModules = ['Project', 'HelpDesk', 'SSalesProcesses', 'Campaigns'];
@@ -36,7 +36,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$emailSearch = $mailScannerRecordModel->getEmailSearch();
 		$emailSearchList = $mailScannerRecordModel->getEmailSearchList();
 		$widgetCfg = $mailScannerRecordModel->getConfig(false);
-		$supportedModules = \FreeCRM\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule::getSupportedModules();
+		$supportedModules = \App\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule::getSupportedModules();
 		foreach ($supportedModules as $supportedModule) {
 			if (in_array($supportedModule->name, $this->prefixesForModules)) {
 				$numbering[$supportedModule->name] = \App\Fields\RecordNumber::getNumber($supportedModule->name);

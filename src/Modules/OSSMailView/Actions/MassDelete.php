@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Actions;
+namespace App\Modules\OSSMailView\Actions;
 
 /**
  * Mass delete action class
@@ -8,28 +8,28 @@ namespace FreeCRM\Modules\OSSMailView\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MassDelete extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
@@ -40,8 +40,8 @@ class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$permission = true;
 		foreach ($recordIds as $recordId) {
-			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName); // fixme: not 100% sure thats whats expected
+			if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
+				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName); // fixme: not 100% sure thats whats expected
 				$recordModel->delete_rel($recordId);
 				$recordModel->delete();
 			} else {
@@ -50,11 +50,11 @@ class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if (!$permission) {
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 
 		$cvId = $request->get('viewname');
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
 		$response->emit();
 	}

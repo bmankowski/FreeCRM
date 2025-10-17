@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Models;
+namespace App\Modules\HelpDesk\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\HelpDesk\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DashBoard extends \FreeCRM\Modules\Vtiger\Models\Model
+class DashBoard extends \App\Modules\Vtiger\Models\Model
 {
 	
 }

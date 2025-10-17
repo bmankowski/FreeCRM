@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Password\Actions;
-use FreeCRM\Modules\Settings\PasswordModels\Record;
+namespace App\Modules\Settings\Password\Actions;
+use App\Modules\Settings\PasswordModels\Record;
 
 
 /* +***********************************************************************************************************************************
@@ -14,21 +14,21 @@ use FreeCRM\Modules\Settings\PasswordModels\Record;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$type = $request->get('type');
 		$vale = $request->get('vale');
-		if (\FreeCRM\Modules\Settings\Password\Models\Record::validation($type, $vale)) {
-			\FreeCRM\Modules\Settings\Password\Models\Record::setPassDetail($type, $vale);
-			$resp = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_OK', $moduleName);
+		if (\App\Modules\Settings\Password\Models\Record::validation($type, $vale)) {
+			\App\Modules\Settings\Password\Models\Record::setPassDetail($type, $vale);
+			$resp = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_OK', $moduleName);
 		} else {
-			$resp = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR', $moduleName);
+			$resp = \App\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR', $moduleName);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($resp);
 		$response->emit();
 	}

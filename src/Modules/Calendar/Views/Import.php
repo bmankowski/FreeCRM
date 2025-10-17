@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -29,7 +29,7 @@ class Import extends \Vtiger_Index_View
 		$this->exposeMethod('undoImport');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -37,7 +37,7 @@ class Import extends \Vtiger_Index_View
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -47,7 +47,7 @@ class Import extends \Vtiger_Index_View
 		echo $this->import($request);
 	}
 
-	public function postprocess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postprocess(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -59,7 +59,7 @@ class Import extends \Vtiger_Index_View
 	 * Function to show import UI in Calendar Module
 	 * @param Vtiger_Request $request
 	 */
-	public function import(\FreeCRM\Http\Vtiger_Request $request)
+	public function import(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -74,9 +74,9 @@ class Import extends \Vtiger_Index_View
 	 * Function to show result of import
 	 * @param Vtiger_Request $request
 	 */
-	public function importResult(\FreeCRM\Http\Vtiger_Request $request)
+	public function importResult(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -96,7 +96,7 @@ class Import extends \Vtiger_Index_View
 
 			$requiredFields = array();
 			$modules = array($eventModule, $todoModule);
-			$calendarModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$calendarModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 			foreach ($modules as $module) {
 				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
@@ -130,7 +130,7 @@ class Import extends \Vtiger_Index_View
 						$activityFieldsList['taskpriority'] = $priorityMap[$priorityval];
 				}
 
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 
@@ -178,9 +178,9 @@ class Import extends \Vtiger_Index_View
 	 * Function to show result of undo import
 	 * @param Vtiger_Request $request
 	 */
-	public function undoImport(\FreeCRM\Http\Vtiger_Request $request)
+	public function undoImport(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->getModule();
 
 		$lastImport = new iCalLastImport();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace App\Modules\com_vtiger_workflow;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\com_vtiger_workflow;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
+use App\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 require_once('VTJsonCondition.php');
 require_once ROOT_DIRECTORY . '/src/utils/ConfigReader.php';
 require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
@@ -347,7 +347,7 @@ class Workflow
 
 	/**
 	 * Evaluate
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return boolean
 	 */
 	public function evaluate($recordModel)
@@ -385,7 +385,7 @@ class Workflow
 
 	/**
 	 * Perform tasks
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function performTasks($recordModel)
 	{
@@ -430,7 +430,7 @@ class Workflow
 	public function setNextTriggerTime($time)
 	{
 		if ($time) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$db->pquery("UPDATE com_vtiger_workflows SET nexttrigger_time=? WHERE workflow_id=?", array($time, $this->id));
 			$this->nexttrigger_time = $time;
 		}

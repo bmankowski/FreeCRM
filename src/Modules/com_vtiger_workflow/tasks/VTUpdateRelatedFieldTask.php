@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow\tasks;
+namespace App\Modules\com_vtiger_workflow\tasks;
 
 /**
  * Update Related Field Task Handler Class
@@ -22,7 +22,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -74,14 +74,14 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$relatedDataEx = explode('::', $relatedData);
 		$relatedModuleName = $relatedDataEx[0];
 		$relatedFieldName = $relatedDataEx[1];
-		$targetModel = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModuleName);
+		$targetModel = \App\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModuleName);
 		if (!$targetModel->getRelationModel()) {
 			return false;
 		}
 		$dataReader = $targetModel->getRelationQuery()->select(['vtiger_crmentity.crmid'])
 				->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $relatedModuleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $relatedModuleName);
 			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
 			$recordModel->set($relatedFieldName, $fieldValue);
 			$recordModel->save();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
 
 require_once ROOT_DIRECTORY . '/src/Modules/Vtiger/helpers/ListUpdatedRecord.php';
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class ListUpdatedRecord extends \Vtiger_Index_View
 {
@@ -22,7 +22,7 @@ class ListUpdatedRecord extends \Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
@@ -31,7 +31,7 @@ class ListUpdatedRecord extends \Vtiger_Index_View
 		else
 			$number = 'all';
 		$linkId = $request->get('linkid');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$data = $request->getAll();
 
 		$columnList = ['LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid'];

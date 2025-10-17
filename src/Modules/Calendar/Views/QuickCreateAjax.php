@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,13 +13,13 @@ namespace FreeCRM\Modules\Calendar\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -29,7 +29,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		foreach ($moduleList as $module) {
 			$info = [];
 
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($module);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($module);
 			$moduleModel = $recordModel->getModule();
 
 			$fieldList = $moduleModel->getFields();
@@ -42,7 +42,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 				}
 			}
 
-			$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
+			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = [];
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
@@ -70,7 +70,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('QUICKCREATE_LINKS', \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
+		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
@@ -84,7 +84,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$viewer->assign('THREEDAYSLATER', date('Y-n-j', strtotime('+3 day')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('QuickCreate.tpl', $moduleName);
 	}

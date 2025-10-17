@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reservations\Models;
+namespace App\Modules\Reservations\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Reservations\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public function getCalendarViewUrl()
@@ -40,7 +40,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			],
 		];
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		if ($linkParams['ACTION'] == 'Calendar') {
@@ -58,7 +58,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				'linkicon' => ''
 			];
 			foreach ($quickWidgets as $quickWidget) {
-				$links['SIDEBARWIDGET'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+				$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
 			}
 		}
 

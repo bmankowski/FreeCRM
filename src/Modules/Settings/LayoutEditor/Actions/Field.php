@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Actions;
-use FreeCRM\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
-use FreeCRM\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Block_Model;
+namespace App\Modules\Settings\LayoutEditor\Actions;
+use App\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
+use App\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Block_Model;
 
 
 /* +**********************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	public function __construct()
@@ -27,13 +27,13 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$this->exposeMethod('getPicklist');
 	}
 
-	public function add(\FreeCRM\Http\Vtiger_Request $request)
+	public function add(\App\Http\Vtiger_Request $request)
 	{
 		$type = $request->get('fieldType');
 		$moduleName = $request->get('sourceModule');
 		$blockId = $request->get('blockid');
-		$moduleModel = \FreeCRM\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($moduleName);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$moduleModel = \App\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($moduleName);
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$fieldModel = $moduleModel->addField($type, $blockId, $request->getAll());
 			$fieldInfo = $fieldModel->getFieldInfo();
@@ -49,10 +49,10 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response->emit();
 	}
 
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$fieldId = $request->get('fieldid');
-		$fieldInstance = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldId);
+		$fieldInstance = \App\Modules\Vtiger\Models\Field::getInstance($fieldId);
 		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
 			if ($key == 'mandatory') {
@@ -74,25 +74,25 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			$defaultValue = implode(' |##| ', $defaultValue);
 		}
 		$fieldInstance->set('defaultvalue', $defaultValue);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,
 				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldInstance->get('label'), $request->get('sourceModule'))]);
+				'label' => \App\Runtime\Vtiger_Language_Handler::translate($fieldInstance->get('label'), $request->get('sourceModule'))]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
 	}
 
-	public function delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 
 		if (!$fieldInstance->isCustomField()) {
 			$response->setError('122', 'Cannot delete Non custom field');
@@ -109,21 +109,21 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response->emit();
 	}
 
-	public function move(\FreeCRM\Http\Vtiger_Request $request)
+	public function move(\App\Http\Vtiger_Request $request)
 	{
 		$updatedFieldsList = $request->get('updatedFields');
 
 		//This will update the fields sequence for the updated blocks
 		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($updatedFieldsList);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('success' => true));
 		$response->emit();
 	}
 
-	public function unHide(\FreeCRM\Http\Vtiger_Request $request)
+	public function unHide(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$fieldIds = $request->get('fieldIdList');
 			Settings_LayoutEditor_Field_Model::makeFieldActive($fieldIds, $request->get('blockId'));
@@ -140,15 +140,15 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response->emit();
 	}
 
-	public function getPicklist(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPicklist(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$fieldName = $request->get('rfield');
 		$moduleName = $request->get('rmodule');
 		$picklistValues = [];
 		if (!empty($fieldName) && !empty($moduleName) && $fieldName != '-') {
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-			$fieldInstance = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($fieldName, $moduleModel);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$fieldInstance = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
 			if ($picklistValues === null) {
 				$picklistValues = [];
@@ -158,7 +158,7 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

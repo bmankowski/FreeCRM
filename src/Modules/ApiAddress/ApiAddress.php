@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ApiAddress;
+namespace App\Modules\ApiAddress;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\ApiAddress;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class ApiAddress {
 
 	/**
@@ -23,11 +23,11 @@ class ApiAddress {
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$registerLink = false;
 		if ($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$registerLink = true;
 
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");

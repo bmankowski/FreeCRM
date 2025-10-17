@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TreesManager\Actions;
+namespace App\Modules\Settings\TreesManager\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,18 +13,18 @@ namespace FreeCRM\Modules\Settings\TreesManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
-class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
+class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_TreesManager_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 		$recordModel->delete();
 		$returnUrl = $recordModel->getListViewUrl();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($returnUrl);
 		return $response;
 	}

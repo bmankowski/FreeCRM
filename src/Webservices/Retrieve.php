@@ -11,7 +11,7 @@
 function vtws_retrieve($id, $user)
 {
 
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);

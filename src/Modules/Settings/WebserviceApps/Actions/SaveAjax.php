@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceApps\Actions;
+namespace App\Modules\Settings\WebserviceApps\Actions;
 
 
 
@@ -10,10 +10,10 @@ namespace FreeCRM\Modules\Settings\WebserviceApps\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$keyLength = 32;
 		$id = $request->get('id');

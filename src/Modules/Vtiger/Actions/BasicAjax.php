@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class BasicAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
@@ -28,7 +28,7 @@ class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$parentModuleName = $request->get('parent_module');
 		$relatedModule = $request->get('module');
 
-		$searchModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($searchModule);
+		$searchModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName, $relatedModule);
 
 		$result = [];
@@ -40,7 +40,7 @@ class BasicAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

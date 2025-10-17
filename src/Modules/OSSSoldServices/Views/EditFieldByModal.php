@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSSoldServices\Views;
+namespace App\Modules\OSSSoldServices\Views;
 
 /**
  * EditFieldByModal View Class for OSSSoldServices
@@ -9,11 +9,11 @@ namespace FreeCRM\Modules\OSSSoldServices\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class EditFieldByModal extends \Vtiger_Index_View
 {
 
-	public function getModalScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');

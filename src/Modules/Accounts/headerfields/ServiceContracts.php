@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts;
+namespace App\Modules\Accounts;
 
 /**
  * ServiceContracts Header Field Class
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Accounts;
  */
 class HeaderField {
 
-	public function process(\FreeCRM\Modules\Vtiger\Models\DetailView $viewModel)
+	public function process(\App\Modules\Vtiger\Models\DetailView $viewModel)
 	{
 		$row = (new \App\Db\Query())->select('MAX(due_date) AS date,count(*) AS total')->from('vtiger_servicecontracts')
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
@@ -19,7 +19,7 @@ class HeaderField {
 		if (!empty($row['date']) || !empty($row['total'])) {
 			return [
 				'class' => 'btn-success',
-				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
+				'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
 				'badge' => DateTimeField::convertToUserFormat($row['date']),
 				'action' => 'Vtiger_Detail_Js.getInstance().getTabContainer().find(\'[data-reference="ServiceContracts"]:not(.hide)\').trigger("click");'
 			];

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CustomView\Models;
+namespace App\Modules\Settings\CustomView\Models;
 
 
 
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Settings\CustomView\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public function getCustomViews($tabId)

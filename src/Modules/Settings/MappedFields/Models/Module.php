@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Models;
-use FreeCRM\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
+namespace App\Modules\Settings\MappedFields\Models;
+use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
 
 
 
@@ -12,8 +12,8 @@ use FreeCRM\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	protected $record = false;
@@ -101,7 +101,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public static function getSupportedModules()
 	{
 		$restrictedModules = ['OSSMailView', 'ModComments'];
-		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getAll([0, 2]);
+		$moduleModels = \App\Modules\Vtiger\Models\Module::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isEntityModule() && !in_array($moduleModel->getName(), $restrictedModules)) {
@@ -119,7 +119,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = \App\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$data = [];
 		$fields = self::getFieldsByStep();
@@ -152,7 +152,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if ($moduleModel) {
 			$objectProperties = get_object_vars($moduleModel);
 			$moduleModel = new self();
@@ -216,7 +216,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getName());
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
 		$moduleFields = $moduleMeta->getAccessibleFields();
 		$fields = [];
@@ -356,7 +356,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				$message = 'LBL_UPLOAD_ERROR';
 			}
 		}
-		return ['id' => $id, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($message, $qualifiedModuleName)];
+		return ['id' => $id, 'message' => \App\Runtime\Vtiger_Language_Handler::translate($message, $qualifiedModuleName)];
 	}
 
 	public function importDataFromXML($uploadedXml)
@@ -372,7 +372,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				if (empty($value)) {
 					break;
 				}
-				$instances[$combine[$fieldsKey]] = \FreeCRM\Modules\Vtiger\Models\Module::getInstance((string) $fieldsValue);
+				$instances[$combine[$fieldsKey]] = \App\Modules\Vtiger\Models\Module::getInstance((string) $fieldsValue);
 			} elseif ($fieldsKey == 'fields') {
 				foreach ($fieldsValue as $fieldKey => $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {

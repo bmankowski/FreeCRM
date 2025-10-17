@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AutomaticAssignment\Views;
+namespace App\Modules\Settings\AutomaticAssignment\Views;
 
 
 
@@ -11,16 +11,16 @@ namespace FreeCRM\Modules\Settings\AutomaticAssignment\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	/**
 	 * Checking permission 
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin() || empty($request->get('record'))) {
@@ -30,9 +30,9 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Process
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->get('record'));
@@ -53,14 +53,14 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function gets variables to advanced filter
-	 * @param FreeCRM_Viewer $viewer
+	 * @param CRM_Viewer $viewer
 	 * @param Settings_AutomaticAssignment_Record_Model $recordModel
 	 */
-	private function getVariablesToAdvancedFilter(FreeCRM_Viewer $viewer, $recordModel)
+	private function getVariablesToAdvancedFilter(CRM_Viewer $viewer, $recordModel)
 	{
 		$sourceModuleName = $recordModel->getSourceModuleName();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($recordModel->get('tabid'));
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($recordModel->get('tabid'));
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 
 		$conditions = $recordModel->get('conditions');
@@ -76,7 +76,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		if ($sourceModuleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \FreeCRM\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -84,10 +84,10 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Scripts
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

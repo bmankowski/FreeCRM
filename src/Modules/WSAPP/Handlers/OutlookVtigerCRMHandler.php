@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP\Handlers;
+namespace App\Modules\WSAPP\Handlers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

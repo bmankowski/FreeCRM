@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-namespace FreeCRM\events;
+namespace App\events;
 
 require_once(ROOT_DIRECTORY . '/src/events/SqlResultIterator.php');
 

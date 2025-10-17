@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WidgetsManagement\Actions;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Settings\WidgetsManagement\Actions;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 
 
@@ -11,7 +11,7 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Dashboard extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class Dashboard extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -21,22 +21,22 @@ class Dashboard extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('delete');
 	}
 
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::saveDashboard($request->get('dashboardId'), $request->get('name'));
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\WidgetsManagement\Models\Module::saveDashboard($request->get('dashboardId'), $request->get('name'));
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
-	public function delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$dashboardId = $request->get('dashboardId');
-		if($dashboardId === \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard()) {
-			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
+		if($dashboardId === \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard()) {
+			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
-		\FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::deleteDashboard($dashboardId);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\WidgetsManagement\Models\Module::deleteDashboard($dashboardId);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

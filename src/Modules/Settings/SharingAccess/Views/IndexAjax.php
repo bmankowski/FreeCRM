@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SharingAccess\Views;
-use FreeCRM\Modules\Settings\SharingAccessModels\RuleMember;
+namespace App\Modules\Settings\SharingAccess\Views;
+use App\Modules\Settings\SharingAccessModels\RuleMember;
 
 
 /* +***********************************************************************************
@@ -13,10 +13,10 @@ use FreeCRM\Modules\Settings\SharingAccessModels\RuleMember;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
+use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 
-use FreeCRM\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
-Class Settings_SharingAccess_IndexAjax_View extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
+Class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -26,7 +26,7 @@ Class Settings_SharingAccess_IndexAjax_View extends \FreeCRM\Modules\Settings\Vt
 		$this->exposeMethod('editRule');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -35,7 +35,7 @@ Class Settings_SharingAccess_IndexAjax_View extends \FreeCRM\Modules\Settings\Vt
 		}
 	}
 
-	public function showRules(\FreeCRM\Http\Vtiger_Request $request)
+	public function showRules(\App\Http\Vtiger_Request $request)
 	{
 
 		$viewer = $this->getViewer($request);
@@ -51,12 +51,12 @@ Class Settings_SharingAccess_IndexAjax_View extends \FreeCRM\Modules\Settings\Vt
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FOR_MODULE', $forModule);
 		$viewer->assign('RULE_MODEL_LIST', $ruleModelList);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
 	}
 
-	public function editRule(\FreeCRM\Http\Vtiger_Request $request)
+	public function editRule(\App\Http\Vtiger_Request $request)
 	{
 
 		$viewer = $this->getViewer($request);
@@ -73,23 +73,23 @@ Class Settings_SharingAccess_IndexAjax_View extends \FreeCRM\Modules\Settings\Vt
 			$ruleModel->setModuleFromInstance($moduleModel);
 		}
 
-		$viewer->assign('ALL_RULE_MEMBERS', \FreeCRM\Modules\Settings\SharingAccess\Models\RuleMember::getAll());
+		$viewer->assign('ALL_RULE_MEMBERS', \App\Modules\Settings\SharingAccess\Models\RuleMember::getAll());
 		$viewer->assign('ALL_PERMISSIONS', Settings_SharingAccess_Rule_Model::$allPermissions);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RULE_MODEL', $ruleModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		echo $viewer->view('EditRule.tpl', $qualifiedModuleName, true);
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

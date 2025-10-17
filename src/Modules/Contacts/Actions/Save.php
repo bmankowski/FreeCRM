@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Contacts\Actions;
+namespace App\Modules\Contacts\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,16 +12,16 @@ namespace FreeCRM\Modules\Contacts\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	/**
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$result = \FreeCRM\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
+		$result = \App\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
 		//To stop saveing the value of salutation as '--None--'

@@ -2,14 +2,14 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\OSSTimeControl\Actions;
+namespace App\Modules\OSSTimeControl\Actions;
 
-class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class GetTCInfo extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -18,15 +18,15 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$srecord = $request->get('id');
 		$smodule = $request->get('sourceModule');
 
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($smodule, 'DetailView', $srecord);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 
 		$id = $request->get('id');
@@ -35,7 +35,7 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$sourceData = array();
 
 		if (isRecordExists($id)) {
-			$record = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $sourceModule);
+			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $sourceModule);
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;
 			if ($sourceModule == 'HelpDesk') {
@@ -55,12 +55,12 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if ($sourceData === false) {
-			$result = array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_IMPORT_INFO', $moduleName));
+			$result = array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_IMPORT_INFO', $moduleName));
 		} else {
 			$result = array('success' => true, 'sourceData' => $sourceData);
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

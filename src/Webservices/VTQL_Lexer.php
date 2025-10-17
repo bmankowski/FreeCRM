@@ -166,7 +166,7 @@ function handleend($lexer, $val)
 }
 
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 class VTQL_Lexer
 {

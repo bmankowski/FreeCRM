@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Menu\Models;
-use FreeCRM\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
-use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
+namespace App\Modules\Settings\Menu\Models;
+use App\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
+use App\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -15,7 +15,7 @@ use FreeCRM\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -48,7 +48,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$menu[] = [
 				'id' => $row['id'],
 				'parent' => $row['parentid'] == 0 ? '#' : $row['parentid'],
-				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($settingsModel->getMenuName($row, true), $row['name']),
+				'text' => \App\Runtime\Vtiger_Language_Handler::translate($settingsModel->getMenuName($row, true), $row['name']),
 				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type'])
 			];
 		}
@@ -280,7 +280,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function refreshMenuFiles()
 	{
-		$allRoles = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$this->generateFileMenu(0);
 		foreach ($allRoles as $role) {
 			$roleId = str_replace('H', '', $role->getId());
@@ -296,7 +296,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function getRolesContainMenu()
 	{
-		$allRoles = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$menu = [];
 		$counter = 0;
 		foreach ($allRoles as $roleId => $value) {

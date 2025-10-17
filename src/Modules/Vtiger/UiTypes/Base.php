@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
-class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
+use App\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
+class Base extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public function isAjaxEditable()
@@ -41,7 +41,7 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -67,7 +67,7 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Static function to get the UIType object from Vtiger Field Model
-	 * @param \FreeCRM\Modules\Vtiger\Models\Field $fieldModel
+	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
 	 * @return Vtiger_Base_UIType or UIType specific object instance
 	 */
 	public static function getInstanceFromField($fieldModel)
@@ -75,9 +75,9 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 		$fieldDataType = $fieldModel->getFieldDataType();
 		$uiTypeClassSuffix = ucfirst($fieldDataType);
 		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = '\FreeCRM\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
-		$uiTypeClassName = '\FreeCRM\Modules\\Vtiger\\UiTypes\\' . $uiTypeClassSuffix;
-		$fallBackClassName = '\FreeCRM\Modules\\Vtiger\\UiTypes\\Base';
+		$moduleSpecificUiTypeClassName = '\App\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
+		$uiTypeClassName = '\App\Modules\\Vtiger\\UiTypes\\' . $uiTypeClassSuffix;
+		$fallBackClassName = '\App\Modules\\Vtiger\\UiTypes\\Base';
 
 		// Try PSR-4 paths first, then fallback to old paths
 		$moduleSpecificFilePath = ROOT_DIRECTORY . '/src/Modules/' . $moduleName . '/UiTypes/' . $uiTypeClassSuffix . '.php';
@@ -86,8 +86,8 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 		// Old path fallback
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
-		$moduleSpecificOldFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeOldFilePath = \FreeCRM\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
+		$moduleSpecificOldFilePath = \App\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
+		$completeOldFilePath = \App\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
 
 		if (file_exists($moduleSpecificFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
 			$instance = new $moduleSpecificUiTypeClassName();
@@ -150,7 +150,7 @@ class Base extends \FreeCRM\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Get field model instance
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public function getFieldModel()
 	{

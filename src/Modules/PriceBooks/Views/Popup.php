@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks\Views;
+namespace App\Modules\PriceBooks\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,14 +13,14 @@ namespace FreeCRM\Modules\PriceBooks\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Popup extends \Vtiger_Index_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
@@ -55,14 +55,14 @@ class Popup extends \Vtiger_Index_View
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -92,7 +92,7 @@ class Popup extends \Vtiger_Index_View
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
 		//Added to support List Price
-		$field = new \FreeCRM\Modules\Vtiger\Models\Field();
+		$field = new \App\Modules\Vtiger\Models\Field();
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');
@@ -147,7 +147,7 @@ class Popup extends \Vtiger_Index_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}
@@ -162,6 +162,6 @@ class Popup extends \Vtiger_Index_View
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
-		$viewer->assign('CURRENT_USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 	}
 }

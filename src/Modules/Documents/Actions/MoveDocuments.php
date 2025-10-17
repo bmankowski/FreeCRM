@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Actions;
+namespace App\Modules\Documents\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,19 +12,19 @@ namespace FreeCRM\Modules\Documents\Actions;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class MoveDocuments extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MoveDocuments extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {
+		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$documentIdsList = $this->getRecordsListFromRequest($request);
@@ -32,8 +32,8 @@ class MoveDocuments extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		if (!empty($documentIdsList)) {
 			foreach ($documentIdsList as $documentId) {
-				$documentModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($documentId, $moduleName);
-				if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $documentId)) {
+				$documentModel = \App\Modules\Vtiger\Models\Record::getInstanceById($documentId, $moduleName);
+				if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $documentId)) {
 					$documentModel->set('folderid', $folderId);
 					$documentModel->save();
 				} else {
@@ -42,12 +42,12 @@ class MoveDocuments extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 		if (empty($documentsMoveDenied)) {
-			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DOCUMENTS_MOVED_SUCCESSFULLY', $moduleName));
+			$result = array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOCUMENTS_MOVED_SUCCESSFULLY', $moduleName));
 		} else {
-			$result = array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DENIED_DOCUMENTS', $moduleName), 'LBL_RECORDS_LIST' => $documentsMoveDenied);
+			$result = array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DENIED_DOCUMENTS', $moduleName), 'LBL_RECORDS_LIST' => $documentsMoveDenied);
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

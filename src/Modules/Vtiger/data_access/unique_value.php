@@ -18,7 +18,7 @@ Class DataAccess_unique_value
 
 	public function process($moduleName, $ID, $record_form, $config)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$moduleNameID = \vtlib\Functions::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
@@ -29,7 +29,7 @@ Class DataAccess_unique_value
 		$info = false;
 		$searchTrash = ['query' => '', 'params' => ''];
 		if ($ID != 0 && $ID != '' && !array_key_exists($config['what1'], $record_form)) {
-			$Record_Model = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$Record_Model = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$value1 = $Record_Model->get($config['what1']);
 		} else {
 			if (array_key_exists($config['what1'], $record_form))
@@ -37,7 +37,7 @@ Class DataAccess_unique_value
 		}
 
 		if ($ID != 0 && $ID != '' && !array_key_exists($config['what2'], $record_form)) {
-			$Record_Model = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$Record_Model = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
 			$value2 = $Record_Model->get($config['what2']);
 		} else {
 			if (array_key_exists($config['what2'], $record_form))
@@ -56,7 +56,7 @@ Class DataAccess_unique_value
 			foreach ($wheres1 as $where) {
 				$where = explode('=', $where);
 				$DestModuleName = \vtlib\Functions::getModuleName($where[2]);
-				$ModuleInstance = \FreeCRM\CRMEntity::getInstance($DestModuleName);
+				$ModuleInstance = \App\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array($value1);
@@ -87,7 +87,7 @@ Class DataAccess_unique_value
 					$metadata = \vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
-						$deletedLabel = $metadata['deleted'] ? ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
+						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
@@ -97,7 +97,7 @@ Class DataAccess_unique_value
 			foreach ($wheres2 as $where) {
 				$where = explode('=', $where);
 				$DestModuleName = \vtlib\Functions::getModuleName($where[2]);
-				$ModuleInstance = \FreeCRM\CRMEntity::getInstance($DestModuleName);
+				$ModuleInstance = \App\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array($value2);
@@ -128,7 +128,7 @@ Class DataAccess_unique_value
 					$metadata = \vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
-						$deletedLabel = $metadata['deleted'] ? ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
+						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
@@ -149,20 +149,20 @@ Class DataAccess_unique_value
 		}
 		if ($config['locksave'] == 3 && !$save_record) {
 			$type = $config['locksave'];
-			$permission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DuplicateRecord');
-			$text = '<div class="marginLeft10">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
+			$permission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DuplicateRecord');
+			$text = '<div class="marginLeft10">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {
-				$title = '<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
+				$title = '<strong>' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
 				if (!empty($ID)) {
 					$text .= '<form class="form-horizontal"><div class="checkbox">
 							<label>
-								<input type="checkbox" name="cache"> ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
+								<input type="checkbox" name="cache"> ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
 							</label>
 						</div></form>';
 				}
 				if ($record_form['view'] == 'quick_edit') {
-					$text = '<div class="alert alert-warning" role="alert">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
+					$text = '<div class="alert alert-warning" role="alert">' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
 				}
 			}
 			$info = ['text' => $text,
@@ -175,7 +175,7 @@ Class DataAccess_unique_value
 				'save_record' => $save_record,
 				'type' => $type,
 				'info' => is_array($info) ? $info : [
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
 					'ntype' => $typeInfo,
 					'hide' => false,
 					]
@@ -186,7 +186,7 @@ Class DataAccess_unique_value
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' && vtiger_field.displaytype IN ('1','10') ORDER BY name", [], true);
 		$fields = [];
 		$ModuleFields = [];

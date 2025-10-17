@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\UiTypes;
+namespace App\Modules\Calendar\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -40,7 +40,7 @@ class Time extends Base
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
-		$userModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$date = new DateTime($value);
 
 		if ($fieldName == 'time_end' && empty($value)) {

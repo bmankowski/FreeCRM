@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WidgetsManagement\Models;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Settings\WidgetsManagement\Models;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,9 +14,9 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Widget as Vtiger_Widget_Model;
+use App\Modules\Vtiger\Models\Widget as Vtiger_Widget_Model;
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public function getRestrictFilter()
@@ -168,22 +168,22 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public function getFilterSelect()
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
 
 		$filterSelect = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
 
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
 		return $filterSelect;
 	}
 
 	public function getFilterSelectDefault()
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
 
 		$filterSelectDefault = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
 
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
 		return $filterSelectDefault;
 	}
 
@@ -212,30 +212,30 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public function getSize()
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
 
 		$width = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 		$height = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
 		return array('width' => $width, 'height' => $height);
 	}
 
 	public function getDefaultValues()
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
 
 		$defaultValues = array('width' => 4, 'height' => 4);
 
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
 		return $defaultValues;
 	}
 
 	public function getSelectableDashboard()
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
 		$dataReader = (new \App\Db\Query())->from('vtiger_links')
 				->innerJoin('vtiger_tab', 'vtiger_links.tabid = vtiger_tab.tabid')
 				->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_tab.presence' => 0])
@@ -245,7 +245,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			$moduleName = \App\Module::getModuleName($row['tabid']);
 			$widgets[$moduleName][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
 		return $widgets;
 	}
 
@@ -257,7 +257,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 * */
 	public function saveDetails($data, $moduleName)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::saveDetails($moduleName) method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::saveDetails($moduleName) method ...");
 
 		$db = \App\Db::getInstance();
 		$isWidgetExists = (new \App\Db\Query())
@@ -289,13 +289,13 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			$db->createCommand()->update('vtiger_module_dashboard_widgets', $insert, ['templateid' => $data['id']])
 				->execute();
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::saveData() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::saveData() method ...");
 		return ['success' => true];
 	}
 
 	public function addBlock($data, $moduleName, $addToUser)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::addBlock(" . $data . ", " . $moduleName . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$db = \App\Db::getInstance();
 		$tabId = \App\Module::getModuleId($moduleName);
 		$db->createCommand()
@@ -304,7 +304,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				'tabid' => $tabId,
 				'dashboard_id' => $data['dashboardId']
 			])->execute();
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::addBlock() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::addBlock() method ...");
 		return [
 			'success' => true,
 			'id' => $db->getLastInsertID('vtiger_module_dashboard_blocks_id_seq')
@@ -313,7 +313,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public function addWidget($data, $moduleName, $addToUser = false)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::addWidget(" . $data . ", " . $moduleName . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::addWidget(" . $data . ", " . $moduleName . ") method ...");
 		$db = \App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
@@ -351,7 +351,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			if ($data['isdefault'])
 				$active = 1;
 			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
-				'linkid' => $data['linkid'], 'userid' => \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->getId(), 'templateid' => $templateId,
+				'linkid' => $data['linkid'], 'userid' => \App\Modules\Users\Models\Record::getCurrentUserModel()->getId(), 'templateid' => $templateId,
 				'filterid' => $data['filterid'],
 				'title' => $data['title'],
 				'data' => $data['data'],
@@ -366,13 +366,13 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			])->execute();
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::addWidget() method ...");
-		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::addWidget() method ...");
+		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
 	}
 
 	public function getBlocksId($dashboard)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
 		$dataReader = (new \App\Db\Query())->select('vtiger_module_dashboard_blocks.*, vtiger_role.rolename')
 				->from('vtiger_module_dashboard_blocks')
 				->innerJoin('vtiger_role', 'vtiger_module_dashboard_blocks.authorized = vtiger_role.roleid')
@@ -386,7 +386,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			$data[$moduleName][$blockId]['name'] = $row['rolename'];
 			$data[$moduleName][$blockId]['code'] = $row['authorized'];
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
 		return $data;
 	}
 
@@ -412,7 +412,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSpecialWidgets($moduleName)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($moduleName) method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($moduleName) method ...");
 		$tabId = \App\Module::getModuleId($moduleName);
 		$query = (new \App\Db\Query())->from('vtiger_links')
 			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
@@ -420,7 +420,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		while ($row = $dataReader->read()) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
-		\App\Log::trace('Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets() method ...');
+		\App\Log::trace('Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets() method ...');
 		return $widgets;
 	}
 
@@ -431,7 +431,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 * */
 	public function getDashboardForModule($moduleName)
 	{
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule(" . $moduleName . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule(" . $moduleName . ") method ...");
 		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
 		$dataReader = (new \App\Db\Query())->select([
@@ -462,29 +462,29 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			} else
 				$data[$row['blockid']][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule() method ...");
 		return $data;
 	}
 
 	public function removeWidget($data)
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::removeWidget(" . $data . ") method ...");
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::removeWidget(" . $data . ") method ...");
+		$adb = \App\database\PearDatabase::getInstance();
 		$query = 'DELETE FROM vtiger_module_dashboard WHERE vtiger_module_dashboard.id = ?';
 		$params = array($data['id']);
 		$adb->pquery($query, $params);
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::removeWidget() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::removeWidget() method ...");
 		return array('success' => true);
 	}
 
 	public function removeBlock($data)
 	{
 		$db = \App\Db::getInstance();
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::removeBlock(" . $data . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::removeBlock(" . $data . ") method ...");
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['id' => $data['blockid']])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $data['blockid']])->execute();
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::removeBlock() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::removeBlock() method ...");
 		return ['success' => true];
 	}
 }

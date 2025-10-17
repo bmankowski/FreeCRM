@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier;
+namespace App\Modules\SMSNotifier;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\SMSNotifier;
  * ********************************************************************************** */
 require_once('src/Modules/Vtiger/CRMEntity.php');
 
-class SMSNotifierBase extends \FreeCRM\CRMEntity
+class SMSNotifierBase extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_smsnotifier';
@@ -87,7 +87,7 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 	public function __construct()
 	{
 		$this->column_fields = getColumnFields(vglobal('currentModule'));
-		$this->db = \FreeCRM\database\PearDatabase::getInstance();
+		$this->db = \App\database\PearDatabase::getInstance();
 	}
 
 	public function getSortOrder()
@@ -95,8 +95,8 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
-		if (!\FreeCRM\Http\AppRequest::isEmpty('sorder'))
-			$sortorder = \FreeCRM\Http\AppRequest::get('sorder');
+		if (!\App\Http\AppRequest::isEmpty('sorder'))
+			$sortorder = \App\Http\AppRequest::get('sorder');
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
@@ -106,8 +106,8 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 	public function getOrderBy()
 	{
 		$orderby = $this->default_order_by;
-		if (!\FreeCRM\Http\AppRequest::isEmpty('order_by'))
-			$sortorder = \FreeCRM\Http\AppRequest::get('order_by');
+		if (!\App\Http\AppRequest::isEmpty('order_by'))
+			$sortorder = \App\Http\AppRequest::get('order_by');
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
@@ -213,7 +213,7 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
-		$thismodule = \FreeCRM\Http\AppRequest::get('module');
+		$thismodule = \App\Http\AppRequest::get('module');
 
 		include('include/utils/ExportUtils.php');
 
@@ -341,7 +341,7 @@ class SMSNotifierBase extends \FreeCRM\CRMEntity
 		$unregisterLinks = false;
 
 		if ($event_type == 'module.postinstall') {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$unregisterLinks = true;
 			$registerLinks = true;
 

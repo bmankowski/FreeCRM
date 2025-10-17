@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Companies\Actions;
+namespace App\Modules\Settings\Companies\Actions;
 
 
 
@@ -11,8 +11,8 @@ namespace FreeCRM\Modules\Settings\Companies\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Companies\Models\Record as Settings_Companies_Record_Model;
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+use App\Modules\Settings\Companies\Models\Record as Settings_Companies_Record_Model;
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	/**
@@ -26,10 +26,10 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	/**
 	 * Function to save company info
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return array
 	 */
-	public function updateCompany(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateCompany(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
@@ -41,7 +41,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		if (!$exists) {
 			$recordModel->setCompaniesNotDefault($request->get('default'));
 			$logoDetails = $recordModel->saveCompanyLogos();
-			$columns = \FreeCRM\Modules\Settings\Companies\Models\Module::getColumnNames();
+			$columns = \App\Modules\Settings\Companies\Models\Module::getColumnNames();
 			if ($columns) {
 				if (empty(($request->get('default')))) {
 					$columns = array_diff($columns, ['default']);
@@ -64,18 +64,18 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			}
 			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
 		} else {
-			$result = ['success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
+			$result = ['success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
 	/**
 	 * Validate Request
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

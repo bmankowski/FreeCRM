@@ -1,6 +1,6 @@
 <?php
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -21,16 +21,16 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
 		if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$isPermited = $recordModel->isEditable() || ($request->getBoolean('isDuplicate') === true && $recordModel->isCreateable() && $recordModel->isViewable());
 		} else {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$isPermited = $recordModel->isCreateable();
 		}
 		if (!$isPermited) {
@@ -38,20 +38,20 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		}
 	}
 
-	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('isDuplicate')) {
-			$pageTitle = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DUPLICATE', $moduleName);
+			$pageTitle = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DUPLICATE', $moduleName);
 		} elseif ($request->has('record')) {
-			$pageTitle = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_EDIT', $moduleName);
+			$pageTitle = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_EDIT', $moduleName);
 		} else {
-			$pageTitle = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $moduleName);
+			$pageTitle = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $moduleName);
 		}
 		return $pageTitle;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -61,14 +61,14 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('RECORD_ID', '');
 			$recordModel = $this->getDuplicate($record, $moduleName);
 		} else if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $record);
 		} else {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$referenceId = $request->get('reference_id');
 			if ($referenceId) {
-				$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($referenceId);
+				$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($referenceId);
 				$recordModel->setRecordFieldValues($parentRecordModel);
 			}
 			$viewer->assign('MODE', '');
@@ -96,20 +96,20 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				$specialField = true;
 				// Convert the incoming user-picked time to GMT time 
 				// which will get re-translated based on user-time zone on EditForm 
-				$fieldValue = \FreeCRM\Fields\DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
+				$fieldValue = \App\Fields\DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
 			}
 
 			if ($moduleName == 'Calendar' && empty($record) && $fieldName == 'date_start' && !empty($fieldValue)) {
 				$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
-				$startDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
+				$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
 				list($startDate, $startTime) = explode(' ', $startDateTime);
-				$fieldValue = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
+				$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
 			}
 			if ($fieldModel->isEditable() || $specialField) {
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
@@ -143,17 +143,17 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('APIADDRESS_ACTIVE', Settings_ApiAddress_Module_Model::isActive());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \FreeCRM\Modules\Vtiger\Util::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Vtiger\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
 	public function getDuplicate($record, $moduleName)
 	{
-		$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		$recordModel->set('id', '');
 		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
 		$mandatoryFieldModels = $recordModel->getModule()->getMandatoryFieldModels();
@@ -171,14 +171,14 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 
 		$moduleName = $request->getModule();
-		if (\FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName)->isInventory()) {
+		if (\App\Modules\Vtiger\Models\Module::getInstance($moduleName)->isInventory()) {
 			$fileNames = [
 				'modules.Vtiger.resources.Inventory',
 				'modules.' . $moduleName . '.resources.Inventory',

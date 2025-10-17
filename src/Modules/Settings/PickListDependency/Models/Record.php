@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PickListDependency\Models;
+namespace App\Modules\Settings\PickListDependency\Models;
 
 
 /* +***********************************************************************************
@@ -13,12 +13,12 @@ namespace FreeCRM\Modules\Settings\PickListDependency\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
 
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	private $mapping = false;
@@ -161,7 +161,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (empty($sourceFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('sourcelabel'), $this->get('sourceModule'));
+		return \App\Runtime\Vtiger_Language_Handler::translate($this->get('sourcelabel'), $this->get('sourceModule'));
 	}
 
 	public function getTargetFieldLabel()
@@ -170,7 +170,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (empty($targetFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('targetlabel'), $this->get('sourceModule'));
+		return \App\Runtime\Vtiger_Language_Handler::translate($this->get('targetlabel'), $this->get('sourceModule'));
 	}
 
 	public static function getInstance($module, $sourceField, $targetField)

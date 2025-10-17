@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Actions;
+namespace App\Modules\KnowledgeBase\Actions;
 
 /**
  * Action to upload file
@@ -8,25 +8,25 @@ namespace FreeCRM\Modules\KnowledgeBase\Actions;
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
-class ImageUploadAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ImageUploadAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$fileTypeSettings = \FreeCRM\AppConfig::module($moduleName, 'fileTypeSettings');
-		$allowedFileTypes = \FreeCRM\AppConfig::module($moduleName, 'allowedFileTypes');
-		$rename = \FreeCRM\AppConfig::module($moduleName, 'rename');
+		$fileTypeSettings = \App\AppConfig::module($moduleName, 'fileTypeSettings');
+		$allowedFileTypes = \App\AppConfig::module($moduleName, 'allowedFileTypes');
+		$rename = \App\AppConfig::module($moduleName, 'rename');
 		$iConf = &$fileTypeSettings['img'];
 		$aConf = &$fileTypeSettings['audio'];
 		$vConf = &$fileTypeSettings['video'];
@@ -58,7 +58,7 @@ class ImageUploadAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 			switch ($fileType) {
 				default:
-					$response = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_NOT_ALLOWED', $moduleName);
+					$response = \App\Runtime\Vtiger_Language_Handler::translate('ERR_NOT_ALLOWED', $moduleName);
 					break;
 				case 'img':
 					// Image width and height
@@ -69,27 +69,27 @@ class ImageUploadAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 						list($width, $height) = getimagesize($_FILES['upload']['tmp_name']);
 						if (isset($width) && isset($height)) {
 							if ($width > $iConf['maxwidth'] || $height > $iConf['maxheight']) {
-								$response = '\\n ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . ' \\n '
-									. \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['maxwidth'] . ' x ' . $iConf['maxheight'];
+								$response = '\\n ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . ' \\n '
+									. \App\Runtime\Vtiger_Language_Handler::translate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['maxwidth'] . ' x ' . $iConf['maxheight'];
 							}
 							if ($width < $iConf['minwidth'] || $height < $iConf['minheight']) {
-								$response = '\\n ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . '\\n '
-									. \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['minwidth'] . ' x ' . $iConf['minheight'];
+								$response = '\\n ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . '\\n '
+									. \App\Runtime\Vtiger_Language_Handler::translate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['minwidth'] . ' x ' . $iConf['minheight'];
 							}
 							if ($_FILES['upload']['size'] > $iConf['maxsize'] * 1000) {
-								$response = '\\n ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $iConf['maxsize'] . ' KB.';
+								$response = '\\n ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $iConf['maxsize'] . ' KB.';
 							}
 						}
 					}
 					break;
 				case 'audio':
 					if ($_FILES['upload']['size'] > $aConf['maxsize'] * 1000) {
-						$response = '\\n ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $aConf['maxsize'] . ' KB.';
+						$response = '\\n ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $aConf['maxsize'] . ' KB.';
 					}
 					break;
 				case 'video':
 					if ($_FILES['upload']['size'] > $vConf['maxsize'] * 1000) {
-						$response = '\\n ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $vConf['maxsize'] . ' KB.';
+						$response = '\\n ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $vConf['maxsize'] . ' KB.';
 					}
 					break;
 			}
@@ -104,8 +104,8 @@ class ImageUploadAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadPath)) {
 					$CKEditorFuncNum = $_GET['CKEditorFuncNum'];
 					$url = $site . $uploadDir . $newFileName;
-					$msg = $fileName . '.' . $type . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_UPLOADED', $moduleName) . ': \\n-';
-					$msg.= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SIZE', $moduleName) . ': ' . number_format($_FILES['upload']['size'] / 1024, 2, '.', '') . ' KB';
+					$msg = $fileName . '.' . $type . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_FILE_UPLOADED', $moduleName) . ': \\n-';
+					$msg.= \App\Runtime\Vtiger_Language_Handler::translate('LBL_SIZE', $moduleName) . ': ' . number_format($_FILES['upload']['size'] / 1024, 2, '.', '') . ' KB';
 
 					switch ($fileType) {
 						case 'img':
@@ -133,13 +133,13 @@ class ImageUploadAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 							break;
 					}
 				} else {
-					$response = 'alert("' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_UNABLE_TO_UPLOAD', $moduleName) . '")';
+					$response = 'alert("' . \App\Runtime\Vtiger_Language_Handler::translate('ERR_UNABLE_TO_UPLOAD', $moduleName) . '")';
 				}
 			} else {
 				$response = 'alert("' . $response . '")';
 			}
 		}
-		$vtigerResponse = new \FreeCRM\Http\Vtiger_Response();
+		$vtigerResponse = new \App\Http\Vtiger_Response();
 		$vtigerResponse->setResult('<script type="text/javascript">' . $response . '</script>');
 		$vtigerResponse->setEmitType(2);
 		$vtigerResponse->emit();

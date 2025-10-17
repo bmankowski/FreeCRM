@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Portal\Actions;
+namespace App\Modules\Portal\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,25 +12,25 @@ namespace FreeCRM\Modules\Portal\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class MassDelete extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 
-		\FreeCRM\Modules\Portal\Models\Module::deleteRecords($request);
+		\App\Modules\Portal\Models\Module::deleteRecords($request);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$result = array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
+		$response = new \App\Http\Vtiger_Response();
+		$result = array('message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
 		$response->setResult($result);
 		$response->emit();
 	}

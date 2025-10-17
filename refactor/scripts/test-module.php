@@ -10,7 +10,7 @@
  * 
  * Usage: php refactor/scripts/test-module.php ModuleName
  * 
- * @author FreeCRM Modernization Team
+ * @author App Modernization Team
  */
 
 // Configuration
@@ -53,7 +53,7 @@ foreach ($testComponents as $test) {
 	list($type, $name) = $test;
 	
 	try {
-		$className = \FreeCRM\Loader::getComponentClassName($type, $name, $moduleName);
+		$className = \App\Loader::getComponentClassName($type, $name, $moduleName);
 		
 		// Check if class actually exists
 		if (class_exists($className)) {
@@ -75,7 +75,7 @@ echo "\n--- Testing class instantiation ---\n";
 
 // Try to load module record model
 try {
-	$recordClass = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $moduleName);
+	$recordClass = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
 	if (class_exists($recordClass)) {
 		echo "✓ Can load Record model: {$recordClass}\n";
 		

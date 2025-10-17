@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Views;
+namespace App\Modules\Products\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,37 +12,37 @@ namespace FreeCRM\Modules\Products\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class MoreCurrenciesList extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$lockEdit = false;
 		if (empty($record) || $request->get('isDuplicate') == 'true') {
-			$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView');
+			$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView');
 		} else {
-			$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record);
-			$lockEdit = \FreeCRM\Modules\Users\Models\Privileges::checkLockEdit($moduleName, \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName));
+			$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record);
+			$lockEdit = \App\Modules\Users\Models\Privileges::checkLockEdit($moduleName, \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName));
 		}
 		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$currencyName = $request->get('currency');
 
 		if (!empty($recordId)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 		} else {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 
 			foreach ($priceDetails as $key => $currencyDetails) {
@@ -68,7 +68,7 @@ class MoreCurrenciesList extends \Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PRICE_DETAILS', $priceDetails);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('MoreCurrenciesList.tpl', 'Products');
 	}

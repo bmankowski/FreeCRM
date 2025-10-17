@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Handlers;
+namespace App\Modules\Vtiger\Handlers;
 
 /**
  * Automatic assignment Handler Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Handlers;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
+use App\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
 class Vtiger_AutomaticAssignment_Handler {
 
 	/**

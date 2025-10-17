@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ApiAddress\Views;
-use FreeCRM\Modules\Settings\ApiAddress\Models\Module as Settings_ApiAddress_Module_Model;
+namespace App\Modules\Settings\ApiAddress\Views;
+use App\Modules\Settings\ApiAddress\Models\Module as Settings_ApiAddress_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,15 +14,15 @@ use FreeCRM\Modules\Settings\ApiAddress\Models\Module as Settings_ApiAddress_Mod
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 

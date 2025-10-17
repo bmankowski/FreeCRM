@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts\Handlers;
+namespace App\Modules\Accounts\Handlers;
 
 /**
  * Save Changes Handler Class

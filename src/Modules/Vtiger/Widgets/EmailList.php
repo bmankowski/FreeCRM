@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Widgets;
+namespace App\Modules\Vtiger\Widgets;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class EmailList extends \FreeCRM\Modules\Vtiger\Widgets\Basic
+class EmailList extends \App\Modules\Vtiger\Widgets\Basic
 {
 
 	public $dbParams = array();
@@ -30,7 +30,7 @@ class EmailList extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 	public function getWidget()
 	{
 		$widget = [];
-		$model = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSMailView');
+		$model = \App\Modules\Vtiger\Models\Module::getInstance('OSSMailView');
 		if ($model->isPermitted('DetailView')) {
 			$this->Config['tpl'] = 'EmailList.tpl';
 			$this->Config['url'] = $this->getUrl();

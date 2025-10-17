@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,19 +13,19 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Export extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
-			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 
@@ -42,7 +42,7 @@ class Export extends \Vtiger_Index_View
 		$viewer->assign('PAGE', $page);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE', 'Export');
-		$viewer->assign('XML_TPL_LIST', \FreeCRM\Modules\Import\Models\Module::getListTplForXmlType($sourceModule));
+		$viewer->assign('XML_TPL_LIST', \App\Modules\Import\Models\Module::getListTplForXmlType($sourceModule));
 		$viewer->assign('EXPORT_TYPE', ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');

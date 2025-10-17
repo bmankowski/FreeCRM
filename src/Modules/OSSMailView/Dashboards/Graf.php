@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Dashboards;
+namespace App\Modules\OSSMailView\Dashboards;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSMailView\Dashboards;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class Graf extends \Vtiger_Index_View
 {
@@ -37,7 +37,7 @@ class Graf extends \Vtiger_Index_View
 		$conditions = array();
 		array_push($conditions, array("ossmailview_sendtype", "e", $stage));
 		if ($assignedto == '') {
-			$currenUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currenUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$assignedto = $currenUserModel->getId();
 		}
 		if ($assignedto != 'all') {
@@ -58,7 +58,7 @@ class Graf extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
@@ -98,14 +98,14 @@ class Graf extends \Vtiger_Index_View
 			$dateFilter['end'] = $today;
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getMailCount($owner, $dateFilter);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
 		for ($i = 0; $i < $countData; $i++) {
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dateFilter);
 		}
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		// Prepare owner data for the template
 		$allActiveUserList = \App\Fields\Owner::getInstance()->getAccessibleUsers();

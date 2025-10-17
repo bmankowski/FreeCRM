@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\HideBlocks\Actions;
-use FreeCRM\Modules\Settings\HideBlocksModels\Module;
-use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
+namespace App\Modules\Settings\HideBlocks\Actions;
+use App\Modules\Settings\HideBlocksModels\Module;
+use App\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -15,10 +15,10 @@ use FreeCRM\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Reco
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -26,7 +26,7 @@ class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 		$recordModel->delete();
 
-		$returnUrl = \FreeCRM\Modules\Settings\HideBlocks\Models\Module::getListViewUrl();
+		$returnUrl = \App\Modules\Settings\HideBlocks\Models\Module::getListViewUrl();
 		header("Location: $returnUrl");
 	}
 }

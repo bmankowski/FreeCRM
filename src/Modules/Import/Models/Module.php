@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\Models;
+namespace App\Modules\Import\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Import\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -156,7 +156,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	{
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {
-			$modelClassName = \FreeCRM\Loader::getComponentClassName('Reader', $componentName, 'Import');
+			$modelClassName = \App\Loader::getComponentClassName('Reader', $componentName, 'Import');
 			return new $modelClassName($request, $user);
 		}
 		return null;
@@ -164,7 +164,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field[] - list of field models
+	 * @return \App\Modules\Vtiger\Models\Field[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -207,14 +207,14 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns instance of the module where import takes place
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getImportModuleModel()
 	{
 		if ($this->importModuleModel) {
 			return $this->importModuleModel;
 		}
-		return $this->importModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getImportModule());
+		return $this->importModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getImportModule());
 	}
 
 	/**

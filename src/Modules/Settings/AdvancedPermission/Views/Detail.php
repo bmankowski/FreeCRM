@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AdvancedPermission\Views;
+namespace App\Modules\Settings\AdvancedPermission\Views;
 
 
 
@@ -11,11 +11,11 @@ namespace FreeCRM\Modules\Settings\AdvancedPermission\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
-Class Settings_AdvancedPermission_Detail_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
+Class Settings_AdvancedPermission_Detail_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -24,7 +24,7 @@ Class Settings_AdvancedPermission_Detail_View extends \FreeCRM\Modules\Settings\
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 }

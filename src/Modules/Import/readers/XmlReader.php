@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Import\readers;
+namespace App\Modules\Import\readers;
 
-use FreeCRM\Modules\Import\readers\FileReader;
+use App\Modules\Import\readers\FileReader;
 
 /**
  * XmlReader Class
@@ -59,7 +59,7 @@ class XmlReader extends FileReader
 	 */
 	public function createTable()
 	{
-		$tableName = \FreeCRM\Modules\Import\Models\Module::getDbTableName($this->user);
+		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		if (!\vtlib\Utils::CheckTable($tableName)) {
 			parent::createTable();
 		}
@@ -70,7 +70,7 @@ class XmlReader extends FileReader
 	 */
 	public function read()
 	{
-		$defaultCharset = \FreeCRM\AppConfig::main('default_charset');
+		$defaultCharset = \App\AppConfig::main('default_charset');
 		$this->createTable();
 
 		$fieldMapping = $this->request->get('field_mapping');

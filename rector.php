@@ -52,7 +52,7 @@ return RectorConfig::configure()
 
     ])
     
-    // Custom rules for FreeCRM-specific transformations
+    // Custom rules for App-specific transformations
     ->withRules([
         // Replace __DIR__ with ROOT_DIRECTORY for better path resolution
         ReplaceDirWithRootDirectoryRector::class,
@@ -65,7 +65,7 @@ return RectorConfig::configure()
             // Order matters: most specific paths first
             'include/exceptions/' => 'Exception\\',
             'include/' => 'includes\\',
-            'src/' => 'FreeCRM\\',
+            'src/' => 'App\\',
             'vtlib/Vtiger/' => 'vtlib\\',
             'api/webservice/' => 'Api\\',
         ]
@@ -84,8 +84,8 @@ return RectorConfig::configure()
         __DIR__ . '/cache',      // Cache files (temporary, regenerated)
         __DIR__ . '/storage',    // Application storage files
         
-        // Skip specific rule that conflicts with FreeCRM architecture
+        // Skip specific rule that conflicts with App architecture
         // This rule would change require_once paths from ROOT_DIRECTORY to __DIR__
-        // FreeCRM uses ROOT_DIRECTORY constant for consistent path resolution
+        // App uses ROOT_DIRECTORY constant for consistent path resolution
         // \Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector::class,
     ]);

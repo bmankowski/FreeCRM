@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Views;
+namespace App\Modules\Users\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,21 +12,21 @@ namespace FreeCRM\Modules\Users\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Modules\Settings\Vtiger\Views\ListView as SettingsListView;
+use App\Http\Vtiger_Request;
+use App\Modules\Settings\Vtiger\Views\ListView as SettingsListView;
 
 class ListView extends SettingsListView
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
@@ -38,7 +38,7 @@ class ListView extends SettingsListView
 		return $headerScriptInstances;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -48,7 +48,7 @@ class ListView extends SettingsListView
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -57,7 +57,7 @@ class ListView extends SettingsListView
 		$sortOrder = $request->get('sortorder');
 		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -78,14 +78,14 @@ class ListView extends SettingsListView
 			$status = 'Active';
 
 		if (!$this->listViewModel) {
-			$this->listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+			$this->listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$this->listViewModel->set('status', $status);
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 
@@ -154,7 +154,7 @@ class ListView extends SettingsListView
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}
@@ -169,7 +169,7 @@ class ListView extends SettingsListView
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	}
 
@@ -177,7 +177,7 @@ class ListView extends SettingsListView
 	 * Function returns the number of records for the current filter
 	 * @param Vtiger_Request $request
 	 */
-	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -198,7 +198,7 @@ class ListView extends SettingsListView
 	 * Function to get listView count
 	 * @param Vtiger_Request $request
 	 */
-	public function getListViewCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getListViewCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
@@ -210,7 +210,7 @@ class ListView extends SettingsListView
 		$searchValue = $request->get('search_value');
 		$searchParmams = $request->get('search_params');
 		$operator = $request->get('operator');
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
@@ -232,10 +232,10 @@ class ListView extends SettingsListView
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	public function getPageCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

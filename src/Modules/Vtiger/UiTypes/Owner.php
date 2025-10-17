@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class Owner extends Base
 {
 
@@ -39,7 +39,7 @@ class Owner extends Base
 			return $ownerName;
 		}
 		if (\App\Fields\Owner::getType($value) === 'Users') {
-			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($value);
+			$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($value);
 			// $userModel->setModule('Users'); // BMN  Method doesn't exist
 			$ownerName = $userModel->getName();
 			if ($userModel->get('status') === 'Inactive') {
@@ -47,12 +47,12 @@ class Owner extends Base
 			}
 			// $detailViewUrl = $userModel->getDetailViewUrl(); // BMN  Method doesn't exist
 			$detailViewUrl = '';
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
 			}
 		} else {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
 			}
@@ -76,20 +76,20 @@ class Owner extends Base
 			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 		}
 		if (\App\Fields\Owner::getType($value) === 'Users') {
-			$userModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($value);
+			$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($value);
 			$ownerName = \vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
 			if ($userModel->get('status') === 'Inactive') {
 				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
 			}
 			// Get detail view URL using Users Record model instead
-			$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceById($value, 'Users');
+			$userRecordModel = \App\Modules\Users\Models\Record::getInstanceById($value, 'Users');
 			$detailViewUrl = $userRecordModel->getDetailViewUrl();
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
 			}
 		} else {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 			}
@@ -117,8 +117,8 @@ class Owner extends Base
 
 	public function isAjaxEditable()
 	{
-		$userPrivModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$roleModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($userPrivModel->get('roleid'));
+		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$roleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($userPrivModel->get('roleid'));
 		if ($roleModel->get('changeowner')) {
 			return true;
 		}
@@ -128,7 +128,7 @@ class Owner extends Base
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)

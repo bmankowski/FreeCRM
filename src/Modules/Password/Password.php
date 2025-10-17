@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Password;
+namespace App\Modules\Password;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -16,7 +16,7 @@ class Password {
 
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 
 		} else if ($eventType == 'module.disabled') {

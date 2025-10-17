@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Models;
+namespace App\Modules\SMSNotifier\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,16 +12,16 @@ namespace FreeCRM\Modules\SMSNotifier\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
+		$createPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
 
-		$exportPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
@@ -31,23 +31,23 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			);
 		}
 
-		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
+					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
 
-		$quickExportToExcelPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
-		if ($quickExportToExcelPermission && !\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
+		$quickExportToExcelPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
+		if ($quickExportToExcelPermission && !\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -66,8 +66,8 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -75,7 +75,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
@@ -85,27 +85,27 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		$massActionLink = array();
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE', $moduleName),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE', $moduleName),
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleName . '&action=MassDelete");',
 				'linkicon' => ''
 			);
 		}
-		$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+		$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 
 		return $links;
 	}

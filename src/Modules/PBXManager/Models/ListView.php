@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager\Models;
+namespace App\Modules\PBXManager\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\PBXManager\Models;
 /**
  * PBXManager ListView Model Class
  */
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	/**
@@ -30,11 +30,11 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
@@ -46,7 +46,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 			);
 
 			foreach ($massActionLinks as $massActionLink) {
-				$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+				$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 			}
 		}
 
@@ -56,7 +56,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	/**
 	 * Overrided to add HTML content for callstatus irrespective of the filters
 	 */
-	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
+	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setField('direction');

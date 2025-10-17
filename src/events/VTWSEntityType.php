@@ -26,7 +26,7 @@ require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
  */
 
 
-namespace FreeCRM\events;
+namespace App\events;
 
 class VTWSEntityType
 {
@@ -52,7 +52,7 @@ class VTWSEntityType
 
 	function getTabId()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if (!isset($this->tabId)) {
 			$result = $adb->pquery("select tabid from vtiger_tab where name=?", array($this->entityTypeName));
 			$this->tabId = $adb->query_result($result, 0, "tabid");

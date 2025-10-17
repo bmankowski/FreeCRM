@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ProjectMilestone\Models;
+namespace App\Modules\ProjectMilestone\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,15 +11,15 @@ namespace FreeCRM\Modules\ProjectMilestone\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param \FreeCRM\Modules\Vtiger\Models\ListView $listviewModel
+	 * @param \App\Modules\Vtiger\Models\ListView $listviewModel
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByRelatedField(\FreeCRM\Modules\Vtiger\Models\ListView $listviewModel, \App\QueryGenerator $queryGenerator)
+	public function getQueryByRelatedField(\App\Modules\Vtiger\Models\ListView $listviewModel, \App\QueryGenerator $queryGenerator)
 	{
 		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
@@ -34,7 +34,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		if (!\App\Record::isExists($id)) {
 			return;
 		}
-		$relatedListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
+		$relatedListView = \App\Modules\Vtiger\Models\RelationListView::getInstance(\App\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'estimated_work_time' => 'estimated_work_time',
 			'projecttaskprogress' => 'projecttaskprogress',
@@ -51,7 +51,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			return;
 		}
 		$projectMilestoneProgress = round((100 * $progressInHours) / $estimatedWorkTime);
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $this->getName());
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $this->getName());
 		$recordModel->set('projectmilestone_progress', $projectMilestoneProgress . '%');
 		$recordModel->save();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Actions;
+namespace App\Modules\Settings\DataAccess\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DeleteTemplate extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class DeleteTemplate extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$tplId = $request->get('tpl_id');
 		$db = \App\Db::getInstance();

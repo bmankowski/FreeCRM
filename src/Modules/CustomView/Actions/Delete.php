@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CustomView\Actions;
+namespace App\Modules\CustomView\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,18 +11,18 @@ namespace FreeCRM\Modules\CustomView\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Delete extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($request->get('record'));
+		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($request->get('record'));
 		$customViewModel->delete();
 		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
 		header("Location: $listViewUrl");
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

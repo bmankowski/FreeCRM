@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TimeControlProcesses\Views;
-use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module;
+namespace App\Modules\Settings\TimeControlProcesses\Views;
+use App\Modules\Settings\TimeControlProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,16 +14,16 @@ use FreeCRM\Modules\Settings\TimeControlProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
-		$moduleModel = \FreeCRM\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$moduleModel = \App\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
@@ -33,7 +33,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

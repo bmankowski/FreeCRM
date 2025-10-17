@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Actions;
+namespace App\Modules\Settings\MappedFields\Actions;
 
 
 
@@ -11,11 +11,11 @@ namespace FreeCRM\Modules\Settings\MappedFields\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
-class ExportTemplate extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
+class ExportTemplate extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);

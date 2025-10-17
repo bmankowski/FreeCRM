@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Calendar\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 Class Calendar_Edit_View extends Vtiger_Edit_View
 {
 
@@ -22,13 +22,13 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$this->exposeMethod('Calendar');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 			$mode = $recordModel->getType();
 		}
 
@@ -41,23 +41,23 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 
 	public function Events($request, $moduleName)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
 
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
 		} else if (!empty($record)) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $record);
 		} else {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
 		}
-		$eventModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$eventModule = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$recordModel->setModuleFromInstance($eventModule);
 
 		$moduleModel = $recordModel->getModule();
@@ -78,14 +78,14 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) {
 				if ($fieldName == 'date_start') {
 					$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
-					$startDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
+					$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
 					list($startDate, $startTime) = explode(' ', $startDateTime);
-					$fieldValue = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
+					$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
 				} else {
 					$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_end']);
-					$endDateTime = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $endTime);
+					$endDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $endTime);
 					list($endDate, $endTime) = explode(' ', $endDateTime);
-					$fieldValue = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($endDate);
+					$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($endDate);
 				}
 			}
 
@@ -93,7 +93,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 
 		$viewMode = $request->get('view_mode');
@@ -124,14 +124,14 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			}
 		}
 		$viewer->assign('USER_CHANGED_END_DATE_TIME', $userChangedEndDateTime);
-		$viewer->assign('TOMORROWDATE', \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d', time() + 86400)));
+		$viewer->assign('TOMORROWDATE', \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d', time() + 86400)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());

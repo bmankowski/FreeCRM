@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\ConfigModule;
+namespace App\Modules\Settings\Vtiger\Actions;
+use App\Modules\Settings\Vtiger\Models\ConfigModule;
 
 
 /* +**********************************************************************************
@@ -13,15 +13,15 @@ use FreeCRM\Modules\Settings\Vtiger\Models\ConfigModule;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ConfigEditorSaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class ConfigEditorSaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$qualifiedModuleName = $request->getModule(false);
 		$updatedFields = $request->get('updatedFields');
-		$moduleModel = \FreeCRM\Modules\Settings\Vtiger\Models\ConfigModule::getInstance();
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\ConfigModule::getInstance();
 
 		if ($updatedFields) {
 			$moduleModel->set('updatedFields', $updatedFields);
@@ -30,15 +30,15 @@ class ConfigEditorSaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basi
 			if ($status === true) {
 				$response->setResult(array($status));
 			} else {
-				$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($status, $qualifiedModuleName));
+				$response->setError(\App\Runtime\Vtiger_Language_Handler::translate($status, $qualifiedModuleName));
 			}
 		} else {
-			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
+			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
 		}
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -20,10 +20,10 @@
  * module's base entity class.
  * ****************************************************************************** */
 
-namespace FreeCRM;
+namespace App;
 
-use FreeCRM\database\PearDatabase;
-use FreeCRM\Utils\VTCacheUtils;
+use App\database\PearDatabase;
+use App\Utils\VTCacheUtils;
 use App\Cache;
 use App\Log;
 use App\Module;
@@ -34,7 +34,7 @@ use App\Record;
 use App\Field;
 use Db\Query;
 use EventHandler;
-use \FreeCRM\Modules\Vtiger\Models\Relation;
+use \App\Modules\Vtiger\Models\Relation;
 use Vtiger_Record_Model;
 
 require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
@@ -70,7 +70,7 @@ class CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->db = \FreeCRM\database\PearDatabase::getInstance();
+		$this->db = \App\database\PearDatabase::getInstance();
 		$this->column_fields = getColumnFields(get_class($this));
 	}
 
@@ -89,11 +89,11 @@ class CRMEntity
 		}
 
 		// Build namespaced class name for PSR-4 migrated modules
-		$namespacedClassName = "\FreeCRM\Modules\\{$module}\\{$modName}";
+		$namespacedClassName = "\App\Modules\\{$module}\\{$modName}";
 		
 		// File access security check
 		if (!class_exists($namespacedClassName) && !class_exists($modName)) {
-			if (\FreeCRM\AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
+			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
 				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$modName.php");
 				require_once("custom/modules/$module/$modName.php");
 			} else {
@@ -138,7 +138,7 @@ class CRMEntity
 	// Function which returns the value based on result type (array / ADODB ResultSet)
 	private function resolve_query_result_value($result, $index, $columnname)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if (is_array($result))
 			return $result[$index][$columnname];
 		else
@@ -151,7 +151,7 @@ class CRMEntity
 	 */
 	public function deleteRelation($table_name)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$check_query = "select * from $table_name where " . $this->tab_name_index[$table_name] . "=?";
 		$check_result = $adb->pquery($check_query, array($this->id));
 		$num_rows = $adb->num_rows($check_result);
@@ -170,7 +170,7 @@ class CRMEntity
 	{
 
 		Log::trace("in getOldFileName  " . $notesid);
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
 		$result = $adb->pquery($query1, array($notesid));
 		$noofrows = $adb->num_rows($result);
@@ -335,7 +335,7 @@ class CRMEntity
 	 */
 	public function checkIfCustomTableExists($tablename)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$query = sprintf("SELECT * FROM %s", $adb->sql_escape_string($tablename));
 		$result = $this->db->pquery($query, []);
 		$testrow = $this->db->getFieldsCount($result);
@@ -353,7 +353,7 @@ class CRMEntity
 	 */
 	public function constructCustomQueryAddendum($tablename, $module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$tabid = Module::getModuleId($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql1, array($tabid));
@@ -387,7 +387,7 @@ class CRMEntity
 	/** Function to initialize the required fields array for that particular module */
 	public function initRequiredFields($module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$tabid = Module::getModuleId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
@@ -455,8 +455,8 @@ class CRMEntity
 
 	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
+		$db = \App\database\PearDatabase::getInstance();
+		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
 		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
 	}
 
@@ -492,12 +492,12 @@ class CRMEntity
 				], ['crmid' => $id]
 			)->execute();
 		if ($result) {
-			if (!\FreeCRM\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			if (!\App\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 				Privilege::setUpdater($moduleName, $id, 6, 0);
 			}
 			//Event triggering code
 			$eventHandler = new App\EventHandler();
-			$eventHandler->setRecordModel(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id));
+			$eventHandler->setRecordModel(\App\Modules\Vtiger\Models\Record::getInstanceById($id));
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityAfterRestore');
 		}
@@ -506,7 +506,7 @@ class CRMEntity
 
 	public function checkModuleSeqNumber($table, $column, $no)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sql_escape_string($column), $adb->sql_escape_string($table), $adb->sql_escape_string($column)), [$no]);
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows > 0)
@@ -574,7 +574,7 @@ class CRMEntity
 			$crmid = $this->id;
 		}
 		if ($crmid) {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$result = $adb->pquery("SELECT viewedtime,modifiedtime,smcreatorid,smownerid,modifiedby FROM vtiger_crmentity WHERE crmid=?", Array($crmid));
 			$resinfo = $adb->fetch_array($result);
 
@@ -620,7 +620,7 @@ class CRMEntity
 
 	public function markAsViewed($userid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$adb->update('vtiger_crmentity', ['viewedtime' => date('Y-m-d H:i:s')], 'crmid = ? && smownerid = ?', [$this->id, $userid]);
 	}
 
@@ -650,8 +650,8 @@ class CRMEntity
 
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$referenceInfo = \FreeCRM\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
+		$db = \App\database\PearDatabase::getInstance();
+		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
 
 		foreach ($withCrmid as $relcrmid) {
 			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? && %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);
@@ -667,7 +667,7 @@ class CRMEntity
 
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule == 'Documents') {
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
@@ -705,7 +705,7 @@ class CRMEntity
 	 */
 	public function delete_related_module($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		if (!is_array($withCrmid))
 			$withCrmid = Array($withCrmid);
 		foreach ($withCrmid as $relcrmid) {
@@ -727,7 +727,7 @@ class CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -790,7 +790,7 @@ class CRMEntity
 
 	public function generateReportsQuery($module, $queryPlanner)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$primary = CRMEntity::getInstance($module);
 
 		vtlib_setup_modulevars($module, $primary);
@@ -914,7 +914,7 @@ class CRMEntity
 
 	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$secondary = CRMEntity::getInstance($secmodule);
 
 		vtlib_setup_modulevars($secmodule, $secondary);
@@ -1120,7 +1120,7 @@ class CRMEntity
 	 */
 	public function add_related_to($module, $fieldname)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$related_to = $this->column_fields[$fieldname];
 
@@ -1194,7 +1194,7 @@ class CRMEntity
 			return;
 		}
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		// Look for fields that has presence value NOT IN (0,2)
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		if ($cachedModuleFields === false) {
@@ -1230,7 +1230,7 @@ class CRMEntity
 	/** END * */
 	public function buildSearchQueryForFieldTypes($uitypes, $value = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if (!is_array($uitypes))
 			$uitypes = array($uitypes);
@@ -1383,7 +1383,7 @@ class CRMEntity
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .
 			$query;
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			return true;
@@ -1507,7 +1507,7 @@ class CRMEntity
 		Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 

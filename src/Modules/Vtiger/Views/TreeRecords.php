@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Basic TreeView View Class
@@ -9,25 +9,25 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class TreeRecords extends \Vtiger_Index_View
 {
 
-	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$treeViewModel = \FreeCRM\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
-		$pageTitle = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($treeViewModel->getName(), $moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$treeViewModel = \App\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
+		$pageTitle = \App\Runtime\Vtiger_Language_Handler::translate($treeViewModel->getName(), $moduleName);
 		return $pageTitle;
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$treeViewModel = \FreeCRM\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$treeViewModel = \App\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
 
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
@@ -36,24 +36,24 @@ class TreeRecords extends \Vtiger_Index_View
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function postProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CUSTOM_VIEWS', \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
 		if ($display) {
 			$this->postProcessDisplay($request);
 		}
 		parent::postProcess($request);
 	}
 
-	protected function postProcessDisplay(\FreeCRM\Http\Vtiger_Request $request)
+	protected function postProcessDisplay(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
@@ -63,12 +63,12 @@ class TreeRecords extends \Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$treeViewModel = \FreeCRM\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$treeViewModel = \App\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $filter);
+		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $filter);
 		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
 
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
@@ -83,7 +83,7 @@ class TreeRecords extends \Vtiger_Index_View
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
 
@@ -99,7 +99,7 @@ class TreeRecords extends \Vtiger_Index_View
 		return $scriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

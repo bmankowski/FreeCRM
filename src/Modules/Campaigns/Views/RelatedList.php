@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Campaigns\Views;
+namespace App\Modules\Campaigns\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,16 +12,16 @@ namespace FreeCRM\Modules\Campaigns\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class RelatedList extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$relatedModuleName = $request->get('relatedModule');
 		$viewer = $this->getViewer($request);
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			$viewer->assign('CUSTOM_VIEWS', \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($relatedModuleName));
+			$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($relatedModuleName));
 			//$viewer->assign('STATUS_VALUES', $relationModel->getCampaignRelationStatusValues());
 			$viewer->assign('SELECTED_IDS', $request->get('selectedIds'));
 			$viewer->assign('EXCLUDED_IDS', $request->get('excludedIds'));

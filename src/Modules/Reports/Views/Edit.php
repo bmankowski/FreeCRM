@@ -20,34 +20,34 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$this->exposeMethod('step3');
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$record = $request->get('record');
 		if ($record) {
-			$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
+			$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 			if (!$reportModel->isEditable()) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
+		$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 		$primaryModule = $reportModel->getPrimaryModule();
-		$primaryModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($primaryModule);
+		$primaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($primaryModule);
 		if ($primaryModuleModel) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-			$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($primaryModuleModel->getId());
 
 			if (!$permission) {
@@ -65,7 +65,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$viewer->view('EditHeader.tpl', $request->getModule());
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -75,14 +75,14 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		}
 	}
 
-	public function step1(\FreeCRM\Http\Vtiger_Request $request)
+	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$weekDays = ['Sunday' => 0, 'Monday' => 1, 'Tuesday' => 2, 'Wednesday' => 3, 'Thursday' => 4, 'Friday' => 5, 'Saturday' => 6];
 
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
+		$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 		if (!$reportModel->has('folderid')) {
 			$reportModel->set('folderid', $request->get('folder'));
 		}
@@ -111,11 +111,11 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 			$translatedRelatedModules = array();
 
 			foreach ($relatedModuleList as $relatedModuleName) {
-				$translatedRelatedModules[$relatedModuleName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relatedModuleName, $relatedModuleName);
+				$translatedRelatedModules[$relatedModuleName] = \App\Runtime\Vtiger_Language_Handler::translate($relatedModuleName, $relatedModuleName);
 			}
 			$relatedModules[$primaryModule] = $translatedRelatedModules;
 		}
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer->assign('SCHEDULEDREPORTS', $reportModel->getScheduledReport());
 		$viewer->assign('MODULELIST', $modulesList);
@@ -125,7 +125,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('CURRENT_USER', $currentUserModel);
-		$viewer->assign('ROLES', \FreeCRM\Modules\Settings\Roles\Models\Record::getAll());
+		$viewer->assign('ROLES', \App\Modules\Settings\Roles\Models\Record::getAll());
 		$viewer->assign('WEEK_START_ID', $weekDays[$currentUserModel->get('dayoftheweek')]);
 		$admin = Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
@@ -142,7 +142,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
+		$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 		if (!empty($record)) {
 			$viewer->assign('SELECTED_FIELDS', $reportModel->getSelectedFields());
 			$viewer->assign('SELECTED_SORT_FIELDS', $reportModel->getSelectedSortFields());
@@ -219,13 +219,13 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$viewer->view('step2.tpl', $moduleName);
 	}
 
-	public function step3(\FreeCRM\Http\Vtiger_Request $request)
+	public function step3(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getCleanInstance($record);
+		$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 		if (!empty($record)) {
 			$viewer->assign('SELECTED_STANDARD_FILTER_FIELDS', $reportModel->getSelectedStandardFilter());
 			$viewer->assign('SELECTED_ADVANCED_FILTER_FIELDS', $reportModel->transformToNewAdvancedFilter());
@@ -255,7 +255,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('REPORT_MODEL', $reportModel);
 		$viewer->assign('PRIMARY_MODULE', $primaryModule);
 
-		$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 
@@ -290,7 +290,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		if (($primaryModule == 'Calendar') || (in_array('Calendar', $secondaryModules))) {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \FreeCRM\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -309,9 +309,9 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -328,7 +328,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

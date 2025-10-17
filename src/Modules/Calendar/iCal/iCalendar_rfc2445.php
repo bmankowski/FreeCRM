@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\iCal;
+namespace App\Modules\Calendar\iCal;
 // $Id: iCalendar_rfc2445.php,v 1.7 2005/07/21 23:23:48 defacer Exp $
 
 /*

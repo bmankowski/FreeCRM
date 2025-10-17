@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PickList;
+namespace App\Modules\PickList;
 
 /* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PickList;
  * All Rights Reserved.
  * ******************************************************************************* */
 
-use FreeCRM\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
+use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 require_once ROOT_DIRECTORY . '/src/Modules/PickList/PickListUtils.php';
 
@@ -19,7 +19,7 @@ class DependencyPicklist {
 
 	static function getDependentPicklistFields($module = '')
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if (empty($module)) {
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', array());
@@ -49,9 +49,9 @@ class DependencyPicklist {
 				$forModule = \App\Module::getModuleName($fieldTabId);
 				$dependentPicklists[] = array(
 					'sourcefield' => $sourceField,
-					'sourcefieldlabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($sourceFieldLabel, $forModule),
+					'sourcefieldlabel' => \App\Runtime\Vtiger_Language_Handler::translate($sourceFieldLabel, $forModule),
 					'targetfield' => $targetField,
-					'targetfieldlabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($targetFieldLabel, $forModule),
+					'targetfieldlabel' => \App\Runtime\Vtiger_Language_Handler::translate($targetFieldLabel, $forModule),
 					'module' => $forModule
 				);
 			}
@@ -61,7 +61,7 @@ class DependencyPicklist {
 
 	static function getAvailablePicklists($module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$tabId = \App\Module::getModuleId($module);
 
@@ -160,7 +160,7 @@ class DependencyPicklist {
 
 	static function getPicklistDependencyDatasource($module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$tabId = \App\Module::getModuleId($module);
 
@@ -213,7 +213,7 @@ class DependencyPicklist {
 
 	static function getDependentPickListModules()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$query = 'SELECT distinct vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name as tabname FROM vtiger_field
 						INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid

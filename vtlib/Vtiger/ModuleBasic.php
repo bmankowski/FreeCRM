@@ -15,7 +15,7 @@ namespace vtlib;
  * @package vtlib
  */
 
-use FreeCRM\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
+use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class ModuleBasic
 {
 

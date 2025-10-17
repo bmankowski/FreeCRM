@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar;
+namespace App\Modules\Calendar;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -26,7 +26,7 @@ namespace FreeCRM\Modules\Calendar;
 require_once('src/Modules/Calendar/CalendarCommon.php');
 
 // Task is used to store customer information.
-class Activity extends \FreeCRM\CRMEntity
+class Activity extends \App\CRMEntity
 {
 
 	public $table_name = "vtiger_activity";
@@ -101,7 +101,7 @@ class Activity extends \FreeCRM\CRMEntity
 
 	public function __construct()
 	{
-		$this->db = \FreeCRM\database\PearDatabase::getInstance();
+		$this->db = \App\database\PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Calendar');
 	}
 
@@ -126,8 +126,8 @@ class Activity extends \FreeCRM\CRMEntity
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		if (\FreeCRM\Http\AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('sorder'));
+		if (\App\Http\AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder method ...');
@@ -144,12 +144,12 @@ class Activity extends \FreeCRM\CRMEntity
 		\App\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (\FreeCRM\Http\AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(\FreeCRM\Http\AppRequest::get('order_by'));
+		if (\App\Http\AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -189,7 +189,7 @@ class Activity extends \FreeCRM\CRMEntity
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
 			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
-			if (\FreeCRM\Http\AppRequest::get('set_reminder') == 'Yes') {
+			if (\App\Http\AppRequest::get('set_reminder') == 'Yes') {
 				$this->db->insert($this->reminder_table, [
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,
@@ -346,7 +346,7 @@ class Activity extends \FreeCRM\CRMEntity
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
 			"int(1) default 0) ignore " . $query;
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
@@ -366,7 +366,7 @@ class Activity extends \FreeCRM\CRMEntity
 
 	protected function getListViewAccessibleUsers($sharedid)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		;
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
@@ -400,7 +400,7 @@ class Activity extends \FreeCRM\CRMEntity
 					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Module::getModuleId($module)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = \FreeCRM\Loader::getComponentClassName('Model', 'Field', $module);
+				$className = \App\Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -415,7 +415,7 @@ class Activity extends \FreeCRM\CRMEntity
 		}
 		foreach ($results as $row) {
 			\App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, \FreeCRM\CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, \App\CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}
 }

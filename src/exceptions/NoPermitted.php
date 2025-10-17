@@ -12,10 +12,10 @@ class NoPermitted extends \Exception
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\FreeCRM\Http\Vtiger_Session::init();
+		\App\Http\Vtiger_Session::init();
 
-		$request = \FreeCRM\Http\AppRequest::init();
-		$userName = \FreeCRM\Http\Vtiger_Session::get('full_user_name');
+		$request = \App\Http\AppRequest::init();
+		$userName = \App\Http\Vtiger_Session::get('full_user_name');
 		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),

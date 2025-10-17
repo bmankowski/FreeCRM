@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 class TransferOwnership extends Model
 {
@@ -16,9 +16,9 @@ class TransferOwnership extends Model
 
 	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [], $relModData)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$basicModule = $request->getModule();
-		$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($basicModule);
+		$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($basicModule);
 		$relatedIds = [];
 		$relModData = explode('::', $relModData);
 		$relatedModule = $relModData[0];
@@ -28,7 +28,7 @@ class TransferOwnership extends Model
 
 				$field = $relModData[2];
 				foreach ($recordIds as $recordId) {
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $basicModule);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $basicModule);
 					if ($recordModel->get($field) != 0 && \vtlib\Functions::getCRMRecordType($recordModel->get($field)) == $relatedModule) {
 						$relatedIds[] = $recordModel->get($field);
 					}
@@ -37,9 +37,9 @@ class TransferOwnership extends Model
 				break;
 			case 1:
 
-				$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-				$instance = \FreeCRM\CRMEntity::getInstance($relatedModule);
-				$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModuleModel);
+				$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+				$instance = \App\CRMEntity::getInstance($relatedModule);
+				$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModuleModel);
 				$fieldModel = $relationModel->getRelationField();
 				$tablename = $fieldModel->get('table');
 				$tabIndex = $instance->table_index;
@@ -58,8 +58,8 @@ class TransferOwnership extends Model
 				break;
 			case 2:
 				foreach ($recordIds as $recordId) {
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $basicModule);
-					$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModule);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $basicModule);
+					$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($recordModel, $relatedModule);
 					$relatedIds = $relationListView->getRelationQuery()->select(['vtiger_crmentity.crmid'])
 						->distinct()
 						->column();
@@ -103,12 +103,12 @@ class TransferOwnership extends Model
 
 	public static function getInstance($module)
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('transferOwnership', $module);
+		$instance = \App\Runtime\Vtiger_Cache::get('transferOwnership', $module);
 		if (!$instance) {
-			$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
+			$modelClassName = \App\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 			$instance = new $modelClassName();
 			$instance->set('module', $module);
-			\FreeCRM\Runtime\Vtiger_Cache::set('transferOwnership', $module, $instance);
+			\App\Runtime\Vtiger_Cache::set('transferOwnership', $module, $instance);
 		}
 		return $instance;
 	}
@@ -116,7 +116,7 @@ class TransferOwnership extends Model
 	public function getRelationsByFields($privileges = true)
 	{
 		$module = $this->get('module');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 		$relatedModelFields = $moduleModel->getFields();
 
 		$relatedModules = [];
@@ -124,7 +124,7 @@ class TransferOwnership extends Model
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $relation) {
-					if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($relation, 'EditView')) {
+					if (\App\Modules\Users\Models\Privileges::isPermitted($relation, 'EditView')) {
 						$relatedModules[] = ['name' => $relation, 'field' => $fieldName];
 					}
 				}
@@ -136,14 +136,14 @@ class TransferOwnership extends Model
 	public function getRelationsByRelatedList($privileges = true)
 	{
 		$module = $this->get('module');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 		$relatedModelFields = $moduleModel->getFields();
 
 		$relatedModules = [];
 		$relations = $moduleModel->getRelations();
 		foreach ($relations as $relation) {
 			$relationModule = $relation->getRelationModuleName();
-			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($relationModule, 'EditView')) {
+			if (\App\Modules\Users\Models\Privileges::isPermitted($relationModule, 'EditView')) {
 				$relatedModules[] = [
 					'name' => $relationModule,
 					'type' => $relation->getRelationType(),
@@ -155,7 +155,7 @@ class TransferOwnership extends Model
 
 	public function getRelatedColumnName($relatedModule, $findModule)
 	{
-		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 		$relatedModelFields = $relatedModuleModel->getFields();
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {

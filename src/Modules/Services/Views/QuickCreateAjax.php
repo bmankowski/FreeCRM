@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Views;
+namespace App\Modules\Services\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,16 +13,16 @@ namespace FreeCRM\Modules\Services\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\JsScript[]
+	 * @return \App\Modules\Vtiger\Models\JsScript[]
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = ['modules.Products.resources.Edit'];

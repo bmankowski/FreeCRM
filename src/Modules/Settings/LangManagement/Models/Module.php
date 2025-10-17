@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LangManagement\Models;
-use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
+namespace App\Modules\Settings\LangManagement\Models;
+use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 
@@ -11,7 +11,7 @@ use FreeCRM\Modules\Settings\LangManagement\Models\Module as Settings_LangManage
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	const url_separator = '^';
@@ -47,7 +47,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			} else {
 				$qualifiedName = "languages.$lang.$mod";
 			}
-			$fileName = \FreeCRM\Vtiger_Loader::resolveNameToPath($qualifiedName);
+			$fileName = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
 			if (file_exists($fileName)) {
 				$fileContent = file($fileName);
 				foreach ($fileContent as $key => $file_row) {
@@ -100,7 +100,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = \FreeCRM\Vtiger_Loader::resolveNameToPath($qualifiedName);
+		$fileName = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require $fileName;
@@ -161,7 +161,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = \FreeCRM\Vtiger_Loader::resolveNameToPath($qualifiedName);
+		$fileName = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require($fileName);
@@ -284,7 +284,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $mod);
+			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \App\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $mod);
 			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = array('view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']);
 			foreach ($langs AS $lang) {
 				$output['php'][$mod . '|' . $row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod . '|' . $row['fieldlabel']][$lang]);
@@ -330,9 +330,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			if (self::parse_data('|', $lang)) {
 				$langArray = explode("|", $lang);
 				unset($langs[$key]);
-				$settings[$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($langArray[1], 'Settings:' . $langArray[1]);
+				$settings[$key] = \App\Runtime\Vtiger_Language_Handler::translate($langArray[1], 'Settings:' . $langArray[1]);
 			} else {
-				$langs[$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $key);
+				$langs[$key] = \App\Runtime\Vtiger_Language_Handler::translate($key, $key);
 			}
 		}
 		return array('mods' => $langs, 'settings' => $settings);

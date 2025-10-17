@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 
 
-namespace FreeCRM\Runtime\Cache;
+namespace App\Runtime\Cache;
 
 class Vtiger_Cache_Connector
 {

@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * **************************************************************************** */
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
-use FreeCRM\database\PearDatabase;
+use App\database\PearDatabase;
 
 require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 
@@ -38,7 +38,7 @@ class WebserviceField
 
 	/**
 	 *
-	 * @var \FreeCRM\database\PearDatabase
+	 * @var \App\database\PearDatabase
 	 */
 	private $typeOfData;
 	private $fieldDataType;
@@ -228,7 +228,7 @@ class WebserviceField
 		if (isset(WebserviceField::$tableMeta[$this->getTableName()])) {
 			$tableFields = WebserviceField::$tableMeta[$this->getTableName()];
 		} else {
-			$dbMetaColumns = \FreeCRM\database\PearDatabase::getInstance()->getColumnsMeta($this->getTableName());
+			$dbMetaColumns = \App\database\PearDatabase::getInstance()->getColumnsMeta($this->getTableName());
 			$tableFields = [];
 			foreach ($dbMetaColumns as $key => $dbField) {
 				$tableFields[$dbField->name] = $dbField;
@@ -306,7 +306,7 @@ class WebserviceField
 						array_push($referenceTypes, $row['type']);
 				}
 			} else {
-				$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstanceFromFieldId($this->getFieldId());
+				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstanceFromFieldId($this->getFieldId());
 				$referenceTypes = $fieldModel->getUITypeModel()->getReferenceList();
 			}
 			$referenceTypesUnsorted = array_values(array_intersect($accessibleTypes, $referenceTypes));
@@ -357,7 +357,7 @@ class WebserviceField
 
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$result = $db->pquery('select * from vtiger_ws_fieldtype', []);
 			while ($resultrow = $db->fetch_array($result)) {
 				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
@@ -391,7 +391,7 @@ class WebserviceField
 	public function getPickListOptions()
 	{
 		$fieldName = $this->getFieldName();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
 		$options = [];
 		$sql = "select * from vtiger_picklist where name=?";
@@ -408,7 +408,7 @@ class WebserviceField
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
-				$elem["label"] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($picklistValue, $moduleName);
+				$elem["label"] = \App\Runtime\Vtiger_Language_Handler::translate($picklistValue, $moduleName);
 				$elem["value"] = $picklistValue;
 				array_push($options, $elem);
 			}
@@ -421,7 +421,7 @@ class WebserviceField
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
-				$elem["label"] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($picklistValue, $moduleName);
+				$elem["label"] = \App\Runtime\Vtiger_Language_Handler::translate($picklistValue, $moduleName);
 				$elem["value"] = $picklistValue;
 				array_push($options, $elem);
 			}
@@ -441,14 +441,14 @@ class WebserviceField
 		if (count(self::$treeDetails) > 0) {
 			return self::$treeDetails;
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
 		$module = $db->getSingleValue($result);
 		$moduleName = \App\Module::getModuleName($module);
 
 		$result = $db->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
 		while ($row = $db->fetch_array($result)) {
-			self::$treeDetails[$row['tree']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['label'], $moduleName);
+			self::$treeDetails[$row['tree']] = \App\Runtime\Vtiger_Language_Handler::translate($row['label'], $moduleName);
 		}
 		return self::$treeDetails;
 	}

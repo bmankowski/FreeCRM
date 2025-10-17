@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Actions;
+namespace App\Modules\Users\Actions;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,15 +12,15 @@ namespace FreeCRM\Modules\Users\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Runtime\Vtiger_Action_Controller;
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\CRMEntity;
-use FreeCRM\AppConfig;
-use FreeCRM\Http\Vtiger_Session;
+use App\Runtime\Vtiger_Action_Controller;
+use App\Http\Vtiger_Request;
+use App\CRMEntity;
+use App\AppConfig;
+use App\Http\Vtiger_Session;
 
-use FreeCRM\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
+use App\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
 
-class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Login extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function loginRequired()
@@ -28,7 +28,7 @@ class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return false;
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
@@ -37,11 +37,11 @@ class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Function verifies application access
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
-		$moduleModel = \FreeCRM\Modules\Users\Models\Module::getInstance('Users');
+		$moduleModel = \App\Modules\Users\Models\Module::getInstance('Users');
 		$bfInstance = class_exists('Settings_BruteForce_Module_Model') ? Settings_BruteForce_Module_Model::getCleanInstance() : null;
 		if ($bfInstance && $bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
@@ -51,19 +51,19 @@ class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			header('Location: index.php?module=Users&view=Login&error=2');
 			return false;
 		}
-		$user = \FreeCRM\CRMEntity::getInstance('Users');
+		$user = \App\CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $username;
 		if (!empty($password) && $user->doLogin($password)) {
-			if (\FreeCRM\AppConfig::main('session_regenerate_id')) {
+			if (\App\AppConfig::main('session_regenerate_id')) {
 				Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 			}
 			$userId = $user->column_fields['id'];
 			Vtiger_Session::set('authenticated_user_id', $userId);
-			Vtiger_Session::set('app_unique_key', \FreeCRM\AppConfig::main('application_unique_key'));
+			Vtiger_Session::set('app_unique_key', \App\AppConfig::main('application_unique_key'));
 			Vtiger_Session::set('user_name', $username);
 			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 
-			if ($request->has('loginLanguage') && \FreeCRM\AppConfig::main('langInLoginView')) {
+			if ($request->has('loginLanguage') && \App\AppConfig::main('langInLoginView')) {
 				Vtiger_Session::set('language', $request->get('loginLanguage'));
 			}
 			if ($request->has('layout')) {
@@ -78,7 +78,7 @@ class Login extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-				if (\FreeCRM\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\User::getUserModel($userId)->isAdmin()) {
+				if (\App\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\User::getUserModel($userId)->isAdmin()) {
 					header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 				} else {
 					header('Location: index.php');

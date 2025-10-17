@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Basic PDF Model Class
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
+use App\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 class PDF extends Model
 {
 
@@ -46,7 +46,7 @@ class PDF extends Model
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return \FreeCRM\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
+		return \App\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
 	}
 
 	public function get($key)
@@ -94,7 +94,7 @@ class PDF extends Model
 
 	public function getModule()
 	{
-		return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('module_name'));
+		return \App\Modules\Vtiger\Models\Module::getInstance($this->get('module_name'));
 	}
 
 	/**
@@ -159,7 +159,7 @@ class PDF extends Model
 				->createCommand()->query();
 		$templates = [];
 		while ($row = $dataReader->read()) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdf = new $handlerClass();
 			$pdf->setData($row);
 			$templates[] = $pdf;
@@ -171,11 +171,11 @@ class PDF extends Model
 	 * Get PDF instance by id
 	 * @param int $recordId
 	 * @param string $moduleName
-	 * @return \FreeCRM\Modules\Vtiger\Models\PDF|boolean
+	 * @return \App\Modules\Vtiger\Models\PDF|boolean
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		$pdf = \FreeCRM\Runtime\Vtiger_Cache::get('PDFModel', $recordId);
+		$pdf = \App\Runtime\Vtiger_Cache::get('PDFModel', $recordId);
 		if ($pdf) {
 			return $pdf;
 		}
@@ -187,10 +187,10 @@ class PDF extends Model
 			$moduleName = $row['module_name'];
 		}
 
-		$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
-		\FreeCRM\Runtime\Vtiger_Cache::set('PDFModel', $recordId, $pdf);
+		\App\Runtime\Vtiger_Cache::set('PDFModel', $recordId, $pdf);
 		return $pdf;
 	}
 
@@ -213,7 +213,7 @@ class PDF extends Model
 
 	public function deleteConditions()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->update(self::$baseTable, [
 			'conditions' => ''
 			], self::$baseIndex . ' = ? LIMIT 1', [$this->getId()]
@@ -242,7 +242,7 @@ class PDF extends Model
 		}
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
 		$conditionStrategy = new VTJsonCondition();
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
 		$test = $conditionStrategy->evaluate($conditions, $recordModel);
 		\App\Cache::staticSave(__METHOD__, $key, $test);
@@ -255,7 +255,7 @@ class PDF extends Model
 		if (empty($permissions)) {
 			return true;
 		}
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$permissions = explode(',', $permissions);
 		$getTypes = [];
 		foreach ($permissions as $name) {
@@ -412,7 +412,7 @@ class PDF extends Model
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = \FreeCRM\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+		$handlerClass = \App\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}

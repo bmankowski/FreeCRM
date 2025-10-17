@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Models;
+namespace App\Modules\Settings\LayoutEditor\Models;
 
 
 /* +**********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\LayoutEditor\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Block as Vtiger_Block_Model;
+use App\Modules\Vtiger\Models\Block as Vtiger_Block_Model;
 class Block extends \Vtiger_Block_Model
 {
 

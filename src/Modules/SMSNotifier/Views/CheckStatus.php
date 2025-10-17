@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SMSNotifier\Views;
+namespace App\Modules\SMSNotifier\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,25 +12,25 @@ namespace FreeCRM\Modules\SMSNotifier\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class CheckStatus extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
+		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$notifierRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'), $moduleName);
+		$notifierRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		$notifierRecordModel->checkStatus();
 
 		$viewer->assign('RECORD', $notifierRecordModel);

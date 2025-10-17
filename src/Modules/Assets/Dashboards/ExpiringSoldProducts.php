@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Assets\Dashboards;
+namespace App\Modules\Assets\Dashboards;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,17 +13,17 @@ namespace FreeCRM\Modules\Assets\Dashboards;
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class ExpiringSoldProducts extends \Vtiger_Index_View
 {
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('RELATED_MODULE', 'Assets');
 		$viewer->assign('MODULE_NAME', $moduleName);

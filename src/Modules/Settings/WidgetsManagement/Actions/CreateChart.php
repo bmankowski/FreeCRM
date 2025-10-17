@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WidgetsManagement\Actions;
+namespace App\Modules\Settings\WidgetsManagement\Actions;
 
 
 
@@ -10,12 +10,12 @@ namespace FreeCRM\Modules\Settings\WidgetsManagement\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class CreateChart extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class CreateChart extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$linkId = $request->get('linkId');
 		$chartName = $request->get('chartName');
 		$blockid = $request->get('blockid');
@@ -38,7 +38,7 @@ class CreateChart extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$result = [];
 		$result['success'] = true;
 		$result['widgetId'] = $id;
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Dashboards;
+namespace App\Modules\Leads\Dashboards;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Leads\Dashboards;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class LeadsCreated extends \Vtiger_Index_View
 {
@@ -19,7 +19,7 @@ class LeadsCreated extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(Vtiger_Request $request)
 	{
@@ -38,7 +38,7 @@ class LeadsCreated extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -48,14 +48,14 @@ class LeadsCreated extends \Vtiger_Index_View
 
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getLeadsCreated($owner, $dates);
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		//Include special script and css needed for this widget
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));

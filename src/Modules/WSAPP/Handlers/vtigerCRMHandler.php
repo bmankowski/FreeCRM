@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP\Handlers;
+namespace App\Modules\WSAPP\Handlers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -220,7 +220,7 @@ class vtigerCRMHandler extends SyncHandler
 
 	public function translateTheReferenceFieldIdsToName($records, $module, $user)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$current_user = $user;
 		$handler = vtws_getModuleHandlerFromName($module, $user);

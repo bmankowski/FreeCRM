@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -17,7 +17,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * This class serves as a base for all model classes in the PSR-4 structure.
  * It extends the runtime base model to provide backward compatibility.
  */
-class Model extends \FreeCRM\Runtime\Vtiger_Base_Model
+class Model extends \App\Runtime\Vtiger_Base_Model
 {
 	// This class intentionally empty - serves as namespace bridge
 	// All functionality inherited from Vtiger_Base_Model

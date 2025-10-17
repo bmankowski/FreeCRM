@@ -19,13 +19,13 @@ function getContactsMailsFromTicket($id)
 	if (empty($id)) {
 		return [];
 	}
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	$mails = [];
 	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
 	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
 	while ($contactId = $db->getSingleValue($result)) {
 		if (\App\Record::isExists($contactId)) {
-			$contactRecord = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($contactId, 'Contacts');
+			$contactRecord = \App\Modules\Vtiger\Models\Record::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
 			if (($contactRecord->get('emailoptout') == 1 || !AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
 				$mails[] = $primaryEmail;
@@ -37,9 +37,9 @@ function getContactsMailsFromTicket($id)
 
 /**
  * Function to send mail to contacts. Function invoke by workflow
- * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+ * @param \App\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskChangeNotifyContacts(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+function HelpDeskChangeNotifyContacts(\App\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskChangeNotifyContacts');
 	$recordId = $recordModel->getId();
@@ -57,9 +57,9 @@ function HelpDeskChangeNotifyContacts(\FreeCRM\Modules\Vtiger\Models\Record $rec
 
 /**
  * Function to send mail to contacts. Function invoke by workflow
- * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+ * @param \App\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskClosedNotifyContacts(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+function HelpDeskClosedNotifyContacts(\App\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskClosedNotifyContacts');
 	$recordId = $recordModel->getId();
@@ -77,11 +77,11 @@ function HelpDeskClosedNotifyContacts(\FreeCRM\Modules\Vtiger\Models\Record $rec
 
 /**
  * Function to send mail to accounts. Function invoke by workflow
- * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+ * @param \App\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskNewCommentAccount(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+function HelpDeskNewCommentAccount(\App\Modules\Vtiger\Models\Record $recordModel)
 {
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
 	$moduleName = \vtlib\Functions::getCRMRecordType($relatedToId);
@@ -111,9 +111,9 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 
 /**
  * Function to send mail to contacts. Function invoke by workflow
- * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+ * @param \App\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskNewCommentContacts(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+function HelpDeskNewCommentContacts(\App\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$mails = getContactsMailsFromTicket($recordModel->get('related_to'));
@@ -130,12 +130,12 @@ function HelpDeskNewCommentContacts(\FreeCRM\Modules\Vtiger\Models\Record $recor
 
 /**
  * Function to send mail to users. Function invoke by workflow
- * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+ * @param \App\Modules\Vtiger\Models\Record $recordModel
  */
-function HelpDeskNewCommentOwner(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+function HelpDeskNewCommentOwner(\App\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
-	$db = \FreeCRM\database\PearDatabase::getInstance();
+	$db = \App\database\PearDatabase::getInstance();
 	$relatedToId = $recordModel->get('related_to');
 	$mails = [];
 	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 && crmid = ? ';

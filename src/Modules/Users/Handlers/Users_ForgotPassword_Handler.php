@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Handlers;
+namespace App\Modules\Users\Handlers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -19,7 +19,7 @@ class Users_ForgotPassword_Handler {
 		$site_URL = rtrim(vglobal('site_URL'), '/');
 		$request = new Vtiger_Request($data);
 		$userName = $request->get('username');
-		$viewer = FreeCRM_Viewer::getInstance();
+		$viewer = CRM_Viewer::getInstance();
 		$companyModel = \App\Company::getInstanceById();
 		$logo = $companyModel->getLogo();
 		$moduleName = 'Users';

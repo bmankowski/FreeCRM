@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Widgets;
+namespace App\Modules\Vtiger\Widgets;
 
 /**
  * Class for history widget
@@ -10,8 +10,8 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-class HistoryRelation extends \FreeCRM\Modules\Vtiger\Widgets\Basic
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+class HistoryRelation extends \App\Modules\Vtiger\Widgets\Basic
 {
 
 	/**
@@ -66,10 +66,10 @@ class HistoryRelation extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 	/**
 	 * Function gets records for timeline widget
 	 * @param Vtiger_Request $request
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return array - List of records
 	 */
-	public static function getHistory(Vtiger_Request $request, \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
+	public static function getHistory(Vtiger_Request $request, \App\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$db = \App\Db::getInstance();
 		$recordId = $request->get('record');
@@ -96,14 +96,14 @@ class HistoryRelation extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 				$row['userModel'] = $groups[$row['user']];
 			} else {
 				$row['isGroup'] = false;
-				$row['userModel'] = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($row['user']);
+				$row['userModel'] = \App\Modules\Users\Models\Privileges::getInstanceById($row['user']);
 			}
 			$row['class'] = self::$colors[$row['type']];
 			if (strpos($row['type'], 'OSSMailView') !== false) {
 				$row['type'] = 'OSSMailView';
-				$row['url'] = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
+				$row['url'] = \App\Modules\Vtiger\Models\Module::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
 			} else {
-				$row['url'] = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($row['type'])->getDetailViewUrl($row['id']);
+				$row['url'] = \App\Modules\Vtiger\Models\Module::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
 			$body = trim(\App\Purifier::purify($row['body']));
 			if (!$request->getBoolean('isFullscreen')) {

@@ -1,27 +1,27 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 
 class SmartDetail extends \Vtiger_Index_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -30,7 +30,7 @@ class SmartDetail extends \Vtiger_Index_View
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$recordStrucure = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \FreeCRM\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 
 		$moduleModel = $recordModel->getModule();
@@ -40,7 +40,7 @@ class SmartDetail extends \Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', false);
 		$viewer->view('SmartDetail.tpl', $moduleName);

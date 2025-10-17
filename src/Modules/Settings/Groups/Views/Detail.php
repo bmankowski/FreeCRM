@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Groups\Views;
+namespace App\Modules\Settings\Groups\Views;
 
 
 /* +***********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\Groups\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-Class Settings_Groups_Detail_View extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+Class Settings_Groups_Detail_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		$groupId = $request->get('record');
@@ -28,7 +28,7 @@ Class Settings_Groups_Detail_View extends \FreeCRM\Modules\Settings\Vtiger\Views
 
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}

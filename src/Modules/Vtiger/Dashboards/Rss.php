@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Dashboards;
+namespace App\Modules\Vtiger\Dashboards;
 
 /**
  * Widget to display RSS
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Dashboards;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class Rss extends \Vtiger_Index_View
 {
@@ -16,7 +16,7 @@ class Rss extends \Vtiger_Index_View
 	public function process(Vtiger_Request $request, $widget = NULL)
 	{
 		require_once 'libraries/RSSFeeds/Feed.php';
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if ($widget && !$request->has('widgetid')) {
@@ -24,7 +24,7 @@ class Rss extends \Vtiger_Index_View
 		} else {
 			$widgetId = $request->get('widgetid');
 		}
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
 		$data = \App\Json::decode(decode_html($data));
 		$listSubjects = [];

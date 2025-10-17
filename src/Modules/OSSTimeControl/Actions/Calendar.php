@@ -2,9 +2,9 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\OSSTimeControl\Actions;
+namespace App\Modules\OSSTimeControl\Actions;
 
-class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Calendar extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -14,7 +14,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -22,15 +22,15 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function getEvent(\FreeCRM\Http\Vtiger_Request $request)
+	public function getEvent(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('id');
@@ -44,12 +44,12 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 		$entity = $record->getEntity();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
 	}
 
-	public function updateEvent(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateEvent(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');
@@ -62,7 +62,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			if (!empty($recordId)) {
 				try {
 					$delta = $request->get('delta');
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 					$recordData = $recordModel->entity->column_fields;
 					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
 					$due_date = $end['date'];
@@ -79,7 +79,7 @@ class Calendar extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($succes);
 		$response->emit();
 	}

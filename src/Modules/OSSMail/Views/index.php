@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Views;
+namespace App\Modules\OSSMail\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\OSSMail\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class index extends \Vtiger_Index_View
 {
 
@@ -22,12 +22,12 @@ class index extends \Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->mainUrl = \FreeCRM\Modules\OSSMail\Models\Record::getSiteUrl() . $this->mainUrl;
+		$this->mainUrl = \App\Modules\OSSMail\Models\Record::getSiteUrl() . $this->mainUrl;
 	}
 
 	public function initAutologin()
 	{
-		$config = \FreeCRM\Modules\Settings\Mail\Models\Config::getConfig('autologin');
+		$config = \App\Modules\Settings\Mail\Models\Config::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {
 			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if ($account) {
@@ -40,8 +40,8 @@ class index extends \Vtiger_Index_View
 					$this->mainUrl .= '?';
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
-				$db = \FreeCRM\database\PearDatabase::getInstance();
-				$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+				$db = \App\database\PearDatabase::getInstance();
+				$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
 				$params = ['language' => Vtiger_Language_Handler::getLanguage()];
 				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);
@@ -55,14 +55,14 @@ class index extends \Vtiger_Index_View
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$this->initAutologin();
 
 		parent::preProcess($request, $display);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

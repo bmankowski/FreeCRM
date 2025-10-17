@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSSoldServices\Models;
+namespace App\Modules\OSSSoldServices\Models;
 
 /**
  * Record Class for OSSSoldServices
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OSSSoldServices\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];
@@ -38,7 +38,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if ($this->isEmpty('serviceid')) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
-		$productsRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($this->get('serviceid'), 'Services');
+		$productsRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($this->get('serviceid'), 'Services');
 		$renewable = $productsRecordModel->get('renewable');
 		if (!$renewable) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
@@ -47,9 +47,9 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			return 'PLL_RENEWED_VERIFICATION';
 		}
 		$dateInService = strtotime($this->get('dateinservice'));
-		$renewalTime = \FreeCRM\AppConfig::module('OSSSoldServices', 'RENEWAL_TIME');
+		$renewalTime = \App\AppConfig::module('OSSSoldServices', 'RENEWAL_TIME');
 		$dateRenewable = strtotime('-' . $renewalTime, $dateInService);
-		$classFunction = \FreeCRM\AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = \App\AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
 		$methodExist = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
 			$methodExist = true;

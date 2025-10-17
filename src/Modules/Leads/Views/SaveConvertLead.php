@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Views;
+namespace App\Modules\Leads\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Leads\Views;
  * *********************************************************************************** */
 require_once ROOT_DIRECTORY . '/src/Webservices/ConvertLead.php';
 
-class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
+class SaveConvertLead extends \App\Runtime\Vtiger_View_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ConvertLead')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -31,23 +31,23 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
-		if (!\FreeCRM\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		if (!\App\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$modules = $request->get('modules');
 		$assignId = $request->get('assigned_user_id');
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$entityValues = [];
 		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
@@ -55,7 +55,7 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$entityValues['leadId'] = $recordId;
 		$createAlways = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'create_always');
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $request->getModule());
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $request->getModule());
 		$convertLeadFields = $recordModel->getConvertLeadFields();
 		$availableModules = ['Accounts'];
 		foreach ($availableModules as $module) {
@@ -72,14 +72,14 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 		try {
 			$results = true;
 			if ($createAlways === true || $createAlways === 'true') {
-				$leadModel = \FreeCRM\Modules\Vtiger\Models\Module::getCleanInstance($request->getModule());
+				$leadModel = \App\Modules\Vtiger\Models\Module::getCleanInstance($request->getModule());
 				$results = $leadModel->searchAccountsToConvert($recordModel);
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
 			}
 			if (!$results) {
-				$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
+				$message = \App\Runtime\Vtiger_Language_Handler::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
 				if ($currentUser->isAdminUser()) {
-					$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
+					$message = \App\Runtime\Vtiger_Language_Handler::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
 				}
 				$this->showError($request, '', $message);
 				throw new \Exception\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
@@ -100,7 +100,7 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 		}
 
 		if (!empty($accountId)) {
-			\FreeCRM\Modules\ModTracker\Models\Record::addConvertToAccountRelation('Accounts', $accountId, $assignId);
+			\App\Modules\ModTracker\Models\Record::addConvertToAccountRelation('Accounts', $accountId, $assignId);
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} else {
 			$this->showError($request);
@@ -112,10 +112,10 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		if ($exception != false) {
-			$viewer->assign('EXCEPTION', \FreeCRM\Runtime\Vtiger_Language_Handler::translate($exception->getMessage(), $moduleName));
+			$viewer->assign('EXCEPTION', \App\Runtime\Vtiger_Language_Handler::translate($exception->getMessage(), $moduleName));
 		} elseif ($message) {
 			$viewer->assign('EXCEPTION', $message);
 		}
@@ -125,7 +125,7 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$viewer->view('ConvertLeadError.tpl', $moduleName);
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

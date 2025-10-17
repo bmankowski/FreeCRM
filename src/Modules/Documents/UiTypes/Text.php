@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\UiTypes;
+namespace App\Modules\Documents\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

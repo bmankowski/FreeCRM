@@ -2,27 +2,27 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
-class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class TransferOwnership extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') || !$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$transferOwnerId = $request->get('transferOwnerId');
 		$record = $request->get('record');
 		$relatedModules = $request->get('related_modules');
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
 
 		if (empty($record))
@@ -41,12 +41,12 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
-	protected function getBaseModuleRecordIds(\FreeCRM\Http\Vtiger_Request $request)
+	protected function getBaseModuleRecordIds(\App\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('viewname');
 		$module = $request->getModule();
@@ -56,7 +56,7 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		if (!empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				foreach ($selectedIds as $key => &$recordId) {
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 					if (!$recordModel->isEditable()) {
 						unset($selectedIds[$key]);
 					}
@@ -66,7 +66,7 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if ($selectedIds == 'all') {
-			$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($cvId);
+			$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($cvId);
 			if ($customViewModel) {
 				$searchKey = $request->get('search_key');
 				$searchValue = $request->get('search_value');
@@ -84,7 +84,7 @@ class TransferOwnership extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		return [];
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

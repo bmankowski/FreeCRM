@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\iCal;
+namespace App\Modules\Calendar\iCal;
 
 class ICalParser {
 

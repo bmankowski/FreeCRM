@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Announcements\Models;
+namespace App\Modules\Announcements\Models;
 
 /**
  * Announcements DetailView Model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Announcements\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
 	/**

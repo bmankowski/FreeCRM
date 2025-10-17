@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class FindDuplicatesAjax extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, $mode)) {
@@ -27,7 +27,7 @@ class FindDuplicatesAjax extends \Vtiger_Index_View
 	 * Function to get listView count
 	 * @param Vtiger_Request $request
 	 */
-	/* function getListViewCount(\FreeCRM\Http\Vtiger_Request $request){
+	/* function getListViewCount(\App\Http\Vtiger_Request $request){
 	  $moduleName = $request->getModule();
 	  $cvId = $request->get('viewname');
 	  if(empty($cvId)) {
@@ -37,7 +37,7 @@ class FindDuplicatesAjax extends \Vtiger_Index_View
 	  $searchKey = $request->get('search_key');
 	  $searchValue = $request->get('search_value');
 
-	  $listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+	  $listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 	  $listViewModel->set('search_key', $searchKey);
 	  $listViewModel->set('search_value', $searchValue);
 	  $listViewModel->set('operator', $request->get('operator'));
@@ -53,9 +53,9 @@ class FindDuplicatesAjax extends \Vtiger_Index_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	/* function getPageCount(\FreeCRM\Http\Vtiger_Request $request){
+	/* function getPageCount(\App\Http\Vtiger_Request $request){
 	  $listViewCount = $this->getListViewCount($request);
-	  $pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+	  $pagingModel = new \App\Modules\Vtiger\Models\Paging();
 	  $pageLimit = $pagingModel->getPageLimit();
 	  $pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Models;
+namespace App\Modules\Reports\Models;
 
 /* * ***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,13 +11,13 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Chart extends \FreeCRM\Modules\Vtiger\Models\Model
+class Chart extends \App\Modules\Vtiger\Models\Model
 {
 
 	public static function getInstanceById($reportModel)
 	{
 		$self = new self();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if (!empty($data)) {
@@ -75,7 +75,7 @@ class Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 	}
 }
 
-abstract class Base_Chart extends \FreeCRM\Modules\Vtiger\Models\Model
+abstract class Base_Chart extends \App\Modules\Vtiger\Models\Model
 {
 
 	public function __construct($parent)
@@ -133,7 +133,7 @@ abstract class Base_Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 		$fieldName = $fieldInfo[3];
 
 		if ($moduleName && $fieldName) {
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			return $moduleModel->getField($fieldName);
 		}
 		return false;
@@ -298,7 +298,7 @@ abstract class Base_Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		$columnLabelInfo = explode('__', $column);
 		$columnLabelInfo = array_diff($columnLabelInfo, array('SUM', 'MIN', 'MAX', 'AVG')); // added to remove aggregate functions from the graph labels
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
+		return \App\Runtime\Vtiger_Language_Handler::translate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
 	}
 
 	/**
@@ -320,7 +320,7 @@ abstract class Base_Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function getBaseModuleListViewURL()
 	{
 		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($primaryModule);
+		$primaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($primaryModule);
 		$listURL = $primaryModuleModel->getListViewUrlWithAllFilter();
 
 		return $listURL;
@@ -405,7 +405,7 @@ abstract class Base_Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 				$value = date('Y-m-d H:i:s', strtotime('first day of JANUARY ' . $value)) . ',' . date('Y-m-d', strtotime('last day of DECEMBER ' . $value)) . ' 23:59:59';
 			}
 		} elseif ($dataFieldInfo[4] == 'DT') {
-			$value = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($value);
+			$value = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($value);
 		}
 
 		if (empty($value)) {
@@ -463,7 +463,7 @@ class PieChart extends Base_Chart
 
 	public function generateData()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$values = [];
 		$chartSQL = $this->getQuery();
 		$result = $db->pquery($chartSQL, array());
@@ -490,7 +490,7 @@ class PieChart extends Base_Chart
 			}
 		}
 
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {
@@ -512,18 +512,18 @@ class PieChart extends Base_Chart
 			if ($legendField) {
 				$fieldDataType = $legendField->getFieldDataType();
 				if ($fieldDataType == 'picklist') {
-					$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row[$legend], $legendField->getModuleName());
+					$label = \App\Runtime\Vtiger_Language_Handler::translate($row[$legend], $legendField->getModuleName());
 				} else if ($fieldDataType == 'multipicklist') {
 					$multiPicklistValue = $row[$legend];
 					$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 					foreach ($multiPicklistValues as $multiPicklistValue) {
-						$labelList[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($multiPicklistValue, $legendField->getModuleName());
+						$labelList[] = \App\Runtime\Vtiger_Language_Handler::translate($multiPicklistValue, $legendField->getModuleName());
 					}
 					$label = implode(',', $labelList);
 				} else if ($fieldDataType == 'date') {
-					$label = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else if ($fieldDataType == 'datetime') {
-					$label = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
 					$label = $row[$legend];
 				}
@@ -548,7 +548,7 @@ class VerticalbarChart extends Base_Chart
 
 	public function generateData()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$chartSQL = $this->getQuery();
 
 		$result = $db->pquery($chartSQL, array());
@@ -564,7 +564,7 @@ class VerticalbarChart extends Base_Chart
 
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
 
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 		$links = array();
 
@@ -590,22 +590,22 @@ class VerticalbarChart extends Base_Chart
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
 					if ($fieldDataType == 'picklist') {
-						$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
+						$label = \App\Runtime\Vtiger_Language_Handler::translate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
 					} else if ($fieldDataType == 'multipicklist') {
 						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
-							$labelList[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($multiPicklistValue, $gFieldModel->getModuleName());
+							$labelList[] = \App\Runtime\Vtiger_Language_Handler::translate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType == 'date') {
-						$label = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
+						$label = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
 						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
 							$m = explode(' ', $label);
-							$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
+							$label = \App\Runtime\Vtiger_Language_Handler::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
 						}
 					} else {
 						$label = $row[$gFieldModel->get('reportlabel')];
@@ -630,7 +630,7 @@ class VerticalbarChart extends Base_Chart
 	{
 		$dataLabels = array();
 		if ($this->isRecordCount()) {
-			$dataLabels[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_COUNT', 'Reports');
+			$dataLabels[] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_COUNT', 'Reports');
 		}
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if ($queryColumnsByFieldModel) {
@@ -642,7 +642,7 @@ class VerticalbarChart extends Base_Chart
 				$aggregateFunction = $reportColumnInfo[5];
 				$aggregateFunctionLabel = $this->getAggregateFunctionLabel($aggregateFunction);
 
-				$dataLabels[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
+				$dataLabels[] = \App\Runtime\Vtiger_Language_Handler::translate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
 			}
 		}
 		return $dataLabels;

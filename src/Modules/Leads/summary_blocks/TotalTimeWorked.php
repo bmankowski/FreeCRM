@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Leads;
+namespace App\Modules\Leads;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -22,7 +22,7 @@ class TotalTimeWorked {
 	{
 		
 		\App\Log::trace("Entering TotalTimeWorked::process() method ...");
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$timecontrol = 'SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_osstimecontrol.osstimecontrolid
 			WHERE vtiger_crmentity.deleted=0 &&  vtiger_osstimecontrol.link = ?';

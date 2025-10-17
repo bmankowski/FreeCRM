@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Actions;
+namespace App\Modules\Settings\Workflows\Actions;
 
 
 /* +**********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\Workflows\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
-class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+class Save extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$summary = $request->get('summary');
@@ -31,7 +31,7 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$workflowModel->set('summary', $summary);
 		$workflowModel->set('module_name', $moduleName);
 		$workflowModel->set('conditions', $conditions);
@@ -62,7 +62,7 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 				$date = $request->get('schdate');
 				$dateDBFormat = DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-				$currentTime = \FreeCRM\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
+				$currentTime = \App\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
 				if ($nextTriggerTime > $currentTime) {
 					$workflowModel->set('nexttrigger_time', $nextTriggerTime);
 				} else {
@@ -94,7 +94,7 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

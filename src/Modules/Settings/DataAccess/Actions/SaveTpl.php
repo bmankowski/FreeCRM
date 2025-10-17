@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Actions;
+namespace App\Modules\Settings\DataAccess\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,15 +13,15 @@ namespace FreeCRM\Modules\Settings\DataAccess\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveTpl extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class SaveTpl extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$baseModule = $request->get('base_module');
 		$summary = $request->get('summary');
@@ -33,8 +33,8 @@ class SaveTpl extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			'summary' => $summary
 		])->execute();
 		$recordId = $db->getLastInsertID('vtiger_dataaccess_dataaccessid_seq');
-		\FreeCRM\Modules\Settings\DataAccess\Models\Module::addConditions($conditionAll, $recordId);
-		\FreeCRM\Modules\Settings\DataAccess\Models\Module::addConditions($conditionOption, $recordId, false);
+		\App\Modules\Settings\DataAccess\Models\Module::addConditions($conditionAll, $recordId);
+		\App\Modules\Settings\DataAccess\Models\Module::addConditions($conditionOption, $recordId, false);
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Index");
 	}
 }

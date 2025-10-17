@@ -1,11 +1,11 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Views;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
-use FreeCRM\Modules\Settings\Vtiger\Models\MenuItem;
-use FreeCRM\Modules\Settings\GithubModels\Issues;
-use FreeCRM\Modules\Settings\GithubModels\Client as Settings_Github_Client_Model;
-use FreeCRM\Modules\Settings\ModuleManager\Models\Module;
+namespace App\Modules\Settings\Vtiger\Views;
+use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Vtiger\Models\MenuItem;
+use App\Modules\Settings\GithubModels\Issues;
+use App\Modules\Settings\GithubModels\Client as Settings_Github_Client_Model;
+use App\Modules\Settings\ModuleManager\Models\Module;
 
 
 /* +**********************************************************************************
@@ -18,17 +18,17 @@ use FreeCRM\Modules\Settings\ModuleManager\Models\Module;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Http\Vtiger_Session;
-use FreeCRM\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
+use App\Http\Vtiger_Request;
+use App\Http\Vtiger_Session;
+use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class Index extends \Vtiger_Basic_View
 {
 
 	public function __construct()
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addBasic('view');
+		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('view');
 		parent::__construct();
 		$this->exposeMethod('DonateUs');
 		$this->exposeMethod('index');
@@ -39,7 +39,7 @@ class Index extends \Vtiger_Basic_View
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
@@ -68,7 +68,7 @@ class Index extends \Vtiger_Basic_View
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
-		$settingsModel = \FreeCRM\Modules\Settings\Vtiger\Models\Module::getInstance();
+		$settingsModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 		if ($settingsModel->has('selected')) {
@@ -101,10 +101,10 @@ class Index extends \Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$usersCount = \FreeCRM\Modules\Users\Models\Record::getCount(true);
+		$usersCount = \App\Modules\Users\Models\Record::getCount(true);
 		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
-		$activeModules = \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
-		$pinnedSettingsShortcuts = \FreeCRM\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();
+		$activeModules = \App\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
+		$pinnedSettingsShortcuts = \App\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');
 
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
@@ -120,7 +120,7 @@ class Index extends \Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
-		$clientModel = \FreeCRM\Modules\Settings\Github\Models\Client::getInstance();
+		$clientModel = \App\Modules\Settings\Github\Models\Client::getInstance();
 		$isAuthor = $request->get('author');
 		$isAuthor = $isAuthor == 'true' ? true : false;
 		$pageNumber = $request->get('page');
@@ -132,7 +132,7 @@ class Index extends \Vtiger_Basic_View
 		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('totalCount', \FreeCRM\Modules\Settings\Github\Models\Issues::$totalCount);
+		$pagingModel->set('totalCount', \App\Modules\Settings\Github\Models\Issues::$totalCount);
 
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
@@ -142,7 +142,7 @@ class Index extends \Vtiger_Basic_View
 		$viewer->assign('ISSUES_STATE', $state);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', false);
-		$viewer->assign('LISTVIEW_COUNT', \FreeCRM\Modules\Settings\Github\Models\Issues::$totalCount);
+		$viewer->assign('LISTVIEW_COUNT', \App\Modules\Settings\Github\Models\Issues::$totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('MODULE', $qualifiedModuleName);

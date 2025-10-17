@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMail\Models;
+namespace App\Modules\OSSMail\Models;
 
 /**
  *
@@ -9,13 +9,13 @@ namespace FreeCRM\Modules\OSSMail\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$param = $users = [];
 		$sql = 'SELECT * FROM roundcube_users';
 		$where = false;
@@ -57,7 +57,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
 
-		\App\Log::trace("Entering \FreeCRM\Modules\OSSMail\Models\Record::imapConnect($user , $password , $folder) method ...");
+		\App\Log::trace("Entering \App\Modules\OSSMail\Models\Record::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
 		$cacheName = $user . $host . $folder;
 		if (isset(self::$imapConnectCache[$cacheName])) {
@@ -106,22 +106,22 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			self::imapThrowError(imap_last_error());
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
-		\App\Log::trace('Exit \FreeCRM\Modules\OSSMail\Models\Record::imapConnect() method ...');
+		\App\Log::trace('Exit \App\Modules\OSSMail\Models\Record::imapConnect() method ...');
 		return $mbox;
 	}
 
 	public static function imapThrowError($error)
 	{
 
-		\App\Log::error("Error \FreeCRM\Modules\OSSMail\Models\Record::imapConnect(): " . $error);
-		\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
+		\App\Log::error("Error \App\Modules\OSSMail\Models\Record::imapConnect(): " . $error);
+		\vtlib\Functions::throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if (count($users) == 0) {
 			return false;
 		}
@@ -154,7 +154,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
 		$account = [];
@@ -228,7 +228,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			return self::$usersCache[$userid];
 		}
 		$user = false;
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM roundcube_users where user_id = ?', [$userid]);
 		if ($adb->getRowCount($result)) {
 			$user = $adb->getRow($result);
@@ -462,7 +462,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$attachId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
 				$isSaved = self::saveAttachmentFile($attachId, $fileName, $fileContent);
 				if ($isSaved) {
-					$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Documents');
+					$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('Documents');
 					$record->set('assigned_user_id', $userid);
 					$record->set('notes_title', $fileName);
 					$record->set('filename', $fileName);
@@ -618,10 +618,10 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
 		if ($dbupdate) {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$adb->pquery("update roundcube_users set language=?", array($param['language']));
 		}
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_save_config_info', 'OSSMailScanner');
+		return \App\Runtime\Vtiger_Language_Handler::translate('JS_save_config_info', 'OSSMailScanner');
 	}
 
 	public function getEditableFields()
@@ -648,7 +648,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getSiteUrl()
 	{
-		$site_URL = \FreeCRM\AppConfig::main('site_URL');
+		$site_URL = \App\AppConfig::main('site_URL');
 		if (substr($site_URL, -1) != '/') {
 			$site_URL = $site_URL . '/';
 		}
@@ -678,7 +678,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public static function getAccountByHash($hash)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM roundcube_users WHERE preferences LIKE \'%s\'', "%:\"$hash\";%");
 		$result = $db->query($query);
 		if ($db->getRowCount($result) > 0) {

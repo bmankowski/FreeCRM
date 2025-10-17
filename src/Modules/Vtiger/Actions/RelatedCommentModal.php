@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /**
  * Update comment for related record
@@ -8,20 +8,20 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RelatedCommentModal extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class RelatedCommentModal extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -30,12 +30,12 @@ class RelatedCommentModal extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 		$rcmModel->save($request->get('comment'));
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_RELATION_COMMENT', $moduleName));
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(\App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_RELATION_COMMENT', $moduleName));
 		$response->emit();
 	}
 }

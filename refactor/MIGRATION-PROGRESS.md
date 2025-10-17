@@ -35,7 +35,7 @@ Ran `composer dump-autoload` successfully.
 
 Changed `createHandler()` method to use:
 ```php
-$handlerClass = \FreeCRM\Loader::getComponentClassName(
+$handlerClass = \App\Loader::getComponentClassName(
     $componentType,
     $componentName,
     $qualifiedModuleName

@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 
-namespace FreeCRM\events;
+namespace App\events;
 
 abstract class VTEventHandler
 {

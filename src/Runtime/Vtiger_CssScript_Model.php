@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
 /**
  * CSS Script Model - extends Vtiger_JavaScript

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Actions;
+namespace App\Modules\Settings\Workflows\Actions;
 
 
 
@@ -11,11 +11,11 @@ namespace FreeCRM\Modules\Settings\Workflows\Actions;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
-class ExportWorkflow extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+class ExportWorkflow extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
@@ -38,7 +38,7 @@ class ExportWorkflow extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 
 
 		$cDataColumns = ['conditions'];
-		foreach (\FreeCRM\Modules\Settings\Workflows\Models\Module::$allFields as $field) {
+		foreach (\App\Modules\Settings\Workflows\Models\Module::$allFields as $field) {
 			if ($workflowModel->has($field)) {
 				if (in_array($field, $cDataColumns)) {
 					$name = $xmlField->appendChild($xml->createElement($field));
@@ -66,7 +66,7 @@ class ExportWorkflow extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			if (strpos($task['task'], 'VTEntityMethodTask') !== false) {
 				require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				$taskObject = unserialize(html_entity_decode($task['task']));
-				$method = \FreeCRM\Modules\Settings\Workflows\Models\Module::exportTaskMethod($taskObject->methodName);
+				$method = \App\Modules\Settings\Workflows\Models\Module::exportTaskMethod($taskObject->methodName);
 
 				if (!array_key_exists($method['workflowtasks_entitymethod_id'], $method)) {
 					$workflowMethods[$method['workflowtasks_entitymethod_id']] = $method;

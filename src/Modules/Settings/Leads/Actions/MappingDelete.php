@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Leads\Actions;
+namespace App\Modules\Settings\Leads\Actions;
 
 
 /* +***********************************************************************************
@@ -12,21 +12,21 @@ namespace FreeCRM\Modules\Settings\Leads\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
-class MappingDelete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
+class MappingDelete extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('mappingId');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($recordId) {
 			Settings_Leads_Mapping_Model::deleteMapping(array($recordId));
-			$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)));
+			$response->setResult(array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)));
 		} else {
-			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_MAPPING', $qualifiedModuleName));
+			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_MAPPING', $qualifiedModuleName));
 		}
 		$response->emit();
 	}

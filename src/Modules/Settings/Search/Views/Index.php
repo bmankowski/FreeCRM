@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Search\Views;
+namespace App\Modules\Settings\Search\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,10 +13,10 @@ namespace FreeCRM\Modules\Settings\Search\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -28,7 +28,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

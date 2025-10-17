@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Models;
-use FreeCRM\Modules\Settings\SalesProcessesModels\Module;
+namespace App\Modules\Products\Models;
+use App\Modules\Settings\SalesProcessesModels\Module;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ use FreeCRM\Modules\Settings\SalesProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Vtiger\Models\ListView
 {
 
 	/**
@@ -30,10 +30,10 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
+	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
 	{
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
@@ -42,7 +42,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 		$queryGenerator = $this->get('query_generator');
 		$query = $queryGenerator->createQuery();
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - last step.
-		if (\FreeCRM\Modules\Settings\SalesProcesses\Models\Module::checkRelatedToPotentialsLimit($this->get('src_module'))) {
+		if (\App\Modules\Settings\SalesProcesses\Models\Module::checkRelatedToPotentialsLimit($this->get('src_module'))) {
 			$salesProcessId = $this->get('salesprocessid');
 			if (empty($salesProcessId)) {
 				$salesProcessId = -1;
@@ -81,7 +81,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 		$listViewRecordModels = [];
 		foreach ($rows as &$row) {
 			$recordModel = $moduleModel->getRecordFromArray($row);
-			$recordModel->colorList = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $row['id'], $recordModel);
+			$recordModel->colorList = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $row['id'], $recordModel);
 			$listViewRecordModels[$row['id']] = $recordModel;
 		}
 		unset($rows);
@@ -98,7 +98,7 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 	{
 		$flag = false;
 		if (!empty($subProductId)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$result = $db->pquery("SELECT vtiger_seproductsrel.crmid from vtiger_seproductsrel INNER JOIN
                 vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid 
 					AND vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.setype=? 
@@ -112,8 +112,8 @@ class ListView extends \FreeCRM\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewCount()
 	{

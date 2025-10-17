@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Dashboards;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
+namespace App\Modules\HelpDesk\Dashboards;
+use App\Modules\Settings\SupportProcessesModels\Module;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class OpenTickets extends \Vtiger_Index_View
 {
@@ -26,9 +26,9 @@ class OpenTickets extends \Vtiger_Index_View
 	public function getOpenTickets()
 	{
 
-		$ticketStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
+		$ticketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$moduleName = 'HelpDesk';
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$query = new \App\Db\Query();
 		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
@@ -63,11 +63,11 @@ class OpenTickets extends \Vtiger_Index_View
 
 	public function getSearchParams($value)
 	{
-		$openTicketsStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getOpenTicketStatus();
+		$openTicketsStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getOpenTicketStatus();
 		if ($openTicketsStatus)
 			$openTicketsStatus = implode(',', $openTicketsStatus);
 		else {
-			$allTicketStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getAllTicketStatus();
+			$allTicketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getAllTicketStatus();
 			$openTicketsStatus = implode(',', $allTicketStatus);
 		}
 
@@ -81,11 +81,11 @@ class OpenTickets extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$data = $this->getOpenTickets();
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Profiles\Models;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Profiles\Models;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -17,12 +17,12 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * Profiles Record Model Class
  */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use FreeCRM\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as Users_Module_Model;
 
-use FreeCRM\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	const PROFILE_FIELD_INACTIVE = 0;
@@ -106,11 +106,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function getGlobalPermissions()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if (!isset($this->global_permissions)) {
 			$globalPermissions = [];
-			$globalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW] = $globalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT] = \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_DEFAULT_VALUE;
+			$globalPermissions[\App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW] = $globalPermissions[\App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT] = \App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_DEFAULT_VALUE;
 
 			if ($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2globalpermissions WHERE profileid=?';
@@ -131,8 +131,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function hasGlobalReadPermission()
 	{
 		$globalPermissions = $this->getGlobalPermissions();
-		$viewAllPermission = $globalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW];
-		if ($viewAllPermission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+		$viewAllPermission = $globalPermissions[\App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW];
+		if ($viewAllPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 			return true;
 		}
 		return false;
@@ -141,9 +141,9 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function hasGlobalWritePermission()
 	{
 		$globalPermissions = $this->getGlobalPermissions();
-		$editAllPermission = $globalPermissions[\FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT];
+		$editAllPermission = $globalPermissions[\App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT];
 		if ($this->hasGlobalReadPermission() &&
-			$editAllPermission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+			$editAllPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 			return true;
 		}
 		return false;
@@ -154,7 +154,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$moduleModule = $this->getProfileTabModel($module);
 		$modulePermissions = $moduleModule->get('permissions');
 		$moduleAccessPermission = $modulePermissions['is_permitted'];
-		if (isset($modulePermissions['is_permitted']) && $moduleAccessPermission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+		if (isset($modulePermissions['is_permitted']) && $moduleAccessPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 			return true;
 		}
 		return false;
@@ -176,12 +176,12 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$moduleModel = $this->getProfileTabModel($module);
 		$modulePermissions = $moduleModel->get('permissions');
 		$moduleAccessPermission = $modulePermissions['is_permitted'];
-		if ($moduleAccessPermission != \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+		if ($moduleAccessPermission != \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 			return false;
 		}
 		$moduleActionPermissions = $modulePermissions['actions'];
 		$moduleActionPermission = $moduleActionPermissions[$actionId];
-		if (isset($moduleActionPermissions[$actionId]) && $moduleActionPermission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+		if (isset($moduleActionPermissions[$actionId]) && $moduleActionPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 			return true;
 		}
 		return false;
@@ -192,7 +192,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$fieldModel = $this->getProfileTabFieldModel($module, $field);
 		$fieldPermissions = $fieldModel->get('permissions');
 		$fieldAccessPermission = $fieldPermissions['visible'];
-		if ($fieldModel->isViewEnabled() && $fieldAccessPermission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+		if ($fieldModel->isViewEnabled() && $fieldAccessPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 			return true;
 		}
 		return false;
@@ -204,7 +204,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		$fieldPermissions = $fieldModel->get('permissions');
 		$fieldAccessPermission = $fieldPermissions['visible'];
 		$fieldReadOnlyPermission = $fieldPermissions['readonly'];
-		if ($fieldModel->isWritable() && $fieldAccessPermission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE && $fieldReadOnlyPermission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+		if ($fieldModel->isWritable() && $fieldAccessPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE && $fieldReadOnlyPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 			return true;
 		}
 		return false;
@@ -236,7 +236,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (is_object($module) && is_a($module, '\Vtiger_Module_Model')) {
 			$tabId = $module->getId();
 		} else {
-			$module = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+			$module = \App\Modules\Vtiger\Models\Module::getInstance($module);
 			$tabId = $module->getId();
 		}
 		if (!$tabId) {
@@ -254,7 +254,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (is_object($field) && is_a($field, '\Vtiger_Field_Model')) {
 			$fieldId = $field->getId();
 		} else {
-			$field = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($field, $profileTabModel);
+			$field = \App\Modules\Vtiger\Models\Field::getInstance($field, $profileTabModel);
 			$fieldId = $field->getId();
 		}
 		if (!$fieldId) {
@@ -267,7 +267,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function getProfileTabPermissions()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_tab_permissions)) {
 			$profile2TabPermissions = [];
@@ -305,7 +305,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function getProfileActionPermissions()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_action_permissions)) {
 			$profile2ActionPermissions = [];
@@ -328,7 +328,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function getProfileUtilityPermissions()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_utility_permissions)) {
 			$profile2UtilityPermissions = [];
@@ -352,8 +352,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getModulePermissions()
 	{
 		if (!isset($this->module_permissions)) {
-			$allModules = \FreeCRM\Modules\Vtiger\Models\Module::getAll(array(0), \FreeCRM\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
-			$eventModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
+			$allModules = \App\Modules\Vtiger\Models\Module::getAll(array(0), \App\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
+			$eventModule = \App\Modules\Vtiger\Models\Module::getInstance('Events');
 			$allModules[$eventModule->getId()] = $eventModule;
 			$profileTabPermissions = $this->getProfileTabPermissions();
 			$profileActionPermissions = $this->getProfileActionPermissions();
@@ -362,7 +362,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 			foreach ($allModules as $id => $moduleModel) {
 				$permissions = [];
-				$permissions['is_permitted'] = \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
+				$permissions['is_permitted'] = \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
 				if (isset($profileTabPermissions[$id])) {
 					$permissions['is_permitted'] = $profileTabPermissions[$id];
 				}
@@ -374,7 +374,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 					} elseif (isset($profileUtilityPermissions[$id][$actionId])) {
 						$permissions['actions'][$actionId] = $profileUtilityPermissions[$id][$actionId];
 					} else {
-						$permissions['actions'][$actionId] = \FreeCRM\Modules\Settings\Profiles\Models\Module::NOT_PERMITTED_VALUE;
+						$permissions['actions'][$actionId] = \App\Modules\Settings\Profiles\Models\Module::NOT_PERMITTED_VALUE;
 					}
 				}
 				$moduleFields = $moduleModel->getFields();
@@ -382,11 +382,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				foreach ($moduleFields as $fieldName => $fieldModel) {
 					$fieldPermissions = [];
 					$fieldId = $fieldModel->getId();
-					$fieldPermissions['visible'] = \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
+					$fieldPermissions['visible'] = \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
 					if (isset($allFieldPermissions[$fieldId]['visible'])) {
 						$fieldPermissions['visible'] = $allFieldPermissions[$fieldId]['visible'];
 					}
-					$fieldPermissions['readonly'] = \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
+					$fieldPermissions['readonly'] = \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
 					if (isset($allFieldPermissions[$fieldId]['readonly'])) {
 						$fieldPermissions['readonly'] = $allFieldPermissions[$fieldId]['readonly'];
 					}
@@ -401,7 +401,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	public function delete($transferToRecord)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$profileId = $this->getId();
 		$transferProfileId = $transferToRecord->getId();
 
@@ -436,14 +436,14 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function save()
 	{
 		$adb = \App\Db::getInstance();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$modulePermissions = $this->getModulePermissions();
 
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');
 		$profilePermissions = $this->get('profile_permissions');
-		$calendarModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
-		$eventModule = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Events');
+		$calendarModule = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$eventModule = \App\Modules\Vtiger\Models\Module::getInstance('Events');
 		$eventFieldsPermissions = $profilePermissions[$eventModule->getId()]['fields'];
 		$profilePermissions[$eventModule->getId()] = $profilePermissions[$calendarModule->getId()];
 		$profilePermissions[$eventModule->getId()]['fields'] = $eventFieldsPermissions;
@@ -470,14 +470,14 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$db->pquery($sql, $params);
 		}
 		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
-		$params = array($profileId, \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW, $this->tranformInputPermissionValue($this->get('viewall')));
+		$params = array($profileId, \App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_VIEW, $this->tranformInputPermissionValue($this->get('viewall')));
 		$db->pquery($sql, $params);
 
 		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
-		$params = array($profileId, \FreeCRM\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT, $this->tranformInputPermissionValue($this->get('editall')));
+		$params = array($profileId, \App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT, $this->tranformInputPermissionValue($this->get('editall')));
 		$db->pquery($sql, $params);
 
-		$allModuleModules = \FreeCRM\Modules\Vtiger\Models\Module::getAll(array(0), \FreeCRM\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
+		$allModuleModules = \App\Modules\Vtiger\Models\Module::getAll(array(0), \App\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
 		if (count($allModuleModules) > 0) {
 			$actionModels = \Vtiger_Action_Model::getAll(true);
@@ -486,12 +486,12 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 					$this->saveModulePermissions($moduleModel, $profilePermissions[$moduleModel->getId()]);
 				} else {
 					$permissions = [];
-					$permissions['is_permitted'] = \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
+					$permissions['is_permitted'] = \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
 					if ($moduleModel->isEntityModule()) {
 						$permissions['actions'] = [];
 						foreach ($actionModels as $actionModel) {
 							if ($actionModel->isModuleEnabled($moduleModel)) {
-								$permissions['actions'][$actionModel->getId()] = \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
+								$permissions['actions'][$actionModel->getId()] = \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
 							}
 						}
 						$permissions['fields'] = [];
@@ -520,7 +520,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	protected function saveModulePermissions($moduleModel, $permissions)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$adb = \App\Db::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
@@ -559,7 +559,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 							}
 							$permissionValue = $this->tranformInputPermissionValue($permission);
 							if (isset(\Vtiger_Action_Model::$standardActions[$actionId])) {
-								if ($permission == \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+								if ($permission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 									$actionEnabled = true;
 								}
 								$actionsUpdateQuery .= " WHEN operation = $actionId THEN $permissionValue ";
@@ -635,7 +635,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if ($actionEnabled && isset($permissions['is_permitted'])) {
 			$isModulePermitted = $this->tranformInputPermissionValue($permissions['is_permitted']);
 		} else {
-			$isModulePermitted = \FreeCRM\Modules\Settings\Profiles\Models\Module::NOT_PERMITTED_VALUE;
+			$isModulePermitted = \App\Modules\Settings\Profiles\Models\Module::NOT_PERMITTED_VALUE;
 		}
 		if ($isModulePermitted != $profileTabPermissions) {
 			\App\Privilege::setUpdater($moduleModel->getName());
@@ -651,14 +651,14 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 					$adb->createCommand()->delete('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId])
 						->execute();
 					if ($stateValue == Settings_Profiles_Record_Model::PROFILE_FIELD_INACTIVE) {
-						$visible = \FreeCRM\Modules\Settings\Profiles\Models\Module::FIELD_INACTIVE;
-						$readOnly = \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
+						$visible = \App\Modules\Settings\Profiles\Models\Module::FIELD_INACTIVE;
+						$readOnly = \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
 					} elseif ($stateValue == Settings_Profiles_Record_Model::PROFILE_FIELD_READONLY) {
-						$visible = \FreeCRM\Modules\Settings\Profiles\Models\Module::FIELD_ACTIVE;
-						$readOnly = \FreeCRM\Modules\Settings\Profiles\Models\Module::FIELD_READONLY;
+						$visible = \App\Modules\Settings\Profiles\Models\Module::FIELD_ACTIVE;
+						$readOnly = \App\Modules\Settings\Profiles\Models\Module::FIELD_READONLY;
 					} else {
-						$visible = \FreeCRM\Modules\Settings\Profiles\Models\Module::FIELD_ACTIVE;
-						$readOnly = \FreeCRM\Modules\Settings\Profiles\Models\Module::FIELD_READWRITE;
+						$visible = \App\Modules\Settings\Profiles\Models\Module::FIELD_ACTIVE;
+						$readOnly = \App\Modules\Settings\Profiles\Models\Module::FIELD_READWRITE;
 					}
 					$adb->createCommand()->insert('vtiger_profile2field', [
 						'profileid' => $profileId,
@@ -675,9 +675,9 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	protected function tranformInputPermissionValue($value)
 	{
 		if ($value === 'on' || $value === '1') {
-			return \FreeCRM\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
+			return \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
 		} else {
-			return \FreeCRM\Modules\Settings\Profiles\Models\Module::NOT_PERMITTED_VALUE;
+			return \App\Modules\Settings\Profiles\Models\Module::NOT_PERMITTED_VALUE;
 		}
 	}
 
@@ -724,7 +724,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getAllByRole($roleId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT vtiger_profile.*
 					FROM vtiger_profile
@@ -749,7 +749,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getAll()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_profile';
 		$result = $db->query($sql);
 		$profiles = [];
@@ -768,12 +768,12 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getInstanceById($profileId)
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('ProfilesRecordModelById', $profileId);
+		$instance = \App\Runtime\Vtiger_Cache::get('ProfilesRecordModelById', $profileId);
 		if ($instance) {
 			return $instance;
 		}
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_profile WHERE profileid = ?';
 		$result = $db->pquery($sql, [$profileId]);
 		if ($db->getRowCount($result) > 0) {
@@ -781,7 +781,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$profile = new self();
 			$profile->setData($row);
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $profile);
+		\App\Runtime\Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $profile);
 		return $profile;
 	}
 
@@ -850,7 +850,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getUsersList($profileId = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$params = [0];
 		$query = 'SELECT id FROM vtiger_users
 					INNER JOIN vtiger_user2role ON vtiger_user2role.userid = vtiger_users.id
@@ -874,8 +874,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	{
 		$profileId = $this->getId();
 		if (!empty($profileId)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
-			$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$db = \App\database\PearDatabase::getInstance();
+			$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Module::getModuleId($module);
 			$userModuleModel = Users_Module_Model::getInstance($module);
@@ -899,7 +899,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			//We are using this field information in Email Templates.
 			foreach ($userAccessbleFields as $fieldId => $fieldName) {
 				$insertQuery = 'INSERT INTO vtiger_profile2field VALUES(?,?,?,?,?)';
-				$db->pquery($insertQuery, array($profileId, $tabId, $fieldId, \FreeCRM\Modules\Settings\Profiles\Models\Module::FIELD_ACTIVE, \FreeCRM\Modules\Settings\Profiles\Models\Module::FIELD_READWRITE));
+				$db->pquery($insertQuery, array($profileId, $tabId, $fieldId, \App\Modules\Settings\Profiles\Models\Module::FIELD_ACTIVE, \App\Modules\Settings\Profiles\Models\Module::FIELD_READWRITE));
 			}
 
 			$sql = 'SELECT fieldid FROM vtiger_def_org_field WHERE tabid = ?';

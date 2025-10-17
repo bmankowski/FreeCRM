@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger;
+namespace App\Modules\Vtiger;
 
 /**
   Return Description
@@ -36,7 +36,7 @@ class blockEditView {
 			'save_record' => false,
 			'type' => 0,
 			'info' => [
-				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($message, 'DataAccess'),
+				'text' => \App\Runtime\Vtiger_Language_Handler::translate($message, 'DataAccess'),
 				'type' => 'error'
 			]
 		];

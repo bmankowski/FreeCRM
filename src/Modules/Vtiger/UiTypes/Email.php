@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -25,17 +25,17 @@ class Email extends Base
 
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$internalMailer = $currentUser->get('internal_mailer');
 		if ($value && !$rawText) {
 			$moduleName = $this->get('field')->get('block')->module->name;
 			$fieldName = $this->get('field')->get('name');
 			$rawValue = $value;
 			$value = \vtlib\Functions::textLength($value);
-			if ($internalMailer == 1 && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
-				$url = \FreeCRM\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
-				$mailConfig = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParameters();
-				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL') . ">$value</a>";
+			if ($internalMailer == 1 && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
+				$url = \App\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
+				$mailConfig = \App\Modules\OSSMail\Models\Module::getComposeParameters();
+				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName == 'Users' && $fieldName == 'user_name') {
 					$value = "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";

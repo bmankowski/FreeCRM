@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Project\Models;
+namespace App\Modules\Project\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Project\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public function getGanttProject($id)
@@ -20,11 +20,11 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$branches = $this->getGanttMileston($id);
 		$response = ['data' => [], 'links' => []];
 		if ($branches) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $this->getName());
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $this->getName());
 			$project['id'] = $id;
 			$project['text'] = $recordModel->get('projectname');
 			$project['priority'] = $recordModel->get('projectpriority');
-			$project['priority_label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModel->get('projectpriority'), $this->getName());
+			$project['priority_label'] = \App\Runtime\Vtiger_Language_Handler::translate($recordModel->get('projectpriority'), $this->getName());
 			$project['type'] = 'project';
 			$project['module'] = $this->getName();
 			$project['open'] = true;
@@ -39,7 +39,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	public function getGanttMileston($id)
 	{
 		$response = ['data' => [], 'links' => []];
-		$relatedListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectMilestone');
+		$relatedListView = \App\Modules\Vtiger\Models\RelationListView::getInstance(\App\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectMilestone');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'projectmilestoneid' => 'projectmilestoneid',
 			'projectid' => 'projectid',
@@ -67,7 +67,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			}
 			$projectmilestone['progress'] = (int) $row['projectmilestone_progress'] / 100;
 			$projectmilestone['priority'] = $row['projectmilestone_priority'];
-			$projectmilestone['priority_label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['projectmilestone_priority'], 'ProjectMilestone');
+			$projectmilestone['priority_label'] = \App\Runtime\Vtiger_Language_Handler::translate($row['projectmilestone_priority'], 'ProjectMilestone');
 			$projectmilestone['open'] = true;
 			$projectmilestone['type'] = 'milestone';
 			$projecttask = $this->getGanttTask($row['id']);
@@ -86,7 +86,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function getGanttTask($id)
 	{
-		$relatedListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance(\FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
+		$relatedListView = \App\Modules\Vtiger\Models\RelationListView::getInstance(\App\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'id' => 'id',
 			'projectid' => 'projectid',
@@ -120,7 +120,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			settype($row['projecttaskprogress'], "integer");
 			$projecttask['progress'] = $row['projecttaskprogress'] / 100;
 			$projecttask['priority'] = $row['projecttaskpriority'];
-			$projecttask['priority_label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['projecttaskpriority'], 'ProjectTask');
+			$projecttask['priority_label'] = \App\Runtime\Vtiger_Language_Handler::translate($row['projecttaskpriority'], 'ProjectTask');
 			$projecttask['start_date'] = date('d-m-Y', strtotime($row['startdate']));
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 			$projecttask['end_date'] = date('d-m-Y', $endDate);

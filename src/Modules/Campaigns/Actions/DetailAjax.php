@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Campaigns\Actions;
+namespace App\Modules\Campaigns\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,13 +12,13 @@ namespace FreeCRM\Modules\Campaigns\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DetailAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -32,7 +32,7 @@ class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -46,23 +46,23 @@ class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$count = $relationListView->getRelatedEntriesCount();
 		$result = array();
 		$result['module'] = $moduleName;
 		$result['viewname'] = $request->get('viewname');
 		$result['count'] = $count;
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

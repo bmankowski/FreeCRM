@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\RecordAllocation\Actions;
-use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
+namespace App\Modules\Settings\RecordAllocation\Actions;
+use App\Modules\Settings\Vtiger\Models\Tracker;
 
 
 
@@ -10,46 +10,46 @@ use FreeCRM\Modules\Settings\Vtiger\Models\Tracker;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
 	public function __construct()
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
+		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('removePanel');
 	}
 
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
+		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
+		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
 		$data = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$oldValues = \FreeCRM\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($data['type'], $data['module']);
+		$oldValues = \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($data['type'], $data['module']);
 		$oldValues = array_merge((array) $oldValues[$data['userid'][0]]['users'], (array) $oldValues[$data['userid'][0]]['groups']);
 
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$moduleInstance->set('type', $data['type']);
 		$moduleInstance->save(array_filter($data));
-		\FreeCRM\Modules\Settings\RecordAllocation\Models\Module::resetDataVariable();
-		$newValues = \FreeCRM\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($data['type'], $data['module']);
+		\App\Modules\Settings\RecordAllocation\Models\Module::resetDataVariable();
+		$newValues = \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($data['type'], $data['module']);
 		$newValues = array_merge((array) $newValues[$data['userid'][0]]['users'], (array) $newValues[$data['userid'][0]]['groups']);
 		$prevDetail['userId'] = implode(',', $oldValues);
 		$newDetail['userId'] = implode(',', $newValues);
 
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevDetail, $newDetail);
-		$responceToEmit = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevDetail, $newDetail);
+		$responceToEmit = new \App\Http\Vtiger_Response();
 		$responceToEmit->setResult(true);
 		$responceToEmit->emit();
 	}
 
-	public function removePanel(\FreeCRM\Http\Vtiger_Request $request)
+	public function removePanel(\App\Http\Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
-		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addBasic('delete');
+		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
+		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('delete');
 		$data = $request->get('param');
 		$moduleName = $data['module'];
 		$qualifiedModuleName = $request->getModule(false);
@@ -58,7 +58,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		$moduleInstance->set('type', $data['type']);
 		$moduleInstance->remove($moduleName);
 
-		$responceToEmit = new \FreeCRM\Http\Vtiger_Response();
+		$responceToEmit = new \App\Http\Vtiger_Response();
 		$responceToEmit->setResult(true);
 		$responceToEmit->emit();
 	}

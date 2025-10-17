@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
+use App\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
 class RelationListView extends Model
 {
 
@@ -29,7 +29,7 @@ class RelationListView extends Model
 
 	/**
 	 * Get relation model
-	 * @return \FreeCRM\Modules\Vtiger\Models\Relation
+	 * @return \App\Modules\Vtiger\Models\Relation
 	 */
 	public function getRelationModel()
 	{
@@ -44,7 +44,7 @@ class RelationListView extends Model
 
 	/**
 	 * Get parent record model
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record
+	 * @return \App\Modules\Vtiger\Models\Record
 	 */
 	public function getParentRecordModel()
 	{
@@ -59,7 +59,7 @@ class RelationListView extends Model
 
 	/**
 	 * Function that returns the relation's related module model
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Vtiger\Models\Module
 	 */
 	public function getRelatedModuleModel()
 	{
@@ -77,22 +77,22 @@ class RelationListView extends Model
 
 	/**
 	 * Get relation list view model instance
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $parentRecordModel
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $relationModuleName
+	 * @param \App\Modules\Vtiger\Models\Module $parentRecordModel
+	 * @param \App\Modules\Vtiger\Models\Module $relationModuleName
 	 * @param string|boolean $label
 	 * @return self
 	 */
 	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
 	{
 		$parentModuleName = $parentRecordModel->getModule()->get('name');
-		$className = \FreeCRM\Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
+		$className = \App\Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
 		$instance = new $className();
 
 		$parentModuleModel = $parentRecordModel->getModule();
-		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relationModuleName);
+		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relationModuleName);
 		$instance->setRelatedModuleModel($relatedModuleModel);
 
-		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModuleModel, $label);
+		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModuleModel, $label);
 		$instance->setParentRecordModel($parentRecordModel);
 		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
 
@@ -104,7 +104,7 @@ class RelationListView extends Model
 			foreach ($referenceFieldOfParentModule as $fieldName => $fieldModel) {
 				$refredModulesOfReferenceField = $fieldModel->getReferenceList();
 				if (in_array($relatedModuleName, $refredModulesOfReferenceField)) {
-					$relationModelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
+					$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 					$relationModel = new $relationModelClassName();
 					$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 					$parentModuleModel->set('directRelatedFieldName', $fieldModel->get('column'));
@@ -208,10 +208,10 @@ class RelationListView extends Model
 
 	/**
 	 * Function to get the related list view entries
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record[]
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return \App\Modules\Vtiger\Models\Record[]
 	 */
-	public function getEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
+	public function getEntries(\App\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$relationModel = $this->getRelationModel();
 		$relationModuleModel = $relationModel->getRelationModuleModel();
@@ -240,9 +240,9 @@ class RelationListView extends Model
 
 	/**
 	 * Function extending recordModel object with additional information
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
-	public function getEntryExtend(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public function getEntryExtend(\App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		
 	}
@@ -267,7 +267,7 @@ class RelationListView extends Model
 
 	/**
 	 * Get header fields
-	 * @return \FreeCRM\Modules\Vtiger\Models\Field[]
+	 * @return \App\Modules\Vtiger\Models\Field[]
 	 */
 	public function getHeaders()
 	{
@@ -338,16 +338,16 @@ class RelationListView extends Model
 			$parentName = '';
 			if ($row['depth'] > 0) {
 				$treeDetail = \App\Fields\Tree::getValueByTreeId($template, $parent);
-				$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($treeDetail['name'], $relModuleName) . ') ';
+				$parentName = '(' . \App\Runtime\Vtiger_Language_Handler::translate($treeDetail['name'], $relModuleName) . ') ';
 			}
 			$tree = [
 				'id' => $row['tree'],
-				'name' => $parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $relModuleName),
+				'name' => $parentName . \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $relModuleName),
 				'parent' => $parent == 0 ? '#' : $parent
 			];
 			if ($showCreatorDetail) {
 				$tree['rel_created_user'] = \App\Fields\Owner::getLabel($row['rel_created_user']);
-				$tree['rel_created_time'] = \FreeCRM\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($row['rel_created_time']);
+				$tree['rel_created_time'] = \App\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($row['rel_created_time']);
 			}
 			if ($showComment) {
 				$tree['rel_comment'] = $row['rel_comment'];
@@ -366,7 +366,7 @@ class RelationListView extends Model
 	 */
 	public function getRelatedTreeEntriesCount()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$recordId = $this->getParentRecordModel()->getId();
 		$relModuleId = $this->getRelatedModuleModel()->getId();
 		$treeViewModel = $this->getTreeViewModel();
@@ -463,14 +463,14 @@ class RelationListView extends Model
 		$selectLinkList = array(
 			array(
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => '',
 			)
 		);
 
 		foreach ($selectLinkList as $selectLink) {
-			$selectLinkModel[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($selectLink);
+			$selectLinkModel[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($selectLink);
 		}
 		return $selectLinkModel;
 	}
@@ -491,14 +491,14 @@ class RelationListView extends Model
 		if ($relatedModel->get('label') == 'Calendar') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_EVENT'),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_TASK'),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -507,8 +507,8 @@ class RelationListView extends Model
 			$addLinkList = [[
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-				//'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD')." ".\FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_RELATION'),
+				//'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_ADD')." ".\App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -517,20 +517,20 @@ class RelationListView extends Model
 		if ($relatedModel->get('label') === 'Documents') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MASS_ADD', 'Documents'),
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'glyphicon glyphicon-plus',
 			];
 		}
 		foreach ($addLinkList as &$addLink) {
-			$addLinkModel[] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($addLink);
+			$addLinkModel[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($addLink);
 		}
 		return $addLinkModel;
 	}
 
 	public function getCurrencySymbol($recordId, $fieldModel)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$moduleName = $fieldModel->getModuleName();
 		$fieldName = $fieldModel->get('name');
 		$tableName = $fieldModel->get('table');

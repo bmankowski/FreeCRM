@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CronTasks\Actions;
+namespace App\Modules\Settings\CronTasks\Actions;
 
 
 /* +**********************************************************************************
@@ -12,18 +12,18 @@ namespace FreeCRM\Modules\Settings\CronTasks\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\CronTasks\Models\Module as Settings_CronTasks_Module_Model;
-class UpdateSequence extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Settings\CronTasks\Models\Module as Settings_CronTasks_Module_Model;
+class UpdateSequence extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$sequencesList = $request->get('sequencesList');
 
 		$moduleModel = Settings_CronTasks_Module_Model::getInstance($qualifiedModuleName);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($sequencesList) {
 			$moduleModel->updateSequence($sequencesList);
 			$response->setResult(array(true));

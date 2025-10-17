@@ -2,15 +2,15 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace FreeCRM\Modules\Calendar\Actions;
+namespace App\Modules\Calendar\Actions;
 
-class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Invitees extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -22,7 +22,7 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('find');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -31,7 +31,7 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function find(\FreeCRM\Http\Vtiger_Request $request)
+	public function find(\App\Http\Vtiger_Request $request)
 	{
 		$value = $request->get('value');
 		$modules = array_keys(\App\ModuleHierarchy::getModulesByLevel(0));
@@ -46,23 +46,23 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
-		$convertedInfo = \FreeCRM\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
+		$convertedInfo = \App\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
-			if (\FreeCRM\Modules\Users\Models\Privileges::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
+			if (\App\Modules\Users\Models\Privileges::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
 				$label = \App\Record::getLabel($row['crmid']);
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
 					'module' => $row['setype'],
-					'category' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']),
-					'fullLabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']) . ': ' . $label,
+					'category' => \App\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']),
+					'fullLabel' => \App\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']) . ': ' . $label,
 					'label' => $label
 				];
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($matchingRecords);
 		$response->emit();
 	}

@@ -166,7 +166,7 @@ done
 # Check original extends, add use statements
 
 # 4. Fix global references
-find . -name "*.php" -exec sed -i 's/\\FreeCRM\\\\FreeCRM\\/\\FreeCRM\\/g' {} \;
+find . -name "*.php" -exec sed -i 's/\\App\\\\App\\/\\App\\/g' {} \;
 
 # 5. Validate
 php refactor/scripts/validate-module.php ModuleName
@@ -239,7 +239,7 @@ for file in *.php; do
 done
 
 # Fix double namespace
-find . -name "*.php" -exec sed -i 's/\\FreeCRM\\\\FreeCRM\\/\\FreeCRM\\/g' {} \;
+find . -name "*.php" -exec sed -i 's/\\App\\\\App\\/\\App\\/g' {} \;
 
 # Fix vtlib extends
 find . -name "*.php" -exec sed -i 's/ extends vtlib\\/ extends \\vtlib\\/g' {} \;

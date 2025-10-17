@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ApiAddress\Actions;
-use FreeCRM\Modules\Settings\ApiAddress\Models\Module as Settings_ApiAddress_Module_Model;
+namespace App\Modules\Settings\ApiAddress\Actions;
+use App\Modules\Settings\ApiAddress\Models\Module as Settings_ApiAddress_Module_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\ApiAddress\Models\Module as Settings_ApiAddress_Mod
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveConfig extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class SaveConfig extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$elements = $request->get('elements');
@@ -25,11 +25,11 @@ class SaveConfig extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$result = Settings_ApiAddress_Module_Model::getInstance($moduleName)->setConfig($elements);
 
 		if ($result)
-			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_NOTIFY_OK', $moduleName));
+			$result = array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_NOTIFY_OK', $moduleName));
 		else
-			$result = array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_ERROR', $moduleName));
+			$result = array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('JS_ERROR', $moduleName));
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Views;
-use FreeCRM\Modules\Settings\WorkflowsModels\TaskRecord;
+namespace App\Modules\Settings\Workflows\Views;
+use App\Modules\Settings\WorkflowsModels\TaskRecord;
 
 
 /* +**********************************************************************************
@@ -14,13 +14,13 @@ use FreeCRM\Modules\Settings\WorkflowsModels\TaskRecord;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 
-use FreeCRM\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
-class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
+class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -32,13 +32,13 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 		$taskTypes = $workflowModel->getTaskTypes();
 		if ($recordId) {
-			$taskModel = \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getInstance($recordId);
+			$taskModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($recordId);
 		} else {
 			$taskType = $request->get('type');
 			if (empty($taskType)) {
 				$taskType = !empty($taskTypes[0]) ? $taskTypes[0]->getName() : 'VTEmailTask';
 			}
-			$taskModel = \FreeCRM\Modules\Settings\Workflows\Models\TaskRecord::getCleanInstance($workflowModel, $taskType);
+			$taskModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getCleanInstance($workflowModel, $taskType);
 		}
 		$taskTypeModel = $taskModel->getTaskType();
 		$viewer->assign('TASK_TYPE_MODEL', $taskTypeModel);
@@ -50,11 +50,11 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$taskObject = $taskModel->getTaskObject();
 		$taskType = get_class($taskObject);
 		if ($taskType === 'VTCreateEntityTask') {
-			$handlerClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
+			$handlerClass = \App\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
 			if ($taskObject->entity_type && $taskObject->field_value_mapping) {
-				$relationModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
+				$relationModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
@@ -63,7 +63,7 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 						if ($mappingInfo['value'] == 'assigned_user_id') {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {
-							$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getInstanceByName($mappingInfo['value']);
+							$userRecordModel = \App\Modules\Users\Models\Record::getInstanceByName($mappingInfo['value']);
 							if ($userRecordModel) {
 								$ownerName = $userRecordModel->getId();
 							} else {
@@ -83,9 +83,9 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$viewer->assign('RESTRICTFIELDS', $restrictFields);
 		}
 	}
-	if ($taskType === 'FreeCRM\\Modules\\com_vtiger_workflow\\tasks\\VTSendPdf' || $taskType === 'VTSendPdf') {
+	if ($taskType === 'App\\Modules\\com_vtiger_workflow\\tasks\\VTSendPdf' || $taskType === 'VTSendPdf') {
 		// Prepare PDF templates for the template
-		$pdfTemplates = \FreeCRM\Modules\Vtiger\Models\PDF::getTemplatesByModule($sourceModule);
+		$pdfTemplates = \App\Modules\Vtiger\Models\PDF::getTemplatesByModule($sourceModule);
 		$viewer->assign('PDF_TEMPLATES', $pdfTemplates);
 		
 		// Prepare SMTP accounts
@@ -106,11 +106,11 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('TASK_MODEL', $taskModel);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		// Adding option Line Item block for Individual tax mode
-		$individualTaxBlockLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate("LBL_LINEITEM_BLOCK_GROUP", $qualifiedModuleName);
+		$individualTaxBlockLabel = \App\Runtime\Vtiger_Language_Handler::translate("LBL_LINEITEM_BLOCK_GROUP", $qualifiedModuleName);
 		$individualTaxBlockValue = $viewer->view('LineItemsGroupTemplate.tpl', $qualifiedModuleName, $fetch = true);
 
 		// Adding option Line Item block for group tax mode
-		$groupTaxBlockLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate("LBL_LINEITEM_BLOCK_INDIVIDUAL", $qualifiedModuleName);
+		$groupTaxBlockLabel = \App\Runtime\Vtiger_Language_Handler::translate("LBL_LINEITEM_BLOCK_INDIVIDUAL", $qualifiedModuleName);
 		$groupTaxBlockValue = $viewer->view('LineItemsIndividualTemplate.tpl', $qualifiedModuleName, $fetch = true);
 
 		$templateVariables = array(
@@ -119,8 +119,8 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		);
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
-		$viewer->assign('FIELD_EXPRESSIONS', \FreeCRM\Modules\Settings\Workflows\Models\Module::getExpressions());
-		$userModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Settings\Workflows\Models\Module::getExpressions());
+		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer->assign('dateFormat', $userModel->get('date_format'));
 		$viewer->assign('timeFormat', $userModel->get('hour_format'));
 		$viewer->assign('MODULE', $moduleName);
@@ -128,20 +128,20 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$emailFieldoptions = [];
 		$textParser = \App\TextParser::getInstance($sourceModule);
 		foreach ($textParser->getRecordVariable('email') as $blockName => $fields) {
-			$blockName = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
+			$blockName = \App\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
 			foreach ($fields as $field) {
-				$emailFieldoptions[$blockName][$field['var_value']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
+				$emailFieldoptions[$blockName][$field['var_value']] = \App\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
 			}
 		}
 		foreach ($textParser->getRelatedVariable('email') as $modules) {
 			foreach ($modules as $blockName => $fields) {
-				$blockName = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
+				$blockName = \App\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
 				foreach ($fields as $field) {
-					$emailFieldoptions[$blockName][$field['var_value']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
+					$emailFieldoptions[$blockName][$field['var_value']] = \App\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
 				}
 			}
 		}
-		$fromEmailFieldOptions = array_merge(['' => ['' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
+		$fromEmailFieldOptions = array_merge(['' => ['' => \App\Runtime\Vtiger_Language_Handler::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
 		$assignedToValues = [
 			\LanguageTranslator::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
 			\LanguageTranslator::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()

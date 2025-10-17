@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages\Models;
+namespace App\Modules\IStorages\Models;
 
 /**
  * Record Class for IStorages
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\IStorages\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -17,7 +17,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getHierarchy()
 	{
-		$focus = \FreeCRM\CRMEntity::getInstance($this->getModuleName());
+		$focus = \App\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getHierarchy($this->getId());
 		foreach ($hierarchy['entries'] as $storageId => $storageInfo) {
 			preg_match('/<a href="+/', $storageInfo[0], $matches);
@@ -25,7 +25,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				preg_match('/[.\s]+/', $storageInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $storageInfo[0], $name);
 
-				$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('IStorages');
+				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('IStorages');
 				$recordModel->setId($storageId);
 				$hierarchy['entries'][$storageId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}

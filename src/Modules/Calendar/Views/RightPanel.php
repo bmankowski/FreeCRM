@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Calendar\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class RightPanel extends \Vtiger_Index_View
 {
 
@@ -25,16 +25,16 @@ class RightPanel extends \Vtiger_Index_View
 		$this->exposeMethod('getActivityType');
 	}
 
-	public function getUsersList(\FreeCRM\Http\Vtiger_Request $request)
+	public function getUsersList(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$roleInstance = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$roleInstance = \App\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 		switch ($clendarallorecords) {
 			case 3:
-				if (\FreeCRM\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+				if (\App\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$users = $usersAndGroup['users'];
 				} else {
@@ -54,12 +54,12 @@ class RightPanel extends \Vtiger_Index_View
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 
-	public function getGroupsList(\FreeCRM\Http\Vtiger_Request $request)
+	public function getGroupsList(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$roleInstance = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$roleInstance = \App\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 
 		switch ($clendarallorecords) {
@@ -70,7 +70,7 @@ class RightPanel extends \Vtiger_Index_View
 				$groups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 				break;
 			case 3:
-				if (\FreeCRM\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+				if (\App\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$groups = $usersAndGroup['group'];
 				} else {
@@ -83,12 +83,12 @@ class RightPanel extends \Vtiger_Index_View
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 
-	public function getActivityType(\FreeCRM\Http\Vtiger_Request $request)
+	public function getActivityType(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ACTIVITY_TYPE', \FreeCRM\Modules\Calendar\Models\Module::getCalendarTypes());
+		$viewer->assign('ACTIVITY_TYPE', \App\Modules\Calendar\Models\Module::getCalendarTypes());
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 }

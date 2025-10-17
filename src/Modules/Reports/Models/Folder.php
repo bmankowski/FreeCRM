@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Models;
+namespace App\Modules\Reports\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
+class Folder extends \App\Modules\Vtiger\Models\Model
 {
 
 	/**
@@ -55,7 +55,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$folderId = $this->getId();
 		if (!empty($folderId)) {
@@ -74,13 +74,13 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function delete()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_reportfolder WHERE folderid = ?', array($this->getId()));
 	}
 
 	/**
 	 * Function returns Report Models for the folder
-	 * @param <\FreeCRM\Modules\Vtiger\Models\Paging> $pagingModel
+	 * @param <\App\Modules\Vtiger\Models\Paging> $pagingModel
 	 * @return <Reports_Record_Model>
 	 */
 	public function getReports($pagingModel)
@@ -91,7 +91,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 			'orderBy' => $this->get('orderby'),
 			'sortBy' => $this->get('sortby'));
 
-		$reportClassInstance = \FreeCRM\Modules\Vtiger\Models\Module::getClassInstance('Reports');
+		$reportClassInstance = \App\Modules\Vtiger\Models\Module::getClassInstance('Reports');
 
 		$fldrId = $this->getId();
 		if ($fldrId == 'All') {
@@ -125,7 +125,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 			$pagingModel->set('nextPageExists', false);
 		}
 
-		$reportModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Reports');
+		$reportModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Reports');
 
 		if ($fldrId === false) {
 			return $this->getAllReportModels($reportsList, $reportModuleModel);
@@ -177,9 +177,9 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public static function getInstanceById($folderId)
 	{
-		$folderModel = \FreeCRM\Runtime\Vtiger_Cache::get('reportsFolder', $folderId);
+		$folderModel = \App\Runtime\Vtiger_Cache::get('reportsFolder', $folderId);
 		if (!$folderModel) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$folderModel = Reports_Folder_Model::getInstance();
 
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", array($folderId));
@@ -188,7 +188,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 				$values = $db->query_result_rowdata($result, 0);
 				$folderModel->setData($values);
 			}
-			\FreeCRM\Runtime\Vtiger_Cache::set('reportsFolder', $folderId, $folderModel);
+			\App\Runtime\Vtiger_Cache::set('reportsFolder', $folderId, $folderModel);
 		}
 		return $folderModel;
 	}
@@ -199,8 +199,8 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public static function getAll()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$folders = \FreeCRM\Runtime\Vtiger_Cache::get('reports', 'folders');
+		$db = \App\database\PearDatabase::getInstance();
+		$folders = \App\Runtime\Vtiger_Cache::get('reports', 'folders');
 		if (!$folders) {
 			$folders = array();
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder ORDER BY foldername ASC", array());
@@ -210,10 +210,10 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 					$folderModel = Reports_Folder_Model::getInstance();
 					$values = $db->query_result_rowdata($result, $i);
 					$folders[$values['folderid']] = $folderModel->setData($values);
-					\FreeCRM\Runtime\Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
+					\App\Runtime\Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
 				}
 			}
-			\FreeCRM\Runtime\Vtiger_Cache::set('reports', 'folders', $folders);
+			\App\Runtime\Vtiger_Cache::set('reports', 'folders', $folders);
 		}
 		return $folders;
 	}
@@ -224,7 +224,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function checkDuplicate()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'SELECT 1 FROM vtiger_reportfolder WHERE foldername = ?';
 		$params = array($this->getName());
@@ -249,7 +249,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function hasReports()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_report WHERE folderid = ?', array($this->getId()));
 
@@ -315,7 +315,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function getReportsCount()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$params = array();
 
 		// To get the report ids which are permitted for the user
@@ -345,7 +345,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 				$sql .= " WHERE vtiger_reportfolder.folderid=?";
 				array_push($params, $fldrId);
 			}
-			$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+			$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			if (!$currentUserModel->isAdminUser()) {
 				$currentUserId = $currentUserModel->getId();
 
@@ -374,7 +374,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	/**
 	 * Function to get all Report Record Models
 	 * @param <Array> $allReportsList
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module - Reports Module Model
+	 * @param \App\Modules\Vtiger\Models\Module - Reports Module Model
 	 * @return <Array> Reports Record Models
 	 */
 	public function getAllReportModels($allReportsList, $reportModuleModel)
@@ -401,7 +401,7 @@ class Folder extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public function getRecordIds($skipRecords = false, $module)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$baseTableName = "vtiger_report";
 		$baseTableId = "reportid";
 		$folderId = $this->getId();

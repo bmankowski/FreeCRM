@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailScanner\Actions;
+namespace App\Modules\OSSMailScanner\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,32 +12,32 @@ namespace FreeCRM\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveCRMuser extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class SaveCRMuser extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$userid = $request->get('userid');
 		$value = $request->get('value');
 		if ($userid) {
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$adb = \App\database\PearDatabase::getInstance();
 			$adb->pquery('update roundcube_users set crm_user_id = ? WHERE user_id = ?', [$value, $userid]);
 			$success = true;
-			$data = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_saveuser_info', 'OSSMailScanner');
+			$data = \App\Runtime\Vtiger_Language_Handler::translate('JS_saveuser_info', 'OSSMailScanner');
 		} else {
 			$success = false;
 			$data = 'Error: Brak userid';
 		}
 		$result = array('success' => $success, 'data' => $data);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

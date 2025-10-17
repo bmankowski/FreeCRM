@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\OSSMailScanner\Views;
+namespace App\Modules\Settings\OSSMailScanner\Views;
 
 
 
@@ -13,20 +13,20 @@ namespace FreeCRM\Modules\Settings\OSSMailScanner\Views;
 class Folders extends \Vtiger_BasicModal_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser() || !$request->has('record')) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -35,9 +35,9 @@ class Folders extends \Vtiger_BasicModal_View
 		$mailModuleActive = vtlib\Functions::getModuleId('OSSMail');
 		$folders = [];
 		if ($mailModuleActive) {
-			$mailRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+			$mailRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 			$folders = $mailRecordModel->getFolders($record);
-			$mailScannerRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+			$mailScannerRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 			$mailScannerFolders = $mailScannerRecordModel->getFolders($record);
 			$selectedFolders = [];
 			$missingFolders = [];

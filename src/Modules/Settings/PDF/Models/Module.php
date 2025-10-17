@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Models;
+namespace App\Modules\Settings\PDF\Models;
 
 
 
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Settings\PDF\Models;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $baseTable = 'a_yf_pdf';
@@ -106,7 +106,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$moduleModels = \FreeCRM\Modules\Vtiger\Models\Module::getAll([0, 2]);
+		$moduleModels = \App\Modules\Vtiger\Models\Module::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isEntityModule()) {
@@ -169,6 +169,6 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getTemplatesByModule($moduleName)
 	{
-		return \FreeCRM\Modules\Vtiger\Models\PDF::getTemplatesByModule($moduleName);
+		return \App\Modules\Vtiger\Models\PDF::getTemplatesByModule($moduleName);
 	}
 }

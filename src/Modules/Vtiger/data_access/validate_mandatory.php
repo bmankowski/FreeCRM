@@ -19,8 +19,8 @@ Class DataAccess_validate_mandatory
 		$save_record = true;
 		$view = isset($record_form['view']) ? $record_form['view'] : false;
 		if ($view == 'quick_edit' && $moduleName != 'Calendar' && $moduleName != 'Events') {
-			$records = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
-			$recordModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance($moduleName);
+			$records = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$recordModel = \App\Modules\Users\Models\Record::getCleanInstance($moduleName);
 			$fieldList = $recordModel->getModule()->getFields();
 			foreach ($fieldList as $fieldName => $field) {
 				if ($field->isMandatory() && !$records->get($fieldName) && !isset($record_form[$fieldName])) {
@@ -38,8 +38,8 @@ Class DataAccess_validate_mandatory
 				'fne' => $fieldName2,
 				'type' => 0,
 				'info' => Array(
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($invalidField, $moduleName),
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . \App\Runtime\Vtiger_Language_Handler::translate($invalidField, $moduleName),
 					'type' => 'info'
 				)
 			);

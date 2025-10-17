@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Views;
+namespace App\Modules\KnowledgeBase\Views;
 
 /**
  * @package YetiForce.Views
@@ -8,14 +8,14 @@ namespace FreeCRM\Modules\KnowledgeBase\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Tree extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getSideBarLinks($linkParams);
 		$viewer = $this->getViewer($request);
@@ -24,7 +24,7 @@ class Tree extends \Vtiger_Index_View
 		$viewer->view('TreeHeader.tpl', $moduleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
 		$scripts = [
@@ -37,7 +37,7 @@ class Tree extends \Vtiger_Index_View
 		return $scriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /**
  * UIType Modules Field Class
@@ -27,7 +27,7 @@ class Modules extends Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $value);
+		return \App\Runtime\Vtiger_Language_Handler::translate($value, $value);
 	}
 
 	public function getListSearchTemplateName()

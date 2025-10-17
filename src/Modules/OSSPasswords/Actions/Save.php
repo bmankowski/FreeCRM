@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSPasswords\Actions;
+namespace App\Modules\OSSPasswords\Actions;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,16 +12,16 @@ namespace FreeCRM\Modules\OSSPasswords\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
-			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
+			$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
@@ -34,15 +34,15 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to save record
 	 * @param Vtiger_Request $request - values of the record
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record - record Model of saved record
+	 * @return \App\Modules\Vtiger\Models\Record - record Model of saved record
 	 */
-	public function saveRecord(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveRecord(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$mode = $recordModel->get('mode');
 
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		// check if encryption is enabled
 		$config = false;
@@ -86,12 +86,12 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
+			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 		return $recordModel;

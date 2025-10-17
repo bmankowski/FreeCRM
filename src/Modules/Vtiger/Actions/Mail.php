@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /**
  * Mail action class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Mail extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	/**
@@ -16,7 +16,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return boolean
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName)) {
@@ -42,7 +42,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Process function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -54,13 +54,13 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Check if smtps are active
 	 * @param Vtiger_Request $request
 	 */
-	public function checkSmtp(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkSmtp(\App\Http\Vtiger_Request $request)
 	{
 		$result = false;
-		if (\FreeCRM\AppConfig::main('isActiveSendingMails')) {
+		if (\App\AppConfig::main('isActiveSendingMails')) {
 			$result = !empty(\App\Mail::getAll());
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -69,7 +69,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * Send mails
 	 * @param Vtiger_Request $request
 	 */
-	public function sendMails(\FreeCRM\Http\Vtiger_Request $request)
+	public function sendMails(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$field = $request->get('field');
@@ -93,7 +93,7 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -103,15 +103,15 @@ class Mail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(\FreeCRM\Http\Vtiger_Request $request)
+	public function getQuery(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule) {
-			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
-			$listView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
+			$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
+			$listView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 		} else {
-			$listView = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $request->get('viewname'));
+			$listView = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $request->get('viewname'));
 		}
 		$searchResult = $request->get('searchResult');
 		if (!empty($searchResult)) {

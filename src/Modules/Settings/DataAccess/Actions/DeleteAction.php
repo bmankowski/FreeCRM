@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\DataAccess\Actions;
+namespace App\Modules\Settings\DataAccess\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,20 +13,20 @@ namespace FreeCRM\Modules\Settings\DataAccess\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DeleteAction extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class DeleteAction extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('id');
 		$aid = $request->get('a');
 		$baseModule = $request->get('m');
-		\FreeCRM\Modules\Settings\DataAccess\Models\Module::deleteAction($id, $aid);
+		\App\Modules\Settings\DataAccess\Models\Module::deleteAction($id, $aid);
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Step3&tpl_id=$id&base_module=$baseModule&s=false");
 	}
 }

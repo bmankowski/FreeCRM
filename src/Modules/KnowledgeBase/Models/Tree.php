@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Models;
+namespace App\Modules\KnowledgeBase\Models;
 
 /**
  * Model of tree
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Tree extends \FreeCRM\Modules\Vtiger\Models\Model
+class Tree extends \App\Modules\Vtiger\Models\Model
 {
 
 	private $lastIdinTree;
@@ -21,7 +21,7 @@ class Tree extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function getFolders()
 	{
 		$folders = [];
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
 		while ($row = $db->getRow($result)) {
@@ -34,7 +34,7 @@ class Tree extends \FreeCRM\Modules\Vtiger\Models\Model
 				'type' => 'folder',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName())
+				'text' => \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName())
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
@@ -58,7 +58,7 @@ class Tree extends \FreeCRM\Modules\Vtiger\Models\Model
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, \vtlib\Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);

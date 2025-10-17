@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification\UiTypes;
+namespace App\Modules\Notification\UiTypes;
 
 /**
  * Uitype Model

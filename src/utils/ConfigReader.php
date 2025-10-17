@@ -9,7 +9,7 @@
  * ********************************************************************************** */
 
 
-namespace FreeCRM\utils;
+namespace App\utils;
 
 class ConfigReader
 {

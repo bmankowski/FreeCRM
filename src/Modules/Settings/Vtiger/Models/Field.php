@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Models;
-use FreeCRM\Modules\Settings\Vtiger\Models\Field;
+namespace App\Modules\Settings\Vtiger\Models;
+use App\Modules\Settings\Vtiger\Models\Field;
 
 
 
@@ -25,13 +25,13 @@ class Field extends \Vtiger_Field_Model
 	 * Initialize
 	 * @param string $module
 	 * @param array $data
-	 * @return \FreeCRM\Modules\Settings\Vtiger\Models\Field
+	 * @return \App\Modules\Settings\Vtiger\Models\Field
 	 */
 	public static function init($module = 'Vtiger', $data = [])
 	{
-		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
+		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
 		$moduleInstance = new $modelClassName();
-		$modelClassName = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 		$instance = new $modelClassName();
 		$instance->setModule($moduleInstance);
 		foreach ($data as $key => $value) {

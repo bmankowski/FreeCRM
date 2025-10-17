@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Models;
+namespace App\Modules\Products\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -30,7 +30,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	static function getListPriceValues($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid = ?', [$id]);
 		$listpriceValues = [];
 		while ($row = $db->fetch_array($listPrice)) {
@@ -45,7 +45,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getSubProducts()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT vtiger_products.productid FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
@@ -59,7 +59,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$subProductId = $db->query_result($result, $i, 'productid');
-			$subProductList[] = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($subProductId, 'Products');
+			$subProductList[] = \App\Modules\Vtiger\Models\Record::getInstanceById($subProductId, 'Products');
 		}
 
 		return $subProductList;
@@ -95,7 +95,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		if (!empty($recordId)) {
 			$baseCurrency = $this->getProductBaseCurrency($recordId, $this->getModuleName());
 		} else {
-			$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$baseCurrency = \vtlib\Functions::userCurrencyId($currentUserModel->getId());
 		}
 		$baseCurrencyDetails = array('currencyid' => $baseCurrency);
@@ -113,7 +113,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$imageDetails = array();
 		$recordId = $this->getId();
 
@@ -158,14 +158,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param string $searchKey
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\Record or Module Specific Record Model instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Record or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false, $operator = false)
 	{
 		$query = false;
 		if ($moduleName !== false && ($moduleName == 'Products' || $moduleName == 'Services' )) {
-			$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-			$adb = \FreeCRM\database\PearDatabase::getInstance();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$adb = \App\database\PearDatabase::getInstance();
 			$params = ['%' . $currentUser->getId() . '%', "%$searchKey%"];
 			$queryFrom = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';
 			$queryWhere = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? && u_yf_crmentity_search_label.`searchlabel` LIKE ?';
@@ -196,7 +196,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$query .= sprintf(' ORDER BY %s', $orderWhere);
 			}
 			if (!$limit) {
-				$limit = \FreeCRM\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+				$limit = \App\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 			}
 			if ($limit) {
 				$query .= ' LIMIT ';
@@ -224,7 +224,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
-		$convertedInfo = \FreeCRM\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
+		$convertedInfo = \App\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
 		$labels = \App\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
@@ -238,8 +238,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-			$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
@@ -256,7 +256,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			return $activeStatus;
 		}
 		$recordId = $this->getId();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT discontinued FROM vtiger_products WHERE productid = ?', array($recordId));
 		$activeStatus = $db->query_result($result, 'discontinued');
 		return $activeStatus;
@@ -288,7 +288,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
@@ -395,7 +395,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getProductBaseCurrency($productid, $module = 'Products')
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($module == 'Services') {
 			$sql = 'select currency_id from vtiger_service where serviceid=?';
 		} else {
@@ -408,7 +408,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 
 	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		if ($mode == 'edit') {
 			if ($module == 'Services') {
@@ -446,13 +446,13 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if (\FreeCRM\Http\AppRequest::get('ajxaction') != 'DETAILVIEW' && \FreeCRM\Http\AppRequest::get('action') != 'MassSave' && \FreeCRM\Http\AppRequest::get('action') != 'ProcessDuplicates') {
+		if (\App\Http\AppRequest::get('ajxaction') != 'DETAILVIEW' && \App\Http\AppRequest::get('action') != 'MassSave' && \App\Http\AppRequest::get('action') != 'ProcessDuplicates') {
 			$this->insertPriceInformation();
 		}
 		// Update unit price value in vtiger_productcurrencyrel
 		$this->updateUnitPrice();
 		//Inserting into attachments
-		if (\FreeCRM\Http\AppRequest::get('module') === 'Products') {
+		if (\App\Http\AppRequest::get('module') === 'Products') {
 			$this->insertAttachment();
 		}
 	}
@@ -486,9 +486,9 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$curName = $currency['currency_name'];
 			$curCheckName = 'cur_' . $curid . '_check';
 			$curValue = 'curname' . $curid;
-			if (\FreeCRM\Http\AppRequest::get($curCheckName) === 'on' || \FreeCRM\Http\AppRequest::get($curCheckName) === 1) {
-				$requestPrice = CurrencyField::convertToDBFormat(\FreeCRM\Http\AppRequest::get('unit_price'), null, true);
-				$actualPrice = CurrencyField::convertToDBFormat(\FreeCRM\Http\AppRequest::get($curValue), null, true);
+			if (\App\Http\AppRequest::get($curCheckName) === 'on' || \App\Http\AppRequest::get($curCheckName) === 1) {
+				$requestPrice = CurrencyField::convertToDBFormat(\App\Http\AppRequest::get('unit_price'), null, true);
+				$actualPrice = CurrencyField::convertToDBFormat(\App\Http\AppRequest::get($curValue), null, true);
 				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
 				$convertedPrice = $actualConversionRate * $requestPrice;
 				\App\Log::trace("Going to save the Product - $curName currency relationship");
@@ -498,7 +498,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 					'converted_price' => $convertedPrice,
 					'actual_price' => $actualPrice
 				])->execute();
-				if (\FreeCRM\Http\AppRequest::get('base_currency') === $curValue) {
+				if (\App\Http\AppRequest::get('base_currency') === $curValue) {
 					$currencySet = true;
 					$db->createCommand()
 						->update($this->getEntity()->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->getEntity()->table_index => $this->getId()])
@@ -523,7 +523,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 		$db = \App\Db::getInstance();
 		$id = $this->getId();
-		$module = \FreeCRM\Http\AppRequest::get('module');
+		$module = \App\Http\AppRequest::get('module');
 		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 		foreach ($_FILES as $fileindex => $files) {
 			if (empty($files['tmp_name'])) {
@@ -531,8 +531,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			}
 			$fileInstance = \App\Fields\File::loadFromRequest($files);
 			if ($fileInstance->validate('image')) {
-				if (\FreeCRM\Http\AppRequest::get($fileindex . '_hidden') != '')
-					$files['original_name'] = \FreeCRM\Http\AppRequest::get($fileindex . '_hidden');
+				if (\App\Http\AppRequest::get($fileindex . '_hidden') != '')
+					$files['original_name'] = \App\Http\AppRequest::get($fileindex . '_hidden');
 				else
 					$files['original_name'] = stripslashes($files['name']);
 				$files['original_name'] = str_replace('"', '', $files['original_name']);
@@ -552,8 +552,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();
 		//Remove the deleted vtiger_attachments from db - Products
-		if ($module === 'Products' && \FreeCRM\Http\AppRequest::get('del_file_list') != '') {
-			$deleteFileList = explode("###", trim(\FreeCRM\Http\AppRequest::get('del_file_list'), "###"));
+		if ($module === 'Products' && \App\Http\AppRequest::get('del_file_list') != '') {
+			$deleteFileList = explode("###", trim(\App\Http\AppRequest::get('del_file_list'), "###"));
 			foreach ($deleteFileList as $fileName) {
 				$attachmentId = (new \App\Db\Query())->select(['vtiger_attachments.attachmentsid'])
 					->from('vtiger_attachments')

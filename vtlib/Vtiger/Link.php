@@ -158,7 +158,7 @@ class Link
 	 */
 	static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (\App\Cache::has('AllLinks', 'ByType')) {
 			$rows = \App\Cache::get('AllLinks', 'ByType');
 		} else {

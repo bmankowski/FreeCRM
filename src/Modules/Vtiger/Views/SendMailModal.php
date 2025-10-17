@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Send mail modal class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class SendMailModal extends \Vtiger_Index_View
 {
 
@@ -21,10 +21,10 @@ class SendMailModal extends \Vtiger_Index_View
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -37,7 +37,7 @@ class SendMailModal extends \Vtiger_Index_View
 	 * Pocess function
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -50,7 +50,7 @@ class SendMailModal extends \Vtiger_Index_View
 		$viewer->assign('RECORDS', $this->getRecordsListFromRequest($request));
 		$viewer->assign('FIELDS', $this->fields);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->view('SendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
@@ -60,7 +60,7 @@ class SendMailModal extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return int[]
 	 */
-	public function getRecordsListFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$dataReader = $this->getQuery($request)->createCommand()->query();
 		$count = ['all' => 0, 'emails' => 0];
@@ -84,15 +84,15 @@ class SendMailModal extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(\FreeCRM\Http\Vtiger_Request $request)
+	public function getQuery(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule) {
-			$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
-			$listView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
+			$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
+			$listView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 		} else {
-			$listView = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $request->get('viewname'));
+			$listView = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $request->get('viewname'));
 		}
 		$searchResult = $request->get('searchResult');
 		if (!empty($searchResult)) {

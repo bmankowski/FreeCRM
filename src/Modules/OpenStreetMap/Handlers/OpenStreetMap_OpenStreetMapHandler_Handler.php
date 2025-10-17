@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OpenStreetMap\Handlers;
+namespace App\Modules\OpenStreetMap\Handlers;
 
 /**
  * Save geographical coordinates Handler Class

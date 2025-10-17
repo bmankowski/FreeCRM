@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PBXManager;
+namespace App\Modules\PBXManager;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -64,12 +64,12 @@ class Controller {
 		$temp = explode("/", $temp[0]);
 
 		$callerNumber = $request->get('callerIdNumber');
-		$userInfo = \FreeCRM\Modules\PBXManager\Models\Record::getUserInfoWithNumber($callerNumber);
+		$userInfo = \App\Modules\PBXManager\Models\Record::getUserInfoWithNumber($callerNumber);
 
 		if (!$userInfo) {
 			$callerNumber = $temp[1];
 			if (is_numeric($callerNumber)) {
-				$userInfo = \FreeCRM\Modules\PBXManager\Models\Record::getUserInfoWithNumber($callerNumber);
+				$userInfo = \App\Modules\PBXManager\Models\Record::getUserInfoWithNumber($callerNumber);
 			}
 		}
 
@@ -86,12 +86,12 @@ class Controller {
 			}
 
 			$request->set('to', $to);
-			$customerInfo = \FreeCRM\Modules\PBXManager\Models\Record::lookUpRelatedWithNumber($to);
+			$customerInfo = \App\Modules\PBXManager\Models\Record::lookUpRelatedWithNumber($to);
 			$connector->handleStartupCall($request, $userInfo, $customerInfo);
 		} else {
 			// Inbound Call
 			$request->set('Direction', 'inbound');
-			$customerInfo = \FreeCRM\Modules\PBXManager\Models\Record::lookUpRelatedWithNumber($request->get('callerIdNumber'));
+			$customerInfo = \App\Modules\PBXManager\Models\Record::lookUpRelatedWithNumber($request->get('callerIdNumber'));
 			$request->set('from', $request->get('callerIdNumber'));
 			$connector->handleStartupCall($request, $userInfo, $customerInfo);
 		}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Portal\Actions;
+namespace App\Modules\Portal\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,28 +12,28 @@ namespace FreeCRM\Modules\Portal\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$recordId = $request->get('record');
 		$bookmarkName = $request->get('bookmarkName');
 		$bookmarkUrl = $request->get('bookmarkUrl');
 
-		\FreeCRM\Modules\Portal\Models\Module::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
+		\App\Modules\Portal\Models\Module::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$result = array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_BOOKMARK_SAVED_SUCCESSFULLY', $module));
+		$response = new \App\Http\Vtiger_Response();
+		$result = array('message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_BOOKMARK_SAVED_SUCCESSFULLY', $module));
 		$response->setResult($result);
 		$response->emit();
 	}

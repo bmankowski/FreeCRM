@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
+namespace App\Modules\Users\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RecordStructure extends \FreeCRM\Modules\Vtiger\Models\Model
+class RecordStructure extends \App\Modules\Vtiger\Models\Model
 {
 	
 }

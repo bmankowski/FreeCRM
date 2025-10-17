@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PBXManager\Views;
-use FreeCRM\Modules\Settings\PBXManagerModels\Record as Settings_PBXManager_Record_Model;
+namespace App\Modules\Settings\PBXManager\Views;
+use App\Modules\Settings\PBXManagerModels\Record as Settings_PBXManager_Record_Model;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\PBXManagerModels\Record as Settings_PBXManager_Reco
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -21,15 +21,15 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('gatewayInfo');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->gatewayInfo($request);
 	}
 
-	public function gatewayInfo(\FreeCRM\Http\Vtiger_Request $request)
+	public function gatewayInfo(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = Settings_PBXManager_Record_Model::getInstance();
-		$moduleModel = \FreeCRM\Modules\Settings\PBXManager\Models\Module::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\PBXManager\Models\Module::getCleanInstance();
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('RECORD_ID', $recordModel->get('id'));

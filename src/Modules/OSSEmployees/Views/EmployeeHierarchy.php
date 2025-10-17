@@ -3,33 +3,33 @@
 
 
 
-namespace FreeCRM\Modules\OSSEmployees\Views;
+namespace App\Modules\OSSEmployees\Views;
 
-use FreeCRM\Http\Vtiger_Request;
-class EmployeeHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
+use App\Http\Vtiger_Request;
+class EmployeeHierarchy extends \App\Runtime\Vtiger_View_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getEmployeeHierarchy();
 
 		$viewer->assign('MODULE', $moduleName);
@@ -37,7 +37,7 @@ class EmployeeHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$viewer->view('EmployeeHierarchy.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}

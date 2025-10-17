@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Currency\Models;
+namespace App\Modules\Settings\Currency\Models;
 
 
 /* +**********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\Currency\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 

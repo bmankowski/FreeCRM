@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\OSSMailScanner\Views;
+namespace App\Modules\Settings\OSSMailScanner\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -13,13 +13,13 @@ namespace FreeCRM\Modules\Settings\OSSMailScanner\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class logs extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class logs extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$OSSMailScanner_Record_Model = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$OSSMailScanner_Record_Model = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 
 		$cron_history_action_list = $OSSMailScanner_Record_Model->get_scan_history();
 		$viewer = $this->getViewer($request);
@@ -41,7 +41,7 @@ class logs extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	public function getNumLog()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$limit = 30;
 		$result = $db->query("SELECT COUNT(id) as num FROM vtiger_ossmails_logs");
 		$numRecord = $db->query_result($result, 0, 'num');

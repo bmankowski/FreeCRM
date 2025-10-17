@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModTracker\Models;
+namespace App\Modules\Settings\ModTracker\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\ModTracker\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public function getModTrackerModules($active = false)
@@ -42,9 +42,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	public function changeActiveStatus($tabid, $status)
 	{
 		if ($status) {
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule($tabid);
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule($tabid);
 		} else {
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->disableTrackingForModule($tabid);
+			\App\CRMEntity::getInstance('ModTracker')->disableTrackingForModule($tabid);
 		}
 	}
 }

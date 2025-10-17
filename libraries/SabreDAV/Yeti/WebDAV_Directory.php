@@ -41,7 +41,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		if ($this->dirid == 0)
 			throw new DAV\Exception\Forbidden('Permission denied to create file: ' . $name);
 		include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-		$adb = \FreeCRM\Database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$user = new \Users();
 		$current_user = $user->retrieveCurrentUserInfoFromFile($this->exData->crmUserId);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ProjectMilestone;
+namespace App\Modules\ProjectMilestone;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\ProjectMilestone;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ProjectMilestone extends \FreeCRM\CRMEntity
+class ProjectMilestone extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_projectmilestone';
@@ -137,7 +137,7 @@ class ProjectMilestone extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -232,7 +232,7 @@ class ProjectMilestone extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -312,7 +312,7 @@ class ProjectMilestone extends \FreeCRM\CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 
 			$projectMilestoneResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectMilestone'));

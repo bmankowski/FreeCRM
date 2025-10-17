@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -19,7 +19,7 @@ class TooltipView extends Model
 
 	/**
 	 * Function to set the module instance
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleInstance - module model
+	 * @param \App\Modules\Vtiger\Models\Module $moduleInstance - module model
 	 * @return \self
 	 */
 	public function setModule($moduleInstance)
@@ -64,9 +64,9 @@ class TooltipView extends Model
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
 		$instance = new $modelClassName();
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		return $instance->setModule($recordModel->getModule())->setRecord($recordModel);
 	}
 }

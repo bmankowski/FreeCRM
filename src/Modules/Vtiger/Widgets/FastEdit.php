@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Widgets;
+namespace App\Modules\Vtiger\Widgets;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class FastEdit extends \FreeCRM\Modules\Vtiger\Widgets\Basic
+class FastEdit extends \App\Modules\Vtiger\Widgets\Basic
 {
 
 	public function getUrl()

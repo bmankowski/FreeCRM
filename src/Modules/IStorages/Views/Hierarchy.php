@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages\Views;
+namespace App\Modules\IStorages\Views;
 
 /**
  * Class to show hierarchy 
@@ -10,14 +10,14 @@ namespace FreeCRM\Modules\IStorages\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
-class Hierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
+use App\Http\Vtiger_Request;
+class Hierarchy extends \App\Runtime\Vtiger_View_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -25,18 +25,18 @@ class Hierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getHierarchy();
 
 		$viewer->assign('MODULE', $moduleName);
@@ -44,7 +44,7 @@ class Hierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$viewer->view('Hierarchy.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}

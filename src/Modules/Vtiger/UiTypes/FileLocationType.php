@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -19,7 +19,7 @@ class FileLocationType extends Base
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordInstance
+	 * @param \App\Modules\Vtiger\Models\Record $recordInstance
 	 * @param bool $rawText
 	 * @return string
 	 */
@@ -36,7 +36,7 @@ class FileLocationType extends Base
 	public function getPicklistValues()
 	{
 		$moduleName = $this->get('field')->getModuleName();
-		return ['I' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INTERNAL', $moduleName), 'E' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXTERNAL', $moduleName)];
+		return ['I' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_INTERNAL', $moduleName), 'E' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXTERNAL', $moduleName)];
 	}
 
 	/**

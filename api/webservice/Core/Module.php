@@ -27,7 +27,7 @@ class Module
 		$modules = [];
 		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
 			if (\App\Privilege::isPermitted($value['name'])) {
-				$modules[$value['name']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value['name'], $value['name']);
+				$modules[$value['name']] = \App\Runtime\Vtiger_Language_Handler::translate($value['name'], $value['name']);
 			}
 		}
 		return static::$permittedModules = $modules;

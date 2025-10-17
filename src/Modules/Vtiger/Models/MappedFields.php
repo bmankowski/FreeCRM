@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
-use FreeCRM\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
+namespace App\Modules\Vtiger\Models;
+use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
 
 /**
  * Basic MappedFields Model Class
@@ -10,7 +10,7 @@ use FreeCRM\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
+use App\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 class MappedFields extends Model
 {
 
@@ -45,12 +45,12 @@ class MappedFields extends Model
 
 	public function getModule()
 	{
-		return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getName());
+		return \App\Modules\Vtiger\Models\Module::getInstance($this->getName());
 	}
 
 	public function getRelatedModule()
 	{
-		return \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getRelatedName());
+		return \App\Modules\Vtiger\Models\Module::getInstance($this->getRelatedName());
 	}
 
 	/**
@@ -85,7 +85,7 @@ class MappedFields extends Model
 
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			if (!$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions() || !\FreeCRM\Modules\Users\Models\Privileges::isPermitted($template->getRelatedName(), 'EditView')) {
+			if (!$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions() || !\App\Modules\Users\Models\Privileges::isPermitted($template->getRelatedName(), 'EditView')) {
 				unset($templates[$id]);
 			}
 		}
@@ -111,7 +111,7 @@ class MappedFields extends Model
 		}
 		$templates = [];
 		foreach ($rows as $row) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mf = new $handlerClass();
 			$mf->setData($row);
 			$templates[$mf->getId()] = $mf;
@@ -145,7 +145,7 @@ class MappedFields extends Model
 			return false;
 		}
 
-		$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
+		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($row);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -155,7 +155,7 @@ class MappedFields extends Model
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
-		$mf = \FreeCRM\Runtime\Vtiger_Cache::get('MappedFieldsModel', $recordId);
+		$mf = \App\Runtime\Vtiger_Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return $mf;
@@ -167,10 +167,10 @@ class MappedFields extends Model
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return false;
 		}
-		$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$mf->setData($row);
-		\FreeCRM\Runtime\Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
+		\App\Runtime\Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $mf;
 	}
@@ -190,7 +190,7 @@ class MappedFields extends Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
 			$result = $db->pquery($query, [$this->getId()]);
 			$mapping = $db->getArray($result);
@@ -251,7 +251,7 @@ class MappedFields extends Model
 		}
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
 		$conditionStrategy = new VTJsonCondition();
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $recordModel);
 		\App\Cache::staticSave(__METHOD__, $key, $test);
 		return $test;
@@ -266,7 +266,7 @@ class MappedFields extends Model
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return true;
 		}
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$permissions = explode(',', $permissions);
 		$getTypes = [];
 		$return = false;

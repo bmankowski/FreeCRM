@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Home\Views;
+namespace App\Modules\Home\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\Home\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Modules\Vtiger\Views\Index as VtigerIndex;
-use FreeCRM\Http\Vtiger_Request;
+use App\Modules\Vtiger\Views\Index as VtigerIndex;
+use App\Http\Vtiger_Request;
 class Index extends VtigerIndex
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

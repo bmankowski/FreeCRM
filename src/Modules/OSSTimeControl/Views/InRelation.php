@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl\Views;
+namespace App\Modules\OSSTimeControl\Views;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -13,11 +13,11 @@ namespace FreeCRM\Modules\OSSTimeControl\Views;
  * *********************************************************************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class InRelation extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -29,11 +29,11 @@ class InRelation extends \Vtiger_Index_View
 			$requestedPage = 1;
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $requestedPage);
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if ($sortOrder == 'ASC') {
@@ -44,7 +44,7 @@ class InRelation extends \Vtiger_Index_View
 			$sortImage = 'icon-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = \FreeCRM\CRMEntity::getInstance($relatedModuleName);
+			$relatedInstance = \App\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
@@ -91,7 +91,7 @@ class InRelation extends \Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {
@@ -115,7 +115,7 @@ class InRelation extends \Vtiger_Index_View
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->get('view'));
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');

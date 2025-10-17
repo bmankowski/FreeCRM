@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Campaigns\Models;
+namespace App\Modules\Campaigns\Models;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Campaigns\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
@@ -22,7 +22,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedIdsList($relatedModuleName, $excludedIds = false)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'SELECT vtiger_campaign_records.crmid FROM vtiger_campaign_records
 					INNER JOIN vtiger_crmentity ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = ?

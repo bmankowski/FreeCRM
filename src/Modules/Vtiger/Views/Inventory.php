@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Basic Inventory View Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Inventory extends \Vtiger_Index_View
 {
 
@@ -20,7 +20,7 @@ class Inventory extends \Vtiger_Index_View
 		$this->exposeMethod('showTaxes');
 	}
 
-	public function showDiscounts(\FreeCRM\Http\Vtiger_Request $request)
+	public function showDiscounts(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$discountType = $request->get('discountType');
@@ -51,7 +51,7 @@ class Inventory extends \Vtiger_Index_View
 	 * Function to show taxes
 	 * @param Vtiger_Request $request
 	 */
-	public function showTaxes(\FreeCRM\Http\Vtiger_Request $request)
+	public function showTaxes(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

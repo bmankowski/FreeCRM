@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * ExportToXml Model Class
@@ -24,7 +24,7 @@ class ExportToXml extends Model
 			$this->tplName = $request->get('xmlExportType');
 		}
 		$query = $this->getExportQuery($request);
-		$fileName = str_replace(' ', '_', decode_html(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->moduleName, $this->moduleName)));
+		$fileName = str_replace(' ', '_', decode_html(\App\Runtime\Vtiger_Language_Handler::translate($this->moduleName, $this->moduleName)));
 		$entries = $query->all();
 		$entriesInventory = [];
 		if ($this->moduleInstance->isInventory()) {
@@ -161,7 +161,7 @@ class ExportToXml extends Model
 				continue;
 			}
 			$xml->startElement($fieldName);
-			$xml->writeAttribute('label', \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
+			$xml->writeAttribute('label', \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
 			if ($this->isCData($fieldName)) {
 				$xml->writeCData($entries[$fieldName]);
 			} else {
@@ -179,7 +179,7 @@ class ExportToXml extends Model
 					$xml->startElement($columnName);
 					$fieldModel = $this->inventoryFields[$columnName];
 					if ($fieldModel) {
-						$xml->writeAttribute('label', \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
+						$xml->writeAttribute('label', \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
 						if (!in_array($columnName, $customColumns)) {
 							foreach ($fieldModel->getCustomColumn() as $key => $dataType) {
 								$customColumns[$key] = $columnName;

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,34 +11,34 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteImage extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DeleteImage extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('id');
 
-		if (!(\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $record))) {
-			throw new \Exception\NoPermittedToRecord(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+		if (!(\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record) && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $record))) {
+			throw new \Exception\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$imageId = $request->get('imageid');
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if ($recordId) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
 			$status = $recordModel->deleteImage($imageId);
 			if ($status) {
-				$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
+				$response->setResult(array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
 			}
 		} else {
-			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMAGE_NOT_DELETED', $moduleName));
+			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_IMAGE_NOT_DELETED', $moduleName));
 		}
 
 		$response->emit();

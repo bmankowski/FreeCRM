@@ -1,9 +1,9 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\SMSNotifier\Models;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Record;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Module;
-use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
+namespace App\Modules\Settings\SMSNotifier\Models;
+use App\Modules\Settings\SMSNotifierModels\Record;
+use App\Modules\Settings\SMSNotifierModels\Module;
+use App\Modules\Settings\SMSNotifierModels\Field;
 
 
 /* +***********************************************************************************
@@ -15,8 +15,8 @@ use FreeCRM\Modules\Settings\SMSNotifierModels\Field;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
 	/**
@@ -39,7 +39,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get module of this record instance
-	 * @return \FreeCRM\Modules\Settings\SMSNotifier\Models\Module $moduleModel
+	 * @return \App\Modules\Settings\SMSNotifier\Models\Module $moduleModel
 	 */
 	public function getModule()
 	{
@@ -48,8 +48,8 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to set module instance to this record instance
-	 * @param \FreeCRM\Modules\Settings\SMSNotifier\Models\Module $moduleModel
-	 * @return \FreeCRM\Modules\Settings\SMSNotifier\Models\Record this record
+	 * @param \App\Modules\Settings\SMSNotifier\Models\Module $moduleModel
+	 * @return \App\Modules\Settings\SMSNotifier\Models\Record this record
 	 */
 	public function setModule($moduleModel)
 	{
@@ -125,7 +125,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get Editable fields for this instance
-	 * @return <Array> field models list <\FreeCRM\Modules\Settings\SMSNotifier\Models\Field>
+	 * @return <Array> field models list <\App\Modules\Settings\SMSNotifier\Models\Field>
 	 */
 	public function getEditableFields()
 	{
@@ -138,7 +138,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$params = array($this->get('providertype'), $this->get('isactive'), $this->get('username'), $this->get('password'), $this->get('parameters'));
 		$id = $this->getId();
@@ -156,11 +156,11 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	 * Function to get record instance by using id and moduleName
 	 * @param int $recordId
 	 * @param string $qualifiedModuleName
-	 * @return \FreeCRM\Modules\Settings\SMSNotifier\Models\Record RecordModel
+	 * @return \App\Modules\Settings\SMSNotifier\Models\Record RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_smsnotifier_servers WHERE id = ?', array($recordId));
 
 		if ($db->num_rows($result)) {
@@ -183,7 +183,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to get clean record instance by using moduleName
 	 * @param string $qualifiedModuleName
-	 * @return <\FreeCRM\Modules\Settings\SMSNotifier\Models\Record>
+	 * @return <\App\Modules\Settings\SMSNotifier\Models\Record>
 	 */
 	static public function getCleanInstance($qualifiedModuleName)
 	{

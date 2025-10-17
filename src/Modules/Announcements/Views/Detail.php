@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Announcements\Views;
+namespace App\Modules\Announcements\Views;
 
 /**
  * Announcements Detail View Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Announcements\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -19,13 +19,13 @@ class Detail extends \Vtiger_Index_View
 		$this->exposeMethod('showUsers');
 	}
 
-	public function showUsers(\FreeCRM\Http\Vtiger_Request $request)
+	public function showUsers(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$users = [];
 		foreach ($moduleModel->getUsers() as $userId => $name) {

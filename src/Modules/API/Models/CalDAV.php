@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\API\Models;
+namespace App\Modules\API\Models;
 
 /**
  * Api CalDAV Model Class
@@ -32,7 +32,7 @@ class CalDAV {
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.dav_status = 1;';
 		$result = $db->query($query);
 		while ($row = $db->getRow($result)) {
@@ -49,7 +49,7 @@ class CalDAV {
 			$accessibleGroups = \App\Fields\Owner::getInstance(false, $user)->getAccessibleGroups();
 			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || isset($accessibleGroups[$this->record['smownerid']])) {
 				$sync = true;
-				$exclusion = \FreeCRM\AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
+				$exclusion = \App\AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($this->record[$key] == $value) {
@@ -123,8 +123,8 @@ class CalDAV {
 		if (!empty($record['description'])) {
 			$component->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
 		}
-		if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
-			$record['visibility'] = \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
+		if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
 		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
@@ -145,7 +145,7 @@ class CalDAV {
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->insert('dav_calendarobjects', [
 			'calendarid' => $this->calendarId,
 			'uri' => $calUri,
@@ -192,8 +192,8 @@ class CalDAV {
 			$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
 			$vcalendar->add($vTimeZone);
 		}
-		if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
-			$record['visibility'] = \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
+		if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
@@ -225,7 +225,7 @@ class CalDAV {
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->update('dav_calendarobjects', [
 			'calendardata' => $calendarData,
 			'lastmodified' => $modifiedtime,
@@ -246,7 +246,7 @@ class CalDAV {
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $card['id']);
 		$this->addChange($calendar['uri'], 3);
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->delete('dav_calendarobjects', 'id = ?', [$calendar['id']]);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
@@ -267,7 +267,7 @@ class CalDAV {
 	public function recordSync()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
 		$result = $db->pquery($query, [$this->calendarId]);
 
@@ -282,7 +282,7 @@ class CalDAV {
 				$deletes++;
 			} else {
 				if (strtotime($row['modifiedtime']) < $row['lastmodified']) { // Updating
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($row['crmid']);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($row['crmid']);
 					if ($this->recordUpdate($recordModel, $row))
 						$updates++;
 					$skipped++;
@@ -302,7 +302,7 @@ class CalDAV {
 			$type = (string) $component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
-				$record = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('Calendar');
+				$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('Calendar');
 				$record->set('assigned_user_id', $this->user->get('id'));
 				$record->set('subject', (string) $component->SUMMARY);
 				$record->set('location', (string) $component->LOCATION);
@@ -322,7 +322,7 @@ class CalDAV {
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
-				$exclusion = \FreeCRM\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
+				$exclusion = \App\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
@@ -331,12 +331,12 @@ class CalDAV {
 						}
 					}
 				}
-				if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
-					$record->set('visibility', \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
+				if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
+					$record->set('visibility', \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
 
-				$db = \FreeCRM\database\PearDatabase::getInstance();
+				$db = \App\database\PearDatabase::getInstance();
 				$db->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
 					], 'id = ?', [$cal['id']]
@@ -384,7 +384,7 @@ class CalDAV {
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
-				$exclusion = \FreeCRM\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
+				$exclusion = \App\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
@@ -393,11 +393,11 @@ class CalDAV {
 						}
 					}
 				}
-				if (\FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
-					$record->set('visibility', \FreeCRM\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
+				if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
+					$record->set('visibility', \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
-				$db = \FreeCRM\database\PearDatabase::getInstance();
+				$db = \App\database\PearDatabase::getInstance();
 				$db->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
 					], 'id = ?', [$cal['id']]
@@ -562,7 +562,7 @@ class CalDAV {
 
 	public function getDavDetail()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? && crmid = ?;';
 		$result = $db->pquery($sql, [$this->calendarId, $this->record['crmid']]);
 		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
@@ -578,7 +578,7 @@ class CalDAV {
 	 */
 	protected function addChange($objectUri, $operation)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?';
 		$db->pquery($query, [$objectUri, $this->calendarId, $operation, $this->calendarId]);
 		$db->pquery('UPDATE dav_calendars SET synctoken = synctoken + 1 WHERE id = ?', [$this->calendarId]);
@@ -598,7 +598,7 @@ class CalDAV {
 			return true;
 		}
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$query = 'SELECT visibility FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE activityid = ? And vtiger_crmentity.deleted=?';
 		$result = $db->pquery($query, [$cal['crmid'], 0]);
 		if ($db->num_rows($result) == 0) {
@@ -761,9 +761,9 @@ class CalDAV {
 		return $vt;
 	}
 
-	protected function recordSaveAttendee(\FreeCRM\Modules\Vtiger\Models\Record $record, Sabre\VObject\Component\VEvent $component)
+	protected function recordSaveAttendee(\App\Modules\Vtiger\Models\Record $record, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record->getId()]);
 		$invities = [];
 		while ($row = $db->getRow($result)) {
@@ -820,8 +820,8 @@ class CalDAV {
 
 	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
-		$owner = \FreeCRM\Modules\Users\Models\Privileges::getInstanceById($record['smownerid']);
+		$db = \App\database\PearDatabase::getInstance();
+		$owner = \App\Modules\Users\Models\Privileges::getInstanceById($record['smownerid']);
 
 		$invities = [];
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record['activityid']]);

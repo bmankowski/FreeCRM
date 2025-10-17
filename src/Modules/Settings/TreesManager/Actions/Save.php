@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\TreesManager\Actions;
+namespace App\Modules\Settings\TreesManager\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,13 +13,13 @@ namespace FreeCRM\Modules\Settings\TreesManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
@@ -27,9 +27,9 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Save tree
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

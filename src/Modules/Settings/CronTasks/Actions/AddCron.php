@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\CronTasks\Actions;
+namespace App\Modules\Settings\CronTasks\Actions;
 
 
 /* +**********************************************************************************
@@ -12,10 +12,10 @@ namespace FreeCRM\Modules\Settings\CronTasks\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class AddCron extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+class AddCron extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		vtlib\Cron::register(
 			$request->get('cron_name'), $request->get('path'), $this->calculateFrequency($request->get('frequency_value'), $request->get('time_format')), $request->get('cron_module'), $request->get('status'), $this->getSquence(), $request->get('description')

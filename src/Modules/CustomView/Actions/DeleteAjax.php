@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\CustomView\Actions;
+namespace App\Modules\CustomView\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,27 +11,27 @@ namespace FreeCRM\Modules\CustomView\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($request->get('record'));
+		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($request->get('record'));
 
 		$customViewModel->delete();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

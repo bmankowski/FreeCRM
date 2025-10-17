@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts\Views;
+namespace App\Modules\Accounts\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,14 +13,14 @@ namespace FreeCRM\Modules\Accounts\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
-class AccountHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
+use App\Http\Vtiger_Request;
+class AccountHierarchy extends \App\Runtime\Vtiger_View_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -28,7 +28,7 @@ class AccountHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		
 	}
@@ -40,21 +40,21 @@ class AccountHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 				->one();
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getAccountHierarchy();
-		$listColumns = \FreeCRM\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		$lastModifiedField = [];
 		if (!empty($listColumns) && in_array('active', $listColumns)) {
 			foreach ($hierarchy['entries'] as $crmId => $entry) {
 				$lastModified = $this->getLastModified($crmId);
 				if ($lastModified) {
-					$lastModifiedField[$crmId]['active']['userModel'] = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($lastModified['user_id'], 'Users');
+					$lastModifiedField[$crmId]['active']['userModel'] = \App\Modules\Vtiger\Models\Record::getInstanceById($lastModified['user_id'], 'Users');
 					$lastModifiedField[$crmId]['active']['changedon'] = (new DateTimeField($lastModified['date_updated']))->getFullcalenderDateTimevalue();
 				}
 			}
@@ -65,7 +65,7 @@ class AccountHierarchy extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$viewer->view('AccountHierarchy.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}

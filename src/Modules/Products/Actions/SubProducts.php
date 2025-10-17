@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Actions;
+namespace App\Modules\Products\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,27 +11,27 @@ namespace FreeCRM\Modules\Products\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SubProducts extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class SubProducts extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$productId = $request->get('record');
 		$values = [];
 		if (isRecordExists($productId)) {
-			$productModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($productId);
+			$productModel = \App\Modules\Vtiger\Models\Record::getInstanceById($productId);
 			$subProducts = $productModel->getSubProducts();
 
 			foreach ($subProducts as $subProduct) {
@@ -39,7 +39,7 @@ class SubProducts extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			}
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($values);
 		$response->emit();
 	}

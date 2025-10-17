@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
 /**
  * Vtiger Summary View Record Structure Model
  */
-class SummaryRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
+class SummaryRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**

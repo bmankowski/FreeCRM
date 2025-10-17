@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
+namespace App\Modules\Users\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Users\Models;
 /**
  * User Field Model Class
  */
-class Field extends \FreeCRM\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -23,7 +23,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function isReadOnly()
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}
@@ -85,7 +85,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getAllLanguages();
 		} else if ($this->get('uitype') == '115') {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
 			$query = 'SELECT %s FROM vtiger_%s';
 			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());
@@ -94,7 +94,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 			$fieldPickListValues = array();
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
-				$fieldPickListValues[$picklistValue] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($picklistValue, $this->getModuleName());
+				$fieldPickListValues[$picklistValue] = \App\Runtime\Vtiger_Language_Handler::translate($picklistValue, $this->getModuleName());
 			}
 			return $fieldPickListValues;
 		}
@@ -122,7 +122,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 		}
 		$fieldName = $this->getFieldName();
 		if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == '&nbsp;')) {
-			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE', 'Users');
+			return \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE', 'Users');
 		}
 		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
@@ -133,7 +133,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 	 */
 	public function getAllRoles()
 	{
-		$roleModels = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$roleModels = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$roles = array();
 		foreach ($roleModels as $roleId => $roleModel) {
 			$roleName = $roleModel->getName();

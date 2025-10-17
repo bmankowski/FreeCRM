@@ -13,10 +13,10 @@
  * Abstract Controller Class
  */
 
-namespace FreeCRM\Runtime;
+namespace App\Runtime;
 
-use FreeCRM\Http\Vtiger_Request;
-use FreeCRM\Runtime\Vtiger_Controller;
+use App\Http\Vtiger_Request;
+use App\Runtime\Vtiger_Controller;
 
 /**
  * Abstract Action Controller Class

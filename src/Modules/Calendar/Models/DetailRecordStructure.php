@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +14,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Vtiger Detail View Record Structure Model
  */
-class DetailRecordStructure extends \FreeCRM\Modules\Vtiger\Models\RecordStructure
+class DetailRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
 {
 
 	/**

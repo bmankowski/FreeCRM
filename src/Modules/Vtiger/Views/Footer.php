@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 abstract class Vtiger_Footer_View extends Vtiger_Header_View
 {
@@ -19,11 +19,11 @@ abstract class Vtiger_Footer_View extends Vtiger_Header_View
 	}
 	//Note: To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	/* function postProcess(\FreeCRM\Http\Vtiger_Request $request) {
+	/* function postProcess(\App\Http\Vtiger_Request $request) {
 	  parent::postProcess($request);
 	  } */
 }

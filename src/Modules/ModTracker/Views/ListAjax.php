@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModTracker\Views;
+namespace App\Modules\ModTracker\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\ModTracker\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ListAjax extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$parentRecordId = $request->get('parent_id');
 		$pageNumber = $request->get('page');
@@ -27,13 +27,13 @@ class ListAjax extends \Vtiger_Index_View
 			$pageNumber = 1;
 		}
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
 
-		$recentActivities = \FreeCRM\Modules\ModTracker\Models\Record::getRecentActivities($parentRecordId, $pagingModel);
+		$recentActivities = \App\Modules\ModTracker\Models\Record::getRecentActivities($parentRecordId, $pagingModel);
 		$pagingModel->calculatePageRange($recentActivities);
 
 		$viewer = $this->getViewer($request);

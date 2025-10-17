@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Actions;
-use FreeCRM\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Block_Model;
+namespace App\Modules\Settings\LayoutEditor\Actions;
+use App\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Block_Model;
 
 
 /* +**********************************************************************************
@@ -13,8 +13,8 @@ use FreeCRM\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Block as Vtiger_Block_Model;
-class Block extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
+use App\Modules\Vtiger\Models\Block as Vtiger_Block_Model;
+class Block extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	public function __construct()
@@ -24,11 +24,11 @@ class Block extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$this->exposeMethod('delete');
 	}
 
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$blockId = $request->get('blockid');
 		$sourceModule = $request->get('sourceModule');
-		$modueInstance = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$modueInstance = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$beforeBlockId = false;
 
 		if (!empty($blockId)) {
@@ -53,7 +53,7 @@ class Block extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			$isDuplicate = \Vtiger_Block_Model::checkDuplicate($request->get('label'), $modueInstance->getId());
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		if (!$isDuplicate) {
 			try {
 				$id = $blockInstance->save($modueInstance);
@@ -67,14 +67,14 @@ class Block extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 				$response->setError($e->getCode(), $e->getMessage());
 			}
 		} else {
-			$response->setError('502', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $request->getModule(false)));
+			$response->setError('502', \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $request->getModule(false)));
 		}
 		$response->emit();
 	}
 
-	public function updateSequenceNumber(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateSequenceNumber(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$sequenceList = $request->get('sequence');
 			\Vtiger_Block_Model::updateSequenceNumber($sequenceList);
@@ -85,19 +85,19 @@ class Block extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response->emit();
 	}
 
-	public function delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function delete(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$blockId = $request->get('blockid');
 		$checkIfFieldsExists = \Vtiger_Block_Model::checkFieldsExists($blockId);
 		if ($checkIfFieldsExists) {
-			$response->setError('502', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false)));
+			$response->setError('502', \App\Runtime\Vtiger_Language_Handler::translate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false)));
 			$response->emit();
 			return;
 		}
 		$blockInstance = \Vtiger_Block_Model::getInstance($blockId);
 		if (!$blockInstance->isCustomized()) {
-			$response->setError('502', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false)));
+			$response->setError('502', \App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false)));
 			$response->emit();
 			return;
 		}
@@ -110,7 +110,7 @@ class Block extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

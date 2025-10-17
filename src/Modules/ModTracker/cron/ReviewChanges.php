@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModTracker;
+namespace App\Modules\ModTracker;
 
 /**
  * Cron task to review changes in records
@@ -35,8 +35,8 @@ class CronReviewed {
 
 	public function __construct()
 	{
-		$this->limit = \FreeCRM\AppConfig::module('ModTracker', 'REVIEWED_SCHEDULE_LIMIT');
-		$this->displayed = \FreeCRM\Modules\ModTracker\Models\Record::DISPLAYED;
+		$this->limit = \App\AppConfig::module('ModTracker', 'REVIEWED_SCHEDULE_LIMIT');
+		$this->displayed = \App\Modules\ModTracker\Models\Record::DISPLAYED;
 	}
 
 	/**
@@ -121,7 +121,7 @@ class CronReviewed {
 					} elseif (strtotime($row['time']) >= strtotime($this->get('changedon'))) {
 						$changed = $this->setReviewed($row['id'], $row['u']);
 						if ($changed) {
-							\FreeCRM\Modules\ModTracker\Models\Record::unsetReviewed($crmId, $userId, $row['id']);
+							\App\Modules\ModTracker\Models\Record::unsetReviewed($crmId, $userId, $row['id']);
 						}
 						break;
 					}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Actions;
+namespace App\Modules\Reports\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,12 +12,12 @@ namespace FreeCRM\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DetailAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -29,7 +29,7 @@ class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -43,10 +43,10 @@ class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
-		$reportModel = \FreeCRM\Modules\Reports\Models\Record::getInstanceById($record);
+		$reportModel = \App\Modules\Reports\Models\Record::getInstanceById($record);
 		$reportModel->setModule('Reports');
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 
@@ -55,7 +55,7 @@ class DetailAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$countQuery = $reportModel->generateCountQuery($query);
 
 		$count = $reportModel->getReportsCount($countQuery);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($count);
 		$response->emit();
 	}

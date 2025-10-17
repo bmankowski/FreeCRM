@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Project\Dashboards;
+namespace App\Modules\Project\Dashboards;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Project\Dashboards;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class ProjectWidget extends \Vtiger_Index_View
 {
@@ -36,7 +36,7 @@ class ProjectWidget extends \Vtiger_Index_View
 		$conditions = array();
 		array_push($conditions, array("sales_stage", "e", $stage));
 		if ($assignedto == '') {
-			$currenUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+			$currenUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$assignedto = $currenUserModel->getId();
 		}
 		if ($assignedto != 'all') {
@@ -57,7 +57,7 @@ class ProjectWidget extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -67,11 +67,11 @@ class ProjectWidget extends \Vtiger_Index_View
 
 		//Date conversion from user to database format
 		if (!empty($dates)) {
-			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['start']);
-			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['end']);
+			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['start']);
+			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['end']);
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getProjectWidget($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
@@ -79,7 +79,7 @@ class ProjectWidget extends \Vtiger_Index_View
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dates);
 		}
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Menu\Actions;
-use FreeCRM\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
+namespace App\Modules\Settings\Menu\Actions;
+use App\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -27,75 +27,75 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('copyMenu');
 	}
 
-	public function createMenu(\FreeCRM\Http\Vtiger_Request $request)
+	public function createMenu(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->initialize($data);
 		$recordModel->save();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateMenu(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateMenu(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
 		$recordModel->initialize($data);
 		$recordModel->set('edit', true);
 		$recordModel->save($data);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MENU', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function removeMenu(\FreeCRM\Http\Vtiger_Request $request)
+	public function removeMenu(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
 		$settingsModel->removeMenu($data);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateSequence(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateSequence(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->saveSequence($data, true);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
 	
 	/**
 	 * Function to trigger copying menu
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function copyMenu(\FreeCRM\Http\Vtiger_Request $request)
+	public function copyMenu(\App\Http\Vtiger_Request $request)
 	{
 		$fromRole = filter_var($request->get('fromRole'), FILTER_SANITIZE_NUMBER_INT);
 		$toRole = filter_var($request->get('toRole'), FILTER_SANITIZE_NUMBER_INT);
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->copyMenu($fromRole, $toRole);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 
 		$response->emit();

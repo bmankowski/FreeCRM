@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Actions;
+namespace App\Modules\Settings\Roles\Actions;
 
 
 /* +***********************************************************************************
@@ -12,10 +12,10 @@ namespace FreeCRM\Modules\Settings\Roles\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class Delete extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -23,8 +23,8 @@ class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$transferRecordId = $request->get('transfer_record');
 
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-		$recordModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
-		$transferToRole = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($transferRecordId);
+		$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
+		$transferToRole = \App\Modules\Settings\Roles\Models\Record::getInstanceById($transferRecordId);
 		if ($recordModel && $transferToRole) {
 			$recordModel->delete($transferToRole);
 		}
@@ -33,7 +33,7 @@ class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		header("Location: $redirectUrl");
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

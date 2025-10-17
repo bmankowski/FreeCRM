@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\WebserviceUsers\Actions;
+namespace App\Modules\Settings\WebserviceUsers\Actions;
 
 
 
@@ -11,31 +11,31 @@ namespace FreeCRM\Modules\Settings\WebserviceUsers\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
-class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Delete
+use App\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
+class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 
 	/**
 	 * Function  proccess
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$typeApi = $request->get('typeApi');
 		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $typeApi);
 		$result = $recordModel->delete();
 
-		$responceToEmit = new \FreeCRM\Http\Vtiger_Response();
+		$responceToEmit = new \App\Http\Vtiger_Response();
 		$responceToEmit->setResult($result);
 		$responceToEmit->emit();
 	}
 
 	/**
 	 * Validating incoming request.
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Accounts;
+namespace App\Modules\Accounts;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -24,7 +24,7 @@ namespace FreeCRM\Modules\Accounts;
  * Contributor(s): ______________________________________..
  * ****************************************************************************** */
 
-class Accounts extends \FreeCRM\CRMEntity
+class Accounts extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_account';
@@ -205,7 +205,7 @@ class Accounts extends \FreeCRM\CRMEntity
 		$listview_header = [];
 		$listview_entries = [];
 
-		$listColumns = $listColumns ? $listColumns : \FreeCRM\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = $listColumns ? $listColumns : \App\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -277,7 +277,7 @@ class Accounts extends \FreeCRM\CRMEntity
 				} else if ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
 					
 				} else {
-					$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstanceFromFieldId($field['fieldid']);
+					$fieldModel = \App\Modules\Vtiger\Models\Field::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
 					$data = $fieldModel->getDisplayValue($data);
 				}
@@ -302,11 +302,11 @@ class Accounts extends \FreeCRM\CRMEntity
 	 */
 	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
 
-		if ($depthBase == \FreeCRM\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \App\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parent_accounts;
 		}
@@ -366,11 +366,11 @@ class Accounts extends \FreeCRM\CRMEntity
 	 */
 	public function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 
-		if ($depthBase == \FreeCRM\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \App\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $child_accounts;
 		}

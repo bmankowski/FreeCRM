@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /**
  * Calendar Model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Calendar\Models;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
+class Calendar extends \App\Modules\Vtiger\Models\Model
 {
 
 	public $moduleName = 'Calendar';
@@ -78,10 +78,10 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 		}
 		switch ($this->get('time')) {
 			case 'current':
-				$query->andWhere(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
+				$query->andWhere(['vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 				break;
 			case 'history':
-				$query->andWhere(['vtiger_activity.status' => \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')]);
+				$query->andWhere(['vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')]);
 				break;
 		}
 		$activityStatus = $this->get('activitystatus');
@@ -90,7 +90,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
-				$filterClassName = \FreeCRM\Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
+				$filterClassName = \App\Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
 				$filterInstance = new $filterClassName();
 				if ($filterInstance->checkPermissions() && $conditions = $filterInstance->getCondition($filter['value'])) {
 					$query->andWhere($conditions);
@@ -98,8 +98,8 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 			}
 		}
 		$conditions = [];
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
-		$roleInstance = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$roleInstance = \App\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
 		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
 		if ($calendarAlloRecords === 1) {
 			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => $currentUser->getId()]);
@@ -118,7 +118,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public function getEntity()
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$return = $records = $ids = [];
 		while ($record = $dataReader->read()) {
@@ -152,9 +152,9 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 			$item['smownerid'] = \vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 
 			//translate
-			$item['labels']['sta'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['status'], $this->getModuleName());
-			$item['labels']['pri'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['priority'], $this->getModuleName());
-			$item['labels']['state'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['state'], $this->getModuleName());
+			$item['labels']['sta'] = \App\Runtime\Vtiger_Language_Handler::translate($record['status'], $this->getModuleName());
+			$item['labels']['pri'] = \App\Runtime\Vtiger_Language_Handler::translate($record['priority'], $this->getModuleName());
+			$item['labels']['state'] = \App\Runtime\Vtiger_Language_Handler::translate($record['state'], $this->getModuleName());
 
 			//Relation
 			$item['link'] = $record['link'];
@@ -235,8 +235,8 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public function getEntityCount()
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
 		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
@@ -272,7 +272,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 					$return[$date]['date'] = $date;
 					$return[$date]['event'][$activitytype]['count'] += 1;
 					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
-					$return[$date]['event'][$activitytype]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($activitytype, $this->getModuleName());
+					$return[$date]['event'][$activitytype]['label'] = \App\Runtime\Vtiger_Language_Handler::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
 				}
 			}
@@ -286,10 +286,10 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 	 */
 	public static function getCleanInstance()
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('calendarModels', 'Calendar');
+		$instance = \App\Runtime\Vtiger_Cache::get('calendarModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			\FreeCRM\Runtime\Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
+			\App\Runtime\Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;

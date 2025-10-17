@@ -19,7 +19,7 @@ require_once 'include.runtime.BaseModel';
 
 function vtws_convertlead($entityvalues, $user)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	\App\Log::trace('Start ' . __METHOD__);
 	if (empty($entityvalues['assignedTo'])) {
@@ -39,7 +39,7 @@ function vtws_convertlead($entityvalues, $user)
 	$leadHandler = new $handlerClass($leadObject, $user, $adb, $log);
 
 
-	$leadInfo = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($entityvalues['leadId'])->getData();
+	$leadInfo = \App\Modules\Vtiger\Models\Record::getInstanceById($entityvalues['leadId'])->getData();
 	$sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
 	$leadIdComponents = $entityvalues['leadId'];
 	$result = $adb->pquery($sql, [$leadIdComponents]);
@@ -94,7 +94,7 @@ function vtws_convertlead($entityvalues, $user)
 					$create = false;
 				}
 				if ($create) {
-					$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($entityvalue['name']);
+					$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($entityvalue['name']);
 					$fieldModelList = $recordModel->getModule()->getFields();
 					foreach ($fieldModelList as $fieldName => &$fieldModel) {
 						if (isset($entityObjectValues[$fieldName])) {
@@ -146,7 +146,7 @@ function vtws_convertlead($entityvalues, $user)
 
 function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler, $leadHandler, $leadinfo)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	$column;
 	$entityName = $entityvalue['name'];
@@ -217,7 +217,7 @@ function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, 
 
 function vtws_getConvertLeadFieldInfo($module, $fieldname)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	$describe = vtws_describe($module, vglobal('current_user'));
 	foreach ($describe['fields'] as $index => $fieldInfo) {
@@ -242,7 +242,7 @@ function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityv
 
 function vtws_updateConvertLeadStatus($entityIds, $leadId, $user)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
 		$sql = "UPDATE vtiger_leaddetails SET converted = 1 where leadid=?";

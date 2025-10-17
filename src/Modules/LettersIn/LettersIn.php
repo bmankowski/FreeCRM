@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\LettersIn;
+namespace App\Modules\LettersIn;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\LettersIn;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class LettersIn extends \FreeCRM\CRMEntity
+class LettersIn extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_lettersin';
@@ -137,7 +137,7 @@ class LettersIn extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -232,7 +232,7 @@ class LettersIn extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -312,9 +312,9 @@ class LettersIn extends \FreeCRM\CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
-			$ModuleInstance = \FreeCRM\CRMEntity::getInstance($modulename);
+			$ModuleInstance = \App\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, 'LI', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
@@ -322,7 +322,7 @@ class LettersIn extends \FreeCRM\CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('LettersIn'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'title'));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'smownerid'));

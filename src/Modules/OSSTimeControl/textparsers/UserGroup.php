@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl;
+namespace App\Modules\OSSTimeControl;
 
 /**
  * Time control user group parser class
@@ -56,12 +56,12 @@ class TextParser extends \App\TextParser\Base
 			$ids = [$ids];
 		}
 		foreach ($ids as $recordId) {
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
 			$time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');
 			$users[$user] = [
 				'time' => $time,
-				'role' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
+				'role' => \App\Runtime\Vtiger_Language_Handler::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
 			];
 		}
 		return $users;
@@ -69,7 +69,7 @@ class TextParser extends \App\TextParser\Base
 
 	public function getRoleName($userId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT rolename FROM vtiger_role INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role.roleid WHERE vtiger_user2role.userid = ?', [$userId]);
 		return $db->getSingleValue($result);
 	}

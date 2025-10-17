@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSSoldServices;
+namespace App\Modules\OSSSoldServices;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\OSSSoldServices;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class OSSSoldServices extends Vtiger_CRMEntity

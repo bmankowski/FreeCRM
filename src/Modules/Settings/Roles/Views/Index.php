@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Views;
+namespace App\Modules\Settings\Roles\Views;
 
 
 /* +**********************************************************************************
@@ -12,15 +12,15 @@ namespace FreeCRM\Modules\Settings\Roles\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$rootRole = \FreeCRM\Modules\Settings\Roles\Models\Record::getBaseRole();
-		$allRoles = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$rootRole = \App\Modules\Settings\Roles\Models\Record::getBaseRole();
+		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 
 		$viewer->assign('ROOT_ROLE', $rootRole);
 		$viewer->assign('ROLES', $allRoles);
@@ -31,10 +31,10 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -54,10 +54,10 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Css models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_CssScript_Model instances
 	 */
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

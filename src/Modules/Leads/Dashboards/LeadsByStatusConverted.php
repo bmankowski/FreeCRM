@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Leads\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+namespace App\Modules\Leads\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_Widgets
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class LeadsByStatusConverted extends \Vtiger_Index_View
 {
@@ -33,7 +33,7 @@ class LeadsByStatusConverted extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -41,9 +41,9 @@ class LeadsByStatusConverted extends \Vtiger_Index_View
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Leads');
+			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Leads');
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
@@ -53,16 +53,16 @@ class LeadsByStatusConverted extends \Vtiger_Index_View
 		$dates = [];
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		} else {
-			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
+			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if($time !== false){
 				$dates = $time;
 			}
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = ($owner === false) ? array() : $moduleModel->getLeadsByStatusConverted($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		foreach ($data as &$value) {

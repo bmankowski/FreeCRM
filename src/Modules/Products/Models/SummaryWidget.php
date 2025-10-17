@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Models;
+namespace App\Modules\Products\Models;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -23,7 +23,7 @@ class SummaryWidget {
 		return $instance;
 	}
 
-	public function getProductsServices(Vtiger_Request $request, FreeCRM_Viewer $viewer)
+	public function getProductsServices(Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');
@@ -35,12 +35,12 @@ class SummaryWidget {
 		if (!empty($request->get('limit'))) {
 			$limit = $request->get('limit');
 		}
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', 0);
 		$pagingModel->set('limit', $limit);
 
-		$parentRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $fromModule);
-		$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $mod);
+		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $fromModule);
+		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $mod);
 		$recordsModels = $relationListView->getEntries($pagingModel);
 		$recordsHeader = $relationListView->getHeaders();
 		array_splice($recordsHeader, 3);
@@ -55,10 +55,10 @@ class SummaryWidget {
 
 	/**
 	 * Get related modules record counts
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $parentRecordModel
+	 * @param \App\Modules\Vtiger\Models\Record $parentRecordModel
 	 * @return type
 	 */
-	public static function getModulesAndCount(\FreeCRM\Modules\Vtiger\Models\Record $parentRecordModel)
+	public static function getModulesAndCount(\App\Modules\Vtiger\Models\Record $parentRecordModel)
 	{
 		$modules = [];
 		foreach (self::MODULES as &$moduleName) {
@@ -66,7 +66,7 @@ class SummaryWidget {
 			if (!\App\Privilege::isPermitted($moduleName)) {
 				continue;
 			}
-			$relationListView = \FreeCRM\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
+			$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 			if (!$relationListView->getRelationModel()) {
 				continue;
 			}

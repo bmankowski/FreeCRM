@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
+use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class WorkflowTrigger {
 
 	/**
@@ -25,7 +25,7 @@ class WorkflowTrigger {
 	public static function execute($moduleName, $record, $ids, $userId)
 	{
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 		if ($userId) {
 			$recordModel->executeUser = $userId;
 		}

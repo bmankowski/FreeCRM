@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\data_access;
+namespace App\Modules\Calendar\data_access;
 
 /**
  * Lock saving events after exceeding the limit
@@ -18,16 +18,16 @@ class CheckDayTasks {
 		if (!in_array($moduleName, ['Calendar', 'Events'])) {
 			return ['save_record' => true];
 		}
-		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\database\PearDatabase::getInstance();
 		$typeInfo = 'info';
 		$statusType = $config['statusType'];
 		switch ($statusType) {
 			case 1:
-				$status = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
+				$status = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 				break;
 			case 2:
-				$status = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history');
+				$status = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history');
 				break;
 			default:
 				$status = empty($config['status']) ? [] : $config['status'];
@@ -49,9 +49,9 @@ class CheckDayTasks {
 
 		$count = $db->getSingleValue($result);
 		if ($count >= $config['maxActivites']) {
-			$title = '<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Message', 'DataAccess') . '</strong>';
+			$title = '<strong>' . \App\Runtime\Vtiger_Language_Handler::translate('Message', 'DataAccess') . '</strong>';
 
-			$info = ['text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
+			$info = ['text' => \App\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
 				'title' => $title,
 				'type' => 1
 			];
@@ -59,7 +59,7 @@ class CheckDayTasks {
 				'save_record' => false,
 				'type' => 3,
 				'info' => is_array($info) ? $info : [
-					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
+					'text' => \App\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
 					'ntype' => $typeInfo
 					]
 			];

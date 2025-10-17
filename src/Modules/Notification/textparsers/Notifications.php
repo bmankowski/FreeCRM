@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Notification;
+namespace App\Modules\Notification;
 
 /**
  * Notifications parser class
@@ -25,11 +25,11 @@ class TextParser extends \App\TextParser\Base
 	{
 		$siteURL = \AppConfig::main('site_URL');
 		$html = '';
-		$scheduleData = \FreeCRM\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
+		$scheduleData = \App\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
 		$modules = $scheduleData['modules'];
 
-		$notificationInstance = \FreeCRM\Modules\Notification\Models\Module::getInstance('Notification');
-		$entries = \FreeCRM\Modules\Notification\Models\Module::getEmailSendEntries($this->textParser->getParam('userId'), $modules, $this->textParser->getParam('startDate'), $this->textParser->getParam('endDate'));
+		$notificationInstance = \App\Modules\Notification\Models\Module::getInstance('Notification');
+		$entries = \App\Modules\Notification\Models\Module::getEmailSendEntries($this->textParser->getParam('userId'), $modules, $this->textParser->getParam('startDate'), $this->textParser->getParam('endDate'));
 		$pattern = "/(?<=href=(\"|'))[^\"']+(?=(\"|'))/";
 		foreach ($notificationInstance->getTypes() as $typeId => $type) {
 			if (isset($entries[$typeId])) {
@@ -49,7 +49,7 @@ class TextParser extends \App\TextParser\Base
 			}
 		}
 		if (empty($html)) {
-			$html = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_NOTIFICATIONS', 'Notification');
+			$html = \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_NOTIFICATIONS', 'Notification');
 		}
 		return $html;
 	}

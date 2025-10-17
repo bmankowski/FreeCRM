@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Rss\Views;
+namespace App\Modules\Rss\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Rss\Views;
  * *********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ViewTypes extends \Vtiger_Index_View
 {
 
@@ -24,7 +24,7 @@ class ViewTypes extends \Vtiger_Index_View
 		$this->exposeMethod('getRssAddForm');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -37,10 +37,10 @@ class ViewTypes extends \Vtiger_Index_View
 	 * Function to display rss sidebar widget
 	 * @param Vtiger_Request $request 
 	 */
-	public function getRssWidget(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRssWidget(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('module');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 		$rssSources = $moduleModel->getRssSources();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
@@ -54,10 +54,10 @@ class ViewTypes extends \Vtiger_Index_View
 	 * Function to get the rss add form 
 	 * @param Vtiger_Request $request
 	 */
-	public function getRssAddForm(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRssAddForm(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$this->preProcess($request);

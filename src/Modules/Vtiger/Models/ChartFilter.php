@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Model widget chart with a filter
@@ -95,7 +95,7 @@ class ChartFilter extends Model
 	{
 		$filterId = $this->widgetModel->get('filterid');
 		$groupField = $this->extraData['groupField'];
-		$groupFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($groupField, $this->getTargetModuleModel());
+		$groupFieldModel = \App\Modules\Vtiger\Models\Field::getInstance($groupField, $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->get('name');
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
@@ -191,7 +191,7 @@ class ChartFilter extends Model
 	public function getTargetModuleModel()
 	{
 		if (!$this->targetModuleModel) {
-			$this->targetModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
+			$this->targetModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
 	}
@@ -200,16 +200,16 @@ class ChartFilter extends Model
 	{
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			$suffix = '';
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {
 				$customview = $db->fetch_array($customviewrs);
-				$suffix = ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($customview['viewname'], $this->getTargetModule());
-				$groupFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-				$suffix .= ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
+				$suffix = ' - ' . \App\Runtime\Vtiger_Language_Handler::translate($customview['viewname'], $this->getTargetModule());
+				$groupFieldModel = \App\Modules\Vtiger\Models\Field::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+				$suffix .= ' - ' . \App\Runtime\Vtiger_Language_Handler::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
 			}
-			return $prefix . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+			return $prefix . \App\Runtime\Vtiger_Language_Handler::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
 		return $title;
 	}

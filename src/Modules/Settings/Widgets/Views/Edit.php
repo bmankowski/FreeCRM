@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Widgets\Views;
-use FreeCRM\Modules\Settings\Widgets\Models\Module;
+namespace App\Modules\Settings\Widgets\Views;
+use App\Modules\Settings\Widgets\Models\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -14,15 +14,15 @@ use FreeCRM\Modules\Settings\Widgets\Models\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$wid = $request->get('id');
-		$moduleModel = \FreeCRM\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
 		$WidgetInfo = $moduleModel->getWidgetInfo($wid);
 		$RelatedModule = $moduleModel->getRelatedModule($WidgetInfo['tabid']);
 		$viewer = $this->getViewer($request);

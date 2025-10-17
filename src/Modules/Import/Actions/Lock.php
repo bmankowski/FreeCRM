@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\Actions;
+namespace App\Modules\Import\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Import\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Lock extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -19,14 +19,14 @@ class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		return false;
 	}
 
 	public static function lock($importId, $module, $user)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if (!\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			\vtlib\Utils::CreateTable(
@@ -42,7 +42,7 @@ class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public static function unLock($user, $module = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if (\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$query = 'DELETE FROM vtiger_import_locks WHERE userid=?';
 			$params = array(method_exists($user, 'get') ? $user->get('id') : $user->id);
@@ -56,7 +56,7 @@ class Lock extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 	public static function isLockedForModule($module)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?', array(\App\Module::getModuleId($module)));

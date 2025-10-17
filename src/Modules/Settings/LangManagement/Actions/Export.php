@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LangManagement\Actions;
+namespace App\Modules\Settings\LangManagement\Actions;
 
 
 /* +***********************************************************************************************************************************
@@ -13,10 +13,10 @@ namespace FreeCRM\Modules\Settings\LangManagement\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Export extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class Export extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$lang = $request->get('lang');
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /**
  * Basic Inventory Model Class
@@ -35,7 +35,7 @@ class InventoryField extends Model
 				$prefix = '_invmap';
 				break;
 		}
-		$focus = \FreeCRM\CRMEntity::getInstance($this->get('module'));
+		$focus = \App\CRMEntity::getInstance($this->get('module'));
 		$basetable = $focus->table_name;
 		$supfield = $basetable . $prefix;
 		return $supfield;
@@ -150,7 +150,7 @@ class InventoryField extends Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '| ');
 
-		$className = \FreeCRM\Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
+		$className = \App\Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
 		$instance->initialize($valueArray);
 		$instance->set('module', $this->get('module'));
@@ -169,7 +169,7 @@ class InventoryField extends Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '| ' . $moduleName);
 
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('InventoryFields', $moduleName);
+		$instance = \App\Runtime\Vtiger_Cache::get('InventoryFields', $moduleName);
 		if ($instance) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 			return $instance;
@@ -188,13 +188,13 @@ class InventoryField extends Model
 			foreach (new DirectoryIterator($fieldPath) as $fileinfo) {
 				if ($fileinfo->isFile() && $fileinfo->getFilename() != 'Basic.php') {
 					$fieldName = str_replace('.php', '', $fileinfo->getFilename());
-					$className = \FreeCRM\Loader::getComponentClassName('InventoryField', $fieldName, $moduleName);
+					$className = \App\Loader::getComponentClassName('InventoryField', $fieldName, $moduleName);
 					$instance = new $className();
 					$fields[$fieldName] = $instance->set('module', $moduleName);
 				}
 			}
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
+		\App\Runtime\Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $fields;
 	}
@@ -225,35 +225,35 @@ class InventoryField extends Model
 	}
 
 	/**
-	 * Get \FreeCRM\Modules\Vtiger\Models\InventoryField instance
+	 * Get \App\Modules\Vtiger\Models\InventoryField instance
 	 * @param string $moduleName Module name
-	 * @return \modelClassName \FreeCRM\Modules\Vtiger\Models\InventoryField Instance
+	 * @return \modelClassName \App\Modules\Vtiger\Models\InventoryField Instance
 	 */
 	public static function getInstance($moduleName)
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('inventoryField', $moduleName);
+		$instance = \App\Runtime\Vtiger_Cache::get('inventoryField', $moduleName);
 		if (!$instance) {
-			$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'InventoryField', $moduleName);
+			$modelClassName = \App\Loader::getComponentClassName('Model', 'InventoryField', $moduleName);
 			$instance = new $modelClassName();
 			$instance->set('module', $moduleName);
-			\FreeCRM\Runtime\Vtiger_Cache::set('inventoryField', $moduleName, $instance);
+			\App\Runtime\Vtiger_Cache::set('inventoryField', $moduleName, $instance);
 		}
 		return $instance;
 	}
 
 	/**
-	 * Get \FreeCRM\Modules\Vtiger\Models\InventoryField instance
+	 * Get \App\Modules\Vtiger\Models\InventoryField instance
 	 * @param string $moduleName Module name
-	 * @return \modelClassName \FreeCRM\Modules\Vtiger\Models\InventoryField Instance
+	 * @return \modelClassName \App\Modules\Vtiger\Models\InventoryField Instance
 	 */
 	public static function getFieldInstance($moduleName, $type)
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('inventoryFieldType', $moduleName . $type);
+		$instance = \App\Runtime\Vtiger_Cache::get('inventoryFieldType', $moduleName . $type);
 		if (!$instance) {
-			$inventoryClassName = \FreeCRM\Loader::getComponentClassName('InventoryField', $type, $moduleName);
+			$inventoryClassName = \App\Loader::getComponentClassName('InventoryField', $type, $moduleName);
 			$instance = new $inventoryClassName();
 			$instance->set('module', $moduleName);
-			\FreeCRM\Runtime\Vtiger_Cache::set('inventoryFieldType', $moduleName . $type, $instance);
+			\App\Runtime\Vtiger_Cache::set('inventoryFieldType', $moduleName . $type, $instance);
 		}
 		return $instance;
 	}
@@ -309,7 +309,7 @@ class InventoryField extends Model
 	{
 		$relationField = $this->get('relationField' . $mainModule);
 		if (!$relationField) {
-			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->get('module'));
+			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->get('module'));
 			$modelFields = $moduleModel->getFields();
 			$relationField = false;
 			foreach ($modelFields as $fieldName => $fieldModel) {
@@ -335,17 +335,17 @@ class InventoryField extends Model
 		if (!$moduleName) {
 			return false;
 		}
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('InventoryIsWysiwygType', $moduleName);
+		$cache = \App\Runtime\Vtiger_Cache::get('InventoryIsWysiwygType', $moduleName);
 		if ($cache) {
 			return $cache;
 		}
 		$return = 0;
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('description', $moduleModel);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('description', $moduleModel);
 		if ($fieldModel && $fieldModel->get('uitype') == '300') {
 			$return = 1;
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('InventoryIsWysiwygType', $moduleName, $return);
+		\App\Runtime\Vtiger_Cache::set('InventoryIsWysiwygType', $moduleName, $return);
 		return $return;
 	}
 
@@ -356,7 +356,7 @@ class InventoryField extends Model
 	 */
 	public static function getTaxField($moduleName)
 	{
-		$cache = \FreeCRM\Runtime\Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
+		$cache = \App\Runtime\Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
 		if ($cache) {
 			return $cache;
 		}
@@ -364,7 +364,7 @@ class InventoryField extends Model
 		if ($moduleName === '') {
 			return $return;
 		}
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->get('uitype') == 303) {
 				$return = $fieldName;
@@ -372,7 +372,7 @@ class InventoryField extends Model
 			}
 		}
 
-		\FreeCRM\Runtime\Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
+		\App\Runtime\Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
 		return $return;
 	}
 
@@ -463,7 +463,7 @@ class InventoryField extends Model
 	 */
 	public function saveField($type, $param)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$columns = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSpan'];
 		$set = [];
 		$params = [];
@@ -524,7 +524,7 @@ class InventoryField extends Model
 	 */
 	public function getUniqueID($instance)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT MAX(id) AS max FROM `%s` WHERE `invtype` = ? ', $this->getTableName('fields'));
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
@@ -547,19 +547,19 @@ class InventoryField extends Model
 
 	public function getAutoCompleteFields()
 	{
-		$instance = \FreeCRM\Runtime\Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
+		$instance = \App\Runtime\Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
 		if ($instance) {
 			return $instance;
 		}
 
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$table = $this->getTableName('autofield');
 		$result = $db->pquery(sprintf('SELECT * FROM %s', $table));
 		$fields = [];
 		while ($row = $db->getRow($result)) {
 			$fields[$row['tofield']] = $row;
 		}
-		\FreeCRM\Runtime\Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
+		\App\Runtime\Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
 
@@ -570,20 +570,20 @@ class InventoryField extends Model
 
 	/**
 	 * 
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return float
 	 */
-	public function getInventoryPrice(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public function getInventoryPrice(\App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		return $recordModel->isEmpty('sum_total') ? 0 : $recordModel->get('sum_total');
 	}
 
 	/**
 	 * Function to get list elements in iventory as html code
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recodModel
+	 * @param \App\Modules\Vtiger\Models\Record $recodModel
 	 * @return string
 	 */
-	public function getInventoryListName(\FreeCRM\Modules\Vtiger\Models\Record $recodModel)
+	public function getInventoryListName(\App\Modules\Vtiger\Models\Record $recodModel)
 	{
 		$inventoryFields = $this->getFields();
 		$html = '<ul>';
@@ -600,12 +600,12 @@ class InventoryField extends Model
 	 * Function to get custom values to complete in inventory
 	 * @param string $sourceModuleName
 	 * @param string $sourceFieldName
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return array
 	 */
-	public function getCustomAutoComplete($sourceModuleName, $sourceFieldName, \FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public function getCustomAutoComplete($sourceModuleName, $sourceFieldName, \App\Modules\Vtiger\Models\Record $recordModel)
 	{
-		$inventoryMap = \FreeCRM\AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
+		$inventoryMap = \App\AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
 		$values = [];
 		if ($inventoryMap) {
 			foreach ($inventoryMap as $fieldToComplete => $mapping) {

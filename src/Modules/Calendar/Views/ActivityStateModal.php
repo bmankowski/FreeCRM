@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Views;
+namespace App\Modules\Calendar\Views;
 
 /**
  *
@@ -10,22 +10,22 @@ namespace FreeCRM\Modules\Calendar\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ActivityStateModal extends \Vtiger_Index_View
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
-		$recordInstance = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
-		$permissionToSendEmail = \App\Module::isModuleActive('OSSMail') && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$recordInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
+		$permissionToSendEmail = \App\Module::isModuleActive('OSSMail') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordInstance);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
 		$viewer->view('ActivityStateModal.tpl', $moduleName);
 	}
@@ -33,9 +33,9 @@ class ActivityStateModal extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getScripts(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = array(

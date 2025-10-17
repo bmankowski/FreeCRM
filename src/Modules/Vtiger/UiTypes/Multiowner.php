@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\UiTypes;
+namespace App\Modules\Vtiger\UiTypes;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
+use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class Multiowner extends Base
 {
 
@@ -35,15 +35,15 @@ class Multiowner extends Base
 			return;
 		foreach ($values as $value) {
 			if (self::getOwnerType($value) === 'User') {
-				$userModel = \FreeCRM\Modules\Users\Models\Record::getCleanInstance('Users');
+				$userModel = \App\Modules\Users\Models\Record::getCleanInstance('Users');
 				$userModel->set('id', $value);
 				$detailViewUrl = $userModel->getDetailViewUrl();
-				$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
 					return \App\Fields\Owner::getLabel($value);
 				}
 			} else {
-				$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
 					return \App\Fields\Owner::getLabel($value);
 				}
@@ -68,7 +68,7 @@ class Multiowner extends Base
 	 */
 	public static function getOwnerType($id)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_users WHERE id = ?', array($id));
 		if ($db->num_rows($result) > 0) {

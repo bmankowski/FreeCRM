@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\RecordAllocation\Views;
+namespace App\Modules\Settings\RecordAllocation\Views;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\RecordAllocation\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -19,7 +19,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('getPanel');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, $display);
 		$moduleName = $request->getModule();
@@ -30,7 +30,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('IndexPreProcess.tpl', $qualifiedModuleName);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -50,7 +50,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getPanel(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPanel(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -65,12 +65,12 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
 		$viewer->assign('MODULE_ID', vtlib\Functions::getModuleId($request->get('sourceModule')));
 		$viewer->assign('INDEX', ++$index);
-		$viewer->assign('DATA', \FreeCRM\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $request->get('sourceModule')));
+		$viewer->assign('DATA', \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $request->get('sourceModule')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -84,7 +84,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

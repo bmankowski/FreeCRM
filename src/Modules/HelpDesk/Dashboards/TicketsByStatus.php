@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
+namespace App\Modules\HelpDesk\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+use App\Modules\Settings\SupportProcessesModels\Module;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class TicketsByStatus extends \Vtiger_Index_View
 {
@@ -41,7 +41,7 @@ class TicketsByStatus extends \Vtiger_Index_View
 	{
 
 		$moduleName = 'HelpDesk';
-		$ticketStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
+		$ticketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$query = new \App\Db\Query();
 		$query->select(['priority', 'vtiger_ticketpriorities.color',
 				'count' => new \yii\db\Expression('COUNT(*)'),
@@ -81,7 +81,7 @@ class TicketsByStatus extends \Vtiger_Index_View
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
 					$result[$priorityValue]['data'][$counter][0] = $counter;
-					$result[$priorityValue]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($priorityKey, $moduleName);
+					$result[$priorityValue]['label'] = \App\Runtime\Vtiger_Language_Handler::translate($priorityKey, $moduleName);
 					$result[$priorityValue]['color'] = $colors[$priorityKey];
 					if ($ticketValue[$priorityKey]) {
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];
@@ -94,7 +94,7 @@ class TicketsByStatus extends \Vtiger_Index_View
 
 			$ticks = [];
 			foreach ($status as $key => $value) {
-				$newArray = [$key, \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $moduleName)];
+				$newArray = [$key, \App\Runtime\Vtiger_Language_Handler::translate($value, $moduleName)];
 				array_push($ticks, $newArray);
 				$name[] = $value;
 			}
@@ -108,16 +108,16 @@ class TicketsByStatus extends \Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
-			$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, $moduleName);
+			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, $moduleName);
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
@@ -126,11 +126,11 @@ class TicketsByStatus extends \Vtiger_Index_View
 
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = \FreeCRM\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		}
 
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getTicketsByStatus($owner);
 
 		$listViewUrl = $moduleModel->getListViewUrl();

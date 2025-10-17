@@ -88,7 +88,7 @@ $languageStrings = [
 
 ## 4. Translation Fallback Chain
 
-### For \FreeCRM\Runtime\Vtiger_Language_Handler::translate()
+### For \App\Runtime\Vtiger_Language_Handler::translate()
 ```
 1. languages/{lang}/{Module}.php
    ↓ (not found)
@@ -162,7 +162,7 @@ vtranslate('LBL_RECORDS_FOUND', $MODULE, $count)
 
 ### Implementation
 ```php
-function \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $moduleName = 'Vtiger')
+function \App\Runtime\Vtiger_Language_Handler::translate($key, $moduleName = 'Vtiger')
 {
     $formattedString = getTranslatedString($key, $moduleName);
     $args = func_get_args();
@@ -217,7 +217,7 @@ The `refactor/simple_vtranslate_to_t.py` script handles these conversions:
 
 ## 10. Key Differences Summary
 
-| Aspect | \FreeCRM\Runtime\Vtiger_Language_Handler::translate() | \FreeCRM\Runtime\Vtiger_Language_Handler::translate() | app.vtranslate() |
+| Aspect | \App\Runtime\Vtiger_Language_Handler::translate() | \App\Runtime\Vtiger_Language_Handler::translate() | app.vtranslate() |
 |--------|--------------|------------------|------------------|
 | **Context** | Smarty templates | Menu items | JavaScript |
 | **Execution** | Server-side | Server-side | Client-side |

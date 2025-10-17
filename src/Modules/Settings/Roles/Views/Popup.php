@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Views;
+namespace App\Modules\Settings\Roles\Views;
 
 
 /* +**********************************************************************************
@@ -15,15 +15,15 @@ namespace FreeCRM\Modules\Settings\Roles\Views;
 class Popup extends \Vtiger_Footer_View
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -31,9 +31,9 @@ class Popup extends \Vtiger_Footer_View
 
 		$sourceRecord = $request->get('src_record');
 
-		$sourceRole = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($sourceRecord);
-		$rootRole = \FreeCRM\Modules\Settings\Roles\Models\Record::getBaseRole();
-		$allRoles = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
+		$sourceRole = \App\Modules\Settings\Roles\Models\Record::getInstanceById($sourceRecord);
+		$rootRole = \App\Modules\Settings\Roles\Models\Record::getBaseRole();
+		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 
 		$viewer->assign('SOURCE_ROLE', $sourceRole);
 		$viewer->assign('ROOT_ROLE', $rootRole);
@@ -47,10 +47,10 @@ class Popup extends \Vtiger_Footer_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

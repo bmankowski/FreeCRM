@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\KnowledgeBase\Actions;
+namespace App\Modules\KnowledgeBase\Actions;
 
 /**
  * Action to get data of tree
@@ -8,23 +8,23 @@ namespace FreeCRM\Modules\KnowledgeBase\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class DataTreeAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class DataTreeAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$treeModel = KnowledgeBase_Tree_Model::getInstance($moduleModel);
 		$allFolders = $treeModel->getFolders();
 		$documents = $treeModel->getDocuments();
@@ -32,7 +32,7 @@ class DataTreeAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$documents = [];
 		}
 		$dataOfTree = array_merge($allFolders, $documents);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($dataOfTree);
 		$response->emit();
 	}

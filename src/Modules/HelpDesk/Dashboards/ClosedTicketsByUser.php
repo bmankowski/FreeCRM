@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\HelpDesk\Dashboards;
-use FreeCRM\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
+namespace App\Modules\HelpDesk\Dashboards;
+use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
+use App\Modules\Settings\SupportProcessesModels\Module;
 
 /**
  * Widget showing ticket which have closed. We can filter by date 
@@ -10,7 +10,7 @@ use FreeCRM\Modules\Settings\SupportProcessesModels\Module;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
 class ClosedTicketsByUser extends \Vtiger_Index_View
 {
@@ -45,8 +45,8 @@ class ClosedTicketsByUser extends \Vtiger_Index_View
 		$moduleName = 'HelpDesk';
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$ticketStatus = \FreeCRM\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$ticketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$query = (new \App\Db\Query())->select([
 			'count' => new \yii\db\Expression('COUNT(*)'),
@@ -86,14 +86,14 @@ class ClosedTicketsByUser extends \Vtiger_Index_View
 	 */
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$time = $request->get('time');
 		if (empty($time)) {
-			$time = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
+			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));

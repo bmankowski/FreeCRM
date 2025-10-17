@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ModComments\Models;
+namespace App\Modules\ModComments\Models;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -32,7 +32,7 @@ class CommentsModel {
 
 	public function timestamp()
 	{
-		$date = new \FreeCRM\Fields\DateTimeField($this->data['modifiedtime']);
+		$date = new \App\Fields\DateTimeField($this->data['modifiedtime']);
 		return $date->getDisplayDateTimeValue();
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Products\Actions;
+namespace App\Modules\Products\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,12 +11,12 @@ namespace FreeCRM\Modules\Products\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$result = \FreeCRM\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
+		$result = \App\Modules\Vtiger\Util::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 		parent::process($request);
 	}

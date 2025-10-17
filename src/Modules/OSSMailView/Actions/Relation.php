@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSMailView\Actions;
+namespace App\Modules\OSSMailView\Actions;
 
 /**
  * Relation action class
@@ -8,13 +8,13 @@ namespace FreeCRM\Modules\OSSMailView\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Relation extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class Relation extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -23,14 +23,14 @@ class Relation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 		$recordModel->setReloadRelationRecord($request->get('moduleName'), $request->get('record'));
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SET_RELOAD_RELATIONS', $moduleName));
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult(\App\Runtime\Vtiger_Language_Handler::translate('LBL_SET_RELOAD_RELATIONS', $moduleName));
 		$response->emit();
 	}
 }

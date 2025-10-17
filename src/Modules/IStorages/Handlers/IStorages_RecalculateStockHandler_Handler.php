@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\IStorages\Handlers;
+namespace App\Modules\IStorages\Handlers;
 
 /**
  * RecalculateStock Handler Class
@@ -24,7 +24,7 @@ class IStorages_RecalculateStockHandler_Handler {
 		if (isset($correctionModules[$moduleName])) {
 			$relatedModuleField = $correctionModules[$moduleName];
 			$relatedModuleRecordId = $recordModel->get($relatedModuleField);
-			$relatedModuleRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($relatedModuleRecordId);
+			$relatedModuleRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relatedModuleRecordId);
 		}
 		if ($recordModel->get($status) === 'PLL_ACCEPTED') {
 			if (isset($correctionModules[$moduleName])) {
@@ -42,12 +42,12 @@ class IStorages_RecalculateStockHandler_Handler {
 		}
 	}
 
-	public function getInventoryDataAndSend(\FreeCRM\Modules\Vtiger\Models\Record $recordModel, $action)
+	public function getInventoryDataAndSend(\App\Modules\Vtiger\Models\Record $recordModel, $action)
 	{
 		$moduleName = $recordModel->getModuleName();
 		$inventoryData = $recordModel->getInventoryData();
 		if (!empty($inventoryData) && $recordModel->get('storageid')) {
-			\FreeCRM\Modules\IStorages\Models\Module::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
+			\App\Modules\IStorages\Models\Module::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
 		}
 	}
 }

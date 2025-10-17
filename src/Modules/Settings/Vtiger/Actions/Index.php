@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Actions;
+namespace App\Modules\Settings\Vtiger\Actions;
 
 
 /* +**********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\Vtiger\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class Index extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 	
 }

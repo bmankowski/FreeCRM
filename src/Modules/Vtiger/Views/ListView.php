@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ListView extends \Vtiger_Index_View
 {
 
@@ -29,37 +29,37 @@ class ListView extends \Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function getPageTitle(\FreeCRM\Http\Vtiger_Request $request)
+	public function getPageTitle(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
-		$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
-		$title = $title . ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
+		$title = \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
+		$title = $title . ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
 
 		if ($request->has('viewname')) {
-			$customView = \FreeCRM\Modules\CustomView\Models\Record::getAll($moduleName)[$request->get('viewname')];
+			$customView = \App\Modules\CustomView\Models\Record::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
-				$title .= ' [' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILTER', $moduleName) . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($customView->get('viewname'), $moduleName) . ']';
+				$title .= ' [' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_FILTER', $moduleName) . ': ' . \App\Runtime\Vtiger_Language_Handler::translate($customView->get('viewname'), $moduleName) . ']';
 			}
 		}
 		return $title;
 	}
 
-	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
+		$title = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname')) {
-			$customView = \FreeCRM\Modules\CustomView\Models\Record::getAll($moduleName)[$request->get('viewname')];
+			$customView = \App\Modules\CustomView\Models\Record::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
-				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILTER', $moduleName)
-					. ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($customView->get('viewname'), $moduleName) . ']</div>';
+				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_FILTER', $moduleName)
+					. ': ' . \App\Runtime\Vtiger_Language_Handler::translate($customView->get('viewname'), $moduleName) . ']</div>';
 			}
 		}
 		return $title;
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -72,35 +72,35 @@ class ListView extends \Vtiger_Index_View
 		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$viewer->assign('CUSTOM_VIEWS', \FreeCRM\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid));
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid));
 		$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
-		$this->listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $this->viewName);
+		$this->listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $this->viewName);
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
-		$viewer->assign('MODULE_MODEL', \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName));
+		$viewer->assign('MODULE_MODEL', \App\Modules\Vtiger\Models\Module::getInstance($moduleName));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
-	public function preProcessTplName(\FreeCRM\Http\Vtiger_Request $request)
+	public function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\FreeCRM\Http\Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	protected function preProcessDisplay(\FreeCRM\Http\Vtiger_Request $request)
+	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcessDisplay($request);
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -109,7 +109,7 @@ class ListView extends \Vtiger_Index_View
 				$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
 			}
 			if (\App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
-				$customViewModel = \FreeCRM\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
+				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
 				if ($customViewModel) {
 					\App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
 				}
@@ -121,16 +121,16 @@ class ListView extends \Vtiger_Index_View
 				}
 			}
 			$this->initializeListViewContents($request, $viewer);
-			$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+			$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 			$viewer->assign('MODULE_NAME', $moduleName);
-			$viewer->assign('MODULE_MODEL', \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName));
+			$viewer->assign('MODULE_MODEL', \App\Modules\Vtiger\Models\Module::getInstance($moduleName));
 			$viewer->assign('VIEWID', $this->viewName);
 		}
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\FreeCRM\Http\Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -142,9 +142,9 @@ class ListView extends \Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
-	 * @return <Array> - List of \FreeCRM\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -170,7 +170,7 @@ class ListView extends \Vtiger_Index_View
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
@@ -184,7 +184,7 @@ class ListView extends \Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\FreeCRM\Http\Vtiger_Request $request, \FreeCRM\Runtime\FreeCRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->get('page');
@@ -195,7 +195,7 @@ class ListView extends \Vtiger_Index_View
 			$orderBy = \App\CustomView::getSortby($moduleName);
 			$sortOrder = \App\CustomView::getSorder($moduleName);
 			if (empty($orderBy)) {
-				$moduleInstance = \FreeCRM\CRMEntity::getInstance($moduleName);
+				$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 				$orderBy = $moduleInstance->default_order_by;
 				$sortOrder = $moduleInstance->default_sort_order;
 			}
@@ -211,15 +211,15 @@ class ListView extends \Vtiger_Index_View
 			$pageNumber = \App\CustomView::getCurrentPage($moduleName, $this->viewName);
 		}
 		if (!$this->listViewModel) {
-			$this->listViewModel = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $this->viewName);
+			$this->listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $this->viewName);
 		}
 		if (!empty($searchResult)) {
 			$this->listViewModel->set('searchResult', $searchResult);
 		}
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $this->viewName);
 		if (!empty($orderBy)) {
@@ -278,7 +278,7 @@ class ListView extends \Vtiger_Index_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		$totalCount = false;
-		if (\FreeCRM\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}

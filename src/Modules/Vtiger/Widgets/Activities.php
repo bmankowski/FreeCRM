@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Widgets;
+namespace App\Modules\Vtiger\Widgets;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Activities extends \FreeCRM\Modules\Vtiger\Widgets\Basic
+class Activities extends \App\Modules\Vtiger\Widgets\Basic
 {
 
 	public $allowedModules = ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees', 'Campaigns', 'HelpDesk', 'Project', 'ServiceContracts', 'SSalesProcesses', 'SQuoteEnquiries', 'SRequirementsCards', 'SCalculations', 'SQuotes', 'SSingleOrders', 'SRecurringOrders', 'SVendorEnquiries'];
@@ -30,7 +30,7 @@ class Activities extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 	public function getWidget()
 	{
 		$widget = [];
-		$model = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$model = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 		if ($model->isPermitted('DetailView')) {
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Activities.tpl';

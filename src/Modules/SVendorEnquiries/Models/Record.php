@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SVendorEnquiries\Models;
+namespace App\Modules\SVendorEnquiries\Models;
 
 /**
  * Record Class for SVendorEnquiries
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\SVendorEnquiries\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends \FreeCRM\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];

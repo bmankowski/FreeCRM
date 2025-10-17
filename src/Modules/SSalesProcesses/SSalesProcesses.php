@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\SSalesProcesses;
+namespace App\Modules\SSalesProcesses;
 
 /**
  * @package YetiForce.CRMEntity
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\SSalesProcesses;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class SSalesProcesses extends Vtiger_CRMEntity
@@ -89,7 +89,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-SP', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSalesProcesses']);
@@ -100,7 +100,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SSalesProcesses'));
 			}
-			\FreeCRM\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -122,13 +122,13 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = \FreeCRM\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
 		foreach ($listColumns as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
-				$listviewHeader[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldname);
+				$listviewHeader[] = \App\Runtime\Vtiger_Language_Handler::translate($fieldname);
 			}
 		}
 		$salesProcessesList = [];
@@ -156,9 +156,9 @@ class SSalesProcesses extends Vtiger_CRMEntity
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
 
-		$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
-		$listColumns = \FreeCRM\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -212,7 +212,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	{
 		\App\Log::trace('Entering getParentSales(' . $id . ') method ...');
 
-		if ($depthBase == \FreeCRM\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \App\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParentSales method ... - exceeded maximum depth of hierarchy');
 			return $parentSSalesProcesses;
 		}
@@ -243,7 +243,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			}
 
 			$parentSSalesProcessesInfo['depth'] = $depth;
-			$listColumns = \FreeCRM\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
@@ -273,7 +273,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	public function getChildSales($id, &$childSalesProcesses, $depthBase)
 	{
 		\App\Log::trace('Entering getChildSales(' . $id . ',' . $depthBase . ') method ...');
-		if ($depthBase == \FreeCRM\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == \App\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
 			return $childSalesProcesses;
 		}
@@ -287,7 +287,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 				->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 				->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
 				->createCommand()->query();
-		$listColumns = \FreeCRM\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}

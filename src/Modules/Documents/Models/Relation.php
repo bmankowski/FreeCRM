@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Documents\Models;
+namespace App\Modules\Documents\Models;
 
 /**
  * Relation Model Class
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\Documents\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Vtiger\Models\Relation
 {
 
 	public function setExceptionData()
@@ -38,7 +38,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 				$mailId = $sourceRecordId;
 				$crmid = $relatedRecordId;
 			}
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
 				return true;
 			} else {
@@ -53,7 +53,7 @@ class Relation extends \FreeCRM\Modules\Vtiger\Models\Relation
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
 			}
-			$destinationModuleFocus = \FreeCRM\CRMEntity::getInstance($destinationModuleName);
+			$destinationModuleFocus = \App\CRMEntity::getInstance($destinationModuleName);
 			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 			return true;

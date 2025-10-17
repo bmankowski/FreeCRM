@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Faq;
+namespace App\Modules\Faq;
 
 /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -25,7 +25,7 @@ namespace FreeCRM\Modules\Faq;
  * ****************************************************************************** */
 
 // Faq is used to store vtiger_faq information.
-class Faq extends \FreeCRM\CRMEntity
+class Faq extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_faq';

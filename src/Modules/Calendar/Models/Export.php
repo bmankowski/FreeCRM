@@ -1,14 +1,14 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_rfc2445.php';
 require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_components.php';
 require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_properties.php';
 require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_parameters.php';
 
-class Export extends \FreeCRM\Modules\Vtiger\Models\Model
+class Export extends \App\Modules\Vtiger\Models\Model
 {
 
 	/**
@@ -20,7 +20,7 @@ class Export extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		$moduleName = $request->get('source_module');
 		$cvId = $request->get('viewname');
-		$listInstance = \FreeCRM\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+		$listInstance = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');
@@ -53,7 +53,7 @@ class Export extends \FreeCRM\Modules\Vtiger\Models\Model
 			$listInstance->getQueryGenerator()->addCondition('id', $excludedIds, 'n');
 		}
 		$query = $listInstance->getQueryGenerator()->createQuery();
-		$query->limit(\FreeCRM\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+		$query->limit(\App\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 		$fields = array_values($query->select);
 		$query->select($fields);
 		return $query;
@@ -76,7 +76,7 @@ class Export extends \FreeCRM\Modules\Vtiger\Models\Model
 	public function exportData(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
 
@@ -89,11 +89,11 @@ class Export extends \FreeCRM\Modules\Vtiger\Models\Model
 	 * Function that create the exported file
 	 * @param Vtiger_Request $request
 	 * @param array $dataReader
-	 * @param \FreeCRM\Modules\Vtiger\Models\Module $moduleModel
+	 * @param \App\Modules\Vtiger\Models\Module $moduleModel
 	 */
 	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
 		$timeZoneId = explode('/', date_default_timezone_get());
 

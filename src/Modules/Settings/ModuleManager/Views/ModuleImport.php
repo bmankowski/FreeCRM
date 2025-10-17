@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\ModuleManager\Views;
+namespace App\Modules\Settings\ModuleManager\Views;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ namespace FreeCRM\Modules\Settings\ModuleManager\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class ModuleImport extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -25,7 +25,7 @@ class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$this->exposeMethod('updateUserModuleStep3');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$systemMode = vglobal('systemMode');
 		if ($systemMode == 'demo') {
@@ -46,10 +46,10 @@ class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -63,7 +63,7 @@ class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function importUserModuleStep1(\FreeCRM\Http\Vtiger_Request $request)
+	public function importUserModuleStep1(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -71,10 +71,10 @@ class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function importUserModuleStep2(\FreeCRM\Http\Vtiger_Request $request)
+	public function importUserModuleStep2(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$uploadDir = \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
+		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$qualifiedModuleName = $request->getModule(false);
 
 		$uploadFile = 'usermodule_' . time() . '.zip';
@@ -119,13 +119,13 @@ class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
 	}
 
-	public function importUserModuleStep3(\FreeCRM\Http\Vtiger_Request $request)
+	public function importUserModuleStep3(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
-		$uploadDir = \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
+		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
 		\vtlib\Deprecated::checkFileAccess($uploadFileName);
 
@@ -155,13 +155,13 @@ class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
 	}
 
-	public function updateUserModuleStep3(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateUserModuleStep3(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
-		$uploadDir = \FreeCRM\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
+		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
 		\vtlib\Deprecated::checkFileAccess($uploadFileName);
 
@@ -187,7 +187,7 @@ class ModuleImport extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('UpdateUserModuleStep3.tpl', $qualifiedModuleName);
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}

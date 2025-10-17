@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Actions;
+namespace App\Modules\Calendar\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Calendar\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ActivityReminder extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ActivityReminder extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -20,10 +20,10 @@ class ActivityReminder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('postpone');
 	}
 
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if (!$permission) {
@@ -31,7 +31,7 @@ class ActivityReminder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -40,12 +40,12 @@ class ActivityReminder extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function postpone(\FreeCRM\Http\Vtiger_Request $request)
+	public function postpone(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$time = $request->get('time');
 		$module = $request->getModule();
-		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $module);
+		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $module);
 		$recordModel->updateReminderPostpone($time);
 	}
 }

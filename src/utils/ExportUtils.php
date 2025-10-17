@@ -16,7 +16,7 @@
  */
 function getPermittedBlocks($module, $disp_view)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	\App\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
 
@@ -52,7 +52,7 @@ function getPermittedFieldsQuery($module, $disp_view)
 	$blockid_list = getPermittedBlocks($module, $disp_view);
 	$tabid = \App\Module::getModuleId($module);
 
-	$currentUser = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+	$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 	if ($module === 'Users') {
 		$sql = sprintf("SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field WHERE vtiger_field.tabid=%d && vtiger_field.block IN %s && vtiger_field.displaytype IN (1,2,4,5) and vtiger_field.presence in (0,2) ORDER BY block,sequence", $tabid, $blockid_list);
 	} else {
@@ -69,7 +69,7 @@ function getPermittedFieldsQuery($module, $disp_view)
  */
 function getFieldsListFromQuery($query)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 
 	\App\Log::trace("Entering into the function getFieldsListFromQuery($query)");
 

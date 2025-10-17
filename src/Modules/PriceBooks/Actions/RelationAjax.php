@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks\Actions;
+namespace App\Modules\PriceBooks\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,10 +11,10 @@ namespace FreeCRM\Modules\PriceBooks\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class RelationAjax extends \App\Runtime\Vtiger_Action_Controller
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode) && method_exists($this, "$mode")) {
@@ -35,9 +35,9 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$relInfos = $request->get('relinfo');
 		$relatedModule = $request->get('related_module');
 
-		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relInfos as $relInfo) {
 			$price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
 			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
@@ -59,13 +59,13 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-		$relationModel = \FreeCRM\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId, $relatedRecordId, $listPrice);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
@@ -82,13 +82,13 @@ class RelationAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$relatedModule = $request->get('related_module');
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		$sourceModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 		$relationModel = PriceBooks_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}

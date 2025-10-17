@@ -10,7 +10,7 @@
 
 function vtws_delete($id, $user)
 {
-	$adb = \FreeCRM\database\PearDatabase::getInstance();
+	$adb = \App\database\PearDatabase::getInstance();
 	
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();

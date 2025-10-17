@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Leads\Models;
-use FreeCRM\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
+namespace App\Modules\Settings\Leads\Models;
+use App\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
 
 
 /* +***********************************************************************************
@@ -14,8 +14,8 @@ use FreeCRM\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use FreeCRM\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
-class Mapping extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
+class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	public $name = 'Leads';
@@ -128,7 +128,7 @@ class Mapping extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getFieldsInfo($fieldIdsList)
 	{
-		$leadModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->getName());
+		$leadModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getName());
 		$leadId = $leadModel->getId();
 		$dataReader = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'uitype', 'typeofdata', 'fieldname', 'tablename', 'tabid'])
 			->from('vtiger_field')
@@ -157,7 +157,7 @@ class Mapping extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function save($mapping)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = [];
 		foreach ($mapping as $mappingDetails) {
 

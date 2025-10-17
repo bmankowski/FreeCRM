@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace App\Modules\com_vtiger_workflow;
 /* +*******************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -54,7 +54,7 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
 			if (!\App\Module::isModuleActive($tabModuleName))
 				continue;
-			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName));
+			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \App\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName));
 		} else {
 			$dataTypeInfo = explode('~', $typeOfData);
 			if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory
@@ -89,8 +89,8 @@ function vtJsonOwnersList($adb)
 
 	echo \App\Json::encode($ownersList);
 }
-$adb = \FreeCRM\database\PearDatabase::getInstance();
-$request = \FreeCRM\Http\AppRequest::init();
+$adb = \App\database\PearDatabase::getInstance();
+$request = \App\Http\AppRequest::init();
 $mode = $request->get('mode');
 
 if ($mode == 'getfieldsjson') {

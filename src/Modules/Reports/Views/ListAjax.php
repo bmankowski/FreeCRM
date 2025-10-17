@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Reports\Views;
+namespace App\Modules\Reports\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Reports\Views;
  */
 
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class ListAjax extends \Vtiger_Index_View
 {
 
@@ -27,12 +27,12 @@ class ListAjax extends \Vtiger_Index_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -41,7 +41,7 @@ class ListAjax extends \Vtiger_Index_View
 		}
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new Reports_ListView_Model();

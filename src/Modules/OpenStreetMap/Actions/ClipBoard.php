@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OpenStreetMap\Actions;
+namespace App\Modules\OpenStreetMap\Actions;
 
 /**
  * Action to clipboard
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\OpenStreetMap\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class ClipBoard extends \FreeCRM\Runtime\Vtiger_Action_Controller
+class ClipBoard extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public function __construct()
@@ -20,7 +20,7 @@ class ClipBoard extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$this->exposeMethod('addRecord');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -29,52 +29,52 @@ class ClipBoard extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 	}
 
-	public function addAllRecords(\FreeCRM\Http\Vtiger_Request $request)
+	public function addAllRecords(\App\Http\Vtiger_Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
 		$count = $coordinatesModel->saveAllRecordsToCache();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['count' => $count]);
 		$response->emit();
 	}
 
-	public function delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
 		$coordinatesModel->deleteCache();
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(0);
 		$response->emit();
 	}
 
-	public function save(\FreeCRM\Http\Vtiger_Request $request)
+	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$records = $request->get('recordIds');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
 		$coordinatesModel->deleteCache();
 		$coordinatesModel->saveCache($records);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(count($records));
 		$response->emit();
 	}
 
-	public function addRecord(\FreeCRM\Http\Vtiger_Request $request)
+	public function addRecord(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$srcModuleName = $request->get('srcModuleName');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $srcModuleName);
 		$coordinatesModel->addCache($record);
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($srcModuleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($srcModuleName);
 		$coordinatesModel->set('srcModuleModel', $moduleModel);
 		$coordinates = $coordinatesModel->readCoordinatesByRecords([$record]);
 		if(empty($coordinates)) {
-			$coordinates = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
+			$coordinates = \App\Runtime\Vtiger_Language_Handler::translate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($coordinates);
 		$response->emit();
 	}

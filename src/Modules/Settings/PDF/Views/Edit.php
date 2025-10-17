@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PDF\Views;
+namespace App\Modules\Settings\PDF\Views;
 
 
 
@@ -12,17 +12,17 @@ namespace FreeCRM\Modules\Settings\PDF\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
-class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
+class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$step = strtolower($request->getMode());
 		$this->step($step, $request);
 	}
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -30,7 +30,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step($step, \FreeCRM\Http\Vtiger_Request $request)
+	public function step($step, \App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -38,7 +38,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$pdfModel = \FreeCRM\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
+			$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
@@ -62,8 +62,8 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				break;
 
 			case 'step6':
-				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($pdfModel->get('module_name'));
-				$recordStructureInstance = \FreeCRM\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($pdfModel->get('module_name'));
+				$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('ADVANCE_CRITERIA', \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
 				$viewer->view('Step6.tpl', $qualifiedModuleName);
@@ -97,14 +97,14 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 			case 'step1':
 			default:
-				$allModules = \FreeCRM\Modules\Settings\PDF\Models\Module::getSupportedModules();
+				$allModules = \App\Modules\Settings\PDF\Models\Module::getSupportedModules();
 				$viewer->assign('ALL_MODULES', $allModules);
 				$viewer->view('Step1.tpl', $qualifiedModuleName);
 				break;
 		}
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -130,7 +130,7 @@ class Edit extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(\FreeCRM\Http\Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

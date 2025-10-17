@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Events\UiTypes;
+namespace App\Modules\Events\UiTypes;
 
 /**
  * UIType ReferenceSubProcess Field Class

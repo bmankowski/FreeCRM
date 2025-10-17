@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Actions;
+namespace App\Modules\Settings\LayoutEditor\Actions;
 
 
 
@@ -10,7 +10,7 @@ namespace FreeCRM\Modules\Settings\LayoutEditor\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -22,7 +22,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('delete');
 	}
 
-	public function setInventory(\FreeCRM\Http\Vtiger_Request $request)
+	public function setInventory(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
@@ -32,7 +32,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		if ($status) {
 			$status = true;
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => $status]
 		);
@@ -41,9 +41,9 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 	/**
 	 * Function is used to create and edit fields in advanced block
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function saveInventoryField(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveInventoryField(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
@@ -61,14 +61,14 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$data = [];
 		if (current($arrayInstane)) {
 			$data = current($arrayInstane)->getData();
-			$data['translate'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['label'], $moduleName);
+			$data['translate'] = \App\Runtime\Vtiger_Language_Handler::translate($data['label'], $moduleName);
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['data' => $data, 'edit' => $edit]);
 		$response->emit();
 	}
 
-	public function saveSequence(\FreeCRM\Http\Vtiger_Request $request)
+	public function saveSequence(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
@@ -77,12 +77,12 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		if ($status) {
 			$status = true;
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['success' => $status]);
 		$response->emit();
 	}
 
-	public function delete(\FreeCRM\Http\Vtiger_Request $request)
+	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
@@ -91,7 +91,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		if ($status) {
 			$status = true;
 		}
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['success' => $status]);
 		$response->emit();
 	}

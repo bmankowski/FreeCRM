@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\AutomaticAssignment\Views;
+namespace App\Modules\Settings\AutomaticAssignment\Views;
 
 
 
@@ -11,25 +11,25 @@ namespace FreeCRM\Modules\Settings\AutomaticAssignment\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
-class Create extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+use App\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
+class Create extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
 	/**
 	 * Function returns name that defines modal window size
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string
 	 */
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-sm';
 	}
 
 	/**
 	 * Function proccess
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);

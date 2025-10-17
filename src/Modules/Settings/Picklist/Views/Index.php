@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Picklist\Views;
+namespace App\Modules\Settings\Picklist\Views;
 
 
 /* +**********************************************************************************
@@ -12,11 +12,11 @@ namespace FreeCRM\Modules\Settings\Picklist\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
-class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+use App\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
+class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 
 		$sourceModule = $request->get('source_module');
@@ -41,7 +41,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$viewer->assign('PICKLIST_FIELDS', $pickListFields);
 			$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $selectedPickListFieldModel);
 			$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $selectedFieldAllPickListValues);
-			$viewer->assign('ROLES_LIST', \FreeCRM\Modules\Settings\Roles\Models\Record::getAll());
+			$viewer->assign('ROLES_LIST', \App\Modules\Settings\Roles\Models\Record::getAll());
 		} else {
 			$viewer->assign('NO_PICKLIST_FIELDS', true);
 			$createPicklistUrl = '';
@@ -60,7 +60,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Index.tpl', $qualifiedName);
 	}
 
-	public function getFooterScripts(\FreeCRM\Http\Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

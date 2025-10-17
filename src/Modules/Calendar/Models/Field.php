@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Calendar\Models;
+namespace App\Modules\Calendar\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -15,7 +15,7 @@ namespace FreeCRM\Modules\Calendar\Models;
 /**
  * Calendar Field Model Class
  */
-class Field extends \FreeCRM\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -95,7 +95,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 			if ($fieldName === 'date_start') {
 				return DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
-				$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 				$minutes = $currentUser->get('callduration');
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
@@ -148,7 +148,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 		parent::getFieldInfo();
 		//Change the default search operator
 		if ($this->get('name') == 'date_start') {
-			$searchParams = \FreeCRM\Http\AppRequest::get('search_params');
+			$searchParams = \App\Http\AppRequest::get('search_params');
 			if (!empty($searchParams)) {
 				foreach ($searchParams[0] as $value) {
 					if ($value[0] == 'date_start') {

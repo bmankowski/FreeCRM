@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Import\Models;
+namespace App\Modules\Import\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Import\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Map extends \FreeCRM\Modules\Vtiger\Models\Model
+class Map extends \App\Modules\Vtiger\Models\Model
 {
 
 	static $tableName = 'vtiger_import_maps';
@@ -47,7 +47,7 @@ class Map extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public static function markAsDeleted($mapId)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_import_maps SET deleted=1 WHERE id=?', array($mapId));
 	}
 
@@ -85,7 +85,7 @@ class Map extends \FreeCRM\Modules\Vtiger\Models\Model
 
 	public function save()
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$map = $this->getAllValues();
 		$map['content'] = "" . $db->getEmptyBlob() . "";

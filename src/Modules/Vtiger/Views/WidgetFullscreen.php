@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Views;
+namespace App\Modules\Vtiger\Views;
 
 /**
  * Widget fullscreen modal view class
@@ -13,9 +13,9 @@ namespace FreeCRM\Modules\Vtiger\Views;
  * Widget fullscreen modal view class
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 
-use FreeCRM\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
+use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class WidgetFullscreen extends \Vtiger_Index_View
 {
 
@@ -25,31 +25,31 @@ class WidgetFullscreen extends \Vtiger_Index_View
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!is_numeric($recordId)) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'DetailView', $recordId);
+		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'DetailView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function getSize(\FreeCRM\Http\Vtiger_Request $request)
+	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-blg';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->get('record'));
 		$recordModel = $detailModel->getRecord();
 		$detailModel->getWidgets();
-		$handlerClass = \FreeCRM\Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$handlerClass = \App\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
 		$mode = $request->getMode();
 		$request->set('limit', 30);

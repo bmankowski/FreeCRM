@@ -9,7 +9,7 @@
  * meta-data should be stored as an array
  */
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 class VTQL_ParseryyToken implements ArrayAccess
 {
@@ -1234,7 +1234,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$this->syntax_error = true;
 			throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "There is an syntax error in query");
 		}
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		$handler = vtws_getModuleHandlerFromName($moduleName, $this->user);
 		$objectMeta = $handler->getMeta();
 		$this->out['moduleName'] = $moduleName;
@@ -1397,7 +1397,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	public function yy_r41()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		if (empty($this->out['meta'])) {
 		// / ProCRM
 			$module = $this->out['moduleName'];

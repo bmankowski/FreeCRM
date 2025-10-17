@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Actions;
-use FreeCRM\Modules\Settings\MailModels\Autologin;
+namespace App\Modules\Settings\Mail\Actions;
+use App\Modules\Settings\MailModels\Autologin;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use FreeCRM\Modules\Settings\MailModels\Autologin;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()
@@ -26,52 +26,52 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$this->exposeMethod('acceptanceRecord');
 	}
 
-	public function updateUsers(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateUsers(\App\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('id');
 		$user = $request->get('user');
-		\FreeCRM\Modules\Settings\Mail\Models\Autologin::updateUsersAutologin($id, $user);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Mail\Models\Autologin::updateUsersAutologin($id, $user);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_CHANGES', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_CHANGES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
 
-	public function updateConfig(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateConfig(\App\Http\Vtiger_Request $request)
 	{
 		$name = $request->get('name');
 		$val = $request->get('val');
 		$type = $request->get('type');
-		\FreeCRM\Modules\Settings\Mail\Models\Config::updateConfig($name, $val, $type);
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Mail\Models\Config::updateConfig($name, $val, $type);
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_CHANGES', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_CHANGES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
 
-	public function updateSignature(\FreeCRM\Http\Vtiger_Request $request)
+	public function updateSignature(\App\Http\Vtiger_Request $request)
 	{
 		$val = $request->get('val');
-		\FreeCRM\Modules\Settings\Mail\Models\Config::updateConfig('signature', $val, 'signature');
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Mail\Models\Config::updateConfig('signature', $val, 'signature');
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_SIGNATURE', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_SIGNATURE', $request->getModule(false))
 		]);
 		$response->emit();
 	}
 	
-	public function acceptanceRecord(\FreeCRM\Http\Vtiger_Request $request)
+	public function acceptanceRecord(\App\Http\Vtiger_Request $request)
 	{
-		\FreeCRM\Modules\Settings\Mail\Models\Config::acceptanceRecord($request->get('id'));
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		\App\Modules\Settings\Mail\Models\Config::acceptanceRecord($request->get('id'));
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_ACCEPTED', $request->getModule(false))
+			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_ACCEPTED', $request->getModule(false))
 		]);
 		$response->emit();
 	}

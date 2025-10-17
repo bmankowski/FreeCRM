@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Models;
+namespace App\Modules\Settings\Mail\Models;
 
 
 /* +***********************************************************************************************************************************
@@ -47,7 +47,7 @@ class Config
 	/**
 	 * Function to get instance
 	 * @param boolean true/false
-	 * @return \FreeCRM\Modules\Settings\Mail\Models\Config
+	 * @return \App\Modules\Settings\Mail\Models\Config
 	 */
 	public static function getInstance()
 	{

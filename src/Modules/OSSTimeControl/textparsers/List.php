@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\OSSTimeControl;
+namespace App\Modules\OSSTimeControl;
 
 /**
  * Time control list parser class
@@ -26,7 +26,7 @@ class TextParser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->textParser->moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->textParser->moduleName);
 		$fields = $moduleModel->getFields();
 		$ids = $this->textParser->getParam('pdf')->getRecordIds();
 		if (!is_array($ids)) {
@@ -44,13 +44,13 @@ class TextParser extends \App\TextParser\Base
 		$html .= '<table class="table"><thead><tr>';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</span>&nbsp;</th>';
+			$html .= '<th><span>' . \App\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</span>&nbsp;</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		$summary = [];
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
-			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
 			foreach ($this->columnNames as $key => $column) {
 				$fieldModel = $fields[$column];
 				$class = '';
@@ -72,7 +72,7 @@ class TextParser extends \App\TextParser\Base
 				$content = '<strong>' . $time['short'] . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {
-				$content = '<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
+				$content = '<strong>' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
 			}
 			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';
 		}

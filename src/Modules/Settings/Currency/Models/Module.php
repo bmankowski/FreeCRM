@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Currency\Models;
+namespace App\Modules\Settings\Currency\Models;
 
 
 /* +**********************************************************************************
@@ -12,8 +12,8 @@ namespace FreeCRM\Modules\Settings\Currency\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
-class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
+use App\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
+class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
 	const tableName = 'vtiger_currency_info';

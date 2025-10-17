@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Mail\Models;
+namespace App\Modules\Settings\Mail\Models;
 
 
 
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\Settings\Mail\Models;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use FreeCRM\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
+use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class ListView extends \Settings_Vtiger_ListView_Model
 {
 
@@ -27,7 +27,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $module->getName();
 		}
-		$recordModelClass = \FreeCRM\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
 		$listFields [] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
@@ -54,8 +54,8 @@ class ListView extends \Settings_Vtiger_ListView_Model
 			$recordModel = new $recordModelClass();
 			$moduleName = \App\Module::getModuleName($row['tabid']);
 			$relModuleName = \App\Module::getModuleName($row['reltabid']);
-			$row['tabid'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
-			$row['reltabid'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relModuleName, $relModuleName);
+			$row['tabid'] = \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
+			$row['reltabid'] = \App\Runtime\Vtiger_Language_Handler::translate($relModuleName, $relModuleName);
 			$recordModel->setData($row);
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}

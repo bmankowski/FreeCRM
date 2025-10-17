@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Vtiger\Actions;
+namespace App\Modules\Settings\Vtiger\Actions;
 
 
 /* +**********************************************************************************
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Settings\Vtiger\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class TaxAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
+class TaxAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
 	public function __construct()
@@ -21,10 +21,10 @@ class TaxAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$this->exposeMethod('checkDuplicateName');
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
@@ -47,7 +47,7 @@ class TaxAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 
 		$taxRecordModel->setType($type);
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		try {
 			$taxId = $taxRecordModel->save();
 			$recordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
@@ -58,7 +58,7 @@ class TaxAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function checkDuplicateName(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkDuplicateName(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -71,15 +71,15 @@ class TaxAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		if (!$exists) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
 		}
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
-	public function validateRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

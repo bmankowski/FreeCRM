@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\ServiceContracts;
+namespace App\Modules\ServiceContracts;
 
 /**
  * 
@@ -8,7 +8,7 @@ namespace FreeCRM\Modules\ServiceContracts;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ServiceContracts extends \FreeCRM\CRMEntity
+class ServiceContracts extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_servicecontracts';
@@ -145,7 +145,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index =" .
@@ -253,7 +253,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$current_user = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		include("include/utils/ExportUtils.php");
 
@@ -284,7 +284,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \FreeCRM\CRMEntity::getInstance($related_module);
+			$other = \App\CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = " .
@@ -358,7 +358,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 	{
 
 		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -457,7 +457,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 														AND module = 'HelpDesk' AND relcrmid = ?", array($focusId, $focusId));
 
 		$noOfTickets = $this->db->num_rows($contractTicketsResult);
-		$ticketFocus = \FreeCRM\CRMEntity::getInstance('HelpDesk');
+		$ticketFocus = \App\CRMEntity::getInstance('HelpDesk');
 		$totalUsedUnits = 0;
 		for ($i = 0; $i < $noOfTickets; ++$i) {
 			$ticketId = $this->db->query_result($contractTicketsResult, $i, 'relcrmid');
@@ -593,7 +593,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				\App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, \FreeCRM\CRMEntity::getInstance(\App\Module::getModuleName($row['tabid']))->table_index => $id])
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, \App\CRMEntity::getInstance(\App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}
@@ -607,7 +607,7 @@ class ServiceContracts extends \FreeCRM\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

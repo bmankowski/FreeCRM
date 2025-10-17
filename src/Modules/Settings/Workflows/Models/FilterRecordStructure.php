@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Models;
-use FreeCRM\Modules\Settings\WorkflowsModels\RecordStructure;
+namespace App\Modules\Settings\Workflows\Models;
+use App\Modules\Settings\WorkflowsModels\RecordStructure;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use FreeCRM\Modules\Settings\WorkflowsModels\RecordStructure;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class FilterRecordStructure extends \FreeCRM\Modules\Settings\Workflows\Models\RecordStructure
+class FilterRecordStructure extends \App\Modules\Settings\Workflows\Models\RecordStructure
 {
 
 	/**
@@ -58,9 +58,9 @@ class FilterRecordStructure extends \FreeCRM\Modules\Settings\Workflows\Models\R
 			}
 		}
 		if ($moduleModel->isCommentEnabled()) {
-			$commentFieldModel = \FreeCRM\Modules\Settings\Workflows\Models\Field::getCommentFieldForFilterConditions($moduleModel);
+			$commentFieldModel = \App\Modules\Settings\Workflows\Models\Field::getCommentFieldForFilterConditions($moduleModel);
 			$commentFieldModelsList = array($commentFieldModel->getName() => $commentFieldModel);
-			$labelName = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMMENTS', $moduleModel->getName());
+			$labelName = \App\Runtime\Vtiger_Language_Handler::translate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_COMMENTS', $moduleModel->getName());
 			foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
 				$commentFieldModel->set('workflow_columnname', $commentFieldName);
 				$values[$labelName][$commentFieldName] = $commentFieldModel;
@@ -74,7 +74,7 @@ class FilterRecordStructure extends \FreeCRM\Modules\Settings\Workflows\Models\R
 			if ($type == 'owner')
 				$referenceModules = array('Users');
 			foreach ($referenceModules as $refModule) {
-				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($refModule);
+				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
 				foreach ($blockModelList as $blockLabel => $blockModel) {
 					$fieldModelList = $blockModel->getFields();

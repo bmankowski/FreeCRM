@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Actions;
+namespace App\Modules\Vtiger\Actions;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
 
 	/**
 	 * Function process
 	 * @param Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
@@ -32,9 +32,9 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes'])) {
 				$recordFieldValue = implode(',', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \App\Modules\Vtiger\Util::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() === 'currency') {
-				$displayValue = \FreeCRM\Modules\Vtiger\Util::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
+				$displayValue = \App\Modules\Vtiger\Util::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} else {
 				$displayValue = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			}
@@ -45,8 +45,8 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$recordModel->clearPrivilegesCache();
 		$result['isEditable'] = $recordModel->isEditable();
 
-		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setEmitType(\FreeCRM\Http\Vtiger_Response::$EMIT_JSON);
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -54,14 +54,14 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(\FreeCRM\Http\Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
 			$moduleName = $request->getModule();
-			$recordModel = $this->record ? $this->record : \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
 			$fieldModel = $recordModel->getModule()->getFieldByName($request->get('field'));
 			if ($fieldModel && $fieldModel->isEditable()) {
 				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->get('value'), $recordModel));

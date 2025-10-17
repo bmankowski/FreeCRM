@@ -1,7 +1,7 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\LayoutEditor\Views;
-use FreeCRM\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
+namespace App\Modules\Settings\LayoutEditor\Views;
+use App\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
 
 
 /**
@@ -14,16 +14,16 @@ use FreeCRM\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_
 /**
  * EditField View Class
  */
-class EditField extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+class EditField extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 	/**
 	 * Check permission to view
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(\FreeCRM\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser() && !Settings_LayoutEditor_Field_Model::getInstance($request->get('fieldId')->isEditable())) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
@@ -31,9 +31,9 @@ class EditField extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
 	
 	/**
 	 * Main proccess view
-	 * @param \FreeCRM\Http\Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);

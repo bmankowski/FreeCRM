@@ -13,7 +13,7 @@
  *
  */
 
-namespace FreeCRM\utils;
+namespace App\utils;
 
 class GetParentGroups
 {
@@ -26,7 +26,7 @@ class GetParentGroups
 	 */
 	public function getAllParentGroups($groupid)
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 		
 		\App\Log::trace("Entering getAllParentGroups(" . $groupid . ") method...");
 		$query = "select groupid from vtiger_group2grouprel where containsgroupid=?";

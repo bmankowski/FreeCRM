@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Inventory\Models;
+namespace App\Modules\Settings\Inventory\Models;
 
 
 

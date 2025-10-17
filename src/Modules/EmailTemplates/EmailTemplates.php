@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\EmailTemplates;
+namespace App\Modules\EmailTemplates;
 
 /**
  * EmailTemplates CRMEntity Class
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\EmailTemplates;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use FreeCRM\CRMEntity as Vtiger_CRMEntity;
+use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class EmailTemplates extends Vtiger_CRMEntity

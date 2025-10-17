@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\WSAPP\synclib\controllers;
+namespace App\Modules\WSAPP\synclib\controllers;
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -40,7 +40,7 @@ abstract class WSAPP_SynchronizeController
 	{
 		$this->targetConnector = $this->getTargetConnector();
 		$this->sourceConnector = $this->getSourceConnector();
-		$this->db = \FreeCRM\database\PearDatabase::getInstance();
+		$this->db = \App\database\PearDatabase::getInstance();
 		$this->user = $user;
 	}
 

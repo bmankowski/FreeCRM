@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\PriceBooks\Models;
+namespace App\Modules\PriceBooks\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,7 +11,7 @@ namespace FreeCRM\Modules\PriceBooks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -57,7 +57,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	{
 		$popupFields = parent::getPopupViewFieldsList($sourceModule);
 		if (!isset($popupFields['currency_id'])) {
-			$fieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance('currency_id', $this);
+			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('currency_id', $this);
 			if ($fieldModel->getPermissions()) {
 				$popupFields['currency_id'] = 'currency_id';
 			}

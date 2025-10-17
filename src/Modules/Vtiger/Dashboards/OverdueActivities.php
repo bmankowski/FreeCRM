@@ -18,7 +18,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
 		$page = $request->get('page');
@@ -27,22 +27,22 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$orderBy = $request->get('orderby');
 		$data = $request->getAll();
 
-		$widget = \FreeCRM\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
-		$owner = \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
 
-		$pagingModel = new \FreeCRM\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
-		$overdueActivityLabels['status'] = \FreeCRM\Modules\Calendar\Models\Module::getComponentActivityStateLabel('overdue');
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$overdueActivityLabels['status'] = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('overdue');
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $overdueActivityLabels);
 
 		$colorList = [];
 		foreach ($overDueActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+			$colorList[$activityModel->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 		}
 		$viewer = $this->getViewer($request);
 
@@ -53,8 +53,8 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', \FreeCRM\AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', \FreeCRM\AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \App\AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', \App\AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('LISTVIEWLINKS', true);

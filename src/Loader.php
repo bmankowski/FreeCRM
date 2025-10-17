@@ -6,17 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com, FreeCRM Modernization
+ * Contributor(s): YetiForce.com, App Modernization
  * ********************************************************************************** */
 
-namespace FreeCRM;
+namespace App;
 
 /**
  * Modern PSR-4 Module Loader
  * 
  * Replaces legacy Vtiger_Loader for PSR-4 namespaced modules in src/Modules/
  * 
- * @package FreeCRM
+ * @package App
  */
 class Loader
 {
@@ -51,7 +51,7 @@ class Loader
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
 
 		// Build fully qualified PSR-4 class name
-		$className = "FreeCRM\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
+		$className = "App\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
 
 		// Check if module-specific class exists
 		if (class_exists($className)) {
@@ -59,7 +59,7 @@ class Loader
 		}
 
 		// Fallback to Vtiger base class (inheritance pattern)
-		$fallbackClass = "FreeCRM\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
+		$fallbackClass = "App\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
 		if (class_exists($fallbackClass)) {
 			return $fallbackClass;
 		}

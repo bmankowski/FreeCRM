@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\Models;
+namespace App\Modules\Users\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Users\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Module extends \FreeCRM\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -37,12 +37,12 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of \FreeCRM\Modules\Users\Models\Record>
+	 * @return <Array of \App\Modules\Users\Models\Record>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
 		if (!empty($searchValue)) {
-			$db = \FreeCRM\database\PearDatabase::getInstance();
+			$db = \App\database\PearDatabase::getInstance();
 
 			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? || last_name LIKE ?) && status = ?';
 			$params = array("%$searchValue%", "%$searchValue%", 'Active');
@@ -53,7 +53,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			$matchingRecords = array();
 			for ($i = 0; $i < $noOfRows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
-				$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'Record', 'Users');
+				$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
@@ -81,7 +81,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	public function checkDuplicateUser($userName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 
 		$query = 'SELECT user_name FROM vtiger_users WHERE user_name = ?';
 		$result = $db->pquery($query, array($userName));
@@ -93,11 +93,11 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function to delete a given record model of the current module
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function deleteRecord($recordModel)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$moduleName = $this->get('name');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?";
@@ -119,7 +119,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function updateBaseCurrency($currencyName)
 	{
-		$db = \FreeCRM\database\PearDatabase::getInstance();
+		$db = \App\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
@@ -176,7 +176,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function saveLogoutHistory()
 	{
-		$userRecordModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
 		$outtime = date('Y-m-d H:i:s');
 
@@ -200,7 +200,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getCurrenciesList()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
 		$result = $adb->pquery($currency_query, array());
@@ -219,7 +219,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public function getTimeZonesList()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
 		$result = $adb->pquery($timezone_query, array());
@@ -245,7 +245,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 */
 	public static function getLanguagesList()
 	{
-		$adb = \FreeCRM\database\PearDatabase::getInstance();
+		$adb = \App\database\PearDatabase::getInstance();
 
 		$language_query = 'SELECT prefix, label FROM vtiger_language';
 		$result = $adb->query($language_query);
@@ -297,10 +297,10 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function to save a given record model of the current module
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @copyright Modyfikowane przez PWC
 	 */
-	public function saveRecord(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public function saveRecord(\App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
@@ -316,7 +316,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		}
 		$recordModel->saveToDb();
 		//After adding new user, set the default activity types for new user
-		\FreeCRM\Modules\Vtiger\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		\App\Modules\Vtiger\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\User::getCurrentUserRealId() === $recordModel->getId()) {
 			Vtiger_Session::set('language', $recordModel->get('language'));
 		}
@@ -324,7 +324,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		createUserPrivilegesfile($recordModel->getId());
 		createUserSharingPrivilegesfile($recordModel->getId());
 
-		if (\FreeCRM\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
 		}
 		return $recordModel;
@@ -334,7 +334,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 	 * Function gives list fields for save
 	 * @return string[]
 	 */
-	public function getFieldsForSave(\FreeCRM\Modules\Vtiger\Models\Record $recordModel)
+	public function getFieldsForSave(\App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$editFields = [];
 		foreach (\App\Field::getFieldsPermissions($this->getId(), false) as &$field) {

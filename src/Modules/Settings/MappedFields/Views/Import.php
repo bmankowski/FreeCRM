@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\MappedFields\Views;
+namespace App\Modules\Settings\MappedFields\Views;
 
 
 
@@ -10,15 +10,15 @@ namespace FreeCRM\Modules\Settings\MappedFields\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\BasicModal
+class Import extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		echo '<div class="modal fade" id="mfImport"><div class="modal-dialog"><div class="modal-content">';
 	}
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');

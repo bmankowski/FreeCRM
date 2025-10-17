@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\PublicHoliday\Views;
-use FreeCRM\Modules\Settings\PublicHolidayModels\Module;
-use FreeCRM\Modules\Settings\PublicHolidayViews\Configuration;
+namespace App\Modules\Settings\PublicHoliday\Views;
+use App\Modules\Settings\PublicHolidayModels\Module;
+use App\Modules\Settings\PublicHolidayViews\Configuration;
 
 
 /* +***********************************************************************************************************************************
@@ -15,14 +15,14 @@ use FreeCRM\Modules\Settings\PublicHolidayViews\Configuration;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
+class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace("Entering \FreeCRM\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$date = $request->get('date');
 		if (!$date) {
@@ -35,13 +35,13 @@ class Configuration extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				$endDate->getDisplayDate(),
 			];
 		}
-		$holidays = \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidays($date);
+		$holidays = \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays($date);
 		$viewer->assign('DATE', implode(" - ", $date));
 		$viewer->assign('HOLIDAYS', $holidays);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
-		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
 	}
 }

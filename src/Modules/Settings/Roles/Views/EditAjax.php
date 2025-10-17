@@ -1,8 +1,8 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Roles\Views;
-use FreeCRM\Modules\Settings\RolesViews\IndexAjax;
-use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
+namespace App\Modules\Settings\Roles\Views;
+use App\Modules\Settings\RolesViews\IndexAjax;
+use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -14,10 +14,10 @@ use FreeCRM\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_M
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Roles_EditAjax_View extends \FreeCRM\Modules\Settings\Roles\Views\IndexAjax
+Class Settings_Roles_EditAjax_View extends \App\Modules\Settings\Roles\Views\IndexAjax
 {
 
-	public function process(\FreeCRM\Http\Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -26,11 +26,11 @@ Class Settings_Roles_EditAjax_View extends \FreeCRM\Modules\Settings\Roles\Views
 		$parentRoleId = $request->get('parent_roleid');
 
 		if (!empty($record)) {
-			$recordModel = \FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($record);
+			$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($record);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$recordModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
-			$recordModel->setParent(\FreeCRM\Modules\Settings\Roles\Models\Record::getInstanceById($parentRoleId));
+			$recordModel = new \App\Modules\Settings\Roles\Models\Record();
+			$recordModel->setParent(\App\Modules\Settings\Roles\Models\Record::getInstanceById($parentRoleId));
 			$viewer->assign('MODE', '');
 		}
 
@@ -39,7 +39,7 @@ Class Settings_Roles_EditAjax_View extends \FreeCRM\Modules\Settings\Roles\Views
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Github\Models;
+namespace App\Modules\Settings\Github\Models;
 
 
 

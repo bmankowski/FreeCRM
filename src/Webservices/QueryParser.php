@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-namespace FreeCRM\Webservices;
+namespace App\Webservices;
 
 require_once(ROOT_DIRECTORY . "/src/Webservices/VTQL_Lexer.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/VTQL_Parser.php");

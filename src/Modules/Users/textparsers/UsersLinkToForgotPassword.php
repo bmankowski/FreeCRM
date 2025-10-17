@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Users\textparsers;
+namespace App\Modules\Users\textparsers;
 
 /**
  * Users link to forgot password parser class

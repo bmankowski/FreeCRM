@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\com_vtiger_workflow;
+namespace App\Modules\com_vtiger_workflow;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -17,7 +17,7 @@ class VTJsonCondition {
 	/**
 	 * Evaluate
 	 * @param array $condition
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return string
 	 */
 	public function evaluate($condition, $recordModel)
@@ -41,9 +41,9 @@ class VTJsonCondition {
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						if ($referenceModule === 'Users') {
-							$referenceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId, $referenceModule);
+							$referenceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId, $referenceModule);
 						} else {
-							$referenceRecordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId);
+							$referenceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId);
 						}
 						$cond['fieldname'] = $fieldname;
 						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
@@ -123,9 +123,9 @@ class VTJsonCondition {
 
 	/**
 	 * Check condition
-	 * @param \FreeCRM\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @param array $cond
-	 * @param null|\FreeCRM\Modules\Vtiger\Models\Record $referredRecordModel
+	 * @param null|\App\Modules\Vtiger\Models\Record $referredRecordModel
 	 * @return boolean
 	 * @throws Exception
 	 */
@@ -193,7 +193,7 @@ class VTJsonCondition {
 					$value = $value . ':00'; // time fields will not have seconds appended to it, so we are adding 
 					break;
 				case 'multiReferenceValue':
-					$value = \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA . $value . \FreeCRM\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA;
+					$value = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA . $value . \App\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA;
 					break;
 				case 'sharedOwner':
 					if ($condition === 'is' || $condition === 'is not') {
@@ -426,13 +426,13 @@ class VTJsonCondition {
 				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
 				return false;
 			case 'is Watching Record':
-				$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
+				$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {
 					return true;
 				}
 				return false;
 			case 'is Not Watching Record':
-				$watchdog = \FreeCRM\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
+				$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {
 					return false;
 				}

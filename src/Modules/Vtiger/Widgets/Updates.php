@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Widgets;
+namespace App\Modules\Vtiger\Widgets;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +12,7 @@ namespace FreeCRM\Modules\Vtiger\Widgets;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Updates extends \FreeCRM\Modules\Vtiger\Widgets\Basic
+class Updates extends \App\Modules\Vtiger\Widgets\Basic
 {
 
 	public function getUrl()
@@ -22,17 +22,17 @@ class Updates extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 
 	public function getWidget()
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduelName = 'ModTracker';
 		$this->Config['tpl'] = 'Updates.tpl';
 		$this->Config['moduleBaseName'] = $moduelName;
 		$this->Config['url'] = $this->getUrl();
-		$this->Config['newChanege'] = \FreeCRM\Modules\ModTracker\Models\Record::isNewChange($this->Record, $currentUser->getRealId());
+		$this->Config['newChanege'] = \App\Modules\ModTracker\Models\Record::isNewChange($this->Record, $currentUser->getRealId());
 		$this->Config['switchHeader'] = [];
 		$this->Config['switchHeader']['on'] = 'changes';
 		$this->Config['switchHeader']['off'] = 'review';
-		$this->Config['switchHeaderLables']['on'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UPDATES', $moduelName);
-		$this->Config['switchHeaderLables']['off'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REVIEW_HISTORY', $moduelName);
+		$this->Config['switchHeaderLables']['on'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_UPDATES', $moduelName);
+		$this->Config['switchHeaderLables']['off'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_REVIEW_HISTORY', $moduelName);
 		return $this->Config;
 	}
 }

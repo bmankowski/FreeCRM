@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Settings\Workflows\Views;
+namespace App\Modules\Settings\Workflows\Views;
 
 
 /* +**********************************************************************************
@@ -12,14 +12,14 @@ namespace FreeCRM\Modules\Settings\Workflows\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use FreeCRM\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
-class List extends \FreeCRM\Modules\Settings\Vtiger\Views\List
+use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
+class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
-	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('SUPPORTED_MODULE_MODELS', \FreeCRM\Modules\Settings\Workflows\Models\Module::getSupportedModules());
+		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
 		$viewer->assign('CRON_RECORD_MODEL', Settings_CronTasks_Record_Model::getInstanceByName('LBL_WORKFLOW'));
 		parent::preProcess($request, $display);
 	}

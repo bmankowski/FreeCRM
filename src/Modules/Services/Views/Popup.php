@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Services\Views;
+namespace App\Modules\Services\Views;
 
 /**
  * Popup View Class for Services
@@ -9,7 +9,7 @@ namespace FreeCRM\Modules\Services\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use FreeCRM\Http\Vtiger_Request;
+use App\Http\Vtiger_Request;
 class Popup extends \Vtiger_Index_View
 {
 	

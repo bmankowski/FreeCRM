@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeCRM\Modules\Vtiger\Models;
+namespace App\Modules\Vtiger\Models;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -20,7 +20,7 @@ class ListView extends Model
 
 	/**
 	 * Function to get the Module Model
-	 * @return \FreeCRM\Modules\Vtiger\Models\Module instance
+	 * @return \App\Modules\Vtiger\Models\Module instance
 	 */
 	public function getModule()
 	{
@@ -31,7 +31,7 @@ class ListView extends Model
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
 	 * @param string $moduleName - Module Name
 	 * @param int $viewId - Custom View Id
-	 * @return \FreeCRM\Modules\Vtiger\Models\ListView instance
+	 * @return \App\Modules\Vtiger\Models\ListView instance
 	 */
 	public static function getInstance($moduleName, $viewId = 0)
 	{
@@ -39,9 +39,9 @@ class ListView extends Model
 		if (\App\Cache::staticHas('ListView_Model', $cacheName)) {
 			return \App\Cache::staticGet('ListView_Model', $cacheName);
 		}
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'ListView', $moduleName);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		if ($viewId) {
 			$queryGenerator->initForCustomViewById($viewId);
@@ -58,13 +58,13 @@ class ListView extends Model
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
 	 * @param string $value - Module Name
-	 * @return \FreeCRM\Modules\Vtiger\Models\ListView instance
+	 * @return \App\Modules\Vtiger\Models\ListView instance
 	 */
 	public static function getInstanceForPopup($value, $sourceModule = false)
 	{
-		$modelClassName = \FreeCRM\Loader::getComponentClassName('Model', 'ListView', $value);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
-		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($value);
+		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($value);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
@@ -78,15 +78,15 @@ class ListView extends Model
 	/**
 	 * Function to get the Quick Links for the List view of the module
 	 * @param array $linkParams
-	 * @return array List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return array List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getHederLinks($linkParams)
 	{
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		if (\FreeCRM\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
+		if (\App\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Watchdog::getInstance($moduleModel->getName());
 			$class = 'btn-default';
 			if ($watchdog->isWatchingModule()) {
@@ -102,7 +102,7 @@ class ListView extends Model
 				'active' => !$watchdog->isLock()
 			];
 		}
-		$userPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
@@ -111,7 +111,7 @@ class ListView extends Model
 				'linkicon' => 'glyphicon glyphicon-send'
 			];
 		}
-		$openStreetMapModuleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('OpenStreetMap');
+		$openStreetMapModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('OpenStreetMap');
 		if ($userPrivilegesModel->hasModulePermission($openStreetMapModuleModel->getId()) && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
@@ -121,7 +121,7 @@ class ListView extends Model
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
-			$links['LIST_VIEW_HEADER'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
+			$links['LIST_VIEW_HEADER'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
 		}
 		return $links;
 	}
@@ -129,7 +129,7 @@ class ListView extends Model
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of \FreeCRM\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
@@ -138,10 +138,10 @@ class ListView extends Model
 
 		$basicLinks = $this->getBasicLinks();
 		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
 		}
 
-		$allLinks = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
+		$allLinks = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => $allLinksByType) {
 				foreach ($allLinksByType as $linkModel) {
@@ -152,7 +152,7 @@ class ListView extends Model
 
 		$advancedLinks = $this->getAdvancedLinks();
 		foreach ($advancedLinks as $advancedLink) {
-			$links['LISTVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($advancedLink);
+			$links['LISTVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($advancedLink);
 		}
 		return $links;
 	}
@@ -160,13 +160,13 @@ class ListView extends Model
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \FreeCRM\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleModel = $this->getModule();
-		$links = \FreeCRM\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
+		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 		$massActionLinks = [];
 		if ($moduleModel->isPermitted('MassEdit')) {
 			$massActionLinks[] = array(
@@ -184,7 +184,7 @@ class ListView extends Model
 				'linkicon' => ''
 			);
 		}
-		$modCommentsModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance('ModComments');
+		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') && $moduleModel->isPermitted('MassAddComment')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -202,7 +202,7 @@ class ListView extends Model
 				'linkicon' => ''
 			);
 		}
-		if ($moduleModel->isTrackingEnabled() && \FreeCRM\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
+		if ($moduleModel->isTrackingEnabled() && \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
@@ -211,7 +211,7 @@ class ListView extends Model
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $links;
 	}
@@ -227,7 +227,7 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view header
-	 * @return array - List of \FreeCRM\Modules\Vtiger\Models\Field instances
+	 * @return array - List of \App\Modules\Vtiger\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -301,10 +301,10 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return \FreeCRM\Modules\Vtiger\Models\Record[] - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return \App\Modules\Vtiger\Models\Record[] - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
-	public function getListViewEntries(\FreeCRM\Modules\Vtiger\Models\Paging $pagingModel)
+	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$moduleModel = $this->getModule();
 		$this->loadListViewCondition();
@@ -326,7 +326,7 @@ class ListView extends Model
 		$listViewRecordModels = [];
 		foreach ($rows as &$row) {
 			$recordModel = $moduleModel->getRecordFromArray($row);
-			$recordModel->colorList = \FreeCRM\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleModel->get('name'), $row['id'], $recordModel);
+			$recordModel->colorList = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleModel->get('name'), $row['id'], $recordModel);
 			$listViewRecordModels[$row['id']] = $recordModel;
 		}
 		unset($rows);
@@ -336,8 +336,8 @@ class ListView extends Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param \FreeCRM\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \FreeCRM\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewCount()
 	{
@@ -370,17 +370,17 @@ class ListView extends Model
 				'linkicon' => ''
 			];
 		}
-		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
+					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
@@ -393,7 +393,7 @@ class ListView extends Model
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('QuickExportToExcel') && !\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -402,7 +402,7 @@ class ListView extends Model
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -437,8 +437,8 @@ class ListView extends Model
 			];
 		}
 
-		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \FreeCRM\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -446,7 +446,7 @@ class ListView extends Model
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'linkhint' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
+					'linkhint' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
