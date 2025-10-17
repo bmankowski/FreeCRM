@@ -156,15 +156,15 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$directiveValues['default_socket_timeout']['status'] = true;
 		$directiveValues['default_socket_timeout']['current'] = ini_get('default_socket_timeout');
 
-		if (vtlib\Functions::parseBytes(ini_get('memory_limit')) < 536870912)
+		if (\vtlib\Functions::parseBytes(ini_get('memory_limit')) < 536870912)
 			$directiveValues['memory_limit']['status'] = true;
 		$directiveValues['memory_limit']['current'] = \vtlib\Functions::showBytes(ini_get('memory_limit'));
 
-		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800)
+		if (\vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800)
 			$directiveValues['post_max_size']['status'] = true;
 		$directiveValues['post_max_size']['current'] = \vtlib\Functions::showBytes(ini_get('post_max_size'));
 
-		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600)
+		if (\vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600)
 			$directiveValues['upload_max_filesize']['status'] = true;
 		$directiveValues['upload_max_filesize']['current'] = \vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 

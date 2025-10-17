@@ -31,7 +31,7 @@ class SMSNotifier extends SMSNotifierBase
 	 *
 	 * @param string $message
 	 * @param array  $tonumbers
-	 * @param Integer $ownerid User id to assign the SMS record
+	 * @param integer $ownerid User id to assign the SMS record
 	 * @param mixed $linktoids List of CRM record id to link SMS record
 	 * @param string $linktoModule Modulename of CRM record to link with (if not provided lookup it will be calculated)
 	 */

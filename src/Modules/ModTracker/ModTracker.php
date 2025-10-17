@@ -93,7 +93,7 @@ class ModTracker {
 
 	/**
 	 * Invoked to disable tracking for the module.
-	 * @param Integer $tabid
+	 * @param integer $tabid
 	 */
 	public function disableTrackingForModule($tabid)
 	{
@@ -115,7 +115,7 @@ class ModTracker {
 
 	/**
 	 * Invoked to enable tracking for the module.
-	 * @param Integer $tabid
+	 * @param integer $tabid
 	 */
 	public function enableTrackingForModule($tabid)
 	{
@@ -169,7 +169,7 @@ class ModTracker {
 
 	/**
 	 * Invoked to check if ModTracker links are enabled for the module.
-	 * @param Integer $tabid
+	 * @param integer $tabid
 	 */
 	public static function isModtrackerLinkPresent($tabid)
 	{

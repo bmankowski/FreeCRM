@@ -66,12 +66,12 @@ class Link
 
 	/**
 	 * Add link given module
-	 * @param Integer Module ID
+	 * @param integer Module ID
 	 * @param string Link Type (like DETAILVIEW). Useful for grouping based on pages.
 	 * @param string Label to display
 	 * @param string HREF value or URL to use for the link
 	 * @param string ICON to use on the display
-	 * @param Integer Order or sequence of displaying the link
+	 * @param integer Order or sequence of displaying the link
 	 */
 	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $linkParams = null)
 	{
@@ -105,7 +105,7 @@ class Link
 
 	/**
 	 * Delete link of the module
-	 * @param Integer Module ID
+	 * @param integer Module ID
 	 * @param string Link Type (like DETAILVIEW). Useful for grouping based on pages.
 	 * @param string Display label
 	 * @param string URL of link to lookup while deleting
@@ -133,7 +133,7 @@ class Link
 
 	/**
 	 * Delete all links related to module
-	 * @param Integer Module ID.
+	 * @param integer Module ID.
 	 */
 	static function deleteAll($tabid)
 	{
@@ -143,7 +143,7 @@ class Link
 
 	/**
 	 * Get all the links related to module
-	 * @param Integer Module ID.
+	 * @param integer Module ID.
 	 */
 	static function getAll($tabid)
 	{
@@ -152,7 +152,7 @@ class Link
 
 	/**
 	 * Get all the link related to module based on type
-	 * @param Integer Module ID
+	 * @param integer Module ID
 	 * @param mixed String or List of types to select 
 	 * @param Map Key-Value pair to use for formating the link url
 	 */

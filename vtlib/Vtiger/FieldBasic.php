@@ -289,7 +289,7 @@ class FieldBasic
 
 	/**
 	 * Set Masseditable information for this instance.
-	 * @param Integer Masseditable value
+	 * @param integer Masseditable value
 	 */
 	public function setMassEditable($value)
 	{
@@ -301,7 +301,7 @@ class FieldBasic
 
 	/**
 	 * Set Summaryfield information for this instance. 
-	 * @param Integer Summaryfield value 
+	 * @param integer Summaryfield value 
 	 */
 	public function setSummaryField($value)
 	{

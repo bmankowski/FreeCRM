@@ -30,7 +30,7 @@ class Utils
 	/**
 	 * Implode the prefix and suffix as string for given number of times
 	 * @param string prefix to use
-	 * @param Integer Number of times 
+	 * @param integer Number of times 
 	 * @param string suffix to use (optional)
 	 */
 	static function implodestr($prefix, $count, $suffix = false)

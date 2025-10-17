@@ -42,7 +42,7 @@ class Module extends \Vtiger_Record_Model
 
 	public function getCurrencyNum()
 	{
-		return count(vtlib\Functions::getAllCurrency(true));
+		return count(\vtlib\Functions::getAllCurrency(true));
 	}
 	/*
 	 * Returns currency exchange rates for systems active currencies from bank

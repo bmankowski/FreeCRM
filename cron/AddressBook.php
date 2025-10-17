@@ -89,5 +89,5 @@ while ($row = $dataReader->read()) {
 	$last = false;
 }
 OSSMail_AddressBook_Model::createABFile();
-\App\Log::trace(vtlib\Functions::varExportMin($i));
+\App\Log::trace(\vtlib\Functions::varExportMin($i));
 \App\Log::trace('End create AddressBook');

@@ -663,7 +663,7 @@ function getValidDBInsertDateTimeValue($value)
 }
 
 /** Function to return block name
- * @param Integer -- $blockid
+ * @param integer -- $blockid
  * @return String - Block Name
  */
 function getBlockName($blockid)
@@ -736,7 +736,7 @@ function getInventoryModules()
 
 /**
  * Function to get the list of Contacts related to an activity
- * @param Integer $activityId
+ * @param integer $activityId
  * @return Array $contactsList - List of Contact ids, mapped to Contact Names
  */
 function getActivityRelatedContacts($activityId)

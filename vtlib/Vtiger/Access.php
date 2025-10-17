@@ -124,7 +124,7 @@ class Access
 	 * @param Module Instance of module to use
 	 * @param string Tool (action name) like Import, Export, Merge
 	 * @param Boolean true to enable tool, false to disable
-	 * @param Integer (optional) profile id to use, false applies to all profile.
+	 * @param integer (optional) profile id to use, false applies to all profile.
 	 * @access private
 	 */
 	static function updateTool($moduleInstance, $toolAction, $flag, $profileid = false)

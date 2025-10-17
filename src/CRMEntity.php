@@ -396,7 +396,7 @@ class CRMEntity
 	/** Function to delete an entity with given Id */
 	public function trash($moduleName, $id)
 	{
-		if (vtlib\Functions::getCRMRecordType($id) !== $moduleName) {
+		if (\vtlib\Functions::getCRMRecordType($id) !== $moduleName) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 		$this->mark_deleted($id);
@@ -621,7 +621,7 @@ class CRMEntity
 	/**
 	 * Save the related module record information. Triggered from CRMEntity->saveentity method or updateRelations.php
 	 * @param string This module name
-	 * @param Integer This module record number
+	 * @param integer This module record number
 	 * @param string Related module name
 	 * @param mixed Integer or Array of related module record number
 	 * @param string function name
@@ -693,7 +693,7 @@ class CRMEntity
 	/**
 	 * Delete the related module record information. Triggered from updateRelations.php
 	 * @param string This module name
-	 * @param Integer This module record number
+	 * @param integer This module record number
 	 * @param string Related module name
 	 * @param mixed Integer or Array of related module record number
 	 */
@@ -717,7 +717,7 @@ class CRMEntity
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param string This module name
 	 * @param array  List of Entity Id's from which related records need to be transfered
-	 * @param Integer Id of the the Record to which the related records are to be moved
+	 * @param integer Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
@@ -765,7 +765,7 @@ class CRMEntity
 					}
 				}
 			}
-			$fields = App\Field::getRelatedFieldForModule(false, $module);
+			$fields = \App\Field::getRelatedFieldForModule(false, $module);
 			foreach ($fields as &$field) {
 				$columnName = $field['columnname'];
 				$db->update($field['tablename'], [

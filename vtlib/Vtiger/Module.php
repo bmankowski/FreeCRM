@@ -133,7 +133,7 @@ class Module extends ModuleBasic
 	 * @param string Label to use for display
 	 * @param string HREF value to use for generated link
 	 * @param string Path to the image file (relative or absolute)
-	 * @param Integer Sequence of appearance
+	 * @param integer Sequence of appearance
 	 *
 	 * NOTE: $url can have variables like $MODULE (module for which link is associated),
 	 * $RECORD (record on which link is dispalyed)

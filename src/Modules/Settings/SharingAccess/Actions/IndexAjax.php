@@ -82,7 +82,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
-		\App\Privilege::setUpdater(vtlib\Functions::getModuleName($forModule));
+		\App\Privilege::setUpdater(\vtlib\Functions::getModuleName($forModule));
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 
