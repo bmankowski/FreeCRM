@@ -27,7 +27,6 @@ namespace App\Modules\Users;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once ROOT_DIRECTORY . '/src/Modules/Users/UserTimeZones.php';
 

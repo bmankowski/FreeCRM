@@ -11,7 +11,6 @@ namespace App\Modules\Reports;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportUtils.php';
 global $calpath;
 global $app_list_strings;
@@ -390,12 +389,10 @@ class Reports extends \App\CRMEntity
 		$adb = \App\database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 
-		$mod_strings = vglobal('mod_strings');
-		$returndata = [];
+	$mod_strings = vglobal('mod_strings');
+	$returndata = [];
 
-		require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
-
-		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
+	$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
 		$sql .= " inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
 
 		$params = array();

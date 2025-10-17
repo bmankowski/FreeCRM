@@ -22,7 +22,6 @@
 
 require_once(ROOT_DIRECTORY . '/src/database/PearDatabase.php');
 require_once('user_privileges/default_module_view.php'); //new
-require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 
 /** Function to get the list query for a module
  * @param $module -- module name:: Type string

@@ -31,9 +31,6 @@ use App\User;
 use App\Privilege;
 use App\Http\Request as AppRequest;
 
-require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
-
 class CRMEntity
 {
 

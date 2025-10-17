@@ -12,7 +12,6 @@ namespace App\Modules\Users;
 
 require_once('config/config.php');
 require_once('src/Modules/Users/Users.php');
-require_once(ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php');
 require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
 require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
 require_once(ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php');

@@ -17,6 +17,7 @@ return array(
     'be7f8f4a06ddef5737f29c25b6a403f8' => $baseDir . '/src/Runtime/TemplateHelpers.php',
     '742a32ecd17667f60863493c111e5e31' => $baseDir . '/src/utils/VTCacheUtils.php',
     '3443957f76f899163eb9e8fb1d5bd5b1' => $baseDir . '/src/utils/utils.php',
+    '2433781edeabb8333fef596f60f75a47' => $baseDir . '/src/utils/UserInfoUtil.php',
     '0b7deb1a752d6f8b7a7c214200c6c25f' => $baseDir . '/vtlib/Vtiger/Deprecated.php',
     'cff73e1eeb4c0b11a9564c8c66df0d83' => $baseDir . '/src/Modules/Vtiger/Views/VtigerHeaderView.php',
     '267ad84d76d7600b3ae9ef83b8b79bf4' => $baseDir . '/src/Modules/Vtiger/Views/VtigerFooterView.php',

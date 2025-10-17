@@ -19,7 +19,6 @@ require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObjectMeta.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/DataTransform.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/WebServiceErrorCode.php");
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-require_once ROOT_DIRECTORY . '/src/utils/UserInfoUtil.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
 require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceEntityOperation.php';

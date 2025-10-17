@@ -1,7 +1,12 @@
 {
 	"name": "freecrm/freecrm",
 	"description": "An open and innovative CRM system.",
-	"keywords": ["FreeCRM", "CRM", "open source crm", "best crm"],
+	"keywords": [
+		"FreeCRM",
+		"CRM",
+		"open source crm",
+		"best crm"
+	],
 	"license": "FreeCRM Public License 1.0",
 	"homepage": "https://FreeCRM.com/",
 	"type": "project",
@@ -45,19 +50,18 @@
 		"antlr/antlr4-php-runtime": "^0.9.1",
 		"monolog/monolog": "^3.9",
 		"filp/whoops": "^2.18"
-
 	},
 	"archive": {
 		"exclude": [
 			"tests"
 		]
 	},
-	 "config": {
-        "autoloader-suffix": "YT",
+	"config": {
+		"autoloader-suffix": "YT",
 		"allow-plugins": {
 			"yiisoft/yii2-composer": true
 		}
-    },
+	},
 	"autoload": {
 		"psr-4": {
 			"vtlib\\": "vtlib/Vtiger/",
@@ -72,6 +76,7 @@
 			"src/Runtime/TemplateHelpers.php",
 			"src/utils/VTCacheUtils.php",
 			"src/utils/utils.php",
+			"src/utils/UserInfoUtil.php",
 			"vtlib/Vtiger/Deprecated.php",
 			"src/Modules/Vtiger/Views/VtigerHeaderView.php",
 			"src/Modules/Vtiger/Views/VtigerFooterView.php",
