@@ -195,7 +195,7 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 		}
 
-		$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record_id);
+		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record_id);
 		if (!isset($recordMetaData) || $recordMetaData['deleted'] == 1) {
 			vglobal('isPermittedLog', 'SEC_RECORD_DOES_NOT_EXIST');
 			\App\Log::trace('Exiting isPermitted method ... - no');
@@ -251,7 +251,7 @@ function isPermitted($module, $actionname, $record_id = '')
 			if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
 				$parentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
 				if ($parentRecord) {
-					$recordMetaData = vtlib\Functions::getCRMRecordMetadata($parentRecord);
+					$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
 					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 					$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 					$relatedPermission = false;
@@ -858,7 +858,7 @@ function deleteRoleRelatedSharingRules($roleId)
 
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
-		$query = (new App\Db\Query())->select('shareid')
+		$query = (new \App\Db\Query())->select('shareid')
 			->from($tablename)
 			->where([$colNameArr[0] => $roleId]);
 		if (sizeof($colNameArr) > 1) {

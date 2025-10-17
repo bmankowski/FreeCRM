@@ -615,7 +615,7 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 {
 	$db = \App\Db::getInstance();
-	$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
+	$dataReader = (new \App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
 			->createCommand()->query();
 	if ($dataReader->count() === 0) {
 		return false;
@@ -631,7 +631,7 @@ function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 			return false;
 		}
 	}
-	$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['relcrmid' => $leadId])
+	$dataReader = (new \App\Db\Query())->from('vtiger_crmentityrel')->where(['relcrmid' => $leadId])
 			->createCommand()->query();
 	if ($dataReader->count() === 0) {
 		return false;
@@ -775,7 +775,7 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 		$db->createCommand()->delete('vtiger_users2group', ['userid' => $ownerId])
 			->execute();
 	}
-	$dataReader = (new App\Db\Query())->select(['tabid', 'fieldname', 'tablename', 'columnname'])
+	$dataReader = (new \App\Db\Query())->select(['tabid', 'fieldname', 'tablename', 'columnname'])
 			->from('vtiger_field')
 			->leftJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
 			->where(['or', ['uitype' => [52, 53, 77, 101]], ['uitype' => 10, 'relmodule' => 'Users']])

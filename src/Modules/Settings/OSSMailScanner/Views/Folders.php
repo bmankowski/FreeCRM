@@ -32,7 +32,7 @@ class Folders extends \Vtiger_BasicModal_View
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$mailDetail = OSSMail_Record_Model::getMailAccountDetail($record);
-		$mailModuleActive = vtlib\Functions::getModuleId('OSSMail');
+		$mailModuleActive = \vtlib\Functions::getModuleId('OSSMail');
 		$folders = [];
 		if ($mailModuleActive) {
 			$mailRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');

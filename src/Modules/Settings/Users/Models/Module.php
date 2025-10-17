@@ -233,7 +233,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$file = 'user_privileges/locks.php';
 		file_put_contents($file, $content);
 		$newValues = $this->getLocks();
-		$difference = vtlib\Functions::arrayDiffAssocRecursive($newValues, $oldValues);
+		$difference = \vtlib\Functions::arrayDiffAssocRecursive($newValues, $oldValues);
 		if (!empty($difference)) {
 			foreach ($difference as $id => $locks) {
 				if (strpos($id, 'H') === false) {
@@ -251,7 +251,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			}
 		}
 
-		$difference = vtlib\Functions::arrayDiffAssocRecursive($oldValues, $newValues);
+		$difference = \vtlib\Functions::arrayDiffAssocRecursive($oldValues, $newValues);
 		if (!empty($difference)) {
 			\App\Modules\Settings\Vtiger\Models\Tracker::changeType('delete');
 			foreach ($difference as $id => $locks) {

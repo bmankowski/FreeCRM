@@ -22,7 +22,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function getName()
 	{
-		return vtlib\Functions::getModuleName($this->get('tabid'));
+		return \vtlib\Functions::getModuleName($this->get('tabid'));
 	}
 
 	public function getEditViewUrl()

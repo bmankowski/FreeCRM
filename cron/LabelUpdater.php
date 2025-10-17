@@ -7,7 +7,7 @@
  */
 $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER');
 $executed = [];
-$dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
+$dataReader = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
 			'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])
 		->from('vtiger_crmentity')
 		->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
@@ -29,7 +29,7 @@ while ($row = $dataReader->read()) {
 		return;
 	}
 }
-$dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
+$dataReader = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
 		->from('vtiger_crmentity')
 		->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
 		->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
@@ -45,14 +45,14 @@ while ($row = $dataReader->read()) {
 	}
 }
 
-$dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])
+$dataReader = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])
 		->from('vtiger_crmentity')
 		->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 		->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
 		->where(['and', ['vtiger_crmentity.deleted' => 1], ['or', ['not', ['u_#__crmentity_label.label' => null]], ['not', ['u_#__crmentity_search_label.searchlabel' => null]]]])
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
-	$db = App\Db::getInstance();
+	$db = \App\Db::getInstance();
 	if ($row['label'] !== null) {
 		$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $row['crmid']])->execute();
 	}

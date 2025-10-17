@@ -118,7 +118,7 @@ function getColumnFields($module)
 	$cachedModuleFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
 
 	if ($cachedModuleFields === false) {
-		$fieldsInfo = vtlib\Functions::getModuleFieldInfos($module);
+		$fieldsInfo = \vtlib\Functions::getModuleFieldInfos($module);
 		if (!empty($fieldsInfo)) {
 			foreach ($fieldsInfo as $resultrow) {
 				// Update information to cache for re-use
@@ -257,7 +257,7 @@ function getRecordOwnerId($record)
 	\App\Log::trace("Entering getRecordOwnerId($record) method ...");
 	$ownerArr = [];
 
-	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
+	$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
 	if ($recordMetaData) {
 		$ownerId = $recordMetaData['smownerid'];
 		$type = \App\Fields\Owner::getType($ownerId);
@@ -591,7 +591,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
  */
 function isRecordExists($recordId, $cache = true)
 {
-	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($recordId);
+	$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
 	return (isset($recordMetaData) && $recordMetaData['deleted'] == 0 ) ? true : false;
 }
 

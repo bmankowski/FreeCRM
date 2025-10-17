@@ -17,7 +17,7 @@ $l = 0;
 $break = false;
 $table = OSSMail_AddressBook_Model::TABLE;
 $last = OSSMail_AddressBook_Model::getLastRecord();
-$dataReader = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
+$dataReader = (new \App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
 		->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
 		->where(['like', 'task', 'VTAddressBookTask'])
 		->createCommand()->query();

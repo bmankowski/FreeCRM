@@ -36,7 +36,7 @@ $dataReader = (new \App\Db\Query())
 		->limit($limit)
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
-	$db = App\Db::getInstance();
+	$db = \App\Db::getInstance();
 	$crmid = $row['crmid'];
 	if (0 === (int) $row['type']) {
 		\App\PrivilegeUpdater::update($crmid, $row['module']);

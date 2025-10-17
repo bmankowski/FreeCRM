@@ -43,7 +43,7 @@ class ExportTemplate extends \App\Modules\Settings\Vtiger\Actions\Index
 				$name->appendChild($xml->createCDATASection(html_entity_decode($moduleInstance->getRecord()->getRaw($field))));
 			} else {
 				if (in_array($field, $changeNames)) {
-					$value = vtlib\Functions::getModuleName($moduleInstance->get($field));
+					$value = \vtlib\Functions::getModuleName($moduleInstance->get($field));
 				} else {
 					$value = $moduleInstance->get($field);
 				}

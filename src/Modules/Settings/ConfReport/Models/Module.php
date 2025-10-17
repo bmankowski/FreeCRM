@@ -158,15 +158,15 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		if (vtlib\Functions::parseBytes(ini_get('memory_limit')) < 536870912)
 			$directiveValues['memory_limit']['status'] = true;
-		$directiveValues['memory_limit']['current'] = vtlib\Functions::showBytes(ini_get('memory_limit'));
+		$directiveValues['memory_limit']['current'] = \vtlib\Functions::showBytes(ini_get('memory_limit'));
 
 		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800)
 			$directiveValues['post_max_size']['status'] = true;
-		$directiveValues['post_max_size']['current'] = vtlib\Functions::showBytes(ini_get('post_max_size'));
+		$directiveValues['post_max_size']['current'] = \vtlib\Functions::showBytes(ini_get('post_max_size'));
 
 		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600)
 			$directiveValues['upload_max_filesize']['status'] = true;
-		$directiveValues['upload_max_filesize']['current'] = vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
+		$directiveValues['upload_max_filesize']['current'] = \vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 
 		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') !== false)
 			$directiveValues['zlib.output_compression']['status'] = true;
@@ -257,7 +257,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			if ($maxAllowedPacket < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
 			}
-			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($maxAllowedPacket);
+			$directiveValues['max_allowed_packet']['current'] = \vtlib\Functions::showBytes($maxAllowedPacket);
 
 			$result = $db->query('SELECT @@innodb_lock_wait_timeout');
 			$innodbLockWaitTimeout = $db->getSingleValue($result);
@@ -349,10 +349,10 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		}
 		$ram = $parser->getRam();
 		$precent = number_format(($ram['free'] / $ram['total']) * 100);
-		$params['LBL_RAM'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total']) . ', ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
+		$params['LBL_RAM'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes($ram['total']) . ', ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
 		$disk = \vtlib\Functions::getDiskSpace();
 		$precent = number_format(($disk['free'] / $disk['total']) * 100);
-		$params['LBL_HDD'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['total']) . ', ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['used']) . ", " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
+		$params['LBL_HDD'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes($disk['total']) . ', ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes($disk['used']) . ", " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
 		return $params;
 	}
 

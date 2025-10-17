@@ -61,7 +61,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 			case 'step3':
-				$moduleSourceName = vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
+				$moduleSourceName = \vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
 				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleSourceName);
 				$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

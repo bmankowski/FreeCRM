@@ -446,7 +446,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$data['group_members'] = [$data['group_members']];
 		}
 		foreach ($data['modules'] as $tabId) {
-			$modules[] = vtlib\Functions::getModuleName($tabId);
+			$modules[] = \vtlib\Functions::getModuleName($tabId);
 		}
 		$modules = implode(',', $modules);
 		$data['modules'] = $modules;

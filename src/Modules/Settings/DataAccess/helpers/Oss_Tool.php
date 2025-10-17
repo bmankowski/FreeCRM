@@ -51,7 +51,7 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 4)) {
 			vglobal('Vtiger_Utils_Log', true);
 
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \vtlib\Functions::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -83,7 +83,7 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 2)) {
 			vglobal('Vtiger_Utils_Log', true);
 
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \vtlib\Functions::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -135,7 +135,7 @@ class Oss_Tool
 	{
 		if (self::checkArg(func_get_args(), 3)) {
 
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \vtlib\Functions::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -203,7 +203,7 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 4)) {
 			vglobal('Vtiger_Utils_Log', true);
 
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \vtlib\Functions::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -341,7 +341,7 @@ class Oss_Tool
 	private static function addLink($type, $moduleName, $widgetName, $link)
 	{
 		vglobal('Vtiger_Utils_Log', true);
-		$tabId = vtlib\Functions::getModuleId($moduleName);
+		$tabId = \vtlib\Functions::getModuleId($moduleName);
 		if ($tabId) {
 			vtlib\Link::addLink($tabId, $type, $widgetName, $link);
 		} else {

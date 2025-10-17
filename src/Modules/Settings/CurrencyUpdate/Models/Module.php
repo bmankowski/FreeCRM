@@ -255,14 +255,14 @@ class Module extends \Vtiger_Record_Model
 
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
-		$mainCurrencyCode = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrencyCode = \vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
 		$activeBankId = self::getActiveBankId();
 		$exchange = false;
 		if (is_numeric($from)) {
-			$from = vtlib\Functions::getAllCurrency(true)[$from]['currency_code'];
+			$from = \vtlib\Functions::getAllCurrency(true)[$from]['currency_code'];
 		}
 		if (is_numeric($to)) {
-			$to = vtlib\Functions::getAllCurrency(true)[$to]['currency_code'];
+			$to = \vtlib\Functions::getAllCurrency(true)[$to]['currency_code'];
 		}
 		// get present conversion rate from crm
 		if (empty($date)) {

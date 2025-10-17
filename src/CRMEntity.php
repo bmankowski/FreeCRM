@@ -112,11 +112,11 @@ class CRMEntity
 	 */
 	public function saveInventoryData($moduleName)
 	{
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 
 		Log::trace('Entering ' . __METHOD__);
 
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventory = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
 
 		$db->createCommand()->delete($table, ['id' => $this->id])->execute();
@@ -289,10 +289,10 @@ class CRMEntity
 						$fieldvalue = $resultRow[$fieldkey];
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [10, 51, 73])) {
-						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getCRMRecordLabel($fieldvalue);
+						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \vtlib\Functions::getCRMRecordLabel($fieldvalue);
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
-						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
+						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \vtlib\Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					if ($fieldInfo['uitype'] === 120) {
 						$query = (new Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
@@ -442,7 +442,7 @@ class CRMEntity
 				->where(['fieldid' => (new Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			App\Db::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}
@@ -456,7 +456,7 @@ class CRMEntity
 
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
-		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
+		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
 			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
@@ -519,7 +519,7 @@ class CRMEntity
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
 
-		$fieldinfo = (new App\Db\Query())->from('vtiger_field')
+		$fieldinfo = (new \App\Db\Query())->from('vtiger_field')
 				->where(['tabid' => $tabid, 'uitype' => 4])->one();
 		$returninfo = [];
 
@@ -527,7 +527,7 @@ class CRMEntity
 			$fieldTable = $fieldinfo['tablename'];
 			$fieldColumn = $fieldinfo['columnname'];
 			if ($fieldTable === $this->table_name) {
-				$dataReader = (new App\Db\Query())->select(['recordid' => $this->table_index])
+				$dataReader = (new \App\Db\Query())->select(['recordid' => $this->table_index])
 						->from($this->table_name)
 						->where(['or', [$fieldColumn => ''], [$fieldColumn => null]])
 						->createCommand()->query();
@@ -542,7 +542,7 @@ class CRMEntity
 					$oldNumber = $sequenceNumber;
 					while ($recordinfo = $dataReader->read()) {
 						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
-						App\Db::getInstance()->createCommand()
+						\App\Db::getInstance()->createCommand()
 							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
 							->execute();
 						$sequenceNumber += 1;

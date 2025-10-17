@@ -506,7 +506,7 @@ foreach ($menuItems as &$menu) {
 #### ✅ Correct Approach
 **Controller:**
 ```php
-$widget['moduleName'] = vtlib\Functions::getModuleName($widget['data']['relatedmodule']);
+$widget['moduleName'] = \vtlib\Functions::getModuleName($widget['data']['relatedmodule']);
 ```
 
 **Template:**

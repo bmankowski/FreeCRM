@@ -310,7 +310,7 @@ class MenuItem extends \Vtiger_Record_Model
 	 */
 	public function getModule()
 	{
-		$urlParams = vtlib\Functions::getQueryParams($this->getUrl());
+		$urlParams = \vtlib\Functions::getQueryParams($this->getUrl());
 		return $urlParams['module'];
 	}
 }

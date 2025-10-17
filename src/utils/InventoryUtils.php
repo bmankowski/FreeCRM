@@ -44,7 +44,7 @@ function getInventoryCurrencyInfo($module, $id)
  */
 function getAllCurrencies($available = 'available')
 {
-	return vtlib\Functions::getAllCurrency($available != 'all');
+	return \vtlib\Functions::getAllCurrency($available != 'all');
 }
 
 /** 	Function used to get all the price details for different currencies which are associated to the given product
