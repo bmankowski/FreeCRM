@@ -89,7 +89,7 @@ class Block extends \vtlib\Block
 		$query = (new \App\Db\Query())->from('vtiger_blocks_hide')->where(['enabled' => 1, 'blockid' => $this->get('id')])->andWhere(['like', 'view', $view]);
 		$hideBlocks = $query->all();
 		if ($hideBlocks) {
-			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/\App\Modules\com_vtiger_workflow\VTJsonCondition.php';
+			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
 			$conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
 			foreach ($hideBlocks as $hideBlock) {
 				$expr = \App\Json::decode($hideBlock['conditions']);

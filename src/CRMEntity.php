@@ -1155,14 +1155,14 @@ class CRMEntity
 			//record not found; create it
 			$focus1->column_fields[$focus1->list_link_field] = $value;
 			$focus1->column_fields['assigned_user_id'] = $current_user->id;
-			$focus1->column_fields['modified_user_id'] = $current_user->id;
-			$focus1->save($module);
+	$focus1->column_fields['modified_user_id'] = $current_user->id;
+	$focus1->save($module);
 
-			$last_import = new UsersLastImport();
-			$last_import->assigned_user_id = $current_user->id;
-			$last_import->bean_type = $module;
-			$last_import->bean_id = $focus1->id;
-			$last_import->save();
+	// Track last import
+	$adb->pquery(
+		"INSERT INTO vtiger_users_last_import (assigned_user_id, bean_type, bean_id) VALUES (?, ?, ?)",
+		[$current_user->id, $module, $focus1->id]
+	);
 		} else {
 			//record not found and cannot create
 			$this->column_fields[$fieldname] = "";
@@ -1543,13 +1543,13 @@ class CRMEntity
 		if (!empty($additionalColumns)) {
 			$additionalColumns = ',' . $additionalColumns;
 		}
-		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
+	$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 
-		// Select Custom Field Table Columns if present, BMN i do not understand it TODO: correct this
-		if (isset($this->customFieldTable))
-			$query .= ", " . $this->customFieldTable[0] . ".* ";
+	// Select Custom Field Table Columns if present, BMN i do not understand it TODO: correct this
+	if (isset($this->customFieldTable))
+		$selectClause .= ", " . $this->customFieldTable[0] . ".* ";
 
-		$fromClause = " FROM $this->table_name";
+	$fromClause = " FROM $this->table_name";
 
 		$fromClause .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
 
@@ -1584,16 +1584,17 @@ class CRMEntity
 			}
 			$sub_query .= " WHERE crm.deleted=0 GROUP BY $selectedColumns HAVING COUNT(*)>1";
 		} else {
-			$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
-		}
+		$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
+	}
 
-		$i = 1;
-		foreach ($tableColumns as $tableColumn) {
-			$tableInfo = explode('.', $tableColumn);
-			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
-			if (count($tableColumns) != $i++)
-				$duplicateCheckClause .= ' AND ';
-		}
+	$i = 1;
+	$duplicateCheckClause = '';
+	foreach ($tableColumns as $tableColumn) {
+		$tableInfo = explode('.', $tableColumn);
+		$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
+		if (count($tableColumns) != $i++)
+			$duplicateCheckClause .= ' AND ';
+	}
 
 		$query = $selectClause . $fromClause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .

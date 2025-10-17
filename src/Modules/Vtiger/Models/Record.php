@@ -508,7 +508,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Static Function to get the instance of the Vtiger Record Model given the recordid and the module name
-	 * @param <Number> $recordId
+	 * @param integer $recordId
 	 * @param string $moduleName
 	 * @return \App\Modules\Vtiger\Models\Record or Module Specific Record Model instance
 	 */
