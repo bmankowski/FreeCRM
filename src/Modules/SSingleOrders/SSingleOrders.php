@@ -8,10 +8,9 @@ namespace App\Modules\SSingleOrders;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class SSingleOrders extends Vtiger_CRMEntity
+class SSingleOrders extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_ssingleorders';

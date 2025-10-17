@@ -12,10 +12,9 @@ namespace App\Modules\FInvoiceProforma;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class FInvoiceProforma extends Vtiger_CRMEntity
+class FInvoiceProforma extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_finvoiceproforma';

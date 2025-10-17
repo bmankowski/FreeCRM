@@ -12,10 +12,9 @@ namespace App\Modules\Ideas;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Ideas extends Vtiger_CRMEntity
+class Ideas extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_ideas';

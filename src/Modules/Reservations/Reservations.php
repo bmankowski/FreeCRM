@@ -12,10 +12,9 @@ namespace App\Modules\Reservations;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Reservations extends Vtiger_CRMEntity
+class Reservations extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_reservations';

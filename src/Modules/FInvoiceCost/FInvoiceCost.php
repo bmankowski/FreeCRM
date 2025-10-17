@@ -9,10 +9,9 @@ namespace App\Modules\FInvoiceCost;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class FInvoiceCost extends Vtiger_CRMEntity
+class FInvoiceCost extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_finvoicecost';

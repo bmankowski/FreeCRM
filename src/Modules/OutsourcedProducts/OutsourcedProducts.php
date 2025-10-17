@@ -12,10 +12,9 @@ namespace App\Modules\OutsourcedProducts;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class OutsourcedProducts extends Vtiger_CRMEntity
+class OutsourcedProducts extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_outsourcedproducts';

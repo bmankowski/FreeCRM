@@ -14,9 +14,7 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 
-use App\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
 
 use App\Http\Vtiger_Response;
 use App\Http\Vtiger_Request;
@@ -48,12 +46,12 @@ Class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		$ruleId = $request->get('record');
 
 		\App\Privilege::setUpdater($forModule);
-		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
+		$moduleModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($forModule);
 		if (empty($ruleId)) {
-			$ruleModel = new Settings_SharingAccess_Rule_Model();
+			$ruleModel = new \App\Modules\Settings\SharingAccess\Models\Rule();
 			$ruleModel->setModuleFromInstance($moduleModel);
 		} else {
-			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
+			$ruleModel = \App\Modules\Settings\SharingAccess\Models\Rule::getInstance($moduleModel, $ruleId);
 		}
 
 		$prevValues['permission'] = $ruleModel->getPermission();
@@ -83,8 +81,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		$ruleId = $request->get('record');
 
 		\App\Privilege::setUpdater(\vtlib\Functions::getModuleName($forModule));
-		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
-		$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
+		$moduleModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($forModule);
+		$ruleModel = \App\Modules\Settings\SharingAccess\Models\Rule::getInstance($moduleModel, $ruleId);
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);

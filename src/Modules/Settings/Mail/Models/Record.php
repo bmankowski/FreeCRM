@@ -12,7 +12,6 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 

@@ -9,10 +9,9 @@ namespace App\Modules\IIDN;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class IIDN extends Vtiger_CRMEntity
+class IIDN extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_iidn';

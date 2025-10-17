@@ -11,14 +11,13 @@ namespace App\Modules\Settings\MappedFields\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
 class ExportTemplate extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
+		$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');
 		header('Pragma: public');
@@ -37,7 +36,7 @@ class ExportTemplate extends \App\Modules\Settings\Vtiger\Actions\Index
 
 		$cDataColumns = ['conditions', 'params'];
 		$changeNames = ['tabid', 'reltabid'];
-		foreach (Settings_MappedFields_Module_Model::$allFields as $field) {
+		foreach (\App\Modules\Settings\MappedFields\Models\Module::$allFields as $field) {
 			if (in_array($field, $cDataColumns)) {
 				$name = $xmlTemplate->appendChild($xml->createElement($field));
 				$name->appendChild($xml->createCDATASection(html_entity_decode($moduleInstance->getRecord()->getRaw($field))));

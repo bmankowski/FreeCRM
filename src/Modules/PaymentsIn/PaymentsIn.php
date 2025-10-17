@@ -14,10 +14,9 @@ namespace App\Modules\PaymentsIn;
 
 use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class PaymentsIn extends Vtiger_CRMEntity
+class PaymentsIn extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_paymentsin';

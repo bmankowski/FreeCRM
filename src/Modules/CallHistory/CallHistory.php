@@ -12,10 +12,9 @@ namespace App\Modules\CallHistory;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class CallHistory extends Vtiger_CRMEntity
+class CallHistory extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_callhistory';

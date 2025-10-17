@@ -13,7 +13,6 @@ namespace App\Modules\Settings\Widgets\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
@@ -289,7 +288,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		}
 		$buttons = [];
 		foreach ($linkList as &$link) {
-			$buttons[] = \Vtiger_Link_Model::getInstanceFromValues($link);
+			$buttons[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($link);
 		}
 		return $buttons;
 	}

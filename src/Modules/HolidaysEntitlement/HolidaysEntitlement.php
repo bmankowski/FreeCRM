@@ -12,10 +12,9 @@ namespace App\Modules\HolidaysEntitlement;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class HolidaysEntitlement extends Vtiger_CRMEntity
+class HolidaysEntitlement extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_holidaysentitlement';

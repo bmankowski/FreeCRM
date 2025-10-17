@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Groups\Models;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -13,9 +12,7 @@ use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 require_once ROOT_DIRECTORY . '/src/events/include.php';
 
 /**
@@ -90,7 +87,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the members of the groups
-	 * @return <Array> Settings_Profiles_Record_Model instances
+	 * @return <Array> \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public function getMembers()
 	{
@@ -253,7 +250,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 		if (isset($members['Groups'])) {
 			foreach ($members['Groups'] as $memberModel) {
-				$groupModel = Settings_Groups_Record_Model::getInstance($memberModel->get('groupId'));
+				$groupModel = \App\Modules\Settings\Groups\Models\Record::getInstance($memberModel->get('groupId'));
 				$groupMembers = $groupModel->getMembers();
 
 				foreach ($groupMembers['Users'] as $groupMemberModel) {
@@ -324,7 +321,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to delete the group
-	 * @param <Settings_Groups_Record_Model> $transferToGroup
+	 * @param <\App\Modules\Settings\Groups\Models\Record> $transferToGroup
 	 */
 	public function delete($transferToGroup)
 	{
@@ -350,7 +347,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -371,7 +368,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -379,7 +376,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the groups
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
+	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAll()
 	{
@@ -396,7 +393,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to get the instance of Group model, given group id or name
 	 * @param <Object> $value
-	 * @return Settings_Groups_Record_Model instance, if exists. Null otherwise
+	 * @return \App\Modules\Settings\Groups\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getInstance($value)
 	{
@@ -462,7 +459,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 				$groupMembers[] = $roleModel->getName();
 			}
 			if ($info[0] == 'Groups') {
-				$groupModel = Settings_Groups_Record_Model::getInstance($info[1]);
+				$groupModel = \App\Modules\Settings\Groups\Models\Record::getInstance($info[1]);
 				$groupMembers[] = $groupModel->getName();
 			}
 		}

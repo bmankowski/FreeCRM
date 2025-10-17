@@ -11,7 +11,6 @@ namespace App\Modules\Settings\MappedFields\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 

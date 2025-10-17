@@ -8,10 +8,9 @@ namespace App\Modules\SCalculations;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class SCalculations extends Vtiger_CRMEntity
+class SCalculations extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_scalculations';

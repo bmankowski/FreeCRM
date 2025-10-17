@@ -8,10 +8,9 @@ namespace App\Modules\Partners;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class Partners extends Vtiger_CRMEntity
+class Partners extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_partners';

@@ -9,10 +9,9 @@ namespace App\Modules\IPreOrder;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class IPreOrder extends Vtiger_CRMEntity
+class IPreOrder extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_ipreorder';

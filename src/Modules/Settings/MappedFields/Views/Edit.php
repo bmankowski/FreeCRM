@@ -11,7 +11,6 @@ namespace App\Modules\Settings\MappedFields\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
 class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
@@ -29,7 +28,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$recordId = $request->get('record');
 		$viewer->assign('RECORDID', $recordId);
 		if ($recordId) {
-			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
+			$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getInstanceById($recordId);
 			$viewer->assign('MAPPEDFIELDS_MODULE_MODEL', $moduleInstance);
 		}
 		$viewer->assign('RECORD_MODE', $request->getMode());
@@ -44,14 +43,14 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
+			$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
+			$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getCleanInstance();
 		}
 		$viewer->assign('MAPPEDFIELDS_MODULE_MODEL', $moduleInstance);
-		$allModules = Settings_MappedFields_Module_Model::getSupportedModules();
+		$allModules = \App\Modules\Settings\MappedFields\Models\Module::getSupportedModules();
 		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -73,8 +72,8 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 				$assignedToValues = [];
 				$assignedToValues['LBL_USERS'] = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 				$assignedToValues['LBL_GROUPS'] = \App\Fields\Owner::getInstance()->getAccessibleGroups();
-				$viewer->assign('SEL_MODULE_MODEL', Settings_MappedFields_Module_Model::getInstance($moduleInstance->get('tabid')));
-				$viewer->assign('REL_MODULE_MODEL', Settings_MappedFields_Module_Model::getInstance($moduleInstance->get('reltabid')));
+				$viewer->assign('SEL_MODULE_MODEL', \App\Modules\Settings\MappedFields\Models\Module::getInstance($moduleInstance->get('tabid')));
+				$viewer->assign('REL_MODULE_MODEL', \App\Modules\Settings\MappedFields\Models\Module::getInstance($moduleInstance->get('reltabid')));
 				$viewer->assign('USERS_LIST', $assignedToValues);
 				$viewer->view('Step2.tpl', $qualifiedModuleName);
 				break;

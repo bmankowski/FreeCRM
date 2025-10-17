@@ -12,10 +12,9 @@ namespace App\Modules\OSSEmployees;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class OSSEmployees extends Vtiger_CRMEntity
+class OSSEmployees extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_ossemployees';

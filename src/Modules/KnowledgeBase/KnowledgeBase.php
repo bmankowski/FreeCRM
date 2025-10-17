@@ -8,10 +8,9 @@ namespace App\Modules\KnowledgeBase;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class KnowledgeBase extends Vtiger_CRMEntity
+class KnowledgeBase extends \App\CRMEntity
 {
 
 	protected $lockFields = ['knowledgebase_status' => ['PLL_ACCEPTED', 'PLL_ARCHIVES', 'PLL_CANCELLED']];

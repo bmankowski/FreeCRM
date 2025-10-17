@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\MappedFields\Models;
-use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
 
 
 
@@ -12,7 +11,6 @@ use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Fiel
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
@@ -113,7 +111,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get instance
-	 * @return <Settings_MappedFields_Module_Model>
+	 * @return <\App\Modules\Settings\MappedFields\Models\Module>
 	 */
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
@@ -146,7 +144,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	/**
 	 * Function to get instance of module
 	 * @param string $moduleName
-	 * @return <Settings_MappedFields_Module_Model>
+	 * @return <\App\Modules\Settings\MappedFields\Models\Module>
 	 */
 	public static function getInstance($moduleName = 'Settings:Vtiger')
 	{
@@ -202,7 +200,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$fields = ['id' => ['name' => 'id', 'id' => 'id', 'fieldDataType' => 'reference', 'label' => 'LBL_SELF_ID', 'typeofdata' => 'SELF']];
 		$models = [];
 		foreach ($fields as $fieldName => $data) {
-			$fieldInstane = Settings_MappedFields_Field_Model::fromArray($data);
+			$fieldInstane = \App\Modules\Settings\MappedFields\Models\Field::fromArray($data);
 			$models[$fieldName] = $fieldInstane;
 		}
 		return $models;
@@ -226,7 +224,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 				if (!$blockName) {
 					$blockName = 'LBL_NOT_ASSIGNET_TO_BLOCK';
 				}
-				$fields[$blockName][$fieldInstance->getFieldId()] = Settings_MappedFields_Field_Model::getInstanceFromWebserviceFieldObject($fieldInstance);
+				$fields[$blockName][$fieldInstance->getFieldId()] = \App\Modules\Settings\MappedFields\Models\Field::getInstanceFromWebserviceFieldObject($fieldInstance);
 			}
 		}
 		if ($source) {
@@ -241,7 +239,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$blockName = 'LBL_ADVANCED_BLOCK';
 			foreach ($inventoryFields as $field) {
-				$fields[$blockName][$field->get('columnname')] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
+				$fields[$blockName][$field->get('columnname')] = \App\Modules\Settings\MappedFields\Models\Field::getInstanceFromInventoryFieldObject($field);
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -295,7 +293,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$db->createCommand()->update($this->baseTable, $params, [$this->baseIndex => $this->getRecordId()])->execute();
 		}
 		if ($saveMapping) {
-			$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep(2);
+			$stepFields = \App\Modules\Settings\MappedFields\Models\Module::getFieldsByStep(2);
 			$this->deleteMapping($this->getRecordId());
 			foreach ($this->getMapping() as $mapp) {
 				$params = [];
@@ -382,7 +380,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 							$mapping[$i][$columnKey] = $columnValue;
 							continue;
 						}
-						$fieldObject = Settings_MappedFields_Field_Model::getInstance($columnValue, $instances[$columnKey], $mapping[$i]['type']);
+						$fieldObject = \App\Modules\Settings\MappedFields\Models\Field::getInstance($columnValue, $instances[$columnKey], $mapping[$i]['type']);
 						if (!$fieldObject) {
 							continue;
 						}

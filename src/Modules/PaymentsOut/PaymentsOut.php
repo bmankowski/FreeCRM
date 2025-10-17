@@ -14,10 +14,9 @@ namespace App\Modules\PaymentsOut;
 
 use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class PaymentsOut extends Vtiger_CRMEntity
+class PaymentsOut extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_paymentsout';

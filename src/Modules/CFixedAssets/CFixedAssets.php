@@ -9,10 +9,9 @@ namespace App\Modules\CFixedAssets;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class CFixedAssets extends Vtiger_CRMEntity
+class CFixedAssets extends \App\CRMEntity
 {
 
 	public $table_name = 'u_yf_cfixedassets';

@@ -12,10 +12,9 @@ namespace App\Modules\OSSOutsourcedServices;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\CRMEntity as Vtiger_CRMEntity;
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
-class OSSOutsourcedServices extends Vtiger_CRMEntity
+class OSSOutsourcedServices extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_ossoutsourcedservices';

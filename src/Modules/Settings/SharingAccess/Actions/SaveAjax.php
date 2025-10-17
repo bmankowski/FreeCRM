@@ -14,7 +14,6 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 Class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
@@ -26,7 +25,7 @@ Class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Vtige
 		$postValues = [];
 		$prevValues = [];
 		foreach ($modulePermissions as $tabId => $permission) {
-			$moduleModel = Settings_SharingAccess_Module_Model::getInstance($tabId);
+			$moduleModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($tabId);
 			$permissionOld = $moduleModel->get('permission');
 			$moduleModel->set('permission', $permission);
 			if ($permissionOld != $permission) {
@@ -43,7 +42,7 @@ Class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Vtige
 			}
 		}
 		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $postValues);
-		Settings_SharingAccess_Module_Model::recalculateSharingRules();
+		\App\Modules\Settings\SharingAccess\Models\Module::recalculateSharingRules();
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);

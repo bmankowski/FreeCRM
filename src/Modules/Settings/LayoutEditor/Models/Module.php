@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\LayoutEditor\Models;
-use App\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
-use App\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Block_Model;
 
 
 /* +**********************************************************************************
@@ -15,10 +13,8 @@ use App\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Bloc
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Block as Vtiger_Block_Model;
 
-use App\Modules\Vtiger\Models\Relation as Vtiger_Relation_Model;
-class Module extends \Vtiger_Module_Model
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -39,16 +35,16 @@ class Module extends \Vtiger_Module_Model
 				$blockId[] = $block->get('id');
 			}
 			if (count($blockId) > 0) {
-				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
+				$fieldList = \App\Modules\Settings\LayoutEditor\Models\Field::getInstanceFromBlockIdList($blockId);
 			}
 			//To handle special case for invite users
 			if ($this->getName() == 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
+				$blockModel = new \App\Modules\Settings\LayoutEditor\Models\Block();
 				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
 				$blockModel->set('label', 'LBL_INVITE_RECORDS');
 				$blockModel->set('module', $this);
 
-				$fieldModel = new Settings_LayoutEditor_Field_Model();
+				$fieldModel = new \App\Modules\Settings\LayoutEditor\Models\Field();
 				$fieldModel->set('name', 'selectedusers');
 				$fieldModel->set('label', 'LBL_INVITE_RECORDS');
 				$fieldModel->set('block', $blockModel);
@@ -68,7 +64,7 @@ class Module extends \Vtiger_Module_Model
 	{
 		if (empty($this->blocks)) {
 			$blocksList = [];
-			$moduleBlocks = Settings_LayoutEditor_Block_Model::getAllForModule($this);
+			$moduleBlocks = \App\Modules\Settings\LayoutEditor\Models\Block::getAllForModule($this);
 			foreach ($moduleBlocks as $block) {
 				if (!$block->get('label')) {
 					continue;
@@ -83,7 +79,7 @@ class Module extends \Vtiger_Module_Model
 			}
 			//To handle special case for invite users block
 			if ($this->getName() == 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
+				$blockModel = new \App\Modules\Settings\LayoutEditor\Models\Block();
 				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
 				$blockModel->set('label', 'LBL_INVITE_RECORDS');
 				$blockModel->set('module', $this);
@@ -203,7 +199,7 @@ class Module extends \Vtiger_Module_Model
 
 		$quickCreate = in_array($moduleName, getInventoryModules()) ? 3 : 1;
 
-		$fieldModel = new Settings_LayoutEditor_Field_Model();
+		$fieldModel = new \App\Modules\Settings\LayoutEditor\Models\Field();
 		$fieldModel->set('name', $columnName)
 			->set('table', $tableName)
 			->set('generatedtype', 2)
@@ -217,7 +213,7 @@ class Module extends \Vtiger_Module_Model
 		if (isset($details['displayType'])) {
 			$fieldModel->set('displaytype', $details['displayType']);
 		}
-		$blockModel = \Vtiger_Block_Model::getInstance($blockId, $this);
+		$blockModel = \App\Modules\Vtiger\Models\Block::getInstance($blockId, $this);
 		$blockModel->addField($fieldModel);
 
 		if ($fieldType == 'Picklist' || $fieldType == 'MultiSelectCombo') {
@@ -424,7 +420,7 @@ class Module extends \Vtiger_Module_Model
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
 	{
 		$exceptions = ['id', 'inventoryItemsNo', 'seq'];
-		$instance = \Vtiger_InventoryField_Model::getInstance($moduleName);
+		$instance = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		foreach ($instance->getAllFields() as $field) {
 			$exceptions[] = $field->getColumnName();
 			if (preg_match('/^' . $field->getColumnName() . '[0-9]/', $fieldName) != 0) {
@@ -534,7 +530,7 @@ class Module extends \Vtiger_Module_Model
 	public function getRelations()
 	{
 		if ($this->relations === null) {
-			$this->relations = \Vtiger_Relation_Model::getAllRelations($this, false);
+			$this->relations = \App\Modules\Vtiger\Models\Relation::getAllRelations($this, false);
 		}
 
 		// Contacts relation-tab is turned into custom block on DetailView.
