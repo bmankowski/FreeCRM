@@ -13,7 +13,6 @@ namespace App\Modules\Settings\PickListDependency\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
 
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
@@ -48,7 +47,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public static function getAvailablePicklists($module)
 	{
-		return Vtiger_DependencyPicklist::getAvailablePicklists($module);
+		return \App\Modules\PickList\DependencyPicklist::getAvailablePicklists($module);
 	}
 
 	public static function getPicklistSupportedModules()

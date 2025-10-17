@@ -16,7 +16,7 @@ namespace App\Modules\Settings\Groups\Models;
  * Roles Record Model Class
  */
 
-class Member extends \\App\Modules\Vtiger\Models\Record
+class Member extends \App\Modules\Vtiger\Models\Record
 {
 
 	const MEMBER_TYPE_USERS = 'Users';
@@ -167,7 +167,7 @@ class Member extends \\App\Modules\Vtiger\Models\Record
 				$recordModel->set('roleid', $recordId);
 				return $recordModel->getEditViewUrl();
 
-			case 'Groups' : $recordModel = new Settings_Groups_Record_Model();
+			case 'Groups' : $recordModel = new \App\Modules\Settings\Groups\Models\Record();
 				$recordModel->setId($recordId);
 				return $recordModel->getDetailViewUrl();
 		}
@@ -175,7 +175,7 @@ class Member extends \\App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the groups
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
+	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAllByGroup($groupModel)
 	{
@@ -191,7 +191,7 @@ class Member extends \\App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the groups
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
+	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAll($onlyActive = true)
 	{
@@ -204,7 +204,7 @@ class Member extends \\App\Modules\Vtiger\Models\Record
 			$members[self::MEMBER_TYPE_USERS][$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $userModel->getName());
 		}
 
-		$allGroups = Settings_Groups_Record_Model::getAll();
+		$allGroups = \App\Modules\Settings\Groups\Models\Record::getAll();
 		foreach ($allGroups as $groupId => $groupModel) {
 			$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_GROUPS, $groupId);
 			$member = new self();

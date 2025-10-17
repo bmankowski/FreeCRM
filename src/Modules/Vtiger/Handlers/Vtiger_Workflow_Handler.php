@@ -2,8 +2,7 @@
 
 namespace App\Modules\Vtiger\Handlers;
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManager.php';
+require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/\App\Modules\com_vtiger_workflow\VTWorkflowManager.php';
 
 /**
  * Workflow handler
@@ -30,12 +29,12 @@ class Vtiger_Workflow_Handler {
 		$recordId = $recordModel->getId();
 		$isNew = $recordModel->isNew();
 		if (!isset($this->workflows)) {
-			$wfs = new VTWorkflowManager();
+			$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager();
 			$this->workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName());
 		}
 		foreach ($this->workflows as &$workflow) {
 			switch ($workflow->executionCondition) {
-				case VTWorkflowManager::$ON_FIRST_SAVE:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_FIRST_SAVE:
 					if ($isNew) {
 						$doEvaluate = true;
 					} else {
@@ -43,7 +42,7 @@ class Vtiger_Workflow_Handler {
 					}
 					break;
 
-				case VTWorkflowManager::$ONCE:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ONCE:
 					if ($workflow->isCompletedForRecord($recordId)) {
 						$doEvaluate = false;
 					} else {
@@ -51,35 +50,35 @@ class Vtiger_Workflow_Handler {
 					}
 					break;
 
-				case VTWorkflowManager::$ON_EVERY_SAVE:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_EVERY_SAVE:
 					$doEvaluate = true;
 					break;
 
-				case VTWorkflowManager::$ON_MODIFY:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_MODIFY:
 					$doEvaluate = !$isNew && !empty($recordModel->getPreviousValue());
 					break;
 
-				case VTWorkflowManager::$MANUAL:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$MANUAL:
 					$doEvaluate = false;
 					break;
 
-				case VTWorkflowManager::$ON_SCHEDULE:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_SCHEDULE:
 					$doEvaluate = false;
 					break;
 
-				case VTWorkflowManager::$ON_DELETE:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_DELETE:
 					$doEvaluate = false;
 					break;
 
-				case VTWorkflowManager::$TRIGGER:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$TRIGGER:
 					$doEvaluate = false;
 					break;
 
-				case VTWorkflowManager::$BLOCK_EDIT:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$BLOCK_EDIT:
 					$doEvaluate = false;
 					break;
 
-				case VTWorkflowManager::$ON_RELATED:
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_RELATED:
 					$doEvaluate = false;
 					break;
 
@@ -87,7 +86,7 @@ class Vtiger_Workflow_Handler {
 					throw new Exception('Should never come here! Execution Condition:' . $workflow->executionCondition);
 			}
 			if ($doEvaluate && $workflow->evaluate($recordModel, $recordId)) {
-				if (VTWorkflowManager::$ONCE == $workflow->executionCondition) {
+				if (\App\Modules\com_vtiger_workflow\VTWorkflowManager::$ONCE == $workflow->executionCondition) {
 					$workflow->markAsCompletedForRecord($recordId);
 				}
 				$workflow->performTasks($recordModel);

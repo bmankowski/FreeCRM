@@ -13,9 +13,8 @@ namespace App\Modules\Users\Views;
  * ********************************************************************************** */
 
 use App\Http\Vtiger_Request;
-use App\Modules\Settings\Vtiger\Views\ListView as SettingsListView;
 
-class ListView extends SettingsListView
+class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -121,7 +121,7 @@ class Module extends \Vtiger_Record_Model
 
 	/**
 	 * Function to get the instance of Settings module model
-	 * @return Settings_Vtiger_Module_Model instance
+	 * @return \App\Modules\Settings\Vtiger\Models\Module instance
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{

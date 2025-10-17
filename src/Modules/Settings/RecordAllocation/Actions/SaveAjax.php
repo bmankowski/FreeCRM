@@ -31,7 +31,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 		$oldValues = \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($data['type'], $data['module']);
 		$oldValues = array_merge((array) $oldValues[$data['userid'][0]]['users'], (array) $oldValues[$data['userid'][0]]['groups']);
 
-		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		$moduleInstance->set('type', $data['type']);
 		$moduleInstance->save(array_filter($data));
 		\App\Modules\Settings\RecordAllocation\Models\Module::resetDataVariable();
@@ -54,7 +54,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 		$moduleName = $data['module'];
 		$qualifiedModuleName = $request->getModule(false);
 
-		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		$moduleInstance->set('type', $data['type']);
 		$moduleInstance->remove($moduleName);
 

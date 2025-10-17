@@ -21,7 +21,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
 
-		$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
+		$recordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($recordId);
 		$members = $recordModel->getMembers();
 		$membersToDipslay = [];
 		foreach ($members as $typeMembers) {
@@ -32,7 +32,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 		$recordModel->set('group_members', $membersToDipslay);
 		$recordModel->set('modules', $recordModel->getModules());
 		$prevValues = $recordModel->getDisplayData();
-		$transferToOwner = Settings_Groups_Record_Model::getInstance($transferRecordId);
+		$transferToOwner = \App\Modules\Settings\Groups\Models\Record::getInstance($transferRecordId);
 		if (!$transferToOwner) {
 			$transferToOwner = \App\Modules\Users\Models\Record::getInstanceById($transferRecordId, 'Users');
 		}

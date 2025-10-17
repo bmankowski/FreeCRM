@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MappedFields\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Field extends \\App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	public $inventoryField = false;

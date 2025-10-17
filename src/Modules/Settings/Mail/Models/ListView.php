@@ -11,13 +11,13 @@ namespace App\Modules\Settings\Mail\Models;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list view entries
 	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \\App\Modules\Vtiger\Models\Record instance.
+	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{

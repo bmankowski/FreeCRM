@@ -3,7 +3,6 @@
 namespace App\Modules\com_vtiger_workflow;
 
 use App\events\VTEventHandler;
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -49,7 +48,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 		 * While adding a comment on any record which are supporting Comments ModCommentsHandler will trigger
 		 */
 		if (!is_array($this->workflows)) {
-			$wfs = new VTWorkflowManager($adb);
+			$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($adb);
 			$this->workflows = $wfs->getWorkflowsForModule($moduleName);
 		}
 		$workflows = $this->workflows;
@@ -58,7 +57,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 			if (!is_object($workflow) || get_class($workflow) !== 'Workflow')
 				continue;
 			switch ($workflow->executionCondition) {
-				case VTWorkflowManager::$ON_FIRST_SAVE: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_FIRST_SAVE: {
 						if ($isNew) {
 							$doEvaluate = true;
 						} else {
@@ -66,7 +65,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 						}
 						break;
 					}
-				case VTWorkflowManager::$ONCE: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ONCE: {
 						if ($workflow->isCompletedForRecord($recordId)) {
 							$doEvaluate = false;
 						} else {
@@ -74,36 +73,36 @@ class VTWorkflowEventHandler extends VTEventHandler
 						}
 						break;
 					}
-				case VTWorkflowManager::$ON_EVERY_SAVE: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_EVERY_SAVE: {
 						$doEvaluate = true;
 						break;
 					}
-				case VTWorkflowManager::$ON_MODIFY: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_MODIFY: {
 						// Check if record was modified (not newly created)
 						$doEvaluate = !$isNew;
 						break;
 					}
-				case VTWorkflowManager::$MANUAL: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$MANUAL: {
 						$doEvaluate = false;
 						break;
 					}
-				case VTWorkflowManager::$ON_SCHEDULE: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_SCHEDULE: {
 						$doEvaluate = false;
 						break;
 					}
-				case VTWorkflowManager::$ON_DELETE: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_DELETE: {
 						$doEvaluate = false;
 						break;
 					}
-				case VTWorkflowManager::$TRIGGER: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$TRIGGER: {
 						$doEvaluate = false;
 						break;
 					}
-				case VTWorkflowManager::$BLOCK_EDIT: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$BLOCK_EDIT: {
 						$doEvaluate = false;
 						break;
 					}
-				case VTWorkflowManager::$ON_RELATED: {
+				case \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_RELATED: {
 						$doEvaluate = false;
 						break;
 					}
@@ -112,7 +111,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 					}
 			}
 			if ($doEvaluate && $workflow->evaluate($entityCache, $recordId)) {
-				if (VTWorkflowManager::$ONCE == $workflow->executionCondition) {
+				if (\App\Modules\com_vtiger_workflow\VTWorkflowManager::$ONCE == $workflow->executionCondition) {
 					$workflow->markAsCompletedForRecord($recordId);
 				}
 

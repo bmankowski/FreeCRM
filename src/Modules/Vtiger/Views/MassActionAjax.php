@@ -14,8 +14,7 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
-class MassActionAjax extends \Vtiger_Index_View
+class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function __construct()
@@ -57,7 +56,7 @@ class MassActionAjax extends \Vtiger_Index_View
 		foreach ($fieldList as $fieldName => $fieldModel) {
 			$fieldInfo[$fieldName] = $fieldModel->getFieldInfo();
 		}
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));

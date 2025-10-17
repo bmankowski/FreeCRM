@@ -11,7 +11,6 @@ namespace App\Modules\PickList;
  * All Rights Reserved.
  * ******************************************************************************* */
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 require_once ROOT_DIRECTORY . '/src/Modules/PickList/PickListUtils.php';
 
@@ -199,7 +198,7 @@ class DependencyPicklist {
 
 	static function getJSPicklistDependencyDatasource($module)
 	{
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($module);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($module);
 		return \App\Json::encode($picklistDependencyDatasource);
 	}
 

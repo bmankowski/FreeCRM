@@ -20,7 +20,7 @@ class MappingDetail extends \App\Modules\Settings\Vtiger\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', Settings_Leads_Mapping_Model::getInstance());
+		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Leads\Models\Mapping::getInstance());
 		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('MappingDetail.tpl', $qualifiedModuleName);

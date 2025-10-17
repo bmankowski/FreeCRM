@@ -44,7 +44,7 @@ class Detail extends Users_PreferenceDetail_View
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
-		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
+		$settingsModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 		$viewer->assign('MENUS', $menu);

@@ -12,7 +12,6 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
 class Base extends \App\Runtime\Vtiger_Base_Model
 {
 
@@ -68,7 +67,7 @@ class Base extends \App\Runtime\Vtiger_Base_Model
 	/**
 	 * Static function to get the UIType object from Vtiger Field Model
 	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
-	 * @return Vtiger_Base_UIType or UIType specific object instance
+	 * @return \App\Modules\Vtiger\UiTypes\Base or UIType specific object instance
 	 */
 	public static function getInstanceFromField($fieldModel)
 	{

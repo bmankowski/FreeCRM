@@ -15,8 +15,7 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
-class QuickCreateAjax extends \Vtiger_Index_View
+class QuickCreateAjax extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -46,7 +45,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		}
 
 		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
 

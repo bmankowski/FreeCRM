@@ -262,7 +262,7 @@ class Util {
 		if ($userName) {
 			$ownerName = $userName;
 		} else {
-			$ownerModel = Settings_Groups_Record_Model::getInstance($ownerId);
+			$ownerModel = \App\Modules\Settings\Groups\Models\Record::getInstance($ownerId);
 			if (!empty($ownerModel)) {
 				$ownerName = $ownerModel->getName();
 			}

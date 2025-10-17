@@ -86,7 +86,7 @@ class HistoryRelation extends \App\Modules\Vtiger\Widgets\Basic
 
 		$query->limit($pageLimit)->offset($startIndex);
 		$history = [];
-		$groups = Settings_Groups_Record_Model::getAll();
+		$groups = \App\Modules\Settings\Groups\Models\Record::getAll();
 		$groupIds = array_keys($groups);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

@@ -15,8 +15,7 @@ namespace App\Modules\Faq\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
-class Edit extends \Vtiger_Index_View
+class Edit extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -62,7 +61,7 @@ class Edit extends \Vtiger_Index_View
 			$viewer->assign('VIEW_MODE', $viewMode);
 		}
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$isRelationOperation = $request->get('relationOperation');
 		//if it is relation edit

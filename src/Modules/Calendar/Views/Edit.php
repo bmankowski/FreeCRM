@@ -11,7 +11,6 @@ namespace App\Modules\Calendar\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 Class Calendar_Edit_View extends Vtiger_Edit_View
 {
 
@@ -132,7 +131,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
 		$viewer->assign('CURRENT_USER', $currentUser);

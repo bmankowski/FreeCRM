@@ -29,7 +29,7 @@ abstract class Record extends \App\Base
 		$links = array();
 		$recordLinks = array();
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

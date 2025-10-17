@@ -44,14 +44,14 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
 		);
-		$editLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
+		$editLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
 
 		$deleteLink = array(
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
 		);
-		$deleteLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
+		$deleteLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
 		return array($editLinkInstance, $deleteLinkInstance);
 	}
 
@@ -68,7 +68,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$db = \App\Db::getInstance();
 		$id = $this->getId();
-		$tableName = Settings_Currency_Module_Model::tableName;
+		$tableName = \App\Modules\Settings\Currency\Models\Module::tableName;
 		if (!empty($id)) {
 			$db->createCommand()->update($tableName, [
 				'currency_name' => $this->get('currency_name'),
@@ -106,7 +106,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getInstance($id)
 	{
-		$db = (new \App\Db\Query())->from(Settings_Currency_Module_Model::tableName);
+		$db = (new \App\Db\Query())->from(\App\Modules\Settings\Currency\Models\Module::tableName);
 		if (vtlib\Utils::isNumber($id)) {
 			$query = $db->where(['id' => $id]);
 		} else {
@@ -154,7 +154,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getAll($excludedIds = [])
 	{
-		$query = (new \App\Db\Query())->from(Settings_Currency_Module_Model::tableName)
+		$query = (new \App\Db\Query())->from(\App\Modules\Settings\Currency\Models\Module::tableName)
 			->where(['deleted' => 0, 'currency_status' => 'Active']);
 		if (!empty($excludedIds)) {
 			$query->andWhere(['<>', 'id', $excludedIds]);

@@ -25,7 +25,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function updateConfig(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
-		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\MarketingProcesses\Models\Module::getCleanInstance();
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $moduleModel->setConfig($param),

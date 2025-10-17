@@ -347,7 +347,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{

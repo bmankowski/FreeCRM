@@ -55,7 +55,7 @@ class Owner extends Base
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
 			}
-			$recordModel = new Settings_Groups_Record_Model();
+			$recordModel = new \App\Modules\Settings\Groups\Models\Record();
 			$recordModel->set('groupid', $value);
 			$detailViewUrl = $recordModel->getDetailViewUrl();
 		}
@@ -92,7 +92,7 @@ class Owner extends Base
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 			}
-			$recordModel = new Settings_Groups_Record_Model();
+			$recordModel = new \App\Modules\Settings\Groups\Models\Record();
 			$recordModel->set('groupid', $value);
 			$detailViewUrl = $recordModel->getDetailViewUrl();
 		}

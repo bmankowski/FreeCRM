@@ -85,7 +85,7 @@ class BasicAjax extends \Vtiger_Index_View
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
 
 		if ($moduleName === 'Calendar') {
-			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}

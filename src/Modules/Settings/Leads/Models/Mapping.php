@@ -56,11 +56,11 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get list of detail view link models
-	 * @return <Array> list of detail view link models <\\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> list of detail view link models <\App\Modules\Vtiger\Models\Link>
 	 */
 	public function getDetailViewLinks()
 	{
-		return array(\\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
+		return array(\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("' . $this->getEditViewUrl() . '")',
@@ -70,11 +70,11 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get list of mapping link models
-	 * @return <Array> list of mapping link models <\\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> list of mapping link models <\App\Modules\Vtiger\Models\Link>
 	 */
 	public function getMappingLinks()
 	{
-		return array(\\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
+		return array(\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"' . $this->getMappingDeleteUrl() . '")',
@@ -136,7 +136,7 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 		while ($rowData = $dataReader->read()) {
 			$fieldInfo = ['id' => $rowData['fieldid'], 'label' => $rowData['fieldlabel']];
 			if ($rowData['tabid'] === $leadId) {
-				$fieldModel = Settings_Leads_Field_Model::getCleanInstance();
+				$fieldModel = \App\Modules\Settings\Leads\Models\Field::getCleanInstance();
 				$fieldModel->set('uitype', $rowData['uitype']);
 				$fieldModel->set('typeofdata', $rowData['typeofdata']);
 				$fieldModel->set('name', $rowData['fieldname']);
@@ -240,7 +240,7 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 	/**
 	 * Function to get instance
 	 * @param boolean true/false
-	 * @return <Settings_Leads_Mapping_Model>
+	 * @return <\App\Modules\Settings\Leads\Models\Mapping>
 	 */
 	public static function getInstance($editable = false)
 	{
@@ -251,7 +251,7 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get instance
-	 * @return <Settings_Leads_Mapping_Model>
+	 * @return <\App\Modules\Settings\Leads\Models\Mapping>
 	 */
 	public static function getCleanInstance()
 	{

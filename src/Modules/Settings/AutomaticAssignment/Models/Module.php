@@ -132,11 +132,11 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function searches for record from the Auto assign records panel
-	 * @param \\App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @param string $role
-	 * @return bool|Settings_AutomaticAssignment_Record_Model
+	 * @return bool|\App\Modules\Settings\AutomaticAssignment\Models\Record
 	 */
-	public function searchRecord(\\App\Modules\Vtiger\Models\Record $recordModel, $role = '')
+	public function searchRecord(\App\Modules\Vtiger\Models\Record $recordModel, $role = '')
 	{
 		$key = $recordModel->getModuleName() . $role;
 		if (\App\Cache::has(__METHOD__, $key)) {
@@ -160,7 +160,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 				$recordModel->set($row['field'], $value);
 			}
 			if ($row['value'] == $recordModel->get($row['field'])) {
-				$autoAssignRecordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($row['id']);
+				$autoAssignRecordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getInstanceById($row['id']);
 				$autoAssignRecordModel->sourceRecordModel = $recordModel;
 				return $autoAssignRecordModel;
 			}
@@ -183,9 +183,9 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Execute auto assign 
-	 * @param \\App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
-	public static function autoAssignExecute(\\App\Modules\Vtiger\Models\Record $recordModel)
+	public static function autoAssignExecute(\App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $moduleInstance->searchRecord($recordModel);

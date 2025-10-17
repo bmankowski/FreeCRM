@@ -12,7 +12,6 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class WorkflowTrigger {
 
 	/**
@@ -29,7 +28,7 @@ class WorkflowTrigger {
 		if ($userId) {
 			$recordModel->executeUser = $userId;
 		}
-		$wfs = new VTWorkflowManager();
+		$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager();
 		foreach ($ids as $id) {
 			$workflow = $wfs->retrieve($id);
 			if ($workflow->evaluate($recordModel)) {

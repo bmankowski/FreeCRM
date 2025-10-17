@@ -24,7 +24,7 @@ class VTAutoAssign extends VTTask
 
 	public function doTask($recordModel)
 	{
-		Settings_AutomaticAssignment_Module_Model::autoAssignExecute($recordModel);
+		\App\Modules\Settings\AutomaticAssignment\Models\Module::autoAssignExecute($recordModel);
 	}
 
 	public function getAutoAssignEntries($moduleName)

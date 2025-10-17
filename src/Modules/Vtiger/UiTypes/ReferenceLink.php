@@ -9,7 +9,6 @@ namespace App\Modules\Vtiger\UiTypes;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Vtiger\UiTypes\Base as Vtiger_Base_UIType;
 class ReferenceLink extends Base
 {
 
@@ -29,6 +28,6 @@ class ReferenceLink extends Base
 		if (\App\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'uitypes/ReferenceSearchView.tpl';
 		}
-		return Vtiger_Base_UIType::getListSearchTemplateName();
+		return \App\Modules\Vtiger\UiTypes\Base::getListSearchTemplateName();
 	}
 }

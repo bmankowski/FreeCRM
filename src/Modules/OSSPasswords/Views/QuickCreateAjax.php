@@ -11,7 +11,6 @@ namespace App\Modules\OSSPasswords\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
@@ -47,7 +46,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 			}
 		}
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$relatedModule = 'OSSPasswords';
 
 		$viewer = $this->getViewer($request);

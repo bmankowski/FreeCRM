@@ -24,7 +24,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 			if (empty($transforCurrencyToId)) {
 				throw new \Exception('Transfer currency id cannot be empty');
 			}
-			Settings_Currency_Module_Model::delete($record);
+			\App\Modules\Settings\Currency\Models\Module::delete($record);
 			$response->setResult(array('success' => 'true'));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

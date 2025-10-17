@@ -22,9 +22,9 @@ class MappingEdit extends \App\Modules\Settings\Vtiger\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('MODULE_MODEL', Settings_Leads_Mapping_Model::getInstance(true));
-		$viewer->assign('LEADS_MODULE_MODEL', Settings_Leads_Module_Model::getInstance('Leads'));
-		$viewer->assign('ACCOUNTS_MODULE_MODEL', Settings_Leads_Module_Model::getInstance('Accounts'));
+		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Leads\Models\Mapping::getInstance(true));
+		$viewer->assign('LEADS_MODULE_MODEL', \App\Modules\Settings\Leads\Models\Module::getInstance('Leads'));
+		$viewer->assign('ACCOUNTS_MODULE_MODEL', \App\Modules\Settings\Leads\Models\Module::getInstance('Accounts'));
 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('LeadMappingEdit.tpl', $qualifiedModuleName);

@@ -12,8 +12,7 @@ namespace App\Modules\com_vtiger_workflow;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
-require_once('VTJsonCondition.php');
+require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
 require_once ROOT_DIRECTORY . '/src/utils/ConfigReader.php';
 require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 
@@ -97,7 +96,7 @@ class VTWorkflowManager {
 	 */
 	public function getScheduledWorkflows($referenceTime = false)
 	{
-		$query = (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => VTWorkflowManager::$ON_SCHEDULE]);
+		$query = (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_SCHEDULE]);
 		if ($referenceTime) {
 			$query->andWhere(['or', ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
 		}
@@ -112,7 +111,7 @@ class VTWorkflowManager {
 	{
 		$adb = $this->adb;
 		$query = 'SELECT count(*) AS count FROM com_vtiger_workflows WHERE execution_condition = ?';
-		$params = array(VTWorkflowManager::$ON_SCHEDULE);
+		$params = array(\App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_SCHEDULE);
 		$result = $adb->pquery($query, $params);
 		return $adb->query_result($result, 0, 'count');
 	}
@@ -323,7 +322,7 @@ class Workflow
 
 	public function __construct()
 	{
-		$this->conditionStrategy = new VTJsonCondition();
+		$this->conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
 	}
 
 	public function setup($row)

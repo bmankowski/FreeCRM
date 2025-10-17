@@ -11,7 +11,6 @@ namespace App\Modules\Settings\Users\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 

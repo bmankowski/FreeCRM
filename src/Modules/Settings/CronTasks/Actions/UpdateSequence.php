@@ -20,7 +20,7 @@ class UpdateSequence extends \App\Modules\Settings\Vtiger\Actions\Index
 		$qualifiedModuleName = $request->getModule(false);
 		$sequencesList = $request->get('sequencesList');
 
-		$moduleModel = Settings_CronTasks_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\CronTasks\Models\Module::getInstance($qualifiedModuleName);
 
 		$response = new \App\Http\Vtiger_Response();
 		if ($sequencesList) {

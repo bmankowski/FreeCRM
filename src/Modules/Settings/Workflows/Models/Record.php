@@ -19,7 +19,6 @@ use App\Modules\Settings\WorkflowsModels\TaskRecord;
  */
 
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
@@ -100,7 +99,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function save()
 	{
 		$db = \App\database\PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
@@ -124,7 +123,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function delete()
 	{
 		$db = \App\database\PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wm->delete($this->getId());
 	}
 
@@ -141,7 +140,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -183,7 +182,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -192,7 +191,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public static function getInstance($workflowId)
 	{
 		$db = \App\database\PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wf = $wm->retrieve($workflowId);
 		return self::getInstanceFromWorkflowObject($wf);
 	}
@@ -200,7 +199,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public static function getCleanInstance($moduleName)
 	{
 		$db = \App\database\PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
 		return self::getInstanceFromWorkflowObject($wf);
@@ -422,7 +421,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function updateNextTriggerTime()
 	{
 		$db = \App\database\PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
 	}

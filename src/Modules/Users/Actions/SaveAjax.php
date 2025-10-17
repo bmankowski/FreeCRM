@@ -13,7 +13,6 @@ use App\Modules\Settings\PasswordModels\Record;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 require_once ROOT_DIRECTORY . '/src/Webservices/Custom/ChangePassword.php';
 
 class SaveAjax extends \App\Modules\Vtiger\Actions\Save

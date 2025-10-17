@@ -25,7 +25,7 @@ class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('CONFIG', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
+		$viewer->assign('CONFIG', \App\Modules\Settings\ApiAddress\Models\Module::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('MODULENAME', $request->getModule(false));
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
 	}

@@ -13,7 +13,6 @@ namespace App\Modules\Settings\Users\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class Auth extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

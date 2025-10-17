@@ -10,7 +10,7 @@ namespace App\Modules\Settings\AutomaticAssignment\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	/**

@@ -7,6 +7,6 @@
  */
 \App\Log::trace('Start cron CardDAV');
 
-API_DAV_Model::runCronCardDav();
+\App\Modules\API\Models\DAV::runCronCardDav();
 
 \App\Log::trace('End cron CardDAV');

@@ -12,10 +12,9 @@ namespace App\Modules\Home\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Views\DashBoard as VtigerDashBoard;
 
 use App\Http\Vtiger_Request;
-class DashBoard extends VtigerDashBoard
+class DashBoard extends \App\Modules\Vtiger\Views\DashBoard
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

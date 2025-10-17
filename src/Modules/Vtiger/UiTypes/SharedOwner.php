@@ -124,7 +124,7 @@ class SharedOwner extends Base
 					continue;
 				}
 				$display[$key] = $shownerName;
-				$recordModel = new Settings_Groups_Record_Model();
+				$recordModel = new \App\Modules\Settings\Groups\Models\Record();
 				$recordModel->set('groupid', $shownerid);
 				$detailViewUrl = $recordModel->getDetailViewUrl();
 				if ($isAdmin && !$rawText) {

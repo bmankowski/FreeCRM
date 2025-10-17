@@ -13,7 +13,6 @@ namespace App\Modules\ModTracker;
  * ********************************************************************************** */
 
 
-use App\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
 include_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
 
 class ModTracker {
@@ -61,9 +60,9 @@ class ModTracker {
 				'linkto' => 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker'
 			]);
 		} else if ($eventType == 'module.disabled') {
-			\App\EventHandler::setInActive('ModTracker_ModTrackerHandler_Handler');
+			\App\EventHandler::setInActive('\App\Modules\ModTracker\Handlers\Handler');
 		} else if ($eventType == 'module.enabled') {
-			\App\EventHandler::setActive('ModTracker_ModTrackerHandler_Handler');
+			\App\EventHandler::setActive('\App\Modules\ModTracker\Handlers\Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {

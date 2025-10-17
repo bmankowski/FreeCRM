@@ -11,7 +11,6 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 {
 
@@ -252,7 +251,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function getNextTriggerTime()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManager.php';
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/\App\Modules\com_vtiger_workflow\VTWorkflowManager.php';
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;

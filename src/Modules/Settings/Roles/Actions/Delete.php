@@ -22,7 +22,7 @@ class Delete extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
 		$transferToRole = \App\Modules\Settings\Roles\Models\Record::getInstanceById($transferRecordId);
 		if ($recordModel && $transferToRole) {

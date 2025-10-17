@@ -2,7 +2,6 @@
 
 namespace App\Modules\Settings\Vtiger\Models;
 
-use App\Modules\Users\Models\Privileges as \App\Modules\Users\Models\Privileges;
 
 /**
  * Main class to save modification in settings

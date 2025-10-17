@@ -17,7 +17,6 @@ namespace App\Modules\Settings\Profiles\Models;
  */
 
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
@@ -230,7 +229,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getProfileTabModel($module)
 	{
 		$tabId = false;
-		if (is_object($module) && is_a($module, '\\App\Modules\Vtiger\Models\Module')) {
+		if (is_object($module) && is_a($module, '\App\Modules\Vtiger\Models\Module')) {
 			$tabId = $module->getId();
 		} else {
 			$module = \App\Modules\Vtiger\Models\Module::getInstance($module);
@@ -248,7 +247,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$profileTabModel = $this->getProfileTabModel($module);
 		$fieldId = false;
-		if (is_object($field) && is_a($field, '\\App\Modules\Vtiger\Models\Field')) {
+		if (is_object($field) && is_a($field, '\App\Modules\Vtiger\Models\Field')) {
 			$fieldId = $field->getId();
 		} else {
 			$field = \App\Modules\Vtiger\Models\Field::getInstance($field, $profileTabModel);
@@ -680,7 +679,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -708,7 +707,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

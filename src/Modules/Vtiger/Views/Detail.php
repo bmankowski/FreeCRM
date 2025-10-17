@@ -17,8 +17,7 @@ use App\Http\Vtiger_Request;
 use App\AppConfig;
 
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
-class Detail extends \Vtiger_Index_View
+class Detail extends \App\Modules\Vtiger\Views\Index
 {
 
 	protected $record = false;
@@ -197,7 +196,7 @@ class Detail extends \Vtiger_Index_View
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 
 		if ($display) {

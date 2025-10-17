@@ -23,7 +23,7 @@ class MappingSave extends \App\Modules\Settings\Vtiger\Actions\Index
 		if (array_key_exists($csrfKey, $mapping)) {
 			unset($mapping[$csrfKey]);
 		}
-		$mappingModel = Settings_Leads_Mapping_Model::getCleanInstance();
+		$mappingModel = \App\Modules\Settings\Leads\Models\Mapping::getCleanInstance();
 
 		$response = new \App\Http\Vtiger_Response();
 		if ($mapping) {

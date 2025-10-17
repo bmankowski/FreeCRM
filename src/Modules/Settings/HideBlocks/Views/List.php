@@ -15,11 +15,10 @@
  namespace App\Modules\Settings\HideBlocks\Views;
 
 
-use App\Modules\Vtiger\Views\List as Vtiger_List_View;
 use App\Http\Vtiger_Request;
 
 
-class List extends Vtiger_List_View
+class List extends \App\Modules\Vtiger\Views\List
 {
 
 	public function preProcess(Vtiger_Request $request, $display = true)

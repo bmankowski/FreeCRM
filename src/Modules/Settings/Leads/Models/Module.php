@@ -13,12 +13,12 @@ namespace App\Modules\Settings\Leads\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \\App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
 	 * Function to get fields of this model
-	 * @return <Array> list of field models <Settings_Leads_Field_Model>
+	 * @return <Array> list of field models <\App\Modules\Settings\Leads\Models\Field>
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -27,7 +27,7 @@ class Module extends \\App\Modules\Vtiger\Models\Module
 			$fieldIds = $this->getMappingSupportedFieldIdsList();
 
 			foreach ($fieldIds as $fieldId) {
-				$fieldModel = Settings_Leads_Field_Model::getInstance($fieldId, $this);
+				$fieldModel = \App\Modules\Settings\Leads\Models\Field::getInstance($fieldId, $this);
 				$fieldModelsList[$fieldModel->getFieldDataType()][$fieldId] = $fieldModel;
 			}
 			$this->fields = $fieldModelsList;
@@ -76,7 +76,7 @@ class Module extends \\App\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get instance of module
 	 * @param string $moduleName
-	 * @return <Settings_Leads_Module_Model>
+	 * @return <\App\Modules\Settings\Leads\Models\Module>
 	 */
 	public static function getInstance($moduleName)
 	{

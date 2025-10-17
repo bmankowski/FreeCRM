@@ -15,7 +15,6 @@ namespace App\Modules\Calendar\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class QuickCreateAjax extends \Vtiger_Index_View
 {
 
@@ -67,7 +66,7 @@ class QuickCreateAjax extends \Vtiger_Index_View
 			$info['moduleModel'] = $moduleModel;
 			$quickCreateContents[$module] = $info;
 		}
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));

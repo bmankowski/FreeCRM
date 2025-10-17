@@ -14,7 +14,6 @@ use App\Modules\Settings\WorkflowsModels\RecordStructure;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 
 class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
@@ -66,7 +65,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 			}
 		}
 		$db = \App\database\PearDatabase::getInstance();
-		$workflowManager = new VTWorkflowManager($db);
+		$workflowManager = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$viewer->assign('MAX_ALLOWED_SCHEDULED_WORKFLOWS', $workflowManager->getMaxAllowedScheduledWorkflows());
 		$viewer->assign('SCHEDULED_WORKFLOW_COUNT', $workflowManager->getScheduledWorkflowsCount());
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);

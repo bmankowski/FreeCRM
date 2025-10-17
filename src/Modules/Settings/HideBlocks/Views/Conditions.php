@@ -33,7 +33,7 @@ Class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Vtiger\V
 		} else {
 			
 		}
-		$moduleModel = Settings_HideBlocks_Record_Model::getModuleInstanceByBlockId($blockId);
+		$moduleModel = \App\Modules\Settings\HideBlocks\Models\Record::getModuleInstanceByBlockId($blockId);
 		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
@@ -56,7 +56,7 @@ Class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Vtiger\V
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getName');
-		$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		$recordModel = \App\Modules\Settings\HideBlocks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
 		if ($recordModel)
 			$viewer->assign('ADVANCE_CRITERIA', $this->transformToAdvancedFilterCondition($recordModel->get('conditions')));
 		$viewer->assign('MODE', $mode);

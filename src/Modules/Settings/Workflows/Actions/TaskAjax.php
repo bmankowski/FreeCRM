@@ -155,7 +155,7 @@ class TaskAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 							$ownerName = $userRecordModel->get('user_name');
 
 							if (!$ownerName) {
-								$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
+								$groupRecordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($mappingInfo['value']);
 								$ownerName = $groupRecordModel->getName();
 							}
 							$fieldMapping[$key]['value'] = $ownerName;

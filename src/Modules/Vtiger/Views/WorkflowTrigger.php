@@ -15,8 +15,7 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
-class WorkflowTrigger extends \Vtiger_Index_View
+class WorkflowTrigger extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -31,7 +30,7 @@ class WorkflowTrigger extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
-		$workflows = (new VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
+		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$TRIGGER);
 		foreach ($workflows as $id => $workflow) {
 			if (!$workflow->evaluate(\App\Modules\Vtiger\Models\Record::getInstanceById($record))) {
 				unset($workflows[$id]);

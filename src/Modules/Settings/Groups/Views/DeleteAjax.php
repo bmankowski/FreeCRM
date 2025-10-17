@@ -32,14 +32,14 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 
-		$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
+		$recordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($recordId);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 
 		$viewer->assign('ALL_USERS', \App\Modules\Users\Models\Record::getAll());
-		$viewer->assign('ALL_GROUPS', Settings_Groups_Record_Model::getAll());
+		$viewer->assign('ALL_GROUPS', \App\Modules\Settings\Groups\Models\Record::getAll());
 
 		echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);
 	}

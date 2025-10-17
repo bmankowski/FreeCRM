@@ -11,7 +11,6 @@ namespace App\Modules\Settings\Users\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class Locks extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

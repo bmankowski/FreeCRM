@@ -18,7 +18,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public function getAllKeys()
 	{
-		return API_DAV_Model::getAllUser();
+		return \App\Modules\API\Models\DAV::getAllUser();
 	}
 
 	public function getAmountData()

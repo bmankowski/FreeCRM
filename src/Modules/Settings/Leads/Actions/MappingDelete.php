@@ -22,7 +22,7 @@ class MappingDelete extends \App\Modules\Settings\Vtiger\Actions\Index
 
 		$response = new \App\Http\Vtiger_Response();
 		if ($recordId) {
-			Settings_Leads_Mapping_Model::deleteMapping(array($recordId));
+			\App\Modules\Settings\Leads\Models\Mapping::deleteMapping(array($recordId));
 			$response->setResult(array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)));
 		} else {
 			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_MAPPING', $qualifiedModuleName));

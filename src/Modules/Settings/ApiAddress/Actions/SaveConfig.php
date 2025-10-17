@@ -21,7 +21,7 @@ class SaveConfig extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$moduleName = $request->getModule(false);
 		$elements = $request->get('elements');
 
-		$result = Settings_ApiAddress_Module_Model::getInstance($moduleName)->setConfig($elements);
+		$result = \App\Modules\Settings\ApiAddress\Models\Module::getInstance($moduleName)->setConfig($elements);
 
 		if ($result)
 			$result = array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_NOTIFY_OK', $moduleName));

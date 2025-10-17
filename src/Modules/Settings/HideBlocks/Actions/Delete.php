@@ -22,7 +22,7 @@ class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		$recordModel = \App\Modules\Settings\HideBlocks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
 		$recordModel->delete();
 
 		$returnUrl = \App\Modules\Settings\HideBlocks\Models\Module::getListViewUrl();

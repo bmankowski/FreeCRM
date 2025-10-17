@@ -14,7 +14,6 @@ namespace App\Modules\Settings\PickListDependency\Models;
  * *********************************************************************************** */
 
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
 
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
@@ -49,14 +48,14 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
 		];
-		$editLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
+		$editLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
 
 		$deleteLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
 		];
-		$deleteLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
+		$deleteLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
 		return [$editLinkInstance, $deleteLinkInstance];
 	}
 
@@ -80,7 +79,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getPickListDependency()
 	{
 		if (empty($this->mapping)) {
-			$dependency = Vtiger_DependencyPicklist::getPickListDependency($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
+			$dependency = \App\Modules\PickList\DependencyPicklist::getPickListDependency($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
 			$this->mapping = $dependency['valuemapping'];
 		}
 		return $this->mapping;
@@ -126,13 +125,13 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$dependencyMap['sourcefield'] = $this->get('sourcefield');
 		$dependencyMap['targetfield'] = $this->get('targetfield');
 		$dependencyMap['valuemapping'] = $mapping;
-		Vtiger_DependencyPicklist::savePickListDependencies($this->get('sourceModule'), $dependencyMap);
+		\App\Modules\PickList\DependencyPicklist::savePickListDependencies($this->get('sourceModule'), $dependencyMap);
 		return true;
 	}
 
 	public function delete()
 	{
-		Vtiger_DependencyPicklist::deletePickListDependencies($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
+		\App\Modules\PickList\DependencyPicklist::deletePickListDependencies($this->get('sourceModule'), $this->get('sourcefield'), $this->get('targetfield'));
 		return true;
 	}
 

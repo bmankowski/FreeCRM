@@ -26,9 +26,9 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 		$views = $request->get('views');
 		$qualifiedModuleName = $request->getModule(false);
 		if ($recordId) {
-			$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+			$recordModel = \App\Modules\Settings\HideBlocks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
 		} else {
-			$recordModel = Settings_HideBlocks_Record_Model::getCleanInstance($qualifiedModuleName);
+			$recordModel = \App\Modules\Settings\HideBlocks\Models\Record::getCleanInstance($qualifiedModuleName);
 		}
 		$recordModel->set('blockid', $blockId);
 		$recordModel->set('enabled', $enabled);

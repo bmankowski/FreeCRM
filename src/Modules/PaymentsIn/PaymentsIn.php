@@ -12,7 +12,6 @@ namespace App\Modules\PaymentsIn;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 
 include_once 'src/Modules/Vtiger/CRMEntity.php';
 
@@ -156,7 +155,7 @@ class PaymentsIn extends \App\CRMEntity
 		$emm = new VTEntityMethodManager();
 		$emm->addEntityMethod($moduleName, $functionName, "src/Modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);
 
-		$workflowManager = new VTWorkflowManager($db);
+		$workflowManager = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$taskManager = new VTTaskManager($db);
 
 		$newWorkflow = $workflowManager->newWorkFlow($moduleName);

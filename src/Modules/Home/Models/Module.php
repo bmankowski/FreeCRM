@@ -12,8 +12,7 @@ namespace App\Modules\Home\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Module as VtigerModule;
-class Module extends VtigerModule
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**

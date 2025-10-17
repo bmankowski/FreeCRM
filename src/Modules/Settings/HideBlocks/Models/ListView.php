@@ -13,7 +13,7 @@ namespace App\Modules\Settings\HideBlocks\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	public function getBasicListQuery()

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Github\Views;
-use App\Modules\Users\Models\Record as \App\Modules\Users\Models\Record;
 
 
 

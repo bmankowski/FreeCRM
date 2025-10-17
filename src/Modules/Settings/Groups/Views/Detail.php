@@ -21,7 +21,7 @@ Class Settings_Groups_Detail_View extends \App\Modules\Settings\Vtiger\Views\Ind
 		$groupId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordModel = Settings_Groups_Record_Model::getInstance($groupId);
+		$recordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($groupId);
 
 		$viewer = $this->getViewer($request);
 

@@ -11,7 +11,6 @@ namespace App\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ('src/Modules/com_vtiger_workflow/WorkflowSchedulerInclude.php');
 require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once ROOT_DIRECTORY . '/src/Modules/Users/Users.php';
@@ -60,7 +59,7 @@ class WorkFlowScheduler {
 		$default_timezone = \App\AppConfig::main('default_timezone');
 		$adb = $this->db;
 
-		$vtWorflowManager = new VTWorkflowManager($adb);
+		$vtWorflowManager = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($adb);
 		$taskQueue = new VTTaskQueue($adb);
 		$entityCache = new VTEntityCache($this->user);
 

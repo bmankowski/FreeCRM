@@ -11,7 +11,7 @@ namespace App\Modules\Settings\LoginHistory\Models;
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	/**

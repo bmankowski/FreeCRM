@@ -16,13 +16,13 @@ namespace App\Modules\Settings\Workflows\Models;
  * Settings List View Model Class
  */
 
-class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list view entries
 	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \\App\Modules\Vtiger\Models\Record instance.
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{

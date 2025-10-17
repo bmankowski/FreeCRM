@@ -10,7 +10,6 @@ namespace App\Modules\OSSTimeControl\Handlers;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityCache.php';
 require_once ROOT_DIRECTORY . '/include/Webservices/Utils.php';
@@ -25,8 +24,8 @@ class OSSTimeControl_TimeControl_Handler {
 	public function entityAfterUnLink(\App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		$wfs = new VTWorkflowManager();
-		$workflows = $wfs->getWorkflowsForModule($params['destinationModule'], VTWorkflowManager::$MANUAL);
+		$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager();
+		$workflows = $wfs->getWorkflowsForModule($params['destinationModule'], \App\Modules\com_vtiger_workflow\VTWorkflowManager::$MANUAL);
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
 		foreach ($workflows as &$workflow) {
 			if ($workflow->evaluate($recordModel)) {
@@ -42,8 +41,8 @@ class OSSTimeControl_TimeControl_Handler {
 	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		$wfs = new VTWorkflowManager();
-		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
+		$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager();
+		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), \App\Modules\com_vtiger_workflow\VTWorkflowManager::$MANUAL);
 		foreach ($workflows as &$workflow) {
 			if ($workflow->evaluate($recordModel)) {
 				$workflow->performTasks($recordModel);
@@ -59,8 +58,8 @@ class OSSTimeControl_TimeControl_Handler {
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		\App\Modules\OSSTimeControl\Models\Record::setSumTime($recordModel);
-		$wfs = new VTWorkflowManager();
-		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
+		$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager();
+		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), \App\Modules\com_vtiger_workflow\VTWorkflowManager::$MANUAL);
 		foreach ($workflows as &$workflow) {
 			if ($workflow->evaluate($recordModel)) {
 				$workflow->performTasks($recordModel);
@@ -75,8 +74,8 @@ class OSSTimeControl_TimeControl_Handler {
 	public function entityAfterRestore(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		$wfs = new VTWorkflowManager();
-		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
+		$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager();
+		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), \App\Modules\com_vtiger_workflow\VTWorkflowManager::$MANUAL);
 		foreach ($workflows as &$workflow) {
 			if ($workflow->evaluate($recordModel)) {
 				$workflow->performTasks($recordModel);

@@ -23,10 +23,10 @@ Class Settings_Groups_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
 		$record = $request->get('record');
 
 		if (!empty($record)) {
-			$recordModel = Settings_Groups_Record_Model::getInstance($record);
+			$recordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($record);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$recordModel = new Settings_Groups_Record_Model();
+			$recordModel = new \App\Modules\Settings\Groups\Models\Record();
 			$viewer->assign('MODE', '');
 		}
 

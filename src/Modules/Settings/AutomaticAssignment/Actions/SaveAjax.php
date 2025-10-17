@@ -36,9 +36,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 		$data = $request->get('param');
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
+			$recordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getInstanceById($recordId);
 		} else {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
+			$recordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getCleanInstance();
 		}
 
 		$dataFull = array_merge($recordModel->getData(), $data);
@@ -61,9 +61,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
+			$recordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getInstanceById($recordId);
 		} else {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
+			$recordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getCleanInstance();
 		}
 		$recordModel->changeRoleType($member);
 
@@ -81,7 +81,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 		$member = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
-		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
+		$recordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getInstanceById($recordId);
 		$recordModel->deleteElement($request->get('name'), $request->get('value'));
 
 		$responceToEmit = new \App\Http\Vtiger_Response();

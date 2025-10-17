@@ -51,7 +51,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to set module to this record instance
-	 * @param <Settings_CronTasks_Module_Model> $moduleModel
+	 * @param <\App\Modules\Settings\CronTasks\Models\Module> $moduleModel
 	 * @return <\App\Modules\Settings\CronTasks\Models\Record> record model
 	 */
 	public function setModule($moduleModel)
@@ -220,7 +220,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			->where(['name' => $name]);
 		$row = $query->createCommand()->queryOne();
 		if ($row) {
-			$moduleModel = new Settings_CronTasks_Module_Model();
+			$moduleModel = new \App\Modules\Settings\CronTasks\Models\Module();
 			$recordModel = new self();
 			$recordModel->setData($row)->setModule($moduleModel);
 			return $recordModel;
@@ -230,7 +230,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -246,7 +246,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

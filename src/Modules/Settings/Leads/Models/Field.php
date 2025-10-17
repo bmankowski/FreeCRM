@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Leads\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Field extends \\App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -44,7 +44,7 @@ class Field extends \\App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get clean instance
-	 * @return <Settings_Leads_Field_Model>
+	 * @return <\App\Modules\Settings\Leads\Models\Field>
 	 */
 	public static function getCleanInstance()
 	{
@@ -55,7 +55,7 @@ class Field extends \\App\Modules\Vtiger\Models\Field
 	 * Function to get instance
 	 * @param <String/Integer> $value
 	 * @param string $module
-	 * @return <Settings_Leads_Field_Model> field model
+	 * @return <\App\Modules\Settings\Leads\Models\Field> field model
 	 */
 	public static function getInstance($value, $module = false)
 	{

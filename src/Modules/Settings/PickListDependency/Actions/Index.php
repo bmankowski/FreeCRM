@@ -12,7 +12,6 @@ namespace App\Modules\Settings\PickListDependency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 class Index extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
@@ -27,7 +26,7 @@ class Index extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$module = $request->get('sourceModule');
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
-		$result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
+		$result = \App\Modules\PickList\DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('result' => $result));
 		$response->emit();

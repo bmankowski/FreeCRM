@@ -13,13 +13,12 @@ namespace App\Modules\Settings\PickListDependency\Models;
  * *********************************************************************************** */
 
 
-use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
-class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of \\App\Modules\Vtiger\Models\Field instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -44,13 +43,13 @@ class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
 	/**
 	 * Function to get the list view entries
 	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \\App\Modules\Vtiger\Models\Record instance.
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
 		$forModule = $this->get('formodule');
 
-		$dependentPicklists = Vtiger_DependencyPicklist::getDependentPicklistFields($forModule);
+		$dependentPicklists = \App\Modules\PickList\DependencyPicklist::getDependentPicklistFields($forModule);
 
 		$noOfRecords = count($dependentPicklists);
 		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');

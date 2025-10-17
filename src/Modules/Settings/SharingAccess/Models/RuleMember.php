@@ -18,7 +18,7 @@ use App\Modules\Settings\SharingAccessModels\RuleMember;
  * Sharng Access Vtiger Module Model Class
  */
 
-class RuleMember extends \\App\Modules\Vtiger\Models\Record
+class RuleMember extends \App\Modules\Vtiger\Models\Record
 {
 
 	const RULE_MEMBER_TYPE_GROUPS = 'Groups';
@@ -151,7 +151,7 @@ class RuleMember extends \\App\Modules\Vtiger\Models\Record
 	{
 		$rules = [];
 
-		$allGroups = Settings_Groups_Record_Model::getAll();
+		$allGroups = \App\Modules\Settings\Groups\Models\Record::getAll();
 		foreach ($allGroups as $groupId => $groupModel) {
 			$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_GROUPS, $groupId);
 			$rule = new self();

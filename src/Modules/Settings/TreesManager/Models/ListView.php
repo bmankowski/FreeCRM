@@ -70,7 +70,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 			$record->set('module', \App\Runtime\Vtiger_Language_Handler::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
-				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+				$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 				$record->setModule($moduleModel);
 			}
 			$listViewRecordModels[$record->getId()] = $record;

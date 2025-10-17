@@ -12,9 +12,8 @@ namespace App\Modules\Home\Views;
  * ********************************************************************************** */
 
 
-use App\Modules\Vtiger\Views\Index as VtigerIndex;
 use App\Http\Vtiger_Request;
-class Index extends VtigerIndex
+class Index extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

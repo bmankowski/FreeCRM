@@ -11,7 +11,6 @@ namespace App\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * ****************************************************************************** */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class VTWorkflowTemplateManager {
 
 	public function __construct($adb)
@@ -31,7 +30,7 @@ class VTWorkflowTemplateManager {
 	public function newTemplate($title, $workflow)
 	{
 		$adb = $this->adb;
-		$wms = new VTWorkflowManager($adb);
+		$wms = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($adb);
 		$str = $wms->serializeWorkflow($workflow);
 		$template = new VTWorkflowTemplate();
 		$template->title = $title;
@@ -71,7 +70,7 @@ class VTWorkflowTemplateManager {
 	public function createWorkflow($template)
 	{
 		$adb = $this->adb;
-		$wfm = new VTWorkflowManager($adb);
+		$wfm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($adb);
 		return $wfm->deserializeWorkflow($template->template);
 	}
 

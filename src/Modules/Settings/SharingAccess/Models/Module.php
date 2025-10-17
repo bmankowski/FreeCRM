@@ -18,7 +18,7 @@ namespace App\Modules\Settings\SharingAccess\Models;
  */
 
 
-class Module extends \\App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**

@@ -16,7 +16,6 @@ namespace App\Modules\Users\Models;
  * User Privileges Model Class
  */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class Privileges extends \App\Modules\Vtiger\Models\Model
 {
 
@@ -203,7 +202,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
 		require_once ROOT_DIRECTORY . '/src/Webservices/Retrieve.php';
-		$workflows = (new VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {

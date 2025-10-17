@@ -25,7 +25,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		$prevValues = [];
 		if (!empty($recordId)) {
-			$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
+			$recordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($recordId);
 			$members = $recordModel->getMembers();
 			$membersToDipslay = [];
 			foreach ($members as $typeMembers) {
@@ -37,7 +37,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 			$recordModel->set('modules', $recordModel->getModules());
 			$prevValues = $recordModel->getDisplayData();
 		} else {
-			$recordModel = new Settings_Groups_Record_Model();
+			$recordModel = new \App\Modules\Settings\Groups\Models\Record();
 		}
 		if ($recordModel) {
 			$recordModel->set('groupname', decode_html($request->get('groupname')));

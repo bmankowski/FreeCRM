@@ -47,7 +47,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get Module instance
-	 * @return Settings_AutomaticAssignment_Module_Model
+	 * @return \App\Modules\Settings\AutomaticAssignment\Models\Module
 	 */
 	public function getModule()
 	{
@@ -65,8 +65,8 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Set module Instance
-	 * @param Settings_AutomaticAssignment_Module_Model $moduleModel
-	 * @return Settings_AutomaticAssignment_Module_Model
+	 * @param \App\Modules\Settings\AutomaticAssignment\Models\Module $moduleModel
+	 * @return \App\Modules\Settings\AutomaticAssignment\Models\Module
 	 */
 	public function setModule($moduleModel)
 	{
@@ -112,7 +112,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function returns field instances for given name
 	 * @param string $name
-	 * @return \\App\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public function getFieldInstanceByName($name)
 	{
@@ -361,7 +361,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \\App\Modules\Vtiger\Models\Link[] - Associate array of \\App\Modules\Vtiger\Models\Link instances
+	 * @return \App\Modules\Vtiger\Models\Link[] - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -387,7 +387,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -565,7 +565,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if (\App\Fields\Owner::getType($owner) === 'Users') {
 			return \App\User::isExists($owner) ? $owner : 0;
 		}
-		return Settings_Groups_Record_Model::getInstance($owner) ? $owner : 0;
+		return \App\Modules\Settings\Groups\Models\Record::getInstance($owner) ? $owner : 0;
 	}
 
 	/**

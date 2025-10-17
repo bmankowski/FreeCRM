@@ -22,7 +22,6 @@ namespace App\Modules\Vtiger\Models;
  * Vtiger Module Model Class
  */
 
-use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 class Module extends \vtlib\Module
 {
 
@@ -285,7 +284,7 @@ class Module extends \vtlib\Module
 
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
 		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
-		$workflows = (new VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
+		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {

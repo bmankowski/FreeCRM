@@ -14,8 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-use App\Modules\Vtiger\Views\Index as Vtiger_Index_View;
-class ListView extends Vtiger_Index_View
+class ListView extends \App\Modules\Vtiger\Views\Index
 {
 
 	protected $listViewHeaders = false;

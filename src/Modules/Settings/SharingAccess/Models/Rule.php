@@ -19,7 +19,7 @@ use App\Modules\Settings\SharingAccessModels\RuleMember;
  */
 
 
-class Rule extends \\App\Modules\Vtiger\Models\Record
+class Rule extends \App\Modules\Vtiger\Models\Record
 {
 
 	const RULE_TYPE_GROUPS = 'GRP';
@@ -324,7 +324,7 @@ class Rule extends \\App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -345,7 +345,7 @@ class Rule extends \\App\Modules\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -422,7 +422,7 @@ class Rule extends \\App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the rules
-	 * @return array - Array of Settings_Groups_Record_Model instances
+	 * @return array - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getInstance($moduleModel, $ruleId)
 	{
@@ -436,7 +436,7 @@ class Rule extends \\App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the rules
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
+	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAllByModule($moduleModel)
 	{

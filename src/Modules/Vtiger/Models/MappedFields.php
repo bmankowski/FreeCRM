@@ -9,7 +9,6 @@ namespace App\Modules\Vtiger\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\com_vtiger_workflow\VTJsonCondition as VTJsonCondition;
 class MappedFields extends Model
 {
 
@@ -248,8 +247,8 @@ class MappedFields extends Model
 		if (\App\Cache::staticHas(__METHOD__, $key)) {
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
-		$conditionStrategy = new VTJsonCondition();
+		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/\App\Modules\com_vtiger_workflow\VTJsonCondition.php';
+		$conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $recordModel);
 		\App\Cache::staticSave(__METHOD__, $key, $test);

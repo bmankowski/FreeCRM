@@ -6,5 +6,5 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 \App\Log::trace('Start cron CalDAV');
-API_DAV_Model::runCronCalDav();
+\App\Modules\API\Models\DAV::runCronCalDav();
 \App\Log::trace('End cron CalDAV');

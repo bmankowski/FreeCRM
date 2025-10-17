@@ -34,13 +34,13 @@ class Create extends \App\Modules\Settings\Vtiger\Views\BasicModal
 		$viewer = $this->getViewer($request);
 		if ($request->has('tabid')) {
 			$sourceModule = \App\Module::getModuleName($request->get('tabid'));
-			$viewer->assign('SUPPORTED_FIELDS', Settings_AutomaticAssignment_Module_Model::getFieldsByModule($sourceModule));
+			$viewer->assign('SUPPORTED_FIELDS', \App\Modules\Settings\AutomaticAssignment\Models\Module::getFieldsByModule($sourceModule));
 			$viewer->assign('SELECTED_MODULE', $sourceModule);
 			$viewer->view('Create.tpl', $moduleName);
 		} else {
 			$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Vtiger\Models\Module::getInstance($moduleName));
 			$viewer->assign('WIZARD_BASE', true);
-			$viewer->assign('SUPPORTED_MODULES', Settings_AutomaticAssignment_Module_Model::getSupportedModules());
+			$viewer->assign('SUPPORTED_MODULES', \App\Modules\Settings\AutomaticAssignment\Models\Module::getSupportedModules());
 			$this->preProcess($request);
 			$viewer->view('Create.tpl', $moduleName);
 			$this->postProcess($request);

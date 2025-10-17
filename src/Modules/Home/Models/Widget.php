@@ -11,9 +11,8 @@ namespace App\Modules\Home\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Record as VtigerRecord;
 
-class Widget extends VtigerRecord
+class Widget extends \App\Modules\Vtiger\Models\Record
 {
 	
 }

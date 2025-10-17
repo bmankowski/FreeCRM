@@ -65,7 +65,7 @@ class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 							if ($userRecordModel) {
 								$ownerName = $userRecordModel->getId();
 							} else {
-								$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
+								$groupRecordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($mappingInfo['value']);
 								$ownerName = $groupRecordModel->getId();
 							}
 							$fieldMapping[$key]['value'] = $ownerName;

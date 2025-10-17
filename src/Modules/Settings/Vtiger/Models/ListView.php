@@ -17,12 +17,12 @@ namespace App\Modules\Settings\Vtiger\Models;
  * Settings List View Model Class
  */
 
-class ListView extends \\App\Modules\Vtiger\Models\Record
+class ListView extends \App\Modules\Vtiger\Models\Record
 {
 
 	/**
 	 * Function to get the Module Model
-	 * @return \\App\Modules\Vtiger\Models\Module instance
+	 * @return \App\Modules\Vtiger\Models\Module instance
 	 */
 	public function getModule()
 	{
@@ -44,7 +44,7 @@ class ListView extends \\App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of \\App\Modules\Vtiger\Models\Field instances
+	 * @return <Array> - List of \App\Modules\Vtiger\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -61,7 +61,7 @@ class ListView extends \\App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get the list view entries
 	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return \App\Modules\Settings\Vtiger\Models\Record[] - Associative array of record id mapped to \\App\Modules\Vtiger\Models\Record instance.
+	 * @return \App\Modules\Settings\Vtiger\Models\Record[] - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -117,7 +117,7 @@ class ListView extends \\App\Modules\Vtiger\Models\Record
 		$basicLinks = $this->getBasicLinks();
 
 		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
 		}
 		return $links;
 	}

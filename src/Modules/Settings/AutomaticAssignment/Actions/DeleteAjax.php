@@ -22,7 +22,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
-		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
+		$recordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getInstanceById($recordId);
 		$recordModel->delete();
 
 		$responceToEmit = new \App\Http\Vtiger_Response();

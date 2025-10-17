@@ -34,7 +34,7 @@ class CreateApp extends \App\Modules\Settings\Vtiger\Views\BasicModal
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
+			$recordModel = \App\Modules\Settings\WebserviceApps\Models\Record::getInstanceById($recordId);
 			$accountId = $recordModel->get('accounts_id');
 			if ($recordModel && !empty($accountId)) {
 				$recordModel->set('accountsModel', \App\Modules\Vtiger\Models\Record::getInstanceById($accountId));

@@ -229,7 +229,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getConversionAvaibleStatuses()
 	{
-		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
+		$leadConfig = \App\Modules\Settings\MarketingProcesses\Models\Module::getConfig('lead');
 
 		return $leadConfig['convert_status'];
 	}
@@ -241,7 +241,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function checkIfAllowedToConvert($status)
 	{
-		$leadConfig = Settings_MarketingProcesses_Module_Model::getConfig('lead');
+		$leadConfig = \App\Modules\Settings\MarketingProcesses\Models\Module::getConfig('lead');
 
 		if (empty($leadConfig['convert_status'])) {
 			return true;

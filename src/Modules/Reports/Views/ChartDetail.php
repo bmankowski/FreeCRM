@@ -68,7 +68,7 @@ class ChartDetail extends \Vtiger_Index_View
 
 		$secondaryModuleIsCalendar = strpos($secondaryModules, 'Calendar');
 		if (($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== false)) {
-			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}

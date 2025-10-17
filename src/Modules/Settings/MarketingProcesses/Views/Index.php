@@ -21,7 +21,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
-		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\MarketingProcesses\Models\Module::getCleanInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);

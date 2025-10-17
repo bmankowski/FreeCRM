@@ -34,7 +34,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->get('record'));
+		$recordModel = \App\Modules\Settings\AutomaticAssignment\Models\Record::getInstanceById($request->get('record'));
 		$sourceModuleName = $recordModel->getSourceModuleName();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
@@ -53,7 +53,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	/**
 	 * Function gets variables to advanced filter
 	 * @param CRM_Viewer $viewer
-	 * @param Settings_AutomaticAssignment_Record_Model $recordModel
+	 * @param \App\Modules\Settings\AutomaticAssignment\Models\Record $recordModel
 	 */
 	private function getVariablesToAdvancedFilter(CRM_Viewer $viewer, $recordModel)
 	{
@@ -73,7 +73,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('DATE_FILTERS', \Vtiger_AdvancedFilter_Helper::getDateFilter($sourceModuleName));
 
 		if ($sourceModuleName === 'Calendar') {
-			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
 		}

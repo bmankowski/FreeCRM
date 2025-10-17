@@ -72,7 +72,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get record links
-	 * @return <Array> list of link models <\\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> list of link models <\App\Modules\Vtiger\Models\Link>
 	 */
 	public function getRecordLinks()
 	{
@@ -92,7 +92,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -153,7 +153,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 * Function to get record instance by using id and moduleName
 	 * @param int $recordId
 	 * @param string $qualifiedModuleName
-	 * @return Settings_HideBlocks_Record_Model RecordModel
+	 * @return \App\Modules\Settings\HideBlocks\Models\Record RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{

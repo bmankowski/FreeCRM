@@ -40,7 +40,7 @@ class LeadsByStatus extends \Vtiger_Index_View
 	public function getLeadsByStatus($owner, $dateFilter)
 	{
 		$module = 'Leads';
-		$leadsClosed = Settings_MarketingProcesses_Module_Model::getConfig('lead');
+		$leadsClosed = \App\Modules\Settings\MarketingProcesses\Models\Module::getConfig('lead');
 		$query = new \App\Db\Query();
 		$query->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),

@@ -11,7 +11,6 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
