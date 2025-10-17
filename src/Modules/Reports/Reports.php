@@ -667,11 +667,11 @@ class Reports extends \App\CRMEntity
 
 		if ($selectedstdfilter["datefilter"] == "custom") {
 			if ($selectedstdfilter["startdate"] != "0000-00-00") {
-				$startDateTime = new DateTimeField($selectedstdfilter["startdate"] . ' ' . date('H:i:s'));
+				$startDateTime = new \App\Fields\DateTimeField($selectedstdfilter["startdate"] . ' ' . date('H:i:s'));
 				$this->startdate = $startDateTime->getDisplayDate();
 			}
 			if ($selectedstdfilter["enddate"] != "0000-00-00") {
-				$endDateTime = new DateTimeField($selectedstdfilter["enddate"] . ' ' . date('H:i:s'));
+				$endDateTime = new \App\Fields\DateTimeField($selectedstdfilter["enddate"] . ' ' . date('H:i:s'));
 				$this->enddate = $endDateTime->getDisplayDate();
 			}
 		}
@@ -903,9 +903,9 @@ class Reports extends \App\CRMEntity
 				}
 				if ($fieldType == 'currency') {
 					if ($field->getUIType() == '71') {
-						$advfilterval = CurrencyField::convertToUserFormat($advfilterval, $current_user);
+						$advfilterval = \App\fields\CurrencyField::convertToUserFormat($advfilterval, $current_user);
 					} else if ($field->getUIType() == '72') {
-						$advfilterval = CurrencyField::convertToUserFormat($advfilterval, $current_user, true);
+						$advfilterval = \App\fields\CurrencyField::convertToUserFormat($advfilterval, $current_user, true);
 					}
 				}
 
@@ -915,13 +915,13 @@ class Reports extends \App\CRMEntity
 					$countTempVal = count($temp_val);
 					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] == 'D') {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDate();
 						} elseif ($col[4] == 'DT') {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDateTimeValue();
 						} else {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayTime();
 						}
 					}
@@ -1215,9 +1215,9 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		if ($fieldType == 'currency') {
 			// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 			if ($field->getUIType() == '72') {
-				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value, null, true);
+				$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value, null, true);
 			} else {
-				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value);
+				$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value);
 			}
 		}
 
@@ -1227,9 +1227,9 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 			$countTempVal = count($temp_val);
 			for ($x = 0; $x < $countTempVal; $x++) {
 				if (trim($temp_val[$x]) != '') {
-					$date = new DateTimeField(trim($temp_val[$x]));
+					$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 					if ($column_info[4] == 'D') {
-						$val[$x] = DateTimeField::convertToUserFormat(
+						$val[$x] = \App\Fields\DateTimeField::convertToUserFormat(
 								trim($temp_val[$x]));
 					} elseif ($column_info[4] == 'DT') {
 						$val[$x] = $date->getDBInsertDateTimeValue();

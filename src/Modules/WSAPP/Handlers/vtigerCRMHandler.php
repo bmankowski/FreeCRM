@@ -327,7 +327,7 @@ class vtigerCRMHandler extends SyncHandler
 					case 'date':
 						$value = $defaultValue;
 						if (empty($defaultValue)) {
-							$dateObject = new DateTime();
+							$dateObject = new \DateTime();
 							$value = $dateObject->format('Y-m-d');
 						}
 						break;

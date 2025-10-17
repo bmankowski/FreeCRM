@@ -413,7 +413,7 @@ class CustomView
 	public function getAdvftCriteria($relCriteriaRow)
 	{
 		$comparator = $relCriteriaRow['comparator'];
-		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, AppConfig::main('default_charset'));
+		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \App\AppConfig::main('default_charset'));
 		list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $relCriteriaRow['columnname']);
 		$tempVal = explode(',', $relCriteriaRow['value']);
 		if ($fieldType === 'D' || ($fieldType === 'T' && $columnName !== 'time_start' && $columnName !== 'time_end') || ($fieldType === 'DT')) {
@@ -442,7 +442,7 @@ class CustomView
 			$advFilterVal = implode(',', $val);
 		}
 		return [
-			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, AppConfig::main('default_charset')),
+			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, \App\AppConfig::main('default_charset')),
 			'comparator' => $comparator,
 			'value' => $advFilterVal
 		];

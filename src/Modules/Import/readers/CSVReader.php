@@ -13,7 +13,7 @@ use App\Modules\Import\readers\FileReader;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-AppConfig::iniSet("auto_detect_line_endings", true);
+\App\AppConfig::iniSet("auto_detect_line_endings", true);
 
 class CSVReader extends FileReader
 {
@@ -46,7 +46,7 @@ class CSVReader extends FileReader
 	 */
 	public function getFirstRowData($hasHeader = true)
 	{
-		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
+		$defaultCharset = \App\AppConfig::main('default_charset', 'UTF-8');
 		$fileHandler = $this->getFileHandler();
 		if ($this->moduleModel->isInventory()) {
 			$isInventory = true;

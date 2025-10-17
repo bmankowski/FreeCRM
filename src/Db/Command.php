@@ -23,7 +23,7 @@ class Command extends \yii\db\Command
 		try {
 			
 		} catch (\yii\db\Exception $e) {
-			if (AppConfig::debug('SQL_DIE_ON_ERROR')) {
+			if (\App\AppConfig::debug('SQL_DIE_ON_ERROR')) {
 				
 			}
 		}

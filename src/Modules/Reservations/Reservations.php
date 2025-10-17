@@ -134,9 +134,9 @@ class Reservations extends Vtiger_CRMEntity
 	public function retrieve_entity_info($record, $module)
 	{
 		parent::retrieve_entity_info($record, $module);
-		$start = DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
+		$start = \App\Fields\DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
 		$this->column_fields['date_start'] = $start->format('Y-m-d');
-		$end = DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
+		$end = \App\Fields\DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
 	}
 
@@ -144,10 +144,10 @@ class Reservations extends Vtiger_CRMEntity
 	{
 		$date_start = $this->column_fields['date_start'];
 		$due_date = $this->column_fields['due_date'];
-		$start = DateTimeField::convertToDBTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
-		$this->column_fields['date_start'] = $start->format(DateTimeField::getPHPDateFormat());
-		$end = DateTimeField::convertToDBTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
-		$this->column_fields['due_date'] = $end->format(DateTimeField::getPHPDateFormat());
+		$start = \App\Fields\DateTimeField::convertToDBTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
+		$this->column_fields['date_start'] = $start->format(\App\Fields\DateTimeField::getPHPDateFormat());
+		$end = \App\Fields\DateTimeField::convertToDBTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
+		$this->column_fields['due_date'] = $end->format(\App\Fields\DateTimeField::getPHPDateFormat());
 		parent::saveentity($module_name, $fileid = '');
 		$this->column_fields['date_start'] = $date_start;
 		$this->column_fields['due_date'] = $due_date;

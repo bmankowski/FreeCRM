@@ -95,11 +95,11 @@ class CalDAV {
 		$startDT = new \DateTime($start);
 		$dtstart = $vcalendar->createProperty('DTSTART', $startDT);
 		$createdTime = new \DateTime($record['createdtime']);
-		$createdTime->setTimezone(new DateTimeZone('UTC'));
+		$createdTime->setTimezone(new \DateTimeZone('UTC'));
 		$created = $vcalendar->createProperty('CREATED', $createdTime);
 
 		if ($record['allday']) {
-			$endDT = new DateTime($end);
+			$endDT = new \DateTime($end);
 			$endDT->modify('+1 day');
 			$dtend = $vcalendar->createProperty($endField, $endDT);
 			$dtend['VALUE'] = 'DATE';
@@ -179,7 +179,7 @@ class CalDAV {
 		$startDT = new \DateTime($start);
 		$dtstart = $vcalendar->createProperty('DTSTART', $startDT);
 		if ($record['allday']) {
-			$endDT = new DateTime($end);
+			$endDT = new \DateTime($end);
 			$endDT->modify('+1 day');
 			$dtend = $vcalendar->createProperty($endField, $endDT);
 			$dtend['VALUE'] = 'DATE';
@@ -736,7 +736,7 @@ class CalDAV {
 				$cmpName = 'STANDARD';
 			}
 			if ($cmp && empty($vt->select($cmpName))) {
-				$dt = new DateTime($trans['time']);
+				$dt = new \DateTime($trans['time']);
 				$offset = $trans['offset'] / 3600;
 				$cmp->DTSTART = $dt->format('Ymd\THis');
 				$cmp->TZOFFSETFROM = sprintf('%s%02d%02d', $tzfrom >= 0 ? '+' : '', floor($tzfrom), ($tzfrom - floor($tzfrom)) * 60);

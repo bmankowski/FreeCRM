@@ -88,7 +88,7 @@ class Calendar extends \App\Runtime\Vtiger_Action_Controller
 
 	public function changeDateTime($datetime, $delta)
 	{
-		$date = new DateTime($datetime);
+		$date = new \DateTime($datetime);
 		if ($delta['days'] != 0) {
 			$date = $date->modify('+' . $delta['days'] . ' days');
 		}

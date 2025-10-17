@@ -211,7 +211,7 @@ function isPermitted($module, $actionname, $record_id = '')
 			$recOwnType = $type;
 			$recOwnId = $id;
 		}
-		if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+		if (\App\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			$shownerids = Vtiger_SharedOwner_UIType::getSharedOwners($record_id, $module);
 			if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 				vglobal('isPermittedLog', 'SEC_RECORD_SHARED_OWNER');
@@ -227,7 +227,7 @@ function isPermitted($module, $actionname, $record_id = '')
 				return 'yes';
 			}
 
-			if (\AppConfig::security('PERMITTED_BY_ROLES')) {
+			if (\App\AppConfig::security('PERMITTED_BY_ROLES')) {
 				//Checking if the Record Owner is the Subordinate User
 				foreach ($userPrivileges['subordinate_roles_users'] as $roleid => $userids) {
 					if (in_array($recOwnId, $userids)) {
@@ -245,7 +245,7 @@ function isPermitted($module, $actionname, $record_id = '')
 				return 'yes';
 			}
 		}
-		if (\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+		if (\App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$role = $userPrivilegesModel->getRoleDetail();
 			if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
@@ -264,7 +264,7 @@ function isPermitted($module, $actionname, $record_id = '')
 								$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
 								break;
 							case 2:
-								if (\AppConfig::security('PERMITTED_BY_SHARING')) {
+								if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
 									$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 									$relatedPermission = $permission == 'yes' ? true : false;
 								}
@@ -279,7 +279,7 @@ function isPermitted($module, $actionname, $record_id = '')
 				}
 			}
 		}
-		if (\AppConfig::security('PERMITTED_BY_SHARING')) {
+		if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
 			$permission = isPermittedBySharing($module, $tabid, $actionid, $record_id);
 		}
 		vglobal('isPermittedLog', 'SEC_RECORD_BY_SHARING_' . strtoupper($permission));

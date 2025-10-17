@@ -173,7 +173,7 @@ class VTJsonCondition {
 					//Convert the DB Date Time Format to User Date Time Format
 					/*
 					  $rawFieldValue = $fieldValue;
-					  $date = new DateTimeField($fieldValue);
+					  $date = new \App\Fields\DateTimeField($fieldValue);
 					  $fieldValue = $date->getDisplayDateTimeValue();
 					  $valueArray = explode(' ', $value);
 					  if (count($valueArray) == 1) {

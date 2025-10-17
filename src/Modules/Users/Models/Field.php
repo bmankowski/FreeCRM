@@ -83,7 +83,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	public function getPicklistValues($skipCheckingRole = false)
 	{
 		if ($this->get('uitype') == 32) {
-			return Vtiger_Language_Handler::getAllLanguages();
+			return \App\Runtime\Vtiger_Language_Handler::getAllLanguages();
 		} else if ($this->get('uitype') == '115') {
 			$db = \App\database\PearDatabase::getInstance();
 
@@ -118,7 +118,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($this->get('uitype') == 32) {
-			return Vtiger_Language_Handler::getLanguageLabel($value);
+			return \App\Runtime\Vtiger_Language_Handler::getLanguageLabel($value);
 		}
 		$fieldName = $this->getFieldName();
 		if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == '&nbsp;')) {

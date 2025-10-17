@@ -59,12 +59,12 @@ class DragDropAjax extends \App\Runtime\Vtiger_Action_Controller
 			$startDateTime[] = $record->get('date_start');
 			$startDateTime[] = $record->get('time_start');
 			$startDateTime = implode(' ', $startDateTime);
-			$startDateTime = new DateTime($startDateTime);
+			$startDateTime = new \DateTime($startDateTime);
 
 			$endDateTime[] = $record->get('due_date');
 			$endDateTime[] = $record->get('time_end');
 			$endDateTime = implode(' ', $endDateTime);
-			$endDateTime = new DateTime($endDateTime);
+			$endDateTime = new \DateTime($endDateTime);
 			//Checking if startDateTime is less than or equal to endDateTime
 			if ($startDateTime <= $endDateTime)
 				$record->save();

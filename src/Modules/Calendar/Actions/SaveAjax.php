@@ -39,29 +39,29 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 			$result[$fieldName] = array();
 			if ($fieldName === 'date_start') {
 				$timeStart = $recordModel->get('time_start');
-				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeStart);
+				$dateTimeFieldInstance = new \App\Fields\DateTimeField($fieldValue . ' ' . $timeStart);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 				$dateComponent = $dateTimeComponents[0];
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+				$dataBaseDateFormatedString = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
 				$result[$fieldName]['display_value'] = $fieldValue;
 			} else if ($fieldName === 'due_date') {
 				$timeEnd = $recordModel->get('time_end');
-				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeEnd);
+				$dateTimeFieldInstance = new \App\Fields\DateTimeField($fieldValue . ' ' . $timeEnd);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 				$dateComponent = $dateTimeComponents[0];
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+				$dataBaseDateFormatedString = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
 				$result[$fieldName]['display_value'] = $fieldValue;
 			} else if ($fieldName === 'time_end') {
 				$dueDate = $recordModel->get('due_date');
-				$dateTimeFieldInstance = new DateTimeField($dueDate . ' ' . $fieldValue);
+				$dateTimeFieldInstance = new \App\Fields\DateTimeField($dueDate . ' ' . $fieldValue);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ', $userDateTimeString);
@@ -74,7 +74,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			} else if ($fieldName === 'time_start') {
 				$startDate = $recordModel->get('date_start');
-				$dateTimeFieldInstance = new DateTimeField($startDate . ' ' . $fieldValue);
+				$dateTimeFieldInstance = new \App\Fields\DateTimeField($startDate . ' ' . $fieldValue);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ', $userDateTimeString);

@@ -111,8 +111,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$start_hour = $value['starthour'] . ':' . $value['startmin'] . '' . $value['startfmt'];
 		if (\App\Http\AppRequest::get('activity_mode') != 'Task')
 			$end_hour = $value['endhour'] . ':' . $value['endmin'] . '' . $value['endfmt'];
-		$startDate = new DateTimeField(\App\Http\AppRequest::get('date_start') . ' ' . $start_hour);
-		$endDate = new DateTimeField(\App\Http\AppRequest::get('due_date') . ' ' . $end_hour);
+		$startDate = new \App\Fields\DateTimeField(\App\Http\AppRequest::get('date_start') . ' ' . $start_hour);
+		$endDate = new \App\Fields\DateTimeField(\App\Http\AppRequest::get('due_date') . ' ' . $end_hour);
 		$mail_data['st_date_time'] = $startDate->getDBInsertDateTimeValue();
 		$mail_data['end_date_time'] = $endDate->getDBInsertDateTimeValue();
 		$mail_data['location'] = $this->get('location');

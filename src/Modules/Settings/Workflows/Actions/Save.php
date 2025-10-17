@@ -60,7 +60,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Basic
 				$dayOfMonth = \App\Json::encode($request->get('schdayofmonth'));
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ON_SPECIFIC_DATE) {
 				$date = $request->get('schdate');
-				$dateDBFormat = DateTimeField::convertToDBFormat($date);
+				$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
 				$currentTime = \App\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
 				if ($nextTriggerTime > $currentTime) {

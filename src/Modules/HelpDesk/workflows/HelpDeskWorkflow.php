@@ -27,7 +27,7 @@ function getContactsMailsFromTicket($id)
 		if (\App\Record::isExists($contactId)) {
 			$contactRecord = \App\Modules\Vtiger\Models\Record::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
-			if (($contactRecord->get('emailoptout') == 1 || !AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
+			if (($contactRecord->get('emailoptout') == 1 || !\App\AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
 				$mails[] = $primaryEmail;
 			}
 		}

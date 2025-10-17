@@ -172,7 +172,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 		$query = new \App\Db\Query();
 		$query->from($tableName)->where(['temp_status' => self::IMPORT_RECORD_NONE]);
 		if ($this->batchImport) {
-			$importBatchLimit = \AppConfig::module('Import', 'BATCH_LIMIT');
+			$importBatchLimit = \App\AppConfig::module('Import', 'BATCH_LIMIT');
 			$query->limit($importBatchLimit);
 		}
 
@@ -228,7 +228,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 						}
 					}
 					if (in_array($fieldInstance->getFieldDataType(), ['date', 'datetime'])) {
-						$comparisonValue = DateTimeField::convertToUserFormat($comparisonValue);
+						$comparisonValue = \App\Fields\DateTimeField::convertToUserFormat($comparisonValue);
 					}
 					$queryGenerator->addCondition($mergeField, $comparisonValue, 'e');
 				}
@@ -516,7 +516,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 					}
 				}
 			}
-			if (\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName)) {
+			if (\App\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName)) {
 				if (\App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
 					try {
 						$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
@@ -538,7 +538,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 	public function transformPicklist($fieldInstance, $fieldValue)
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
-		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
+		$defaultCharset = \App\AppConfig::main('default_charset', 'UTF-8');
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
 
@@ -554,7 +554,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $allPicklistValues);
 
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
-			if (\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
+			if (\App\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
 				$moduleObject = \vtlib\Module::getInstance($this->module);
 				$fieldObject = \vtlib\Field::getInstance($fieldName, $moduleObject);
 				$fieldObject->setPicklistValues([$fieldValue]);
@@ -686,7 +686,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 		}
 		$recordModel->set('assigned_user_id', $this->user->id);
 		if ($save) {
-			if (!\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
+			if (!\App\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
 				$recordModel->setHandlerExceptions(['disableHandlers' => true]);
 			}
 			$recordModel->save();

@@ -57,7 +57,7 @@ class Export extends Model
 		$query = $this->getExportQuery($request);
 
 		$headers = [];
-		$exportBlockName = \AppConfig::module('Export', 'BLOCK_NAME');
+		$exportBlockName = \App\AppConfig::module('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
 			foreach ($this->accessibleFields as &$fieldName) {

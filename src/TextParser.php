@@ -232,8 +232,8 @@ class TextParser
 			return $this;
 		}
 		if (isset($this->language)) {
-			$currentLanguage = \Vtiger_Language_Handler::$language;
-			\Vtiger_Language_Handler::$language = $this->language;
+			$currentLanguage = \App\Runtime\Vtiger_Language_Handler::$language;
+			\App\Runtime\Vtiger_Language_Handler::$language = $this->language;
 		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = $matches;
@@ -243,7 +243,7 @@ class TextParser
 			return '';
 		}, $this->content);
 		if (!empty($currentLanguage)) {
-			\Vtiger_Language_Handler::$language = $currentLanguage;
+			\App\Runtime\Vtiger_Language_Handler::$language = $currentLanguage;
 		}
 		return $this;
 	}
@@ -255,15 +255,15 @@ class TextParser
 	public function parseTranslations()
 	{
 		if (isset($this->language)) {
-			$currentLanguage = \Vtiger_Language_Handler::$language;
-			\Vtiger_Language_Handler::$language = $this->language;
+			$currentLanguage = \App\Runtime\Vtiger_Language_Handler::$language;
+			\App\Runtime\Vtiger_Language_Handler::$language = $this->language;
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $params) = $matches;
 			return $this->translate($params);
 		}, $this->content);
 		if (!empty($currentLanguage)) {
-			\Vtiger_Language_Handler::$language = $currentLanguage;
+			\App\Runtime\Vtiger_Language_Handler::$language = $currentLanguage;
 		}
 		return $this;
 	}
@@ -361,9 +361,9 @@ class TextParser
 		switch ($key) {
 			case 'CurrentDate': return (new \DateTimeField(null))->getDisplayDate();
 			case 'CurrentTime' : return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
-			case 'SiteUrl' : return AppConfig::main('site_URL');
-			case 'PortalUrl' : return AppConfig::main('PORTAL_URL');
-			case 'BaseTimeZone' : return \DateTimeField::getDBTimeZone();
+			case 'SiteUrl' : return \App\AppConfig::main('site_URL');
+			case 'PortalUrl' : return \App\AppConfig::main('PORTAL_URL');
+			case 'BaseTimeZone' : return \App\Fields\DateTimeField::getDBTimeZone();
 		}
 		return $key;
 	}
@@ -387,7 +387,7 @@ class TextParser
 		}
 		switch ($key) {
 			case 'CrmDetailViewURL' :
-				return AppConfig::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
+				return \App\AppConfig::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
 			case 'PortalDetailViewURL' :
 				$recorIdName = 'id';
 				if ($this->moduleName === 'HelpDesk') {
@@ -397,7 +397,7 @@ class TextParser
 				} elseif ($this->moduleName === 'Products') {
 					$recorIdName = 'productid';
 				}
-				return AppConfig::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
+				return \App\AppConfig::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
 			case 'ModuleName' : return $this->moduleName;
 			case 'RecordId' : return $this->record;
 			case 'RecordLabel' : return $this->recordModel->getName();
@@ -538,7 +538,7 @@ class TextParser
 				break;
 			case 'time':
 				$userModel = Users_Privileges_Model::getCurrentUserModel();
-				$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
+				$value = \App\Fields\DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
 				if ($userModel->get('hour_format') === '12') {
 					if ($value) {
 						list($hours, $minutes, $seconds) = explode(':', $value);

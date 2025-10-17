@@ -355,7 +355,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		require_once('src/Modules/CustomView/CustomView.php');
 		$current_user = vtws_preserveGlobal('current_user', $this->user);
 		$theme = vtws_preserveGlobal('theme', $this->user->theme);
-		$default_language = AppConfig::main('default_language');
+		$default_language = \App\AppConfig::main('default_language');
 		$current_language = vglobal('current_language');
 		if (empty($current_language))
 			$current_language = $default_language;

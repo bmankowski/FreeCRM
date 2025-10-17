@@ -24,7 +24,7 @@ class PreferenceDetail extends \Vtiger_Index_View
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
 
-		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (!\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
@@ -103,7 +103,7 @@ class PreferenceDetail extends \Vtiger_Index_View
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
-			$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
+			$viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 			if ($display) {

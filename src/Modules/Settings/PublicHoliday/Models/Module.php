@@ -30,8 +30,8 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		$query = (new \App\Db\Query())->select('publicholidayid, holidaydate, holidayname, holidaytype')
 			->from('vtiger_publicholiday');
-		$date[0] = DateTimeField::convertToDBFormat($date[0]);
-		$date[1] = DateTimeField::convertToDBFormat($date[1]);
+		$date[0] = \App\Fields\DateTimeField::convertToDBFormat($date[0]);
+		$date[1] = \App\Fields\DateTimeField::convertToDBFormat($date[1]);
 		if (is_array($date)) {
 			$query->where(['between', 'holidaydate', $date[0], $date[1]]);
 		}
@@ -157,8 +157,8 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			->from('vtiger_publicholiday');
 
 		if ($date) {
-			$date[0] = DateTimeField::convertToDBFormat($date[0]);
-			$date[1] = DateTimeField::convertToDBFormat($date[1]);
+			$date[0] = \App\Fields\DateTimeField::convertToDBFormat($date[0]);
+			$date[1] = \App\Fields\DateTimeField::convertToDBFormat($date[1]);
 			$query->where(['between', 'holidaydate', $date[0], $date[1]]);
 		}
 		$query->groupBy('holidaytype');

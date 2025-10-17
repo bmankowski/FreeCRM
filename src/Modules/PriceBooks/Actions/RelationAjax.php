@@ -39,7 +39,7 @@ class RelationAjax extends \App\Runtime\Vtiger_Action_Controller
 		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relInfos as $relInfo) {
-			$price = CurrencyField::convertToDBFormat($relInfo['price'], null, true);
+			$price = \App\fields\CurrencyField::convertToDBFormat($relInfo['price'], null, true);
 			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
 		}
 	}

@@ -86,8 +86,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 	   $viewer->assign('LAYOUT_PATH', 'layouts/' . Yeti_Layout::getActiveLayout());
 	   $viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($vtigerRequest));
-	   $viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
-	   $viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
+	   $viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
+	   $viewer->assign('LANGUAGE', \App\Runtime\Vtiger_Language_Handler::getLanguage());
 	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 	   $viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 	   $viewer->assign('MODULE', $moduleName);
@@ -215,7 +215,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		   'libraries.resources.ProgressIndicator',
 	   ];
 
-	   $languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
+	   $languageHandlerShortName = \App\Runtime\Vtiger_Language_Handler::getShortLanguageName();
 	   $fileName = sprintf('libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-%s.js', $languageHandlerShortName);
 	   if (!file_exists($fileName)) {
 		   $fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
@@ -391,6 +391,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		   $moduleName = 'Users';
 	   }
 
-	   return Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
+	   return \App\Runtime\Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
    }
 }

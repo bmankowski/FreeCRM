@@ -371,7 +371,7 @@ class Date {
 	public function get_formatted_date()
 	{
 		$date = $this->year . "-" . $this->z_month . "-" . $this->z_day;
-		return DateTimeField::convertToUserFormat($date);
+		return \App\Fields\DateTimeField::convertToUserFormat($date);
 	}
 
 	/**
@@ -380,7 +380,7 @@ class Date {
 	 */
 	public function get_userTimezone_formatted_date()
 	{
-		$dateTimeInUserFormat = DateTimeField::convertToUserTimeZone($this->get_DB_formatted_date() . ' ' . $this->get_formatted_time());
+		$dateTimeInUserFormat = \App\Fields\DateTimeField::convertToUserTimeZone($this->get_DB_formatted_date() . ' ' . $this->get_formatted_time());
 		return $dateTimeInUserFormat->format('Y-m-d');
 	}
 

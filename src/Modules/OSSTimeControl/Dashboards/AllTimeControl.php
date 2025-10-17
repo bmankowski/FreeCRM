@@ -33,8 +33,8 @@ class AllTimeControl extends \Vtiger_Index_View
 		if (!$time) {
 			return array();
 		}
-		$timeDatabase['start'] = DateTimeField::convertToDBFormat($time['start']);
-		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
+		$timeDatabase['start'] = \App\Fields\DateTimeField::convertToDBFormat($time['start']);
+		$timeDatabase['end'] = \App\Fields\DateTimeField::convertToDBFormat($time['end']);
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($user == 'all') {
 			$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();

@@ -267,7 +267,7 @@ class Owner
 			// Add in a blank row
 			$users[''] = '';
 		}
-		$adminInList = AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdmin();
 		foreach ($tempResult as $key => $row) {
 			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
@@ -404,7 +404,7 @@ class Owner
 		$queryGenerator->setFields(['assigned_user_id']);
 		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
-		$adminInList = AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
 			$name = $userModel->getName();
@@ -436,7 +436,7 @@ class Owner
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$rows = \App\PrivilegeFile::getUser('id');
 			} else {
 				$instance = new self();
@@ -525,7 +525,7 @@ class Owner
 			return self::$userLabelCache[$id];
 		}
 
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
@@ -554,7 +554,7 @@ class Owner
 		if (isset(self::$typeCache[$id])) {
 			return self::$typeCache[$id];
 		}
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {

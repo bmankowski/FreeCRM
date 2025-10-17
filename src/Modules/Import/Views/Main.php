@@ -199,7 +199,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 
 	public function queueDataImport()
 	{
-		$immediateImportRecordLimit = \AppConfig::module('Import', 'IMMEDIATE_IMPORT_LIMIT');
+		$immediateImportRecordLimit = \App\AppConfig::module('Import', 'IMMEDIATE_IMPORT_LIMIT');
 
 		$numberOfRecordsToImport = $this->numberOfRecords;
 		if ($numberOfRecordsToImport > $immediateImportRecordLimit) {

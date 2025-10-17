@@ -76,7 +76,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 		$schannualdates = null;
 		if ($scheduleid == self::$SCHEDULED_ON_SPECIFIC_DATE) {
 			$date = $this->get('schdate');
-			$dateDBFormat = DateTimeField::convertToDBFormat($date);
+			$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
 			$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
 			$currentTime = \App\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
 			if ($nextTriggerTime > $currentTime) {

@@ -45,8 +45,8 @@ class ClosedTicketsByPriority extends \Vtiger_Index_View
 	public function getTicketsByPriority($time, $owner)
 	{
 		$moduleName = 'HelpDesk';
-		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
-		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
+		$time['start'] = \App\Fields\DateTimeField::convertToDBFormat($time['start']);
+		$time['end'] = \App\Fields\DateTimeField::convertToDBFormat($time['end']);
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$ticketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();

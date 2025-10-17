@@ -460,8 +460,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				->createCommand()->query();
 		$output = [];
 		while ($row = $dataReader->read()) {
-			$startTime = new DateTimeField($row['start_time']);
-			$endTime = new DateTimeField($row['end_time']);
+			$startTime = new \App\Fields\DateTimeField($row['start_time']);
+			$endTime = new \App\Fields\DateTimeField($row['end_time']);
 			$output [] = [
 				'id' => $row['id'],
 				'start_time' => $startTime->getDisplayDateTimeValue(),

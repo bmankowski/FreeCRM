@@ -25,9 +25,9 @@ Class DataAccess_check_taskdate
 		if (!isset($projectMilestoneDate) || $projectMilestoneDate == 0 || $projectMilestoneDate == '')
 			return Array('save_record' => true);
 
-		$dateField = new DateTimeField($projectMilestoneDate);
+		$dateField = new \App\Fields\DateTimeField($projectMilestoneDate);
 		$projectMilestoneDateUserFormat = $dateField->convertToUserFormat($projectMilestoneDate);
-		$dateField = new DateTimeField($record_form['targetenddate']);
+		$dateField = new \App\Fields\DateTimeField($record_form['targetenddate']);
 		$targetEndDateUserFormat = $dateField->convertToDBFormat($record_form['targetenddate']);
 
 		if (strtotime($targetEndDateUserFormat) > strtotime($projectMilestoneDate)) {

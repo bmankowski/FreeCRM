@@ -520,7 +520,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	private function getCustomConditions($userModel)
 	{
 		if (!isset($this->customConditions)) {
-			$userContitions = \AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
+			$userContitions = \App\AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
 			$this->customConditions = ($userContitions && isset($userContitions['modules'][$this->getSourceModuleName()])) ? $userContitions['modules'][$this->getSourceModuleName()] : [];
 		}
 		$result = true;

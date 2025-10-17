@@ -98,8 +98,8 @@ function getActivityDetails($description, $user_id, $from = '')
 	// Show the start date and end date in the users date format and in his time zone
 	$inviteeUser = \App\CRMEntity::getInstance('Users');
 	$inviteeUser->retrieveCurrentUserInfoFromFile($user_id);
-	$startDate = new DateTimeField($description['st_date_time']);
-	$endDate = new DateTimeField($description['end_date_time']);
+	$startDate = new \App\Fields\DateTimeField($description['st_date_time']);
+	$endDate = new \App\Fields\DateTimeField($description['end_date_time']);
 
 	if ($from == "invite")
 		$msg = \App\Runtime\Vtiger_Language_Handler::translate($mod_strings['LBL_ACTIVITY_INVITATION']);

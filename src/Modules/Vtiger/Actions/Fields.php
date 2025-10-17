@@ -121,7 +121,7 @@ class Fields extends \App\Runtime\Vtiger_Action_Controller
 		}
 		$labels = \App\Record::getLabel($ids);
 		foreach ($modules as $moduleName => &$rows) {
-			$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
+			$data[] = ['name' => \App\Runtime\Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as &$id) {
 				$data[] = ['id' => $id, 'name' => $labels[$id]];
 			}

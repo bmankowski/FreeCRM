@@ -16,8 +16,8 @@ class NewAccounts extends \Vtiger_Index_View
 
 	private function getAccounts($moduleName, $user, $time, $pagingModel)
 	{
-		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
-		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
+		$time['start'] = \App\Fields\DateTimeField::convertToDBFormat($time['start']);
+		$time['end'] = \App\Fields\DateTimeField::convertToDBFormat($time['end']);
 		$time['start'] .= ' 00:00:00';
 		$time['end'] .= ' 23:59:59';
 		$sql = 'SELECT vtiger_crmentity.crmid ,vtiger_account.accountname, vtiger_crmentity.smownerid,	vtiger_crmentity.createdtime 
@@ -42,7 +42,7 @@ class NewAccounts extends \Vtiger_Index_View
 		$newAccounts = [];
 		while ($row = $db->getRow($result)) {
 			$row['userModel'] = \App\Modules\Users\Models\Privileges::getInstanceById($row['smownerid']);
-			$time = new DateTimeField($row['createdtime']);
+			$time = new \App\Fields\DateTimeField($row['createdtime']);
 			$row['createdtime'] = $time->getFullcalenderDateTimevalue();
 			$newAccounts[$row['crmid']] = $row;
 		}

@@ -543,10 +543,10 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			$dates = ['start' => $startDateTime, 'end' => $dueDateTime, 'current' => null];
 
 			foreach ($dates as $key => $date) {
-				$date = new DateTimeField($date);
+				$date = new \App\Fields\DateTimeField($date);
 				$userFormatedString = $date->getDisplayDate();
 				$timeFormatedString = $date->getDisplayTime();
-				$dBFomatedDate = DateTimeField::convertToDBFormat($userFormatedString);
+				$dBFomatedDate = \App\Fields\DateTimeField::convertToDBFormat($userFormatedString);
 				$dates[$key] = strtotime($dBFomatedDate . " " . $timeFormatedString);
 			}
 			$activityStatusLabels = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel();

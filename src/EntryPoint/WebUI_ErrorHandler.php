@@ -57,7 +57,7 @@ class WebUI_ErrorHandler
      */
     private static function logError($message)
     {
-        if (!AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
+        if (!\App\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
             return;
         }
         
@@ -76,7 +76,7 @@ class WebUI_ErrorHandler
      */
     private static function displayError($message)
     {
-        if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
+        if (\App\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
             \vtlib\Functions::throwNewException($message, false);
         }
     }
@@ -90,7 +90,7 @@ class WebUI_ErrorHandler
     {
         set_error_handler(
             [self::class, 'handle'],
-            AppConfig::debug('EXCEPTION_ERROR_LEVEL')
+            \App\AppConfig::debug('EXCEPTION_ERROR_LEVEL')
         );
     }
 }

@@ -173,7 +173,7 @@ class Vtiger_Language_Handler
 
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
-			if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				$qualifiedName = 'custom.languages.' . $language . '.' . $module;
 				$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
 				if (file_exists($file)) {

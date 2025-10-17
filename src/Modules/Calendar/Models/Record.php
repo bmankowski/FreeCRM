@@ -49,8 +49,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')])
 					->orderBy(['date_start' => SORT_ASC])->limit(1)->one();
 			if ($row) {
-				$date = new DateTime(date('Y-m-d'));
-				$diff = $date->diff(new DateTime($row['date_start']));
+				$date = new \DateTime(date('Y-m-d'));
+				$diff = $date->diff(new \DateTime($row['date_start']));
 				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) $diff->format("%r%a")], ['crmid' => $id])->execute();
 			} else {
 				$db->createCommand()->update(('vtiger_entity_stats'), ['crmactivity' => null], ['crmid' => $id])->execute();

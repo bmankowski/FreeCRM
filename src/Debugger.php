@@ -32,7 +32,7 @@ class Debugger
 		$debugbar->addCollector(new DataCollector\RequestDataCollector());
 		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
-		if (AppConfig::debug('LOG_TO_CONSOLE')) {
+		if (\App\AppConfig::debug('LOG_TO_CONSOLE')) {
 			$debugbar->addCollector(new Debug\DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
@@ -69,7 +69,7 @@ class Debugger
 	 */
 	public static function init()
 	{
-		if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
+		if (\App\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
 			static::initConsole();
 		}
 		$targets = [];
@@ -96,8 +96,8 @@ class Debugger
 			}
 			return $mapped ?: null;
 		};
-		if (AppConfig::debug('LOG_TO_FILE')) {
-			$levels = $normalizeLevels(AppConfig::debug('LOG_LEVELS'));
+		if (\App\AppConfig::debug('LOG_TO_FILE')) {
+			$levels = $normalizeLevels(\App\AppConfig::debug('LOG_LEVELS'));
 			$target = [
 				'class' => 'App\Log\FileTarget'
 			];
@@ -106,8 +106,8 @@ class Debugger
 			}
 			$targets['file'] = $target;
 		}
-		if (AppConfig::debug('LOG_TO_PROFILE')) {
-			$levels = $normalizeLevels(AppConfig::debug('LOG_LEVELS'));
+		if (\App\AppConfig::debug('LOG_TO_PROFILE')) {
+			$levels = $normalizeLevels(\App\AppConfig::debug('LOG_LEVELS'));
 			$target = [
 				'class' => 'App\Log\Profiling'
 			];
@@ -118,7 +118,7 @@ class Debugger
 		}
 		Yii::createObject([
 			'class' => 'yii\log\Dispatcher',
-			'traceLevel' => AppConfig::debug('LOG_TRACE_LEVEL'),
+			'traceLevel' => \App\AppConfig::debug('LOG_TRACE_LEVEL'),
 			'targets' => $targets
 		]);
 	}
@@ -129,7 +129,7 @@ class Debugger
 	 */
 	public static function checkIP()
 	{
-		$ips = AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
+		$ips = \App\AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
 		if ($ips === false) {
 			return true;
 		}

@@ -196,7 +196,7 @@ class EmailTemplate
 							$values[$fieldName] = \App\Runtime\Vtiger_Language_Handler::translate(
 									$values[$fieldName], $module);
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'datetime') === 0) {
-							$values[$fieldName] = $values[$fieldName] . ' ' . DateTimeField::getDBTimeZone();
+							$values[$fieldName] = $values[$fieldName] . ' ' . \App\Fields\DateTimeField::getDBTimeZone();
 						}
 					}
 				}

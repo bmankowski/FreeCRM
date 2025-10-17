@@ -624,7 +624,7 @@ function getValidDBInsertDateValue($value)
 	$value = implode('-', array($y, $m, $d));
 
 	if (strlen($y) < 4) {
-		$insert_date = DateTimeField::convertToDBFormat($value);
+		$insert_date = \App\Fields\DateTimeField::convertToDBFormat($value);
 	} else {
 		$insert_date = $value;
 	}
@@ -652,7 +652,7 @@ function getValidDBInsertDateTimeValue($value)
 			$dbTimeValue = $dbTimeValue . '00';
 		}
 		try {
-			$dateTime = new DateTimeField($dbDateValue . ' ' . $dbTimeValue);
+			$dateTime = new \App\Fields\DateTimeField($dbDateValue . ' ' . $dbTimeValue);
 			return $dateTime->getDBInsertDateTimeValue();
 		} catch (Exception $ex) {
 			return '';

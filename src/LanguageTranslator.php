@@ -35,7 +35,7 @@ class LanguageTranslator
             $moduleName = $args[0] ?? 'Vtiger';
             $sprintfArgs = array_slice($args, 1);
             
-            $formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
+            $formattedString = \App\Runtime\Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
             
             // If there are sprintf parameters, format the string
             if (!empty($sprintfArgs)) {

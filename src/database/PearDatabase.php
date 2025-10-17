@@ -62,8 +62,8 @@ class PearDatabase
 	public function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
 	{
 		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port);
-		$this->isdb_default_utf8_charset = AppConfig::performance('DB_DEFAULT_CHARSET_UTF8');
-		$this->setDieOnError(AppConfig::debug('SQL_DIE_ON_ERROR'));
+		$this->isdb_default_utf8_charset = \App\AppConfig::performance('DB_DEFAULT_CHARSET_UTF8');
+		$this->setDieOnError(\App\AppConfig::debug('SQL_DIE_ON_ERROR'));
 		$this->connect();
 	}
 
@@ -75,7 +75,7 @@ class PearDatabase
 		if (self::$dbCache !== false) {
 			return self::$dbCache;
 		}
-		$config = AppConfig::main('dbconfig');
+		$config = \App\AppConfig::main('dbconfig');
 		if ($config === false) {
 			include('config/config.inc.php');
 			if (file_exists('config/config_override.php')) {
@@ -157,7 +157,7 @@ class PearDatabase
 		}
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+			if (\App\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				$backtrace = \App\Debugger::getBacktrace();
 			}
 			$message = [
@@ -818,7 +818,7 @@ class PearDatabase
 
 	public function logSqlTime($startat, $endat, $sql, $params = false)
 	{
-		if (!AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
+		if (!\App\AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
 			return;
 		}
 		$db = \App\database\PearDatabase::getInstance('log');

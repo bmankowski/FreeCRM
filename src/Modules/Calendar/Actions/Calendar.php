@@ -76,7 +76,7 @@ class Calendar extends \App\Runtime\Vtiger_Action_Controller
 		} else {
 			$delta = $request->get('delta');
 
-			$start = DateTimeField::convertToDBTimeZone($request->get('start'));
+			$start = \App\Fields\DateTimeField::convertToDBTimeZone($request->get('start'));
 			$date_start = $start->format('Y-m-d');
 			$time_start = $start->format('H:i:s');
 			$succes = false;
@@ -113,7 +113,7 @@ class Calendar extends \App\Runtime\Vtiger_Action_Controller
 
 	public function changeDateTime($datetime, $delta)
 	{
-		$date = new DateTime($datetime);
+		$date = new \DateTime($datetime);
 		if ($delta['days'] != 0) {
 			$date = $date->modify('+' . $delta['days'] . ' days');
 		}

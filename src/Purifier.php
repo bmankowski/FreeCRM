@@ -1,6 +1,5 @@
 <?php
 namespace App;
-use App\AppConfig;
 
 /**
  * Purifier basic class
@@ -252,5 +251,5 @@ class Purifier
 	}
 }
 
-Purifier::$defaultCharset = AppConfig::main('default_charset', 'UTF-8');
+Purifier::$defaultCharset = \App\AppConfig::main('default_charset', 'UTF-8');
 Purifier::$UTF8 = (strtoupper(Purifier::$defaultCharset) === 'UTF-8');

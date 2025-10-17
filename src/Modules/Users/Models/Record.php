@@ -255,10 +255,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				return vtws_generateRandomAccessKey(16);
 				break;
 			case 'language':
-				return Vtiger_Language_Handler::getLanguage();
+				return \App\Runtime\Vtiger_Language_Handler::getLanguage();
 				break;
 			case 'time_zone':
-				return DateTimeField::getDBTimeZone();
+				return \App\Fields\DateTimeField::getDBTimeZone();
 				break;
 			case 'theme':
 				return CRM_Viewer::DEFAULTTHEME;

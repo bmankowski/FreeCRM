@@ -26,7 +26,7 @@ class Stats extends \App\SystemWarnings\Template
 	{
 		$this->status = 1;
 		return;
-		if (file_exists('cache/' . $this->getKey()) || AppConfig::main('systemMode') === 'demo') {
+		if (file_exists('cache/' . $this->getKey()) || \App\AppConfig::main('systemMode') === 'demo') {
 			$this->status = 1;
 		} else {
 			$this->status = 0;
@@ -39,7 +39,7 @@ class Stats extends \App\SystemWarnings\Template
 	 */
 	public function getKey()
 	{
-		return sha1('Stats' . AppConfig::main('site_URL') . \App\Version::get());
+		return sha1('Stats' . \App\AppConfig::main('site_URL') . \App\Version::get());
 	}
 
 	/**
@@ -57,9 +57,9 @@ class Stats extends \App\SystemWarnings\Template
 		$message = \App\Runtime\Vtiger_Language_Handler::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
 		try {
 			$request = \Requests::POST(self::$url, [], array_merge($params, [
-					'key' => sha1(AppConfig::main('site_URL') . ROOT_DIRECTORY),
+					'key' => sha1(\App\AppConfig::main('site_URL') . ROOT_DIRECTORY),
 					'version' => \App\Version::get(),
-					'language' => \Vtiger_Language_Handler::getLanguage(),
+					'language' => \App\Runtime\Vtiger_Language_Handler::getLanguage(),
 					'timezone' => date_default_timezone_get(),
 					]), ['useragent' => 'YetiForceCRM']);
 			if ($request->body === 'OK') {

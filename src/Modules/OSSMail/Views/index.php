@@ -43,7 +43,7 @@ class index extends \Vtiger_Index_View
 				$db = \App\database\PearDatabase::getInstance();
 				$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
-				$params = ['language' => Vtiger_Language_Handler::getLanguage()];
+				$params = ['language' => \App\Runtime\Vtiger_Language_Handler::getLanguage()];
 				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);
 				$db->insert('u_yf_mail_autologin', [
 					'key' => $key,

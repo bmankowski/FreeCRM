@@ -44,7 +44,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$bcc = $recordModel->get('bcc_email');
 		$subject = $recordModel->get('subject');
 		$owner = $recordModel->get('assigned_user_id');
-		$sentTime = new DateTimeField($recordModel->get('createdtime'));
+		$sentTime = new \App\Fields\DateTimeField($recordModel->get('createdtime'));
 		$sent = $sentTime->getDisplayDateTimeValue();
 
 		// pobierz załączniki

@@ -110,10 +110,10 @@ Class OutlookHandler extends SyncHandler
 			// convert the start time and end time to user time zone as outlook does not take the datetime in utc
 			$oldDateFormat = $this->user->date_format;
 			$this->user->date_format = 'yyyy-mm-dd';
-			$dateTimeField = new DateTimeField($record['start_time']);
+			$dateTimeField = new \App\Fields\DateTimeField($record['start_time']);
 			$record['start_time'] = $dateTimeField->getDisplayDateTimeValue($this->user);
 
-			$dateTimeField = new DateTimeField($record['end_time']);
+			$dateTimeField = new \App\Fields\DateTimeField($record['end_time']);
 			$record['end_time'] = $dateTimeField->getDisplayDateTimeValue($this->user);
 			$this->user->date_format = $oldDateFormat;
 		}

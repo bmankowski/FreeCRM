@@ -19,7 +19,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$moduleName = $request->getModule();
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$record = $request->get('record');
-		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (!\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
@@ -75,7 +75,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 			$viewer->assign('IS_PREFERENCE', true);
-			$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
+			$viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 			if ($display) {

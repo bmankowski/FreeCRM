@@ -276,7 +276,7 @@ class VtigerConnector extends WSAPP_BaseConnector
 					case 'date':
 						$value = $defaultValue;
 						if (empty($defaultValue)) {
-							$dateObject = new DateTime();
+							$dateObject = new \DateTime();
 							$value = $dateObject->format('Y-m-d');
 						}
 						break;

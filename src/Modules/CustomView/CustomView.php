@@ -366,7 +366,7 @@ class CustomView extends \App\CRMEntity
 						$values = explode(' ', $temp_val[$x]);
 						$temp_val[$x] = $values[0];
 					}
-					$date = new DateTimeField(trim($temp_val[$x]));
+					$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 					$val[$x] = $date->getDisplayDate();
 				} elseif ($col[4] == 'DT') {
 					$comparator = array('e', 'n', 'b', 'a');
@@ -375,10 +375,10 @@ class CustomView extends \App\CRMEntity
 						$dateTime = explode(' ', $originalValue);
 						$temp_val[$x] = $dateTime[0];
 					}
-					$date = new DateTimeField(trim($temp_val[$x]));
+					$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 					$val[$x] = $date->getDisplayDateTimeValue();
 				} else {
-					$date = new DateTimeField(trim($temp_val[$x]));
+					$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 					$val[$x] = $date->getDisplayTime();
 				}
 			}
@@ -526,14 +526,14 @@ class CustomView extends \App\CRMEntity
 				} elseif ($columnname == "stdfilter") {
 					$filtertype = $value;
 				} elseif ($columnname == "startdate") {
-					$startDateTime = new DateTimeField($value . ' ' . date('H:i:s'));
+					$startDateTime = new \App\Fields\DateTimeField($value . ' ' . date('H:i:s'));
 					$userStartDate = $startDateTime->getDisplayDate();
-					$userStartDateTime = new DateTimeField($userStartDate . ' 00:00:00');
+					$userStartDateTime = new \App\Fields\DateTimeField($userStartDate . ' 00:00:00');
 					$startDateTime = $userStartDateTime->getDBInsertDateTimeValue();
 				} elseif ($columnname == "enddate") {
-					$endDateTime = new DateTimeField($value . ' ' . date('H:i:s'));
+					$endDateTime = new \App\Fields\DateTimeField($value . ' ' . date('H:i:s'));
 					$userEndDate = $endDateTime->getDisplayDate();
-					$userEndDateTime = new DateTimeField($userEndDate . ' 23:59:00');
+					$userEndDateTime = new \App\Fields\DateTimeField($userEndDate . ' 23:59:00');
 					$endDateTime = $userEndDateTime->getDBInsertDateTimeValue();
 				}
 				if ($startDateTime != "" && $endDateTime != "") {

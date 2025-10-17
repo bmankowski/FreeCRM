@@ -49,7 +49,7 @@ class VTUpdateCalendarDates extends VTTask
 			$time = explode(' ', $baseDateStart);
 			if (count($time) < 2) {
 				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($task['time']);
-				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
+				$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
 				$time = $dbInsertDateTime->format('H:i:s');
 			} else {
 				$time = $time[1];
@@ -75,13 +75,13 @@ class VTUpdateCalendarDates extends VTTask
 				if ($adb->num_rows($result)) {
 					$timeEnd = $adb->query_result($result, 0, 'end_hour');
 					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+					$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 					$timeEnd = $dbInsertDateTime->format('H:i:s');
 				} else {
 					$adminUser = Users::getActiveAdminUser();
 					$timeEnd = $adminUser->column_fields['end_hour'];
 					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+					$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 					$timeEnd = $dbInsertDateTime->format('H:i:s');
 				}
 			} else {

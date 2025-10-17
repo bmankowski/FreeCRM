@@ -72,7 +72,7 @@ class TextParser extends \App\TextParser\Base
 				$unitPrice = $entryRecordModel->get('unit_price');
 				$value = $qtyInStock * $unitPrice;
 				$totalValue += $value;
-				$valueFormatted = CurrencyField::convertToUserFormat($value, null, true);
+				$valueFormatted = \App\fields\CurrencyField::convertToUserFormat($value, null, true);
 				foreach ($headers as $header) {
 					$label = $header->get('label');
 					$colName = $header->get('name');
@@ -85,7 +85,7 @@ class TextParser extends \App\TextParser\Base
 				$html .= '<td>' . $valueFormatted . '</td>';
 				$html .= '</tr>';
 			}
-			$totalValueFormatted = CurrencyField::convertToUserFormat($totalValue, null, true);
+			$totalValueFormatted = \App\fields\CurrencyField::convertToUserFormat($totalValue, null, true);
 			$html .= '<tr style="background:#fff">
 							<td colspan="6"></td>
 							<td style="background:#eee;"><b>' . $totalValueFormatted . '<b></td>

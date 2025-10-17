@@ -184,7 +184,7 @@
 		if ($val === '-VALID-') {
 			if ($var == 'date.timezone') {
 				try {
-					$tz = new DateTimeZone($status);
+					$tz = new \DateTimeZone($status);
 					echo 'OK - ' . $var;
 				} catch (Exception $e) {
 					echo '<span class="redd">ERROR</span> - ' . $var . ' | ' . empty($status) ? "not set" : "invalid value detected: $status";

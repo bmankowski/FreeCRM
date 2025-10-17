@@ -119,7 +119,7 @@ class VTCreateTodoTask extends VTTask
 		$time = explode(' ', $baseDateStart);
 		if (count($time) < 2) {
 			$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($this->time);
-			$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
+			$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
 			$time = $dbInsertDateTime->format('H:i:s');
 		} else {
 			$time = $time[1];
@@ -142,12 +142,12 @@ class VTCreateTodoTask extends VTTask
 			if ($row) {
 				$timeEnd = $row['end_hour'];
 				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+				$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			} else {
 				$timeEnd = $adminUser->column_fields['end_hour'];
 				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+				$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			}
 		} else {

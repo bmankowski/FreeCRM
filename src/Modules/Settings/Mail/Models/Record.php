@@ -87,7 +87,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 				$value = vtlib\Functions::getHtmlOrPlainText($value);
 				break;
 			case 'date':
-				$value = DateTimeField::convertToUserFormat($value);
+				$value = \App\Fields\DateTimeField::convertToUserFormat($value);
 				break;
 			case 'from':
 			case 'to':

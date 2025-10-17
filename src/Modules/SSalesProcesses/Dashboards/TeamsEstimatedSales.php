@@ -103,9 +103,9 @@ class TeamsEstimatedSales extends \Vtiger_Index_View
 
 		$data = $this->getEstimatedValue($timeSting, $compare);
 		if ($compare) {
-			$start = new \DateTime(\DateTimeField::convertToDBFormat($time['start']));
+			$start = new \DateTime(\App\Fields\DateTimeField::convertToDBFormat($time['start']));
 			$endPeriod = clone $start;
-			$end = new \DateTime(\DateTimeField::convertToDBFormat($time['end']));
+			$end = new \DateTime(\App\Fields\DateTimeField::convertToDBFormat($time['end']));
 			$interval = (int) $start->diff($end)->format("%r%a");
 			if ($time['start'] !== $time['end']) {
 				$interval++;

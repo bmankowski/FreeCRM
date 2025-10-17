@@ -54,7 +54,7 @@ class Company extends Base
 		}
 		$logoModel = new \App\Modules\Vtiger\Models\Image();
 		$imagePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoStoragePath) . $logoName;
-		$imageURL = AppConfig::main('site_URL') . static::$logoURL . $logoName;
+		$imageURL = \App\AppConfig::main('site_URL') . static::$logoURL . $logoName;
 		$logoModel->setData([
 			'imageUrl' => $imageURL,
 			'imagePath' => $imagePath,

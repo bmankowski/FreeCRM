@@ -928,14 +928,14 @@ class ReportRun extends \App\CRMEntity
 
 								$type = $selectedFields[4];
 								if ($startDate != '0000-00-00' && $endDate != '0000-00-00' && $startDate != '' && $endDate != '') {
-									$startDateTime = new DateTimeField($startDate . ' ' . date('H:i:s'));
+									$startDateTime = new \App\Fields\DateTimeField($startDate . ' ' . date('H:i:s'));
 									$userStartDate = $startDateTime->getDisplayDate();
 									if ($type == 'DT') {
 										$userStartDate = $userStartDate . ' 00:00:00';
 									}
 									$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
 
-									$endDateTime = new DateTimeField($endDate . ' ' . date('H:i:s'));
+									$endDateTime = new \App\Fields\DateTimeField($endDate . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									if ($type == 'DT') {
 										$userEndDate = $userEndDate . ' 23:59:59';
@@ -982,7 +982,7 @@ class ReportRun extends \App\CRMEntity
 							if ($value != null && $value != '') {
 								if ($comparator == 'e' || $comparator == 'n') {
 									$dateTimeComponents = explode(' ', $value);
-									$dateTime = new DateTime($dateTimeComponents[0] . ' ' . '00:00:00');
+									$dateTime = new \DateTime($dateTimeComponents[0] . ' ' . '00:00:00');
 									$date1 = $dateTime->format('Y-m-d H:i:s');
 									$dateTime->modify("+1 days");
 									$date2 = $dateTime->format('Y-m-d H:i:s');
@@ -1002,12 +1002,12 @@ class ReportRun extends \App\CRMEntity
 									$startDateTime = explode(' ', $values[0]);
 									$endDateTime = explode(' ', $values[1]);
 
-									$startDateTime = new DateTimeField($startDateTime[0] . ' ' . date('H:i:s'));
+									$startDateTime = new \App\Fields\DateTimeField($startDateTime[0] . ' ' . date('H:i:s'));
 									$userStartDate = $startDateTime->getDisplayDate();
 									$userStartDate = $userStartDate . ' 00:00:00';
 									$start = getValidDBInsertDateTimeValue($userStartDate);
 
-									$endDateTime = new DateTimeField($endDateTime[0] . ' ' . date('H:i:s'));
+									$endDateTime = new \App\Fields\DateTimeField($endDateTime[0] . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									$userEndDate = $userEndDate . ' 23:59:59';
 									$end = getValidDBInsertDateTimeValue($userEndDate);
@@ -1015,7 +1015,7 @@ class ReportRun extends \App\CRMEntity
 									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' AND '$end'";
 								} else if ($comparator == 'a' || $comparator == 'b') {
 									$value = explode(' ', $value);
-									$dateTime = new DateTime($value[0]);
+									$dateTime = new \DateTime($value[0]);
 									if ($comparator == 'a') {
 										$modifiedDate = $dateTime->modify('+1 days');
 										$nextday = $modifiedDate->format('Y-m-d H:i:s');
@@ -1061,16 +1061,16 @@ class ReportRun extends \App\CRMEntity
 								if ($selectedfields[4] == 'DT') {
 									$startDateTimeComponents = explode(' ', $valueComponents[0]);
 									$endDateTimeComponents = explode(' ', $valueComponents[1]);
-									$columninfo['startdate'] = DateTimeField::convertToDBFormat($startDateTimeComponents[0]);
-									$columninfo['enddate'] = DateTimeField::convertToDBFormat($endDateTimeComponents[0]);
+									$columninfo['startdate'] = \App\Fields\DateTimeField::convertToDBFormat($startDateTimeComponents[0]);
+									$columninfo['enddate'] = \App\Fields\DateTimeField::convertToDBFormat($endDateTimeComponents[0]);
 								} else {
-									$columninfo['startdate'] = DateTimeField::convertToDBFormat($valueComponents[0]);
-									$columninfo['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
+									$columninfo['startdate'] = \App\Fields\DateTimeField::convertToDBFormat($valueComponents[0]);
+									$columninfo['enddate'] = \App\Fields\DateTimeField::convertToDBFormat($valueComponents[1]);
 								}
 							}
 							$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($columninfo);
-							$startDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['startdate']);
-							$endDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['enddate']);
+							$startDate = \App\Fields\DateTimeField::convertToDBFormat($dateFilterResolvedList['startdate']);
+							$endDate = \App\Fields\DateTimeField::convertToDBFormat($dateFilterResolvedList['enddate']);
 							$columninfo['value'] = $value = implode(',', array($startDate, $endDate));
 							$comparator = 'bw';
 						}
@@ -1341,14 +1341,14 @@ class ReportRun extends \App\CRMEntity
 
 				if ($startdate != "0000-00-00" && $enddate != "0000-00-00" && $startdate != "" && $enddate != "" && $selectedfields[0] != "" && $selectedfields[1] != "") {
 
-					$startDateTime = new DateTimeField($startdate . ' ' . date('H:i:s'));
+					$startDateTime = new \App\Fields\DateTimeField($startdate . ' ' . date('H:i:s'));
 					$userStartDate = $startDateTime->getDisplayDate();
 					if ($type == 'DT') {
 						$userStartDate = $userStartDate . ' 00:00:00';
 					}
 					$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
 
-					$endDateTime = new DateTimeField($enddate . ' ' . date('H:i:s'));
+					$endDateTime = new \App\Fields\DateTimeField($enddate . ' ' . date('H:i:s'));
 					$userEndDate = $endDateTime->getDisplayDate();
 					if ($type == 'DT') {
 						$userEndDate = $userEndDate . ' 23:59:00';
@@ -1452,9 +1452,9 @@ class ReportRun extends \App\CRMEntity
 				if ($fieldType == 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 					if ($field->getUIType() == '72') {
-						$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value, null, true);
+						$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value, null, true);
 					} else {
-						$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value);
+						$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value);
 					}
 				}
 
@@ -1464,13 +1464,13 @@ class ReportRun extends \App\CRMEntity
 					$countTempVal = count($temp_val);
 					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($column_info[4] == 'D') {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDBInsertDateValue();
 						} elseif ($column_info[4] == 'DT') {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDBInsertDateTimeValue();
 						} else {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDBInsertTimeValue();
 						}
 					}
@@ -1537,9 +1537,9 @@ class ReportRun extends \App\CRMEntity
 
 					if ($startdate != "0000-00-00" && $enddate != "0000-00-00" && $selectedfields[0] != "" && $selectedfields[1] != "" && $startdate != '' && $enddate != '') {
 
-						$startDateTime = new DateTimeField($startdate . ' ' . date('H:i:s'));
+						$startDateTime = new \App\Fields\DateTimeField($startdate . ' ' . date('H:i:s'));
 						$startdate = $startDateTime->getDisplayDate();
-						$endDateTime = new DateTimeField($enddate . ' ' . date('H:i:s'));
+						$endDateTime = new \App\Fields\DateTimeField($enddate . ' ' . date('H:i:s'));
 						$enddate = $endDateTime->getDisplayDate();
 
 						$sSQL .= $selectedfields[0] . "." . $selectedfields[1] . " between '" . $startdate . "' and '" . $enddate . "'";
@@ -1548,9 +1548,9 @@ class ReportRun extends \App\CRMEntity
 
 					$startenddate = $this->getStandarFiltersStartAndEndDate($datefilter);
 
-					$startDateTime = new DateTimeField($startenddate[0] . ' ' . date('H:i:s'));
+					$startDateTime = new \App\Fields\DateTimeField($startenddate[0] . ' ' . date('H:i:s'));
 					$startdate = $startDateTime->getDisplayDate();
-					$endDateTime = new DateTimeField($startenddate[1] . ' ' . date('H:i:s'));
+					$endDateTime = new \App\Fields\DateTimeField($startenddate[1] . ' ' . date('H:i:s'));
 					$enddate = $endDateTime->getDisplayDate();
 
 					if ($startenddate[0] != "" && $startenddate[1] != "" && $selectedfields[0] != "" && $selectedfields[1] != "") {
@@ -2715,9 +2715,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__SUM';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2726,9 +2726,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__AVG';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2737,9 +2737,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MIN';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2748,9 +2748,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MAX';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2827,9 +2827,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__SUM';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -2838,9 +2838,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__AVG';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -2849,9 +2849,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MIN';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -2860,9 +2860,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MAX';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -3032,9 +3032,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__SUM';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";
@@ -3043,9 +3043,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__AVG';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";
@@ -3054,9 +3054,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MIN';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";
@@ -3065,9 +3065,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MAX';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";

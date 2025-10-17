@@ -47,10 +47,10 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 			->leftJoin('vtiger_crmentity procrm', 'vtiger_activity.process = procrm.crmid')
 			->leftJoin('vtiger_crmentity subprocrm', 'vtiger_activity.subprocess = subprocrm.crmid');
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
+			$dbStartDateOject = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('start'));
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
+			$dbEndDateObject = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query->andWhere([
@@ -198,7 +198,7 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 				}
 			}
 
-			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+			$dateTimeFieldInstance = new \App\Fields\DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
 			$startDateTimeDisplay = $dateTimeFieldInstance->getDisplayDateTimeValue();
 			$startTimeDisplay = $dateTimeFieldInstance->getDisplayTime();
@@ -206,16 +206,16 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 			$dateComponent = $dateTimeComponents[0];
 			$startTimeFormated = $dateTimeComponents[1];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$startDateFormated = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
-			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+			$dateTimeFieldInstance = new \App\Fields\DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue($currentUser);
 			$endDateTimeDisplay = $dateTimeFieldInstance->getDisplayDateTimeValue();
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			$endTimeFormated = $dateTimeComponents[1];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$endDateFormated = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
 			$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
 			$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
@@ -237,9 +237,9 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$db = \App\database\PearDatabase::getInstance();
-		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
+		$startDate = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
-		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
+		$endDate = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('end'));
 		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$return = [];
@@ -247,20 +247,20 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
 
-			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+			$dateTimeFieldInstance = new \App\Fields\DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
-			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$startDateFormated = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
-			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+			$dateTimeFieldInstance = new \App\Fields\DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
-			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$endDateFormated = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
-			$begin = new DateTime($startDateFormated);
-			$end = new DateTime($endDateFormated);
+			$begin = new \DateTime($startDateFormated);
+			$end = new \DateTime($endDateFormated);
 			$end->modify('+1 day');
 			$interval = DateInterval::createFromDateString('1 day');
 			foreach (new DatePeriod($begin, $interval, $end) as $dt) {

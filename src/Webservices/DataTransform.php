@@ -245,7 +245,7 @@ class DataTransform
 		foreach ($moduleFields as $fieldName => $fieldObj) {
 			if ($fieldObj->getFieldDataType() == "date") {
 				if (!empty($row[$fieldName])) {
-					$dateFieldObj = new DateTimeField($row[$fieldName]);
+					$dateFieldObj = new \App\Fields\DateTimeField($row[$fieldName]);
 					$row[$fieldName] = $dateFieldObj->getDisplayDate($current_user);
 				}
 			}
@@ -260,9 +260,9 @@ class DataTransform
 		foreach ($moduleFields as $fieldName => $fieldObj) {
 			if ($fieldObj->getFieldDataType() == "currency" && !empty($row[$fieldName])) {
 				if ($fieldObj->getUIType() == '71') {
-					$row[$fieldName] = CurrencyField::convertToUserFormat($row[$fieldName], $current_user);
+					$row[$fieldName] = \App\fields\CurrencyField::convertToUserFormat($row[$fieldName], $current_user);
 				} else if ($fieldObj->getUIType() == '72') {
-					$row[$fieldName] = CurrencyField::convertToUserFormat($row[$fieldName], $current_user, true);
+					$row[$fieldName] = \App\fields\CurrencyField::convertToUserFormat($row[$fieldName], $current_user, true);
 				}
 			}
 		}

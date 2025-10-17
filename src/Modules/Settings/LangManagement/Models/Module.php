@@ -42,7 +42,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		foreach ($params['lang'] as $lang) {
 			$edit = false;
 			$mod = str_replace(self::url_separator, '.', $params['mod']);
-			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				$qualifiedName = "custom.languages.$lang.$mod";
 			} else {
 				$qualifiedName = "languages.$lang.$mod";
@@ -95,7 +95,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$val = addslashes($params['val']);
 		$mod = str_replace(self::url_separator, '.', $mod);
 
-		if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$qualifiedName = "custom.languages.$lang.$mod";
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
@@ -128,7 +128,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
 			}
 		} else {
-			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				self::createCustomLangDirectory($params);
 			}
 			$fileContent = '<?php' . PHP_EOL;
@@ -155,7 +155,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$val = addslashes($params['val']);
 		$mod = str_replace(self::url_separator, '.', $mod);
 		$languageStrings = $jsLanguageStrings = [];
-		$customType = \AppConfig::performance('LOAD_CUSTOM_FILES');
+		$customType = \App\AppConfig::performance('LOAD_CUSTOM_FILES');
 		if ($customType) {
 			$qualifiedName = "custom.languages.$lang.$mod";
 		} else {
@@ -246,7 +246,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$langs[] = $lang;
 		}
 		foreach ($langs as $lang) {
-			$langData = \Vtiger_Language_Handler::getModuleStringsFromFile($lang, $mod);
+			$langData = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($lang, $mod);
 			if ($langData) {
 				$langTab[$lang]['php'] = $langData['languageStrings'];
 				$langTab[$lang]['js'] = $langData['jsLanguageStrings'];

@@ -20,7 +20,7 @@ class HeaderField {
 			return [
 				'class' => 'btn-success',
 				'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
-				'badge' => DateTimeField::convertToUserFormat($row['date']),
+				'badge' => \App\Fields\DateTimeField::convertToUserFormat($row['date']),
 				'action' => 'Vtiger_Detail_Js.getInstance().getTabContainer().find(\'[data-reference="ServiceContracts"]:not(.hide)\').trigger("click");'
 			];
 		}

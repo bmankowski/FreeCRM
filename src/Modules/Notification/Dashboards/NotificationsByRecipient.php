@@ -44,8 +44,8 @@ class NotificationsByRecipient extends \Vtiger_Index_View
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
 		$listView = \App\Modules\Vtiger\Models\Module::getInstance($moduleName)->getListViewUrl();
-		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
-		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
+		$time['start'] = \App\Fields\DateTimeField::convertToDBFormat($time['start']);
+		$time['end'] = \App\Fields\DateTimeField::convertToDBFormat($time['end']);
 		$query = new \App\Db\Query();
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smownerid'])
 			->from('vtiger_crmentity')

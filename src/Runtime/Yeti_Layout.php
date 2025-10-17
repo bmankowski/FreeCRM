@@ -26,12 +26,12 @@ class Yeti_Layout
 			return $layout;
 		}
 
-		return AppConfig::main('defaultLayout');
+		return \App\AppConfig::main('defaultLayout');
 	}
 
 	public static function getLayoutFile(string $name)
 	{
-		$basePath = 'layouts/' . AppConfig::main('defaultLayout') . '/';
+		$basePath = 'layouts/' . \App\AppConfig::main('defaultLayout') . '/';
 		$filePath = Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			return $basePath . $name;

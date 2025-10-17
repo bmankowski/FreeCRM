@@ -120,10 +120,10 @@ class WebUI extends EntryPoint
 		Cache::init();
 		// \App\LanguageTranslator::init();
 
-		Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
-		Log::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
-		Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
-		Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
+		Db::$connectCache = \App\AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
+		Log::$logToProfile = \App\AppConfig::debug('LOG_TO_PROFILE');
+		Log::$logToConsole = \App\AppConfig::debug('LOG_TO_CONSOLE');
+		Log::$logToFile = \App\AppConfig::debug('LOG_TO_FILE');
 	}
 
 	/**
@@ -133,7 +133,7 @@ class WebUI extends EntryPoint
 	 */
 	private static function registerErrorHandler()
 	{
-		if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
+		if (\App\AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 			require_once __DIR__ . '/WebUI_ErrorHandler.php';
 			WebUI_ErrorHandler::register();
 		}
@@ -196,7 +196,7 @@ class WebUI extends EntryPoint
 		$userid = Vtiger_Session::get('authenticated_user_id');
 		$appKey = Vtiger_Session::get('app_unique_key');
 
-		if (!$userid || AppConfig::main('application_unique_key') !== $appKey) {
+		if (!$userid || \App\AppConfig::main('application_unique_key') !== $appKey) {
 			return false;
 		}
 
@@ -280,7 +280,7 @@ class WebUI extends EntryPoint
 	 */
 	public function isInstalled()
 	{
-		$dbconfig = AppConfig::main('dbconfig');
+		$dbconfig = \App\AppConfig::main('dbconfig');
 		return !(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] === '_DBC_TYPE_');
 	}
 
@@ -328,7 +328,7 @@ class WebUI extends EntryPoint
 	 */
 	private function enforceSSL()
 	{
-		if (!AppConfig::main('forceSSL')) {
+		if (!\App\AppConfig::main('forceSSL')) {
 			return;
 		}
 
@@ -362,7 +362,7 @@ class WebUI extends EntryPoint
 	 */
 	private function enforceUrlRedirect()
 	{
-		if (!AppConfig::main('forceRedirect')) {
+		if (!\App\AppConfig::main('forceRedirect')) {
 			return;
 		}
 
@@ -376,7 +376,7 @@ class WebUI extends EntryPoint
 		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 		$requestUrl = "{$protocol}://{$host}{$uri}";
-		$siteUrl = AppConfig::main('site_URL');
+		$siteUrl = \App\AppConfig::main('site_URL');
 
 		if (stripos($requestUrl, $siteUrl) !== 0) {
 			header('Location: ' . $siteUrl, true, 301);
@@ -408,10 +408,10 @@ class WebUI extends EntryPoint
 	 */
 	private function shouldEnableCsrfProtection(Vtiger_Request $request)
 	{
-		return AppConfig::main('csrfProtection')
+		return \App\AppConfig::main('csrfProtection')
 			&& $request->get('mode') !== 'reset'
 			&& $request->get('action') !== 'Login'
-			&& AppConfig::main('systemMode') !== 'demo';
+			&& \App\AppConfig::main('systemMode') !== 'demo';
 	}
 
 	/**
@@ -425,7 +425,7 @@ class WebUI extends EntryPoint
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
 
-		$currentLanguage = Vtiger_Language_Handler::getLanguage();
+		$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 		vglobal('current_language', $currentLanguage);
 
 		if ($currentUser) {
@@ -460,7 +460,7 @@ class WebUI extends EntryPoint
 	 */
 	private function loadModuleLanguageStrings($moduleName, $language)
 	{
-		$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, $moduleName);
+		$moduleLanguageStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($language, $moduleName);
 
 		if (isset($moduleLanguageStrings['languageStrings'])) {
 			vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
@@ -474,7 +474,7 @@ class WebUI extends EntryPoint
 	 */
 	private function loadAppLanguageStrings($language)
 	{
-		$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language);
+		$moduleLanguageStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($language);
 
 		if (isset($moduleLanguageStrings['languageStrings'])) {
 			vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
@@ -542,7 +542,7 @@ class WebUI extends EntryPoint
 	 */
 	private function setDefaultModuleForLoggedInUser(Vtiger_Request $request)
 	{
-		$defaultModule = AppConfig::main('default_module');
+		$defaultModule = \App\AppConfig::main('default_module');
 
 		if (!empty($defaultModule) && $defaultModule !== self::DEFAULT_MODULE) {
 			$module = $defaultModule;
@@ -582,7 +582,7 @@ class WebUI extends EntryPoint
 			&& stripos($qualifiedModuleName, 'Settings') === 0
 			&& empty($currentUser)
 		) {
-			header('Location: ' . AppConfig::main('site_URL'), true);
+			header('Location: ' . \App\AppConfig::main('site_URL'), true);
 			exit;
 		}
 	}
@@ -668,7 +668,7 @@ class WebUI extends EntryPoint
 	 */
 	private function validateHandler($handler, Vtiger_Request $request)
 	{
-		if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') {
+		if (\App\AppConfig::main('csrfProtection') && \App\AppConfig::main('systemMode') !== 'demo') {
 			/** @phpstan-ignore-next-line */
 			$handler->validateRequest($request);
 		}
@@ -746,11 +746,11 @@ class WebUI extends EntryPoint
 		$template = $this->getExceptionTemplate($exception);
 		\vtlib\Functions::throwNewException($exception, false, $template);
 
-		if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && !$request->isAjax()) {
+		if (\App\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && !$request->isAjax()) {
 			$this->displayDebugBacktrace($exception);
 		}
 
-		if (AppConfig::main('systemMode') === 'test') {
+		if (\App\AppConfig::main('systemMode') === 'test') {
 			$this->logRequestForTesting($request);
 			throw $exception;
 		}

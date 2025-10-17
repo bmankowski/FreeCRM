@@ -77,20 +77,20 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 			$item['title'] = $record['title'];
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
 
-			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+			$dateTimeFieldInstance = new \App\Fields\DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$dataBaseDateFormatedString = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['start'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
 
-			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+			$dateTimeFieldInstance = new \App\Fields\DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$dataBaseDateFormatedString = \App\Fields\DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
 
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];

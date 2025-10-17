@@ -27,9 +27,9 @@ class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 		$date = $request->get('date');
 		if (!$date) {
 			$startDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-			$startDate = new DateTimeField($startDate);
+			$startDate = new \App\Fields\DateTimeField($startDate);
 			$endDate = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
-			$endDate = new DateTimeField($endDate);
+			$endDate = new \App\Fields\DateTimeField($endDate);
 			$date = [
 				$startDate->getDisplayDate(),
 				$endDate->getDisplayDate(),

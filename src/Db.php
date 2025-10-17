@@ -93,7 +93,7 @@ class Db extends \yii\db\Connection
 	{
 		if (!static::$config || $reload) {
 			// Try to get config from AppConfig first
-			$dbconfig = AppConfig::main('dbconfig');
+			$dbconfig = \App\AppConfig::main('dbconfig');
 			if ($dbconfig === false) {
 				// Fallback: load config directly from config.inc.php
 				include('config/config.inc.php');

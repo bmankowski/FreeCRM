@@ -26,14 +26,14 @@ class Functions
 	public static function currentUserDisplayDateNew()
 	{
 		$current_user = vglobal('current_user');
-		$date = new \DateTimeField(null);
+		$date = new \App\Fields\DateTimeField(null);
 		return $date->getDisplayDate($current_user);
 	}
 
 	// i18n
 	public static function getTranslatedString($str, $module = '')
 	{
-		return \Vtiger_Language_Handler::getTranslatedString($str, $module);
+		return \App\Runtime\Vtiger_Language_Handler::getTranslatedString($str, $module);
 	}
 
 	// CURRENCY
@@ -709,7 +709,7 @@ class Functions
 		}
 		// REQUEST_MODE is a global constant; ensure it exists before using
 		if (defined('REQUEST_MODE') && REQUEST_MODE === 'API') {
-			throw new \APIException($message, 401);
+			throw new \Exception\APIException($message, 401);
 		}
 		$request = AppRequest::init();
 		if ($request->isAjax()) {

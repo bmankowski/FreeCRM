@@ -27,10 +27,10 @@ class Field extends \App\Modules\Vtiger\Models\Field
 		//Set the start date and end date
 		if (empty($value)) {
 			if ($fieldName === 'date_start') {
-				return DateTimeField::convertToUserFormat(date('Y-m-d'));
+				return \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
 				$minutes = 15;
-				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
+				return \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
 		return parent::getEditViewDisplayValue($value, $record);

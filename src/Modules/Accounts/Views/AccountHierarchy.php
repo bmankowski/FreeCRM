@@ -55,7 +55,7 @@ class AccountHierarchy extends \App\Runtime\Vtiger_View_Controller
 				$lastModified = $this->getLastModified($crmId);
 				if ($lastModified) {
 					$lastModifiedField[$crmId]['active']['userModel'] = \App\Modules\Vtiger\Models\Record::getInstanceById($lastModified['user_id'], 'Users');
-					$lastModifiedField[$crmId]['active']['changedon'] = (new DateTimeField($lastModified['date_updated']))->getFullcalenderDateTimevalue();
+					$lastModifiedField[$crmId]['active']['changedon'] = (new \App\Fields\DateTimeField($lastModified['date_updated']))->getFullcalenderDateTimevalue();
 				}
 			}
 		}

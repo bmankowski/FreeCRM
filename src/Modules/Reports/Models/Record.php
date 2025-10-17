@@ -374,17 +374,17 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 			if ($standardFieldInfo['type'] == "custom" || $standardFieldInfo['type'] == "") {
 				if ($standardFieldInfo["startdate"] != "0000-00-00" && $standardFieldInfo["startdate"] != "") {
-					$startDateTime = new DateTimeField($standardFieldInfo["startdate"] . ' ' . date('H:i:s'));
+					$startDateTime = new \App\Fields\DateTimeField($standardFieldInfo["startdate"] . ' ' . date('H:i:s'));
 					$standardFieldInfo["startdate"] = $startDateTime->getDisplayDate();
 				}
 				if ($standardFieldInfo["enddate"] != "0000-00-00" && $standardFieldInfo["enddate"] != "") {
-					$endDateTime = new DateTimeField($standardFieldInfo["enddate"] . ' ' . date('H:i:s'));
+					$endDateTime = new \App\Fields\DateTimeField($standardFieldInfo["enddate"] . ' ' . date('H:i:s'));
 					$standardFieldInfo["enddate"] = $endDateTime->getDisplayDate();
 				}
 			} else {
-				$startDateTime = new DateTimeField($standardFieldInfo["startdate"] . ' ' . date('H:i:s'));
+				$startDateTime = new \App\Fields\DateTimeField($standardFieldInfo["startdate"] . ' ' . date('H:i:s'));
 				$standardFieldInfo["startdate"] = $startDateTime->getDisplayDate();
-				$endDateTime = new DateTimeField($standardFieldInfo["enddate"] . ' ' . date('H:i:s'));
+				$endDateTime = new \App\Fields\DateTimeField($standardFieldInfo["enddate"] . ' ' . date('H:i:s'));
 				$standardFieldInfo["enddate"] = $endDateTime->getDisplayDate();
 			}
 		}
@@ -623,9 +623,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 						$countTempVal = count($tempVal);
 						for ($i = 0; $i < $countTempVal; $i++) {
 							if (trim($tempVal[$i]) != '') {
-								$date = new DateTimeField(trim($tempVal[$i]));
+								$date = new \App\Fields\DateTimeField(trim($tempVal[$i]));
 								if ($columnInfo[4] == 'D') {
-									$val[$i] = DateTimeField::convertToDBFormat(trim($tempVal[$i]));
+									$val[$i] = \App\Fields\DateTimeField::convertToDBFormat(trim($tempVal[$i]));
 								} elseif ($columnInfo[4] == 'DT') {
 									/**
 									 * While generating query to retrieve report, for date time fields we are only taking
@@ -634,7 +634,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 									 * view it was changing the date selected.
 									 */
 									$values = explode(' ', $tempVal[$i]);
-									$date = new DateTimeField($values[0]);
+									$date = new \App\Fields\DateTimeField($values[0]);
 									$val[$i] = $date->getDBInsertDateValue();
 								} else {
 									$val[$i] = $date->getDBInsertTimeValue();

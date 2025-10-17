@@ -60,7 +60,7 @@ class Holiday extends \App\Modules\Settings\Vtiger\Actions\Index
 
 		try {
 			$id = $request->get('holidayId');
-			$date = DateTimeField::convertToDBFormat($request->get('holidayDate'));
+			$date = \App\Fields\DateTimeField::convertToDBFormat($request->get('holidayDate'));
 			$name = $request->get('holidayName');
 			$type = $request->get('holidayType');
 

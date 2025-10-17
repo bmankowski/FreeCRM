@@ -291,7 +291,7 @@ class User
 			return Cache::get('UserIsExists', $id);
 		}
 		$isExists = false;
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = PrivilegeFile::getUser('id');
 			if (isset($users[$id]) && !$users[$id]['deleted']) {
 				$isExists = true;
@@ -317,7 +317,7 @@ class User
 			return Cache::get(__METHOD__, $key);
 		} else {
 			$adminId = 1;
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$users = PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
 					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {

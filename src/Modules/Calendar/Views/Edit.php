@@ -73,7 +73,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 				$specialField = true;
 				// Convert the incoming user-picked time to GMT time 
 				// which will get re-translated based on user-time zone on EditForm 
-				$fieldValue = DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
+				$fieldValue = \App\Fields\DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
 			}
 			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) {
 				if ($fieldName == 'date_start') {

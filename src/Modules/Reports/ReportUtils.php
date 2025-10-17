@@ -124,7 +124,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 				$fieldvalue = CurrencyField::appendCurrencySymbol($formattedCurrencyValue, $cur_sym_rate['symbol']);
 			}
 		} else {
-			$currencyField = new CurrencyField($value);
+			$currencyField = new \App\fields\CurrencyField($value);
 			$fieldvalue = $currencyField->getDisplayValue();
 		}
 	} elseif ($dbField->name == "PriceBooks_Currency") {
@@ -141,18 +141,18 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 				$recordId = $valueArray['calendar_id'];
 				$endTime = \vtlib\Functions::getSingleFieldValue('vtiger_activity', 'time_end', 'activityid', $recordId);
 			}
-			$date = new DateTimeField($value . ' ' . $endTime);
+			$date = new \App\Fields\DateTimeField($value . ' ' . $endTime);
 			$fieldvalue = $date->getDisplayDate();
 		} else if (!($field->getUIType() == '5' || $field->getUiType() == '23')) {
-			$date = new DateTimeField($fieldvalue);
+			$date = new \App\Fields\DateTimeField($fieldvalue);
 			$fieldvalue = $date->getDisplayDateTimeValue();
 		}
 	} elseif ($fieldType == "datetime" && !empty($value)) {
-		$date = new DateTimeField($value);
+		$date = new \App\Fields\DateTimeField($value);
 		$fieldvalue = $date->getDisplayDateTimeValue();
 	} elseif ($fieldType == 'time' && !empty($value) && $field->getFieldName() != 'duration_hours') {
 		if ($field->getFieldName() == "time_start" || $field->getFieldName() == "time_end") {
-			$date = new DateTimeField($value);
+			$date = new \App\Fields\DateTimeField($value);
 			$fieldvalue = $date->getDisplayTime();
 		} else {
 			$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
@@ -218,9 +218,9 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	if (stristr($fieldvalue, "|##|") && empty($fieldType)) {
 		$fieldvalue = str_ireplace(' |##| ', ', ', $fieldvalue);
 	} elseif ($fld_type == "date" && empty($fieldType)) {
-		$fieldvalue = DateTimeField::convertToUserFormat($fieldvalue);
+		$fieldvalue = \App\Fields\DateTimeField::convertToUserFormat($fieldvalue);
 	} elseif ($fld_type == "datetime" && empty($fieldType)) {
-		$date = new DateTimeField($fieldvalue);
+		$date = new \App\Fields\DateTimeField($fieldvalue);
 		$fieldvalue = $date->getDisplayDateTimeValue();
 	}
 	// Added to render html tag for description fields

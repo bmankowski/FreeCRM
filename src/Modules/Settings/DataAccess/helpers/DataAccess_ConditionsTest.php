@@ -49,8 +49,8 @@ class DataAccess_ConditionsTest
 			return $cndTab == $recordTab;
 		} else if ('time' == $cndArray['field_type']) {
 
-			$dateTime = new DateTime($cndArray['val'] . ':00');
-			$recordTime = new DateTime($val);
+			$dateTime = new \DateTime($cndArray['val'] . ':00');
+			$recordTime = new \DateTime($val);
 
 
 			if ($dateTime != false) {
@@ -95,8 +95,8 @@ class DataAccess_ConditionsTest
 			return $cndTab != $recordTab;
 		} else if ('time' == $cndArray['field_type']) {
 
-			$dateTime = new DateTime($cndArray['val'] . ':00');
-			$recordTime = new DateTime($val);
+			$dateTime = new \DateTime($cndArray['val'] . ':00');
+			$recordTime = new \DateTime($val);
 
 			if ($dateTime != false) {
 				if ($dateTime->diff($recordTime)->format('%R') != '+') {
@@ -293,7 +293,7 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
 		$recordDate = DateTime::createFromFormat($format, $val);
-		$cndDate = new DateTime();
+		$cndDate = new \DateTime();
 
 		if ($recordDate == $cndDate) {
 			return true;
@@ -308,7 +308,7 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
 		$recordDate = DateTime::createFromFormat($format, $val);
-		$cndDate = new DateTime();
+		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
 		$dayDiff = (int) $interval->format('%R%a');
@@ -328,7 +328,7 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
 		$recordDate = DateTime::createFromFormat($format, $val);
-		$cndDate = new DateTime();
+		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
 		$dayDiff = (int) $interval->format('%R%a');
@@ -348,7 +348,7 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
 		$recordDate = DateTime::createFromFormat($format, $val);
-		$cndDate = new DateTime();
+		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
 		$dayDiff = (int) $interval->format('%R%a');
@@ -368,7 +368,7 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
 		$recordDate = DateTime::createFromFormat($format, $val);
-		$cndDate = new DateTime();
+		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
 		$dayDiff = (int) $interval->format('%R%a');
@@ -419,8 +419,8 @@ class DataAccess_ConditionsTest
 	 */
 	public static function lessThanHoursLater($form, $cndArray) {
 		$val = self::getValue($form, $cndArray['fieldname']);
-		$cndDate = new DateTime();
-		$val = new DateTime($val);
+		$cndDate = new \DateTime();
+		$val = new \DateTime($val);
 		$interval = $cndDate->diff($val);
 		if($interval->invert === 0) {
 			$maxInterval = (int) $cndArray['val'];
@@ -439,8 +439,8 @@ class DataAccess_ConditionsTest
 	 */
 	public static function moreThanHoursLater($form, $cndArray) {
 		$val = self::getValue($form, $cndArray['fieldname']);
-		$cndDate = new DateTime();
-		$val = new DateTime($val);
+		$cndDate = new \DateTime();
+		$val = new \DateTime($val);
 		$interval = $cndDate->diff($val);
 		if ($interval->invert === 0) {
 			$maxInterval = (int) $cndArray['val'];
@@ -459,8 +459,8 @@ class DataAccess_ConditionsTest
 	 */
 	public static function lessThanHoursBefore($form, $cndArray) {
 		$val = self::getValue($form, $cndArray['fieldname']);
-		$cndDate = new DateTime();
-		$val = new DateTime($val);
+		$cndDate = new \DateTime();
+		$val = new \DateTime($val);
 		$interval = $cndDate->diff($val);
 		if($interval->invert === 1) {
 			$maxInterval = (int) $cndArray['val'];
@@ -479,8 +479,8 @@ class DataAccess_ConditionsTest
 	 */
 	public static function moreThanHoursBefore($form, $cndArray) {
 		$val = self::getValue($form, $cndArray['fieldname']);
-		$cndDate = new DateTime();
-		$val = new DateTime($val);
+		$cndDate = new \DateTime();
+		$val = new \DateTime($val);
 		$interval = $cndDate->diff($val);
 		if($interval->invert === 1) {
 			$maxInterval = (int) $cndArray['val'];

@@ -58,20 +58,20 @@ class CRM_Viewer extends \Smarty
 	public function __construct($media = '')
 	{
 		parent::__construct();
-		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER');
+		$this->debugging = \App\AppConfig::debug('DISPLAY_DEBUG_VIEWER');
 
 		$THISDIR = __DIR__;
 		$compileDir = '';
 		$templateDir = [];
         self::$currentLayout = empty($media) ? Yeti_Layout::getActiveLayout() : $media;
 
-		if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
 		}
 
 		$templateDir[] = $THISDIR . '/../../layouts/' . self::$currentLayout;
 		$compileDir = $THISDIR . '/../../cache/templates_c/' . self::$currentLayout;
-		if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
 		}
 
@@ -83,7 +83,7 @@ class CRM_Viewer extends \Smarty
 		$this->setTemplateDir(array_unique($templateDir));
 		$this->setCompileDir($compileDir);
 
-		self::$debugViewer = AppConfig::debug('DEBUG_VIEWER');
+		self::$debugViewer = \App\AppConfig::debug('DEBUG_VIEWER');
 
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
@@ -129,9 +129,9 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('Settings_WidgetsManagement_Module_Model', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
 		$this->registerClass('Settings_Calendar_Module_Model', '\App\Modules\\Settings\\Calendar\Models\\Module');
 		$this->registerClass('Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
-		$this->registerClass('\\App\\Json', '\\App\\Json');
-		$this->registerClass('\\App\\Debugger', '\\App\\Debugger');
-		$this->registerClass('App\\Company', '\\App\\Company');
+		$this->registerClass('\App\\Json', '\App\\Json');
+		$this->registerClass('\App\\Debugger', '\App\\Debugger');
+		$this->registerClass('App\\Company', '\App\\Company');
 
 		// Register PHP functions that are used in templates
 		$this->registerPlugin('modifier', 'strrpos', 'strrpos');
@@ -276,8 +276,8 @@ class CRM_Viewer extends \Smarty
 
 		// END
 		if ($templateFound) {
-			if (!empty(AppConfig::debug('SMARTY_ERROR_REPORTING'))) {
-				$this->error_reporting = AppConfig::debug('SMARTY_ERROR_REPORTING');
+			if (!empty(\App\AppConfig::debug('SMARTY_ERROR_REPORTING'))) {
+				$this->error_reporting = \App\AppConfig::debug('SMARTY_ERROR_REPORTING');
 			}
 
 			if ($fetch) {

@@ -451,9 +451,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 							//leave the time as it is, if date only given then temp_time
 							//value will be empty
 							if (trim($temp_val[$x]) != '') {
-								$date = new DateTimeField(trim($temp_val[$x]));
+								$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 								if ($fieldType == 'date') {
-									$val[$x] = DateTimeField::convertToDBFormat(
+									$val[$x] = \App\Fields\DateTimeField::convertToDBFormat(
 											trim($temp_val[$x]));
 								} elseif ($fieldType == 'datetime') {
 									$val[$x] = $date->getDBInsertDateTimeValue();
@@ -616,18 +616,18 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 			if ($stdfilterrow["stdfilter"] == "custom" || $stdfilterrow["stdfilter"] == "") {
 				if ($stdfilterrow["startdate"] != "0000-00-00" && $stdfilterrow["startdate"] != "") {
-					$startDateTime = new DateTimeField($stdfilterrow["startdate"] . ' ' . date('H:i:s'));
+					$startDateTime = new \App\Fields\DateTimeField($stdfilterrow["startdate"] . ' ' . date('H:i:s'));
 					$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
 				}
 				if ($stdfilterrow["enddate"] != "0000-00-00" && $stdfilterrow["enddate"] != "") {
-					$endDateTime = new DateTimeField($stdfilterrow["enddate"] . ' ' . date('H:i:s'));
+					$endDateTime = new \App\Fields\DateTimeField($stdfilterrow["enddate"] . ' ' . date('H:i:s'));
 					$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
 				}
 			} else { //if it is not custom get the date according to the selected duration
 				$datefilter = DateTimeRange::getDateRangeByType($stdfilterrow['stdfilter']);
-				$startDateTime = new DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
+				$startDateTime = new \App\Fields\DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
 				$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
-				$endDateTime = new DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
+				$endDateTime = new \App\Fields\DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
 				$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
 			}
 		}
@@ -689,7 +689,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 								$dateTime = explode(' ', $originalValue);
 								$temp_val[$x] = $dateTime[0];
 							}
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDate();
 						} elseif ($col[4] == 'DT') {
 							$comparator = array('e', 'n', 'b', 'a');
@@ -698,10 +698,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 								$dateTime = explode(' ', $originalValue);
 								$temp_val[$x] = $dateTime[0];
 							}
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDateTimeValue();
 						} else {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new \App\Fields\DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayTime();
 						}
 					}

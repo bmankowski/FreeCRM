@@ -23,7 +23,7 @@ class Encryption
 		if ($row = $db->getRow($result)) {
 			$this->method = $row['method'];
 			$this->vector = $row['pass'];
-			$this->pass = AppConfig::securityKeys('encryptionPass');
+			$this->pass = \App\AppConfig::securityKeys('encryptionPass');
 		}
 	}
 
@@ -56,7 +56,7 @@ class Encryption
 			return false;
 		} elseif (empty($this->method)) {
 			return false;
-		} elseif ($this->method != AppConfig::securityKeys('encryptionMethod')) {
+		} elseif ($this->method != \App\AppConfig::securityKeys('encryptionMethod')) {
 			return false;
 		} elseif (!in_array($this->method, $this->getMethods())) {
 			return false;

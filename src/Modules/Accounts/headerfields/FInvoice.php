@@ -19,7 +19,7 @@ class HeaderField {
 			return [
 				'class' => 'btn-success',
 				'title' => \App\Runtime\Vtiger_Language_Handler::translate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true),
-				'badge' => DateTimeField::convertToUserFormat($row['date'])
+				'badge' => \App\Fields\DateTimeField::convertToUserFormat($row['date'])
 			];
 		}
 		return false;

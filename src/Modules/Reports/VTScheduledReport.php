@@ -133,7 +133,7 @@ class VTScheduledReport extends Reports
 		}
 
 		$currentTime = date('Y-m-d H:i:s');
-		$subject = $this->reportname . ' - ' . $currentTime . ' (' . DateTimeField::getDBTimeZone() . ')';
+		$subject = $this->reportname . ' - ' . $currentTime . ' (' . \App\Fields\DateTimeField::getDBTimeZone() . ')';
 
 		$contents = \App\Runtime\Vtiger_Language_Handler::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br/><br/>';
 		$contents .= '<b>' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';

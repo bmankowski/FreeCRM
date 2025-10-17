@@ -242,8 +242,8 @@ Class Reservations_Record_Model extends \App\Modules\Vtiger\Models\Record
 	public function getDuplicateRecordUrl()
 	{
 		$module = $this->getModule();
-		$date = new DateTime();
-		$currDate = DateTimeField::convertToUserFormat($date->format('Y-m-d'));
+		$date = new \DateTime();
+		$currDate = \App\Fields\DateTimeField::convertToUserFormat($date->format('Y-m-d'));
 
 		$time = $date->format('H:i');
 
