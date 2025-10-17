@@ -37,7 +37,7 @@ class LayoutImport extends LayoutExport
 
 	/**
 	 * Import Module from zip file
-	 * @param String Zip file name
+	 * @param string Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
 	public function import($zipfile, $overwrite = false)
@@ -51,7 +51,7 @@ class LayoutImport extends LayoutExport
 	/**
 	 * Update Layout from zip file
 	 * @param Object Instance of Layout
-	 * @param String Zip file name
+	 * @param string Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
 	public function update($instance, $zipfile, $overwrite = true)

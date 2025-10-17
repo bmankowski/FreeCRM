@@ -60,7 +60,7 @@ CODE_SAMPLE
         return [Array_::class];
     }
     /**
-     * @param Array_ $node
+     * @param array _ $node
      */
     public function refactor(Node $node): ?Node
     {

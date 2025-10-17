@@ -45,7 +45,7 @@ class ThemeExport extends Package
 	 * Export Module as a zip file.
 	 * @param Module Instance of module
 	 * @param Path Output directory path
-	 * @param String Zipfilename to use
+	 * @param string Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
 	public function export($layoutName, $themeName, $todir = '', $zipfilename = '', $directDownload = false)

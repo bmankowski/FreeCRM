@@ -45,7 +45,7 @@ CODE_SAMPLE
         return [ArrayDimFetch::class];
     }
     /**
-     * @param ArrayDimFetch $node
+     * @param array DimFetch $node
      */
     public function refactor(Node $node): ?FuncCall
     {

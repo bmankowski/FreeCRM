@@ -251,8 +251,8 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Save data
-	 * @param Array $data
-	 * @param String $moduleName
+	 * @param array  $data
+	 * @param string $moduleName
 	 * @return Array(success:true/false)
 	 * */
 	public function saveDetails($data, $moduleName)
@@ -426,7 +426,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Gets all id widgets for the module
-	 * @param String $moduleName
+	 * @param string $moduleName
 	 * @return Array
 	 * */
 	public function getDashboardForModule($moduleName)

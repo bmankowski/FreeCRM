@@ -33,7 +33,7 @@ class Unzip extends \dUnzip2
 
 	/**
 	 * Check if the file path is directory
-	 * @param String Zip file path
+	 * @param string Zip file path
 	 */
 	public function isdir($filepath)
 	{

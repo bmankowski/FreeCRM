@@ -43,8 +43,8 @@
  * @after $("#one").metadata().item_id == 1; $("#one").metadata().item_label == "Label"
  * @desc Reads metadata from a nested script element
  * 
- * @param String type The encoding type
- * @param String name The name of the attribute to be used to get metadata (optional)
+ * @param string type The encoding type
+ * @param string name The name of the attribute to be used to get metadata (optional)
  * @cat Plugins/Metadata
  * @descr Sets the type of encoding to be used when loading metadata for the first time
  * @type undefined

@@ -255,7 +255,7 @@ class Deprecated
 	/**
 	 * function to return whether the file access is made within vtiger root directory
 	 * and it exists.
-	 * @param String $filepath relative path to the file which need to be verified
+	 * @param string $filepath relative path to the file which need to be verified
 	 * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
 	 */
 	public static function isFileAccessible($filepath)

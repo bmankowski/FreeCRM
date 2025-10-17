@@ -44,7 +44,7 @@ class LanguageImport extends LanguageExport
 
 	/**
 	 * Import Module from zip file
-	 * @param String Zip file name
+	 * @param string Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
 	public function import($zipfile, $overwrite = false)
@@ -58,7 +58,7 @@ class LanguageImport extends LanguageExport
 	/**
 	 * Update Module from zip file
 	 * @param Object Instance of Language (to keep Module update API consistent)
-	 * @param String Zip file name
+	 * @param string Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
 	public function update($instance, $zipfile, $overwrite = true)

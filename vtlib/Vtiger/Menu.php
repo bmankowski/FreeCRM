@@ -24,7 +24,7 @@ class Menu
 
 	/**
 	 * Initialize this instance
-	 * @param Array Map 
+	 * @param array  Map 
 	 * @access private
 	 */
 	public function initialize($valuemap)
@@ -37,7 +37,7 @@ class Menu
 
 	/**
 	 * Get instance of menu by label
-	 * @param String Menu label
+	 * @param string Menu label
 	 */
 	static function getInstance($value)
 	{
@@ -46,7 +46,7 @@ class Menu
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */

@@ -626,11 +626,11 @@ class CRMEntity
 
 	/**
 	 * Save the related module record information. Triggered from CRMEntity->saveentity method or updateRelations.php
-	 * @param String This module name
+	 * @param string This module name
 	 * @param Integer This module record number
-	 * @param String Related module name
+	 * @param string Related module name
 	 * @param mixed Integer or Array of related module record number
-	 * @param String function name
+	 * @param string function name
 	 */
 	public function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
@@ -698,9 +698,9 @@ class CRMEntity
 
 	/**
 	 * Delete the related module record information. Triggered from updateRelations.php
-	 * @param String This module name
+	 * @param string This module name
 	 * @param Integer This module record number
-	 * @param String Related module name
+	 * @param string Related module name
 	 * @param mixed Integer or Array of related module record number
 	 */
 	public function delete_related_module($module, $crmid, $withModule, $withCrmid)
@@ -721,8 +721,8 @@ class CRMEntity
 
 	/**
 	 * Move the related records of the specified list of id's to the given record.
-	 * @param String This module name
-	 * @param Array List of Entity Id's from which related records need to be transfered
+	 * @param string This module name
+	 * @param array  List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
@@ -1186,7 +1186,7 @@ class CRMEntity
 	/**
 	 * Filter in-active fields based on type
 	 *
-	 * @param String $module
+	 * @param string $module
 	 */
 	public function filterInactiveFields($module)
 	{
@@ -1293,7 +1293,7 @@ class CRMEntity
 
 	/**
 	 *
-	 * @param String $tableName
+	 * @param string $tableName
 	 * @return String
 	 */
 	public function getJoinClause($tableName)
@@ -1393,7 +1393,7 @@ class CRMEntity
 
 	/**
 	 *
-	 * @param String $module - module name for which query needs to be generated.
+	 * @param string $module - module name for which query needs to be generated.
 	 * @param Users $user - user for which query needs to be generated.
 	 * @return String Access control Query for the user.
 	 */
@@ -1441,7 +1441,7 @@ class CRMEntity
 	}
 	/*
 	 * Function to get the relation tables for related modules
-	 * @param String $secmodule - $secmodule secondary module name
+	 * @param string $secmodule - $secmodule secondary module name
 	 * @return Array returns the array with table names and fieldnames storing relations
 	 * between module and this module
 	 */
@@ -1619,8 +1619,8 @@ class CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String $moduleName Module name
-	 * @param String $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{

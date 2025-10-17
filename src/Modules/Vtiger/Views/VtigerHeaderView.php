@@ -34,7 +34,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 
 	/**
 	 * Function to determine file existence in relocated module folder (under vtiger6)
-	 * @param String $fileuri
+	 * @param string $fileuri
 	 * @return Boolean
 	 *
 	 * Utility function to manage the backward compatible file load

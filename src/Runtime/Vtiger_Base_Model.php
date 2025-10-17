@@ -83,7 +83,7 @@ class Vtiger_Base_Model
 
 	/**
 	 * Function to check if the key exists.
-	 * @param String $key
+	 * @param string $key
 	 */
 	public function has($key)
 	{

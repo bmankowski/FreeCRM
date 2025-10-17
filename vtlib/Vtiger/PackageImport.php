@@ -86,7 +86,7 @@ class PackageImport extends PackageExport
 
 	/**
 	 * XPath evaluation on the root module node.
-	 * @param String Path expression
+	 * @param string Path expression
 	 */
 	public function xpath($path)
 	{
@@ -95,7 +95,7 @@ class PackageImport extends PackageExport
 
 	/**
 	 * Get the value of matching path (instead of complete xpath result)
-	 * @param String Path expression for which value is required
+	 * @param string Path expression for which value is required
 	 */
 	public function xpath_value($path)
 	{
@@ -191,7 +191,7 @@ class PackageImport extends PackageExport
 
 	/**
 	 * checks whether a package is module bundle or not.
-	 * @param String $zipfile - path to the zip file.
+	 * @param string $zipfile - path to the zip file.
 	 * @return Boolean - true if given zipfile is a module bundle and false otherwise.
 	 */
 	public function isModuleBundle($zipfile = null)
@@ -537,7 +537,7 @@ class PackageImport extends PackageExport
 
 	/**
 	 * Import Module from zip file
-	 * @param String Zip file name
+	 * @param string Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
 	public function import($zipfile, $overwrite = false)

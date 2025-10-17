@@ -79,7 +79,7 @@ class Profile
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */

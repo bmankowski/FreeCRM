@@ -276,7 +276,7 @@ class FieldBasic
 
 	/**
 	 * Set Help Information for this instance.
-	 * @param String Help text (content)
+	 * @param string Help text (content)
 	 */
 	public function setHelpInfo($helptext)
 	{
@@ -313,7 +313,7 @@ class FieldBasic
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */

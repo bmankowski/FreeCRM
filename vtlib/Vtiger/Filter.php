@@ -157,9 +157,9 @@ class Filter
 	/**
 	 * Add rule to this filter instance
 	 * @param Field Instance of the field
-	 * @param String One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN, 
+	 * @param string One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN, 
 	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
-	 * @param String Value to use for comparision
+	 * @param string Value to use for comparision
 	 * @param Integer Index count to use
 	 */
 	public function addRule($fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
@@ -242,7 +242,7 @@ class Filter
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */

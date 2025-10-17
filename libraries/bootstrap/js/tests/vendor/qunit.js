@@ -326,7 +326,7 @@ var QUnit = {
 	 *
 	 * @param Object actual
 	 * @param Object expected
-	 * @param String message (optional)
+	 * @param string message (optional)
 	 */
 	equal: function(actual, expected, message) {
 		QUnit.push(expected == actual, actual, expected, message);
@@ -555,7 +555,7 @@ extend(QUnit, {
 	 * @example triggerEvent( document.body, "click" );
 	 *
 	 * @param DOMElement elem
-	 * @param String type
+	 * @param string type
 	 */
 	triggerEvent: function( elem, type, event ) {
 		if ( document.createEvent ) {

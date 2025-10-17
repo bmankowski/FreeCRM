@@ -45,7 +45,7 @@ class LanguageExport extends Package
 	 * Export Module as a zip file.
 	 * @param Module Instance of module
 	 * @param Path Output directory path
-	 * @param String Zipfilename to use
+	 * @param string Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
 	public function export($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
@@ -188,7 +188,7 @@ class LanguageExport extends Package
 
 	/**
 	 * De-Register language pack information
-	 * @param String Language prefix like (de_de) etc
+	 * @param string Language prefix like (de_de) etc
 	 */
 	public static function deregister($prefix)
 	{

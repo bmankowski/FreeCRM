@@ -14,7 +14,7 @@ use RectorPrefix202509\Webmozart\Assert\Assert;
 final class AttributeArrayNameInliner
 {
     /**
-     * @param Array_|list<Arg> $array
+     * @param array _|list<Arg> $array
      * @return list<Arg>
      */
     public function inlineArrayToArgs($array): array

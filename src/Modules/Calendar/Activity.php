@@ -107,7 +107,7 @@ class Activity extends \App\CRMEntity
 
 	/**
 	 *
-	 * @param String $tableName
+	 * @param string $tableName
 	 * @return String
 	 */
 	public function getJoinClause($tableName)

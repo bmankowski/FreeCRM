@@ -29,9 +29,9 @@ class Utils
 
 	/**
 	 * Implode the prefix and suffix as string for given number of times
-	 * @param String prefix to use
+	 * @param string prefix to use
 	 * @param Integer Number of times 
-	 * @param String suffix to use (optional)
+	 * @param string suffix to use (optional)
 	 */
 	static function implodestr($prefix, $count, $suffix = false)
 	{
@@ -47,7 +47,7 @@ class Utils
 
 	/**
 	 * Function to check the file access is made within web root directory as well as is safe for php inclusion
-	 * @param String File path to check
+	 * @param string File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
 	static function checkFileAccessForInclusion($filepath, $dieOnFail = true)
@@ -78,7 +78,7 @@ class Utils
 
 	/**
 	 * Function to check the file access is made within web root directory. 
-	 * @param String File path to check
+	 * @param string File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
 	static function checkFileAccess($filepath, $dieOnFail = true)
@@ -111,7 +111,7 @@ class Utils
 
 	/**
 	 * Log the debug message 
-	 * @param String Log message
+	 * @param string Log message
 	 * @param Boolean true to append end-of-line, false otherwise
 	 */
 	static function Log($message, $delimit = true)
@@ -133,7 +133,7 @@ class Utils
 
 	/**
 	 * Escape the string to avoid SQL Injection attacks.
-	 * @param String Sql statement string
+	 * @param string Sql statement string
 	 */
 	static function SQLEscape($value)
 	{
@@ -145,7 +145,7 @@ class Utils
 
 	/**
 	 * Check if table is present in database
-	 * @param String tablename to check
+	 * @param string tablename to check
 	 */
 	static function CheckTable($tableName)
 	{
@@ -154,9 +154,9 @@ class Utils
 
 	/**
 	 * Create table (supressing failure)
-	 * @param String tablename to create
-	 * @param String table creation criteria like '(columnname columntype, ....)' 
-	 * @param String Optional suffix to add during table creation
+	 * @param string tablename to create
+	 * @param string table creation criteria like '(columnname columntype, ....)' 
+	 * @param string Optional suffix to add during table creation
 	 * <br>
 	 * will be appended to CREATE TABLE $tablename SQL
 	 */
@@ -201,7 +201,7 @@ class Utils
 
 	/**
 	 * Get SQL query
-	 * @param String SQL query statement
+	 * @param string SQL query statement
 	 */
 	static function ExecuteQuery($sqlquery, $supressdie = false)
 	{
@@ -218,7 +218,7 @@ class Utils
 
 	/**
 	 * Get CREATE SQL for given table
-	 * @param String tablename for which CREATE SQL is requried
+	 * @param string tablename for which CREATE SQL is requried
 	 */
 	static function CreateTableSql($tablename)
 	{
@@ -232,7 +232,7 @@ class Utils
 
 	/**
 	 * Check if the given SQL is a CREATE statement
-	 * @param String SQL String
+	 * @param string SQL String
 	 */
 	static function IsCreateSql($sql)
 	{
@@ -244,7 +244,7 @@ class Utils
 
 	/**
 	 * Check if the given SQL is destructive (DELETE's DATA)
-	 * @param String SQL String
+	 * @param string SQL String
 	 */
 	static function IsDestructiveSql($sql)
 	{

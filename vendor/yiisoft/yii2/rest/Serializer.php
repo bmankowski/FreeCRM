@@ -255,7 +255,7 @@ class Serializer extends Component
 
     /**
      * Serializes a model object.
-     * @param Arrayable $model
+     * @param array able $model
      * @return array the array representation of the model
      */
     protected function serializeModel($model)

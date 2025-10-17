@@ -45,7 +45,7 @@ class LayoutExport extends Package
 	 * Export Module as a zip file.
 	 * @param Layout name to be export
 	 * @param Path Output directory path
-	 * @param String Zipfilename to use
+	 * @param string Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
 	public function export($layoutName, $todir = '', $zipfilename = '', $directDownload = false)

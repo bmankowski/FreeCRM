@@ -66,7 +66,7 @@ final class ArrayMergeFromArraySpreadFactory
         return $newItems;
     }
     /**
-     * @param ArrayItem[] $arrayItems
+     * @param array Item[] $arrayItems
      */
     private function createArrayMergeFuncCall(array $arrayItems, MutatingScope $mutatingScope): FuncCall
     {

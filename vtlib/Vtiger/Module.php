@@ -42,9 +42,9 @@ class Module extends ModuleBasic
 	/**
 	 * Set related list information between other module
 	 * @param Module Instance of target module with which relation should be setup
-	 * @param String Label to display in related list (default is target module name)
-	 * @param Array List of action button to show ('ADD', 'SELECT')
-	 * @param String Callback function name of this module to use as handler
+	 * @param string Label to display in related list (default is target module name)
+	 * @param array  List of action button to show ('ADD', 'SELECT')
+	 * @param string Callback function name of this module to use as handler
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
@@ -129,10 +129,10 @@ class Module extends ModuleBasic
 
 	/**
 	 * Add custom link for a module page
-	 * @param String Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
-	 * @param String Label to use for display
-	 * @param String HREF value to use for generated link
-	 * @param String Path to the image file (relative or absolute)
+	 * @param string Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
+	 * @param string Label to use for display
+	 * @param string HREF value to use for generated link
+	 * @param string Path to the image file (relative or absolute)
 	 * @param Integer Sequence of appearance
 	 *
 	 * NOTE: $url can have variables like $MODULE (module for which link is associated),
@@ -145,9 +145,9 @@ class Module extends ModuleBasic
 
 	/**
 	 * Delete custom link of a module
-	 * @param String Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
-	 * @param String Display label to lookup
-	 * @param String URL value to lookup
+	 * @param string Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
+	 * @param string Display label to lookup
+	 * @param string URL value to lookup
 	 */
 	public function deleteLink($type, $label, $url = false)
 	{
@@ -245,7 +245,7 @@ class Module extends ModuleBasic
 
 	/**
 	 * Get instance of the module class.
-	 * @param String Module name
+	 * @param string Module name
 	 */
 	public static function getClassInstance($modulename)
 	{

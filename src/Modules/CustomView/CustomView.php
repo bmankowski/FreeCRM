@@ -400,8 +400,8 @@ class CustomView extends \App\CRMEntity
 	/**
 	 * Function to check if field is present based on
 	 *
-	 * @param String $columnname
-	 * @param String $tablename
+	 * @param string $columnname
+	 * @param string $tablename
 	 */
 	public function isFieldPresent_ByColumnTable($columnname, $tablename)
 	{

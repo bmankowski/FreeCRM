@@ -16,9 +16,9 @@
 /**
  *
  * @param WebserviceId $id
- * @param String $oldPassword
- * @param String $newPassword
- * @param String $confirmPassword
+ * @param string $oldPassword
+ * @param string $newPassword
+ * @param string $confirmPassword
  * @param Users $user 
  * 
  */

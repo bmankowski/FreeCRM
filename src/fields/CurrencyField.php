@@ -206,8 +206,8 @@ class CurrencyField
 	/**
 	 * Static Function that appends the currency symbol to a given currency value, based on the preferred symbol placement
 	 * @param float $currencyValue
-	 * @param String $currencySymbol
-	 * @param String $currencySymbolPlacement
+	 * @param string $currencySymbol
+	 * @param string $currencySymbolPlacement
 	 * @return Currency value appended with the currency symbol
 	 */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement = '')

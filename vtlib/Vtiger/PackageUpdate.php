@@ -74,7 +74,7 @@ class PackageUpdate extends PackageImport
 	/**
 	 * Update Module from zip file
 	 * @param Module Instance of the module to update
-	 * @param String Zip file name
+	 * @param string Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
 	public function update($moduleInstance, $zipfile, $overwrite = true)

@@ -391,7 +391,7 @@
    * @author Diego A. (http://www.fyneworks.com/)
    *
    * @example $.fn.MultiFile.disableEmpty();
-   * @param String class (optional) A string specifying a class to be applied to all affected elements - Default: 'mfD'.
+   * @param string class (optional) A string specifying a class to be applied to all affected elements - Default: 'mfD'.
    */
   disableEmpty: function(klass){ klass = (typeof(klass)=='string'?klass:'')||'mfD';
    var o = [];
@@ -411,7 +411,7 @@
 			* @author Diego A. (http://www.fyneworks.com/)
 			*
 			* @example $.fn.MultiFile.reEnableEmpty();
-			* @param String klass (optional) A string specifying the class that was used to mark affected elements - Default: 'mfD'.
+			* @param string klass (optional) A string specifying the class that was used to mark affected elements - Default: 'mfD'.
 			*/
   reEnableEmpty: function(klass){ klass = (typeof(klass)=='string'?klass:'')||'mfD';
    return $('input:file.'+klass).removeClass(klass).each(function(){ this.disabled = false });
@@ -427,7 +427,7 @@
 			* @author Diego A. (http://www.fyneworks.com/)
 			*
 			* @example $.fn.MultiFile.intercept();
-			* @param Array methods (optional) Array of method names to be intercepted
+			* @param array  methods (optional) Array of method names to be intercepted
 			*/
   intercepted: {},
   intercept: function(methods, context, args){

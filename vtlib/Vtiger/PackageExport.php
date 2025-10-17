@@ -116,7 +116,7 @@ class PackageExport
 	 * Export Module as a zip file.
 	 * @param Module Instance of module
 	 * @param Path Output directory path
-	 * @param String Zipfilename to use
+	 * @param string Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
 	public function export($moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
@@ -797,7 +797,7 @@ class PackageExport
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */

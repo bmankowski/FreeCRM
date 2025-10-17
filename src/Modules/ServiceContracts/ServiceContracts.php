@@ -351,8 +351,8 @@ class ServiceContracts extends \App\CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string Module name
+	 * @param string Event Type
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
@@ -601,8 +601,8 @@ class ServiceContracts extends \App\CRMEntity
 
 	/**
 	 * Move the related records of the specified list of id's to the given record.
-	 * @param String This module name
-	 * @param Array List of Entity Id's from which related records need to be transfered
+	 * @param string This module name
+	 * @param array  List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)

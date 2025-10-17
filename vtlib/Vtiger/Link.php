@@ -67,10 +67,10 @@ class Link
 	/**
 	 * Add link given module
 	 * @param Integer Module ID
-	 * @param String Link Type (like DETAILVIEW). Useful for grouping based on pages.
-	 * @param String Label to display
-	 * @param String HREF value or URL to use for the link
-	 * @param String ICON to use on the display
+	 * @param string Link Type (like DETAILVIEW). Useful for grouping based on pages.
+	 * @param string Label to display
+	 * @param string HREF value or URL to use for the link
+	 * @param string ICON to use on the display
 	 * @param Integer Order or sequence of displaying the link
 	 */
 	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $linkParams = null)
@@ -106,9 +106,9 @@ class Link
 	/**
 	 * Delete link of the module
 	 * @param Integer Module ID
-	 * @param String Link Type (like DETAILVIEW). Useful for grouping based on pages.
-	 * @param String Display label
-	 * @param String URL of link to lookup while deleting
+	 * @param string Link Type (like DETAILVIEW). Useful for grouping based on pages.
+	 * @param string Display label
+	 * @param string URL of link to lookup while deleting
 	 */
 	static function deleteLink($tabid, $type, $label, $url = false)
 	{
@@ -289,7 +289,7 @@ class Link
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */

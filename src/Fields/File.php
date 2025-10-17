@@ -178,7 +178,7 @@ class File
 	}
 
 	/** Function to sanitize the upload file name when the file name is detected to have bad extensions
-	 * @param String -- $fileName - File name to be sanitized
+	 * @param string -- $fileName - File name to be sanitized
 	 * @return String - Sanitized file name
 	 */
 	static public function sanitizeUploadFileName($fileName, $badFileExtensions = false)

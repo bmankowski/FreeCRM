@@ -93,7 +93,7 @@ CODE_SAMPLE
         return $node;
     }
     /**
-     * @param ArrayItem[]$arrayItems
+     * @param array Item[]$arrayItems
      *
      * @return array<(ArrayItem)>|null
      */

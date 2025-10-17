@@ -19,7 +19,7 @@ class Access
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
@@ -89,7 +89,7 @@ class Access
 	/**
 	 * Set default sharing for a module
 	 * @param Module Instance of the module
-	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
+	 * @param string Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 * @access private
 	 */
 	static function setDefaultSharing($moduleInstance, $permissionText = 'Public_ReadWriteDelete')
@@ -122,7 +122,7 @@ class Access
 	/**
 	 * Enable tool for module.
 	 * @param Module Instance of module to use
-	 * @param String Tool (action name) like Import, Export, Merge
+	 * @param string Tool (action name) like Import, Export, Merge
 	 * @param Boolean true to enable tool, false to disable
 	 * @param Integer (optional) profile id to use, false applies to all profile.
 	 * @access private

@@ -249,8 +249,8 @@ class ModuleBasic
 
 	/**
 	 * Initialize table required for the module
-	 * @param String Base table name (default modulename in lowercase)
-	 * @param String Base table column (default modulenameid in lowercase)
+	 * @param string Base table name (default modulename in lowercase)
+	 * @param string Base table column (default modulenameid in lowercase)
 	 *
 	 * Creates basetable, customtable, grouptable <br>
 	 * customtable name is basetable + 'cf'<br>
@@ -363,7 +363,7 @@ class ModuleBasic
 
 	/**
 	 * Configure default sharing access for the module
-	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
+	 * @param string Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 */
 	public function setDefaultSharing($permission_text = 'Public_ReadWriteDelete')
 	{
@@ -451,7 +451,7 @@ class ModuleBasic
 
 	/**
 	 * Helper function to log messages
-	 * @param String Message to log
+	 * @param string Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */

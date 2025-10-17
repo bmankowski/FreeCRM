@@ -10,7 +10,7 @@ use Rector\Symfony\Enum\SymfonyAnnotation;
 final class SymfonyRouteTagValueNodeFactory
 {
     /**
-     * @param ArrayItemNode[] $arrayItemNodes
+     * @param array ItemNode[] $arrayItemNodes
      */
     public function createFromItems(array $arrayItemNodes): DoctrineAnnotationTagValueNode
     {

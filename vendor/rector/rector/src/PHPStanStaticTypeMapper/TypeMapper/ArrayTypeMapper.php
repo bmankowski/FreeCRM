@@ -57,7 +57,7 @@ final class ArrayTypeMapper implements TypeMapperInterface
         return ArrayType::class;
     }
     /**
-     * @param ArrayType $type
+     * @param array Type $type
      */
     public function mapToPHPStanPhpDocTypeNode(Type $type): TypeNode
     {
@@ -78,7 +78,7 @@ final class ArrayTypeMapper implements TypeMapperInterface
         return new SpacingAwareArrayTypeNode($itemTypeNode);
     }
     /**
-     * @param ArrayType $type
+     * @param array Type $type
      */
     public function mapToPhpParserNode(Type $type, string $typeKind): Identifier
     {
