@@ -13,7 +13,6 @@ namespace App\Modules\Settings\Leads\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
 class MappingSave extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

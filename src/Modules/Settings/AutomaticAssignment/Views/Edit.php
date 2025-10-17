@@ -11,7 +11,6 @@ namespace App\Modules\Settings\AutomaticAssignment\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
 class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

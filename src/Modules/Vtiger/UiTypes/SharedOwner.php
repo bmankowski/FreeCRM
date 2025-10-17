@@ -10,7 +10,6 @@ namespace App\Modules\Vtiger\UiTypes;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class SharedOwner extends Base
 {
 

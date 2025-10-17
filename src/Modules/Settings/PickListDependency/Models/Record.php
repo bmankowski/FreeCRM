@@ -13,7 +13,6 @@ namespace App\Modules\Settings\PickListDependency\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
 use App\Modules\PickList\DependencyPicklist as Vtiger_DependencyPicklist;
 require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
@@ -50,14 +49,14 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
 		];
-		$editLinkInstance = \Vtiger_Link_Model::getInstanceFromValues($editLink);
+		$editLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
 
 		$deleteLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
 		];
-		$deleteLinkInstance = \Vtiger_Link_Model::getInstanceFromValues($deleteLink);
+		$deleteLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
 		return [$editLinkInstance, $deleteLinkInstance];
 	}
 

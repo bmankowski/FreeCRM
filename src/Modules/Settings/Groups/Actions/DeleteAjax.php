@@ -13,7 +13,6 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 

@@ -9,7 +9,6 @@ namespace App\Modules\com_vtiger_workflow\tasks;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
 require_once('src/Modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
 

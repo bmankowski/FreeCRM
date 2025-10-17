@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Currency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 

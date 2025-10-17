@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Vtiger\Models;
-use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
 
 /**
  * Basic MappedFields Model Class

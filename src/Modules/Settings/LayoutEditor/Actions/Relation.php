@@ -13,7 +13,6 @@ namespace App\Modules\Settings\LayoutEditor\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Relation as Vtiger_Relation_Model;
 class Relation extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

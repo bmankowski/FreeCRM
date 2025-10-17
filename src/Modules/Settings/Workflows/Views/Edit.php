@@ -16,7 +16,6 @@ use App\Modules\Settings\WorkflowsModels\RecordStructure;
 
 use App\Modules\com_vtiger_workflow\VTWorkflowManager as VTWorkflowManager;
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

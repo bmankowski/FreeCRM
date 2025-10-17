@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\LayoutEditor\Models;
-use App\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
 
 
 /* +**********************************************************************************
@@ -14,7 +13,7 @@ use App\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Fiel
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Field extends \Vtiger_Field_Model
+class Field extends \\App\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -235,7 +234,7 @@ class Field extends \Vtiger_Field_Model
 	/**
 	 * Function to get all fields list for all blocks
 	 * @param array List of block ids
-	 * @param \Vtiger_Module_Model $moduleInstance
+	 * @param \\App\Modules\Vtiger\Models\Module $moduleInstance
 	 * @return array List of Field models \Settings_LayoutEditor_Field_Model
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)

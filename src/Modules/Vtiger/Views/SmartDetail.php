@@ -4,7 +4,6 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 
 class SmartDetail extends \Vtiger_Index_View
 {
@@ -27,7 +26,7 @@ class SmartDetail extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);

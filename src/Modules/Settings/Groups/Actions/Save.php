@@ -13,7 +13,6 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
@@ -23,7 +22,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		$prevValues = [];
 		if (!empty($recordId)) {
 			$recordModel = Settings_Groups_Record_Model::getInstance($recordId);

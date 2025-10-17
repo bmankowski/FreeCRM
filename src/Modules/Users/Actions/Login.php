@@ -18,7 +18,6 @@ use App\CRMEntity;
 use App\AppConfig;
 use App\Http\Vtiger_Session;
 
-use App\Modules\Settings\BruteForce\Models\Module as Settings_BruteForce_Module_Model;
 
 class Login extends \App\Runtime\Vtiger_Action_Controller
 {

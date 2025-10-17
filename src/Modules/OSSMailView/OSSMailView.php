@@ -13,7 +13,6 @@ namespace App\Modules\OSSMailView;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class OSSMailView extends \App\CRMEntity
 {
 
@@ -335,7 +334,7 @@ class OSSMailView extends \App\CRMEntity
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_MAIL', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-oss_mailview',
 				'description' => 'LBL_MAIL_VIEW_DESCRIPTION',

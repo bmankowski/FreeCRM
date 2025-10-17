@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Leads\Models;
-use App\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
 
 
 /* +***********************************************************************************
@@ -14,7 +13,7 @@ use App\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \Vtiger_Module_Model
+class Module extends \\App\Modules\Vtiger\Models\Module
 {
 
 	/**

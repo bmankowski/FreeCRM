@@ -11,7 +11,6 @@ namespace App\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use App\Modules\Settings\Mail\Models\Record as Settings_Mail_Record_Model;
 class MassDelete extends \Vtiger_Mass_Action
 {
 

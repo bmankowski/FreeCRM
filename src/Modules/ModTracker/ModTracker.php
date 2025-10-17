@@ -12,7 +12,6 @@ namespace App\Modules\ModTracker;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 
 use App\Modules\ModTracker\Handlers\Handler as ModTracker_ModTrackerHandler_Handler;
 include_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
@@ -55,7 +54,7 @@ class ModTracker {
 		$adb = \App\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => 'ModTracker',
 				'iconpath' => 'adminIcon-modules-track-chanegs',
 				'description' => 'LBL_MODTRACKER_DESCRIPTION',

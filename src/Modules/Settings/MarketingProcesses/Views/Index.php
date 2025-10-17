@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\MarketingProcesses\Views;
-use App\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
 
 
 /* +***********************************************************************************************************************************

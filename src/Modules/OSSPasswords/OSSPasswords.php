@@ -13,7 +13,6 @@ namespace App\Modules\OSSPasswords;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class OSSPasswords extends \App\CRMEntity
 {
 
@@ -328,7 +327,7 @@ class OSSPasswords extends \App\CRMEntity
 		$displayLabel = 'OSSPassword Configuration';
 
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-passwords-encryption',
 				'description' => 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION',

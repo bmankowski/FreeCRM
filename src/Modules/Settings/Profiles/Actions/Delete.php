@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Profiles\Actions;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -23,7 +22,7 @@ class Delete extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
 		$transferToProfile = Settings_Profiles_Record_Model::getInstanceById($transferRecordId);
 		if ($recordModel && $transferToProfile) {

@@ -13,9 +13,7 @@ namespace App\Modules\Settings\Leads\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
 
-use App\Modules\Settings\Leads\Models\Module as Settings_Leads_Module_Model;
 class MappingEdit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

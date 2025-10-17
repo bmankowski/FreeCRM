@@ -11,7 +11,6 @@ namespace App\Modules\Settings\Workflows\Actions;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class ExportWorkflow extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

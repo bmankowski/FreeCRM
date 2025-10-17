@@ -14,7 +14,6 @@ use App\Modules\Settings\PicklistModels\Field;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
 class IndexAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 

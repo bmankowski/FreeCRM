@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Leads\Dashboards;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
-use App\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1

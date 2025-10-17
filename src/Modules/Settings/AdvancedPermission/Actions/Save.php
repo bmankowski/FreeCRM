@@ -11,7 +11,6 @@ namespace App\Modules\Settings\AdvancedPermission\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
 class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 

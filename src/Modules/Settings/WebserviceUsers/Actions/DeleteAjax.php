@@ -11,7 +11,6 @@ namespace App\Modules\Settings\WebserviceUsers\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
 class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 
@@ -23,7 +22,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 	{
 		$recordId = $request->get('record');
 		$typeApi = $request->get('typeApi');
-		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $typeApi);
+		$recordModel = \App\Modules\Settings\WebserviceUsers\Models\Record::getInstanceById($recordId, $typeApi);
 		$result = $recordModel->delete();
 
 		$responceToEmit = new \App\Http\Vtiger_Response();

@@ -12,7 +12,6 @@ namespace App\Modules\Settings\CronTasks\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\CronTasks\Models\Module as Settings_CronTasks_Module_Model;
 class UpdateSequence extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

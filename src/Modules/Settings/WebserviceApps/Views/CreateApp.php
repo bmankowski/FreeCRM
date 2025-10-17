@@ -11,7 +11,6 @@ namespace App\Modules\Settings\WebserviceApps\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use App\Modules\Settings\WebserviceApps\Models\Record as Settings_WebserviceApps_Record_Model;
 class CreateApp extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 

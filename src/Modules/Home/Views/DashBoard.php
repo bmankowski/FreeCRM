@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Home\Views;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

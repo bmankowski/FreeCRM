@@ -11,7 +11,6 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class EditFieldByModal extends \Vtiger_Index_View
 {
 
@@ -35,7 +34,7 @@ class EditFieldByModal extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');
 
-		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $ID)->getRecord();
+		$recordModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $ID)->getRecord();
 		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_SUMMARY);
 		$structuredValues = $recordStrucure->getStructure();
 

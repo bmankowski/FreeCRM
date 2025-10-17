@@ -17,10 +17,8 @@ namespace App\Modules\Settings\SharingAccess\Models;
  * Sharng Access Vtiger Module Model Class
  */
 
-use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 
-use App\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
-class Module extends \Vtiger_Module_Model
+class Module extends \\App\Modules\Vtiger\Models\Module
 {
 
 	/**

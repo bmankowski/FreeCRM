@@ -11,7 +11,6 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
 class TreeCategoryModal extends \Vtiger_Index_View
 {
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Notification\Dashboards;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * Notifications Dashboard Class

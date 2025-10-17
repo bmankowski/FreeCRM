@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Workflows\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

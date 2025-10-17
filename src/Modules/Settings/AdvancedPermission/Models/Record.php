@@ -11,7 +11,6 @@ namespace App\Modules\Settings\AdvancedPermission\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -190,7 +189,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -211,7 +210,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\LayoutEditor\Views;
-use App\Modules\Settings\LayoutEditor\Models\Field as Settings_LayoutEditor_Field_Model;
 
 
 /**

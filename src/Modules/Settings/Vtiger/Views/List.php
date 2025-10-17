@@ -12,9 +12,7 @@ namespace App\Modules\Settings\Vtiger\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
 class List extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
@@ -72,11 +70,11 @@ class List extends \App\Modules\Settings\Vtiger\Views\Index
 		}
 
 		if (!$this->listViewModel) {
-			$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+			$this->listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance($qualifiedModuleName);
 		}
 		$listViewModel = $this->listViewModel;
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		if (!empty($searchKey) && !empty($searchValue)) {

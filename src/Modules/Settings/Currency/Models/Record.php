@@ -13,11 +13,8 @@ namespace App\Modules\Settings\Currency\Models;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use App\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
 
-use App\Modules\Settings\Currency\Models\Module as Settings_Currency_Module_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -47,14 +44,14 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
 		);
-		$editLinkInstance = \Vtiger_Link_Model::getInstanceFromValues($editLink);
+		$editLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
 
 		$deleteLink = array(
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
 		);
-		$deleteLinkInstance = \Vtiger_Link_Model::getInstanceFromValues($deleteLink);
+		$deleteLinkInstance = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
 		return array($editLinkInstance, $deleteLinkInstance);
 	}
 

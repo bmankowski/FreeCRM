@@ -12,7 +12,6 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 

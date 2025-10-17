@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Profiles\Views;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 use App\Modules\Settings\ProfilesViews\IndexAjax;
 
 

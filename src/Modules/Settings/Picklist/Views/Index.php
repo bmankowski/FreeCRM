@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Picklist\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
 class Index extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

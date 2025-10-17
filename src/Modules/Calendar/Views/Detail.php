@@ -15,7 +15,6 @@ namespace App\Modules\Calendar\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class Detail extends \Vtiger_Index_View
 {
 
@@ -32,7 +31,7 @@ class Detail extends \Vtiger_Index_View
 				$moduleName = 'Events';
 		}
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
@@ -123,7 +122,7 @@ class Detail extends \Vtiger_Index_View
 				$moduleName = 'Events';
 		}
 
-		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		$detailViewModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
 		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();

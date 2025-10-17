@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Vtiger\Models;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -28,7 +27,7 @@ class DashBoard extends Model
 	/**
 	 * Function to set the module instance
 	 * @param \App\Modules\Vtiger\Models\Module $moduleInstance - module model
-	 * @return Vtiger_DetailView_Model
+	 * @return \App\Modules\Vtiger\Models\DetailView
 	 */
 	public function setModule($moduleInstance)
 	{

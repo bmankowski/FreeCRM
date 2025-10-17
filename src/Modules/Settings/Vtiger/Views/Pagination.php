@@ -5,9 +5,7 @@ namespace App\Modules\Settings\Vtiger\Views;
 
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
 class Pagination extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
@@ -24,7 +22,7 @@ class Pagination extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$searchResult = $request->get('searchResult');
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
-		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		$listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance($qualifiedModuleName);
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
@@ -35,7 +33,7 @@ class Pagination extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 			$listViewModel->set('formodule', $forModule);
 		}
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $request->get('viewname'));
 		$searchKey = $request->get('search_key');

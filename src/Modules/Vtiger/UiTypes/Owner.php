@@ -11,7 +11,6 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class Owner extends Base
 {
 

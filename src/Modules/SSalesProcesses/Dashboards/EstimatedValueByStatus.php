@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\SSalesProcesses\Dashboards;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * Widget show estimated value by status

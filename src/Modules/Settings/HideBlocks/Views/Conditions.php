@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\HideBlocks\Views;
-use App\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
 
 
 /* +***********************************************************************************************************************************

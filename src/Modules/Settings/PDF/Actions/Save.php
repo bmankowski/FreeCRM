@@ -12,7 +12,6 @@ namespace App\Modules\Settings\PDF\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
 class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
@@ -25,7 +24,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 		if ($recordId) {
 			$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId, $moduleName);
 		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
+			$pdfModel = \App\Modules\Settings\PDF\Models\Record::getCleanInstance($moduleName);
 		}
 
 		$stepFields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
@@ -47,8 +46,8 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 			$pdfModel->set($field, $value);
 		}
 		$pdfModel->set('conditions', $request->get('conditions'));
-		Settings_PDF_Record_Model::transformAdvanceFilterToWorkFlowFilter($pdfModel);
-		Settings_PDF_Record_Model::save($pdfModel, $step);
+		\App\Modules\Settings\PDF\Models\Record::transformAdvanceFilterToWorkFlowFilter($pdfModel);
+		\App\Modules\Settings\PDF\Models\Record::save($pdfModel, $step);
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);

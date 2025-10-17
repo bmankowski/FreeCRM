@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Users\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
@@ -26,7 +26,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 	public function updateConfig(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
-		$recordModel = Settings_Users_Module_Model::getInstance();
+		$recordModel = Settings_\App\Modules\Users\Models\Module::getInstance();
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $recordModel->setConfig($param),
@@ -38,7 +38,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 	public function saveSwitchUsers(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
-		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$moduleModel = Settings_\App\Modules\Users\Models\Module::getInstance();
 		$moduleModel->saveSwitchUsers($param);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
@@ -50,7 +50,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 	public function saveLocks(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('param');
-		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$moduleModel = Settings_\App\Modules\Users\Models\Module::getInstance();
 		$moduleModel->saveLocks($param);
 
 		$response = new \App\Http\Vtiger_Response();

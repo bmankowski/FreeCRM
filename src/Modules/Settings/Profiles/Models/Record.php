@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Profiles\Models;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -17,11 +16,9 @@ use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model
  * Profiles Record Model Class
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use App\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 
-use App\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -233,7 +230,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getProfileTabModel($module)
 	{
 		$tabId = false;
-		if (is_object($module) && is_a($module, '\Vtiger_Module_Model')) {
+		if (is_object($module) && is_a($module, '\\App\Modules\Vtiger\Models\Module')) {
 			$tabId = $module->getId();
 		} else {
 			$module = \App\Modules\Vtiger\Models\Module::getInstance($module);
@@ -251,7 +248,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$profileTabModel = $this->getProfileTabModel($module);
 		$fieldId = false;
-		if (is_object($field) && is_a($field, '\Vtiger_Field_Model')) {
+		if (is_object($field) && is_a($field, '\\App\Modules\Vtiger\Models\Field')) {
 			$fieldId = $field->getId();
 		} else {
 			$field = \App\Modules\Vtiger\Models\Field::getInstance($field, $profileTabModel);
@@ -683,7 +680,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -711,7 +708,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -878,7 +875,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Module::getModuleId($module);
-			$userModuleModel = Users_Module_Model::getInstance($module);
+			$userModuleModel = \App\Modules\Users\Models\Module::getInstance($module);
 			$moduleFields = $userModuleModel->getFields();
 
 			$userAccessbleFields = [];

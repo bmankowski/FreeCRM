@@ -18,10 +18,8 @@ use App\Modules\Settings\SharingAccessModels\RuleMember;
  * Sharng Access Vtiger Module Model Class
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
-class Rule extends \Vtiger_Record_Model
+class Rule extends \\App\Modules\Vtiger\Models\Record
 {
 
 	const RULE_TYPE_GROUPS = 'GRP';
@@ -326,7 +324,7 @@ class Rule extends \Vtiger_Record_Model
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -347,7 +345,7 @@ class Rule extends \Vtiger_Record_Model
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

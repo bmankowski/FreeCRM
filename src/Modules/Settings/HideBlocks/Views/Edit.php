@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\HideBlocks\Views;
-use App\Modules\Settings\HideBlocksModels\Record as Settings_HideBlocks_Record_Model;
 
 
 /* +***********************************************************************************************************************************
@@ -25,7 +24,7 @@ Class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Vtiger\Views\I
 		$enabled = 0;
 		$views = array();
 		$viewer = $this->getViewer($request);
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		if ($recordId) {
 			$mode = 'edit';
 			$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);

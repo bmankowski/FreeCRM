@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\LayoutEditor\Actions;
-use App\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Block_Model;
 
 
 /* +**********************************************************************************
@@ -13,7 +12,6 @@ use App\Modules\Settings\LayoutEditor\Models\Block as Settings_LayoutEditor_Bloc
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Block as Vtiger_Block_Model;
 class Block extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

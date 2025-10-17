@@ -1,7 +1,6 @@
 <?php
 namespace App\SystemWarnings\SystemRequirements;
 
-use App\Modules\Settings\ModuleManager\Models\Library as Settings_ModuleManager_Library_Model;
 
 /**
  * Privilege File basic class

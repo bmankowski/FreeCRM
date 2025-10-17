@@ -13,7 +13,6 @@ namespace App\Modules\OSSMail;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class OSSMail {
 
 	public function vtlib_handler($moduleName, $eventType)
@@ -22,7 +21,7 @@ class OSSMail {
 		if ($eventType == 'module.postinstall') {
 			$displayLabel = 'OSSMail';
 			$adb->pquery("UPDATE vtiger_tab SET customized=0 WHERE name=?", array($displayLabel), true);
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_MAIL', [
 				'name' => 'Mail',
 				'iconpath' => 'adminIcon-mail-download-history',
 				'description' => 'LBL_OSSMAIL_DESCRIPTION',

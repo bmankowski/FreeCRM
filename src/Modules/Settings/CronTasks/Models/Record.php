@@ -12,11 +12,8 @@ namespace App\Modules\Settings\CronTasks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
 
-use App\Modules\Settings\CronTasks\Models\Module as Settings_CronTasks_Module_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -55,7 +52,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to set module to this record instance
 	 * @param <Settings_CronTasks_Module_Model> $moduleModel
-	 * @return <Settings_CronTasks_Record_Model> record model
+	 * @return <\App\Modules\Settings\CronTasks\Models\Record> record model
 	 */
 	public function setModule($moduleModel)
 	{
@@ -151,11 +148,11 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 				break;
 			case 'status' : $fieldValue = intval($fieldValue);
 				$moduleModel = $this->getModule();
-				if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_COMPLETED) {
+				if ($fieldValue === \App\Modules\Settings\CronTasks\Models\Record::$STATUS_COMPLETED) {
 					$fieldLabel = 'LBL_COMPLETED';
-				} else if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_RUNNING) {
+				} else if ($fieldValue === \App\Modules\Settings\CronTasks\Models\Record::$STATUS_RUNNING) {
 					$fieldLabel = 'LBL_RUNNING';
-				} else if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_ENABLED) {
+				} else if ($fieldValue === \App\Modules\Settings\CronTasks\Models\Record::$STATUS_ENABLED) {
 					$fieldLabel = 'LBL_ACTIVE';
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
@@ -195,7 +192,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 * Function to get record instance by using id and moduleName
 	 * @param <Integer> $recordId
 	 * @param string $qualifiedModuleName
-	 * @return <Settings_CronTasks_Record_Model> RecordModel
+	 * @return <\App\Modules\Settings\CronTasks\Models\Record> RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
@@ -207,7 +204,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			->one();
 		if ($row) {
 			$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+			$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($row)->setModule($moduleModel);
 			return $recordModel;
@@ -233,7 +230,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -249,7 +246,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

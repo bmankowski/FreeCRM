@@ -12,7 +12,6 @@ namespace App\Modules\Settings\PickListDependency\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\PickListDependency\Models\Module as Settings_PickListDependency_Module_Model;
 class AddDependency extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 

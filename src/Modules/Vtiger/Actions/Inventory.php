@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Vtiger\Actions;
-use App\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
 
 /**
  * Basic Inventory Action Class

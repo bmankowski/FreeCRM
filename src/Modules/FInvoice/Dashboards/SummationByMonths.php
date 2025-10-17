@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\FInvoice\Dashboards;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * FInvoice Summation By Months Dashboard Class

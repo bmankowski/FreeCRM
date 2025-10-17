@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Users\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class Auth extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
@@ -21,7 +21,7 @@ class Auth extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$settingsModel = Settings_Users_Module_Model::getInstance();
+		$settingsModel = Settings_\App\Modules\Users\Models\Module::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

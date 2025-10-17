@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Leads\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
 class MappingDetail extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

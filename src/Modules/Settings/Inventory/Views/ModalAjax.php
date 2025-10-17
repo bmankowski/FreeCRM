@@ -3,7 +3,6 @@
 namespace App\Modules\Settings\Inventory\Views;
 use App\HttpVtiger_Request;
 use App\Modules\Settings\InventoryViews\CreditLimits;
-use App\Modules\Settings\InventoryModels\Record as Settings_Inventory_Record_Model;
 
 
 

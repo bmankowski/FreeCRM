@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\MappedFields\Models;
-use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Field_Model;
 
 
 
@@ -12,8 +11,7 @@ use App\Modules\Settings\MappedFields\Models\Field as Settings_MappedFields_Fiel
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
-class Field extends \Vtiger_Field_Model
+class Field extends \\App\Modules\Vtiger\Models\Field
 {
 
 	public $inventoryField = false;

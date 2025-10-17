@@ -17,7 +17,6 @@ use App\Modules\Settings\WorkflowsModels\TaskType;
  * Workflow Task Record Model Class
  */
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
 

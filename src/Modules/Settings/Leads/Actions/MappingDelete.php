@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Leads\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Leads\Models\Mapping as Settings_Leads_Mapping_Model;
 class MappingDelete extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

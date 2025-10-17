@@ -16,7 +16,6 @@ namespace App\Modules\Settings\Vtiger\Models;
  * Settings Vtiger Record Model Class
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 abstract class Record extends \App\Base
 {
 
@@ -30,7 +29,7 @@ abstract class Record extends \App\Base
 		$links = array();
 		$recordLinks = array();
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

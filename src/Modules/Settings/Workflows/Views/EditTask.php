@@ -14,9 +14,7 @@ use App\Modules\Settings\WorkflowsModels\TaskRecord;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

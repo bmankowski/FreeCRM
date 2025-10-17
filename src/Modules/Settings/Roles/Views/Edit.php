@@ -2,7 +2,6 @@
 
 namespace App\Modules\Settings\Roles\Views;
 use App\Modules\Settings\RolesViews\Index;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************

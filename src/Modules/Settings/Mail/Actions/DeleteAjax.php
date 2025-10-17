@@ -11,7 +11,6 @@ namespace App\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use App\Modules\Settings\Mail\Models\Record as Settings_Mail_Record_Model;
 class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 {
 	/**
@@ -38,7 +37,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 		$recordModel = Settings_Mail_Record_Model::getInstance($record);
 		$recordModel->delete();
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		header("Location: {$moduleModel->getDefaultUrl()}");
 	}
 	

@@ -14,7 +14,6 @@ use App\Modules\Settings\SharingAccessModels\Action;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 Class Settings_SharingAccess_Index_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

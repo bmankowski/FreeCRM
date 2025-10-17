@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\ApiAddress\Actions;
-use App\Modules\Settings\ApiAddress\Models\Module as Settings_ApiAddress_Module_Model;
 
 
 /* +***********************************************************************************************************************************

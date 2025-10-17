@@ -13,7 +13,6 @@ namespace App\Modules\Settings\TreesManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
@@ -21,7 +20,7 @@ class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_TreesManager_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		$recordModel = \App\Modules\Settings\TreesManager\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
 		$recordModel->delete();
 		$returnUrl = $recordModel->getListViewUrl();
 		$response = new \App\Http\Vtiger_Response();

@@ -15,7 +15,6 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class WidgetFullscreen extends \Vtiger_Index_View
 {
 
@@ -46,7 +45,7 @@ class WidgetFullscreen extends \Vtiger_Index_View
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
-		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->get('record'));
+		$detailModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $request->get('record'));
 		$recordModel = $detailModel->getRecord();
 		$detailModel->getWidgets();
 		$handlerClass = \App\Loader::getComponentClassName('View', 'Detail', $moduleName);

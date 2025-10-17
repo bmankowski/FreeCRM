@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Currency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Currency\Models\Module as Settings_Currency_Module_Model;
 class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 

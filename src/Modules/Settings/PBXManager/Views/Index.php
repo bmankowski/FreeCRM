@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\PBXManager\Views;
-use App\Modules\Settings\PBXManagerModels\Record as Settings_PBXManager_Record_Model;
 
 
 /* +***********************************************************************************

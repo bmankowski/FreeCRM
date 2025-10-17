@@ -11,7 +11,6 @@ namespace App\Modules\Settings\WebserviceUsers\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 {
 
@@ -26,9 +25,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 		if ($recordId) {
-			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $typeApi);
+			$recordModel = \App\Modules\Settings\WebserviceUsers\Models\Record::getInstanceById($recordId, $typeApi);
 		} else {
-			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($typeApi);
+			$recordModel = \App\Modules\Settings\WebserviceUsers\Models\Record::getCleanInstance($typeApi);
 		}
 		$result = $recordModel->save($data);
 

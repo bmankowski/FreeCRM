@@ -12,7 +12,6 @@ namespace App\Modules\Leads\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class DetailView extends \App\Modules\Vtiger\Models\DetailView
 {
 
@@ -24,7 +23,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$linkModelList = Vtiger_DetailView_Model::getDetailViewLinks($linkParams);
+		$linkModelList = \App\Modules\Vtiger\Models\DetailView::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();

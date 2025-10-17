@@ -11,7 +11,6 @@ namespace App\Modules\Settings\AutomaticAssignment\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\AutomaticAssignment\Models\Record as Settings_AutomaticAssignment_Record_Model;
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
@@ -133,11 +132,11 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function searches for record from the Auto assign records panel
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \\App\Modules\Vtiger\Models\Record $recordModel
 	 * @param string $role
 	 * @return bool|Settings_AutomaticAssignment_Record_Model
 	 */
-	public function searchRecord(\Vtiger_Record_Model $recordModel, $role = '')
+	public function searchRecord(\\App\Modules\Vtiger\Models\Record $recordModel, $role = '')
 	{
 		$key = $recordModel->getModuleName() . $role;
 		if (\App\Cache::has(__METHOD__, $key)) {
@@ -184,11 +183,11 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Execute auto assign 
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \\App\Modules\Vtiger\Models\Record $recordModel
 	 */
-	public static function autoAssignExecute(\Vtiger_Record_Model $recordModel)
+	public static function autoAssignExecute(\\App\Modules\Vtiger\Models\Record $recordModel)
 	{
-		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
+		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $moduleInstance->searchRecord($recordModel);
 		if ($autoAssignRecord) {
 			$owner = $autoAssignRecord->getAssignUser();

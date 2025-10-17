@@ -15,7 +15,6 @@ namespace App\Modules\Users\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\Vtiger\Models\DetailView as Vtiger_DetailView_Model;
 class PreferenceDetail extends \Vtiger_Index_View
 {
 
@@ -84,7 +83,7 @@ class PreferenceDetail extends \Vtiger_Index_View
 			//Additional parameters
 			$recordId = $request->get('record');
 			$moduleName = $request->getModule();
-			$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$detailViewModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
 			$recordModel = $detailViewModel->getRecord();
 			$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 			$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);

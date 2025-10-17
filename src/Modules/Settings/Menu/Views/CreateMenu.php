@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Menu\Views;
-use App\Modules\Settings\Menu\Models\Record as Settings_Menu_Record_Model;
-use App\Modules\Settings\Menu\Models\Module as Settings_Menu_Module_Model;
 
 
 /* +***********************************************************************************************************************************

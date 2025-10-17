@@ -11,7 +11,6 @@ namespace App\Modules\Settings\WebserviceUsers\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\WebserviceUsers\Models\Record as Settings_WebserviceUsers_Record_Model;
 class Edit extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
@@ -27,9 +26,9 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\BasicModal
 		$recordId = $request->get('record');
 		$type = $request->get('typeApi');
 		if (!empty($recordId)) {
-			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $type);
+			$recordModel = \App\Modules\Settings\WebserviceUsers\Models\Record::getInstanceById($recordId, $type);
 		} else {
-			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($type);
+			$recordModel = \App\Modules\Settings\WebserviceUsers\Models\Record::getCleanInstance($type);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);

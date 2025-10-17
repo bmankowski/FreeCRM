@@ -11,9 +11,7 @@ namespace App\Modules\Settings\Mail\Views;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use App\Modules\Settings\Mail\Models\Record as Settings_Mail_Record_Model;
 
-use App\Modules\Settings\Mail\Models\Module as Settings_Mail_Module_Model;
 class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

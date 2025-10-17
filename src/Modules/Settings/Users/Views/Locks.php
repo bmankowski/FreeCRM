@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Users\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class Locks extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
@@ -24,7 +24,7 @@ class Locks extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$moduleModel = Settings_\App\Modules\Users\Models\Module::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('LOCKS', $moduleModel->getLocks());
 		$viewer->assign('LOCKS_TYPE', $moduleModel->getLocksTypes());

@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Workflows\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class TasksList extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

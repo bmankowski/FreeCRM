@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Workflows\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
 class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
@@ -20,7 +19,7 @@ class List extends \App\Modules\Settings\Vtiger\Views\List
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
-		$viewer->assign('CRON_RECORD_MODEL', Settings_CronTasks_Record_Model::getInstanceByName('LBL_WORKFLOW'));
+		$viewer->assign('CRON_RECORD_MODEL', \App\Modules\Settings\CronTasks\Models\Record::getInstanceByName('LBL_WORKFLOW'));
 		parent::preProcess($request, $display);
 	}
 }

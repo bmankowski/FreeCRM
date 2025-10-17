@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Accounts\Dashboards;
-use App\Modules\Settings\WidgetsManagement\Models\Module as Settings_WidgetsManagement_Module_Model;
 
 /**
  * Wdiget to show neglected accounts

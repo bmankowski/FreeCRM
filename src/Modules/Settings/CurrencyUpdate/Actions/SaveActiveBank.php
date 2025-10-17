@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\CurrencyUpdate\Actions;
-use App\Modules\Settings\CurrencyUpdate\Models\Module as Settings_CurrencyUpdate_Module_Model;
 
 
 

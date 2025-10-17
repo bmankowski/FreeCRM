@@ -11,8 +11,7 @@ namespace App\Modules\Settings\AdvancedPermission\Models;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
-class ListView extends \Settings_Vtiger_ListView_Model
+class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
 {
 	/*
 	 * Function to get Basic links

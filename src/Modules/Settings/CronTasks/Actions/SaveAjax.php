@@ -12,7 +12,6 @@ namespace App\Modules\Settings\CronTasks\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 
@@ -31,7 +30,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordModel = Settings_CronTasks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		$recordModel = \App\Modules\Settings\CronTasks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
 
 		$fieldsList = $recordModel->getModule()->getEditableFieldsList();
 		foreach ($fieldsList as $fieldName) {

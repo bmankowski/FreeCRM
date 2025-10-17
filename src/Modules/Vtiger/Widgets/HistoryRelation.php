@@ -10,7 +10,6 @@ namespace App\Modules\Vtiger\Widgets;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class HistoryRelation extends \App\Modules\Vtiger\Widgets\Basic
 {
 

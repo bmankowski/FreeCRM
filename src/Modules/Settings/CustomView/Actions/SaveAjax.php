@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\CustomView\Actions;
-use App\Modules\Settings\CustomView\Models\Module as Settings_CustomView_Module_Model;
 
 
 

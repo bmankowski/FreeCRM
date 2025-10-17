@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Currency\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
 

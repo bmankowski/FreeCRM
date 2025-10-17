@@ -12,7 +12,6 @@ namespace App\Modules\Settings\PDF\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
 class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
@@ -44,7 +43,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 			$selectedModuleName = $pdfModel->get('module_name');
 		} else {
 			$selectedModuleName = $request->get('source_module');
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
+			$pdfModel = \App\Modules\Settings\PDF\Models\Record::getCleanInstance();
 		}
 		$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 		$viewer->assign('PDF_MODEL', $pdfModel);

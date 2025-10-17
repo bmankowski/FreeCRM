@@ -13,7 +13,7 @@ use App\Modules\Settings\PasswordModels\Record;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 require_once ROOT_DIRECTORY . '/src/Webservices/Custom/ChangePassword.php';
 
 class SaveAjax extends \App\Modules\Vtiger\Actions\Save
@@ -63,7 +63,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 		}
 
 		$recordModel = $this->saveRecord($request);
-		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
+		$settingsModuleModel = Settings_\App\Modules\Users\Models\Module::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];

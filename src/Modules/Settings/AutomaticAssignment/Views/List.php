@@ -11,7 +11,6 @@ namespace App\Modules\Settings\AutomaticAssignment\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
 class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 

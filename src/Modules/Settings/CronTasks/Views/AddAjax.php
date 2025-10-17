@@ -12,7 +12,6 @@ namespace App\Modules\Settings\CronTasks\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\CronTasks\Models\Record as Settings_CronTasks_Record_Model;
 class AddAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
@@ -22,7 +21,7 @@ class AddAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordModel = Settings_CronTasks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		$recordModel = \App\Modules\Settings\CronTasks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('RECORD_MODEL', $recordModel);

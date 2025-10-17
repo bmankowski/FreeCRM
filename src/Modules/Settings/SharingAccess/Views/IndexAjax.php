@@ -13,9 +13,7 @@ use App\Modules\Settings\SharingAccessModels\RuleMember;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\SharingAccess\Models\Module as Settings_SharingAccess_Module_Model;
 
-use App\Modules\Settings\SharingAccess\Models\Rule as Settings_SharingAccess_Rule_Model;
 Class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 

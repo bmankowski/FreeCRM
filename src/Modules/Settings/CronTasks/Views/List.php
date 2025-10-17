@@ -12,9 +12,7 @@ namespace App\Modules\Settings\CronTasks\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
 class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
@@ -23,10 +21,10 @@ class List extends \App\Modules\Settings\Vtiger\Views\List
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		$listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance($qualifiedModuleName);
 		$listViewModel->set('orderby', 'sequence');
 
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();

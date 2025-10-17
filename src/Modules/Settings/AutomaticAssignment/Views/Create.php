@@ -11,7 +11,6 @@ namespace App\Modules\Settings\AutomaticAssignment\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
 class Create extends \App\Modules\Settings\Vtiger\Views\BasicModal
 {
 
@@ -39,7 +38,7 @@ class Create extends \App\Modules\Settings\Vtiger\Views\BasicModal
 			$viewer->assign('SELECTED_MODULE', $sourceModule);
 			$viewer->view('Create.tpl', $moduleName);
 		} else {
-			$viewer->assign('MODULE_MODEL', Settings_Vtiger_Module_Model::getInstance($moduleName));
+			$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Vtiger\Models\Module::getInstance($moduleName));
 			$viewer->assign('WIZARD_BASE', true);
 			$viewer->assign('SUPPORTED_MODULES', Settings_AutomaticAssignment_Module_Model::getSupportedModules());
 			$this->preProcess($request);

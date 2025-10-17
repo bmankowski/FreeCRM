@@ -9,7 +9,6 @@ namespace App\Modules\Vtiger\Handlers;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\AutomaticAssignment\Models\Module as Settings_AutomaticAssignment_Module_Model;
 class Vtiger_AutomaticAssignment_Handler {
 
 	/**

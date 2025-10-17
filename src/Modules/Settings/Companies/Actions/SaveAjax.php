@@ -11,7 +11,6 @@ namespace App\Modules\Settings\Companies\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-use App\Modules\Settings\Companies\Models\Record as Settings_Companies_Record_Model;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 

@@ -12,9 +12,7 @@ namespace App\Modules\Vtiger;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 
-use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class Util {
 
 	/**
@@ -382,7 +380,7 @@ class Util {
 				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
 				$fieldInfo = $moduleModel->getField($fieldName);
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {
-					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
+					$fieldValue = \App\Modules\Settings\TreesManager\Models\Record::getChildren($fieldValue, $fieldName, $moduleModel);
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
 				if ($field->getFieldDataType() === 'time') {

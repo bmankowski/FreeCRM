@@ -11,7 +11,6 @@ namespace App\Modules\Settings\Companies\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Settings\Companies\Models\Record as Settings_Companies_Record_Model;
 class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

@@ -12,7 +12,6 @@ namespace App\Modules\Settings\PDF\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Settings\PDF\Models\Record as Settings_PDF_Record_Model;
 class Import extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
@@ -31,7 +30,7 @@ class Import extends \App\Modules\Settings\Vtiger\Views\Index
 			$imagePath = '';
 			$base64Image = false;
 
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
+			$pdfModel = \App\Modules\Settings\PDF\Models\Record::getCleanInstance();
 			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
 
@@ -55,7 +54,7 @@ class Import extends \App\Modules\Settings\Vtiger\Views\Index
 						}
 					}
 				}
-				Settings_PDF_Record_Model::save($pdfModel, 'import');
+				\App\Modules\Settings\PDF\Models\Record::save($pdfModel, 'import');
 
 				if ($pdfModel->getId() && $imagePath != '' && $base64Image) {
 					$targetDir = \App\Modules\Settings\PDF\Models\Module::$uploadPath;
@@ -64,7 +63,7 @@ class Import extends \App\Modules\Settings\Vtiger\Views\Index
 					$newFilePath = $targetDir . $pdfModel->getId() . '.' . $imageExt;
 
 					$pdfModel->set('watermark_image', $newFilePath);
-					Settings_PDF_Record_Model::save($pdfModel, 8);
+					\App\Modules\Settings\PDF\Models\Record::save($pdfModel, 8);
 					file_put_contents($newFilePath, $imageData);
 				}
 				$viewer->assign('RECORDID', $pdfModel->getId());

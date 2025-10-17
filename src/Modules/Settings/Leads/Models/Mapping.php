@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Leads\Models;
-use App\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
 
 
 /* +***********************************************************************************
@@ -14,7 +13,6 @@ use App\Modules\Settings\Leads\Models\Field as Settings_Leads_Field_Model;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 {
 
@@ -58,11 +56,11 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get list of detail view link models
-	 * @return <Array> list of detail view link models <\Vtiger_Link_Model>
+	 * @return <Array> list of detail view link models <\\App\Modules\Vtiger\Models\Link>
 	 */
 	public function getDetailViewLinks()
 	{
-		return array(\Vtiger_Link_Model::getInstanceFromValues(array(
+		return array(\\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("' . $this->getEditViewUrl() . '")',
@@ -72,11 +70,11 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get list of mapping link models
-	 * @return <Array> list of mapping link models <\Vtiger_Link_Model>
+	 * @return <Array> list of mapping link models <\\App\Modules\Vtiger\Models\Link>
 	 */
 	public function getMappingLinks()
 	{
-		return array(\Vtiger_Link_Model::getInstanceFromValues(array(
+		return array(\\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"' . $this->getMappingDeleteUrl() . '")',

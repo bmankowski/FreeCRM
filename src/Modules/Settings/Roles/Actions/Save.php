@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Roles\Actions;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -42,7 +41,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$roleName = $request->get('rolename');
 		$allowassignedrecordsto = $request->get('allowassignedrecordsto');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		if (!empty($recordId)) {
 			$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
 		} else {

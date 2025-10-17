@@ -12,7 +12,6 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\TreeCategoryModal as Vtiger_TreeCategoryModal_Model;
 class RelationListView extends Model
 {
 

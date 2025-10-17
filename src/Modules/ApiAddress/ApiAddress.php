@@ -12,7 +12,6 @@ namespace App\Modules\ApiAddress;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class ApiAddress {
 
 	/**
@@ -46,14 +45,14 @@ class ApiAddress {
 		}
 		$displayLabel = 'LBL_API_ADDRESS';
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_INTEGRATION', [
 				'name' => $displayLabel,
 				'iconpath' => '',
 				'description' => 'LBL_API_ADDRESS_DESCRIPTION',
 				'linkto' => 'index.php?module=ApiAddress&parent=Settings&view=Configuration'
 			]);
 		} else {
-			Settings_Vtiger_Module_Model::deleteSettingsField('LBL_INTEGRATION', $displayLabel);
+			\App\Modules\Settings\Vtiger\Models\Module::deleteSettingsField('LBL_INTEGRATION', $displayLabel);
 		}
 	}
 }

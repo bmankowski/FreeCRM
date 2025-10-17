@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\LangManagement\Models;
-use App\Modules\Settings\LangManagement\Models\Module as Settings_LangManagement_Module_Model;
 
 
 

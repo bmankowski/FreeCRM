@@ -4,7 +4,6 @@ namespace App\Modules\Settings\Vtiger\Views;
 use App\Modules\Settings\Vtiger\Models\Tracker;
 use App\Modules\Settings\Vtiger\Models\MenuItem;
 use App\Modules\Settings\GithubModels\Issues;
-use App\Modules\Settings\GithubModels\Client as Settings_Github_Client_Model;
 use App\Modules\Settings\ModuleManager\Models\Module;
 
 
@@ -20,9 +19,7 @@ use App\Modules\Settings\ModuleManager\Models\Module;
 
 use App\Http\Vtiger_Request;
 use App\Http\Vtiger_Session;
-use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class Index extends \Vtiger_Basic_View
 {
 
@@ -130,7 +127,7 @@ class Index extends \Vtiger_Basic_View
 
 		$state = empty($request->get('state')) ? 'open' : $request->get('state');
 		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('totalCount', \App\Modules\Settings\Github\Models\Issues::$totalCount);
 

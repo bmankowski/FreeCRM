@@ -12,9 +12,7 @@ namespace App\Modules\Settings\Vtiger\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 
-use App\Modules\Vtiger\Models\Paging as Vtiger_Paging_Model;
 class ListAjax extends \App\Modules\Settings\Vtiger\Views\ListAjax
 {
 
@@ -50,7 +48,7 @@ class ListAjax extends \App\Modules\Settings\Vtiger\Views\ListAjax
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
 
-		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		$listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance($qualifiedModuleName);
 
 		if (!empty($sourceModule)) {
 			$listViewModel->set('sourceModule', $sourceModule);
@@ -62,7 +60,7 @@ class ListAjax extends \App\Modules\Settings\Vtiger\Views\ListAjax
 	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{
 		$numOfRecords = $this->getListViewCount($request);
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pageCount = ceil((int) $numOfRecords / (int) ($pagingModel->getPageLimit()));
 
 		if ($pageCount == 0) {

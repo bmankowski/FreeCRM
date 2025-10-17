@@ -12,8 +12,7 @@ namespace App\Modules\Settings\Profiles\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
-class ListView extends \Settings_Vtiger_ListView_Model
+class ListView extends \\App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	public function getBasicListQuery()

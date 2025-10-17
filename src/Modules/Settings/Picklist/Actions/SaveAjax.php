@@ -13,7 +13,6 @@ use App\Modules\Settings\PicklistModels\Field;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Picklist\Models\Module as Settings_Picklist_Module_Model;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 

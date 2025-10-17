@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Currency\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\Currency\Models\Record as Settings_Currency_Record_Model;
 class TransformEditAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 

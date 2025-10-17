@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Groups\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class DeleteAjax extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

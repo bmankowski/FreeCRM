@@ -12,7 +12,6 @@ namespace App\Modules\PBXManager;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 require_once ROOT_DIRECTORY . '/src/events/include.php';
 require_once ROOT_DIRECTORY . '/src/utils/utils.php';
 
@@ -223,7 +222,7 @@ class PBXManager extends \App\CRMEntity
 			}
 			$adb->pquery("INSERT INTO vtiger_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
 		}
-		Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+		\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_INTEGRATION', [
 			'name' => 'LBL_PBXMANAGER',
 			'iconpath' => 'adminIcon-pbx-manager',
 			'description' => 'LBL_PBXMANAGER_DESCRIPTION',

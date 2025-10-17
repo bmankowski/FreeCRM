@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Github\Actions;
-use App\Modules\Settings\Github\Models\Client as Settings_Github_Client_Model;
 
 
 

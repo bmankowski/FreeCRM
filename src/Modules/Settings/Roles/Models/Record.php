@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Roles\Models;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -17,7 +16,6 @@ use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model
  * Roles Record Model Class
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -438,7 +436,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \Vtiger_Link_Model instances
+	 * @return <Array> - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -460,7 +458,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 				)
 			);
 			foreach ($recordLinks as $recordLink) {
-				$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+				$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 			}
 		}
 
@@ -555,7 +553,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get Users who are from this role
-	 * @return <Array> User record models list <Users_Record_Model>
+	 * @return <Array> User record models list <\App\Modules\Users\Models\Record>
 	 */
 	public function getUsers()
 	{

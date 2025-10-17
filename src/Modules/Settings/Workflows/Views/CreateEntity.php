@@ -13,7 +13,6 @@ namespace App\Modules\Settings\Workflows\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Modules\Settings\Workflows\Models\Record as Settings_Workflows_Record_Model;
 class CreateEntity extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

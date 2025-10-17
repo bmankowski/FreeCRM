@@ -13,7 +13,6 @@ namespace App\Modules\Settings\TreesManager\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -37,7 +36,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get module of this record instance
-	 * @return Settings_TreesManager_Record_Model $moduleModel
+	 * @return \App\Modules\Settings\TreesManager\Models\Record $moduleModel
 	 */
 	public function getModule()
 	{
@@ -82,7 +81,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get record links
-	 * @return <Array> list of link models <\Vtiger_Link_Model>
+	 * @return <Array> list of link models <\\App\Modules\Vtiger\Models\Link>
 	 */
 	public function getRecordLinks()
 	{
@@ -102,7 +101,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

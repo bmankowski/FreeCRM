@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Leads\Models;
-use App\Modules\Settings\MarketingProcesses\Models\Module as Settings_MarketingProcesses_Module_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

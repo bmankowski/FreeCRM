@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Users\Models;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -376,7 +375,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Static Function to get the instance of all the User Record models
-	 * @return <Array> - List of Users_Record_Model instances
+	 * @return <Array> - List of \App\Modules\Users\Models\Record instances
 	 */
 	public static function getAll($onlyActive = true)
 	{
@@ -720,7 +719,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get instance of user model by name
 	 * @param string $userName
-	 * @return <Users_Record_Model>
+	 * @return <\App\Modules\Users\Models\Record>
 	 */
 	public static function getInstanceByName($userName)
 	{

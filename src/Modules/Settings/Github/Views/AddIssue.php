@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\Github\Views;
-use App\Modules\Settings\Github\Models\Client as Settings_Github_Client_Model;
-use App\Modules\Users\Models\Record as Users_Record_Model;
-use App\Modules\Settings\ConfReport\Models\Module as Settings_ConfReport_Module_Model;
+use App\Modules\Users\Models\Record as \App\Modules\Users\Models\Record;
 
 
 
@@ -18,7 +16,7 @@ class AddIssue extends \App\Modules\Vtiger\Views\BasicModal
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}

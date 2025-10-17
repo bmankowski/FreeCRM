@@ -12,7 +12,6 @@ namespace App\Modules\Settings\MappedFields\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
 class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 

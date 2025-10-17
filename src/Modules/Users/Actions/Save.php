@@ -11,7 +11,7 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
@@ -78,7 +78,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
-			$settingsModuleModel = \Settings_Users_Module_Model::getInstance();
+			$settingsModuleModel = \Settings_\App\Modules\Users\Models\Module::getInstance();
 			$settingsModuleModel->refreshSwitchUsers();
 
 			$sharedIds = $request->get('sharedusers');

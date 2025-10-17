@@ -13,7 +13,6 @@ namespace App\Modules\Settings\TreesManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class Save extends \App\Runtime\Vtiger_Action_Controller
 {
 
@@ -39,11 +38,11 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$replace = $request->get('replace');
 		$templatemodule = $request->get('templatemodule');
 
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 		if (!empty($recordId)) {
-			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($recordId);
+			$recordModel = \App\Modules\Settings\TreesManager\Models\Record::getInstanceById($recordId);
 		} else {
-			$recordModel = new Settings_TreesManager_Record_Model();
+			$recordModel = new \App\Modules\Settings\TreesManager\Models\Record();
 		}
 		$recordModel->set('name', $name);
 		$recordModel->set('module', $templatemodule);

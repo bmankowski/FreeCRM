@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Profiles\Views;
-use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model;
 
 
 /* +***********************************************************************************
@@ -14,7 +13,6 @@ use App\Modules\Settings\ProfilesModels\Record as Settings_Profiles_Record_Model
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
 class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

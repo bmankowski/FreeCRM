@@ -12,7 +12,6 @@ namespace App\Modules\Settings\PickListDependency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-use App\Modules\Settings\PickListDependency\Models\Record as Settings_PickListDependency_Record_Model;
 class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 {
 

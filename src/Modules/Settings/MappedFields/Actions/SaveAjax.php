@@ -11,7 +11,6 @@ namespace App\Modules\Settings\MappedFields\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Settings\MappedFields\Models\Module as Settings_MappedFields_Module_Model;
 class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 

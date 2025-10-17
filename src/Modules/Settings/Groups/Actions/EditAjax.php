@@ -12,7 +12,6 @@ namespace App\Modules\Settings\Groups\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 Class Settings_Groups_EditAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 

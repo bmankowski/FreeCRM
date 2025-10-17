@@ -16,8 +16,7 @@ namespace App\Modules\Settings\Groups\Models;
  * Roles Record Model Class
  */
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
-class Member extends \Vtiger_Record_Model
+class Member extends \\App\Modules\Vtiger\Models\Record
 {
 
 	const MEMBER_TYPE_USERS = 'Users';

@@ -11,7 +11,6 @@ namespace App\Modules\Settings\WebserviceUsers\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Vtiger\Models\ListView as Vtiger_ListView_Model;
 class List extends \App\Modules\Settings\Vtiger\Views\List
 {
 
@@ -27,7 +26,7 @@ class List extends \App\Modules\Settings\Vtiger\Views\List
 			$request->set('typeApi', current(\App\Modules\Settings\WebserviceApps\Models\Module::getTypes()));
 		}
 		$typeApi = $request->get('typeApi');
-		$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		$this->listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance($qualifiedModuleName);
 		$this->listViewModel->getModule()->typeApi = $typeApi;
 		parent::initializeListViewContents($request, $viewer);
 		$viewer->assign('TYPE_API', $typeApi);

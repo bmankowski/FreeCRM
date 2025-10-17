@@ -2,7 +2,6 @@
 
 namespace App\Modules\Settings\Inventory\Views;
 use App\Http\Vtiger_Request;
-use App\Modules\Settings\Inventory\Models\Record as Settings_Inventory_Record_Model;
 
 
 

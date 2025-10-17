@@ -13,7 +13,6 @@ namespace App\Modules\Settings\TreesManager\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
@@ -26,12 +25,12 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$sourceModuleId = '';
 		$access = 1;
 		if (!empty($record)) {
-			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($record);
+			$recordModel = \App\Modules\Settings\TreesManager\Models\Record::getInstanceById($record);
 			$sourceModuleId = $recordModel->get('module');
 			$viewer->assign('MODE', 'edit');
 			$access = $recordModel->get('access');
 		} else {
-			$recordModel = new Settings_TreesManager_Record_Model();
+			$recordModel = new \App\Modules\Settings\TreesManager\Models\Record();
 			$viewer->assign('MODE', '');
 			$recordModel->set('lastId', 0);
 		}

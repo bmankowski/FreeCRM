@@ -7,7 +7,6 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-use App\Modules\Settings\TreesManager\Models\Record as Settings_TreesManager_Record_Model;
 class TreePopup extends \Vtiger_Index_View
 {
 
@@ -44,7 +43,7 @@ class TreePopup extends \Vtiger_Index_View
 		$value = $request->get('value');
 		$type = false;
 		if (!empty($template)) {
-			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
+			$recordModel = \App\Modules\Settings\TreesManager\Models\Record::getInstanceById($template);
 		} else {
 			\vtlib\Functions::throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}

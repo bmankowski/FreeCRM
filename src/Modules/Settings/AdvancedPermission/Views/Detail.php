@@ -11,7 +11,6 @@ namespace App\Modules\Settings\AdvancedPermission\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-use App\Modules\Settings\AdvancedPermission\Models\Record as Settings_AdvancedPermission_Record_Model;
 Class Settings_AdvancedPermission_Detail_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 

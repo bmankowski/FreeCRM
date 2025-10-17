@@ -1,7 +1,6 @@
 <?php
 namespace App\SystemWarnings\SystemRequirements;
 
-use App\Modules\Settings\ConfReport\Models\Module as Settings_ConfReport_Module_Model;
 use AppLanguageTranslator;
 
 /**

@@ -11,9 +11,7 @@ namespace App\Modules\Settings\AutomaticAssignment\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use App\Modules\Settings\Groups\Models\Record as Settings_Groups_Record_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -114,7 +112,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function returns field instances for given name
 	 * @param string $name
-	 * @return \Vtiger_Field_Model
+	 * @return \\App\Modules\Vtiger\Models\Field
 	 */
 	public function getFieldInstanceByName($name)
 	{
@@ -363,7 +361,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \Vtiger_Link_Model[] - Associate array of \Vtiger_Link_Model instances
+	 * @return \\App\Modules\Vtiger\Models\Link[] - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -389,7 +387,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -428,7 +426,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if (\App\Cache::staticHas($cacheName, $key)) {
 			return \App\Cache::staticGet($cacheName, $key);
 		}
-		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
+		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$instance = new self();
 		$instance->module = $moduleInstance;
 		\App\Cache::staticSave($cacheName, $key, $instance);

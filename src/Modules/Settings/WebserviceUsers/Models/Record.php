@@ -12,9 +12,7 @@ use App\Modules\Settings\Vtiger\Models\Field;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Modules\Vtiger\Models\Link as Vtiger_Link_Model;
 
-use App\Modules\Settings\WebserviceApps\Models\Record as Settings_WebserviceApps_Record_Model;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
@@ -46,19 +44,19 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get Module instance
-	 * @return Settings_WebserviceUsers_Module_Model
+	 * @return Settings_Webservice\App\Modules\Users\Models\Module
 	 */
 	public function getModule()
 	{
 		if (!$this->module) {
-			$this->module = $moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
+			$this->module = $moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:WebserviceUsers');
 		}
 		return $this->module;
 	}
 
 	/**
 	 * Function to set Module instance
-	 * @param Settings_WebserviceUsers_Module_Model $moduleModel
+	 * @param Settings_Webservice\App\Modules\Users\Models\Module $moduleModel
 	 * @return $this
 	 */
 	public function setModule($moduleModel)
@@ -155,7 +153,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getCleanInstance($type)
 	{
-		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
+		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:WebserviceUsers');
 		$moduleInstance->typeApi = $type;
 		$instance = new self();
 		$instance->module = $moduleInstance;
@@ -243,7 +241,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \Vtiger_Link_Model[] - Associate array of \Vtiger_Link_Model instances
+	 * @return \\App\Modules\Vtiger\Models\Link[] - Associate array of \\App\Modules\Vtiger\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -266,7 +264,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \\App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
