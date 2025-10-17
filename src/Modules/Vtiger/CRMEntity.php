@@ -16,6 +16,8 @@ class CRMEntity extends \FreeCRM\CRMEntity
 
 	public $db; // Used in class functions of CRMEntity
 	public $column_fields = [];
+	public $customFieldTable = [];
+	private $query = null;
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
@@ -179,11 +181,11 @@ class CRMEntity extends \FreeCRM\CRMEntity
 	 */
 	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
+		$select_clause = "SELECT {$this->table_name}.{$this->table_index} AS recordid, vtiger_users_last_import.deleted,{$table_cols}";
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
-			$query .= ", " . $this->customFieldTable[0] . ".* ";
+			$select_clause .= ", " . $this->customFieldTable[0] . ".* ";
 
 		$from_clause = " FROM $this->table_name";
 
