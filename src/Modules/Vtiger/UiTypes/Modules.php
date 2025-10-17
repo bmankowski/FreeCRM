@@ -27,7 +27,7 @@ class Modules extends Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return vtranslate($value, $value);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $value);
 	}
 
 	public function getListSearchTemplateName()

@@ -161,7 +161,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (empty($sourceFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-		return vtranslate($this->get('sourcelabel'), $this->get('sourceModule'));
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('sourcelabel'), $this->get('sourceModule'));
 	}
 
 	public function getTargetFieldLabel()
@@ -170,7 +170,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 		if (empty($targetFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-		return vtranslate($this->get('targetlabel'), $this->get('sourceModule'));
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('targetlabel'), $this->get('sourceModule'));
 	}
 
 	public static function getInstance($module, $sourceField, $targetField)

@@ -114,7 +114,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				$value = \App\Module::getModuleName($value);
 				break;
 			case 'industry':
-				$value = LanguageTranslator::translate($value);
+				$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value);
 				break;
 			case 'logo_login':
 			case 'logo_main':
@@ -133,9 +133,9 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getDisplayCheckboxValue($value)
 	{
 		if (0 === $value) {
-			$value = \LanguageTranslator::translate('LBL_NO');
+			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO');
 		} else {
-			$value = \LanguageTranslator::translate('LBL_YES');
+			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YES');
 		}
 		return $value;
 	}

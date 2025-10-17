@@ -79,7 +79,7 @@ class IncomingCallPoll extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				if ($callerid) {
 					$moduleName = $recordModel->get('customertype');
 					if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $callerid)) {
-						$name = $recordModel->get('customernumber') . vtranslate('LBL_HIDDEN', 'PBXManager');
+						$name = $recordModel->get('customernumber') . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HIDDEN', 'PBXManager');
 						$recordModel->set('callername', $name);
 					} else {
 						$entityNames = getEntityName($moduleName, array($callerid));

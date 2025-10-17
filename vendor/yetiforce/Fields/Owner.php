@@ -72,7 +72,7 @@ class Owner
 		}
 		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
-				$name = vtranslate($name);
+				$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($name);
 			}
 		}
 		if (!empty($this->searchValue)) {

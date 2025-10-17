@@ -36,7 +36,7 @@ class blockEditView {
 			'save_record' => false,
 			'type' => 0,
 			'info' => [
-				'text' => LanguageTranslator::translate($message, 'DataAccess'),
+				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($message, 'DataAccess'),
 				'type' => 'error'
 			]
 		];

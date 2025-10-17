@@ -193,20 +193,20 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 
 		switch ($fieldName) {
 			case 'name' :
-				$fieldValue = vtranslate($fieldValue, $fieldValue);
+				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldValue, $fieldValue);
 				break;
 			case 'blocklabel' :
-				$fieldValue = vtranslate($fieldValue, $this->get('name'));
+				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldValue, $this->get('name'));
 				break;
 			case 'enabled' :
-				$fieldValue = vtranslate($this->get('enabled') == 1 ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
+				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('enabled') == 1 ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
 				break;
 			case 'view' :
 				$fieldValue = '';
 				if ($this->get('view') != '') {
 					$selectedViews = explode(',', $this->get('view'));
 					foreach ($selectedViews as $view) {
-						$views[] = vtranslate('LBL_VIEW_' . strtoupper($view), $this->get('name'));
+						$views[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $this->get('name'));
 					}
 					$fieldValue = implode($views, ',');
 				}

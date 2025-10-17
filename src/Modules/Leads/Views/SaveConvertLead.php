@@ -77,9 +77,9 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
 			}
 			if (!$results) {
-				$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
+				$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
 				if ($currentUser->isAdminUser()) {
-					$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
+					$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
 				}
 				$this->showError($request, '', $message);
 				throw new \Exception\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
@@ -115,7 +115,7 @@ class SaveConvertLead extends \FreeCRM\Runtime\Vtiger_View_Controller
 		$currentUser = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 
 		if ($exception != false) {
-			$viewer->assign('EXCEPTION', vtranslate($exception->getMessage(), $moduleName));
+			$viewer->assign('EXCEPTION', \FreeCRM\Runtime\Vtiger_Language_Handler::translate($exception->getMessage(), $moduleName));
 		} elseif ($message) {
 			$viewer->assign('EXCEPTION', $message);
 		}

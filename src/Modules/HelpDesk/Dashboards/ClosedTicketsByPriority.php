@@ -78,7 +78,7 @@ class ClosedTicketsByPriority extends \Vtiger_Index_View
 		$response = [];
 		while ($row = $dataReader->read()) {
 			$response[] = [
-				'name' => \LanguageTranslator::translate($row['priority'], $moduleName),
+				'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['priority'], $moduleName),
 				'count' => $row['count'],
 				'color' => $row['color'],
 				'url' => $listViewUrl . $this->getSearchParams($row['priority'], $time, $owner),

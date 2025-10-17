@@ -36,7 +36,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -51,7 +51,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MENU', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -64,7 +64,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -77,7 +77,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -95,7 +95,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 
 		$response->emit();

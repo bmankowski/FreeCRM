@@ -49,9 +49,9 @@ class CheckDayTasks {
 
 		$count = $db->getSingleValue($result);
 		if ($count >= $config['maxActivites']) {
-			$title = '<strong>' . vtranslate('Message', 'DataAccess') . '</strong>';
+			$title = '<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Message', 'DataAccess') . '</strong>';
 
-			$info = ['text' => vtranslate($config['message'], 'DataAccess'),
+			$info = ['text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
 				'title' => $title,
 				'type' => 1
 			];
@@ -59,7 +59,7 @@ class CheckDayTasks {
 				'save_record' => false,
 				'type' => 3,
 				'info' => is_array($info) ? $info : [
-					'text' => vtranslate($config['message'], 'DataAccess'),
+					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
 					'ntype' => $typeInfo
 					]
 			];

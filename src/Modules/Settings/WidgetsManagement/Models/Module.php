@@ -367,7 +367,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
 		}
 		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::addWidget() method ...");
-		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => vtranslate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
+		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
 	}
 
 	public function getBlocksId($dashboard)

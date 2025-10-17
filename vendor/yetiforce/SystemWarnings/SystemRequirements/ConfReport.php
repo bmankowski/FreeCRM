@@ -48,8 +48,8 @@ class ConfReport extends \App\SystemWarnings\Template
 		} else {
 			$this->status = 0;
 			$this->link = 'index.php?parent=Settings&module=ConfReport&view=Index';
-			$this->linkTitle = LanguageTranslator::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
-			$this->description = LanguageTranslator::translate('LBL_CONFIG_REPORT_DESC', 'Settings:SystemWarnings');
+			$this->linkTitle = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
+			$this->description = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CONFIG_REPORT_DESC', 'Settings:SystemWarnings');
 		}
 	}
 }

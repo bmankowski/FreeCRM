@@ -20,7 +20,7 @@ class DeleteImage extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$record = $request->get('id');
 
 		if (!(\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record) && \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $record))) {
-			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermittedToRecord(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
@@ -35,10 +35,10 @@ class DeleteImage extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
 			$status = $recordModel->deleteImage($imageId);
 			if ($status) {
-				$response->setResult(array(vtranslate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
+				$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
 			}
 		} else {
-			$response->setError(vtranslate('LBL_IMAGE_NOT_DELETED', $moduleName));
+			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IMAGE_NOT_DELETED', $moduleName));
 		}
 
 		$response->emit();

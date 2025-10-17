@@ -44,18 +44,18 @@ class Time extends Base
 	{
 		if ($time) {
 			list($hours, $minutes, $seconds) = explode(':', $time);
-			$format = vtranslate('PM');
+			$format = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('PM');
 
 			if ($hours > 12) {
 				$hours = (int) $hours - 12;
 			} else if ($hours < 12) {
-				$format = vtranslate('AM');
+				$format = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('AM');
 			}
 
 			//If hours zero then we need to make it as 12 AM
 			if ($hours == '00') {
 				$hours = '12';
-				$format = vtranslate('AM');
+				$format = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('AM');
 			}
 
 			return "$hours:$minutes $format";

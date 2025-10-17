@@ -232,7 +232,7 @@ class MultiReferenceValue extends Base
 			$relModuleName = \vtlib\Functions::getModuleName($fieldInfo['tabid']);
 			$values = array_filter(explode(self::COMMA, $value));
 			foreach ($values as &$value) {
-				$value = \FreeCRM\LanguageTranslator::translate($value, $relModuleName);
+				$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $relModuleName);
 			}
 			$values = implode(', ', $values);
 		} else {

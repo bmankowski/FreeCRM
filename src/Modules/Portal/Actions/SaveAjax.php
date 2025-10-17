@@ -33,7 +33,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		\FreeCRM\Modules\Portal\Models\Module::savePortalRecord($recordId, $bookmarkName, $bookmarkUrl);
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$result = array('message' => vtranslate('LBL_BOOKMARK_SAVED_SUCCESSFULLY', $module));
+		$result = array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_BOOKMARK_SAVED_SUCCESSFULLY', $module));
 		$response->setResult($result);
 		$response->emit();
 	}

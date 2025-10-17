@@ -46,10 +46,10 @@ class TreePopup extends \Vtiger_Index_View
 		if (!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			\vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+			\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if (!$recordModel)
-			\vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+			\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		if ($request->get('multiple')) {
 			$type = 'category';
 		}

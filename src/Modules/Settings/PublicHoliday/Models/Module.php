@@ -47,7 +47,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			$holidays[$id]['date'] = $date;
 			$holidays[$id]['name'] = $name;
 			$holidays[$id]['type'] = $type;
-			$holidays[$id]['day'] = vtranslate(date('l', strtotime($date)), 'PublicHoliday');
+			$holidays[$id]['day'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(date('l', strtotime($date)), 'PublicHoliday');
 		}
 		\App\Log::trace("Exiting \FreeCRM\Modules\Settings\PublicHoliday\Models\Module::getHolidays() method ...");
 		return $holidays;

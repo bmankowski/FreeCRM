@@ -65,7 +65,7 @@ class TableDiscountSummary extends Base
 							<thead>
 								<tr>
 									<th class="tBorder noBottomBorder tHeader">
-										<strong>' . \LanguageTranslator::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</strong>
+										<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</strong>
 									</th>
 								</tr>
 							</thead>

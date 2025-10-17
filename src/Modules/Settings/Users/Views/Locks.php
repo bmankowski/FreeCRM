@@ -17,7 +17,7 @@ class Locks extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 
 	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
-		return vtranslate('LBL_LOCKS', $request->getModule(false));
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_LOCKS', $request->getModule(false));
 	}
 
 	public function process(\FreeCRM\Http\Vtiger_Request $request)

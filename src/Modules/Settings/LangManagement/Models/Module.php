@@ -284,7 +284,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = vtranslate($row['fieldlabel'], $mod);
+			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $mod);
 			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = array('view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']);
 			foreach ($langs AS $lang) {
 				$output['php'][$mod . '|' . $row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod . '|' . $row['fieldlabel']][$lang]);
@@ -330,9 +330,9 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 			if (self::parse_data('|', $lang)) {
 				$langArray = explode("|", $lang);
 				unset($langs[$key]);
-				$settings[$key] = vtranslate($langArray[1], 'Settings:' . $langArray[1]);
+				$settings[$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($langArray[1], 'Settings:' . $langArray[1]);
 			} else {
-				$langs[$key] = vtranslate($key, $key);
+				$langs[$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $key);
 			}
 		}
 		return array('mods' => $langs, 'settings' => $settings);

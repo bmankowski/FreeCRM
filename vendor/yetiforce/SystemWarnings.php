@@ -29,7 +29,7 @@ class SystemWarnings
 				$fileName = $item->getFilename();
 				$subPath = str_replace(DIRECTORY_SEPARATOR, '/', $subPath);
 				$parent = rtrim(rtrim($subPath, $fileName), '/');
-				$folder = ['id' => $i, 'text' => LanguageTranslator::translate($fileName, 'Settings:SystemWarnings'), 'subPath' => $subPath, 'parent' => '#'];
+				$folder = ['id' => $i, 'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fileName, 'Settings:SystemWarnings'), 'subPath' => $subPath, 'parent' => '#'];
 				if (isset($folders[$parent])) {
 					$folder['parent'] = $folders[$parent]['id'];
 				}

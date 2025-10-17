@@ -45,7 +45,7 @@ class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$userModuleModel = \FreeCRM\Modules\Users\Models\Module::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(['message' => \LanguageTranslator::translate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
+		$response->setResult(['message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
 		$response->emit();
 	}
 }

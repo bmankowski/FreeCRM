@@ -64,7 +64,7 @@ class Detail extends \Vtiger_Index_View
 	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		return vtranslate('LBL_VIEW_DETAIL', $moduleName);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAIL', $moduleName);
 	}
 
 	public function preProcess(\FreeCRM\Http\Vtiger_Request $request, $display = true)

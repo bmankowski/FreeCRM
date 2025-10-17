@@ -129,7 +129,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	} elseif ($dbField->name == "PriceBooks_Currency") {
 		if ($value != '') {
-			$fieldvalue = LanguageTranslator::translate($value, 'Currency');
+			$fieldvalue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, 'Currency');
 		}
 	} elseif (in_array($dbField->name, $report->ui101_fields) && !empty($value)) {
 		$entityNames = getEntityName('Users', $value);
@@ -166,12 +166,12 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			if (is_array($picklistArray[$dbField->name]) &&
 				$field->getFieldName() != 'activitytype' && !in_array(
 					$value, $picklistArray[$dbField->name])) {
-				$fieldvalue = LanguageTranslator::translate('LBL_NOT_ACCESSIBLE');
+				$fieldvalue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE');
 			} else {
-				$fieldvalue = LanguageTranslator::translate($value, $module);
+				$fieldvalue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $module);
 			}
 		} else {
-			$fieldvalue = LanguageTranslator::translate($value, $module);
+			$fieldvalue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $module);
 		}
 	} elseif ($fieldType == "multipicklist" && !empty($value)) {
 		if (is_array($picklistArray[1])) {
@@ -180,9 +180,9 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			foreach ($valueList as $value) {
 				if (is_array($picklistArray[1][$dbField->name]) && !in_array(
 						$value, $picklistArray[1][$dbField->name])) {
-					$translatedValueList[] = LanguageTranslator::translate('LBL_NOT_ACCESSIBLE');
+					$translatedValueList[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE');
 				} else {
-					$translatedValueList[] = LanguageTranslator::translate($value, $module);
+					$translatedValueList[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $module);
 				}
 			}
 		}
@@ -195,9 +195,9 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		$fieldvalue = CurrencyField::convertToUserFormat($fieldvalue, null, true);
 	} elseif ($fieldType == 'boolean') {
 		if (strtolower($value) === 'yes' || strtolower($value) === 'on' || $value == 1) {
-			$fieldvalue = vtranslate('LBL_YES');
+			$fieldvalue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YES');
 		} else {
-			$fieldvalue = vtranslate('LBL_NO');
+			$fieldvalue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO');
 		}
 	} elseif ($field && $field->getUIType() == 117 && $value != '') {
 		if ($value != '0') {

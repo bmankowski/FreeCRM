@@ -61,9 +61,9 @@ class LeadsBySource extends \Vtiger_Index_View
 		$response = [];
 		$i = 0;
 		while ($row = $dataReader->read()) {
-			$data[$i]['label'] = \LanguageTranslator::translate($row['leadsourcevalue'], 'Leads');
+			$data[$i]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['leadsourcevalue'], 'Leads');
 			$ticks[$i][0] = $i;
-			$ticks[$i][1] = \LanguageTranslator::translate($row['leadsourcevalue'], 'Leads');
+			$ticks[$i][1] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['leadsourcevalue'], 'Leads');
 			$data[$i]['data'][0][0] = $i;
 			$data[$i]['data'][0][1] = $row['count'];
 			$name[] = $row['leadsourcevalue'];

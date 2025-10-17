@@ -50,7 +50,7 @@ class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if (!$permission) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 
 		$cvId = $request->get('viewname');

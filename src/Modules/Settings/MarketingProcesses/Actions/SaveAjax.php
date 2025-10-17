@@ -30,7 +30,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $moduleModel->setConfig($param),
-			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}

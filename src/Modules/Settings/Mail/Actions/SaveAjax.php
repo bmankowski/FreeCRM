@@ -34,7 +34,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => LanguageTranslator::translate('LBL_SAVED_CHANGES', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_CHANGES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -48,7 +48,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => LanguageTranslator::translate('LBL_SAVED_CHANGES', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_CHANGES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -60,7 +60,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => LanguageTranslator::translate('LBL_SAVED_SIGNATURE', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_SIGNATURE', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -71,7 +71,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => \LanguageTranslator::translate('LBL_RECORD_ACCEPTED', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_ACCEPTED', $request->getModule(false))
 		]);
 		$response->emit();
 	}

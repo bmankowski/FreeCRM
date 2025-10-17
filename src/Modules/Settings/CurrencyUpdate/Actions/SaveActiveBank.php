@@ -24,9 +24,9 @@ class SaveActiveBank extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 
 		if (!$moduleModel->setActiveBankById($id)) {
-			$return = array('success' => false, 'message' => vtranslate('LBL_SET_BANK_ERROR', 'Settings:CurrencyUpdate'));
+			$return = array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SET_BANK_ERROR', 'Settings:CurrencyUpdate'));
 		} else {
-			$return = array('success' => true, 'message' => vtranslate('LBL_SET_BANK_OK', 'Settings:CurrencyUpdate'));
+			$return = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SET_BANK_OK', 'Settings:CurrencyUpdate'));
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($return);

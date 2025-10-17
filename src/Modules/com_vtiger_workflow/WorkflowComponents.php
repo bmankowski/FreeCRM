@@ -54,7 +54,7 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
 			if (!\App\Module::isModuleActive($tabModuleName))
 				continue;
-			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => LanguageTranslator::translate($tabModuleName, $tabModuleName));
+			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName));
 		} else {
 			$dataTypeInfo = explode('~', $typeOfData);
 			if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory

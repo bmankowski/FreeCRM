@@ -31,7 +31,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate('Delete CustomView', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Delete CustomView', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -43,7 +43,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		Settings_CustomView_Module_Model::updateOrderAndSort($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
-			'message' => vtranslate('Saving CustomView', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Saving CustomView', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -54,7 +54,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$result = Settings_CustomView_Module_Model::upadteSequences($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
-			'message' => vtranslate('LBL_SAVE_SEQUENCES', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_SEQUENCES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -71,12 +71,12 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 
 		if (!empty($result)) {
 			$data = [
-				'message' => vtranslate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), vtranslate($result, $params['tabid'])),
+				'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), \FreeCRM\Runtime\Vtiger_Language_Handler::translate($result, $params['tabid'])),
 				'success' => false
 			];
 		} else {
 			$data = [
-				'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false)),
+				'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
 				'success' => true
 			];
 		}

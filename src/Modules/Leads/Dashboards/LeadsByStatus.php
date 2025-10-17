@@ -72,9 +72,9 @@ class LeadsByStatus extends \Vtiger_Index_View
 		$i = 0;
 
 		while ($row = $dataReader->read()) {
-			$data[$i]['label'] = \LanguageTranslator::translate($row['leadstatusvalue'], 'Leads');
+			$data[$i]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['leadstatusvalue'], 'Leads');
 			$ticks[$i][0] = $i;
-			$ticks[$i][1] = \LanguageTranslator::translate($row['leadstatusvalue'], 'Leads');
+			$ticks[$i][1] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['leadstatusvalue'], 'Leads');
 			$data[$i]['data'][0][0] = $i;
 			$data[$i]['data'][0][1] = $row['count'];
 			$name[] = $row['leadstatusvalue'];

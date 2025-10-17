@@ -172,7 +172,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$parameters = [
 				'id' => $treeID,
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $module),
+				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $module),
 				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
 				'icon' => $row['icon']
 			];

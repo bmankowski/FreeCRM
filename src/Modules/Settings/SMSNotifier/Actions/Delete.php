@@ -25,12 +25,12 @@ class Delete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		if ($recordId) {
 			$status = \FreeCRM\Modules\Settings\SMSNotifier\Models\Module::deleteRecords(array($recordId));
 			if ($status) {
-				$response->setResult(array(vtranslate('LBL_DELETED_SUCCESSFULLY'), $qualifiedModuleName));
+				$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETED_SUCCESSFULLY'), $qualifiedModuleName));
 			} else {
-				$response->setError(vtranslate('LBL_DELETE_FAILED', $qualifiedModuleName));
+				$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_FAILED', $qualifiedModuleName));
 			}
 		} else {
-			$response->setError(vtranslate('LBL_INVALID_RECORD', $qualifiedModuleName));
+			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_RECORD', $qualifiedModuleName));
 		}
 		$response->emit();
 	}

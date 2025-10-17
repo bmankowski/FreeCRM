@@ -48,7 +48,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			$menu[] = [
 				'id' => $row['id'],
 				'parent' => $row['parentid'] == 0 ? '#' : $row['parentid'],
-				'text' => \vtranslate($settingsModel->getMenuName($row, true), $row['name']),
+				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($settingsModel->getMenuName($row, true), $row['name']),
 				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type'])
 			];
 		}

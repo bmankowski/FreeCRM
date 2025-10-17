@@ -56,9 +56,9 @@ class Tree extends Base
 					->from('vtiger_trees_templates_data')
 					->where(['templateid' => $template, 'tree' => $parent])
 					->scalar();
-				$parentName = '(' . vtranslate($parentName, $module) . ') ';
+				$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
 			}
-			$name = $parentName . vtranslate($row['name'], $module);
+			$name = $parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $module);
 		}
 		\FreeCRM\Runtime\Vtiger_Cache::set('TreeData' . $template, $tree, $name);
 		return $name;
@@ -102,9 +102,9 @@ class Tree extends Base
 				$parent = end($pieces);
 				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?", array($template, $parent));
 				$parentName = $adb->getSingleValue($result3);
-				$parentName = '(' . vtranslate($parentName, $module) . ') ';
+				$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
 			}
-			$values[$row['tree']] = array($parentName . vtranslate($row['name'], $this->get('field')->getModuleName()), $parent);
+			$values[$row['tree']] = array($parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->get('field')->getModuleName()), $parent);
 		}
 		return $values;
 	}
@@ -119,7 +119,7 @@ class Tree extends Base
 		$template = $adb->query_result_raw($result, 0, 'fieldparams');
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', array($template, $tree));
 		if ($adb->num_rows($result)) {
-			return vtranslate($adb->query_result_raw($result, 0, 'name'), $module);
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($adb->query_result_raw($result, 0, 'name'), $module);
 		}
 		return false;
 	}

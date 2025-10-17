@@ -446,7 +446,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
 					$url = "index.php?module=OSSMail&view=compose&mod=" . \vtlib\Functions::getCRMRecordType($link) . "&record=$link";
-					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . vtranslate('LBL_SEND_MAIL') . "</a>");
+					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;
 			}

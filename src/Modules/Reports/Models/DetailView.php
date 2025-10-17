@@ -49,7 +49,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$printPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => vtranslate('LBL_REPORT_PRINT', $moduleName),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_PRINT', $moduleName),
 				'linkurl' => $recordModel->getReportPrintURL(),
 				'linkicon' => 'fa fa-print'
 			);
@@ -58,14 +58,14 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$exportPermission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => vtranslate('LBL_REPORT_CSV', $moduleName),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_CSV', $moduleName),
 				'linkurl' => $recordModel->getReportCSVURL(),
 				'linkicon' => 'fa fa-file-text-o'
 			);
 
 			if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
 				$detailViewLinks[] = array(
-					'linklabel' => vtranslate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
+					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 					'linkurl' => $recordModel->getReportExcelURL(),
 					'linkicon' => 'fa fa-file-excel-o'
 				);

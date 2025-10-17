@@ -123,7 +123,7 @@ class IStorages extends Vtiger_CRMEntity
 		}
 		foreach ($listColumns as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('IStorages', $colname)) {
-				$listviewHeader[] = vtranslate($fieldname);
+				$listviewHeader[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldname);
 			}
 		}
 		$iStoragesList = [];

@@ -112,7 +112,7 @@ class ImportICS extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(vtranslate($return, $moduleName));
+		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($return, $moduleName));
 		$response->emit();
 	}
 }

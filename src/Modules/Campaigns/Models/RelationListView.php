@@ -28,7 +28,7 @@ class RelationListView extends \FreeCRM\Modules\Vtiger\Models\Model
 			if ($relatedModuleModel->isPermitted('MassComposeEmail') && \FreeCRM\AppConfig::main('isActiveSendingMails') && \App\Mail::getDefaultSmtp()) {
 				$emailLink = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
-						'linklabel' => vtranslate('LBL_SEND_EMAIL', $relatedModuleName),
+						'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL', $relatedModuleName),
 						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",
 						'linkicon' => ''
 				));

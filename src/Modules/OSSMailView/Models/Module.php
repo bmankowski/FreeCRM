@@ -72,7 +72,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			$saleStage = $db->query_result($result, $i, 'ossmailview_sendtype');
 			$response[$i][0] = $saleStage;
 			$response[$i][1] = $db->query_result($result, $i, 'count');
-			$response[$i][2] = vtranslate($saleStage, $this->getName());
+			$response[$i][2] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saleStage, $this->getName());
 		}
 		return $response;
 	}

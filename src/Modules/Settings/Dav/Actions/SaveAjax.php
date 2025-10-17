@@ -31,13 +31,13 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$moduleModel = \FreeCRM\Modules\Settings\Dav\Models\Module::getInstance($qualifiedModuleName);
 		$result = $moduleModel->addKey($params);
 		$success = true;
-		$message = vtranslate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false));
+		$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false));
 		if ($result === 0) {
 			$success = false;
-			$message = vtranslate('LBL_ERROR_SAVE_KEY', $request->getModule(false));
+			$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_SAVE_KEY', $request->getModule(false));
 		} elseif ($result === 1) {
 			$success = false;
-			$message = vtranslate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false));
+			$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false));
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
@@ -57,7 +57,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_KEY_HAS_BEEN_REMOVED', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_KEY_HAS_BEEN_REMOVED', $request->getModule(false))
 		));
 		$response->emit();
 	}

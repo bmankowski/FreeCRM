@@ -112,7 +112,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 			$translatedRelatedModules = array();
 
 			foreach ($relatedModuleList as $relatedModuleName) {
-				$translatedRelatedModules[$relatedModuleName] = vtranslate($relatedModuleName, $relatedModuleName);
+				$translatedRelatedModules[$relatedModuleName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relatedModuleName, $relatedModuleName);
 			}
 			$relatedModules[$primaryModule] = $translatedRelatedModules;
 		}

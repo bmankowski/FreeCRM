@@ -25,7 +25,7 @@ class UserRole extends Base
 	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$displayValue = \FreeCRM\LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
+		$displayValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if ($currentUserModel->isAdmin() && $rawText === false) {
 			$roleRecordModel = new \FreeCRM\Modules\Settings\Roles\Models\Record();
@@ -44,7 +44,7 @@ class UserRole extends Base
 		$roleModels = \FreeCRM\Modules\Settings\Roles\Models\Record::getAll();
 		$roles = [];
 		foreach ($roleModels as $roleId => $roleModel) {
-			$roles[$roleId] = \FreeCRM\LanguageTranslator::translate($roleModel->getName(), $this->get('field')->getModuleName());
+			$roles[$roleId] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($roleModel->getName(), $this->get('field')->getModuleName());
 		}
 		return $roles;
 	}

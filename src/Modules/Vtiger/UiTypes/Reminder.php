@@ -42,13 +42,13 @@ class Reminder extends Base
 		$reminder_value = '';
 		$reminder_time = $this->getEditViewDisplayValue($value);
 		if (!empty($reminder_time[0])) {
-			$reminder_value = $reminder_time[0] . ' ' . vtranslate('LBL_DAYS');
+			$reminder_value = $reminder_time[0] . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DAYS');
 		}
 		if (!empty($reminder_time[1])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[1] . ' ' . vtranslate('LBL_HOURS');
+			$reminder_value = $reminder_value . ' ' . $reminder_time[1] . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS');
 		}
 		if (!empty($reminder_time[2])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[2] . ' ' . vtranslate('LBL_MINUTES');
+			$reminder_value = $reminder_value . ' ' . $reminder_time[2] . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES');
 		}
 
 		return $reminder_value;

@@ -33,7 +33,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		for ($i = 0; $i < $countOfList; $i++) {
 			$linkModel = $linkModelDetailViewList[$i];
 			if ($linkModel->get('linklabel') == 'LBL_CHECK_STATUS') {
-				$linkModelList['DETAILVIEW'][$i]->set('linklabel', vtranslate('LBL_CHECK_STATUS', 'SMSNotifier'));
+				$linkModelList['DETAILVIEW'][$i]->set('linklabel', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CHECK_STATUS', 'SMSNotifier'));
 				$linkModelList['DETAILVIEW'][$i]->set('linkurl', $recordModel->getCheckStatusUrl());
 				break;
 			}

@@ -37,9 +37,9 @@ class Holiday extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			$id = $request->get('id');
 
 			if (\FreeCRM\Modules\Settings\PublicHoliday\Models\Module::delete($id)) {
-				$response->setResult(array('success' => true, 'message' => vtranslate('JS_HOLIDAY_DELETE_OK', $moduleName)));
+				$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_HOLIDAY_DELETE_OK', $moduleName)));
 			} else {
-				$response->setResult(array('success' => false, 'message' => vtranslate('JS_HOLIDAY_DELETE_ERROR', $moduleName)));
+				$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_HOLIDAY_DELETE_ERROR', $moduleName)));
 			}
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -65,18 +65,18 @@ class Holiday extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 			$type = $request->get('holidayType');
 
 			if (empty($name) || empty($date)) {
-				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_FILL_FORM_ERROR', $moduleName)));
+				$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILL_FORM_ERROR', $moduleName)));
 			} else if (!empty($id)) {
 				if (\FreeCRM\Modules\Settings\PublicHoliday\Models\Module::edit($id, $date, $name, $type)) {
-					$response->setResult(array('success' => true, 'message' => vtranslate('LBL_EDIT_DATE_OK', $moduleName)));
+					$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EDIT_DATE_OK', $moduleName)));
 				} else {
-					$response->setResult(array('success' => false, 'message' => vtranslate('LBL_EDIT_DATE_ERROR', $moduleName)));
+					$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EDIT_DATE_ERROR', $moduleName)));
 				}
 			} else {
 				if (\FreeCRM\Modules\Settings\PublicHoliday\Models\Module::save($date, $name, $type)) {
-					$response->setResult(array('success' => true, 'message' => vtranslate('LBL_NEW_DATE_OK', $moduleName)));
+					$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NEW_DATE_OK', $moduleName)));
 				} else {
-					$response->setResult(array('success' => false, 'message' => vtranslate('LBL_NEW_DATE_ERROR', $moduleName)));
+					$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NEW_DATE_ERROR', $moduleName)));
 				}
 			}
 		} catch (Exception $e) {

@@ -243,11 +243,11 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 		$mailtoLimit = \FreeCRM\AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
-			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
-			$content .= vtranslate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
-			$content .= vtranslate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
-			$content .= vtranslate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
-			$content .= vtranslate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
+			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
+			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
+			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
+			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
+			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
@@ -259,7 +259,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 				}
 			}
 		} else {
-			$content .= vtranslate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
+			$content .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {

@@ -35,9 +35,9 @@ class SaveGeneral extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$moduleName = $request->getModule(false);
 		try {
 			if (\FreeCRM\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify($moduleId, $status)) {
-				$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SAVE_CONFIG_OK', $moduleName)));
+				$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG_OK', $moduleName)));
 			} else {
-				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
+				$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
 			}
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

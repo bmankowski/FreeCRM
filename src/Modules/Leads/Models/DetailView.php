@@ -50,7 +50,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkclass' => 'btn-info btn-convertLead ' . $convert,
-				'linkhint' => vtranslate('LBL_CONVERT_LEAD', $moduleName),
+				'linkhint' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
 			);

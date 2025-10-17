@@ -71,15 +71,15 @@ class ListView extends \Settings_Vtiger_ListView_Model
 
 			//To handle translation of calendar to To Do
 			if ($module_name == 'Calendar') {
-				$module_name = vtranslate('LBL_TASK', $module_name);
+				$module_name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TASK', $module_name);
 			} else {
-				$module_name = vtranslate($module_name, $module_name);
+				$module_name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name);
 			}
 			$workflowModel = $record->getInstance($row['workflow_id']);
 			$taskList = $workflowModel->getTasks();
 			$row['module_name'] = $module_name;
-			$row['execution_condition'] = vtranslate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
-			$row['summary'] = vtranslate($row['summary'], 'Settings:Workflows');
+			$row['execution_condition'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
+			$row['summary'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['summary'], 'Settings:Workflows');
 			$row['all_tasks'] = count($taskList);
 			$row['active_tasks'] = $workflowModel->getActiveCountFromRecord($taskList);
 

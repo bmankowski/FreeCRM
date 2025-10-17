@@ -28,7 +28,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_FOLDER_INFO', $request->getModule())
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_FOLDER_INFO', $request->getModule())
 		]);
 		$response->emit();
 	}

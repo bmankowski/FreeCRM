@@ -27,7 +27,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = array(
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DETAILS', $moduleName),
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'linkKey' => 'LBL_RECORD_DETAILS',
@@ -98,7 +98,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'title' => LanguageTranslator::translate('LBL_DELETE_RECORD')
+				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_RECORD')
 			];
 			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		}

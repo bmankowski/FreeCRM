@@ -298,7 +298,7 @@ abstract class Base_Chart extends \FreeCRM\Modules\Vtiger\Models\Model
 	{
 		$columnLabelInfo = explode('__', $column);
 		$columnLabelInfo = array_diff($columnLabelInfo, array('SUM', 'MIN', 'MAX', 'AVG')); // added to remove aggregate functions from the graph labels
-		return vtranslate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
 	}
 
 	/**
@@ -512,12 +512,12 @@ class PieChart extends Base_Chart
 			if ($legendField) {
 				$fieldDataType = $legendField->getFieldDataType();
 				if ($fieldDataType == 'picklist') {
-					$label = vtranslate($row[$legend], $legendField->getModuleName());
+					$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row[$legend], $legendField->getModuleName());
 				} else if ($fieldDataType == 'multipicklist') {
 					$multiPicklistValue = $row[$legend];
 					$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 					foreach ($multiPicklistValues as $multiPicklistValue) {
-						$labelList[] = vtranslate($multiPicklistValue, $legendField->getModuleName());
+						$labelList[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($multiPicklistValue, $legendField->getModuleName());
 					}
 					$label = implode(',', $labelList);
 				} else if ($fieldDataType == 'date') {
@@ -590,12 +590,12 @@ class VerticalbarChart extends Base_Chart
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
 					if ($fieldDataType == 'picklist') {
-						$label = vtranslate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
+						$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
 					} else if ($fieldDataType == 'multipicklist') {
 						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
-							$labelList[] = vtranslate($multiPicklistValue, $gFieldModel->getModuleName());
+							$labelList[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType == 'date') {
@@ -605,7 +605,7 @@ class VerticalbarChart extends Base_Chart
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
 						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
 							$m = explode(' ', $label);
-							$label = LanguageTranslator::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
+							$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
 						}
 					} else {
 						$label = $row[$gFieldModel->get('reportlabel')];
@@ -630,7 +630,7 @@ class VerticalbarChart extends Base_Chart
 	{
 		$dataLabels = array();
 		if ($this->isRecordCount()) {
-			$dataLabels[] = vtranslate('LBL_RECORD_COUNT', 'Reports');
+			$dataLabels[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_COUNT', 'Reports');
 		}
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if ($queryColumnsByFieldModel) {
@@ -642,7 +642,7 @@ class VerticalbarChart extends Base_Chart
 				$aggregateFunction = $reportColumnInfo[5];
 				$aggregateFunctionLabel = $this->getAggregateFunctionLabel($aggregateFunction);
 
-				$dataLabels[] = vtranslate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
+				$dataLabels[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
 			}
 		}
 		return $dataLabels;

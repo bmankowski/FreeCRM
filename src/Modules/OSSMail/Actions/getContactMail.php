@@ -27,7 +27,7 @@ class getContactMail extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		foreach ($searchList as &$emailField) {
 			$email = $recordModel->get($emailField['fieldname']);
 			if ($email != '') {
-				$fieldlabel = vtranslate($emailField['fieldlabel'], $emailField['name']);
+				$fieldlabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($emailField['fieldlabel'], $emailField['name']);
 				$emailFields[] = array('name' => $name, 'fieldlabel' => $fieldlabel, 'email' => $email);
 			}
 		}

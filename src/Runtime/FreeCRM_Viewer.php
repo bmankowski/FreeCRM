@@ -104,7 +104,7 @@ class FreeCRM_Viewer extends \Smarty
 		// Functions in global namespace (from TemplateHelpers.php) can be called directly in templates
 		try {
 			// Register plugins - these are in global namespace from TemplateHelpers.php
-			$this->registerPlugin('modifier', 'vtranslate', 'vtranslate');
+			$this->registerPlugin('modifier', 'vtranslate', '\FreeCRM\Runtime\Vtiger_Language_Handler::translate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
 			$this->registerPlugin('modifier', 'vimage_path', 'vimage_path'); // Also as modifier
 			$this->registerPlugin('function', 'vtemplate_path', 'vtemplate_path');
@@ -115,11 +115,11 @@ class FreeCRM_Viewer extends \Smarty
 			$this->registerPlugin('modifier', 'vglobal', 'vglobal'); // Also register as modifier for compatibility
 
 			// Register LanguageTranslator modifier 't'
-			$this->registerPlugin('modifier', 't', '\FreeCRM\\LanguageTranslator::translate');
+			$this->registerPlugin('modifier', 't', '\FreeCRM\Runtime\Vtiger_Language_Handler::translate');
 			
 		// Register static classes for template use
-		$this->registerClass('AppConfig', '\FreeCRM\\AppConfig');
-		$this->registerClass('AppRequest', '\FreeCRM\\Http\\AppRequest');
+		$this->registerClass('AppConfig', '\FreeCRM\AppConfig');
+		$this->registerClass('AppRequest', '\FreeCRM\Http\\AppRequest');
 		$this->registerClass('Vtiger_Util_Helper', '\FreeCRM\Modules\\Vtiger\\Util');
 		$this->registerClass('Vtiger_Menu_Model', '\FreeCRM\Modules\\Vtiger\Models\\Menu');
 		$this->registerClass('Vtiger_Module_Model', '\FreeCRM\Modules\\Vtiger\Models\\Module');

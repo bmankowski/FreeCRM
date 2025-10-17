@@ -89,15 +89,15 @@ class RelatedModule extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 	public function getCheckboxLables($model, $type, $prefix)
 	{
 		$on = $prefix . 'ON_' . strtoupper($this->Data[$type]);
-		$translateOn = vtranslate($on, $model->getName());
+		$translateOn = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($on, $model->getName());
 		if ($on == $translateOn) {
-			$translateOn = vtranslate('LBL_YES', $model->getName());
+			$translateOn = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YES', $model->getName());
 		}
 		$off = $prefix . 'OFF_' . strtoupper($this->Data[$type]);
-		$translateOff = vtranslate($off, $model->getName());
+		$translateOff = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($off, $model->getName());
 
 		if ($off == $translateOff) {
-			$translateOff = vtranslate('LBL_NO', $model->getName());
+			$translateOff = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO', $model->getName());
 		}
 		$this->Config[$type . 'Lables'] = ['on' => $translateOn, 'off' => $translateOff];
 	}

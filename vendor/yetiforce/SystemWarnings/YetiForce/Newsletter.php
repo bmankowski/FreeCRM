@@ -52,7 +52,7 @@ class Newsletter extends \App\SystemWarnings\Template
 			return 'ERR_NO_INTERNET_CONNECTION';
 		}
 		$result = false;
-		$message = \LanguageTranslator::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
+		$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
 		try {
 			$request = \Requests::POST(self::$url, [], array_merge($params, [
 					'key' => sha1(AppConfig::main('site_URL') . ROOT_DIRECTORY),
@@ -63,7 +63,7 @@ class Newsletter extends \App\SystemWarnings\Template
 			if ($request->body === 'OK') {
 				file_put_contents('cache/' . $this->getKey(), 'Newsletter');
 				$result = true;
-				$message = \LanguageTranslator::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
+				$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
 			}
 		} catch (\Exception $exc) {
 			\App\Log::warning($exc->getMessage());

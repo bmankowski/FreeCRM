@@ -53,10 +53,10 @@ class CategoryMultipicklist extends Base
 					end($pieces);
 					$parent = prev($pieces);
 					$parentName = isset($treeData[$parent]) ? $treeData[$parent]['label'] : '';
-					$parentName = '(' . \FreeCRM\LanguageTranslator::translate($parentName, $module) . ') ';
-					$names[] = $parentName . \FreeCRM\LanguageTranslator::translate($row['label'], $module);
+					$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
+					$names[] = $parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['label'], $module);
 				} else {
-					$names[] = \FreeCRM\LanguageTranslator::translate($row['label'], $module);
+					$names[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['label'], $module);
 				}
 			}
 		}

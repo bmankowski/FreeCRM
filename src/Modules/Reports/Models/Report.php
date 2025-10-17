@@ -123,7 +123,7 @@ class Report extends Reports
 	{
 		foreach ($this->module_list as $key => $value) {
 			if (isPermitted($key, 'index') == "yes") {
-				$modules [$key] = vtranslate($key, $key);
+				$modules [$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $key);
 			}
 		}
 		asort($modules);

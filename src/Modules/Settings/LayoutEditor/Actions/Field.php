@@ -81,7 +81,7 @@ class Field extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 				'success' => true,
 				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => vtranslate($fieldInstance->get('label'), $request->get('sourceModule'))]);
+				'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldInstance->get('label'), $request->get('sourceModule'))]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

@@ -25,9 +25,9 @@ class SaveConfig extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		$result = Settings_ApiAddress_Module_Model::getInstance($moduleName)->setConfig($elements);
 
 		if ($result)
-			$result = array('success' => true, 'message' => vtranslate('LBL_SAVE_NOTIFY_OK', $moduleName));
+			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_NOTIFY_OK', $moduleName));
 		else
-			$result = array('success' => false, 'message' => vtranslate('JS_ERROR', $moduleName));
+			$result = array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_ERROR', $moduleName));
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);

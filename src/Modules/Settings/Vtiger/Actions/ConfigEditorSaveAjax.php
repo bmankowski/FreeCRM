@@ -30,10 +30,10 @@ class ConfigEditorSaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basi
 			if ($status === true) {
 				$response->setResult(array($status));
 			} else {
-				$response->setError(vtranslate($status, $qualifiedModuleName));
+				$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($status, $qualifiedModuleName));
 			}
 		} else {
-			$response->setError(vtranslate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
+			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
 		}
 		$response->emit();
 	}

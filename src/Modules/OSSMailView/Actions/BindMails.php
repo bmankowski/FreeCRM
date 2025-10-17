@@ -26,7 +26,7 @@ class BindMails extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$recordModel->bindSelectedRecords($recordsList);
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(vtranslate('LBL_BindMailsOK', $moduleName));
+		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_BindMailsOK', $moduleName));
 		$response->emit();
 	}
 }

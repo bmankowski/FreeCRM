@@ -32,7 +32,7 @@ class TermsAndConditionsEdit extends \FreeCRM\Modules\Settings\Vtiger\Views\Inde
 	public function getPageTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		return vtranslate('INVENTORYTERMSANDCONDITIONS', $qualifiedModuleName);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('INVENTORYTERMSANDCONDITIONS', $qualifiedModuleName);
 	}
 
 	/**

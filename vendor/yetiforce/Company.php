@@ -60,7 +60,7 @@ class Company extends Base
 			'imagePath' => $imagePath,
 			'alt' => $logoName,
 			'imageName' => $logoName,
-			'title' => LanguageTranslator::translate('LBL_COMPANY_LOGO_TITLE'),
+			'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMPANY_LOGO_TITLE'),
 		]);
 		Cache::save('CompanyLogo', $type, $logoModel);
 		return $logoModel;

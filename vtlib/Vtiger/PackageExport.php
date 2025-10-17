@@ -243,7 +243,7 @@ class PackageExport
 	 */
 	public function export_Dependencies($moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$moduleid = $moduleInstance->id;
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab_info WHERE tabid = ?", array($moduleid));
@@ -273,7 +273,7 @@ class PackageExport
 	 */
 	public function export_Module()
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 
 		$moduleid = $this->moduleInstance->id;
 
@@ -378,7 +378,7 @@ class PackageExport
 	 */
 	public function export_Blocks($moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_blocks WHERE tabid = ?", Array($moduleInstance->id));
 		$resultrows = $adb->num_rows($sqlresult);
 
@@ -424,7 +424,7 @@ class PackageExport
 	 */
 	public function export_Fields($moduleInstance, $blockid)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 
 		$fieldresult = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid=? && block=?", Array($moduleInstance->id, $blockid));
 		$fieldcount = $adb->num_rows($fieldresult);
@@ -542,7 +542,7 @@ class PackageExport
 	 */
 	public function export_CustomViews($moduleInstance)
 	{
-		$db = \PearDatabase::getInstance();
+		$db = \FreeCRM\Database\PearDatabase::getInstance();
 
 		$customviewres = $db->pquery("SELECT * FROM vtiger_customview WHERE entitytype = ?", [$moduleInstance->name]);
 		if (!$customviewres->rowCount())
@@ -601,7 +601,7 @@ class PackageExport
 	 */
 	public function export_SharingAccess($moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 
 		$deforgshare = $adb->pquery("SELECT * FROM vtiger_def_org_share WHERE tabid=?", Array($moduleInstance->id));
 		$deforgshareCount = $adb->num_rows($deforgshare);
@@ -659,7 +659,7 @@ class PackageExport
 		if (!$moduleInstance->isentitytype)
 			return;
 
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT distinct(actionname) FROM vtiger_profile2utility, vtiger_actionmapping
 			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', Array($moduleInstance->id));
 
@@ -685,7 +685,7 @@ class PackageExport
 		if (!$moduleInstance->isentitytype)
 			return;
 
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE tabid = ?", Array($moduleInstance->id));
 		if ($adb->num_rows($result)) {
 			$this->openNode('relatedlists');
@@ -812,7 +812,7 @@ class PackageExport
 	 */
 	public function exportInventory()
 	{
-		$db = \PearDatabase::getInstance();
+		$db = \FreeCRM\Database\PearDatabase::getInstance();
 		$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
 		$tableName = $inventoryFieldModel->getTableName('fields');
 

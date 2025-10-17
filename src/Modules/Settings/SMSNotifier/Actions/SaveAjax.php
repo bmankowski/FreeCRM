@@ -50,7 +50,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		try {
 			$recordModel->save();
-			$response->setResult(array(vtranslate('LBL_SAVED_SUCCESSFULLY', $qualifiedModuleName)));
+			$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_SUCCESSFULLY', $qualifiedModuleName)));
 		} catch (Exception $e) {
 			$response->setError($e->getMessage());
 		}

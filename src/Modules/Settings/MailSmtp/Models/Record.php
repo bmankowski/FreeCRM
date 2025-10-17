@@ -136,9 +136,9 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 	public function getDisplayCheckboxValue($value)
 	{
 		if (0 === $value) {
-			$value = \LanguageTranslator::translate('LBL_NO');
+			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO');
 		} else {
-			$value = \LanguageTranslator::translate('LBL_YES');
+			$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YES');
 		}
 		return $value;
 	}

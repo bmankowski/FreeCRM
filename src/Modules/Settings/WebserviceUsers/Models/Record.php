@@ -92,7 +92,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				break;
 			case 'status':
 				$params['uitype'] = 16;
-				$params['picklistValues'] = [1 => \LanguageTranslator::translate('PLL_ACTIVE', $moduleName), 0 => \LanguageTranslator::translate('PLL_INACTIVE', $moduleName)];
+				$params['picklistValues'] = [1 => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('PLL_ACTIVE', $moduleName), 0 => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('PLL_INACTIVE', $moduleName)];
 				break;
 			case 'server_id':
 				$servers = \FreeCRM\Modules\Settings\WebserviceApps\Models\Module::getActiveServers($this->getModule()->typeApi);
@@ -105,7 +105,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				$params['uitype'] = 16;
 				$params['picklistValues'] = [];
 				foreach ($this->getTypeValues() as $key => $value) {
-					$params['picklistValues'][$key] = \LanguageTranslator::translate($value, $moduleName);
+					$params['picklistValues'][$key] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $moduleName);
 				}
 				break;
 			case 'language':
@@ -233,7 +233,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			case 'language':
 				return vtlib\Language::getAll()[$this->get($name)];
 			case 'type':
-				$label = \LanguageTranslator::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
+				$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
 				return \vtlib\Functions::textLength($label);
 			default:
 				break;

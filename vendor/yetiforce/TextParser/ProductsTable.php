@@ -61,7 +61,7 @@ class ProductsTable extends Base
 						<th style="width: 60%;"></th>';
 			foreach ($fields[0] as $field) {
 				$html .= '<th style="' . $field->get('colspan') . '%;" class="tBorder noBottomBorder tHeader">
-								<span>' . \LanguageTranslator::translate($field->get('label'), $this->textParser->moduleName) . ':</span>&nbsp;';
+								<span>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field->get('label'), $this->textParser->moduleName) . ':</span>&nbsp;';
 				switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 					case 'DetailViewBase.tpl':
 						$html .= $field->getDisplayValue($inventoryRows[0][$field->get('columnname')]);
@@ -69,7 +69,7 @@ class ProductsTable extends Base
 
 					case 'DetailViewTaxMode.tpl':
 					case 'DetailViewDiscountMode.tpl':
-						$html .= \LanguageTranslator::translate($field->getDisplayValue($inventoryRows[0][$field->get('columnname')]), $this->textParser->moduleName);
+						$html .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field->getDisplayValue($inventoryRows[0][$field->get('columnname')]), $this->textParser->moduleName);
 						break;
 				}
 				$html .= '</th>';
@@ -84,7 +84,7 @@ class ProductsTable extends Base
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<th style="' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \LanguageTranslator::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th style="' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -157,7 +157,7 @@ class ProductsTable extends Base
 							<thead>
 								<tr>
 									<th class="tBorder noBottomBorder tHeader">
-										<strong>' . \LanguageTranslator::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</strong>
+										<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</strong>
 									</th>
 								</tr>
 							</thead>
@@ -176,7 +176,7 @@ class ProductsTable extends Base
 							<thead>
 								<tr>
 									<th colspan="2" class="tBorder noBottomBorder tHeader">
-										<strong>' . \LanguageTranslator::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
+										<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
 									</th>
 								</tr>
 							</thead>
@@ -189,7 +189,7 @@ class ProductsTable extends Base
 									</tr>';
 				}
 				$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . \LanguageTranslator::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td class="textAlignRight tBorder" width="70px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
 									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
 								</tr>
 							</tbody>
@@ -202,7 +202,7 @@ class ProductsTable extends Base
 								<thead>
 									<tr>
 										<th colspan="2" class="tBorder noBottomBorder tHeader">
-											<strong>' . \LanguageTranslator::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
+											<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
 										</th>
 									</tr>
 								</thead>
@@ -215,7 +215,7 @@ class ProductsTable extends Base
 								</tr>';
 					}
 					$html .= '<tr>
-								<td class="textAlignRight tBorder" width="70px">' . \LanguageTranslator::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+								<td class="textAlignRight tBorder" width="70px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
 								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>

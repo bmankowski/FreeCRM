@@ -160,7 +160,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
 				}
-				$fieldValue = vtranslate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
+				$fieldValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
 				break;
 			case 'laststart' :
 			case 'lastend' : $fieldValue = intval($fieldValue);

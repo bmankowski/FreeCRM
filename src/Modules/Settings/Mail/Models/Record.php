@@ -77,7 +77,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
-					$value = \LanguageTranslator::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
+					$value = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
 				}
 				break;
 			case 'owner':

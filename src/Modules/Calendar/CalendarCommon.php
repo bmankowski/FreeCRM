@@ -102,20 +102,20 @@ function getActivityDetails($description, $user_id, $from = '')
 	$endDate = new DateTimeField($description['end_date_time']);
 
 	if ($from == "invite")
-		$msg = \LanguageTranslator::translate($mod_strings['LBL_ACTIVITY_INVITATION']);
+		$msg = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_strings['LBL_ACTIVITY_INVITATION']);
 	else
-		$msg = \LanguageTranslator::translate($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
+		$msg = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
 
 	$currentUsername = \App\Fields\Owner::getUserLabel($currentUser->id);
-	$status = \LanguageTranslator::translate($description['status'], 'Calendar');
+	$status = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($description['status'], 'Calendar');
 	$list = $name . ',';
 	$list .= '<br><br>' . $msg . ' ' . $reply . '.<br> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br>';
 	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_SUBJECT"] . ' : ' . $description['subject'];
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \LanguageTranslator::translate($inviteeUser->time_zone, 'Users');
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \LanguageTranslator::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($inviteeUser->time_zone, 'Users');
 	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_STATUS"] . ': ' . $status;
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \LanguageTranslator::translate($description['taskpriority']);
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \LanguageTranslator::translate($description['relatedto']);
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($description['taskpriority']);
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($description['relatedto']);
 	if (!empty($description['contact_name'])) {
 		$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_CONTACT_LIST"] . ' ' . $description['contact_name'];
 	} else

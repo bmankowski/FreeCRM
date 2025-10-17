@@ -159,7 +159,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$value = null;
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
-		return LanguageTranslator::translate('LBL_SAVE', 'OSSMailScanner');
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
 	public static function getUidFolder($accountID, $folder)
@@ -389,8 +389,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		\App\Log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
-			\App\Log::info(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
-			return vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
+			\App\Log::info(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
 		$mailModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
 		$scannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
@@ -566,8 +566,8 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$mail_status = \App\Mailer::addMail([
 						//'smtp_id' => 1,
 						'to' => $config['email'],
-						'subject' => LanguageTranslator::translate('Email_FromName', 'OSSMailScanner'),
-						'content' => LanguageTranslator::translate('Email_Body', 'OSSMailScanner'),
+						'subject' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Email_FromName', 'OSSMailScanner'),
+						'content' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Email_Body', 'OSSMailScanner'),
 				]);
 				$adb->pquery("update vtiger_ossmailscanner_log_cron set status = ? WHERE laststart = ?", array($mail_status, $checkCronStatus));
 			}

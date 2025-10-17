@@ -35,7 +35,7 @@ class Email extends Base
 			if ($internalMailer == 1 && \FreeCRM\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
 				$url = \FreeCRM\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = \FreeCRM\Modules\OSSMail\Models\Module::getComposeParameters();
-				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . vtranslate('LBL_SEND_EMAIL') . ">$value</a>";
+				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName == 'Users' && $fieldName == 'user_name') {
 					$value = "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";

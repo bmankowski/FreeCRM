@@ -71,7 +71,7 @@ class TaxAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		if (!$exists) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
 		}
 
 		$response = new \FreeCRM\Http\Vtiger_Response();

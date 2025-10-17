@@ -99,7 +99,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$handler->process($request);
 			$handler->postProcess($request);
 		} else {
-			throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 		return true;
 	}

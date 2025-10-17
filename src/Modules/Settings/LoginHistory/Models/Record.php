@@ -61,7 +61,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			case 'user_name':
 				return $this->getHtmlEncode($fieldName);
 			case 'status':
-				return LanguageTranslator::translate($this->get($fieldName), 'Settings::Vtiger');
+				return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get($fieldName), 'Settings::Vtiger');
 			default:
 				return $this->get($fieldName);
 		}

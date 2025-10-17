@@ -30,12 +30,12 @@ class RelatedCommentModal extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 		$rcmModel->save($request->get('comment'));
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(vtranslate('LBL_SAVED_RELATION_COMMENT', $moduleName));
+		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_RELATION_COMMENT', $moduleName));
 		$response->emit();
 	}
 }

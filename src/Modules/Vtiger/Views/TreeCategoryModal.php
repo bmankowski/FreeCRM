@@ -20,7 +20,7 @@ class TreeCategoryModal extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 
 		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {

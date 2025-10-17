@@ -55,7 +55,7 @@ class GetTCInfo extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if ($sourceData === false) {
-			$result = array('success' => false, 'message' => vtranslate('LBL_FAILED_TO_IMPORT_INFO', $moduleName));
+			$result = array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_IMPORT_INFO', $moduleName));
 		} else {
 			$result = array('success' => true, 'sourceData' => $sourceData);
 		}

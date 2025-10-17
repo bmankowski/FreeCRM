@@ -34,7 +34,7 @@ class SaveActions extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$OSSMailScannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 			$OSSMailScannerModel->setActions($userid, $vale);
 			$success = true;
-			$data = vtranslate('JS_save_info', 'OSSMailScanner');
+			$data = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_save_info', 'OSSMailScanner');
 		} else {
 			$success = false;
 			$data = 'Error: Brak userid';

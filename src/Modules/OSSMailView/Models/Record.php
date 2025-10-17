@@ -312,14 +312,14 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		} else {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
-		return vtranslate('Add relationship', 'OSSMail');
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Add relationship', 'OSSMail');
 	}
 
 	public static function removeRelated($params)
 	{
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$db->delete('vtiger_ossmailview_relation', 'ossmailviewid = ? && crmid = ?', [$params['mailId'], $params['crmid']]);
-		return vtranslate('Removed relationship', 'OSSMail');
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Removed relationship', 'OSSMail');
 	}
 
 	public function isEditable()

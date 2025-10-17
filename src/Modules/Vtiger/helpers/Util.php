@@ -67,12 +67,12 @@ class Util {
 		$seconds = strtotime($currentDateTime) - strtotime($dateTime);
 
 		if ($seconds == 0)
-			return vtranslate('LBL_JUSTNOW');
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_JUSTNOW');
 		if ($seconds > 0) {
 			$prefix = '';
-			$suffix = ' ' . vtranslate('LBL_AGO');
+			$suffix = ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AGO');
 		} else if ($seconds < 0) {
-			$prefix = vtranslate('LBL_DUE') . ' ';
+			$prefix = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUE') . ' ';
 			$suffix = '';
 			$seconds = -($seconds);
 		}
@@ -111,7 +111,7 @@ class Util {
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . " " . (($count == 1) ? vtranslate("$text") : vtranslate("{$text}S"));
+		return $count . " " . (($count == 1) ? \FreeCRM\Runtime\Vtiger_Language_Handler::translate("$text") : \FreeCRM\Runtime\Vtiger_Language_Handler::translate("{$text}S"));
 	}
 
 	/**
@@ -158,15 +158,15 @@ class Util {
 		$userDate = \FreeCRM\Fields\DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
 
 		if ($dateInUserFormat == $today) {
-			$todayInfo = vtranslate('LBL_TODAY');
+			$todayInfo = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TODAY');
 			if ($time) {
-				$todayInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$todayInfo .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($todayInfo)";
 		} elseif ($dateInUserFormat == $tomorrow) {
-			$tomorrowInfo = vtranslate('LBL_TOMORROW');
+			$tomorrowInfo = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TOMORROW');
 			if ($time) {
-				$tomorrowInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$tomorrowInfo .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
@@ -174,9 +174,9 @@ class Util {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
 			$date = strtotime($dateInUserFormat);
-			$dayInfo = vtranslate('LBL_' . date('D', $date));
+			$dayInfo = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_' . date('D', $date));
 			if ($time) {
-				$dayInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$dayInfo .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($dayInfo)";
 		}
@@ -217,11 +217,11 @@ class Util {
 			$seconds = '';
 		}
 
-		$dateDay = vtranslate(\FreeCRM\Fields\DateTimeField::getDayFromDate($dateTime), 'Calendar');
+		$dateDay = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\FreeCRM\Fields\DateTimeField::getDayFromDate($dateTime), 'Calendar');
 		$formatedDate = $dateInUserFormat;
 		if (!$allday) {
 			$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
-			$formatedDate .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+			$formatedDate .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AT') . ' ' . $displayTime;
 		}
 		$formatedDate .= " ($dateDay)";
 		return $formatedDate;

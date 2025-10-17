@@ -98,15 +98,15 @@ class Recurrence extends Base
 		$text = '';
 		if (!$info) {
 			$moduleName = 'Events';
-			$text = \FreeCRM\LanguageTranslator::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
-				. \FreeCRM\LanguageTranslator::translate($info['freqLabel'], $moduleName) . ' '
-				. \FreeCRM\LanguageTranslator::translate('LBL_UNTIL', $moduleName) . ' ';
+			$text = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
+				. \FreeCRM\Runtime\Vtiger_Language_Handler::translate($info['freqLabel'], $moduleName) . ' '
+				. \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ' ';
 			if (isset($info['COUNT'], $info['UNTIL'])) {
-				$text .= \FreeCRM\LanguageTranslator::translate('LBL_NEVER', $moduleName);
+				$text .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NEVER', $moduleName);
 			} else if (isset($info['COUNT'])) {
-				$text .= \FreeCRM\LanguageTranslator::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
+				$text .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
 			} else {
-				$text .= \FreeCRM\LanguageTranslator::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
+				$text .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
 			}
 		}
 		return $text;

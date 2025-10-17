@@ -69,7 +69,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => vtranslate('LBL_SERVER_CONFIG', $this->getName()),
+			'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SERVER_CONFIG', $this->getName()),
 			'linkurl' => 'index.php?module=SMSNotifier&parent=Settings&view=List',
 			'linkicon' => ''
 		);

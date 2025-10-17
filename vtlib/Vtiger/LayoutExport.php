@@ -24,7 +24,7 @@ class LayoutExport extends Package
 	 */
 	static function __getUniqueId()
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -89,7 +89,7 @@ class LayoutExport extends Package
 	 */
 	public function export_Layout($layoutName)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$sqlresult = $adb->pquery($query, [$layoutName]);
 		$layoutresultrow = $adb->fetch_array($sqlresult);
@@ -135,7 +135,7 @@ class LayoutExport extends Package
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$query = sprintf('SELECT id FROM %s WHERE name = ?', self::TABLENAME);
 		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
@@ -166,7 +166,7 @@ class LayoutExport extends Package
 		if (strtolower($name) == 'basic')
 			return;
 
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'name = ?', [$name]);
 		Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
 		self::log("Deregistering Layout $name ... DONE");

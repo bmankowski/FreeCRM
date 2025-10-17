@@ -380,7 +380,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			if ($row['reference_module'] == $moduleName && $tabModuleName != $moduleName) {
 				if (!\App\Module::isModuleActive($tabModuleName))
 					continue;
-				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \LanguageTranslator::translate($tabModuleName, $tabModuleName)];
+				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName)];
 			} else {
 				$dataTypeInfo = explode('~', $row['typeofdata']);
 				if ($dataTypeInfo[1] === 'M') { // If the current reference field is mandatory

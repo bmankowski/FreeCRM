@@ -36,8 +36,8 @@ class TimeLineModal extends \Vtiger_Index_View
 	{
 		parent::preProcess($request);
 		echo '<div class="modal-header">
-				<button class="close" data-dismiss="modal" title="' . \FreeCRM\LanguageTranslator::translate('LBL_CLOSE') . '">x</button>
-				<h3 class="modal-title">' . \FreeCRM\LanguageTranslator::translate('LBL_TIMELINE', $request->getModule()) . ' </h3>
+				<button class="close" data-dismiss="modal" title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CLOSE') . '">x</button>
+				<h3 class="modal-title">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TIMELINE', $request->getModule()) . ' </h3>
 			</div>
 			<div class="modal-body">';
 	}

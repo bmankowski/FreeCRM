@@ -60,7 +60,7 @@ class FilterRecordStructure extends \FreeCRM\Modules\Settings\Workflows\Models\R
 		if ($moduleModel->isCommentEnabled()) {
 			$commentFieldModel = \FreeCRM\Modules\Settings\Workflows\Models\Field::getCommentFieldForFilterConditions($moduleModel);
 			$commentFieldModelsList = array($commentFieldModel->getName() => $commentFieldModel);
-			$labelName = vtranslate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . vtranslate('LBL_COMMENTS', $moduleModel->getName());
+			$labelName = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMMENTS', $moduleModel->getName());
 			foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
 				$commentFieldModel->set('workflow_columnname', $commentFieldName);
 				$values[$labelName][$commentFieldName] = $commentFieldModel;

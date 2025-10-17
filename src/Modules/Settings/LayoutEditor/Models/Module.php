@@ -158,20 +158,20 @@ class Module extends \Vtiger_Module_Model
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLableExists($label)) {
-			throw new \Exception(vtranslate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
+			throw new \Exception(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
 		if ($this->checkFieldNameCharacters($name)) {
-			throw new \Exception(vtranslate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
+			throw new \Exception(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 		}
 		if ($this->checkFieldNameExists($name)) {
-			throw new \Exception(vtranslate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+			throw new \Exception(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 		}
 		if ($this->checkFieldNameIsAnException($name, $params['sourceModule'])) {
-			throw new \Exception(vtranslate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+			throw new \Exception(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 		}
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
 		if (!in_array($fieldType, $supportedFieldTypes)) {
-			throw new \Exception(vtranslate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
+			throw new \Exception(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		$moduleName = $this->getName();
 		$focus = \FreeCRM\CRMEntity::getInstance($moduleName);

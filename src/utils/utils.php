@@ -550,7 +550,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 	} else {
 		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}
@@ -701,17 +701,17 @@ function dateDiffAsString($d1, $d2)
 	$seconds = $dateDiff['seconds'];
 
 	if ($years > 0) {
-		$diffString = "$years " . \LanguageTranslator::translate('LBL_YEARS', $currentModule);
+		$diffString = "$years " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YEARS', $currentModule);
 	} elseif ($months > 0) {
-		$diffString = "$months " . \LanguageTranslator::translate('LBL_MONTHS', $currentModule);
+		$diffString = "$months " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MONTHS', $currentModule);
 	} elseif ($days > 0) {
-		$diffString = "$days " . \LanguageTranslator::translate('LBL_DAYS', $currentModule);
+		$diffString = "$days " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DAYS', $currentModule);
 	} elseif ($hours > 0) {
-		$diffString = "$hours " . \LanguageTranslator::translate('LBL_HOURS', $currentModule);
+		$diffString = "$hours " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOURS', $currentModule);
 	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . \LanguageTranslator::translate('LBL_MINUTES', $currentModule);
+		$diffString = "$minutes " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MINUTES', $currentModule);
 	} else {
-		$diffString = "$seconds " . \LanguageTranslator::translate('LBL_SECONDS', $currentModule);
+		$diffString = "$seconds " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SECONDS', $currentModule);
 	}
 	return $diffString;
 }

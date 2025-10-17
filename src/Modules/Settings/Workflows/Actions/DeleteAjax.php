@@ -24,7 +24,7 @@ class DeleteAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$recordModel = Settings_Workflows_Record_Model::getInstance($recordId);
 		if ($recordModel->isDefault()) {
-			$response->setError('LBL_DEFAULT_WORKFLOW', vtranslate('LBL_CANNOT_DELETE_DEFAULT_WORKFLOW', $qualifiedModule));
+			$response->setError('LBL_DEFAULT_WORKFLOW', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CANNOT_DELETE_DEFAULT_WORKFLOW', $qualifiedModule));
 		} else {
 			$recordModel->delete();
 			$response->setResult(array('success' => 'ok'));

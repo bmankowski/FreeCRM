@@ -343,14 +343,14 @@ class ReportRun extends \FreeCRM\CRMEntity
 			$fld_arr = explode(' ', $fieldlabel);
 			if (($mod_arr[0] == '')) {
 				$mod = $module;
-				$mod_lbl = LanguageTranslator::translate($module, $module); //module
+				$mod_lbl = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $module); //module
 			} else {
 				$mod = $mod_arr[0];
 				array_shift($fld_arr);
-				$mod_lbl = LanguageTranslator::translate($fld_arr[0], $mod); //module
+				$mod_lbl = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fld_arr[0], $mod); //module
 			}
 			$fld_lbl_str = implode(' ', $fld_arr);
-			$fld_lbl = LanguageTranslator::translate($fld_lbl_str, $module); //fieldlabel
+			$fld_lbl = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fld_lbl_str, $module); //fieldlabel
 			$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 			if (($selectedfields[0] == 'vtiger_usersRel1') && ($selectedfields[1] == 'user_name') && ($selectedfields[2] == 'Quotes_Inventory_Manager')) {
 				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'), 'Users');
@@ -2328,18 +2328,18 @@ class ReportRun extends \FreeCRM\CRMEntity
 			$fieldType = $field->getFieldDataType();
 		}
 		if (!empty($fieldInfo)) {
-			$translatedLabel = LanguageTranslator::translate($field->getFieldLabelKey(), $module);
+			$translatedLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field->getFieldLabelKey(), $module);
 		} else {
 			$fieldLabel = str_replace("__", " ", $fieldLabel);
-			$translatedLabel = LanguageTranslator::translate($fieldLabel, $module);
+			$translatedLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $module);
 		}
 		/* STRING TRANSLATION starts */
 		$moduleLabel = '';
 		if (in_array($module, $modules_selected))
-			$moduleLabel = LanguageTranslator::translate($module, $module);
+			$moduleLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $module);
 
 		if (empty($translatedLabel)) {
-			$translatedLabel = LanguageTranslator::translate(str_replace('__', " ", $fld->name), $module);
+			$translatedLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(str_replace('__', " ", $fld->name), $module);
 		}
 		$headerLabel = $translatedLabel;
 		if (!empty($this->secondarymodule)) {
@@ -2403,7 +2403,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 			if (!$result && $error_msg != '') {
 				// Performance Optimization: If direct output is requried
 				if ($directOutput) {
-					echo LanguageTranslator::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
+					echo \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
 					$error_msg = false;
 				}
 				// END
@@ -2435,24 +2435,24 @@ class ReportRun extends \FreeCRM\CRMEntity
 					$mod_name = explode(' ', $headerLabel, 2);
 					$moduleLabel = '';
 					if (in_array($mod_name[0], $modules_selected)) {
-						$moduleLabel = LanguageTranslator::translate($mod_name[0], $mod_name[0]);
+						$moduleLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_name[0], $mod_name[0]);
 					}
 
 					if (!empty($this->secondarymodule)) {
 						if ($moduleLabel != '') {
-							$headerLabel_tmp = $moduleLabel . " " . LanguageTranslator::translate($mod_name[1], $mod_name[0]);
+							$headerLabel_tmp = $moduleLabel . " " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_name[1], $mod_name[0]);
 						} else {
-							$headerLabel_tmp = LanguageTranslator::translate($mod_name[0] . " " . $mod_name[1]);
+							$headerLabel_tmp = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_name[0] . " " . $mod_name[1]);
 						}
 					} else {
 						if ($moduleLabel != '') {
-							$headerLabel_tmp = LanguageTranslator::translate($mod_name[1], $mod_name[0]);
+							$headerLabel_tmp = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_name[1], $mod_name[0]);
 						} else {
-							$headerLabel_tmp = LanguageTranslator::translate($mod_name[0] . " " . $mod_name[1]);
+							$headerLabel_tmp = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($mod_name[0] . " " . $mod_name[1]);
 						}
 					}
 					if ($headerLabel == $headerLabel_tmp)
-						$headerLabel = LanguageTranslator::translate($headerLabel_tmp);
+						$headerLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($headerLabel_tmp);
 					else
 						$headerLabel = $headerLabel_tmp;
 					/* STRING TRANSLATION ends */
@@ -2519,7 +2519,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 						if ($fieldvalue == "") {
 							$fieldvalue = "-";
 						} else if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
-							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>" . LanguageTranslator::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 						}
 
 						if (($lastvalue == $fieldvalue) && $this->reporttype == "summary") {
@@ -2578,14 +2578,14 @@ class ReportRun extends \FreeCRM\CRMEntity
 					// Performance Optimization: Output directly
 					if ($directOutput) {
 						echo '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
-						echo sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, LanguageTranslator::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
-							"+ " . LanguageTranslator::translate('records found') . ". " . LanguageTranslator::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
+						echo sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
+							"+ " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('records found') . ". " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"
 						);
 					} else {
 						$valtemplate .= '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
-						$valtemplate .= sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, LanguageTranslator::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
-							" " . LanguageTranslator::translate('records found') . ". " . LanguageTranslator::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
+						$valtemplate .= sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
+							" " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('records found') . ". " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"
 						);
 					}
@@ -2644,7 +2644,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
-							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . LanguageTranslator::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 						}
 						if (false != strpos($fld->name, 'Share__with__users')) {
 							$id = $custom_field_values[$this->primarymodule . '__LBL_ACTION'];
@@ -2682,9 +2682,9 @@ class ReportRun extends \FreeCRM\CRMEntity
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
-								$field = LanguageTranslator::translate($module_name, $module_name) . " " . LanguageTranslator::translate($fieldlabel, $module_name);
+								$field = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name) . " " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel, $module_name);
 							} else {
-								$field = LanguageTranslator::translate($fieldlabel);
+								$field = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel);
 							}
 						}
 						// Since there are duplicate entries for this table
@@ -2706,7 +2706,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2797,9 +2797,9 @@ class ReportRun extends \FreeCRM\CRMEntity
 						if ($module_name) {
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
-							$field = LanguageTranslator::translate($module_name, $module_name) . " " . LanguageTranslator::translate($fieldlabel, $module_name);
+							$field = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name) . " " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel, $module_name);
 						} else {
-							$field = LanguageTranslator::translate($fieldlabel);
+							$field = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel);
 						}
 
 						$uitype_arr[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $adb->query_result($mod_query, 0, "uitype");
@@ -2817,7 +2817,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3002,9 +3002,9 @@ class ReportRun extends \FreeCRM\CRMEntity
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
-								$field = LanguageTranslator::translate($module_name, $module_name) . " " . LanguageTranslator::translate($fieldlabel, $module_name);
+								$field = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module_name, $module_name) . " " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel, $module_name);
 							} else {
-								$field = LanguageTranslator::translate($fieldlabel);
+								$field = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldlabel);
 							}
 						}
 						$uitype_arr[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $adb->query_result($mod_query, 0, "uitype");
@@ -3017,12 +3017,12 @@ class ReportRun extends \FreeCRM\CRMEntity
 					}
 					foreach ($totclmnflds as $key => $value) {
 						$coltotalhtml .= '<tr class="rptGrpHead">';
-						$col_header = LanguageTranslator::translate(trim(str_replace($modules, " ", $value)));
+						$col_header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(trim(str_replace($modules, " ", $value)));
 						$fld_name_1 = $this->primarymodule . "__" . trim($value);
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3309,7 +3309,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
 		$fieldInfo = getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
-			$curr_symb = " (" . LanguageTranslator::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+			$curr_symb = " (" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 		}
 		$rep_header .= $curr_symb;
 
@@ -3446,12 +3446,12 @@ class ReportRun extends \FreeCRM\CRMEntity
 			$rowcount++;
 			$count = 0;
 			if (is_array($totalxls[0])) {
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, LanguageTranslator::translate('LBL_FIELD_NAMES', 'Reports'));
+				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FIELD_NAMES', 'Reports'));
 				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
 				$count++;
 				foreach ($totalxls[0] as $key => $value) {
 					$operator = substr($key, -3, 3);
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, LanguageTranslator::translate("LBL_$operator", 'Reports'));
+					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, \FreeCRM\Runtime\Vtiger_Language_Handler::translate("LBL_$operator", 'Reports'));
 					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
 					$count++;
 				}
@@ -3465,7 +3465,7 @@ class ReportRun extends \FreeCRM\CRMEntity
 				$moduleName = $valueArray[0];
 				$fieldLabel = str_replace("__$operator", '', $valueArray[1]);
 				$fieldLabel = str_replace('__', '', $fieldLabel);
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, LanguageTranslator::translate($moduleName, $moduleName) . '-' . LanguageTranslator::translate($fieldLabel, $moduleName));
+				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName) . '-' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleName));
 				$count++;
 				foreach ($array_value as $hdr => $value) {
 					$value = decode_html($value);

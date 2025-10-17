@@ -19,7 +19,7 @@ class DownloadFile extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 
 		if (!\FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
+			throw new \Exception\NoPermittedToRecord(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', $moduleName));
 		}
 	}
 

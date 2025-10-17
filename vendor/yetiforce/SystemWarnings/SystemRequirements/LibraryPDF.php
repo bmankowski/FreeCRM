@@ -23,8 +23,8 @@ class LibraryPDF extends \App\SystemWarnings\Template
 		$this->status = Settings_ModuleManager_Library_Model::checkLibrary('mPDF') ? 0 : 1;
 		if ($this->status === 0) {
 			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
-			$this->linkTitle = vtranslate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
-			$this->description = vtranslate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', Settings_ModuleManager_Library_Model::TEMP_DIR);
+			$this->linkTitle = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
+			$this->description = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', Settings_ModuleManager_Library_Model::TEMP_DIR);
 		}
 	}
 }

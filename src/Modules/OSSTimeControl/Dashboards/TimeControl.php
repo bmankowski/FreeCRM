@@ -63,7 +63,7 @@ class TimeControl extends \Vtiger_Index_View
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$workingTimeByType[vtranslate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
+			$workingTimeByType[\FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
 			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['daytime'];
 			if (!array_key_exists($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_type']] = $counter++;
@@ -98,7 +98,7 @@ class TimeControl extends \Vtiger_Index_View
 			foreach ($workingTime as $timeKey => $timeValue) {
 				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
 					$result[$timeTypeKey]['data'][$counter][0] = $counter;
-					$result[$timeTypeKey]['label'] = vtranslate($timeTypeKey, 'OSSTimeControl');
+					$result[$timeTypeKey]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($timeTypeKey, 'OSSTimeControl');
 					$result[$timeTypeKey]['color'] = $colors[$timeTypeKey];
 					if ($timeValue[$timeTypeKey]) {
 						$result[$timeTypeKey]['data'][$counter][1] = $timeValue[$timeTypeKey];

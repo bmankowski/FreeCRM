@@ -55,12 +55,12 @@ class TextParser extends \App\TextParser\Base
 							$class = 'class="width20"';
 							break;
 					}
-					$html .= '<th ' . $class . ' style="padding:10px">' . \LanguageTranslator::translate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width10" style="padding:10px">' . \LanguageTranslator::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . \LanguageTranslator::translate('Qty/Unit', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . \LanguageTranslator::translate('LBL_VALUE') . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VALUE') . '</th>';
 			$html .= '</tr></thead><tbody>';
 			$totalValue = 0;
 			foreach ($entries as $entry) {

@@ -34,7 +34,7 @@ class Tree extends \FreeCRM\Modules\Vtiger\Models\Model
 				'type' => 'folder',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $this->getModuleName())
+				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName())
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];

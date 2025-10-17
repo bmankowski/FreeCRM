@@ -73,23 +73,23 @@ class Menu {
 			$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 			if ($moduleModel && $moduleModel->getDefaultUrl()) {
 				$breadcrumbs[] = [
-					'name' => \vtranslate($moduleName, $moduleName),
+					'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName),
 					'url' => $moduleModel->getDefaultUrl()
 				];
 			} else {
 				$breadcrumbs[] = [
-					'name' => \vtranslate($moduleName, $moduleName)
+					'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName)
 				];
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => \vtranslate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
 			} elseif ($view == 'Edit' && $request->get('record') == '') {
-				$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_CREATE', $moduleName)];
+				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-				$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 			} elseif ($view == '') {
-				$breadcrumbs[] = ['name' => \vtranslate('LBL_HOME', $moduleName)];
+				$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
 				$recordLabel = \vtlib\Functions::getCRMRecordLabel($request->get('record'));
@@ -100,7 +100,7 @@ class Menu {
 		} elseif ($parent === 'Settings') {
 			$qualifiedModuleName = $request->getModule(false);
 			$breadcrumbs[] = [
-				'name' => \vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
+				'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
 			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
@@ -110,8 +110,8 @@ class Menu {
 					if (empty($fieldId)) {
 						if ($menuModel->getModule() == $moduleName) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => \vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => \vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -119,8 +119,8 @@ class Menu {
 					} else {
 						if ($fieldId == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => \vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => \vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -134,11 +134,11 @@ class Menu {
 					}
 				} else {
 					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => \vtranslate($pageTitle, $moduleName)];
+						$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-						$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
-						$breadcrumbs[] = ['name' => \vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
@@ -156,7 +156,7 @@ class Menu {
 	{
 		if ($parent != 0 && key_exists($parent, $parentList)) {
 			$return [] = [
-				'name' => \vtranslate($parentList[$parent]['name'], $module),
+				'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($parentList[$parent]['name'], $module),
 				'url' => $parentList[$parent]['url'],
 			];
 			if ($parentList[$parent]['parent'] != 0 && key_exists($parentList[$parent]['parent'], $parentList)) {
@@ -183,7 +183,7 @@ class Menu {
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
-			$title = \vtranslate($menu['label']);
+			$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($menu['label']);
 		}
 		if (is_string($menu)) {
 			$iconName = vimage_path($menu);

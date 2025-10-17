@@ -1129,7 +1129,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			if (!empty($fieldList)) {
 				foreach ($fieldList as $column => $label) {
 					foreach ($aggregateFunctions as $function) {
-						$fLabel = vtranslate($label, $moduleName) . ' (' . vtranslate('LBL_' . $function, 'Reports') . ')';
+						$fLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($label, $moduleName) . ' (' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_' . $function, 'Reports') . ')';
 						$fColumn = $column . ':' . $function;
 						$fields[$fColumn] = $fLabel;
 					}

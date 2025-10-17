@@ -21,7 +21,7 @@ class Delete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$currentUserPrivilegesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'Delete', $record)) {
-			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermittedToRecord(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

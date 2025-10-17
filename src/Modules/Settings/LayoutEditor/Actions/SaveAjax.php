@@ -61,7 +61,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$data = [];
 		if (current($arrayInstane)) {
 			$data = current($arrayInstane)->getData();
-			$data['translate'] = vtranslate($data['label'], $moduleName);
+			$data['translate'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['label'], $moduleName);
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(['data' => $data, 'edit' => $edit]);

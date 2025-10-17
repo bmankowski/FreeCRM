@@ -35,15 +35,15 @@ class MoveReports extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				if (!$reportModel->isDefault() && $reportModel->isEditable()) {
 					$reportModel->move($folderId);
 				} else {
-					$reportsMoveDenied[] = vtranslate($reportModel->getName(), $parentModule);
+					$reportsMoveDenied[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($reportModel->getName(), $parentModule);
 				}
 			}
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (empty($reportsMoveDenied)) {
-			$response->setResult(array(vtranslate('LBL_REPORTS_MOVED_SUCCESSFULLY', $parentModule)));
+			$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORTS_MOVED_SUCCESSFULLY', $parentModule)));
 		} else {
-			$response->setError($reportsMoveDenied, vtranslate('LBL_DENIED_REPORTS', $parentModule));
+			$response->setError($reportsMoveDenied, \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DENIED_REPORTS', $parentModule));
 		}
 
 		$response->emit();

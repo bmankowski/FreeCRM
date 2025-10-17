@@ -44,7 +44,7 @@ class TextParser extends \App\TextParser\Base
 		$html .= '<table class="table"><thead><tr>';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . \LanguageTranslator::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</span>&nbsp;</th>';
+			$html .= '<th><span>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</span>&nbsp;</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		$summary = [];
@@ -72,7 +72,7 @@ class TextParser extends \App\TextParser\Base
 				$content = '<strong>' . $time['short'] . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {
-				$content = '<strong>' . \LanguageTranslator::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
+				$content = '<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
 			}
 			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';
 		}

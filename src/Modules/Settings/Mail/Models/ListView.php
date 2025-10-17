@@ -54,8 +54,8 @@ class ListView extends \Settings_Vtiger_ListView_Model
 			$recordModel = new $recordModelClass();
 			$moduleName = \App\Module::getModuleName($row['tabid']);
 			$relModuleName = \App\Module::getModuleName($row['reltabid']);
-			$row['tabid'] = \LanguageTranslator::translate($moduleName, $moduleName);
-			$row['reltabid'] = \LanguageTranslator::translate($relModuleName, $relModuleName);
+			$row['tabid'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
+			$row['reltabid'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relModuleName, $relModuleName);
 			$recordModel->setData($row);
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}

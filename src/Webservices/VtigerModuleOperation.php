@@ -238,7 +238,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 	{
 		$default_language = VTWS_PreserveGlobal::getGlobal('default_language');
 
-		$fieldLabel = \LanguageTranslator::translate($webserviceField->getFieldLabelKey(), $this->meta->getTabName());
+		$fieldLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($webserviceField->getFieldLabelKey(), $this->meta->getTabName());
 
 		$typeDetails = [];
 		if (!is_array($this->partialDescribeFields)) {

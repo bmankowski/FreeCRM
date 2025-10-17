@@ -234,7 +234,7 @@ class ModuleMeta extends Model
 			$mandatoryFields = [];
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if ($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $this->isEditableField($fieldInstance)) {
-					$mandatoryFields[$fieldName] = vtranslate($fieldInstance->getFieldLabelKey(), $this->moduleName);
+					$mandatoryFields[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldInstance->getFieldLabelKey(), $this->moduleName);
 				}
 			}
 		}

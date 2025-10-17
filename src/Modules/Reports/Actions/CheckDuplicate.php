@@ -42,7 +42,7 @@ class CheckDuplicate extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		if (!$recordModel->checkDuplicate()) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
+			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);

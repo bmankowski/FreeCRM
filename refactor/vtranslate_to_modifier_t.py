@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Script: vtranslate_to_modifier_t.py
-Description: Automatically replace vtranslate() calls with Smarty modifier 't' in .tpl files
-Usage: python3 vtranslate_to_modifier_t.py [OPTIONS] [FILE_OR_DIRECTORY]
+Script: \FreeCRM\Runtime\Vtiger_Language_Handler::translate_to_modifier_t.py
+Description: Automatically replace \FreeCRM\Runtime\Vtiger_Language_Handler::translate() calls with Smarty modifier 't' in .tpl files
+Usage: python3 \FreeCRM\Runtime\Vtiger_Language_Handler::translate_to_modifier_t.py [OPTIONS] [FILE_OR_DIRECTORY]
 Author: FreeCRM Refactoring Tool
 """
 
@@ -24,7 +24,7 @@ def print_colored(color: str, message: str) -> None:
     """Print colored output"""
     print(f"{color}{message}{Colors.NC}")
 
-class VtranslateRefactor:
+class \FreeCRM\Runtime\Vtiger_Language_Handler::translateRefactor:
     def __init__(self, dry_run: bool = False, verbose: bool = False):
         self.dry_run = dry_run
         self.verbose = verbose
@@ -32,33 +32,33 @@ class VtranslateRefactor:
         self.modified_files = 0
         self.total_replacements = 0
         
-        # Regex patterns for different vtranslate cases
+        # Regex patterns for different \FreeCRM\Runtime\Vtiger_Language_Handler::translate cases
         self.patterns = [
-            # Pattern 1: vtranslate('key') -> 'key'|t
+            # Pattern 1: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key') -> 'key'|t
             (r'\{vtranslate\([\'"](\w+)[\'"]\)\}', r"{\'\1\'|t}"),
             
-            # Pattern 2: vtranslate('key', $variable) -> 'key'|t:$variable
+            # Pattern 2: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $variable) -> 'key'|t:$variable
             (r'\{vtranslate\([\'"](\w+)[\'"],\s*(\$[A-Z_]+)\)\}', r"{\'\1\'|t:\2}"),
             
-            # Pattern 3: vtranslate('key', 'module') -> 'key'|t:'module'
+            # Pattern 3: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', 'module') -> 'key'|t:'module'
             (r'\{vtranslate\([\'"](\w+)[\'"],\s*[\'"](\w+)[\'"]\)\}', r"{\'\1\'|t:\'\2\'}"),
             
-            # Pattern 4: vtranslate('key', $variable, param) -> 'key'|t:$variable:param
+            # Pattern 4: \FreeCRM\Runtime\Vtiger_Language_Handler::translate('key', $variable, param) -> 'key'|t:$variable:param
             (r'\{vtranslate\([\'"](\w+)[\'"],\s*(\$[A-Z_]+),\s*([^)]+)\)\}', r"{\'\1\'|t:\2:\3}"),
             
-            # Pattern 5: vtranslate({$variable}) -> {$variable}|t
+            # Pattern 5: \FreeCRM\Runtime\Vtiger_Language_Handler::translate({$variable}) -> {$variable}|t
             (r'\{vtranslate\(\{([^}]+)\}\)\}', r'{{\1}|t}'),
             
-            # Pattern 6: vtranslate({$variable}, $module) -> {$variable}|t:$module
+            # Pattern 6: \FreeCRM\Runtime\Vtiger_Language_Handler::translate({$variable}, $module) -> {$variable}|t:$module
             (r'\{vtranslate\(\{([^}]+)\},\s*(\$[A-Z_]+)\)\}', r'{{\1}|t:\2}'),
             
-            # Pattern 7: vtranslate({$variable}, 'module') -> {$variable}|t:'module'
+            # Pattern 7: \FreeCRM\Runtime\Vtiger_Language_Handler::translate({$variable}, 'module') -> {$variable}|t:'module'
             (r'\{vtranslate\(\{([^}]+)\},\s*[\'"](\w+)[\'"]\)\}', r'{{\1}|t:\'\2\'}'),
             
-            # Pattern 8: vtranslate(complex_expr, $variable) -> {complex_expr}|t:$variable
+            # Pattern 8: \FreeCRM\Runtime\Vtiger_Language_Handler::translate(complex_expr, $variable) -> {complex_expr}|t:$variable
             (r'\{vtranslate\(([^,]+),\s*(\$[A-Z_]+)\)\}', r'{{\1}|t:\2}'),
             
-            # Pattern 9: vtranslate(complex_expr, 'module') -> {complex_expr}|t:'module'
+            # Pattern 9: \FreeCRM\Runtime\Vtiger_Language_Handler::translate(complex_expr, 'module') -> {complex_expr}|t:'module'
             (r'\{vtranslate\(([^,]+),\s*[\'"](\w+)[\'"]\)\}', r'{{\1}|t:\'\2\'}'),
         ]
     
@@ -67,7 +67,7 @@ class VtranslateRefactor:
         if not file_path.exists():
             return 0
         
-        # Check if file contains vtranslate
+        # Check if file contains \FreeCRM\Runtime\Vtiger_Language_Handler::translate
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 original_content = f.read()
@@ -160,7 +160,7 @@ class VtranslateRefactor:
             print_colored(Colors.GREEN, f"Total replacements made: {self.total_replacements}")
         
         if self.total_files == 0:
-            print_colored(Colors.YELLOW, "No files with vtranslate() found")
+            print_colored(Colors.YELLOW, "No files with \FreeCRM\Runtime\Vtiger_Language_Handler::translate() found")
         
         print()
         if self.dry_run:
@@ -171,14 +171,14 @@ class VtranslateRefactor:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Replace vtranslate() calls with Smarty modifier 't'",
+        description="Replace \FreeCRM\Runtime\Vtiger_Language_Handler::translate() calls with Smarty modifier 't'",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python3 vtranslate_to_modifier_t.py                           # Process current directory
-  python3 vtranslate_to_modifier_t.py layouts/basic/modules/    # Process specific directory
-  python3 vtranslate_to_modifier_t.py file.tpl                 # Process specific file
-  python3 vtranslate_to_modifier_t.py --dry-run layouts/       # Preview changes
+  python3 \FreeCRM\Runtime\Vtiger_Language_Handler::translate_to_modifier_t.py                           # Process current directory
+  python3 \FreeCRM\Runtime\Vtiger_Language_Handler::translate_to_modifier_t.py layouts/basic/modules/    # Process specific directory
+  python3 \FreeCRM\Runtime\Vtiger_Language_Handler::translate_to_modifier_t.py file.tpl                 # Process specific file
+  python3 \FreeCRM\Runtime\Vtiger_Language_Handler::translate_to_modifier_t.py --dry-run layouts/       # Preview changes
         """
     )
     
@@ -206,7 +206,7 @@ Examples:
         file_pattern = "*.tpl"
     
     # Show configuration
-    print_colored(Colors.BLUE, "=== vtranslate to modifier 't' refactoring tool ===")
+    print_colored(Colors.BLUE, "=== \FreeCRM\Runtime\Vtiger_Language_Handler::translate to modifier 't' refactoring tool ===")
     if args.dry_run:
         print_colored(Colors.YELLOW, "Mode: DRY RUN (no changes will be made)")
     else:
@@ -216,7 +216,7 @@ Examples:
     print()
     
     # Initialize refactorer
-    refactorer = VtranslateRefactor(dry_run=args.dry_run, verbose=args.verbose)
+    refactorer = \FreeCRM\Runtime\Vtiger_Language_Handler::translateRefactor(dry_run=args.dry_run, verbose=args.verbose)
     
     # Process target
     target_path = Path(args.target)

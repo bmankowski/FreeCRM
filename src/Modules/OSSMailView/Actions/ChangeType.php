@@ -31,7 +31,7 @@ class ChangeType extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$recordModel->ChangeTypeSelectedRecords($selectedIds, $mail_type);
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(vtranslate('LBL_ChangeTypeOK', $moduleName));
+		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ChangeTypeOK', $moduleName));
 		$response->emit();
 	}
 }

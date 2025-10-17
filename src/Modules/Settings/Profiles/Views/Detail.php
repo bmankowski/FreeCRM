@@ -25,7 +25,7 @@ class Detail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
-			$title = vtranslate('LBL_VIEW_DETAIL', $moduleName);
+			$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAIL', $moduleName);
 		}
 		return $title;
 	}

@@ -33,13 +33,13 @@ class ListView extends \Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
-		$title = vtranslate($moduleName, $moduleName);
-		$title = $title . ' - ' . vtranslate('LBL_VIEW_LIST', $moduleName);
+		$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
+		$title = $title . ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
 
 		if ($request->has('viewname')) {
 			$customView = \FreeCRM\Modules\CustomView\Models\Record::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
-				$title .= ' [' . vtranslate('LBL_FILTER', $moduleName) . ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']';
+				$title .= ' [' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILTER', $moduleName) . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($customView->get('viewname'), $moduleName) . ']';
 			}
 		}
 		return $title;
@@ -48,12 +48,12 @@ class ListView extends \Vtiger_Index_View
 	public function getBreadcrumbTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$title = vtranslate('LBL_VIEW_LIST', $moduleName);
+		$title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname')) {
 			$customView = \FreeCRM\Modules\CustomView\Models\Record::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
-				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . vtranslate('LBL_FILTER', $moduleName)
-					. ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']</div>';
+				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FILTER', $moduleName)
+					. ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($customView->get('viewname'), $moduleName) . ']</div>';
 			}
 		}
 		return $title;

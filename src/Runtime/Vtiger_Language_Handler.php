@@ -12,15 +12,16 @@
  * Class to handler language translations
  */
 
-namespace FreeCRM\Runtime {
-	use FreeCRM\database\PearDatabase;
-	use FreeCRM\Vtiger_Loader;
-	use FreeCRM\Http\Vtiger_Session;
-	use FreeCRM\AppConfig;
-	use App\Purifier;
-	use App\Log;
-	use App\Module;
-	use App\User;
+namespace FreeCRM\Runtime;
+
+use FreeCRM\database\PearDatabase;
+use FreeCRM\Vtiger_Loader;
+use FreeCRM\Http\Vtiger_Session;
+use FreeCRM\AppConfig;
+use App\Purifier;
+use App\Log;
+use App\Module;
+use App\User;
 
 class Vtiger_Language_Handler
 {
@@ -57,8 +58,8 @@ class Vtiger_Language_Handler
 
 		// If translation is not found then return label
 		if ($translatedString === null) {
-            return $key;
-        }
+			return $key;
+		}
 
 		return $translatedString;
 	}
@@ -162,8 +163,8 @@ class Vtiger_Language_Handler
 		if (!isset(self::$languageContainer[$language][$module])) {
 			$qualifiedName = 'languages.' . $language . '.' . $module;
 			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
-            $languageStrings = [];
-            $jsLanguageStrings = [];
+			$languageStrings = [];
+			$jsLanguageStrings = [];
 			if (file_exists($file)) {
 				require $file;
 			} else {
@@ -243,8 +244,8 @@ class Vtiger_Language_Handler
 		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
 		if ($userSelectedLanguage != $value) {
-            $languages[] = $value;
-        }
+			$languages[] = $value;
+		}
 
 
 		$resultantLanguageString = [];
@@ -309,20 +310,26 @@ class Vtiger_Language_Handler
 	{
 		return Vtiger_Language_Handler::getTranslatedString('SINGLE_' . $moduleName, $moduleName);
 	}
-}
-}
-
-namespace {
-	function vtranslate($key, $moduleName = 'Vtiger')
+	public static function translate(string $key, ...$args)
 	{
-		$formattedString = \FreeCRM\Runtime\Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
-		$args = func_get_args();
-		array_shift($args);
-		array_shift($args);
-		if ($args !== []) {
-			return call_user_func_array('vsprintf', [$formattedString, $args]);
-		}
+		// Use the existing Vtiger translation system
+		try {
+			// First argument after key is module name, rest are sprintf parameters
+			$moduleName = $args[0] ?? 'Vtiger';
+			$sprintfArgs = array_slice($args, 1);
 
-		return $formattedString;
+			$formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
+
+			// If there are sprintf parameters, format the string
+			if (!empty($sprintfArgs)) {
+				return call_user_func_array('vsprintf', [$formattedString, $sprintfArgs]);
+			}
+
+			return $formattedString;
+		} catch (Exception $exception) {
+			// Fallback to original key if translation fails
+			return "ERROR:" . $key;
+		}
 	}
+	
 }

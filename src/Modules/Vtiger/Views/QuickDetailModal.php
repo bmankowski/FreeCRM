@@ -59,10 +59,10 @@ class QuickDetailModal extends \Vtiger_Index_View
 					if ($detailView->isMethodExposed($method)) {
 						$label = '';
 						if (!empty($widget['label'])) {
-							$label = \FreeCRM\LanguageTranslator::translate($widget['label'], $moduleName);
+							$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($widget['label'], $moduleName);
 						} elseif ($widget['type'] === 'RelatedModule') {
 							$relatedModule = \App\Module::getModuleName($widget['data']['relatedmodule']);
-							$label = \FreeCRM\LanguageTranslator::translate($relatedModule, $relatedModule);
+							$label = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relatedModule, $relatedModule);
 						}
 						$widgets[] = ['title' => $label, 'content' => $detailView->$method($widgetRequest)];
 					}

@@ -24,9 +24,9 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$vale = $request->get('vale');
 		if (\FreeCRM\Modules\Settings\Password\Models\Record::validation($type, $vale)) {
 			\FreeCRM\Modules\Settings\Password\Models\Record::setPassDetail($type, $vale);
-			$resp = vtranslate('LBL_SAVE_OK', $moduleName);
+			$resp = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_OK', $moduleName);
 		} else {
-			$resp = vtranslate('LBL_ERROR', $moduleName);
+			$resp = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR', $moduleName);
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($resp);

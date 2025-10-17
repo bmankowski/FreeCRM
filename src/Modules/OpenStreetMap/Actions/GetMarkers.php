@@ -45,7 +45,7 @@ class GetMarkers extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$legend = [];
 			foreach (OpenStreetMap_Coordinate_Model::$colors as $key => $value) {
 				$legend [] = [
-					'value' => vtranslate($key, $sourceModule),
+					'value' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($key, $sourceModule),
 					'color' => $value
 				];
 			}

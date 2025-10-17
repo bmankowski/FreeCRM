@@ -276,15 +276,15 @@ class TextParser
 	protected function translate($params)
 	{
 		if (strpos($params, '|') === false) {
-			return \LanguageTranslator::translate($params);
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($params);
 		}
 		$aparams = explode('|', $params);
 		$moduleName = array_shift($aparams);
 		if (Module::getModuleId($moduleName) !== false) {
 			$params = reset($aparams);
-			return \LanguageTranslator::translate($params, $moduleName, $this->language);
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($params, $moduleName, $this->language);
 		}
-		return \LanguageTranslator::translate($params);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($params);
 	}
 
 	/**
@@ -309,7 +309,7 @@ class TextParser
 			}
 			$logoName = $logo->get('imageUrl');
 			$logoTitle = $company->get('name');
-			$logoAlt = \LanguageTranslator::translate('LBL_COMPANY_LOGO_TITLE');
+			$logoAlt = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMPANY_LOGO_TITLE');
 			$logoHeight = $company->get($fieldName . '_height');
 			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
 		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
@@ -410,8 +410,8 @@ class TextParser
 					$oldValue = $this->recordDisplayValue($oldValue, $fieldModel);
 					$currentValue = $this->recordDisplayValue($this->recordModel->get($fieldName), $fieldModel);
 					if ($this->withoutTranslations !== true) {
-						$value .= \LanguageTranslator::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
-						$value .= \LanguageTranslator::translate('LBL_FROM') . " $oldValue " . \LanguageTranslator::translate('LBL_TO') . " $currentValue" . PHP_EOL;
+						$value .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
+						$value .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FROM') . " $oldValue " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TO') . " $currentValue" . PHP_EOL;
 					} else {
 						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$ $(translate: LBL_FROM)$ $oldValue $(translate: LBL_TO)$ " .
 							$currentValue . PHP_EOL;
@@ -426,7 +426,7 @@ class TextParser
 					}
 					$currentValue = $this->recordDisplayValue($this->recordModel->get($fieldName), $fieldModel);
 					if ($this->withoutTranslations !== true) {
-						$value .= \LanguageTranslator::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . PHP_EOL;
+						$value .= \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . PHP_EOL;
 					} else {
 						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$: $currentValue" . PHP_EOL;
 					}
@@ -714,7 +714,7 @@ class TextParser
 			$variables['LBL_ENTITY_VARIABLES'][] = [
 				'var_value' => "$(sourceRecord : $key)$",
 				'var_label' => "$(translate : $name)$",
-				'label' => \LanguageTranslator::translate($name)
+				'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($name)
 			];
 		}
 		foreach (\App\TextParser::$sourceModules[$this->moduleName] as $moduleName) {
@@ -725,7 +725,7 @@ class TextParser
 						$variables[$moduleName][$blockModel->get('label')][] = [
 							'var_value' => "$(sourceRecord : {$fieldModel->getName()})$",
 							'var_label' => "$(translate : $moduleName|{$fieldModel->getFieldLabel()})$",
-							'label' => \LanguageTranslator::translate($fieldModel->getFieldLabel(), $moduleName)
+							'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->getFieldLabel(), $moduleName)
 						];
 					}
 				}
@@ -747,34 +747,34 @@ class TextParser
 		}
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($this->moduleName);
 		$variables = [];
-		$entityVariables = \LanguageTranslator::translate('LBL_ENTITY_VARIABLES');
+		$entityVariables = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ENTITY_VARIABLES');
 		foreach ($moduleModel->getFieldsByType(array_merge(\FreeCRM\Modules\Vtiger\Models\Field::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
 			if ($field->getFieldDataType() === 'owner') {
 				$relatedModules = ['Users'];
 			} else {
 				$relatedModules = $field->getReferenceList();
 			}
-			$parentFieldNameLabel = \LanguageTranslator::translate($field->getFieldLabel(), $this->moduleName);
+			$parentFieldNameLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field->getFieldLabel(), $this->moduleName);
 			if (!$fieldType) {
 				foreach (static::$variableEntity as $key => $name) {
 					$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
 						'var_value' => "$(relatedRecord : $parentFieldName|$key)$",
 						'var_label' => "$(translate : $key)$",
-						'label' => $parentFieldNameLabel . ': ' . \LanguageTranslator::translate($name)
+						'label' => $parentFieldNameLabel . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($name)
 					];
 				}
 			}
 			foreach ($relatedModules as $relatedModule) {
-				$relatedModuleLang = \LanguageTranslator::translate($relatedModule, $relatedModule);
+				$relatedModuleLang = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relatedModule, $relatedModule);
 				$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 				foreach ($moduleModel->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
-							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . \LanguageTranslator::translate($blockModel->get('label'), $relatedModule);
+							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
 								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",
 								'var_label' => "$(translate : $relatedModule|{$fieldModel->getFieldLabel()})$",
-								'label' => "$parentFieldNameLabel: ($relatedModuleLang) " . \LanguageTranslator::translate($fieldModel->getFieldLabel(), $relatedModule)
+								'label' => "$parentFieldNameLabel: ($relatedModuleLang) " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->getFieldLabel(), $relatedModule)
 							];
 						}
 					}
@@ -793,20 +793,20 @@ class TextParser
 	{
 		$variables = [
 			'LBL_ENTITY_VARIABLES' => array_map(function($value) {
-					return \LanguageTranslator::translate($value);
+					return \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value);
 				}, array_flip(static::$variableGeneral))
 		];
 		$companyDetails = Company::getInstanceById()->getData();
 		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
 		$companyVariables = [];
 		foreach (array_keys($companyDetails) as $name) {
-			$companyVariables["$(organization : $name)$"] = \LanguageTranslator::translate('LBL_' . strtoupper($name), 'Settings:Companies');
+			$companyVariables["$(organization : $name)$"] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_' . strtoupper($name), 'Settings:Companies');
 		}
-		$companyVariables['$(organization : mailLogo)$'] = \LanguageTranslator::translate('LBL_LOGO_IMG_MAIL', 'Settings:Companies');
-		$companyVariables['$(organization : loginLogo)$'] = \LanguageTranslator::translate('LBL_LOGO_IMG_LOGIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_login)$'] = \LanguageTranslator::translate('LBL_LOGO_PATH_LOGIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_main)$'] = \LanguageTranslator::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
-		$companyVariables['$(organization : logo_mail)$'] = \LanguageTranslator::translate('LBL_LOGO_PATH_MAIL', 'Settings:Companies');
+		$companyVariables['$(organization : mailLogo)$'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_IMG_MAIL', 'Settings:Companies');
+		$companyVariables['$(organization : loginLogo)$'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_IMG_LOGIN', 'Settings:Companies');
+		$companyVariables['$(organization : logo_login)$'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_PATH_LOGIN', 'Settings:Companies');
+		$companyVariables['$(organization : logo_main)$'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
+		$companyVariables['$(organization : logo_mail)$'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_PATH_MAIL', 'Settings:Companies');
 		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
 		return $variables;
@@ -831,7 +831,7 @@ class TextParser
 				if (isset($this->type) && $this->type !== $instance->type) {
 					continue;
 				}
-				$variables["$(custom : $fileName)$"] = \LanguageTranslator::translate($instance->name);
+				$variables["$(custom : $fileName)$"] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($instance->name);
 			}
 		}
 		return $variables;
@@ -853,7 +853,7 @@ class TextParser
 					if (isset($this->type) && $this->type !== $instanceClass->type) {
 						continue;
 					}
-					$variables["$(custom : $fileName|{$this->moduleName})$"] = \LanguageTranslator::translate($instanceClass->name, $this->moduleName);
+					$variables["$(custom : $fileName|{$this->moduleName})$"] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($instanceClass->name, $this->moduleName);
 				}
 			}
 		}

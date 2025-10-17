@@ -135,9 +135,9 @@ class VTScheduledReport extends Reports
 		$currentTime = date('Y-m-d H:i:s');
 		$subject = $this->reportname . ' - ' . $currentTime . ' (' . DateTimeField::getDBTimeZone() . ')';
 
-		$contents = LanguageTranslator::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br/><br/>';
-		$contents .= '<b>' . LanguageTranslator::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';
-		$contents .= '<b>' . LanguageTranslator::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br/>' . $this->reportdescription . '<br/><br/>';
+		$contents = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br/><br/>';
+		$contents .= '<b>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';
+		$contents .= '<b>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br/>' . $this->reportdescription . '<br/><br/>';
 
 		$baseFileName = preg_replace('/[^a-zA-Z0-9_-\s]/', '', $this->reportname) . '__' . preg_replace('/[^a-zA-Z0-9_-\s]/', '', $currentTime);
 

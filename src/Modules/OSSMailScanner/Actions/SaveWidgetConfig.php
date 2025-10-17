@@ -30,7 +30,7 @@ class SaveWidgetConfig extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$conf_type = $request->get('conf_type');
 		$recordModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$recordModel->setConfigWidget($conf_type, $param, $val);
-		$result = array('success' => true, 'data' => vtranslate('JS_save_config_info', 'OSSMailScanner'));
+		$result = array('success' => true, 'data' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_save_config_info', 'OSSMailScanner'));
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

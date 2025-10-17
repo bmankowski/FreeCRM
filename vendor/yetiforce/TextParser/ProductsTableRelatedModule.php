@@ -54,7 +54,7 @@ class ProductsTableRelatedModule extends Base
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \LanguageTranslator::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr></thead><tbody>';

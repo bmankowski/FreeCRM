@@ -51,7 +51,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -67,7 +67,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -79,7 +79,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -95,7 +95,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -107,7 +107,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -118,7 +118,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$saveResp = Settings_LangManagement_Module_Model::save($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($saveResp) {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SaveDataOK', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => false));
 		}
@@ -131,7 +131,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$saveResp = Settings_LangManagement_Module_Model::delete($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($saveResp) {
-			$response->setResult(['success' => true, 'message' => vtranslate('LBL_DeleteDataOK', $request->getModule(false))]);
+			$response->setResult(['success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DeleteDataOK', $request->getModule(false))]);
 		} else {
 			$response->setResult(['success' => false]);
 		}
@@ -144,7 +144,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($params);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($saveResp['success']) {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));
+			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));
 		} else {
 			$response->setResult(array('success' => false));
 		}

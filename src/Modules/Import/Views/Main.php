@@ -59,8 +59,8 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
-				Import_Utils_Helper::showErrorPage(vtranslate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				throw new \Exception\AppException(vtranslate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				Import_Utils_Helper::showErrorPage(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 			}
 		}
 
@@ -80,8 +80,8 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 	public static function showImportStatus($importInfo, $user)
 	{
 		if (empty($importInfo)) {
-			Import_Utils_Helper::showErrorPage(vtranslate('ERR_IMPORT_INTERRUPTED', 'Import'));
-			throw new \Exception\AppException(vtranslate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			Import_Utils_Helper::showErrorPage(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
 		}
 		$importDataController = new Import_Data_Action($importInfo, $user);
 		if ($importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_HALTED ||
@@ -191,8 +191,8 @@ class Main extends \FreeCRM\Runtime\Vtiger_View_Controller
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
 			return true;
 		} else {
-			Import_Utils_Helper::showErrorPage(vtranslate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
-				vtranslate($fileReader->getErrorMessage(), 'Import'));
+			Import_Utils_Helper::showErrorPage(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
+				\FreeCRM\Runtime\Vtiger_Language_Handler::translate($fileReader->getErrorMessage(), 'Import'));
 			return false;
 		}
 	}

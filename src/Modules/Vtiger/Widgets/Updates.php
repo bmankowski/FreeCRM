@@ -31,8 +31,8 @@ class Updates extends \FreeCRM\Modules\Vtiger\Widgets\Basic
 		$this->Config['switchHeader'] = [];
 		$this->Config['switchHeader']['on'] = 'changes';
 		$this->Config['switchHeader']['off'] = 'review';
-		$this->Config['switchHeaderLables']['on'] = vtranslate('LBL_UPDATES', $moduelName);
-		$this->Config['switchHeaderLables']['off'] = vtranslate('LBL_REVIEW_HISTORY', $moduelName);
+		$this->Config['switchHeaderLables']['on'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UPDATES', $moduelName);
+		$this->Config['switchHeaderLables']['off'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REVIEW_HISTORY', $moduelName);
 		return $this->Config;
 	}
 }

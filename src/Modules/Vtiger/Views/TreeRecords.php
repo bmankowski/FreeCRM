@@ -18,7 +18,7 @@ class TreeRecords extends \Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$treeViewModel = \FreeCRM\Modules\Vtiger\Models\TreeView::getInstance($moduleModel);
-		$pageTitle = vtranslate($treeViewModel->getName(), $moduleName);
+		$pageTitle = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($treeViewModel->getName(), $moduleName);
 		return $pageTitle;
 	}
 

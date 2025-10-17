@@ -30,7 +30,7 @@ class ExportData extends \FreeCRM\Runtime\Vtiger_Action_Controller
 
 		$headers = ['User Name', 'Title', 'First Name', 'Last Name', 'Email', 'Other Email', 'Secondary Email', 'Office Phone', 'Mobile', 'Fax', 'Street', 'City', 'State', 'Country', 'Postal Code'];
 		foreach ($headers as &$header) {
-			$translatedHeaders[] = vtranslate(html_entity_decode($header, ENT_QUOTES), $moduleName);
+			$translatedHeaders[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
 		}
 		$this->output($request, $translatedHeaders, $entries);
 	}

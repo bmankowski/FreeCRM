@@ -31,7 +31,7 @@ class SaveCRMuser extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			$adb->pquery('update roundcube_users set crm_user_id = ? WHERE user_id = ?', [$value, $userid]);
 			$success = true;
-			$data = vtranslate('JS_saveuser_info', 'OSSMailScanner');
+			$data = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_saveuser_info', 'OSSMailScanner');
 		} else {
 			$success = false;
 			$data = 'Error: Brak userid';

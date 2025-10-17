@@ -59,7 +59,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 			$item = [];
 			$crmid = $record['osstimecontrolid'];
 			$item['id'] = $crmid;
-			$item['title'] = \LanguageTranslator::translate($record['name'], $module);
+			$item['title'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['name'], $module);
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $crmid;
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);

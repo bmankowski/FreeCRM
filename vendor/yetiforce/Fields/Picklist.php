@@ -142,7 +142,7 @@ class Picklist
 	 */
 	public static function getPickListModules()
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		// vtlib customization: Ignore disabled modules.
 		$query = 'select distinct vtiger_field.fieldname,vtiger_field.tabid,vtiger_tab.tablabel, vtiger_tab.name as tabname,uitype from vtiger_field inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where uitype IN (15,33) and vtiger_field.tabid != 29 and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2) order by vtiger_field.tabid ASC';
 		// END

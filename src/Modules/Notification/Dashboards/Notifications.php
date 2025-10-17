@@ -32,7 +32,7 @@ class Notifications extends \Vtiger_Index_View
 		$notifications = $notificationModel->getEntries($limit, $condition);
 
 		$typesNotification = $notificationModel->getTypes();
-		array_unshift($typesNotification, \LanguageTranslator::translate('All'));
+		array_unshift($typesNotification, \FreeCRM\Runtime\Vtiger_Language_Handler::translate('All'));
 		$viewer->assign('TYPES_NOTIFICATION', $typesNotification);
 		$viewer->assign('NOTIFICATIONS', $notifications);
 		$viewer->assign('WIDGET', $widget);

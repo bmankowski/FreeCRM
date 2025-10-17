@@ -190,10 +190,10 @@ class EmailTemplate
 							$values[$fieldName] = $referencedObjectMeta->getName(vtws_getId(
 									$referencedObjectMeta->getEntityId(), $values[$fieldName]));
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'picklist') === 0) {
-							$values[$fieldName] = \LanguageTranslator::translate(
+							$values[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(
 									$values[$fieldName], $module);
 						} elseif (strcasecmp($fieldName, 'salutationtype') === 0 && $webserviceField->getUIType() == '55') {
-							$values[$fieldName] = \LanguageTranslator::translate(
+							$values[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(
 									$values[$fieldName], $module);
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'datetime') === 0) {
 							$values[$fieldName] = $values[$fieldName] . ' ' . DateTimeField::getDBTimeZone();

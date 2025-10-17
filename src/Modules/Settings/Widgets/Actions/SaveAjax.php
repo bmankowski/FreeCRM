@@ -32,7 +32,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => vtranslate('Saved changes', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Saved changes', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -44,7 +44,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => vtranslate('Removed widget', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Removed widget', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -56,7 +56,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => vtranslate('Update has been completed', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Update has been completed', $request->getModule(false))
 		));
 		$response->emit();
 	}

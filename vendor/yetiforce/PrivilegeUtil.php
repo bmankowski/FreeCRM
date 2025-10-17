@@ -43,7 +43,7 @@ class PrivilegeUtil
 	private static function getEmailsRelatedAccounts($recordId)
 	{
 		\App\Log::trace("Entering getEmailsRelatedAccounts($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
 		$result = $adb->pquery($query, array($recordId));
 		$accountid = $adb->getSingleValue($result);
@@ -58,7 +58,7 @@ class PrivilegeUtil
 	private static function getEmailsRelatedLeads($recordId)
 	{
 		\App\Log::trace("Entering getEmailsRelatedLeads($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
 		$result = $adb->pquery($query, array($recordId));
 		$leadid = $adb->getSingleValue($result);
@@ -73,7 +73,7 @@ class PrivilegeUtil
 	private static function getHelpDeskRelatedAccounts($recordId)
 	{
 		\App\Log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
 		$result = $adb->pquery($query, array($recordId));
 		$accountid = $adb->getSingleValue($result);
@@ -91,7 +91,7 @@ class PrivilegeUtil
 	{
 		if (static::$datashareRelatedCache === false) {
 			$relModSharArr = [];
-			$adb = \PearDatabase::getInstance();
+			$adb = \FreeCRM\Database\PearDatabase::getInstance();
 			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
 			while ($row = $adb->getRow($result)) {
 				$relTabId = $row['relatedto_tabid'];
@@ -119,7 +119,7 @@ class PrivilegeUtil
 	{
 		if (static::$defaultSharingActionCache === false) {
 			\App\Log::trace('getAllDefaultSharingAction');
-			$adb = \PearDatabase::getInstance();
+			$adb = \FreeCRM\Database\PearDatabase::getInstance();
 			$copy = [];
 			//retreiving the standard permissions
 			$result = $adb->query('select * from vtiger_def_org_share');
@@ -143,7 +143,7 @@ class PrivilegeUtil
 		if (isset(static::$usersByRoleCache[$roleId])) {
 			return static::$usersByRoleCache[$roleId];
 		}
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT userid FROM vtiger_user2role WHERE roleid=?', array($roleId));
 		$users = [];
 		while (($userId = $adb->getSingleValue($result)) !== false) {
@@ -326,7 +326,7 @@ class PrivilegeUtil
 			return static::$usersByGroupCache[$roleId];
 		}
 		$users = [];
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		//Retreiving from the user2grouptable
 		$result = $adb->pquery('select userid from vtiger_users2group where groupid=?', [$groupId]);
 		while ($userId = $adb->getSingleValue($result)) {
@@ -369,7 +369,7 @@ class PrivilegeUtil
 		if (isset(static::$usersBySubordinateCache[$roleId])) {
 			return static::$usersBySubordinateCache[$roleId];
 		}
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$roleInfo = static::getRoleDetail($roleId);
 		$parentRole = $roleInfo['parentrole'];
 		$query = "SELECT vtiger_user2role.userid FROM vtiger_user2role INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ?";

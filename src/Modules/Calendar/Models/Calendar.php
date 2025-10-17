@@ -152,9 +152,9 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 			$item['smownerid'] = \vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 
 			//translate
-			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
-			$item['labels']['pri'] = vtranslate($record['priority'], $this->getModuleName());
-			$item['labels']['state'] = vtranslate($record['state'], $this->getModuleName());
+			$item['labels']['sta'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['status'], $this->getModuleName());
+			$item['labels']['pri'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['priority'], $this->getModuleName());
+			$item['labels']['state'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($record['state'], $this->getModuleName());
 
 			//Relation
 			$item['link'] = $record['link'];
@@ -272,7 +272,7 @@ class Calendar extends \FreeCRM\Modules\Vtiger\Models\Model
 					$return[$date]['date'] = $date;
 					$return[$date]['event'][$activitytype]['count'] += 1;
 					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
-					$return[$date]['event'][$activitytype]['label'] = vtranslate($activitytype, $this->getModuleName());
+					$return[$date]['event'][$activitytype]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
 				}
 			}

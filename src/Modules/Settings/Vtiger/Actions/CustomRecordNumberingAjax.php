@@ -31,7 +31,7 @@ class CustomRecordNumberingAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions
 		$sourceModule = $request->get('sourceModule');
 
 		if (!$sourceModule) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', $qualifiedModuleName));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', $qualifiedModuleName));
 		}
 	}
 
@@ -75,7 +75,7 @@ class CustomRecordNumberingAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions
 		if ($result['success']) {
 			$response->setResult(LanguageTranslator::translate('LBL_SUCCESSFULLY_UPDATED', $qualifiedModuleName));
 		} else {
-			$message = LanguageTranslator::translate('LBL_PREFIX_IN_USE', $qualifiedModuleName);
+			$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PREFIX_IN_USE', $qualifiedModuleName);
 			$response->setError($message);
 		}
 		$response->emit();

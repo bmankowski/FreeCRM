@@ -56,8 +56,8 @@ class Invitees extends \FreeCRM\Runtime\Vtiger_Action_Controller
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
 					'module' => $row['setype'],
-					'category' => vtranslate($row['setype'], $row['setype']),
-					'fullLabel' => vtranslate($row['setype'], $row['setype']) . ': ' . $label,
+					'category' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']),
+					'fullLabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']) . ': ' . $label,
 					'label' => $label
 				];
 			}

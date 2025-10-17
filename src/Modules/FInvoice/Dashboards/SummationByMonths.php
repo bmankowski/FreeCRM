@@ -98,7 +98,7 @@ class SummationByMonths extends \Vtiger_Index_View
 			$data[] = [
 				'data' => $values,
 				'bars' => ['order' => (array_search($y, $years) + 1)],
-				'label' => vtranslate('LBL_YEAR', $moduleName) . ' ' . $y,
+				'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 			];
 		}
 		$response['chart'] = $data;

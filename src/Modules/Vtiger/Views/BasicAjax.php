@@ -172,7 +172,7 @@ class BasicAjax extends \Vtiger_Index_View
 					$recordsList[] = [
 						'id' => $recordID,
 						'module' => $module,
-						'category' => vtranslate($module, $module),
+						'category' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $module),
 						'label' => $label,
 						'permitted' => $recordModel->get('permitted'),
 					];

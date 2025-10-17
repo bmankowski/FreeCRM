@@ -32,7 +32,7 @@ Class DataAccess_check_taskstatus
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'text' => \LanguageTranslator::translate('Subordinate tasks have not been completed yet', 'DataAccess'),
+					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Subordinate tasks have not been completed yet', 'DataAccess'),
 					'type' => 'error'
 				]
 			];

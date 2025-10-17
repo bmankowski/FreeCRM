@@ -65,9 +65,9 @@ class Export extends Model
 					$fieldModel = $this->moduleFieldInstances[$fieldName];
 					// Check added as querygenerator is not checking this for admin users
 					if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
-						$header = \LanguageTranslator::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+						$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 						if ($exportBlockName) {
-							$header = LanguageTranslator::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+							$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
 						}
 						$headers[] = $header;
 					}
@@ -75,9 +75,9 @@ class Export extends Model
 			}
 		} else {
 			foreach ($this->moduleFieldInstances as &$fieldModel) {
-				$header = \LanguageTranslator::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+				$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 				if ($exportBlockName) {
-					$header = LanguageTranslator::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+					$header = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
 				}
 				$headers[] = $header;
 			}
@@ -90,7 +90,7 @@ class Export extends Model
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {
-				$headers[] = 'Inventory::' . \LanguageTranslator::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
+				$headers[] = 'Inventory::' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
 					$headers[] = 'Inventory::' . $columnName;
 				}

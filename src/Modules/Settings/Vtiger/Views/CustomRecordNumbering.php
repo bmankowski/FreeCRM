@@ -37,7 +37,7 @@ class CustomRecordNumbering extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	public function getPageTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		return vtranslate('LBL_CUSTOMIZE_RECORD_NUMBERING', $qualifiedModuleName);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CUSTOMIZE_RECORD_NUMBERING', $qualifiedModuleName);
 	}
 
 	/**

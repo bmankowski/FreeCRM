@@ -41,7 +41,7 @@ class GetData extends \Vtiger_Index_View
 			$data = $recordModel->getData();
 			$response->setResult(array('success' => true, 'data' => array_map('decode_html', $data)));
 		} else {
-			$response->setResult(array('success' => false, 'message' => vtranslate('LBL_PERMISSION_DENIED')));
+			$response->setResult(array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED')));
 		}
 		$response->emit();
 	}

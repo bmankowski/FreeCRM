@@ -222,7 +222,7 @@ class WebUI extends EntryPoint
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			$message = vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND');
+			$message = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND');
 			throw new \Exception\AppException($message);
 		}
 
@@ -230,7 +230,7 @@ class WebUI extends EntryPoint
 		$hasPermission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$hasPermission) {
-			throw new \Exception\NoPermitted(vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 
 		$handler->checkPermission($request);
@@ -628,7 +628,7 @@ class WebUI extends EntryPoint
 		$handler = new $handlerClass();
 
 		if (!$handler) {
-			throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		return $handler;

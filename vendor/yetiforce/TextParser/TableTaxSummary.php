@@ -59,7 +59,7 @@ class TableTaxSummary extends Base
 							<thead>
 								<tr>
 									<th colspan="2" class="tBorder noBottomBorder tHeader">
-										<strong>' . \LanguageTranslator::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
+										<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
 									</th>
 								</tr>
 							</thead>
@@ -72,7 +72,7 @@ class TableTaxSummary extends Base
 									</tr>';
 				}
 				$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . \LanguageTranslator::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td class="textAlignRight tBorder" width="70px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
 									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
 								</tr>
 							</tbody>
@@ -85,7 +85,7 @@ class TableTaxSummary extends Base
 								<thead>
 									<tr>
 										<th colspan="2" class="tBorder noBottomBorder tHeader">
-											<strong>' . \LanguageTranslator::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
+											<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
 										</th>
 									</tr>
 								</thead>
@@ -98,7 +98,7 @@ class TableTaxSummary extends Base
 								</tr>';
 					}
 					$html .= '<tr>
-								<td class="textAlignRight tBorder" width="70px">' . \LanguageTranslator::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+								<td class="textAlignRight tBorder" width="70px">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
 								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>

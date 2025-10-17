@@ -218,7 +218,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
 						$data = explode(':', $val);
-						$name = \LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($data[1]));
+						$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($data[1]));
 						$rows[$index]['type'] = $data[0];
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
@@ -234,7 +234,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 				if ($this->get($key)) {
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
-						$name = \LanguageTranslator::translate(\App\Fields\Owner::getLabel($val));
+						$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getLabel($val));
 						$rows[$index]['type'] = \App\Fields\Owner::getType($val);
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
@@ -451,7 +451,7 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 			case 'active':
 				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
 			case 'roleid':
-				return empty($this->get($name)) ? 'LBL_SYSTEM' : \LanguageTranslator::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
+				return empty($this->get($name)) ? 'LBL_SYSTEM' : \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
 			default:
 				break;
 		}

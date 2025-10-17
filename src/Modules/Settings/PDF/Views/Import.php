@@ -70,7 +70,7 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				$viewer->assign('RECORDID', $pdfModel->getId());
 				$viewer->assign('UPLOAD', true);
 			} else {
-				$viewer->assign('UPLOAD_ERROR', vtranslate('LBL_UPLOAD_ERROR', $qualifiedModule));
+				$viewer->assign('UPLOAD_ERROR', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);
 			}
 		}

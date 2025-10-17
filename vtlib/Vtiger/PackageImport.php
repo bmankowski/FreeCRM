@@ -317,7 +317,7 @@ class PackageImport extends PackageExport
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorText = vtranslate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$_errorText = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
 			$this->_errorText = $_errorText;
 		}
@@ -330,7 +330,7 @@ class PackageImport extends PackageExport
 			if (\App\Version::check($moduleVersion) === true) {
 				$moduleVersionFound = true;
 			} else {
-				$_errorText = vtranslate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
+				$_errorText = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
 				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
 				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
 				$this->_errorText = $_errorText;
@@ -642,7 +642,7 @@ class PackageImport extends PackageExport
 	{
 		if (empty($modulenode->tables) || empty($modulenode->tables->table))
 			return;
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
 
 		// Import the table via queries
@@ -1008,7 +1008,7 @@ class PackageImport extends PackageExport
 	{
 		$dirName = 'cache/updates';
 		$result = false;
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
@@ -1081,7 +1081,7 @@ class PackageImport extends PackageExport
 				Utils::AddColumn($table, $column, $criteria);
 			}
 		}
-		$db = \PearDatabase::getInstance();
+		$db = \FreeCRM\Database\PearDatabase::getInstance();
 		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
 				'columnname' => $fieldNode->columnname,
 				'label' => $fieldNode->label,

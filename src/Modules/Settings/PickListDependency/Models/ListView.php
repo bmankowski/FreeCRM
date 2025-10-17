@@ -63,7 +63,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 			unset($dependentPicklists[$i]['module']);
 			$record->setData($dependentPicklists[$i]);
 			$record->set('sourceModule', $module);
-			$record->set('sourceLabel', vtranslate($module, $module));
+			$record->set('sourceLabel', \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module, $module));
 			$listViewRecordModels[] = $record;
 		}
 		$pagingModel->calculatePageRange($noOfRecords);

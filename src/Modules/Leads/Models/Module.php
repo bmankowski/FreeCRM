@@ -121,7 +121,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			if ($leadStatusVal == '') {
 				$leadStatusVal = 'LBL_BLANK';
 			}
-			$response[$i][1] = \LanguageTranslator::translate($leadStatusVal, $module);
+			$response[$i][1] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($leadStatusVal, $module);
 			$response[$i][2] = $leadStatusVal;
 			$i++;
 		}

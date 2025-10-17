@@ -38,8 +38,8 @@ class checkType {
 				'save_record' => $saveRecord,
 				'type' => 0,
 				'info' => [
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_NOT_PARENT_STORAGE', $moduleName),
+					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_PARENT_STORAGE', $moduleName),
 					'type' => 'error'
 				]
 			];

@@ -72,7 +72,7 @@ class ClipBoard extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$coordinatesModel->set('srcModuleModel', $moduleModel);
 		$coordinates = $coordinatesModel->readCoordinatesByRecords([$record]);
 		if(empty($coordinates)) {
-			$coordinates = vtranslate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
+			$coordinates = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($coordinates);

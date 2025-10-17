@@ -63,7 +63,7 @@ class Module
 				if ($row['label'] != '') {
 					$name = $row['label'];
 				} elseif ($settings) {
-					$name = vtranslate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . \vtranslate('SINGLE_' . $row['name'], $row['name']);
+					$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $row['name'], $row['name']);
 				}
 				break;
 			case 6: $name = 'LBL_HOME';
@@ -72,9 +72,9 @@ class Module
 				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
 				$data = $query->one();
 				if ($settings) {
-					$name = \vtranslate($data['entitytype'], $data['entitytype']) . ': ' . vtranslate($data['viewname'], $data['entitytype']);
+					$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['entitytype'], $data['entitytype']) . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
 				} else {
-					$name = \vtranslate($data['viewname'], $data['entitytype']);
+					$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
 				}
 				break;
 			default: $name = $row['label'];

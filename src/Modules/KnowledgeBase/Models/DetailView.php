@@ -19,7 +19,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		$relatedLinkEntries = [
 			[
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_PREVIEW', $moduleName),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_PREVIEW', $moduleName),
 				'linkKey' => 'LBL_RECORD_PREVIEW',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showPreview',
 				'linkicon' => '',
@@ -29,8 +29,8 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 				'linktype' => 'DETAILVIEWBASIC',
 				'linkurl' => 'javascript:KnowledgeBase_Popup_Js.getInstance().showPresentationContent(' . $recordId . ');',
 				'linkicon' => 'glyphicon glyphicon-resize-full',
-				'title' => vtranslate('LBL_FULL_SCREEN', $moduleName),
-				'linkhint' => vtranslate('LBL_FULL_SCREEN', $moduleName)
+				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FULL_SCREEN', $moduleName),
+				'linkhint' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FULL_SCREEN', $moduleName)
 			]
 		];
 		$relatedLinks = [];

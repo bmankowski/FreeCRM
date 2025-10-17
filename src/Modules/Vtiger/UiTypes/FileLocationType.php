@@ -36,7 +36,7 @@ class FileLocationType extends Base
 	public function getPicklistValues()
 	{
 		$moduleName = $this->get('field')->getModuleName();
-		return ['I' => \FreeCRM\LanguageTranslator::translate('LBL_INTERNAL', $moduleName), 'E' => \FreeCRM\LanguageTranslator::translate('LBL_EXTERNAL', $moduleName)];
+		return ['I' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INTERNAL', $moduleName), 'E' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXTERNAL', $moduleName)];
 	}
 
 	/**

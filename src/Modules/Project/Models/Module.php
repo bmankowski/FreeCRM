@@ -24,7 +24,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			$project['id'] = $id;
 			$project['text'] = $recordModel->get('projectname');
 			$project['priority'] = $recordModel->get('projectpriority');
-			$project['priority_label'] = vtranslate($recordModel->get('projectpriority'), $this->getName());
+			$project['priority_label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModel->get('projectpriority'), $this->getName());
 			$project['type'] = 'project';
 			$project['module'] = $this->getName();
 			$project['open'] = true;
@@ -67,7 +67,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			}
 			$projectmilestone['progress'] = (int) $row['projectmilestone_progress'] / 100;
 			$projectmilestone['priority'] = $row['projectmilestone_priority'];
-			$projectmilestone['priority_label'] = vtranslate($row['projectmilestone_priority'], 'ProjectMilestone');
+			$projectmilestone['priority_label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['projectmilestone_priority'], 'ProjectMilestone');
 			$projectmilestone['open'] = true;
 			$projectmilestone['type'] = 'milestone';
 			$projecttask = $this->getGanttTask($row['id']);
@@ -120,7 +120,7 @@ class Module extends \FreeCRM\Modules\Vtiger\Models\Module
 			settype($row['projecttaskprogress'], "integer");
 			$projecttask['progress'] = $row['projecttaskprogress'] / 100;
 			$projecttask['priority'] = $row['projecttaskpriority'];
-			$projecttask['priority_label'] = vtranslate($row['projecttaskpriority'], 'ProjectTask');
+			$projecttask['priority_label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['projecttaskpriority'], 'ProjectTask');
 			$projecttask['start_date'] = date('d-m-Y', strtotime($row['startdate']));
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 			$projecttask['end_date'] = date('d-m-Y', $endDate);

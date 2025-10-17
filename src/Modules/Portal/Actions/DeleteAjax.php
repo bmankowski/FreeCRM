@@ -25,7 +25,7 @@ class DeleteAjax extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$moduleModel->deleteRecord($recordId);
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(array('message' => vtranslate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
+		$response->setResult(array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
 		$response->emit();
 	}
 }

@@ -66,7 +66,7 @@ class Import extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 				$viewer->assign('UPLOAD', true);
 				$viewer->assign('MESSAGES', $messages);
 			} else {
-				$viewer->assign('UPLOAD_ERROR', vtranslate('LBL_UPLOAD_ERROR', $qualifiedModule));
+				$viewer->assign('UPLOAD_ERROR', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);
 			}
 		}

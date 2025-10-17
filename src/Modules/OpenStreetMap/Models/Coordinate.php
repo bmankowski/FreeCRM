@@ -122,7 +122,7 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 			return [];
 		$coordinatesDetails = reset($coordinatesDetails);
 		if (empty($coordinatesDetails)) {
-			return ['error' => vtranslate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
+			return ['error' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
 		} else {
 			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
 		}
@@ -233,10 +233,10 @@ class Coordinate extends \FreeCRM\Modules\Vtiger\Models\Model
 			}
 		}
 		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
-		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . vtranslate('LBL_START', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . vtranslate('LBL_END', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . vtranslate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . vtranslate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
+		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_START', 'OpenStreetMap') . '</button><br>';
+		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_END', 'OpenStreetMap') . '</button><br>';
+		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br>';
+		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
 		return $html;
 	}
 

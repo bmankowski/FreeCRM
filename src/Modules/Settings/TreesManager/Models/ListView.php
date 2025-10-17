@@ -68,7 +68,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 			$record->setData($row);
 
 			$recordModule = vtlib\Functions::getModuleName($row['module']);
-			$record->set('module', vtranslate($recordModule, $recordModule));
+			$record->set('module', \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
 				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);

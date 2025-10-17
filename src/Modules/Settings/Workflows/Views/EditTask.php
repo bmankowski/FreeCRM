@@ -106,11 +106,11 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('TASK_MODEL', $taskModel);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		// Adding option Line Item block for Individual tax mode
-		$individualTaxBlockLabel = vtranslate("LBL_LINEITEM_BLOCK_GROUP", $qualifiedModuleName);
+		$individualTaxBlockLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate("LBL_LINEITEM_BLOCK_GROUP", $qualifiedModuleName);
 		$individualTaxBlockValue = $viewer->view('LineItemsGroupTemplate.tpl', $qualifiedModuleName, $fetch = true);
 
 		// Adding option Line Item block for group tax mode
-		$groupTaxBlockLabel = vtranslate("LBL_LINEITEM_BLOCK_INDIVIDUAL", $qualifiedModuleName);
+		$groupTaxBlockLabel = \FreeCRM\Runtime\Vtiger_Language_Handler::translate("LBL_LINEITEM_BLOCK_INDIVIDUAL", $qualifiedModuleName);
 		$groupTaxBlockValue = $viewer->view('LineItemsIndividualTemplate.tpl', $qualifiedModuleName, $fetch = true);
 
 		$templateVariables = array(
@@ -128,20 +128,20 @@ class EditTask extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		$emailFieldoptions = [];
 		$textParser = \App\TextParser::getInstance($sourceModule);
 		foreach ($textParser->getRecordVariable('email') as $blockName => $fields) {
-			$blockName = \LanguageTranslator::translate($blockName, $sourceModule);
+			$blockName = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
 			foreach ($fields as $field) {
-				$emailFieldoptions[$blockName][$field['var_value']] = \LanguageTranslator::translate($field['label'], $sourceModule);
+				$emailFieldoptions[$blockName][$field['var_value']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
 			}
 		}
 		foreach ($textParser->getRelatedVariable('email') as $modules) {
 			foreach ($modules as $blockName => $fields) {
-				$blockName = \LanguageTranslator::translate($blockName, $sourceModule);
+				$blockName = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
 				foreach ($fields as $field) {
-					$emailFieldoptions[$blockName][$field['var_value']] = \LanguageTranslator::translate($field['label'], $sourceModule);
+					$emailFieldoptions[$blockName][$field['var_value']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
 				}
 			}
 		}
-		$fromEmailFieldOptions = array_merge(['' => ['' => \LanguageTranslator::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
+		$fromEmailFieldOptions = array_merge(['' => ['' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
 		$assignedToValues = [
 			\LanguageTranslator::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
 			\LanguageTranslator::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()

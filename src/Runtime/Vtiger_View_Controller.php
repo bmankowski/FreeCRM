@@ -36,7 +36,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
    {
 	   if ($this->viewer === null) {
 		   $viewer = FreeCRM_Viewer::getInstance();
-		   $viewer->assign('APPTITLE', LanguageTranslator::translate('APPTITLE'));
+		   $viewer->assign('APPTITLE', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('APPTITLE'));
 		   $viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 		   $viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
 		   if ($vtigerRequest->isAjax()) {
@@ -57,7 +57,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $moduleName = $vtigerRequest->getModule(false);
 	   $moduleNameArray = explode(':', $moduleName);
 	   $moduleLabel = end($moduleNameArray) === 'Vtiger' ? 'YetiForce' : end($moduleNameArray);
-	   $title = LanguageTranslator::translate($moduleLabel, $moduleName);
+	   $title = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleLabel, $moduleName);
 	   $pageTitle = $this->getBreadcrumbTitle($vtigerRequest);
 	   if ($pageTitle) {
 		   $title .= ' - ' . $pageTitle;

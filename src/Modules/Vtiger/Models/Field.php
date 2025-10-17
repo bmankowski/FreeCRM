@@ -413,7 +413,7 @@ class Field extends \vtlib\Field
 
 			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
-				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
+				$fieldPickListValues[$value] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $this->getModuleName());
 			}
 			return $fieldPickListValues;
 		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
@@ -433,7 +433,7 @@ class Field extends \vtlib\Field
 		foreach ($allModules as $module) {
 			$modules[$module['tabid']] = [
 				'name' => $module['name'],
-				'label' => LanguageTranslator::translate($module['name'], $module['name'])
+				'label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($module['name'], $module['name'])
 			];
 		}
 		return $modules;
@@ -735,7 +735,7 @@ class Field extends \vtlib\Field
 		$this->fieldInfo['defaultvalue'] = $this->hasDefaultValue();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
-		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
+		$this->fieldInfo['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->get('label'), $this->getModuleName());
 
 		switch ($fieldDataType) {
 			case 'picklist' :
@@ -773,8 +773,8 @@ class Field extends \vtlib\Field
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
-					$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-					$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+					$pickListValues[\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USERS', $this->getModuleName())] = $userList;
+					$pickListValues[\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
 					if (\FreeCRM\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
 						$this->fieldInfo['searchOperator'] = 'e';

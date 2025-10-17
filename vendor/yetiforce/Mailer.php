@@ -332,7 +332,7 @@ class Mailer
 		$this->to($currentUser->get('email1'));
 		$template = Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
 		if (!$template) {
-			return ['result' => false, 'error' => \LanguageTranslator::translate('LBL_NO_EMAIL_TEMPLATE')];
+			return ['result' => false, 'error' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_EMAIL_TEMPLATE')];
 		}
 		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());

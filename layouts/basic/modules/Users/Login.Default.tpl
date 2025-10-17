@@ -117,7 +117,7 @@
 							</div>
 							<div class='col-xs-2 marginRight0' >
 								<button type="submit" style='height:102px' id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
-									{*vtranslate('LBL_SEND',$MODULE)*}
+									{'LBL_SEND'|t:$MODULE}
 									<strong>></strong>
 								</button>
 							</div>

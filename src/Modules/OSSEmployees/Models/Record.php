@@ -177,11 +177,11 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		}
 
 		if ($sum_time != 0 && $sum_time != '') {
-			$text = vtranslate('LBL_DAYWORKSUM', 'OSSEmployees') . ': ' . number_format($sum_time, 2, $current_user->column_fields['currency_decimal_separator'], $current_user->column_fields['currency_grouping_separator']);
+			$text = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DAYWORKSUM', 'OSSEmployees') . ': ' . number_format($sum_time, 2, $current_user->column_fields['currency_decimal_separator'], $current_user->column_fields['currency_grouping_separator']);
 			if ($moduleModel->get('dayworktime') != '') {
-				$text .= ' ' . vtranslate('LBL_FROM') . ' ' . $moduleModel->get('dayworktime');
+				$text .= ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FROM') . ' ' . $moduleModel->get('dayworktime');
 			}
-			$return = '<span title="' . vtranslate('Average daily working time', 'OSSEmployees') . '">' . $text . '</span>';
+			$return = '<span title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Average daily working time', 'OSSEmployees') . '">' . $text . '</span>';
 		}
 		return $return;
 	}

@@ -32,7 +32,7 @@ class saveEmailSearchList extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$OSSMailScannerModel = \FreeCRM\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 		$OSSMailScannerModel->setEmailSearchList($vale);
 		$success = true;
-		$data = vtranslate('JS_save_fields_info', 'OSSMailScanner');
+		$data = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_save_fields_info', 'OSSMailScanner');
 		$result = array('success' => $success, 'data' => $data);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);

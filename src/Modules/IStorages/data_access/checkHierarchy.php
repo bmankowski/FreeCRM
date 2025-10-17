@@ -33,8 +33,8 @@ class checkHierarchy {
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_PARENT_IS_CHILD', $moduleName),
+					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_IS_CHILD', $moduleName),
 					'type' => 'error'
 				]
 			];

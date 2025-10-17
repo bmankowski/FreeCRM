@@ -32,7 +32,7 @@ class RelatedCommentModal extends \Vtiger_Index_View
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 
 		$viewer = $this->getViewer($request);

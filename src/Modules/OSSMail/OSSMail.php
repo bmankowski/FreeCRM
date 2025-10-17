@@ -48,7 +48,7 @@ class OSSMail {
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_DisabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.enabled') {
 			if (\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('roundcube')) {
-				throw new \Exception\NotAllowedMethod(vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
+				throw new \Exception\NotAllowedMethod(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
 			}
 			$user_id = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			\App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();

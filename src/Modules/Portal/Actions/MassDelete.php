@@ -30,7 +30,7 @@ class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		\FreeCRM\Modules\Portal\Models\Module::deleteRecords($request);
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$result = array('message' => vtranslate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
+		$result = array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
 		$response->setResult($result);
 		$response->emit();
 	}

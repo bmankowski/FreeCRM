@@ -147,7 +147,7 @@ class DetailView extends Model
 						'linklabel' => '',
 						'linkurl' => 'javascript:Vtiger_Detail_Js.updateField(\'' . $fieldName . '\')',
 						'linkicon' => 'glyphicon glyphicon-time',
-						'linkhint' => LanguageTranslator::translate('LBL_UPDATE_FIELD', $moduleName) . ' ' . LanguageTranslator::translate($fieldLabel, $moduleName),
+						'linkhint' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_UPDATE_FIELD', $moduleName) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleName),
 						'linkclass' => 'btn-warning',
 					];
 					$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($editViewLinks);
@@ -185,7 +185,7 @@ class DetailView extends Model
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'title' => vtranslate('LBL_DELETE_RECORD')
+				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_RECORD')
 			);
 			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
 		}
@@ -195,7 +195,7 @@ class DetailView extends Model
 				'linklabel' => 'LBL_DUPLICATE',
 				'linkurl' => $recordModel->getDuplicateRecordUrl(),
 				'linkicon' => 'glyphicon glyphicon-duplicate',
-				'title' => vtranslate('LBL_DUPLICATE_RECORD')
+				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATE_RECORD')
 			);
 			$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($duplicateLinkModel);
 		}
@@ -205,10 +205,10 @@ class DetailView extends Model
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
 				$pdfLink = [
 					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => vtranslate('LBL_EXPORT_PDF')
+					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];
 				$linkModelList['DETAILVIEW'][] = \FreeCRM\Modules\Vtiger\Models\Link::getInstanceFromValues($pdfLink);
 			}

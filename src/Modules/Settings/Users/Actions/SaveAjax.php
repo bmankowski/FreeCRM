@@ -30,7 +30,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $recordModel->setConfig($param),
-			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -42,7 +42,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		$moduleModel->saveSwitchUsers($param);
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
-			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -55,7 +55,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
-			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}

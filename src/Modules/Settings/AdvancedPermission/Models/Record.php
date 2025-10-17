@@ -153,18 +153,18 @@ class Record extends \FreeCRM\Modules\Settings\Vtiger\Models\Record
 								$name = \App\Fields\Owner::getUserLabel($id);
 								break;
 							case 'Groups' :
-								$name = \LanguageTranslator::translate(\App\Fields\Owner::getGroupName($id));
+								$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \LanguageTranslator::translate($roleInfo['rolename']);
+								$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
 								break;
 							case 'RoleAndSubordinates' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \LanguageTranslator::translate($roleInfo['rolename']);
+								$name = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
 								break;
 						}
-						$values[] = \LanguageTranslator::translate($type) . ': ' . $name;
+						$values[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($type) . ': ' . $name;
 					}
 					$value = implode(', ', $values);
 				}

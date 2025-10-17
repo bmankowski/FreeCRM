@@ -43,7 +43,7 @@ class ListUpdatedRecord {
 			->limit($limit)
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$row['setype'] = vtranslate($row['setype'], $row['setype']);
+			$row['setype'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['setype'], $row['setype']);
 			$recordList [] = $row;
 		}
 		if (empty($recordList)) {

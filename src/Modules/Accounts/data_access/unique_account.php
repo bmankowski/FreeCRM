@@ -89,7 +89,7 @@ Class DataAccess_unique_account
 			while ($id = $db->getSingleValue($result)) {
 				$metaData = \vtlib\Functions::getCRMRecordMetadata($id);
 				$save = false;
-				$deletedLabel = $metaData['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
+				$deletedLabel = $metaData['deleted'] ? ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . \vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
 			}
 		}
@@ -103,8 +103,8 @@ Class DataAccess_unique_account
 						'save_record' => false,
 						'type' => 0,
 						'info' => [
-							'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-							'text' => vtranslate('LBL_PARENT_IS_CHILD', $moduleName),
+							'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+							'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_IS_CHILD', $moduleName),
 							'type' => 'error'
 						]
 					];
@@ -113,19 +113,19 @@ Class DataAccess_unique_account
 		}
 		if ($save === false) {
 			$permission = \FreeCRM\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DuplicateRecord');
-			$text = '<div class="marginLeft10">' . vtranslate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
+			$text = '<div class="marginLeft10">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {
-				$title = '<strong>' . vtranslate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
+				$title = '<strong>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
 				if (!empty($ID)) {
 					$text .= '<form class="form-horizontal"><div class="checkbox">
 							<label>
-								<input type="checkbox" name="cache"> ' . vtranslate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
+								<input type="checkbox" name="cache"> ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
 							</label>
 						</div></form>';
 				}
 				if ($recordForm['view'] == 'quick_edit') {
-					$text = '<div class="alert alert-warning" role="alert">' . vtranslate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
+					$text = '<div class="alert alert-warning" role="alert">' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
 				}
 			}
 			return [

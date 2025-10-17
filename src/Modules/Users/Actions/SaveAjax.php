@@ -79,7 +79,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 				$displayValue = Vtiger_Language_Handler::getLanguageLabel($fieldValue);
 			}
 			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === '&nbsp;')) {
-				$displayValue = vtranslate('LBL_SPACE', 'Users');
+				$displayValue = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE', 'Users');
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
@@ -200,7 +200,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$listViewUrl = $userModuleModel->getListViewUrl();
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(array('message' => vtranslate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
+		$response->setResult(array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
 		$response->emit();
 	}
 
@@ -211,7 +211,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -223,7 +223,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -235,7 +235,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -248,7 +248,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$response->setResult([
 			'success' => true,
 			'color' => \FreeCRM\Modules\Users\Models\Colors::generateColor($params),
-			'message' => LanguageTranslator::translate('LBL_GENERATED_COLOR', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GENERATED_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -260,7 +260,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -273,7 +273,7 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 		$response->setResult(array(
 			'success' => true,
 			'color' => $color,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -297,9 +297,9 @@ class SaveAjax extends \FreeCRM\Modules\Vtiger\Actions\Save
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];
 			if ($newAccessKey != $oldAccessKey) {
-				$response->setResult(array('message' => vtranslate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
+				$response->setResult(array('message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
 			} else {
-				$response->setError(vtranslate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
+				$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
 			}
 		} catch (Exception $ex) {
 			$response->setError($ex->getMessage());

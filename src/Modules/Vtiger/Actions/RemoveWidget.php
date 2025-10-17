@@ -34,12 +34,12 @@ class RemoveWidget extends \Vtiger_Index_View
 			$response->setResult(['linkid' => $linkId,
 				'name' => $widget->getName(),
 				'url' => $widget->getUrl(),
-				'title' => vtranslate($widget->getTitle(), $request->getModule()),
+				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($widget->getTitle(), $request->getModule()),
 				'id' => $widget->get('id'),
 				'deleteFromList' => $widget->get('deleteFromList')
 			]);
 		} else {
-			$response->setError(vtranslate('LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET', $moduleName));
+			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET', $moduleName));
 		}
 		$response->emit();
 	}

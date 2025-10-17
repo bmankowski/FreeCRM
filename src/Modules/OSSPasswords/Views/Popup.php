@@ -35,7 +35,7 @@ class Popup extends \Vtiger_Index_View
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 		parent::initializeListViewContents($request, $viewer);

@@ -49,7 +49,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 			if ($currentUserModel->hasModulePermission('OSSMail') && \FreeCRM\AppConfig::main('isActiveSendingMails')) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => vtranslate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
+					'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
 					'linkhref' => true,
 					'linktarget' => '_blank',
 					'linkurl' => 'index.php?module=OSSMail&view=compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
@@ -75,7 +75,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RELATIONS', $moduleName),
+			'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_RELATIONS', $moduleName),
 			'linkKey' => 'LBL_RECORD_SUMMARY',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
 			'linkicon' => '',

@@ -49,7 +49,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 		}
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => vtranslate($message, $qualifiedModuleName)]);
+		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($message, $qualifiedModuleName)]);
 		$response->emit();
 	}
 

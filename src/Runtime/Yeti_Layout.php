@@ -46,10 +46,10 @@ class Yeti_Layout
 		$db = \FreeCRM\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT name,label FROM vtiger_layout');
 		$folders = [
-			'basic' => vtranslate('LBL_DEFAULT')
+			'basic' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DEFAULT')
 		];
 		while ($row = $db->fetch_array($result)) {
-			$folders[$row['name']] = vtranslate($row['label']);
+			$folders[$row['name']] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['label']);
 		}
 
 		return $folders;

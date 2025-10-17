@@ -24,9 +24,9 @@ class MappingDelete extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($recordId) {
 			Settings_Leads_Mapping_Model::deleteMapping(array($recordId));
-			$response->setResult(array(vtranslate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)));
+			$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)));
 		} else {
-			$response->setError(vtranslate('LBL_INVALID_MAPPING', $qualifiedModuleName));
+			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_MAPPING', $qualifiedModuleName));
 		}
 		$response->emit();
 	}

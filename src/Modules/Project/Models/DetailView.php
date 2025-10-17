@@ -58,7 +58,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_CHARTS', $moduleName),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CHARTS', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
@@ -68,7 +68,7 @@ class DetailView extends \FreeCRM\Modules\Vtiger\Models\DetailView
 		if (!\FreeCRM\Modules\Settings\ModuleManager\Models\Library::checkLibrary('Gantt')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_GANTT', $moduleName),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GANTT', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showGantt',
 				'linkicon' => '',
 				'linkKey' => 'LBL_GANTT',

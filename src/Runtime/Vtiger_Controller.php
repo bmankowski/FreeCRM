@@ -96,7 +96,7 @@ abstract class Vtiger_Controller
 			return call_user_func_array([$this, $name], $parameters);
 		}
 
-		throw new \Exception(vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new \Exception(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 	}
 
 	/**

@@ -26,9 +26,9 @@ class TextParser extends \App\TextParser\Base
 		$hierarchy = $this->textParser->recordModel->getEntity()->getHierarchy($this->textParser->record, false, false);
 		$rowNum = 1;
 		$thDataArray = [
-			['label' => \LanguageTranslator::translate('LBL_ROW_NUM', $this->textParser->moduleName), 'width' => '10%', 'align' => 'center'],
-			['label' => \LanguageTranslator::translate('SINGLE_IStorages', $this->textParser->moduleName), 'width' => '50%', 'align' => 'left'],
-			['label' => \LanguageTranslator::translate('LBL_STORAGE_OWNER', $this->textParser->moduleName), 'width' => '40%', 'align' => 'center'],
+			['label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ROW_NUM', $this->textParser->moduleName), 'width' => '10%', 'align' => 'center'],
+			['label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_IStorages', $this->textParser->moduleName), 'width' => '50%', 'align' => 'left'],
+			['label' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_STORAGE_OWNER', $this->textParser->moduleName), 'width' => '40%', 'align' => 'center'],
 		];
 		$html = '<style>';
 		$html .= '.storagesTable{width:100%;font-size:10px;border:1px solid #ddd;border-collapse:collapse}';

@@ -94,7 +94,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 			$fieldPickListValues = array();
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
-				$fieldPickListValues[$picklistValue] = vtranslate($picklistValue, $this->getModuleName());
+				$fieldPickListValues[$picklistValue] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($picklistValue, $this->getModuleName());
 			}
 			return $fieldPickListValues;
 		}
@@ -122,7 +122,7 @@ class Field extends \FreeCRM\Modules\Vtiger\Models\Field
 		}
 		$fieldName = $this->getFieldName();
 		if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == '&nbsp;')) {
-			return vtranslate('LBL_SPACE', 'Users');
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE', 'Users');
 		}
 		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}

@@ -161,7 +161,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		$result = $adb->pquery($ssql, $sparams);
 		while ($cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
-				$cvrow['viewname'] = \LanguageTranslator::translate('COMBO_ALL');
+				$cvrow['viewname'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('COMBO_ALL');
 			}
 
 			$option = '';
@@ -190,15 +190,15 @@ class CustomView extends \FreeCRM\CRMEntity
 					$shtml_user .= $option;
 				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
-						$shtml_public = "<option disabled>--- " . \LanguageTranslator::translate('LBL_PUBLIC') . " ---</option>";
+						$shtml_public = "<option disabled>--- " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
 				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
-						$shtml_pending = "<option disabled>--- " . \LanguageTranslator::translate('LBL_PENDING') . " ---</option>";
+						$shtml_pending = "<option disabled>--- " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
 				} else {
 					if ($shtml_others == '')
-						$shtml_others = "<option disabled>--- " . \LanguageTranslator::translate('LBL_OTHERS') . " ---</option>";
+						$shtml_others = "<option disabled>--- " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_OTHERS') . " ---</option>";
 					$shtml_others .= $option;
 				}
 			}
@@ -230,7 +230,7 @@ class CustomView extends \FreeCRM\CRMEntity
 		$result = $adb->pquery($sSQL, [$cvid]);
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
-			\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
+			\App\Log::trace("Error !!!: " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
 			throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
@@ -241,7 +241,7 @@ class CustomView extends \FreeCRM\CRMEntity
 					$columnlist = $handler->getColumnList();
 				}
 			} else {
-				\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
+				\App\Log::trace("Error !!!: " . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
 				throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {

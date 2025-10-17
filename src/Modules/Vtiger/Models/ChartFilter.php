@@ -205,11 +205,11 @@ class ChartFilter extends Model
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {
 				$customview = $db->fetch_array($customviewrs);
-				$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+				$suffix = ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($customview['viewname'], $this->getTargetModule());
 				$groupFieldModel = \FreeCRM\Modules\Vtiger\Models\Field::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-				$suffix .= ' - ' . vtranslate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
+				$suffix .= ' - ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
 			}
-			return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+			return $prefix . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
 		return $title;
 	}

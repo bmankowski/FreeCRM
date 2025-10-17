@@ -49,7 +49,7 @@ class TextParser extends \App\TextParser\Base
 			}
 		}
 		if (empty($html)) {
-			$html = \LanguageTranslator::translate('LBL_NO_NOTIFICATIONS', 'Notification');
+			$html = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NO_NOTIFICATIONS', 'Notification');
 		}
 		return $html;
 	}

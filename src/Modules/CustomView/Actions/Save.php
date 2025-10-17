@@ -27,7 +27,7 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			\App\Cache::delete('\FreeCRM\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
 			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
 		} else {
-			$response->setError(vtranslate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
+			$response->setError(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
 		}
 
 		$response->emit();

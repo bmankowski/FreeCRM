@@ -52,7 +52,7 @@ class OverdueDeadlines extends Base
 		$html .= '<table class="table"><thead><tr>';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . \LanguageTranslator::translate($fieldModel->get('label'), $moduleName) . '</span>&nbsp;</th>';
+			$html .= '<th><span>' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $moduleName) . '</span>&nbsp;</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		while ($row = $dataReader->read()) {

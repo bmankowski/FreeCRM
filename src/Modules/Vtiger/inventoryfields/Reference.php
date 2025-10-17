@@ -28,7 +28,7 @@ class Reference extends InventoryField
 			return '';
 		}
 		$metaData = \vtlib\Functions::getCRMRecordMetadata($value);
-		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
+		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
 		return $linkValue;
 	}
 

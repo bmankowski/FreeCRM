@@ -285,9 +285,9 @@ class Module extends \Vtiger_Module_Model
 	{
 		$actionsName = explode(self::$separator, $name);
 		if ($typ)
-			return vtranslate('Action_' . $actionsName[1], 'DataAccess');
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Action_' . $actionsName[1], 'DataAccess');
 		else
-			return vtranslate('Action_Desc_' . $actionsName[1], 'DataAccess');
+			return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Action_Desc_' . $actionsName[1], 'DataAccess');
 	}
 
 	public static function listAccesDataDirector($module = false)

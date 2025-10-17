@@ -30,7 +30,7 @@ class PicklistField extends InventoryField
 		$values = [];
 		$moduleModel = \FreeCRM\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		foreach ($moduleModel->getFieldsByType(['picklist']) as $fieldName => $fieldModel) {
-			$values[$fieldName] = vtranslate($fieldModel->get('label'), $moduleName);
+			$values[$fieldName] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $moduleName);
 		}
 		return $values;
 	}
@@ -52,7 +52,7 @@ class PicklistField extends InventoryField
 				$values[] = [
 					'module' => $module,
 					'value' => $value,
-					'name' => vtranslate($value, $module)
+					'name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $module)
 				];
 			}
 		}

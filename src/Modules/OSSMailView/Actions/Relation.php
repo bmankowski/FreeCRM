@@ -30,7 +30,7 @@ class Relation extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$recordModel->setReloadRelationRecord($request->get('moduleName'), $request->get('record'));
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(vtranslate('LBL_SET_RELOAD_RELATIONS', $moduleName));
+		$response->setResult(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SET_RELOAD_RELATIONS', $moduleName));
 		$response->emit();
 	}
 }

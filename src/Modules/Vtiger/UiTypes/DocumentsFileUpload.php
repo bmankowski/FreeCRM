@@ -55,10 +55,10 @@ class DocumentsFileUpload extends Base
 						->scalar();
 					if ($fileId) {
 						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
-							' title="' . vtranslate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+							' title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {
-					$value = '<a href="' . $value . '" target="_blank" title="' . vtranslate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+					$value = '<a href="' . $value . '" target="_blank" title="' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 				}
 			}
 		}

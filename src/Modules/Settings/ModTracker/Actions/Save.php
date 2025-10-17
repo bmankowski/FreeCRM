@@ -32,9 +32,9 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Index
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		if ($status == 'true') {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
 		} else {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
 		}
 		$response->emit();
 	}

@@ -11,7 +11,7 @@ class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'Save')) {
-			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 	}
 
@@ -34,9 +34,9 @@ class GenerateRecords extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		}
 
 		if ($bag)
-			$result = ['success' => true, 'return' => vtranslate('MSG_SAVE_OK', $moduleName)];
+			$result = ['success' => true, 'return' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('MSG_SAVE_OK', $moduleName)];
 		else
-			$result = ['success' => false, 'return' => vtranslate('MSG_SAVE_ERROR', $moduleName)];
+			$result = ['success' => false, 'return' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('MSG_SAVE_ERROR', $moduleName)];
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);

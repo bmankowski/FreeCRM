@@ -190,7 +190,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 				$relatedRecord = $this->getRelatedRecord();
 				$icon = [
 					'type' => 'icon',
-					'title' => vtranslate($relatedRecord['module'], $relatedRecord['module']),
+					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($relatedRecord['module'], $relatedRecord['module']),
 					'class' => 'userIcon-' . $relatedRecord['module'],
 				];
 				break;

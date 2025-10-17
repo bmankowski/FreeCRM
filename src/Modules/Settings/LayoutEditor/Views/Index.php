@@ -51,7 +51,7 @@ class Index extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 		foreach ($fieldModels as $fieldModel) {
 			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
 			if (!$fieldModel->isActiveField()) {
-				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = vtranslate($fieldModel->get('label'), $sourceModule);
+				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldModel->get('label'), $sourceModule);
 			}
 		}
 

@@ -21,7 +21,7 @@ class Export extends \Vtiger_Index_View
 	{
 		$currentUserPriviligesModel = \FreeCRM\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
-			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

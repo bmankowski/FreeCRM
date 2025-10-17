@@ -81,7 +81,7 @@ class TicketsByStatus extends \Vtiger_Index_View
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
 					$result[$priorityValue]['data'][$counter][0] = $counter;
-					$result[$priorityValue]['label'] = \LanguageTranslator::translate($priorityKey, $moduleName);
+					$result[$priorityValue]['label'] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($priorityKey, $moduleName);
 					$result[$priorityValue]['color'] = $colors[$priorityKey];
 					if ($ticketValue[$priorityKey]) {
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];
@@ -94,7 +94,7 @@ class TicketsByStatus extends \Vtiger_Index_View
 
 			$ticks = [];
 			foreach ($status as $key => $value) {
-				$newArray = [$key, LanguageTranslator::translate($value, $moduleName)];
+				$newArray = [$key, \FreeCRM\Runtime\Vtiger_Language_Handler::translate($value, $moduleName)];
 				array_push($ticks, $newArray);
 				$name[] = $value;
 			}

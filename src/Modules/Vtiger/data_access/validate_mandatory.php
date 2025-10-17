@@ -38,8 +38,8 @@ Class DataAccess_validate_mandatory
 				'fne' => $fieldName2,
 				'type' => 0,
 				'info' => Array(
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . vtranslate($invalidField, $moduleName),
+					'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($invalidField, $moduleName),
 					'type' => 'info'
 				)
 			);

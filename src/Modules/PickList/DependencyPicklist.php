@@ -49,9 +49,9 @@ class DependencyPicklist {
 				$forModule = \App\Module::getModuleName($fieldTabId);
 				$dependentPicklists[] = array(
 					'sourcefield' => $sourceField,
-					'sourcefieldlabel' => vtranslate($sourceFieldLabel, $forModule),
+					'sourcefieldlabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($sourceFieldLabel, $forModule),
 					'targetfield' => $targetField,
-					'targetfieldlabel' => vtranslate($targetFieldLabel, $forModule),
+					'targetfieldlabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($targetFieldLabel, $forModule),
 					'module' => $forModule
 				);
 			}

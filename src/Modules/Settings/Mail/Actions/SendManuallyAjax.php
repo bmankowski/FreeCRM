@@ -43,7 +43,7 @@ class SendManuallyAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $row['id']])->execute();
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(['success' => true, 'message' => \LanguageTranslator::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
+		$response->setResult(['success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
 		$response->emit();
 	}
 

@@ -64,7 +64,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 			}
 			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
 		} else {
-			$result = ['success' => false, 'message' => \LanguageTranslator::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
+			$result = ['success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
 		}
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		$response->setResult($result);

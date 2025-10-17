@@ -31,7 +31,7 @@ Class DataAccess_check_task
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'text' => vtranslate($config['message'], 'DataAccess'),
+					'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($config['message'], 'DataAccess'),
 					'type' => 'error'
 				]
 			];

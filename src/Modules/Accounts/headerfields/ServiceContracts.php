@@ -19,7 +19,7 @@ class HeaderField {
 		if (!empty($row['date']) || !empty($row['total'])) {
 			return [
 				'class' => 'btn-success',
-				'title' => vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
+				'title' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
 				'badge' => DateTimeField::convertToUserFormat($row['date']),
 				'action' => 'Vtiger_Detail_Js.getInstance().getTabContainer().find(\'[data-reference="ServiceContracts"]:not(.hide)\').trigger("click");'
 			];

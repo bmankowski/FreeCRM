@@ -30,7 +30,7 @@ class UniqueUser extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$userExists = $recordModel->checkUser($userId);
 
 		if (!$userExists) {
-			$result = array('success' => false, 'message' => vtranslate('LBL_USER_EXISTS', $moduleName));
+			$result = array('success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USER_EXISTS', $moduleName));
 		} else {
 			$result = array('success' => true);
 		}

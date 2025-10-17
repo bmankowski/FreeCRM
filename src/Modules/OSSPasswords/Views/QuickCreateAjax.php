@@ -55,8 +55,8 @@ class QuickCreateAjax extends \Vtiger_Index_View
 		$viewer->assign('RELATEDMODULE', $relatedModule);
 		$viewer->assign('GENERATEPASS', 'Generate Password');
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('VALIDATE_STRINGS', vtranslate('Very Weak', $relatedModule) . ',' . vtranslate('Weak', $relatedModule) . ',' . vtranslate('Better', $relatedModule) . ',' .
-			vtranslate('Medium', $relatedModule) . ',' . vtranslate('Strong', $relatedModule) . ',' . vtranslate('Very Strong', $relatedModule));
+		$viewer->assign('VALIDATE_STRINGS', \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Very Weak', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Weak', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Better', $relatedModule) . ',' .
+			\FreeCRM\Runtime\Vtiger_Language_Handler::translate('Medium', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Strong', $relatedModule) . ',' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('Very Strong', $relatedModule));
 		$viewer->assign('Very Weak', 'Very Weak');
 		$viewer->assign('Weak', 'Weak');
 		$viewer->assign('Better', 'Better');

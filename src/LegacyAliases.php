@@ -116,10 +116,6 @@ if (!class_exists('EmailTemplate')) {
     class_alias('Vtiger\Utils\EmailTemplate', 'EmailTemplate');
 }
 
-if (!class_exists('LanguageTranslator')) {
-    class_alias('Vtiger\Language\Translator', 'LanguageTranslator');
-}
-
 if (!class_exists('AppConfig')) {
     class_alias('Vtiger\Config\AppConfig', 'AppConfig');
 }

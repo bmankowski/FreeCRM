@@ -39,12 +39,12 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 		//Updating the answer of Faq
 		$answer = $recordModel->get('faq_answer');
 		if ($answer) {
-			$answer = vtranslate('LBL_SOLUTION', 'Faq') . ":\r\n" . $answer;
+			$answer = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SOLUTION', 'Faq') . ":\r\n" . $answer;
 		}
 
 		$commentsList = $parentRecordModel->getCommentsList();
 		if ($commentsList) {
-			$answer .= "\r\n\r\n" . vtranslate('LBL_COMMENTS', 'Faq') . ":";
+			$answer .= "\r\n\r\n" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_COMMENTS', 'Faq') . ":";
 			foreach ($commentsList as $comment) {
 				$answer .= "\r\n$comment";
 			}

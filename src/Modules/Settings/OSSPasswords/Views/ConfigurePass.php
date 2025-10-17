@@ -20,7 +20,7 @@ class ConfigurePass extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	{
 		$currentUserModel = \FreeCRM\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 	}
 

@@ -18,7 +18,7 @@ class PrivilegeFile
 	 */
 	public static function createUsersFile()
 	{
-		$db = \PearDatabase::getInstance();
+		$db = \FreeCRM\Database\PearDatabase::getInstance();
 		$entityData = Module::getEntityInfo('Users');
 		$result = $db->query('SELECT id,first_name,last_name,is_admin,cal_color,status,email1,user_name,deleted FROM vtiger_users');
 		$users = [];

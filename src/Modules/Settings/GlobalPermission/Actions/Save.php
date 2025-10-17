@@ -53,7 +53,7 @@ class Save extends \FreeCRM\Modules\Settings\Vtiger\Actions\Save
 		\FreeCRM\Modules\Settings\GlobalPermission\Models\Record::save($profileID, $globalactionid, $checked);
 		\FreeCRM\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
 		$response = new \FreeCRM\Http\Vtiger_Response();
-		$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SAVE_OK', $request->getModule(false))));
+		$response->setResult(array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_OK', $request->getModule(false))));
 		$response->emit();
 	}
 }

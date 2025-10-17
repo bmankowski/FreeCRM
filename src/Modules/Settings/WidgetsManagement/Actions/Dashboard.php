@@ -33,7 +33,7 @@ class Dashboard extends \FreeCRM\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$dashboardId = $request->get('dashboardId');
 		if($dashboardId === \FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard()) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \Exception\AppException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 		\FreeCRM\Modules\Settings\WidgetsManagement\Models\Module::deleteDashboard($dashboardId);
 		$response = new \FreeCRM\Http\Vtiger_Response();

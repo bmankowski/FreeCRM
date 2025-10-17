@@ -199,12 +199,12 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
 			if (file_put_contents($method['function_path'], $scriptData) === false) {
-				$messages['error'][] = vtranslate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
+				$messages['error'][] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
 			}
 		} else {
 			require_once $method['function_path'];
 			if (!function_exists($method['function_name'])) {
-				$messages['error'][] = vtranslate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
+				$messages['error'][] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
 			}
 		}
 

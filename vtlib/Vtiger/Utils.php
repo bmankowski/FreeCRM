@@ -139,7 +139,7 @@ class Utils
 	{
 		if ($value === null)
 			return $value;
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		return $adb->sql_escape_string($value);
 	}
 
@@ -162,7 +162,7 @@ class Utils
 	 */
 	static function CreateTable($tablename, $criteria, $suffixTableMeta = false)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 
 		$org_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
@@ -205,7 +205,7 @@ class Utils
 	 */
 	static function ExecuteQuery($sqlquery, $supressdie = false)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 
 		if ($supressdie)
@@ -222,7 +222,7 @@ class Utils
 	 */
 	static function CreateTableSql($tablename)
 	{
-		$adb = \PearDatabase::getInstance();
+		$adb = \FreeCRM\Database\PearDatabase::getInstance();
 
 		$result = $adb->query("SHOW CREATE TABLE $tablename");
 		$createTable = $adb->fetch_array($result);

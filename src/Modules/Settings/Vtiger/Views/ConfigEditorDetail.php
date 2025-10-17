@@ -29,7 +29,7 @@ class ConfigEditorDetail extends \FreeCRM\Modules\Settings\Vtiger\Views\Index
 	public function getPageTitle(\FreeCRM\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		return vtranslate('LBL_CONFIG_EDITOR', $qualifiedModuleName);
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_CONFIG_EDITOR', $qualifiedModuleName);
 	}
 
 	/**

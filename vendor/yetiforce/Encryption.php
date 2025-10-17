@@ -18,7 +18,7 @@ class Encryption
 
 	public function __construct()
 	{
-		$db = \PearDatabase::getInstance();
+		$db = \FreeCRM\Database\PearDatabase::getInstance();
 		$result = $db->query('SELECT * FROM a_yf_encryption');
 		if ($row = $db->getRow($result)) {
 			$this->method = $row['method'];

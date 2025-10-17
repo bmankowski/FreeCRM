@@ -32,9 +32,9 @@ class Save extends \FreeCRM\Runtime\Vtiger_Action_Controller
 		$result = $recordModel->validateRssUrl($url);
 		if ($result) {
 			$recordModel->saveRecord($url);
-			$response->setResult(['success' => true, 'message' => vtranslate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()]);
+			$response->setResult(['success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()]);
 		} else {
-			$response->setResult(['success' => false, 'message' => vtranslate('JS_INVALID_RSS_URL', $moduleName)]);
+			$response->setResult(['success' => false, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_INVALID_RSS_URL', $moduleName)]);
 		}
 
 		$response->emit();

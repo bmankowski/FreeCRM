@@ -59,7 +59,7 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			if (in_array('users', $result)) {
 				$users = $owner->getAccessibleUsers('', 'owner');
 				if (!empty($users)) {
-					$data[] = ['name' => vtranslate('LBL_USERS'), 'type' => 'optgroup'];
+					$data[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_USERS'), 'type' => 'optgroup'];
 					foreach ($users as $key => &$value) {
 						$data[] = ['id' => $key, 'name' => $value];
 					}
@@ -68,7 +68,7 @@ class Fields extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			if (in_array('groups', $result)) {
 				$grup = $owner->getAccessibleGroups('', 'owner', true);
 				if (!empty($grup)) {
-					$data[] = ['name' => vtranslate('LBL_GROUPS'), 'type' => 'optgroup'];
+					$data[] = ['name' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS'), 'type' => 'optgroup'];
 					foreach ($grup as $key => &$value) {
 						$data[] = ['id' => $key, 'name' => $value];
 					}

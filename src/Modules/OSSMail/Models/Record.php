@@ -114,7 +114,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 	{
 
 		\App\Log::error("Error \FreeCRM\Modules\OSSMail\Models\Record::imapConnect(): " . $error);
-		\vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
+		\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
@@ -621,7 +621,7 @@ class Record extends \FreeCRM\Modules\Vtiger\Models\Record
 			$adb = \FreeCRM\database\PearDatabase::getInstance();
 			$adb->pquery("update roundcube_users set language=?", array($param['language']));
 		}
-		return vtranslate('JS_save_config_info', 'OSSMailScanner');
+		return \FreeCRM\Runtime\Vtiger_Language_Handler::translate('JS_save_config_info', 'OSSMailScanner');
 	}
 
 	public function getEditableFields()

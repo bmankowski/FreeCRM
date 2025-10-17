@@ -44,18 +44,18 @@ class MassDelete extends \FreeCRM\Runtime\Vtiger_Action_Controller
 			if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 				$success = $recordModel->delete();
 				if (!$success) {
-					$reportsDeleteDenied[] = vtranslate($recordModel->getName(), $parentModule);
+					$reportsDeleteDenied[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModel->getName(), $parentModule);
 				}
 			} else {
-				$reportsDeleteDenied[] = vtranslate($recordModel->getName(), $parentModule);
+				$reportsDeleteDenied[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($recordModel->getName(), $parentModule);
 			}
 		}
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
 		if (empty($reportsDeleteDenied)) {
-			$response->setResult(array(vtranslate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)));
+			$response->setResult(array(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)));
 		} else {
-			$response->setError($reportsDeleteDenied, vtranslate('LBL_DENIED_REPORTS', $parentModule));
+			$response->setError($reportsDeleteDenied, \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DENIED_REPORTS', $parentModule));
 		}
 
 		$response->emit();

@@ -64,7 +64,7 @@ class Reference extends Base
 				return $name;
 			}
 			$name = \vtlib\Functions::textLength($name, vglobal('href_max_length'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';
@@ -89,7 +89,7 @@ class Reference extends Base
 				return $name;
 			}
 			$name = \vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\LanguageTranslator::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';

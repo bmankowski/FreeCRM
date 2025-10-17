@@ -338,11 +338,11 @@ class RelationListView extends Model
 			$parentName = '';
 			if ($row['depth'] > 0) {
 				$treeDetail = \App\Fields\Tree::getValueByTreeId($template, $parent);
-				$parentName = '(' . \FreeCRM\LanguageTranslator::translate($treeDetail['name'], $relModuleName) . ') ';
+				$parentName = '(' . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($treeDetail['name'], $relModuleName) . ') ';
 			}
 			$tree = [
 				'id' => $row['tree'],
-				'name' => $parentName . \FreeCRM\LanguageTranslator::translate($row['name'], $relModuleName),
+				'name' => $parentName . \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $relModuleName),
 				'parent' => $parent == 0 ? '#' : $parent
 			];
 			if ($showCreatorDetail) {
@@ -463,7 +463,7 @@ class RelationListView extends Model
 		$selectLinkList = array(
 			array(
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => vtranslate('LBL_SELECT_RELATION', $relatedModel->getName()),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => '',
 			)
@@ -491,14 +491,14 @@ class RelationListView extends Model
 		if ($relatedModel->get('label') == 'Calendar') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_ADD_EVENT'),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_ADD_TASK'),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -507,8 +507,8 @@ class RelationListView extends Model
 			$addLinkList = [[
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_ADD_RELATION'),
+				//'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD')." ".\FreeCRM\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -517,7 +517,7 @@ class RelationListView extends Model
 		if ($relatedModel->get('label') === 'Documents') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \FreeCRM\LanguageTranslator::translate('LBL_MASS_ADD', 'Documents'),
+				'linklabel' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'glyphicon glyphicon-plus',
 			];

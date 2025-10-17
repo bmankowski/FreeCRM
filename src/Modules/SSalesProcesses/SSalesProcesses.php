@@ -128,7 +128,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		}
 		foreach ($listColumns as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
-				$listviewHeader[] = LanguageTranslator::translate($fieldname);
+				$listviewHeader[] = \FreeCRM\Runtime\Vtiger_Language_Handler::translate($fieldname);
 			}
 		}
 		$salesProcessesList = [];

@@ -63,7 +63,7 @@ class TreeView extends Model
 				->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
 				->one();
 		if (!$fieldTemp) {
-			\vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
+			\vtlib\Functions::throwNewException(\FreeCRM\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
 		}
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
@@ -134,7 +134,7 @@ class TreeView extends Model
 				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $this->getModuleName()),
+				'text' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->getModuleName()),
 				'state' => ($row['state']) ? $row['state'] : '',
 				'icon' => $row['icon']
 			];

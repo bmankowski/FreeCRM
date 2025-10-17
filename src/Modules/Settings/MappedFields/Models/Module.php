@@ -356,7 +356,7 @@ class Module extends \FreeCRM\Modules\Settings\Vtiger\Models\Module
 				$message = 'LBL_UPLOAD_ERROR';
 			}
 		}
-		return ['id' => $id, 'message' => vtranslate($message, $qualifiedModuleName)];
+		return ['id' => $id, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate($message, $qualifiedModuleName)];
 	}
 
 	public function importDataFromXML($uploadedXml)

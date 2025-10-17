@@ -69,7 +69,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		if (!$exists) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_NAME_EXIST', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_NAME_EXIST', $qualifiedModuleName));
 		}
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
@@ -91,7 +91,7 @@ class SaveAjax extends \FreeCRM\Modules\Settings\Vtiger\Actions\Basic
 		if (!$status) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_DELETE_OK', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \FreeCRM\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_OK', $qualifiedModuleName));
 		}
 
 		$response = new \FreeCRM\Http\Vtiger_Response();
