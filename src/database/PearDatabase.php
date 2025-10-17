@@ -16,16 +16,12 @@
 namespace FreeCRM\database;
 
 use FreeCRM\AppConfig;
-use App\Log;
-use App\Debugger;
-use PDOException;
-use stdClass;
 
 class PearDatabase
 {
 
 	protected $database = null;
-	protected $stmt = false;
+	protected $stmt = null;
 	public $dieOnError = false;
 	static private $dbConfig = false;
 	static private $dbCache = false;
@@ -90,7 +86,7 @@ class PearDatabase
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
 		if ($db->database === null) {
-			Log::error('Database getInstance: Error connecting to the database', 'error');
+			\App\Log::error('Database getInstance: Error connecting to the database', 'error');
 			$db->checkError('Error connecting to the database');
 			return false;
 		} else {
@@ -116,11 +112,11 @@ class PearDatabase
 			$this->database = new \PDO($dsn, $this->userName, $this->userPassword, $options);
 			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
 		} catch (\PDOException $e) {
-			Log::error('Database connect (PDOException): ' . $e->getMessage());
+			\App\Log::error('Database connect (PDOException): ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		} catch (\Exception $e) {
 			// Catch any errors
-			Log::error('Database connect : ' . $e->getMessage());
+			\App\Log::error('Database connect : ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		}
 	}
@@ -128,7 +124,7 @@ class PearDatabase
 	protected function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
 	{
 		if ($host == '_SERVER_') {
-			Log::error('No configuration for the database connection');
+			\App\Log::error('No configuration for the database connection');
 		}
 		$this->dbType = $dbtype;
 		$this->dbHostName = $host;
@@ -162,7 +158,7 @@ class PearDatabase
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				$backtrace = Debugger::getBacktrace();
+				$backtrace = \App\Debugger::getBacktrace();
 			}
 			$message = [
 				'message' => $message,
@@ -254,7 +250,7 @@ class PearDatabase
 		if (method_exists($result, 'rowCount')) {
 			return $result->rowCount();
 		}
-		Log::warning('No rowCount function');
+		\App\Log::warning('No rowCount function');
 		return 0;
 	}
 
@@ -311,14 +307,14 @@ class PearDatabase
 		$sqlStartTime = microtime(true);
 
 		try {
-			Log::beginProfile($query, __METHOD__);
+			\App\Log::beginProfile($query, __METHOD__);
 			$this->stmt = $this->database->query($query);
-			Log::endProfile($query, __METHOD__);
+			\App\Log::endProfile($query, __METHOD__);
 
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
-		} catch (PDOException $e) {
+		} catch (\PDOException $e) {
 			$error = $this->database->errorInfo();
-			Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query);
 		}
 		return $this->stmt;
@@ -341,14 +337,14 @@ class PearDatabase
 		try {
 			$this->stmt = $this->database->prepare($query);
 
-			Log::beginProfile($query, __METHOD__);
+			\App\Log::beginProfile($query, __METHOD__);
 			$this->stmt->execute($params);
-			Log::endProfile($query, __METHOD__);
+			\App\Log::endProfile($query, __METHOD__);
 
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (PDOException $e) {
+		} catch (\PDOException $e) {
 			$error = $this->database->errorInfo();
-			Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
 		}
 		return $this->stmt;
@@ -383,14 +379,14 @@ class PearDatabase
 	public function execute()
 	{
 		try {
-			$success = $this->stmt->execute($params);
-			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (\Exception\AppException $e) {
+			$success = $this->stmt->execute();
+			return $this->stmt;
+		} catch (\PDOException $e) {
 			$error = $this->database->errorInfo();
-			Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log::error('Query Failed: ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
+			return false;
 		}
-		return $this->stmt;
 	}
 
 	/**
@@ -402,11 +398,11 @@ class PearDatabase
 	public function insert($table, array $data)
 	{
 		if (!$table) {
-			Log::error('Missing table name');
+			\App\Log::error('Missing table name');
 			$this->checkError('Missing table name');
 			return false;
 		} else if (!is_array($data)) {
-			Log::error('Missing data, data must be an array');
+			\App\Log::error('Missing data, data must be an array');
 			$this->checkError('Missing table name');
 			return false;
 		}
@@ -429,7 +425,7 @@ class PearDatabase
 	public function delete($table, $where = '', array $params = [])
 	{
 		if (!$table) {
-			Log::error('Missing table name');
+			\App\Log::error('Missing table name');
 			$this->checkError('Missing table name');
 			return false;
 		}
@@ -474,7 +470,7 @@ class PearDatabase
 	public function query_result_raw(&$result, $row, $col = 0)
 	{
 		if (!is_object($result)) {
-			Log::error('Result is not an object');
+			\App\Log::error('Result is not an object');
 			$this->checkError('Result is not an object');
 		}
 
@@ -508,7 +504,7 @@ class PearDatabase
 	public function raw_query_result_rowdata(&$result, $row = 0)
 	{
 		if (!is_object($result)) {
-			Log::error('Result is not an object');
+			\App\Log::error('Result is not an object');
 			$this->checkError('Result is not an object');
 		}
 		if (!isset($result->tmp)) {
@@ -569,7 +565,7 @@ class PearDatabase
 					$maxLength[] = $v;
 				}
 			}
-			$column = new stdClass();
+			$column = new \stdClass();
 			$column->name = $col->Field;
 			$column->notNull = $col->Null == 'NO' ? true : false;
 			$column->primaryKey = $col->Key == 'PRI' ? true : false;
@@ -638,7 +634,7 @@ class PearDatabase
 
 	public function checkExistTable($tableName, $cache = true)
 	{
-		$tablePresent = Vtiger_Cache::get('checkExistTable', $tableName);
+		$tablePresent = \FreeCRM\Runtime\Vtiger_Cache::get('checkExistTable', $tableName);
 		if ($tablePresent !== false && $cache) {
 			return $tablePresent;
 		}
@@ -653,7 +649,7 @@ class PearDatabase
 			$tablePresent = 0;
 		}
 		$this->dieOnError = $dieOnError;
-		Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
+		\FreeCRM\Runtime\Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
 		return $tablePresent;
 	}
 
@@ -688,7 +684,7 @@ class PearDatabase
 		}
 		foreach (range(0, $result->columnCount() - 1) as $columnIndex) {
 			$meta = $result->getColumnMeta($columnIndex);
-			$column = new stdClass();
+			$column = new \stdClass();
 			$column->name = $meta['name'];
 			$column->type = $this->types[$meta['pdo_type']];
 			$column->max_length = $meta['len'];
@@ -739,13 +735,14 @@ class PearDatabase
 	public function sqlExprDatalist($array)
 	{
 		if (!is_array($array)) {
-			Log::error('sqlExprDatalist: not an array');
+			\App\Log::error('sqlExprDatalist: not an array');
 			$this->checkError('sqlExprDatalist: not an array');
 		}
 		if (!count($array)) {
-			Log::error('sqlExprDatalist: empty arrays not allowed');
+			\App\Log::error('sqlExprDatalist: empty arrays not allowed');
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
+		$l = '';
 		foreach ($array as $key => $val)
 			$l .= ($l ? ',' : '') . $this->quote($val);
 		return ' ( ' . $l . ' ) ';
@@ -763,7 +760,7 @@ class PearDatabase
 
 		if ($this->getRowCount($result) == 1)
 			return $result;
-		Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
+		\App\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
 		return '';
 	}
@@ -776,7 +773,7 @@ class PearDatabase
 
 		if ($this->getRowCount($result) == 1)
 			return $result;
-		Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
+		\App\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
 		return '';
 	}
@@ -784,7 +781,7 @@ class PearDatabase
 	public function columnMeta(&$result, $col)
 	{
 		$meta = $result->getColumnMeta($col);
-		$column = new stdClass();
+		$column = new \stdClass();
 		$column->name = $meta['name'];
 		$column->type = $this->types[$meta['pdo_type']];
 		$column->max_length = $meta['len'];

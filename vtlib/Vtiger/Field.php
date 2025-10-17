@@ -211,9 +211,10 @@ class Field extends FieldBasic
 	 * @param vtlib\Block Instnace of block to use
 	 * @param Module Instance of module to which block is associated
 	 */
-	public static function getAllForBlock($blockInstance, $moduleInstance = false)
+	public static function getAllForBlock($blockInstance, \FreeCRM\Modules\Vtiger\Models\Module $moduleInstance)
 	{
-		$cache = \Vtiger_Cache::getInstance();
+		/** @var \FreeCRM\Runtime\Vtiger_Cache $cache */
+		$cache = \FreeCRM\Runtime\Vtiger_Cache::getInstance();
 		if ($cache->getBlockFields($blockInstance->id, $moduleInstance->id)) {
 			return $cache->getBlockFields($blockInstance->id, $moduleInstance->id);
 		} else {
