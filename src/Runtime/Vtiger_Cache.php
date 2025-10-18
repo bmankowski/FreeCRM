@@ -22,7 +22,7 @@ class Vtiger_Cache
 
 	private function __construct()
 	{
-		$this->connector = Vtiger_Cache_Connector::getInstance();
+		$this->connector = \App\Runtime\Cache\Vtiger_Cache_Connector::getInstance();
 	}
 
 	public static function getInstance()
