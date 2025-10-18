@@ -13,8 +13,6 @@ namespace App\events;
 use Exception;
 use ReflectionObject;
 
-/*
- * An implementation of VTEntityType that uses the webservices api to reflect on vtiger's types.
  */
 
 
@@ -205,30 +203,5 @@ class VTWSEntityType
 			$fieldTypes[$fieldName] = $this->getFieldType($fieldName);
 		}
 		return $fieldTypes;
-	}
-}
-
-class VTWSFieldType
-{
-
-    /** @var string|null */
-    public $format;
-    /** @var array|string|null */
-    public $relatedTo;
-    /** @var string|null */
-    public $type;
-    /** @var array|null */
-    public $values;
-
-
-	function toArray()
-	{
-		$ro = new ReflectionObject($this);
-		$props = $ro->getProperties();
-		$arr = [];
-		foreach ($props as $prop) {
-			$arr[$prop->getName()] = $prop->getValue($this);
-		}
-		return $arr;
 	}
 }

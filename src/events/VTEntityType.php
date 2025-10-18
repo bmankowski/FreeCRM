@@ -10,8 +10,6 @@
 
 namespace App\events;
 
-require_once(ROOT_DIRECTORY . '/src/events/SqlResultIterator.php');
-
 class VTEntityType
 {
 
@@ -81,26 +79,5 @@ class VTEntityType
 			$fieldTypes[$fieldName] = $this->getFieldType($fieldName);
 		}
 		return $fieldTypes;
-	}
-}
-
-class VTFieldType
-{
-
-    /** @var array|string|null */
-    public $relatedTo;
-    /** @var string|null */
-    public $type;
-
-
-	function toArray()
-	{
-		$ro = new ReflectionObject($this);
-		$props = $ro->getProperties();
-		$arr = [];
-		foreach ($props as $prop) {
-			$arr[$prop->getName()] = $prop->getValue($this);
-		}
-		return $arr;
 	}
 }

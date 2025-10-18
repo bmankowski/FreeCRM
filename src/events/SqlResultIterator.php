@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-
 namespace App\Events;
 
 class SqlResultIterator implements \Iterator
@@ -94,28 +93,5 @@ class SqlResultIterator implements \Iterator
 		}
 		return $arr;
 		$this->rewind();
-	}
-}
-
-class SqlResultIteratorRow
-{
-
-    /** @var array */
-    public $data;
-
-
-	function __construct($data)
-	{
-		$this->data = $data;
-	}
-
-	function get($column)
-	{
-		return $this->data[$column];
-	}
-
-	function __get($column)
-	{
-		return $this->get($column);
 	}
 }

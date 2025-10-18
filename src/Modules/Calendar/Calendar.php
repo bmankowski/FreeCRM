@@ -2,20 +2,6 @@
 
 namespace App\Modules\Calendar;
 
-/* +********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * ****************************************************************************** */
-
-require_once('src/Modules/Calendar/CalendarCommon.php');
-require_once(ROOT_DIRECTORY . '/src/database/PearDatabase.php');
-require_once('src/Modules/Calendar/Activity.php');
-require_once('src/Modules/Calendar/Date.php');
-
 class Calendar {
 
 	public $view = 'day';
@@ -153,68 +139,4 @@ class Calendar {
 		}
 		return $day->get_date_str();
 	}
-}
-
-class Layout
-{
-
-	public $view = 'day';
-	public $start_time;
-	public $end_time;
-	public $activities = Array();
-
-	/**
-	 * Constructor for Layout class
-	 * @param  string   $view - calendarview
-	 * @param  string   $time - time string 
-	 */
-	public function Layout($view, $time)
-	{
-		$this->view = $view;
-		$this->start_time = $time;
-		if ($view == 'month')
-			$this->end_time = $this->start_time->getMonthendtime();
-		if ($view == 'day')
-			$this->end_time = $this->start_time->getDayendtime();
-		if ($view == 'hour')
-			$this->end_time = $this->start_time->getHourendtime();
-	}
-
-	/**
-	 * Function to get view 
-	 * return currentview
-	 */
-	public function getView()
-	{
-		return $this->view;
-	}
-}
-
-/**
- * this function returns the days in a month in an array format
- * @param object $date_time - the date time object for the current month
- * @return array $result - the array containing current months days information
- */
-function getCalendarDaysInMonth($date_time)
-{
-	$current_user = vglobal('current_user');
-	$month_array = array();
-	$slices = array();
-	$monthview_days = $date_time->daysinmonth;
-
-	$firstday_of_month = $date_time->getThisMonthsDayByIndex(0);
-	$fdom = $firstday_of_month;
-
-	$num_of_prev_days = ($fdom->dayofweek + 7) % 7 - 1;
-	for ($i = -$num_of_prev_days; $i < 42; $i++) {
-		$pd = $date_time->getThisMonthsDayByIndex($i);
-
-		$layout = new Layout('day', $pd);
-		$date = $layout->start_time->get_formatted_date();
-		$month_array[$date] = $layout;
-		array_push($slices, $date);
-	}
-
-	$result = array("month_array" => $month_array, "slices" => $slices, "date_time" => $date_time);
-	return $result;
 }

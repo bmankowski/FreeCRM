@@ -7,42 +7,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-
 // $ANTLR 3.1 VTEventConditionParser.g 2009-01-23 20:13:10
 
 namespace App\Events;
-
-// Use composer autoloader for ANTLR classes
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-// Compatibility class for ANTLR 3 to ANTLR 4 migration
-
-class Set
-{
-    private $data;
-    
-    public function __construct($data = [])
-    {
-        $this->data = is_array($data) ? $data : [$data];
-    }
-    
-    public function add($item)
-    {
-        if (!in_array($item, $this->data)) {
-            $this->data[] = $item;
-        }
-    }
-    
-    public function contains($item)
-    {
-        return in_array($item, $this->data);
-    }
-    
-    public function toArray()
-    {
-        return $this->data;
-    }
-}              
 
 class VTEventConditionParserParser extends \Antlr\Antlr4\Runtime\Parser
 {
@@ -384,20 +351,3 @@ class VTEventConditionParserParser extends \Antlr\Antlr4\Runtime\Parser
 	// $ANTLR end "value"
 	// Delegated rules
 }
-
-VTEventConditionParserParser::$FOLLOW_comparision_in_statement57 = new Set(array(1));
-VTEventConditionParserParser::$FOLLOW_inclause_in_statement63 = new Set(array(1));
-VTEventConditionParserParser::$FOLLOW_SYMBOL_in_comparision78 = new Set(array(13));
-VTEventConditionParserParser::$FOLLOW_13_in_comparision80 = new Set(array(6));
-VTEventConditionParserParser::$FOLLOW_value_in_comparision84 = new Set(array(1));
-VTEventConditionParserParser::$FOLLOW_SYMBOL_in_inclause101 = new Set(array(5));
-VTEventConditionParserParser::$FOLLOW_IN_in_inclause103 = new Set(array(14));
-VTEventConditionParserParser::$FOLLOW_listelement_in_inclause107 = new Set(array(1));
-VTEventConditionParserParser::$FOLLOW_14_in_listelement122 = new Set(array(6));
-VTEventConditionParserParser::$FOLLOW_value_in_listelement126 = new Set(array(15, 16));
-VTEventConditionParserParser::$FOLLOW_15_in_listelement137 = new Set(array(6));
-VTEventConditionParserParser::$FOLLOW_value_in_listelement141 = new Set(array(15, 16));
-VTEventConditionParserParser::$FOLLOW_16_in_listelement147 = new Set(array(1));
-VTEventConditionParserParser::$FOLLOW_STRING_in_value162 = new Set(array(1));
-
-
