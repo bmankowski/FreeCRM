@@ -14,6 +14,10 @@ use App\Http\Vtiger_Request;
 class TreeCategoryModal extends \Vtiger_Index_View
 {
 
+    /** @var string|null */
+    protected $relationType;
+
+
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();

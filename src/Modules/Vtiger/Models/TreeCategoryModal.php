@@ -11,6 +11,10 @@ namespace App\Modules\Vtiger\Models;
 class TreeCategoryModal extends Model
 {
 
+    /** @var int|string|null */
+    protected $lastIdinTree;
+
+
 	static $_cached_instance;
 
 	/**

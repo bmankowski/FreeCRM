@@ -19,7 +19,7 @@ class ArrayShapeNode implements \PHPStan\PhpDocParser\Ast\Type\TypeNode
     public $kind;
     public ?\PHPStan\PhpDocParser\Ast\Type\ArrayShapeUnsealedTypeNode $unsealedType = null;
     /**
-     * @param array ShapeItemNode[] $items
+     * @param ArrayShapeItemNode[] $items
      * @param self::KIND_* $kind
      */
     private function __construct(array $items, bool $sealed = \true, ?\PHPStan\PhpDocParser\Ast\Type\ArrayShapeUnsealedTypeNode $unsealedType = null, string $kind = self::KIND_ARRAY)
@@ -30,7 +30,7 @@ class ArrayShapeNode implements \PHPStan\PhpDocParser\Ast\Type\TypeNode
         $this->kind = $kind;
     }
     /**
-     * @param array ShapeItemNode[] $items
+     * @param ArrayShapeItemNode[] $items
      * @param self::KIND_* $kind
      */
     public static function createSealed(array $items, string $kind = self::KIND_ARRAY): self
@@ -38,7 +38,7 @@ class ArrayShapeNode implements \PHPStan\PhpDocParser\Ast\Type\TypeNode
         return new self($items, \true, null, $kind);
     }
     /**
-     * @param array ShapeItemNode[] $items
+     * @param ArrayShapeItemNode[] $items
      * @param self::KIND_* $kind
      */
     public static function createUnsealed(array $items, ?\PHPStan\PhpDocParser\Ast\Type\ArrayShapeUnsealedTypeNode $unsealedType, string $kind = self::KIND_ARRAY): self

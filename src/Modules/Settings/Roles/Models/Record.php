@@ -19,6 +19,14 @@ namespace App\Modules\Settings\Roles\Models;
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
 
+    /** @var array */
+    protected $children;
+    /** @var self|null */
+    protected $parent;
+    /** @var array */
+    protected $profiles;
+
+
 	/**
 	 * Function to get the Id
 	 * @return <Number> Role Id

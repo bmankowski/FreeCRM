@@ -14,6 +14,14 @@ namespace App\Events;
 class SqlResultIterator implements \Iterator
 {
 
+    /** @var \App\Database\PearDatabase|null */
+    protected $adb;
+    /** @var int|null */
+    protected $pos;
+    /** @var mixed */
+    protected $result;
+
+
 	function __construct($adb, $result)
 	{
 		$this->result = $result;
@@ -91,6 +99,10 @@ class SqlResultIterator implements \Iterator
 
 class SqlResultIteratorRow
 {
+
+    /** @var array */
+    public $data;
+
 
 	function __construct($data)
 	{

@@ -22,6 +22,24 @@ use ReflectionObject;
 class VTWSEntityType
 {
 
+    /** @var \App\Database\PearDatabase|null */
+    protected $adb;
+    /** @var array|null */
+    protected $description;
+    /** @var string */
+    protected $entityTypeName;
+    /** @var array|null */
+    protected $fieldLabels;
+    /** @var array|null */
+    protected $fieldNames;
+    /** @var array|null */
+    protected $fieldTypes;
+    /** @var string */
+    protected $moduleName;
+    /** @var int|null */
+    protected $tabId;
+
+
 	function __construct($entityTypeName, $user)
 	{
 		$describeResult = \vtws_describe($entityTypeName, $user);
@@ -192,6 +210,16 @@ class VTWSEntityType
 
 class VTWSFieldType
 {
+
+    /** @var string|null */
+    public $format;
+    /** @var array|string|null */
+    public $relatedTo;
+    /** @var string|null */
+    public $type;
+    /** @var array|null */
+    public $values;
+
 
 	function toArray()
 	{

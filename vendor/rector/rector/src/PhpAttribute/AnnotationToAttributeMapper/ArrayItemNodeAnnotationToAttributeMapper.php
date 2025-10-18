@@ -36,7 +36,7 @@ final class ArrayItemNodeAnnotationToAttributeMapper implements AnnotationToAttr
         return $value instanceof ArrayItemNode;
     }
     /**
-     * @param array ItemNode $arrayItemNode
+     * @param ArrayItemNode $arrayItemNode
      */
     public function map($arrayItemNode): ArrayItem
     {

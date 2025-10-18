@@ -112,7 +112,7 @@ final class PhpNestedAttributeGroupFactory
         return $this->attributeArrayNameInliner->inlineArrayToArgs($args);
     }
     /**
-     * @param array ItemNode[] $arrayItemNodes
+     * @param ArrayItemNode[] $arrayItemNodes
      * @return list<Arg>
      */
     private function createArgsFromItems(array $arrayItemNodes): array
@@ -140,7 +140,7 @@ final class PhpNestedAttributeGroupFactory
         return new FullyQualified($annotationPropertyToAttributeClass->getAttributeClass());
     }
     /**
-     * @param array ItemNode[] $arrayItemNodes
+     * @param ArrayItemNode[] $arrayItemNodes
      * @return ArrayItemNode[]
      */
     private function removeItems(array $arrayItemNodes, NestedAnnotationToAttribute $nestedAnnotationToAttribute): array

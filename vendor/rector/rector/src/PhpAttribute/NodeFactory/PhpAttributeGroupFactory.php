@@ -104,7 +104,7 @@ final class PhpAttributeGroupFactory
     /**
      * @api tests
      *
-     * @param array ItemNode[]|mixed[] $items
+     * @param ArrayItemNode[]|mixed[] $items
      * @param string $attributeClass @deprecated
      * @param string[] $classReferencedFields
      *

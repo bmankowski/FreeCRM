@@ -12,7 +12,7 @@ final class DoctrineAnnotationTagValueNode extends AbstractValuesAwareNode
 {
     public IdentifierTypeNode $identifierTypeNode;
     /**
-     * @param array ItemNode[] $values
+     * @param ArrayItemNode[] $values
      */
     public function __construct(IdentifierTypeNode $identifierTypeNode, ?string $originalContent = null, array $values = [], ?string $silentKey = null, ?string $comment = null)
     {

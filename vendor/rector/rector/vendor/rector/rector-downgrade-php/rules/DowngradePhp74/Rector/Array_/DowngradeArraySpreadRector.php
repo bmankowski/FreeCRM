@@ -100,7 +100,7 @@ CODE_SAMPLE
         return [Array_::class, ClassConst::class];
     }
     /**
-     * @param array _|ClassConst $node
+     * @param Array_|ClassConst $node
      */
     public function refactor(Node $node): ?Node
     {

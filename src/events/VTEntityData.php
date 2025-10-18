@@ -21,6 +21,14 @@ class VTEntityData
 	public static $entityData = [];
 	private $isNew = false;
 
+    /** @var int|string|null */
+    protected $entityId;
+    /** @var \CRMEntity|null */
+    protected $focus;
+    /** @var string */
+    protected $moduleName;
+
+
 	/**
 	 * Get an entity data object.
 	 *

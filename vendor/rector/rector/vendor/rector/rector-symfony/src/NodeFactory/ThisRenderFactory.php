@@ -142,7 +142,7 @@ final class ThisRenderFactory
         return null;
     }
     /**
-     * @param array ItemNode[] $arrayItemNodes
+     * @param ArrayItemNode[] $arrayItemNodes
      */
     private function createArrayFromArrayItemNodes(array $arrayItemNodes): Array_
     {

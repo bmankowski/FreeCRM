@@ -56,7 +56,7 @@ CODE_SAMPLE
         return [Array_::class];
     }
     /**
-     * @param array _ $node
+     * @param Array_ $node
      */
     public function refactor(Node $node): ?Node
     {
@@ -124,7 +124,7 @@ CODE_SAMPLE
         return $duplicatedArrayItems;
     }
     /**
-     * @param array Item[] $duplicatedKeysArrayItems
+     * @param ArrayItem[] $duplicatedKeysArrayItems
      */
     private function isArrayItemDuplicated(array $duplicatedKeysArrayItems, ArrayItem $arrayItem): bool
     {

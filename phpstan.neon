@@ -1,0 +1,23 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    
+    # Exclude auto-generated parser files
+    excludePaths:
+        - src/events/VTEventConditionParserLexer.php
+        - src/events/VTEventConditionParserParser.php
+        - vendor
+    
+    # Bootstrap files to load before analysis
+    bootstrapFiles:
+        - src/Runtime/Globals.php
+    
+    # Ignore some common legacy patterns for now
+    ignoreErrors:
+        # Allow dynamic properties in base model classes that use arrays
+        - '#Access to an undefined property App\\Runtime\\Vtiger_Base_Model::\$valueMap#'
+        - '#Access to an undefined property App\\Base::\$value#'
+    
+    # Report all undefined properties (this is what we want!)
+    reportUnmatchedIgnoredErrors: false

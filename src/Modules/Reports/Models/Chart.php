@@ -14,6 +14,10 @@ namespace App\Modules\Reports\Models;
 class Chart extends \App\Modules\Vtiger\Models\Model
 {
 
+    /** @var self|null */
+    protected $parent;
+
+
 	public static function getInstanceById($reportModel)
 	{
 		$self = new self();
@@ -77,6 +81,18 @@ class Chart extends \App\Modules\Vtiger\Models\Model
 
 abstract class Base_Chart extends \App\Modules\Vtiger\Models\Model
 {
+
+    /** @var array|null */
+    protected $fieldModels;
+    /** @var array|null */
+    protected $groupByFieldModels;
+    /** @var bool */
+    protected $isRecordCount;
+    /** @var self|null */
+    protected $parent;
+    /** @var object|null */
+    protected $reportRun;
+
 
 	public function __construct($parent)
 	{

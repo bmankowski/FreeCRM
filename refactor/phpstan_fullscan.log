@@ -1,0 +1,159 @@
+Note: Using configuration file /home/bmankowski/projects/FreeCRM/phpstan.neon.
+    0/1746 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%[1G[2K   20/1746 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   1%[1G[2K   60/1746 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   3%[1G[2K   80/1746 [▓░░░░░░░░░░░░░░░░░░░░░░░░░░░]   4%[1G[2K  120/1746 [▓░░░░░░░░░░░░░░░░░░░░░░░░░░░]   6%[1G[2K  180/1746 [▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░]  10%[1G[2K  220/1746 [▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░]  12%[1G[2K  240/1746 [▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░]  13%[1G[2K  260/1746 [▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░]  14%[1G[2K  280/1746 [▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░]  16%[1G[2K  320/1746 [▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░]  18%[1G[2K  340/1746 [▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░]  19%[1G[2K  360/1746 [▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░]  20%[1G[2K  420/1746 [▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░]  24%[1G[2K  480/1746 [▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░]  27%[1G[2K  540/1746 [▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░]  30%[1G[2K  560/1746 [▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░]  32%[1G[2K  600/1746 [▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░]  34%[1G[2K  660/1746 [▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░]  37%[1G[2K  700/1746 [▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░]  40%[1G[2K  760/1746 [▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░]  43%[1G[2K  800/1746 [▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░]  45%[1G[2K  840/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░]  48%[1G[2K  880/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░]  50%[1G[2K  900/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░]  51%[1G[2K  980/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░]  56%[1G[2K 1020/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░]  58%[1G[2K 1060/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░]  60%[1G[2K 1100/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░]  63%[1G[2K 1120/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░]  64%[1G[2K 1160/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░]  66%[1G[2K 1180/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░]  67%[1G[2K 1200/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░]  68%[1G[2K 1240/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░]  71%[1G[2K 1300/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░]  74%[1G[2K 1340/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░]  76%[1G[2K 1380/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░]  79%[1G[2K 1400/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░]  80%[1G[2K 1460/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░]  83%[1G[2K 1480/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░]  84%[1G[2K 1500/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░]  85%[1G[2K 1560/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░]  89%[1G[2K 1580/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░]  90%[1G[2K 1620/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░]  92%[1G[2K 1660/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░]  95%[1G[2K 1686/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░]  96%[1G[2K 1706/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░]  97%[1G[2K 1726/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░]  98%[1G[2K 1746/1746 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ ------------------------------------------ 
+  Line   Custom/NumberToWords.php                  
+ ------ ------------------------------------------ 
+  140    Syntax error, unexpected '{' on line 140  
+ ------ ------------------------------------------ 
+
+ ------ ---------------------------------------------------------------------- 
+  Line   Modules/OSSTimeControl/Dashboards/TimeControl.php                     
+ ------ ---------------------------------------------------------------------- 
+  5      Cannot use App\Modules\Settings\PublicHolidayModels\Module as Module  
+         because the name is already in use                                    
+ ------ ---------------------------------------------------------------------- 
+
+ ------ ------------------------------------------ 
+  Line   Modules/PaymentsOut/helpers/mt940.php     
+ ------ ------------------------------------------ 
+  47     Syntax error, unexpected '{' on line 47   
+  191    Syntax error, unexpected ')' on line 191  
+  191    Syntax error, unexpected '{' on line 191  
+ ------ ------------------------------------------ 
+
+ ------ ---------------------------------------------------------------- 
+  Line   Modules/Settings/AutomaticAssignment/Views/List.php             
+ ------ ---------------------------------------------------------------- 
+  14     Syntax error, unexpected T_LIST, expecting T_STRING on line 14  
+ ------ ---------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   Modules/Settings/CronTasks/Views/List.php                       
+ ------ ---------------------------------------------------------------- 
+  16     Syntax error, unexpected T_LIST, expecting T_STRING on line 16  
+ ------ ---------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------------- 
+  Line   Modules/Settings/DataAccess/Views/Settings_DataAccess_Step2_View.php  
+ ------ ---------------------------------------------------------------------- 
+  16     Syntax error, unexpected T_NAME_FULLY_QUALIFIED, expecting T_STRING   
+         on line 16                                                            
+  24     Syntax error, unexpected T_PUBLIC on line 24                          
+  64     Syntax error, unexpected T_PUBLIC on line 64                          
+ ------ ---------------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------------- 
+  Line   Modules/Settings/DataAccess/Views/Settings_DataAccess_Step3_View.php  
+ ------ ---------------------------------------------------------------------- 
+  65     Syntax error, unexpected T_PUBLIC on line 65                          
+ ------ ---------------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   Modules/Settings/HideBlocks/Views/List.php                      
+ ------ ---------------------------------------------------------------- 
+  21     Syntax error, unexpected T_LIST, expecting T_STRING on line 21  
+ ------ ---------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   Modules/Settings/Mail/Views/List.php                            
+ ------ ---------------------------------------------------------------- 
+  13     Syntax error, unexpected T_LIST, expecting T_STRING on line 13  
+ ------ ---------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   Modules/Settings/MappedFields/Views/List.php                    
+ ------ ---------------------------------------------------------------- 
+  15     Syntax error, unexpected T_LIST, expecting T_STRING on line 15  
+ ------ ---------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   Modules/Settings/ModTracker/Views/List.php                      
+ ------ ---------------------------------------------------------------- 
+  17     Syntax error, unexpected T_LIST, expecting T_STRING on line 17  
+ ------ ---------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------- 
+  Line   Modules/Settings/PickListDependency/Views/List.php  
+ ------ ---------------------------------------------------- 
+  28     Syntax error, unexpected T_PUBLIC on line 28        
+  50     Syntax error, unexpected T_PUBLIC on line 50        
+ ------ ---------------------------------------------------- 
+
+ ------ ------------------------------------------------- 
+  Line   Modules/Settings/Vtiger/Views/List.php           
+ ------ ------------------------------------------------- 
+  20     Syntax error, unexpected T_PROTECTED on line 20  
+  22     Syntax error, unexpected T_PUBLIC on line 22     
+  27     Syntax error, unexpected T_PUBLIC on line 27     
+  38     Syntax error, unexpected T_PUBLIC on line 38     
+  48     Syntax error, unexpected T_PUBLIC on line 48     
+  142    Syntax error, unexpected T_PUBLIC on line 142    
+ ------ ------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   Modules/Vtiger/Actions/SetReadRecord.php                               
+ ------ ----------------------------------------------------------------------- 
+  3      Namespace declaration statement has to be the very first statement in  
+         the script on line 3                                                   
+ ------ ----------------------------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   Modules/com_vtiger_workflow/tasks/VTCreateTodoTask.php          
+ ------ ---------------------------------------------------------------- 
+  16     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 16  
+  19     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 19  
+  65     Syntax error, unexpected '=' on line 65                         
+  65     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 65  
+  68     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 68  
+  68     Syntax error, unexpected T_STRING on line 68                    
+  69     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 69  
+  69     Syntax error, unexpected T_STRING on line 69                    
+  70     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 70  
+  71     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 71  
+  75     Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING on line 75  
+ ------ ---------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   Webservices/OperationManager.php                                       
+ ------ ----------------------------------------------------------------------- 
+  17     Namespace declaration statement has to be the very first statement in  
+         the script on line 17                                                  
+ ------ ----------------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   Webservices/SessionManager.php                                         
+ ------ ----------------------------------------------------------------------- 
+  21     Namespace declaration statement has to be the very first statement in  
+         the script on line 21                                                  
+ ------ ----------------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   Webservices/VTQL_Lexer.php                                             
+ ------ ----------------------------------------------------------------------- 
+  169    Namespace declaration statement has to be the very first statement in  
+         the script on line 169                                                 
+ ------ ----------------------------------------------------------------------- 
+
+ -- --------------------------------------------------------------------------- 
+     Error                                                                      
+ -- --------------------------------------------------------------------------- 
+     Child process error (exit code 255): PHP Fatal error:  Declaration of      
+     App\Modules\Settings\RecordAllocation\Models\Module::save($data) must be   
+     compatible with App\Modules\Vtiger\Models\Record::save() in                
+     /home/bmankowski/projects/FreeCRM/src/Modules/Settings/RecordAllocation/M  
+     odels/Module.php on line 21                                                
+     Fatal error: Declaration of                                                
+     App\Modules\Settings\RecordAllocation\Models\Module::save($data) must be   
+     compatible with App\Modules\Vtiger\Models\Record::save() in                
+     /home/bmankowski/projects/FreeCRM/src/Modules/Settings/RecordAllocation/M  
+     odels/Module.php on line 21                                                
+      while running parallel worker                                             
+ -- --------------------------------------------------------------------------- 
+
+ [ERROR] Found 39 errors                                                        
+
+⚠️  Result is incomplete because of severe errors. ⚠️
+   Fix these errors first and then re-run PHPStan
+   to get all reported errors.
+

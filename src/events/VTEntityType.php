@@ -15,6 +15,14 @@ require_once(ROOT_DIRECTORY . '/src/events/SqlResultIterator.php');
 class VTEntityType
 {
 
+    /** @var \App\Database\PearDatabase|null */
+    protected $adb;
+    /** @var string */
+    protected $moduleName;
+    /** @var int|null */
+    protected $tabId;
+
+
 	function __construct($adb, $setype)
 	{
 		$this->moduleName = $setype;
@@ -78,6 +86,12 @@ class VTEntityType
 
 class VTFieldType
 {
+
+    /** @var array|string|null */
+    public $relatedTo;
+    /** @var string|null */
+    public $type;
+
 
 	function toArray()
 	{

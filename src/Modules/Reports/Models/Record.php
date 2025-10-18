@@ -17,6 +17,12 @@ require_once('Report.php');
 class Record extends \App\Modules\Vtiger\Models\Record
 {
 
+    /** @var mixed */
+    protected $report;
+    /** @var object|null */
+    protected $reportRun;
+
+
 	/**
 	 * Function to get the id of the Report
 	 * @return <Number> - Report Id

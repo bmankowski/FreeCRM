@@ -1,0 +1,3176 @@
+==================================================
+DRY RUN MODE - No files will be modified
+==================================================
+
+Processing directory: src/
+
+Found 1748 PHP files to process
+
+[1/1748] Processing: src/AppConfig.php
+  ✓ No undefined properties
+
+[2/1748] Processing: src/Base.php
+  ✓ No undefined properties
+
+[3/1748] Processing: src/CRMEntity.php
+  ✓ No undefined properties
+
+[4/1748] Processing: src/Cache.php
+  ✓ No undefined properties
+
+[5/1748] Processing: src/Cache/Apcu.php
+  ✓ No undefined properties
+
+[6/1748] Processing: src/Cache/Base.php
+  ✓ No undefined properties
+
+[7/1748] Processing: src/Cache/XCache.php
+  ✓ No undefined properties
+
+[8/1748] Processing: src/Company.php
+  ✓ No undefined properties
+
+[9/1748] Processing: src/Currency.php
+  ✓ No undefined properties
+
+[10/1748] Processing: src/Custom/NumberToWords.php
+  ✓ No undefined properties
+
+[11/1748] Processing: src/CustomFieldUtil.php
+  ✓ No undefined properties
+
+[12/1748] Processing: src/CustomView.php
+  ✓ No undefined properties
+
+[13/1748] Processing: src/Database/PearDatabase.php
+  ✓ No undefined properties
+
+[14/1748] Processing: src/Db.php
+  ✓ No undefined properties
+
+[15/1748] Processing: src/Db/Command.php
+  ✓ No undefined properties
+
+[16/1748] Processing: src/Db/Importer.php
+  ✓ No undefined properties
+
+[17/1748] Processing: src/Db/Importers/Base.php
+  ✓ No undefined properties
+
+[18/1748] Processing: src/Db/Query.php
+  ✓ No undefined properties
+
+[19/1748] Processing: src/Debug/DebugBarDatabase.php
+  ✓ No undefined properties
+
+[20/1748] Processing: src/Debug/DebugBarLogs.php
+  ✓ No undefined properties
+
+[21/1748] Processing: src/Debug/DebugBarStatement.php
+  ✓ No undefined properties
+
+[22/1748] Processing: src/Debugger.php
+  ✓ No undefined properties
+
+[23/1748] Processing: src/EmailParser.php
+  ✓ No undefined properties
+
+[24/1748] Processing: src/Encryption.php
+  ✓ No undefined properties
+
+[25/1748] Processing: src/EntryPoint/EntryPoint.php
+  ✓ No undefined properties
+
+[26/1748] Processing: src/EntryPoint/WebUI.php
+  ✓ No undefined properties
+
+[27/1748] Processing: src/EntryPoint/WebUI_ErrorHandler.php
+  ✓ No undefined properties
+
+[28/1748] Processing: src/EventHandler.php
+  ✓ No undefined properties
+
+[29/1748] Processing: src/Exceptions/AppException.php
+  ✓ No undefined properties
+
+[30/1748] Processing: src/Exceptions/CacheException.php
+  ✓ No undefined properties
+
+[31/1748] Processing: src/Exceptions/DbException.php
+  ✓ No undefined properties
+
+[32/1748] Processing: src/Field.php
+  ✓ No undefined properties
+
+[33/1748] Processing: src/Fields/CurrencyField.php
+  ✓ No undefined properties
+
+[34/1748] Processing: src/Fields/DateTime.php
+  ✓ No undefined properties
+
+[35/1748] Processing: src/Fields/DateTimeField.php
+  ✓ No undefined properties
+
+[36/1748] Processing: src/Fields/DateTimeRange.php
+  ✓ No undefined properties
+
+[37/1748] Processing: src/Fields/Email.php
+  ✓ No undefined properties
+
+[38/1748] Processing: src/Fields/File.php
+  ✅ Found 1 undefined properties in class File
+    /** @var string|null */
+          protected $name;
+
+[39/1748] Processing: src/Fields/Owner.php
+  ✓ No undefined properties
+
+[40/1748] Processing: src/Fields/Picklist.php
+  ✓ No undefined properties
+
+[41/1748] Processing: src/Fields/RecordNumber.php
+  ✓ No undefined properties
+
+[42/1748] Processing: src/Fields/Tree.php
+  ✓ No undefined properties
+
+[43/1748] Processing: src/GlobalAliases.php
+  ✓ No undefined properties
+
+[44/1748] Processing: src/Http/AppRequest.php
+  ✓ No undefined properties
+
+[45/1748] Processing: src/Http/Vtiger_Request.php
+  ✓ No undefined properties
+
+[46/1748] Processing: src/Http/Vtiger_Response.php
+  ✓ No undefined properties
+
+[47/1748] Processing: src/Http/Vtiger_Session.php
+  ✓ No undefined properties
+
+[48/1748] Processing: src/Json.php
+  ✓ No undefined properties
+
+[49/1748] Processing: src/LanguageTranslator.php
+  ✓ No undefined properties
+
+[50/1748] Processing: src/Layout/Icon.php
+  ✓ No undefined properties
+
+[51/1748] Processing: src/LegacyAliases.php
+  ✓ No undefined properties
+
+[52/1748] Processing: src/Loader.php
+  ✓ No undefined properties
+
+[53/1748] Processing: src/Log.php
+  ✓ No undefined properties
+
+[54/1748] Processing: src/Log/FileTarget.php
+  ✓ No undefined properties
+
+[55/1748] Processing: src/Log/Profiling.php
+  ✓ No undefined properties
+
+[56/1748] Processing: src/Mail.php
+  ✓ No undefined properties
+
+[57/1748] Processing: src/Mailer.php
+  ✓ No undefined properties
+
+[58/1748] Processing: src/Main/File.php
+  ✓ No undefined properties
+
+[59/1748] Processing: src/Module.php
+  ✓ No undefined properties
+
+[60/1748] Processing: src/ModuleHierarchy.php
+  ✓ No undefined properties
+
+[61/1748] Processing: src/Modules/AJAXChat/AJAXChat.php
+  ✓ No undefined properties
+
+[62/1748] Processing: src/Modules/AJAXChat/Views/Index.php
+  ✓ No undefined properties
+
+[63/1748] Processing: src/Modules/AJAXChat/config.php
+  ✓ No undefined properties
+
+[64/1748] Processing: src/Modules/API/Handlers/API_CalDAV_Handler.php
+  ✓ No undefined properties
+
+[65/1748] Processing: src/Modules/API/Handlers/API_CardDAV_Handler.php
+  ✓ No undefined properties
+
+[66/1748] Processing: src/Modules/API/Models/CalDAV.php
+  ✓ No undefined properties
+
+[67/1748] Processing: src/Modules/API/Models/CardDAV.php
+  ✓ No undefined properties
+
+[68/1748] Processing: src/Modules/API/Models/DAV.php
+  ✓ No undefined properties
+
+[69/1748] Processing: src/Modules/API/cron/CalDav.php
+  ✓ No undefined properties
+
+[70/1748] Processing: src/Modules/API/cron/CardDav.php
+  ✓ No undefined properties
+
+[71/1748] Processing: src/Modules/Accounts/Accounts.php
+  ✅ Found 1 undefined properties in class Accounts
+    /** @var mixed */
+          protected $hierarchyFields;
+
+[72/1748] Processing: src/Modules/Accounts/Actions/RelationAjax.php
+  ✓ No undefined properties
+
+[73/1748] Processing: src/Modules/Accounts/Dashboards/AccountsByIndustry.php
+  ✓ No undefined properties
+
+[74/1748] Processing: src/Modules/Accounts/Dashboards/NeglectedAccounts.php
+  ✓ No undefined properties
+
+[75/1748] Processing: src/Modules/Accounts/Dashboards/NewAccounts.php
+  ✓ No undefined properties
+
+[76/1748] Processing: src/Modules/Accounts/Handlers/Accounts_SaveChanges_Handler.php
+  ✓ No undefined properties
+
+[77/1748] Processing: src/Modules/Accounts/Models/DetailView.php
+  ✓ No undefined properties
+
+[78/1748] Processing: src/Modules/Accounts/Models/ListView.php
+  ✓ No undefined properties
+
+[79/1748] Processing: src/Modules/Accounts/Models/MassEditRecordStructure.php
+  ✓ No undefined properties
+
+[80/1748] Processing: src/Modules/Accounts/Models/Module.php
+  ✓ No undefined properties
+
+[81/1748] Processing: src/Modules/Accounts/Models/Record.php
+  ✓ No undefined properties
+
+[82/1748] Processing: src/Modules/Accounts/Models/Relation.php
+  ✓ No undefined properties
+
+[83/1748] Processing: src/Modules/Accounts/Views/AccountHierarchy.php
+  ✓ No undefined properties
+
+[84/1748] Processing: src/Modules/Accounts/data_access/unique_account.php
+  ✓ No undefined properties
+
+[85/1748] Processing: src/Modules/Accounts/headerfields/FInvoice.php
+  ✓ No undefined properties
+
+[86/1748] Processing: src/Modules/Accounts/headerfields/ServiceContracts.php
+  ✓ No undefined properties
+
+[87/1748] Processing: src/Modules/Accounts/summary_blocks/CalculationsAccepted.php
+  ✓ No undefined properties
+
+[88/1748] Processing: src/Modules/Accounts/summary_blocks/CalculationsAll.php
+  ✓ No undefined properties
+
+[89/1748] Processing: src/Modules/Accounts/summary_blocks/OffersAccepted.php
+  ✓ No undefined properties
+
+[90/1748] Processing: src/Modules/Accounts/summary_blocks/OffersAll.php
+  ✓ No undefined properties
+
+[91/1748] Processing: src/Modules/Accounts/summary_blocks/TotalTimeWorked.php
+  ✓ No undefined properties
+
+[92/1748] Processing: src/Modules/Announcements/Actions/BasicAjax.php
+  ✓ No undefined properties
+
+[93/1748] Processing: src/Modules/Announcements/Announcements.php
+  ✓ No undefined properties
+
+[94/1748] Processing: src/Modules/Announcements/Models/DetailView.php
+  ✓ No undefined properties
+
+[95/1748] Processing: src/Modules/Announcements/Models/Module.php
+  ✓ No undefined properties
+
+[96/1748] Processing: src/Modules/Announcements/Views/Detail.php
+  ✓ No undefined properties
+
+[97/1748] Processing: src/Modules/ApiAddress/ApiAddress.php
+  ✓ No undefined properties
+
+[98/1748] Processing: src/Modules/Assets/Assets.php
+  ✓ No undefined properties
+
+[99/1748] Processing: src/Modules/Assets/Dashboards/ExpiringSoldProducts.php
+  ✓ No undefined properties
+
+[100/1748] Processing: src/Modules/Assets/Models/Field.php
+  ✓ No undefined properties
+
+[101/1748] Processing: src/Modules/Assets/Models/Record.php
+  ✓ No undefined properties
+
+[102/1748] Processing: src/Modules/Assets/Models/TreeView.php
+  ✓ No undefined properties
+
+[103/1748] Processing: src/Modules/Assets/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[104/1748] Processing: src/Modules/Assets/Views/GetHierarchy.php
+  ✓ No undefined properties
+
+[105/1748] Processing: src/Modules/Assets/cron/Renewal.php
+  ✓ No undefined properties
+
+[106/1748] Processing: src/Modules/CFixedAssets/CFixedAssets.php
+  ✓ No undefined properties
+
+[107/1748] Processing: src/Modules/CInternalTickets/CInternalTickets.php
+  ✓ No undefined properties
+
+[108/1748] Processing: src/Modules/CMileageLogbook/CMileageLogbook.php
+  ✓ No undefined properties
+
+[109/1748] Processing: src/Modules/Calendar/Actions/ActivityReminder.php
+  ✓ No undefined properties
+
+[110/1748] Processing: src/Modules/Calendar/Actions/ActivityStateAjax.php
+  ✓ No undefined properties
+
+[111/1748] Processing: src/Modules/Calendar/Actions/Calendar.php
+  ✓ No undefined properties
+
+[112/1748] Processing: src/Modules/Calendar/Actions/CalendarUserActions.php
+  ✓ No undefined properties
+
+[113/1748] Processing: src/Modules/Calendar/Actions/Delete.php
+  ✓ No undefined properties
+
+[114/1748] Processing: src/Modules/Calendar/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[115/1748] Processing: src/Modules/Calendar/Actions/DragDropAjax.php
+  ✓ No undefined properties
+
+[116/1748] Processing: src/Modules/Calendar/Actions/Feed.php
+  ✓ No undefined properties
+
+[117/1748] Processing: src/Modules/Calendar/Actions/GetFreeTime.php
+  ✓ No undefined properties
+
+[118/1748] Processing: src/Modules/Calendar/Actions/ImportICS.php
+  ✓ No undefined properties
+
+[119/1748] Processing: src/Modules/Calendar/Actions/Invitees.php
+  ✓ No undefined properties
+
+[120/1748] Processing: src/Modules/Calendar/Actions/Save.php
+  ✓ No undefined properties
+
+[121/1748] Processing: src/Modules/Calendar/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[122/1748] Processing: src/Modules/Calendar/Activity.php
+  ✓ No undefined properties
+
+[123/1748] Processing: src/Modules/Calendar/Calendar.php
+  ✅ Found 2 undefined properties in class Calendar
+    /** @var mixed */
+          protected $month_day_slices;
+    /** @var mixed */
+          protected $year_array;
+
+[124/1748] Processing: src/Modules/Calendar/CalendarCommon.php
+  ✓ No undefined properties
+
+[125/1748] Processing: src/Modules/Calendar/Date.php
+  ✓ No undefined properties
+
+[126/1748] Processing: src/Modules/Calendar/Handlers/Calendar_CalendarHandler_Handler.php
+  ✓ No undefined properties
+
+[127/1748] Processing: src/Modules/Calendar/Models/Calendar.php
+  ✓ No undefined properties
+
+[128/1748] Processing: src/Modules/Calendar/Models/CalendarFilters.php
+  ✓ No undefined properties
+
+[129/1748] Processing: src/Modules/Calendar/Models/DetailRecordStructure.php
+  ✓ No undefined properties
+
+[130/1748] Processing: src/Modules/Calendar/Models/DetailView.php
+  ✓ No undefined properties
+
+[131/1748] Processing: src/Modules/Calendar/Models/EditRecordStructure.php
+  ✓ No undefined properties
+
+[132/1748] Processing: src/Modules/Calendar/Models/Export.php
+  ✓ No undefined properties
+
+[133/1748] Processing: src/Modules/Calendar/Models/Field.php
+  ✓ No undefined properties
+
+[134/1748] Processing: src/Modules/Calendar/Models/ListView.php
+  ✓ No undefined properties
+
+[135/1748] Processing: src/Modules/Calendar/Models/Module.php
+  ✓ No undefined properties
+
+[136/1748] Processing: src/Modules/Calendar/Models/Record.php
+  ✓ No undefined properties
+
+[137/1748] Processing: src/Modules/Calendar/UiTypes/Datetime.php
+  ✓ No undefined properties
+
+[138/1748] Processing: src/Modules/Calendar/UiTypes/Picklist.php
+  ✓ No undefined properties
+
+[139/1748] Processing: src/Modules/Calendar/UiTypes/ReferenceSubProcess.php
+  ✓ No undefined properties
+
+[140/1748] Processing: src/Modules/Calendar/UiTypes/Time.php
+  ✓ No undefined properties
+
+[141/1748] Processing: src/Modules/Calendar/Views/ActivityStateModal.php
+  ✓ No undefined properties
+
+[142/1748] Processing: src/Modules/Calendar/Views/Calendar.php
+  ✓ No undefined properties
+
+[143/1748] Processing: src/Modules/Calendar/Views/Detail.php
+  ✅ Found 1 undefined properties in class Detail
+    /** @var mixed */
+          protected $record;
+
+[144/1748] Processing: src/Modules/Calendar/Views/Edit.php
+  ✓ No undefined properties
+
+[145/1748] Processing: src/Modules/Calendar/Views/Import.php
+  ✓ No undefined properties
+
+[146/1748] Processing: src/Modules/Calendar/Views/InRelation.php
+  ✓ No undefined properties
+
+[147/1748] Processing: src/Modules/Calendar/Views/QuickCreateAjax.php
+  ✓ No undefined properties
+
+[148/1748] Processing: src/Modules/Calendar/Views/Reminders.php
+  ✓ No undefined properties
+
+[149/1748] Processing: src/Modules/Calendar/Views/RightPanel.php
+  ✓ No undefined properties
+
+[150/1748] Processing: src/Modules/Calendar/Views/SharedCalendar.php
+  ✓ No undefined properties
+
+[151/1748] Processing: src/Modules/Calendar/Views/ViewTypes.php
+  ✓ No undefined properties
+
+[152/1748] Processing: src/Modules/Calendar/cron/ActivityState.php
+  ✓ No undefined properties
+
+[153/1748] Processing: src/Modules/Calendar/cron/SetCrmActivity.php
+  ✓ No undefined properties
+
+[154/1748] Processing: src/Modules/Calendar/data_access/CheckDayTasks.php
+  ✓ No undefined properties
+
+[155/1748] Processing: src/Modules/Calendar/iCal/ICalParser.php
+  ✓ No undefined properties
+
+[156/1748] Processing: src/Modules/Calendar/iCal/ICalendarComponent.php
+  ✅ Found 1 undefined properties in class ICalendarComponent
+    /** @var mixed */
+          protected $mapping_arr;
+    /** @var mixed */
+          protected $valid_components;
+    /** @var mixed */
+          protected $valid_properties;
+    /** @var mixed */
+          protected $valid_components;
+    /** @var mixed */
+          protected $valid_properties;
+    /** @var mixed */
+          protected $valid_components;
+    /** @var mixed */
+          protected $valid_properties;
+    /** @var mixed */
+          protected $valid_components;
+    /** @var mixed */
+          protected $valid_properties;
+    /** @var mixed */
+          protected $valid_components;
+    /** @var mixed */
+          protected $valid_properties;
+
+[157/1748] Processing: src/Modules/Calendar/iCal/ICalendarParameter.php
+  ✓ No undefined properties
+
+[158/1748] Processing: src/Modules/Calendar/iCal/ICalendarProperty.php
+  ✅ Found 2 undefined properties in class ICalendarProperty
+    /** @var string|null */
+          protected $name;
+    /** @var string|null */
+          protected $val_type;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $value;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $parent_component;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $parent_component;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $parent_component;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $parent_component;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $val_default;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $value;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+    /** @var mixed */
+          protected $valid_parameters;
+
+[159/1748] Processing: src/Modules/Calendar/iCal/iCalendar_rfc2445.php
+  ✓ No undefined properties
+
+[160/1748] Processing: src/Modules/Calendar/iCalLastImport.php
+  ✓ No undefined properties
+
+[161/1748] Processing: src/Modules/CallHistory/CallHistory.php
+  ✓ No undefined properties
+
+[162/1748] Processing: src/Modules/CallHistory/Models/DetailView.php
+  ✓ No undefined properties
+
+[163/1748] Processing: src/Modules/CallHistory/Models/ListView.php
+  ✓ No undefined properties
+
+[164/1748] Processing: src/Modules/CallHistory/Models/Module.php
+  ✓ No undefined properties
+
+[165/1748] Processing: src/Modules/Campaigns/Actions/DetailAjax.php
+  ✓ No undefined properties
+
+[166/1748] Processing: src/Modules/Campaigns/Actions/RelationAjax.php
+  ✓ No undefined properties
+
+[167/1748] Processing: src/Modules/Campaigns/Campaigns.php
+  ✓ No undefined properties
+
+[168/1748] Processing: src/Modules/Campaigns/Models/Module.php
+  ✓ No undefined properties
+
+[169/1748] Processing: src/Modules/Campaigns/Models/Record.php
+  ✓ No undefined properties
+
+[170/1748] Processing: src/Modules/Campaigns/Models/Relation.php
+  ✓ No undefined properties
+
+[171/1748] Processing: src/Modules/Campaigns/Models/RelationListView.php
+  ✓ No undefined properties
+
+[172/1748] Processing: src/Modules/Campaigns/Views/Detail.php
+  ✓ No undefined properties
+
+[173/1748] Processing: src/Modules/Campaigns/Views/RelatedList.php
+  ✓ No undefined properties
+
+[174/1748] Processing: src/Modules/Competition/Competition.php
+  ✓ No undefined properties
+
+[175/1748] Processing: src/Modules/Competition/Models/DetailView.php
+  ✓ No undefined properties
+
+[176/1748] Processing: src/Modules/Competition/Models/ListView.php
+  ✓ No undefined properties
+
+[177/1748] Processing: src/Modules/Competition/Models/Module.php
+  ✓ No undefined properties
+
+[178/1748] Processing: src/Modules/Contacts/Actions/Save.php
+  ✓ No undefined properties
+
+[179/1748] Processing: src/Modules/Contacts/Contacts.php
+  ✓ No undefined properties
+
+[180/1748] Processing: src/Modules/Contacts/Models/DetailView.php
+  ✓ No undefined properties
+
+[181/1748] Processing: src/Modules/Contacts/Models/ListView.php
+  ✓ No undefined properties
+
+[182/1748] Processing: src/Modules/Contacts/Models/Module.php
+  ✓ No undefined properties
+
+[183/1748] Processing: src/Modules/Contacts/Models/Record.php
+  ✓ No undefined properties
+
+[184/1748] Processing: src/Modules/Contacts/Views/Detail.php
+  ✓ No undefined properties
+
+[185/1748] Processing: src/Modules/Contacts/Views/Edit.php
+  ✅ Found 1 undefined properties in class Edit
+    /** @var mixed */
+          protected $record;
+
+[186/1748] Processing: src/Modules/Contacts/Views/Popup.php
+  ✓ No undefined properties
+
+[187/1748] Processing: src/Modules/Contacts/Views/QuickCreateAjax.php
+  ✓ No undefined properties
+
+[188/1748] Processing: src/Modules/CustomView/Actions/Approve.php
+  ✓ No undefined properties
+
+[189/1748] Processing: src/Modules/CustomView/Actions/Delete.php
+  ✓ No undefined properties
+
+[190/1748] Processing: src/Modules/CustomView/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[191/1748] Processing: src/Modules/CustomView/Actions/Deny.php
+  ✓ No undefined properties
+
+[192/1748] Processing: src/Modules/CustomView/Actions/Save.php
+  ✓ No undefined properties
+
+[193/1748] Processing: src/Modules/CustomView/CustomView.php
+  ✅ Found 1 undefined properties in class CustomView
+    /** @var mixed */
+          protected $smownerid;
+
+[194/1748] Processing: src/Modules/CustomView/ListViewTop.php
+  ✓ No undefined properties
+
+[195/1748] Processing: src/Modules/CustomView/Models/Record.php
+  ✓ No undefined properties
+
+[196/1748] Processing: src/Modules/CustomView/Views/EditAjax.php
+  ✓ No undefined properties
+
+[197/1748] Processing: src/Modules/Dashboard/Models/Module.php
+  ✓ No undefined properties
+
+[198/1748] Processing: src/Modules/Documents/Actions/CheckFileIntegrity.php
+  ✓ No undefined properties
+
+[199/1748] Processing: src/Modules/Documents/Actions/DownloadFile.php
+  ✓ No undefined properties
+
+[200/1748] Processing: src/Modules/Documents/Actions/MassAdd.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var mixed */
+          protected $file;
+
+[201/1748] Processing: src/Modules/Documents/Actions/MoveDocuments.php
+  ✓ No undefined properties
+
+[202/1748] Processing: src/Modules/Documents/Documents.php
+  ✓ No undefined properties
+
+[203/1748] Processing: src/Modules/Documents/Models/DetailView.php
+  ✓ No undefined properties
+
+[204/1748] Processing: src/Modules/Documents/Models/EditRecordStructure.php
+  ✓ No undefined properties
+
+[205/1748] Processing: src/Modules/Documents/Models/Field.php
+  ✓ No undefined properties
+
+[206/1748] Processing: src/Modules/Documents/Models/ListView.php
+  ✓ No undefined properties
+
+[207/1748] Processing: src/Modules/Documents/Models/Module.php
+  ✓ No undefined properties
+
+[208/1748] Processing: src/Modules/Documents/Models/Record.php
+  ✓ No undefined properties
+
+[209/1748] Processing: src/Modules/Documents/Models/Relation.php
+  ✓ No undefined properties
+
+[210/1748] Processing: src/Modules/Documents/UiTypes/Text.php
+  ✓ No undefined properties
+
+[211/1748] Processing: src/Modules/Documents/Views/Detail.php
+  ✓ No undefined properties
+
+[212/1748] Processing: src/Modules/Documents/Views/MassAddDocuments.php
+  ✓ No undefined properties
+
+[213/1748] Processing: src/Modules/Documents/Views/MoveDocuments.php
+  ✓ No undefined properties
+
+[214/1748] Processing: src/Modules/EmailTemplates/EmailTemplates.php
+  ✓ No undefined properties
+
+[215/1748] Processing: src/Modules/EmailTemplates/Models/Field.php
+  ✓ No undefined properties
+
+[216/1748] Processing: src/Modules/EmailTemplates/Views/Edit.php
+  ✓ No undefined properties
+
+[217/1748] Processing: src/Modules/Events/Actions/Save.php
+  ✓ No undefined properties
+
+[218/1748] Processing: src/Modules/Events/Models/DetailRecordStructure.php
+  ✓ No undefined properties
+
+[219/1748] Processing: src/Modules/Events/Models/DetailView.php
+  ✓ No undefined properties
+
+[220/1748] Processing: src/Modules/Events/Models/EditRecordStructure.php
+  ✓ No undefined properties
+
+[221/1748] Processing: src/Modules/Events/Models/Field.php
+  ✓ No undefined properties
+
+[222/1748] Processing: src/Modules/Events/Models/ListView.php
+  ✓ No undefined properties
+
+[223/1748] Processing: src/Modules/Events/Models/Module.php
+  ✓ No undefined properties
+
+[224/1748] Processing: src/Modules/Events/Models/Record.php
+  ✓ No undefined properties
+
+[225/1748] Processing: src/Modules/Events/Models/RecuringEvents.php
+  ✓ No undefined properties
+
+[226/1748] Processing: src/Modules/Events/UiTypes/Datetime.php
+  ✓ No undefined properties
+
+[227/1748] Processing: src/Modules/Events/UiTypes/Picklist.php
+  ✓ No undefined properties
+
+[228/1748] Processing: src/Modules/Events/UiTypes/ReferenceSubProcess.php
+  ✓ No undefined properties
+
+[229/1748] Processing: src/Modules/Events/UiTypes/Time.php
+  ✓ No undefined properties
+
+[230/1748] Processing: src/Modules/Events/Views/Calendar.php
+  ✓ No undefined properties
+
+[231/1748] Processing: src/Modules/Events/Views/Detail.php
+  ✓ No undefined properties
+
+[232/1748] Processing: src/Modules/Events/Views/Edit.php
+  ✓ No undefined properties
+
+[233/1748] Processing: src/Modules/Events/Views/SharedCalendar.php
+  ✓ No undefined properties
+
+[234/1748] Processing: src/Modules/Events/cron/RecurringEvents.php
+  ✓ No undefined properties
+
+[235/1748] Processing: src/Modules/FBookkeeping/FBookkeeping.php
+  ✓ No undefined properties
+
+[236/1748] Processing: src/Modules/FCorectingInvoice/FCorectingInvoice.php
+  ✓ No undefined properties
+
+[237/1748] Processing: src/Modules/FInvoice/Dashboards/SummationByMonths.php
+  ✓ No undefined properties
+
+[238/1748] Processing: src/Modules/FInvoice/Dashboards/SummationByUser.php
+  ✓ No undefined properties
+
+[239/1748] Processing: src/Modules/FInvoice/FInvoice.php
+  ✓ No undefined properties
+
+[240/1748] Processing: src/Modules/FInvoice/Models/Record.php
+  ✓ No undefined properties
+
+[241/1748] Processing: src/Modules/FInvoiceCost/FInvoiceCost.php
+  ✓ No undefined properties
+
+[242/1748] Processing: src/Modules/FInvoiceProforma/FInvoiceProforma.php
+  ✓ No undefined properties
+
+[243/1748] Processing: src/Modules/Faq/Faq.php
+  ✓ No undefined properties
+
+[244/1748] Processing: src/Modules/Faq/Models/ListView.php
+  ✓ No undefined properties
+
+[245/1748] Processing: src/Modules/Faq/Models/Module.php
+  ✓ No undefined properties
+
+[246/1748] Processing: src/Modules/Faq/Models/Record.php
+  ✓ No undefined properties
+
+[247/1748] Processing: src/Modules/Faq/Views/Edit.php
+  ✓ No undefined properties
+
+[248/1748] Processing: src/Modules/HelpDesk/Actions/ConvertFAQ.php
+  ✓ No undefined properties
+
+[249/1748] Processing: src/Modules/HelpDesk/Dashboards/ClosedTicketsByPriority.php
+  ✓ No undefined properties
+
+[250/1748] Processing: src/Modules/HelpDesk/Dashboards/ClosedTicketsByUser.php
+  ✓ No undefined properties
+
+[251/1748] Processing: src/Modules/HelpDesk/Dashboards/OpenTickets.php
+  ✓ No undefined properties
+
+[252/1748] Processing: src/Modules/HelpDesk/Dashboards/TicketsByStatus.php
+  ✓ No undefined properties
+
+[253/1748] Processing: src/Modules/HelpDesk/Handlers/HelpDesk_TicketRangeTime_Handler.php
+  ✓ No undefined properties
+
+[254/1748] Processing: src/Modules/HelpDesk/HelpDesk.php
+  ✓ No undefined properties
+
+[255/1748] Processing: src/Modules/HelpDesk/Models/DashBoard.php
+  ✓ No undefined properties
+
+[256/1748] Processing: src/Modules/HelpDesk/Models/DetailView.php
+  ✓ No undefined properties
+
+[257/1748] Processing: src/Modules/HelpDesk/Models/ListView.php
+  ✓ No undefined properties
+
+[258/1748] Processing: src/Modules/HelpDesk/Models/Module.php
+  ✓ No undefined properties
+
+[259/1748] Processing: src/Modules/HelpDesk/Models/Record.php
+  ✓ No undefined properties
+
+[260/1748] Processing: src/Modules/HelpDesk/UiTypes/RangeTime.php
+  ✓ No undefined properties
+
+[261/1748] Processing: src/Modules/HelpDesk/Views/Detail.php
+  ✓ No undefined properties
+
+[262/1748] Processing: src/Modules/HelpDesk/workflows/HelpDeskWorkflow.php
+  ✓ No undefined properties
+
+[263/1748] Processing: src/Modules/HolidaysEntitlement/HolidaysEntitlement.php
+  ✓ No undefined properties
+
+[264/1748] Processing: src/Modules/Home/Models/Module.php
+  ✓ No undefined properties
+
+[265/1748] Processing: src/Modules/Home/Models/Widget.php
+  ✓ No undefined properties
+
+[266/1748] Processing: src/Modules/Home/Views/DashBoard.php
+  ✓ No undefined properties
+
+[267/1748] Processing: src/Modules/Home/Views/Index.php
+  ✓ No undefined properties
+
+[268/1748] Processing: src/Modules/IGDN/IGDN.php
+  ✓ No undefined properties
+
+[269/1748] Processing: src/Modules/IGDN/Models/Field.php
+  ✓ No undefined properties
+
+[270/1748] Processing: src/Modules/IGDN/Models/Record.php
+  ✓ No undefined properties
+
+[271/1748] Processing: src/Modules/IGDN/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[272/1748] Processing: src/Modules/IGDNC/IGDNC.php
+  ✓ No undefined properties
+
+[273/1748] Processing: src/Modules/IGDNC/Models/Field.php
+  ✓ No undefined properties
+
+[274/1748] Processing: src/Modules/IGDNC/Models/Record.php
+  ✓ No undefined properties
+
+[275/1748] Processing: src/Modules/IGDNC/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[276/1748] Processing: src/Modules/IGIN/IGIN.php
+  ✓ No undefined properties
+
+[277/1748] Processing: src/Modules/IGIN/Models/Field.php
+  ✓ No undefined properties
+
+[278/1748] Processing: src/Modules/IGIN/Models/Record.php
+  ✓ No undefined properties
+
+[279/1748] Processing: src/Modules/IGRN/IGRN.php
+  ✓ No undefined properties
+
+[280/1748] Processing: src/Modules/IGRN/Models/Field.php
+  ✓ No undefined properties
+
+[281/1748] Processing: src/Modules/IGRN/Models/Record.php
+  ✓ No undefined properties
+
+[282/1748] Processing: src/Modules/IGRNC/IGRNC.php
+  ✓ No undefined properties
+
+[283/1748] Processing: src/Modules/IGRNC/Models/Field.php
+  ✓ No undefined properties
+
+[284/1748] Processing: src/Modules/IGRNC/Models/Record.php
+  ✓ No undefined properties
+
+[285/1748] Processing: src/Modules/IIDN/IIDN.php
+  ✓ No undefined properties
+
+[286/1748] Processing: src/Modules/IIDN/Models/Field.php
+  ✓ No undefined properties
+
+[287/1748] Processing: src/Modules/IIDN/Models/Record.php
+  ✓ No undefined properties
+
+[288/1748] Processing: src/Modules/IIDN/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[289/1748] Processing: src/Modules/IPreOrder/IPreOrder.php
+  ✓ No undefined properties
+
+[290/1748] Processing: src/Modules/IPreOrder/Models/Field.php
+  ✓ No undefined properties
+
+[291/1748] Processing: src/Modules/IPreOrder/Models/Record.php
+  ✓ No undefined properties
+
+[292/1748] Processing: src/Modules/IPreOrder/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[293/1748] Processing: src/Modules/ISTDN/ISTDN.php
+  ✓ No undefined properties
+
+[294/1748] Processing: src/Modules/ISTDN/Models/Field.php
+  ✓ No undefined properties
+
+[295/1748] Processing: src/Modules/ISTDN/Models/Record.php
+  ✓ No undefined properties
+
+[296/1748] Processing: src/Modules/ISTDN/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[297/1748] Processing: src/Modules/ISTN/ISTN.php
+  ✓ No undefined properties
+
+[298/1748] Processing: src/Modules/ISTRN/ISTRN.php
+  ✓ No undefined properties
+
+[299/1748] Processing: src/Modules/ISTRN/Models/Field.php
+  ✓ No undefined properties
+
+[300/1748] Processing: src/Modules/ISTRN/Models/Record.php
+  ✓ No undefined properties
+
+[301/1748] Processing: src/Modules/ISTRN/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[302/1748] Processing: src/Modules/IStorages/Actions/RelationAjax.php
+  ✓ No undefined properties
+
+[303/1748] Processing: src/Modules/IStorages/Handlers/IStorages_RecalculateStockHandler_Handler.php
+  ✓ No undefined properties
+
+[304/1748] Processing: src/Modules/IStorages/IStorages.php
+  ✓ No undefined properties
+
+[305/1748] Processing: src/Modules/IStorages/Models/Module.php
+  ✓ No undefined properties
+
+[306/1748] Processing: src/Modules/IStorages/Models/Record.php
+  ✓ No undefined properties
+
+[307/1748] Processing: src/Modules/IStorages/Models/Relation.php
+  ✓ No undefined properties
+
+[308/1748] Processing: src/Modules/IStorages/Models/RelationListView.php
+  ✓ No undefined properties
+
+[309/1748] Processing: src/Modules/IStorages/Views/Hierarchy.php
+  ✓ No undefined properties
+
+[310/1748] Processing: src/Modules/IStorages/data_access/checkHierarchy.php
+  ✓ No undefined properties
+
+[311/1748] Processing: src/Modules/IStorages/data_access/checkType.php
+  ✓ No undefined properties
+
+[312/1748] Processing: src/Modules/IStorages/textparsers/ProductsControlTable.php
+  ✓ No undefined properties
+
+[313/1748] Processing: src/Modules/IStorages/textparsers/ProductsTable.php
+  ✓ No undefined properties
+
+[314/1748] Processing: src/Modules/IStorages/textparsers/ProductsTableHierarchy.php
+  ✓ No undefined properties
+
+[315/1748] Processing: src/Modules/IStorages/textparsers/ProductsValueTable.php
+  ✓ No undefined properties
+
+[316/1748] Processing: src/Modules/IStorages/textparsers/TableHierarchy.php
+  ✓ No undefined properties
+
+[317/1748] Processing: src/Modules/Ideas/Ideas.php
+  ✓ No undefined properties
+
+[318/1748] Processing: src/Modules/Import/Actions/Data.php
+  ✓ No undefined properties
+
+[319/1748] Processing: src/Modules/Import/Actions/Lock.php
+  ✓ No undefined properties
+
+[320/1748] Processing: src/Modules/Import/Actions/Queue.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var int|string */
+          protected $id;
+
+[321/1748] Processing: src/Modules/Import/Models/ListView.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var mixed */
+          protected $colorList;
+
+[322/1748] Processing: src/Modules/Import/Models/Map.php
+  ✓ No undefined properties
+
+[323/1748] Processing: src/Modules/Import/Models/Module.php
+  ✓ No undefined properties
+
+[324/1748] Processing: src/Modules/Import/Views/ListView.php
+  ✓ No undefined properties
+
+[325/1748] Processing: src/Modules/Import/Views/Main.php
+  ✓ No undefined properties
+
+[326/1748] Processing: src/Modules/Import/helpers/Utils.php
+  ✓ No undefined properties
+
+[327/1748] Processing: src/Modules/Import/readers/CSVReader.php
+  ✓ No undefined properties
+
+[328/1748] Processing: src/Modules/Import/readers/FileReader.php
+  ✓ No undefined properties
+
+[329/1748] Processing: src/Modules/Import/readers/ICSReader.php
+  ✓ No undefined properties
+
+[330/1748] Processing: src/Modules/Import/readers/VCardReader.php
+  ✓ No undefined properties
+
+[331/1748] Processing: src/Modules/Import/readers/XmlReader.php
+  ✅ Found 4 undefined properties in class XmlReader
+    /** @var mixed */
+          protected $filePath;
+    /** @var array */
+          protected $inventoryData;
+    /** @var string|null */
+          protected $localName;
+    /** @var string|null */
+          protected $nodeType;
+
+[332/1748] Processing: src/Modules/Import/readers/ZipReader.php
+  ✅ Found 1 undefined properties in class ZipReader
+    /** @var mixed */
+          protected $extension;
+
+[333/1748] Processing: src/Modules/KnowledgeBase/Actions/DataTreeAjax.php
+  ✓ No undefined properties
+
+[334/1748] Processing: src/Modules/KnowledgeBase/Actions/ImageUploadAjax.php
+  ✓ No undefined properties
+
+[335/1748] Processing: src/Modules/KnowledgeBase/KnowledgeBase.php
+  ✓ No undefined properties
+
+[336/1748] Processing: src/Modules/KnowledgeBase/Models/DetailView.php
+  ✓ No undefined properties
+
+[337/1748] Processing: src/Modules/KnowledgeBase/Models/Field.php
+  ✓ No undefined properties
+
+[338/1748] Processing: src/Modules/KnowledgeBase/Models/Module.php
+  ✓ No undefined properties
+
+[339/1748] Processing: src/Modules/KnowledgeBase/Models/Tree.php
+  ✓ No undefined properties
+
+[340/1748] Processing: src/Modules/KnowledgeBase/Views/Content.php
+  ✓ No undefined properties
+
+[341/1748] Processing: src/Modules/KnowledgeBase/Views/Detail.php
+  ✓ No undefined properties
+
+[342/1748] Processing: src/Modules/KnowledgeBase/Views/FullScreen.php
+  ✓ No undefined properties
+
+[343/1748] Processing: src/Modules/KnowledgeBase/Views/PreviewContent.php
+  ✓ No undefined properties
+
+[344/1748] Processing: src/Modules/KnowledgeBase/Views/Tree.php
+  ✓ No undefined properties
+
+[345/1748] Processing: src/Modules/Leads/Dashboards/LeadsByIndustry.php
+  ✓ No undefined properties
+
+[346/1748] Processing: src/Modules/Leads/Dashboards/LeadsBySource.php
+  ✓ No undefined properties
+
+[347/1748] Processing: src/Modules/Leads/Dashboards/LeadsByStatus.php
+  ✓ No undefined properties
+
+[348/1748] Processing: src/Modules/Leads/Dashboards/LeadsByStatusConverted.php
+  ✓ No undefined properties
+
+[349/1748] Processing: src/Modules/Leads/Dashboards/LeadsCreated.php
+  ✓ No undefined properties
+
+[350/1748] Processing: src/Modules/Leads/Leads.php
+  ✓ No undefined properties
+
+[351/1748] Processing: src/Modules/Leads/Models/DetailView.php
+  ✓ No undefined properties
+
+[352/1748] Processing: src/Modules/Leads/Models/ListView.php
+  ✓ No undefined properties
+
+[353/1748] Processing: src/Modules/Leads/Models/Module.php
+  ✓ No undefined properties
+
+[354/1748] Processing: src/Modules/Leads/Models/Record.php
+  ✓ No undefined properties
+
+[355/1748] Processing: src/Modules/Leads/Models/Relation.php
+  ✓ No undefined properties
+
+[356/1748] Processing: src/Modules/Leads/Views/ConvertLead.php
+  ✓ No undefined properties
+
+[357/1748] Processing: src/Modules/Leads/Views/Detail.php
+  ✓ No undefined properties
+
+[358/1748] Processing: src/Modules/Leads/Views/SaveConvertLead.php
+  ✓ No undefined properties
+
+[359/1748] Processing: src/Modules/Leads/summary_blocks/TotalComments.php
+  ✓ No undefined properties
+
+[360/1748] Processing: src/Modules/Leads/summary_blocks/TotalContacts.php
+  ✓ No undefined properties
+
+[361/1748] Processing: src/Modules/Leads/summary_blocks/TotalEmails.php
+  ✓ No undefined properties
+
+[362/1748] Processing: src/Modules/Leads/summary_blocks/TotalEvent.php
+  ✓ No undefined properties
+
+[363/1748] Processing: src/Modules/Leads/summary_blocks/TotalTasks.php
+  ✓ No undefined properties
+
+[364/1748] Processing: src/Modules/Leads/summary_blocks/TotalTimeWorked.php
+  ✓ No undefined properties
+
+[365/1748] Processing: src/Modules/LettersIn/LettersIn.php
+  ✓ No undefined properties
+
+[366/1748] Processing: src/Modules/LettersOut/LettersOut.php
+  ✓ No undefined properties
+
+[367/1748] Processing: src/Modules/ModComments/Actions/MassSaveAjax.php
+  ✓ No undefined properties
+
+[368/1748] Processing: src/Modules/ModComments/Actions/Save.php
+  ✓ No undefined properties
+
+[369/1748] Processing: src/Modules/ModComments/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[370/1748] Processing: src/Modules/ModComments/ModComments.php
+  ✓ No undefined properties
+
+[371/1748] Processing: src/Modules/ModComments/ModCommentsCore.php
+  ✓ No undefined properties
+
+[372/1748] Processing: src/Modules/ModComments/Models/CommentsModel.php
+  ✓ No undefined properties
+
+[373/1748] Processing: src/Modules/ModComments/Models/DetailView.php
+  ✓ No undefined properties
+
+[374/1748] Processing: src/Modules/ModComments/Models/ListView.php
+  ✓ No undefined properties
+
+[375/1748] Processing: src/Modules/ModComments/Models/Module.php
+  ✓ No undefined properties
+
+[376/1748] Processing: src/Modules/ModComments/Models/Record.php
+  ✓ No undefined properties
+
+[377/1748] Processing: src/Modules/ModComments/Views/Detail.php
+  ✓ No undefined properties
+
+[378/1748] Processing: src/Modules/ModComments/Views/DetailAjax.php
+  ✓ No undefined properties
+
+[379/1748] Processing: src/Modules/ModComments/Views/Edit.php
+  ✓ No undefined properties
+
+[380/1748] Processing: src/Modules/ModComments/Views/ListView.php
+  ✓ No undefined properties
+
+[381/1748] Processing: src/Modules/ModComments/language/en_us.lang.php
+  ✓ No undefined properties
+
+[382/1748] Processing: src/Modules/ModTracker/Actions/ChangesReviewedOn.php
+  ✅ Found 1 undefined properties in class ChangesReviewedOn
+    /** @var mixed */
+          protected $record;
+
+[383/1748] Processing: src/Modules/ModTracker/Actions/LastRelation.php
+  ✓ No undefined properties
+
+[384/1748] Processing: src/Modules/ModTracker/Handlers/ModTracker_ModTrackerHandler_Handler.php
+  ✓ No undefined properties
+
+[385/1748] Processing: src/Modules/ModTracker/ModTracker.php
+  ✓ No undefined properties
+
+[386/1748] Processing: src/Modules/ModTracker/Models/Field.php
+  ✅ Found 2 undefined properties in class Field
+    /** @var mixed */
+          protected $fieldInstance;
+    /** @var self|null */
+          protected $parent;
+
+[387/1748] Processing: src/Modules/ModTracker/Models/Record.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var self|null */
+          protected $parent;
+
+[388/1748] Processing: src/Modules/ModTracker/Models/Relation.php
+  ✅ Found 1 undefined properties in class Relation
+    /** @var self|null */
+          protected $parent;
+
+[389/1748] Processing: src/Modules/ModTracker/Views/ListAjax.php
+  ✓ No undefined properties
+
+[390/1748] Processing: src/Modules/ModTracker/cron/ReviewChanges.php
+  ✓ No undefined properties
+
+[391/1748] Processing: src/Modules/Notification/Actions/Notification.php
+  ✓ No undefined properties
+
+[392/1748] Processing: src/Modules/Notification/Dashboards/Notifications.php
+  ✓ No undefined properties
+
+[393/1748] Processing: src/Modules/Notification/Dashboards/NotificationsByRecipient.php
+  ✓ No undefined properties
+
+[394/1748] Processing: src/Modules/Notification/Dashboards/NotificationsBySender.php
+  ✓ No undefined properties
+
+[395/1748] Processing: src/Modules/Notification/Models/ListView.php
+  ✓ No undefined properties
+
+[396/1748] Processing: src/Modules/Notification/Models/Module.php
+  ✓ No undefined properties
+
+[397/1748] Processing: src/Modules/Notification/Models/Record.php
+  ✓ No undefined properties
+
+[398/1748] Processing: src/Modules/Notification/Notification.php
+  ✓ No undefined properties
+
+[399/1748] Processing: src/Modules/Notification/UiTypes/String.php
+  ✓ No undefined properties
+
+[400/1748] Processing: src/Modules/Notification/UiTypes/Text.php
+  ✓ No undefined properties
+
+[401/1748] Processing: src/Modules/Notification/Views/NotificationConfig.php
+  ✓ No undefined properties
+
+[402/1748] Processing: src/Modules/Notification/Views/Reminders.php
+  ✓ No undefined properties
+
+[403/1748] Processing: src/Modules/Notification/cron/Notifications.php
+  ✓ No undefined properties
+
+[404/1748] Processing: src/Modules/Notification/textparsers/Notifications.php
+  ✓ No undefined properties
+
+[405/1748] Processing: src/Modules/OSSEmployees/Actions/GetHoliday.php
+  ✓ No undefined properties
+
+[406/1748] Processing: src/Modules/OSSEmployees/Actions/UniqueUser.php
+  ✓ No undefined properties
+
+[407/1748] Processing: src/Modules/OSSEmployees/Models/DetailView.php
+  ✓ No undefined properties
+
+[408/1748] Processing: src/Modules/OSSEmployees/Models/Module.php
+  ✓ No undefined properties
+
+[409/1748] Processing: src/Modules/OSSEmployees/Models/Record.php
+  ✓ No undefined properties
+
+[410/1748] Processing: src/Modules/OSSEmployees/Models/Relation.php
+  ✓ No undefined properties
+
+[411/1748] Processing: src/Modules/OSSEmployees/OSSEmployees.php
+  ✓ No undefined properties
+
+[412/1748] Processing: src/Modules/OSSEmployees/Views/Detail.php
+  ✓ No undefined properties
+
+[413/1748] Processing: src/Modules/OSSEmployees/Views/EmployeeHierarchy.php
+  ✓ No undefined properties
+
+[414/1748] Processing: src/Modules/OSSMail/Actions/ImportMail.php
+  ✓ No undefined properties
+
+[415/1748] Processing: src/Modules/OSSMail/Actions/SaveRcConfig.php
+  ✓ No undefined properties
+
+[416/1748] Processing: src/Modules/OSSMail/Actions/SetUser.php
+  ✓ No undefined properties
+
+[417/1748] Processing: src/Modules/OSSMail/Actions/checkMails.php
+  ✓ No undefined properties
+
+[418/1748] Processing: src/Modules/OSSMail/Actions/executeActions.php
+  ✓ No undefined properties
+
+[419/1748] Processing: src/Modules/OSSMail/Actions/getContactMail.php
+  ✓ No undefined properties
+
+[420/1748] Processing: src/Modules/OSSMail/Models/AddressBook.php
+  ✓ No undefined properties
+
+[421/1748] Processing: src/Modules/OSSMail/Models/Autologin.php
+  ✓ No undefined properties
+
+[422/1748] Processing: src/Modules/OSSMail/Models/Mail.php
+  ✓ No undefined properties
+
+[423/1748] Processing: src/Modules/OSSMail/Models/Module.php
+  ✓ No undefined properties
+
+[424/1748] Processing: src/Modules/OSSMail/Models/Record.php
+  ✓ No undefined properties
+
+[425/1748] Processing: src/Modules/OSSMail/OSSMail.php
+  ✓ No undefined properties
+
+[426/1748] Processing: src/Modules/OSSMail/Views/CheckConfig.php
+  ✓ No undefined properties
+
+[427/1748] Processing: src/Modules/OSSMail/Views/CheckConfigCore.php
+  ✓ No undefined properties
+
+[428/1748] Processing: src/Modules/OSSMail/Views/MailActionBar.php
+  ✓ No undefined properties
+
+[429/1748] Processing: src/Modules/OSSMail/Views/compose.php
+  ✅ Found 1 undefined properties in class compose
+    /** @var mixed */
+          protected $mainUrl;
+
+[430/1748] Processing: src/Modules/OSSMail/Views/index.php
+  ✓ No undefined properties
+
+[431/1748] Processing: src/Modules/OSSMailScanner/Actions/AccontRemove.php
+  ✓ No undefined properties
+
+[432/1748] Processing: src/Modules/OSSMailScanner/Actions/GetLog.php
+  ✓ No undefined properties
+
+[433/1748] Processing: src/Modules/OSSMailScanner/Actions/IdentitiesDel.php
+  ✓ No undefined properties
+
+[434/1748] Processing: src/Modules/OSSMailScanner/Actions/SaveActions.php
+  ✓ No undefined properties
+
+[435/1748] Processing: src/Modules/OSSMailScanner/Actions/SaveCRMuser.php
+  ✓ No undefined properties
+
+[436/1748] Processing: src/Modules/OSSMailScanner/Actions/SaveRcConfig.php
+  ✓ No undefined properties
+
+[437/1748] Processing: src/Modules/OSSMailScanner/Actions/SaveWidgetConfig.php
+  ✓ No undefined properties
+
+[438/1748] Processing: src/Modules/OSSMailScanner/Actions/cron.php
+  ✓ No undefined properties
+
+[439/1748] Processing: src/Modules/OSSMailScanner/Actions/getConfig.php
+  ✓ No undefined properties
+
+[440/1748] Processing: src/Modules/OSSMailScanner/Actions/restartCron.php
+  ✓ No undefined properties
+
+[441/1748] Processing: src/Modules/OSSMailScanner/Actions/saveEmailSearchList.php
+  ✓ No undefined properties
+
+[442/1748] Processing: src/Modules/OSSMailScanner/Models/EmailScannerAction.php
+  ✓ No undefined properties
+
+[443/1748] Processing: src/Modules/OSSMailScanner/Models/Module.php
+  ✓ No undefined properties
+
+[444/1748] Processing: src/Modules/OSSMailScanner/Models/PrefixScannerAction.php
+  ✓ No undefined properties
+
+[445/1748] Processing: src/Modules/OSSMailScanner/Models/Record.php
+  ✅ Found 1 undefined properties in class Module
+    /** @var mixed */
+          protected $actionsDir;
+
+[446/1748] Processing: src/Modules/OSSMailScanner/OSSMailScanner.php
+  ✓ No undefined properties
+
+[447/1748] Processing: src/Modules/OSSMailScanner/cron/action.php
+  ✓ No undefined properties
+
+[448/1748] Processing: src/Modules/OSSMailScanner/cron/bind.php
+  ✓ No undefined properties
+
+[449/1748] Processing: src/Modules/OSSMailScanner/cron/verification.php
+  ✓ No undefined properties
+
+[450/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindAccounts.php
+  ✓ No undefined properties
+
+[451/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindCampaigns.php
+  ✅ Found 1 undefined properties in class BindCampaigns
+    /** @var mixed */
+          protected $mail;
+
+[452/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindCompetition.php
+  ✓ No undefined properties
+
+[453/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindContacts.php
+  ✓ No undefined properties
+
+[454/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindHelpDesk.php
+  ✅ Found 1 undefined properties in class BindHelpDesk
+    /** @var mixed */
+          protected $mail;
+
+[455/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindLeads.php
+  ✓ No undefined properties
+
+[456/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindOSSEmployees.php
+  ✓ No undefined properties
+
+[457/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindPartners.php
+  ✓ No undefined properties
+
+[458/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindProject.php
+  ✅ Found 1 undefined properties in class BindProject
+    /** @var mixed */
+          protected $mail;
+
+[459/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindSSalesProcesses.php
+  ✅ Found 1 undefined properties in class BindSSalesProcesses
+    /** @var mixed */
+          protected $mail;
+
+[460/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindServiceContracts.php
+  ✓ No undefined properties
+
+[461/1748] Processing: src/Modules/OSSMailScanner/scanneractions/BindVendors.php
+  ✓ No undefined properties
+
+[462/1748] Processing: src/Modules/OSSMailScanner/scanneractions/CreatedEmail.php
+  ✓ No undefined properties
+
+[463/1748] Processing: src/Modules/OSSMailScanner/scanneractions/CreatedHelpDesk.php
+  ✓ No undefined properties
+
+[464/1748] Processing: src/Modules/OSSMailView/Actions/BindMails.php
+  ✓ No undefined properties
+
+[465/1748] Processing: src/Modules/OSSMailView/Actions/ChangeType.php
+  ✓ No undefined properties
+
+[466/1748] Processing: src/Modules/OSSMailView/Actions/MassDelete.php
+  ✓ No undefined properties
+
+[467/1748] Processing: src/Modules/OSSMailView/Actions/Relation.php
+  ✓ No undefined properties
+
+[468/1748] Processing: src/Modules/OSSMailView/Dashboards/Graf.php
+  ✓ No undefined properties
+
+[469/1748] Processing: src/Modules/OSSMailView/Models/DetailView.php
+  ✓ No undefined properties
+
+[470/1748] Processing: src/Modules/OSSMailView/Models/ListView.php
+  ✓ No undefined properties
+
+[471/1748] Processing: src/Modules/OSSMailView/Models/Module.php
+  ✓ No undefined properties
+
+[472/1748] Processing: src/Modules/OSSMailView/Models/Record.php
+  ✓ No undefined properties
+
+[473/1748] Processing: src/Modules/OSSMailView/Models/Relation.php
+  ✓ No undefined properties
+
+[474/1748] Processing: src/Modules/OSSMailView/OSSMailView.php
+  ✓ No undefined properties
+
+[475/1748] Processing: src/Modules/OSSMailView/Views/ChangeType.php
+  ✓ No undefined properties
+
+[476/1748] Processing: src/Modules/OSSMailView/Views/Detail.php
+  ✓ No undefined properties
+
+[477/1748] Processing: src/Modules/OSSMailView/Views/ListView.php
+  ✓ No undefined properties
+
+[478/1748] Processing: src/Modules/OSSMailView/Views/MailsPreview.php
+  ✓ No undefined properties
+
+[479/1748] Processing: src/Modules/OSSMailView/Views/mbody.php
+  ✓ No undefined properties
+
+[480/1748] Processing: src/Modules/OSSMailView/Views/preview.php
+  ✓ No undefined properties
+
+[481/1748] Processing: src/Modules/OSSMailView/Views/summary.php
+  ✓ No undefined properties
+
+[482/1748] Processing: src/Modules/OSSMailView/Views/sview.php
+  ✓ No undefined properties
+
+[483/1748] Processing: src/Modules/OSSMailView/Views/widget.php
+  ✓ No undefined properties
+
+[484/1748] Processing: src/Modules/OSSOutsourcedServices/Models/TreeView.php
+  ✓ No undefined properties
+
+[485/1748] Processing: src/Modules/OSSOutsourcedServices/OSSOutsourcedServices.php
+  ✓ No undefined properties
+
+[486/1748] Processing: src/Modules/OSSPasswords/Actions/CheckPass.php
+  ✓ No undefined properties
+
+[487/1748] Processing: src/Modules/OSSPasswords/Actions/GetPass.php
+  ✓ No undefined properties
+
+[488/1748] Processing: src/Modules/OSSPasswords/Actions/Save.php
+  ✓ No undefined properties
+
+[489/1748] Processing: src/Modules/OSSPasswords/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[490/1748] Processing: src/Modules/OSSPasswords/Handlers/OSSPasswords_Secure_Handler.php
+  ✓ No undefined properties
+
+[491/1748] Processing: src/Modules/OSSPasswords/Models/Module.php
+  ✓ No undefined properties
+
+[492/1748] Processing: src/Modules/OSSPasswords/Models/Record.php
+  ✓ No undefined properties
+
+[493/1748] Processing: src/Modules/OSSPasswords/OSSPasswords.php
+  ✓ No undefined properties
+
+[494/1748] Processing: src/Modules/OSSPasswords/Views/Detail.php
+  ✓ No undefined properties
+
+[495/1748] Processing: src/Modules/OSSPasswords/Views/Edit.php
+  ✓ No undefined properties
+
+[496/1748] Processing: src/Modules/OSSPasswords/Views/InRelation.php
+  ✓ No undefined properties
+
+[497/1748] Processing: src/Modules/OSSPasswords/Views/ListView.php
+  ✓ No undefined properties
+
+[498/1748] Processing: src/Modules/OSSPasswords/Views/Popup.php
+  ✅ Found 2 undefined properties in class Popup
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[499/1748] Processing: src/Modules/OSSPasswords/Views/PopupAjax.php
+  ✓ No undefined properties
+
+[500/1748] Processing: src/Modules/OSSPasswords/Views/QuickCreateAjax.php
+  ✓ No undefined properties
+
+[501/1748] Processing: src/Modules/OSSSoldServices/Models/Field.php
+  ✓ No undefined properties
+
+[502/1748] Processing: src/Modules/OSSSoldServices/Models/Record.php
+  ✓ No undefined properties
+
+[503/1748] Processing: src/Modules/OSSSoldServices/Models/TreeView.php
+  ✓ No undefined properties
+
+[504/1748] Processing: src/Modules/OSSSoldServices/OSSSoldServices.php
+  ✓ No undefined properties
+
+[505/1748] Processing: src/Modules/OSSSoldServices/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[506/1748] Processing: src/Modules/OSSSoldServices/Views/GetHierarchy.php
+  ✓ No undefined properties
+
+[507/1748] Processing: src/Modules/OSSSoldServices/cron/Renewal.php
+  ✓ No undefined properties
+
+[508/1748] Processing: src/Modules/OSSTimeControl/Actions/Calendar.php
+  ✓ No undefined properties
+
+[509/1748] Processing: src/Modules/OSSTimeControl/Actions/GetTCInfo.php
+  ✓ No undefined properties
+
+[510/1748] Processing: src/Modules/OSSTimeControl/Dashboards/AllTimeControl.php
+  ✓ No undefined properties
+
+[511/1748] Processing: src/Modules/OSSTimeControl/Dashboards/TimeControl.php
+  ✓ No undefined properties
+
+[512/1748] Processing: src/Modules/OSSTimeControl/Handlers/OSSTimeControl_TimeControl_Handler.php
+  ✓ No undefined properties
+
+[513/1748] Processing: src/Modules/OSSTimeControl/Models/Calendar.php
+  ✓ No undefined properties
+
+[514/1748] Processing: src/Modules/OSSTimeControl/Models/DetailView.php
+  ✓ No undefined properties
+
+[515/1748] Processing: src/Modules/OSSTimeControl/Models/Field.php
+  ✓ No undefined properties
+
+[516/1748] Processing: src/Modules/OSSTimeControl/Models/Module.php
+  ✓ No undefined properties
+
+[517/1748] Processing: src/Modules/OSSTimeControl/Models/Record.php
+  ✓ No undefined properties
+
+[518/1748] Processing: src/Modules/OSSTimeControl/OSSTimeControl.php
+  ✓ No undefined properties
+
+[519/1748] Processing: src/Modules/OSSTimeControl/UiTypes/Double.php
+  ✓ No undefined properties
+
+[520/1748] Processing: src/Modules/OSSTimeControl/UiTypes/Time.php
+  ✓ No undefined properties
+
+[521/1748] Processing: src/Modules/OSSTimeControl/Views/Calendar.php
+  ✓ No undefined properties
+
+[522/1748] Processing: src/Modules/OSSTimeControl/Views/Detail.php
+  ✓ No undefined properties
+
+[523/1748] Processing: src/Modules/OSSTimeControl/Views/InRelation.php
+  ✓ No undefined properties
+
+[524/1748] Processing: src/Modules/OSSTimeControl/Views/RightPanel.php
+  ✓ No undefined properties
+
+[525/1748] Processing: src/Modules/OSSTimeControl/textparsers/List.php
+  ✓ No undefined properties
+
+[526/1748] Processing: src/Modules/OSSTimeControl/textparsers/UserGroup.php
+  ✓ No undefined properties
+
+[527/1748] Processing: src/Modules/OpenStreetMap/Actions/ClipBoard.php
+  ✓ No undefined properties
+
+[528/1748] Processing: src/Modules/OpenStreetMap/Actions/GetMarkers.php
+  ✓ No undefined properties
+
+[529/1748] Processing: src/Modules/OpenStreetMap/Actions/GetRoute.php
+  ✓ No undefined properties
+
+[530/1748] Processing: src/Modules/OpenStreetMap/Handlers/OpenStreetMap_OpenStreetMapHandler_Handler.php
+  ✓ No undefined properties
+
+[531/1748] Processing: src/Modules/OpenStreetMap/Models/Coordinate.php
+  ✓ No undefined properties
+
+[532/1748] Processing: src/Modules/OpenStreetMap/Models/Module.php
+  ✓ No undefined properties
+
+[533/1748] Processing: src/Modules/OpenStreetMap/OpenStreetMap.php
+  ✓ No undefined properties
+
+[534/1748] Processing: src/Modules/OpenStreetMap/Views/MapModal.php
+  ✓ No undefined properties
+
+[535/1748] Processing: src/Modules/OpenStreetMap/cron/UpdaterCoordinates.php
+  ✓ No undefined properties
+
+[536/1748] Processing: src/Modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php
+  ✓ No undefined properties
+
+[537/1748] Processing: src/Modules/OutsourcedProducts/Models/TreeView.php
+  ✓ No undefined properties
+
+[538/1748] Processing: src/Modules/OutsourcedProducts/OutsourcedProducts.php
+  ✓ No undefined properties
+
+[539/1748] Processing: src/Modules/PBXManager/Actions/IncomingCallPoll.php
+  ✓ No undefined properties
+
+[540/1748] Processing: src/Modules/PBXManager/Actions/OutgoingCall.php
+  ✓ No undefined properties
+
+[541/1748] Processing: src/Modules/PBXManager/Handlers/PBXManager_PBXManagerHandler_Handler.php
+  ✓ No undefined properties
+
+[542/1748] Processing: src/Modules/PBXManager/Models/DetailView.php
+  ✓ No undefined properties
+
+[543/1748] Processing: src/Modules/PBXManager/Models/ListView.php
+  ✓ No undefined properties
+
+[544/1748] Processing: src/Modules/PBXManager/Models/Module.php
+  ✓ No undefined properties
+
+[545/1748] Processing: src/Modules/PBXManager/Models/Record.php
+  ✓ No undefined properties
+
+[546/1748] Processing: src/Modules/PBXManager/Models/Server.php
+  ✓ No undefined properties
+
+[547/1748] Processing: src/Modules/PBXManager/PBXManager.php
+  ✓ No undefined properties
+
+[548/1748] Processing: src/Modules/PBXManager/Views/Detail.php
+  ✅ Found 1 undefined properties in class Detail
+    /** @var mixed */
+          protected $record;
+
+[549/1748] Processing: src/Modules/PBXManager/callbacks/PBXManager.php
+  ✓ No undefined properties
+
+[550/1748] Processing: src/Modules/PBXManager/connectors/PBXManager.php
+  ✓ No undefined properties
+
+[551/1748] Processing: src/Modules/PBXManager/controllers/PBXManager.php
+  ✓ No undefined properties
+
+[552/1748] Processing: src/Modules/Partners/Models/DetailView.php
+  ✓ No undefined properties
+
+[553/1748] Processing: src/Modules/Partners/Models/ListView.php
+  ✓ No undefined properties
+
+[554/1748] Processing: src/Modules/Partners/Models/Module.php
+  ✓ No undefined properties
+
+[555/1748] Processing: src/Modules/Partners/Partners.php
+  ✓ No undefined properties
+
+[556/1748] Processing: src/Modules/Password/Password.php
+  ✓ No undefined properties
+
+[557/1748] Processing: src/Modules/PaymentsIn/Actions/GenerateRecords.php
+  ✓ No undefined properties
+
+[558/1748] Processing: src/Modules/PaymentsIn/Models/ListView.php
+  ✓ No undefined properties
+
+[559/1748] Processing: src/Modules/PaymentsIn/Models/Record.php
+  ✓ No undefined properties
+
+[560/1748] Processing: src/Modules/PaymentsIn/PaymentsIn.php
+  ✓ No undefined properties
+
+[561/1748] Processing: src/Modules/PaymentsIn/Views/PaymentsImport.php
+  ✓ No undefined properties
+
+[562/1748] Processing: src/Modules/PaymentsIn/Views/step1.php
+  ✓ No undefined properties
+
+[563/1748] Processing: src/Modules/PaymentsIn/helpers/mt940.php
+  ✓ No undefined properties
+
+[564/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Alior.php
+  ✅ Found 11 undefined properties in class mt940_Alior
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[565/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_BGK.php
+  ✅ Found 10 undefined properties in class mt940_BGK
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[566/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_BOS.php
+  ✅ Found 11 undefined properties in class mt940_BOS
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[567/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_BPH.php
+  ✅ Found 11 undefined properties in class mt940_BPH
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[568/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Citi.php
+  ✅ Found 11 undefined properties in class mt940_Citi
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[569/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Deutsche.php
+  ✅ Found 11 undefined properties in class mt940_Deutsche
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[570/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Milenium.php
+  ✅ Found 11 undefined properties in class mt940_Milenium
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[571/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Millennium.php
+  ✅ Found 11 undefined properties in class mt940_Millennium
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[572/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_PKOBP.php
+  ✅ Found 11 undefined properties in class mt940_PKOBP
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[573/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Paribas.php
+  ✅ Found 11 undefined properties in class mt940_Paribas
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[574/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Pekao.php
+  ✅ Found 11 undefined properties in class mt940_Pekao
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[575/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Pocztowy.php
+  ✓ No undefined properties
+
+[576/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_RaboBank.php
+  ✅ Found 11 undefined properties in class mt940_RaboBank
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[577/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_Raiffeisen.php
+  ✅ Found 11 undefined properties in class mt940_Raiffeisen
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[578/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_SGB.php
+  ✅ Found 11 undefined properties in class mt940_SGB
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[579/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_WBK.php
+  ✅ Found 11 undefined properties in class mt940_WBK
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[580/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_ing.php
+  ✅ Found 11 undefined properties in class mt940_ing
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[581/1748] Processing: src/Modules/PaymentsIn/helpers/subclass/mt940_mbank.php
+  ✓ No undefined properties
+
+[582/1748] Processing: src/Modules/PaymentsOut/Actions/GenerateRecords.php
+  ✓ No undefined properties
+
+[583/1748] Processing: src/Modules/PaymentsOut/Models/ListView.php
+  ✓ No undefined properties
+
+[584/1748] Processing: src/Modules/PaymentsOut/Models/Record.php
+  ✓ No undefined properties
+
+[585/1748] Processing: src/Modules/PaymentsOut/PaymentsOut.php
+  ✓ No undefined properties
+
+[586/1748] Processing: src/Modules/PaymentsOut/Views/PaymentsImport.php
+  ✓ No undefined properties
+
+[587/1748] Processing: src/Modules/PaymentsOut/Views/step1.php
+  ✓ No undefined properties
+
+[588/1748] Processing: src/Modules/PaymentsOut/helpers/mt940.php
+  ✓ No undefined properties
+
+[589/1748] Processing: src/Modules/PaymentsOut/helpers/subclass/mt940_Milenium.php
+  ✅ Found 11 undefined properties in class Milenium
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[590/1748] Processing: src/Modules/PaymentsOut/helpers/subclass/mt940_ing.php
+  ✅ Found 11 undefined properties in class ing
+    /** @var mixed */
+          protected $_lastTag;
+    /** @var string|null */
+          protected $accountName;
+    /** @var mixed */
+          protected $accountNumber;
+    /** @var mixed */
+          protected $availableBalance;
+    /** @var mixed */
+          protected $closeBalance;
+    /** @var mixed */
+          protected $extractNumber;
+    /** @var mixed */
+          protected $info;
+    /** @var mixed */
+          protected $openBalance;
+    /** @var mixed */
+          protected $operations;
+    /** @var string|null */
+          protected $ownerName;
+    /** @var mixed */
+          protected $refNumber;
+
+[591/1748] Processing: src/Modules/PaymentsOut/helpers/subclass/mt940_mbank.php
+  ✓ No undefined properties
+
+[592/1748] Processing: src/Modules/PickList/DependencyPicklist.php
+  ✓ No undefined properties
+
+[593/1748] Processing: src/Modules/PickList/PickListUtils.php
+  ✓ No undefined properties
+
+[594/1748] Processing: src/Modules/Portal/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[595/1748] Processing: src/Modules/Portal/Actions/MassDelete.php
+  ✓ No undefined properties
+
+[596/1748] Processing: src/Modules/Portal/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[597/1748] Processing: src/Modules/Portal/Models/ListView.php
+  ✓ No undefined properties
+
+[598/1748] Processing: src/Modules/Portal/Models/Module.php
+  ✓ No undefined properties
+
+[599/1748] Processing: src/Modules/Portal/Views/Detail.php
+  ✓ No undefined properties
+
+[600/1748] Processing: src/Modules/Portal/Views/EditAjax.php
+  ✓ No undefined properties
+
+[601/1748] Processing: src/Modules/Portal/Views/ListView.php
+  ✓ No undefined properties
+
+[602/1748] Processing: src/Modules/Portal/Views/Pagination.php
+  ✓ No undefined properties
+
+[603/1748] Processing: src/Modules/PriceBooks/Actions/ProductListPrice.php
+  ✓ No undefined properties
+
+[604/1748] Processing: src/Modules/PriceBooks/Actions/RelationAjax.php
+  ✓ No undefined properties
+
+[605/1748] Processing: src/Modules/PriceBooks/Actions/Save.php
+  ✓ No undefined properties
+
+[606/1748] Processing: src/Modules/PriceBooks/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[607/1748] Processing: src/Modules/PriceBooks/Models/ListView.php
+  ✅ Found 1 undefined properties in class QueryGenerator
+    /** @var int|string|null */
+          protected $currencyId;
+
+[608/1748] Processing: src/Modules/PriceBooks/Models/Module.php
+  ✓ No undefined properties
+
+[609/1748] Processing: src/Modules/PriceBooks/Models/Record.php
+  ✓ No undefined properties
+
+[610/1748] Processing: src/Modules/PriceBooks/Models/Relation.php
+  ✓ No undefined properties
+
+[611/1748] Processing: src/Modules/PriceBooks/Models/RelationListView.php
+  ✓ No undefined properties
+
+[612/1748] Processing: src/Modules/PriceBooks/PriceBooks.php
+  ✓ No undefined properties
+
+[613/1748] Processing: src/Modules/PriceBooks/Views/Detail.php
+  ✓ No undefined properties
+
+[614/1748] Processing: src/Modules/PriceBooks/Views/Edit.php
+  ✓ No undefined properties
+
+[615/1748] Processing: src/Modules/PriceBooks/Views/ListPriceUpdate.php
+  ✓ No undefined properties
+
+[616/1748] Processing: src/Modules/PriceBooks/Views/Popup.php
+  ✅ Found 3 undefined properties in class Popup
+    /** @var mixed */
+          protected $listViewCount;
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[617/1748] Processing: src/Modules/PriceBooks/Views/PopupAjax.php
+  ✓ No undefined properties
+
+[618/1748] Processing: src/Modules/PriceBooks/Views/ProductPriceBookPopup.php
+  ✅ Found 2 undefined properties in class ProductPriceBookPopup
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[619/1748] Processing: src/Modules/PriceBooks/Views/ProductPriceBookPopupAjax.php
+  ✓ No undefined properties
+
+[620/1748] Processing: src/Modules/PriceBooks/Views/QuickCreateAjax.php
+  ✓ No undefined properties
+
+[621/1748] Processing: src/Modules/Products/Actions/RelationAjax.php
+  ✓ No undefined properties
+
+[622/1748] Processing: src/Modules/Products/Actions/Save.php
+  ✓ No undefined properties
+
+[623/1748] Processing: src/Modules/Products/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[624/1748] Processing: src/Modules/Products/Actions/SubProducts.php
+  ✓ No undefined properties
+
+[625/1748] Processing: src/Modules/Products/Models/ListView.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var mixed */
+          protected $colorList;
+
+[626/1748] Processing: src/Modules/Products/Models/MassEditRecordStructure.php
+  ✓ No undefined properties
+
+[627/1748] Processing: src/Modules/Products/Models/Module.php
+  ✓ No undefined properties
+
+[628/1748] Processing: src/Modules/Products/Models/Record.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var mixed */
+          protected $mode;
+
+[629/1748] Processing: src/Modules/Products/Models/Relation.php
+  ✓ No undefined properties
+
+[630/1748] Processing: src/Modules/Products/Models/RelationListView.php
+  ✓ No undefined properties
+
+[631/1748] Processing: src/Modules/Products/Models/SummaryWidget.php
+  ✓ No undefined properties
+
+[632/1748] Processing: src/Modules/Products/Models/TreeView.php
+  ✅ Found 1 undefined properties in class TreeView
+    /** @var int|string|null */
+          protected $lastTreeId;
+
+[633/1748] Processing: src/Modules/Products/Products.php
+  ✓ No undefined properties
+
+[634/1748] Processing: src/Modules/Products/Views/Detail.php
+  ✓ No undefined properties
+
+[635/1748] Processing: src/Modules/Products/Views/Edit.php
+  ✓ No undefined properties
+
+[636/1748] Processing: src/Modules/Products/Views/MoreCurrenciesList.php
+  ✓ No undefined properties
+
+[637/1748] Processing: src/Modules/Products/Views/Popup.php
+  ✅ Found 3 undefined properties in class Popup
+    /** @var mixed */
+          protected $listViewCount;
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[638/1748] Processing: src/Modules/Products/Views/PriceBookProductPopup.php
+  ✅ Found 2 undefined properties in class PriceBookProductPopup
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[639/1748] Processing: src/Modules/Products/Views/PriceBookProductPopupAjax.php
+  ✓ No undefined properties
+
+[640/1748] Processing: src/Modules/Products/Views/QuickCreateAjax.php
+  ✓ No undefined properties
+
+[641/1748] Processing: src/Modules/Products/Views/TreeRecords.php
+  ✓ No undefined properties
+
+[642/1748] Processing: src/Modules/Products/Views/Widget.php
+  ✓ No undefined properties
+
+[643/1748] Processing: src/Modules/Project/Dashboards/ProjectWidget.php
+  ✓ No undefined properties
+
+[644/1748] Processing: src/Modules/Project/Models/DetailView.php
+  ✓ No undefined properties
+
+[645/1748] Processing: src/Modules/Project/Models/ListView.php
+  ✓ No undefined properties
+
+[646/1748] Processing: src/Modules/Project/Models/Module.php
+  ✓ No undefined properties
+
+[647/1748] Processing: src/Modules/Project/Models/Record.php
+  ✓ No undefined properties
+
+[648/1748] Processing: src/Modules/Project/Models/RelationListView.php
+  ✓ No undefined properties
+
+[649/1748] Processing: src/Modules/Project/Project.php
+  ✓ No undefined properties
+
+[650/1748] Processing: src/Modules/Project/Views/Detail.php
+  ✓ No undefined properties
+
+[651/1748] Processing: src/Modules/Project/summary_blocks/HighTasks.php
+  ✓ No undefined properties
+
+[652/1748] Processing: src/Modules/Project/summary_blocks/LowTasks.php
+  ✓ No undefined properties
+
+[653/1748] Processing: src/Modules/Project/summary_blocks/NormalTasks.php
+  ✓ No undefined properties
+
+[654/1748] Processing: src/Modules/Project/summary_blocks/OtherTasks.php
+  ✓ No undefined properties
+
+[655/1748] Processing: src/Modules/Project/summary_blocks/Progress.php
+  ✓ No undefined properties
+
+[656/1748] Processing: src/Modules/Project/summary_blocks/SumTimeProject.php
+  ✓ No undefined properties
+
+[657/1748] Processing: src/Modules/Project/summary_blocks/TaskCompleted.php
+  ✓ No undefined properties
+
+[658/1748] Processing: src/Modules/Project/summary_blocks/TaskDue.php
+  ✓ No undefined properties
+
+[659/1748] Processing: src/Modules/Project/summary_blocks/TasksOpen.php
+  ✓ No undefined properties
+
+[660/1748] Processing: src/Modules/ProjectMilestone/Models/Module.php
+  ✓ No undefined properties
+
+[661/1748] Processing: src/Modules/ProjectMilestone/ProjectMilestone.php
+  ✓ No undefined properties
+
+[662/1748] Processing: src/Modules/ProjectTask/Handlers/ProjectTask_ProjectTaskHandler_Handler.php
+  ✓ No undefined properties
+
+[663/1748] Processing: src/Modules/ProjectTask/Models/Module.php
+  ✓ No undefined properties
+
+[664/1748] Processing: src/Modules/ProjectTask/ProjectTask.php
+  ✓ No undefined properties
+
+[665/1748] Processing: src/Modules/RecycleBin/Actions/RecycleBinAjax.php
+  ✓ No undefined properties
+
+[666/1748] Processing: src/Modules/RecycleBin/Models/ListView.php
+  ✓ No undefined properties
+
+[667/1748] Processing: src/Modules/RecycleBin/Models/Module.php
+  ✓ No undefined properties
+
+[668/1748] Processing: src/Modules/RecycleBin/RecycleBin.php
+  ✓ No undefined properties
+
+[669/1748] Processing: src/Modules/RecycleBin/Views/ListAjax.php
+  ✓ No undefined properties
+
+[670/1748] Processing: src/Modules/RecycleBin/Views/ListView.php
+  ✅ Found 3 undefined properties in class ListView
+    /** @var mixed */
+          protected $listViewCount;
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[671/1748] Processing: src/Modules/RecycleBin/Views/Pagination.php
+  ✅ Found 3 undefined properties in class Pagination
+    /** @var mixed */
+          protected $listViewCount;
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[672/1748] Processing: src/Modules/Reports/Actions/ChartSave.php
+  ✓ No undefined properties
+
+[673/1748] Processing: src/Modules/Reports/Actions/CheckDuplicate.php
+  ✓ No undefined properties
+
+[674/1748] Processing: src/Modules/Reports/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[675/1748] Processing: src/Modules/Reports/Actions/DetailAjax.php
+  ✓ No undefined properties
+
+[676/1748] Processing: src/Modules/Reports/Actions/Folder.php
+  ✓ No undefined properties
+
+[677/1748] Processing: src/Modules/Reports/Actions/MassDelete.php
+  ✓ No undefined properties
+
+[678/1748] Processing: src/Modules/Reports/Actions/MoveReports.php
+  ✓ No undefined properties
+
+[679/1748] Processing: src/Modules/Reports/Actions/Save.php
+  ✓ No undefined properties
+
+[680/1748] Processing: src/Modules/Reports/Dashboards/Charts.php
+  ✓ No undefined properties
+
+[681/1748] Processing: src/Modules/Reports/Models/Chart.php
+  ✓ No undefined properties
+
+[682/1748] Processing: src/Modules/Reports/Models/DetailView.php
+  ✓ No undefined properties
+
+[683/1748] Processing: src/Modules/Reports/Models/Folder.php
+  ✓ No undefined properties
+
+[684/1748] Processing: src/Modules/Reports/Models/ListView.php
+  ✓ No undefined properties
+
+[685/1748] Processing: src/Modules/Reports/Models/Module.php
+  ✓ No undefined properties
+
+[686/1748] Processing: src/Modules/Reports/Models/Record.php
+  ✓ No undefined properties
+
+[687/1748] Processing: src/Modules/Reports/Models/RecordStructure.php
+  ✅ Found 1 undefined properties in class RecordStructure
+    /** @var mixed */
+          protected $structuredValues;
+
+[688/1748] Processing: src/Modules/Reports/Models/Report.php
+  ✅ Found 8 undefined properties in class Report
+    /** @var mixed */
+          protected $folderid;
+    /** @var bool */
+          protected $is_editable;
+    /** @var mixed */
+          protected $module_list;
+    /** @var mixed */
+          protected $primodule;
+    /** @var mixed */
+          protected $reportdescription;
+    /** @var string|null */
+          protected $reportname;
+    /** @var string|null */
+          protected $reporttype;
+    /** @var mixed */
+          protected $secmodule;
+
+[689/1748] Processing: src/Modules/Reports/Models/ScheduleReports.php
+  ✓ No undefined properties
+
+[690/1748] Processing: src/Modules/Reports/ReportRunQueryDependencyMatrix.php
+  ✅ Found 1 undefined properties in class ReportRun
+    /** @var mixed */
+          protected $labelMapping;
+
+[691/1748] Processing: src/Modules/Reports/ReportUtils.php
+  ✓ No undefined properties
+
+[692/1748] Processing: src/Modules/Reports/Reports.php
+  ✅ Found 4 undefined properties in class Reports
+    /** @var mixed */
+          protected $module_id;
+    /** @var mixed */
+          protected $primarymodule;
+    /** @var mixed */
+          protected $related_modules;
+    /** @var mixed */
+          protected $secondarymodule;
+
+[693/1748] Processing: src/Modules/Reports/VTScheduledReport.php
+  ✅ Found 1 undefined properties in class VTScheduledReport
+    /** @var mixed */
+          protected $scheduledTime;
+
+[694/1748] Processing: src/Modules/Reports/Views/ChartDetail.php
+  ✅ Found 1 undefined properties in class ChartDetail
+    /** @var mixed */
+          protected $record;
+
+[695/1748] Processing: src/Modules/Reports/Views/ChartEdit.php
+  ✓ No undefined properties
+
+[696/1748] Processing: src/Modules/Reports/Views/ChartSaveAjax.php
+  ✓ No undefined properties
+
+[697/1748] Processing: src/Modules/Reports/Views/Detail.php
+  ✓ No undefined properties
+
+[698/1748] Processing: src/Modules/Reports/Views/Edit.php
+  ✓ No undefined properties
+
+[699/1748] Processing: src/Modules/Reports/Views/EditFolder.php
+  ✓ No undefined properties
+
+[700/1748] Processing: src/Modules/Reports/Views/ExportReport.php
+  ✓ No undefined properties
+
+[701/1748] Processing: src/Modules/Reports/Views/ListAjax.php
+  ✓ No undefined properties
+
+[702/1748] Processing: src/Modules/Reports/Views/ListView.php
+  ✓ No undefined properties
+
+[703/1748] Processing: src/Modules/Reports/Views/MoveReports.php
+  ✓ No undefined properties
+
+[704/1748] Processing: src/Modules/Reports/Views/Pagination.php
+  ✅ Found 3 undefined properties in class Pagination
+    /** @var mixed */
+          protected $listViewCount;
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+
+[705/1748] Processing: src/Modules/Reports/Views/SaveAjax.php
+  ✓ No undefined properties
+
+[706/1748] Processing: src/Modules/Reservations/Actions/Calendar.php
+  ✓ No undefined properties
+
+[707/1748] Processing: src/Modules/Reservations/Models/Calendar.php
+  ✓ No undefined properties
+
+[708/1748] Processing: src/Modules/Reservations/Models/DetailView.php
+  ✓ No undefined properties
+
+[709/1748] Processing: src/Modules/Reservations/Models/Field.php
+  ✓ No undefined properties
+
+[710/1748] Processing: src/Modules/Reservations/Models/Module.php
+  ✓ No undefined properties
+
+[711/1748] Processing: src/Modules/Reservations/Models/Record.php
+  ✓ No undefined properties
+
+[712/1748] Processing: src/Modules/Reservations/Reservations.php
+  ✓ No undefined properties
+
+[713/1748] Processing: src/Modules/Reservations/UiTypes/Time.php
+  ✓ No undefined properties
+
+[714/1748] Processing: src/Modules/Reservations/Views/Calendar.php
+  ✓ No undefined properties
+
+[715/1748] Processing: src/Modules/Reservations/Views/Detail.php
+  ✓ No undefined properties
+
+[716/1748] Processing: src/Modules/Reservations/Views/RightPanel.php
+  ✓ No undefined properties
+
+[717/1748] Processing: src/Modules/Rss/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[718/1748] Processing: src/Modules/Rss/Actions/GetHtml.php
+  ✓ No undefined properties
+
+[719/1748] Processing: src/Modules/Rss/Actions/MakeDefaultAjax.php
+  ✓ No undefined properties
+
+[720/1748] Processing: src/Modules/Rss/Actions/Save.php
+  ✓ No undefined properties
+
+[721/1748] Processing: src/Modules/Rss/Models/ListView.php
+  ✓ No undefined properties
+
+[722/1748] Processing: src/Modules/Rss/Models/Module.php
+  ✓ No undefined properties
+
+[723/1748] Processing: src/Modules/Rss/Models/Record.php
+  ✓ No undefined properties
+
+[724/1748] Processing: src/Modules/Rss/Views/ListView.php
+  ✓ No undefined properties
+
+[725/1748] Processing: src/Modules/Rss/Views/ViewTypes.php
+  ✓ No undefined properties
+
+[726/1748] Processing: src/Modules/SCalculations/Actions/EditFieldByModal.php
+  ✓ No undefined properties
+
+[727/1748] Processing: src/Modules/SCalculations/Models/Record.php
+  ✓ No undefined properties
+
+[728/1748] Processing: src/Modules/SCalculations/SCalculations.php
+  ✓ No undefined properties
+
+[729/1748] Processing: src/Modules/SCalculations/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[730/1748] Processing: src/Modules/SMSNotifier/Actions/CheckServerInfo.php
+  ✓ No undefined properties
+
+[731/1748] Processing: src/Modules/SMSNotifier/Actions/MassSaveAjax.php
+  ✓ No undefined properties
+
+[732/1748] Processing: src/Modules/SMSNotifier/Models/DetailView.php
+  ✓ No undefined properties
+
+[733/1748] Processing: src/Modules/SMSNotifier/Models/ListView.php
+  ✓ No undefined properties
+
+[734/1748] Processing: src/Modules/SMSNotifier/Models/Module.php
+  ✓ No undefined properties
+
+[735/1748] Processing: src/Modules/SMSNotifier/Models/Provider.php
+  ✓ No undefined properties
+
+[736/1748] Processing: src/Modules/SMSNotifier/Models/Record.php
+  ✓ No undefined properties
+
+[737/1748] Processing: src/Modules/SMSNotifier/Models/SMSNotifier_ISMSProvider_Model.php
+  ✓ No undefined properties
+
+[738/1748] Processing: src/Modules/SMSNotifier/SMSNotifier.php
+  ✓ No undefined properties
+
+[739/1748] Processing: src/Modules/SMSNotifier/SMSNotifierBase.php
+  ✓ No undefined properties
+
+[740/1748] Processing: src/Modules/SMSNotifier/Views/CheckStatus.php
+  ✓ No undefined properties
+
+[741/1748] Processing: src/Modules/SMSNotifier/Views/Edit.php
+  ✓ No undefined properties
+
+[742/1748] Processing: src/Modules/SMSNotifier/providers/ClickATell.php
+  ✓ No undefined properties
+
+[743/1748] Processing: src/Modules/SMSNotifier/providers/MyProvider.php
+  ✓ No undefined properties
+
+[744/1748] Processing: src/Modules/SMSNotifier/workflow/VTSMSTask.php
+  ✅ Found 2 undefined properties in class VTSMSTask
+    /** @var mixed */
+          protected $content;
+    /** @var mixed */
+          protected $sms_recepient;
+
+[745/1748] Processing: src/Modules/SQuoteEnquiries/Actions/EditFieldByModal.php
+  ✓ No undefined properties
+
+[746/1748] Processing: src/Modules/SQuoteEnquiries/Models/Record.php
+  ✓ No undefined properties
+
+[747/1748] Processing: src/Modules/SQuoteEnquiries/SQuoteEnquiries.php
+  ✓ No undefined properties
+
+[748/1748] Processing: src/Modules/SQuoteEnquiries/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[749/1748] Processing: src/Modules/SQuotes/Actions/EditFieldByModal.php
+  ✓ No undefined properties
+
+[750/1748] Processing: src/Modules/SQuotes/Models/Record.php
+  ✓ No undefined properties
+
+[751/1748] Processing: src/Modules/SQuotes/SQuotes.php
+  ✓ No undefined properties
+
+[752/1748] Processing: src/Modules/SQuotes/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[753/1748] Processing: src/Modules/SRecurringOrders/Actions/EditFieldByModal.php
+  ✓ No undefined properties
+
+[754/1748] Processing: src/Modules/SRecurringOrders/Models/Record.php
+  ✓ No undefined properties
+
+[755/1748] Processing: src/Modules/SRecurringOrders/SRecurringOrders.php
+  ✓ No undefined properties
+
+[756/1748] Processing: src/Modules/SRecurringOrders/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[757/1748] Processing: src/Modules/SRequirementsCards/Actions/EditFieldByModal.php
+  ✓ No undefined properties
+
+[758/1748] Processing: src/Modules/SRequirementsCards/Models/Record.php
+  ✓ No undefined properties
+
+[759/1748] Processing: src/Modules/SRequirementsCards/SRequirementsCards.php
+  ✓ No undefined properties
+
+[760/1748] Processing: src/Modules/SRequirementsCards/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[761/1748] Processing: src/Modules/SSalesProcesses/Actions/RelationAjax.php
+  ✓ No undefined properties
+
+[762/1748] Processing: src/Modules/SSalesProcesses/Dashboards/ActualSalesOfTeam.php
+  ✓ No undefined properties
+
+[763/1748] Processing: src/Modules/SSalesProcesses/Dashboards/EstimatedValueByStatus.php
+  ✓ No undefined properties
+
+[764/1748] Processing: src/Modules/SSalesProcesses/Dashboards/TeamsEstimatedSales.php
+  ✓ No undefined properties
+
+[765/1748] Processing: src/Modules/SSalesProcesses/Models/DetailView.php
+  ✓ No undefined properties
+
+[766/1748] Processing: src/Modules/SSalesProcesses/Models/Field.php
+  ✓ No undefined properties
+
+[767/1748] Processing: src/Modules/SSalesProcesses/Models/Record.php
+  ✓ No undefined properties
+
+[768/1748] Processing: src/Modules/SSalesProcesses/SSalesProcesses.php
+  ✓ No undefined properties
+
+[769/1748] Processing: src/Modules/SSalesProcesses/Views/Hierarchy.php
+  ✓ No undefined properties
+
+[770/1748] Processing: src/Modules/SSingleOrders/Actions/EditFieldByModal.php
+  ✓ No undefined properties
+
+[771/1748] Processing: src/Modules/SSingleOrders/Models/Record.php
+  ✓ No undefined properties
+
+[772/1748] Processing: src/Modules/SSingleOrders/SSingleOrders.php
+  ✓ No undefined properties
+
+[773/1748] Processing: src/Modules/SSingleOrders/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[774/1748] Processing: src/Modules/SVendorEnquiries/Actions/EditFieldByModal.php
+  ✓ No undefined properties
+
+[775/1748] Processing: src/Modules/SVendorEnquiries/Models/Record.php
+  ✓ No undefined properties
+
+[776/1748] Processing: src/Modules/SVendorEnquiries/SVendorEnquiries.php
+  ✓ No undefined properties
+
+[777/1748] Processing: src/Modules/SVendorEnquiries/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[778/1748] Processing: src/Modules/ServiceContracts/Handlers/ServiceContracts_ServiceContractsHandler_Handler.php
+  ✓ No undefined properties
+
+[779/1748] Processing: src/Modules/ServiceContracts/Models/Module.php
+  ✓ No undefined properties
+
+[780/1748] Processing: src/Modules/ServiceContracts/Models/Record.php
+  ✓ No undefined properties
+
+[781/1748] Processing: src/Modules/ServiceContracts/ServiceContracts.php
+  ✓ No undefined properties
+
+[782/1748] Processing: src/Modules/Services/Actions/RelationAjax.php
+  ✓ No undefined properties
+
+[783/1748] Processing: src/Modules/Services/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[784/1748] Processing: src/Modules/Services/Models/ListView.php
+  ✓ No undefined properties
+
+[785/1748] Processing: src/Modules/Services/Models/MassEditRecordStructure.php
+  ✓ No undefined properties
+
+[786/1748] Processing: src/Modules/Services/Models/Module.php
+  ✓ No undefined properties
+
+[787/1748] Processing: src/Modules/Services/Models/Record.php
+  ✓ No undefined properties
+
+[788/1748] Processing: src/Modules/Services/Models/Relation.php
+  ✓ No undefined properties
+
+[789/1748] Processing: src/Modules/Services/Models/RelationListView.php
+  ✓ No undefined properties
+
+[790/1748] Processing: src/Modules/Services/Models/TreeView.php
+  ✅ Found 1 undefined properties in class TreeView
+    /** @var int|string|null */
+          protected $lastTreeId;
+
+[791/1748] Processing: src/Modules/Services/Services.php
+  ✓ No undefined properties
+
+[792/1748] Processing: src/Modules/Services/Views/Detail.php
+  ✓ No undefined properties
+
+[793/1748] Processing: src/Modules/Services/Views/Edit.php
+  ✓ No undefined properties
+
+[794/1748] Processing: src/Modules/Services/Views/ListView.php
+  ✓ No undefined properties
+
+[795/1748] Processing: src/Modules/Services/Views/MoreCurrenciesList.php
+  ✓ No undefined properties
+
+[796/1748] Processing: src/Modules/Services/Views/Popup.php
+  ✓ No undefined properties
+
+[797/1748] Processing: src/Modules/Services/Views/PriceBookProductPopup.php
+  ✓ No undefined properties
+
+[798/1748] Processing: src/Modules/Services/Views/PriceBookProductPopupAjax.php
+  ✓ No undefined properties
+
+[799/1748] Processing: src/Modules/Services/Views/QuickCreateAjax.php
+  ✓ No undefined properties
+
+[800/1748] Processing: src/Modules/Services/Views/TreeRecords.php
+  ✓ No undefined properties
+
+[801/1748] Processing: src/Modules/Settings/AdvancedPermission/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[802/1748] Processing: src/Modules/Settings/AdvancedPermission/Actions/RecalculatePermission.php
+  ✓ No undefined properties
+
+[803/1748] Processing: src/Modules/Settings/AdvancedPermission/Actions/Save.php
+  ✓ No undefined properties
+
+[804/1748] Processing: src/Modules/Settings/AdvancedPermission/Models/ListView.php
+  ✓ No undefined properties
+
+[805/1748] Processing: src/Modules/Settings/AdvancedPermission/Models/Module.php
+  ✓ No undefined properties
+
+[806/1748] Processing: src/Modules/Settings/AdvancedPermission/Models/Record.php
+  ✓ No undefined properties
+
+[807/1748] Processing: src/Modules/Settings/AdvancedPermission/Views/Detail.php
+  ✓ No undefined properties
+
+[808/1748] Processing: src/Modules/Settings/AdvancedPermission/Views/Edit.php
+  ✓ No undefined properties
+
+[809/1748] Processing: src/Modules/Settings/AdvancedPermission/Views/RecalculatePermission.php
+  ✓ No undefined properties
+
+[810/1748] Processing: src/Modules/Settings/ApiAddress/Actions/SaveConfig.php
+  ✓ No undefined properties
+
+[811/1748] Processing: src/Modules/Settings/ApiAddress/Models/Module.php
+  ✓ No undefined properties
+
+[812/1748] Processing: src/Modules/Settings/ApiAddress/Views/Configuration.php
+  ✓ No undefined properties
+
+[813/1748] Processing: src/Modules/Settings/AutomaticAssignment/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[814/1748] Processing: src/Modules/Settings/AutomaticAssignment/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[815/1748] Processing: src/Modules/Settings/AutomaticAssignment/Models/ListView.php
+  ✓ No undefined properties
+
+[816/1748] Processing: src/Modules/Settings/AutomaticAssignment/Models/Module.php
+  ✅ Found 1 undefined properties in class Module
+    /** @var array|null */
+          protected $listFieldModels;
+
+[817/1748] Processing: src/Modules/Settings/AutomaticAssignment/Models/Record.php
+  ✅ Found 4 undefined properties in class Record
+    /** @var mixed */
+          protected $availableUsers;
+    /** @var mixed */
+          protected $customConditions;
+    /** @var object|null */
+          protected $module;
+    /** @var array|null */
+          protected $sourceRecordModel;
+
+[818/1748] Processing: src/Modules/Settings/AutomaticAssignment/Views/Create.php
+  ✓ No undefined properties
+
+[819/1748] Processing: src/Modules/Settings/AutomaticAssignment/Views/Edit.php
+  ✓ No undefined properties
+
+[820/1748] Processing: src/Modules/Settings/AutomaticAssignment/Views/List.php
+  ✓ No undefined properties
+
+[821/1748] Processing: src/Modules/Settings/BruteForce/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[822/1748] Processing: src/Modules/Settings/BruteForce/Models/Module.php
+  ✓ No undefined properties
+
+[823/1748] Processing: src/Modules/Settings/BruteForce/Views/Index.php
+  ✓ No undefined properties
+
+[824/1748] Processing: src/Modules/Settings/Calendar/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[825/1748] Processing: src/Modules/Settings/Calendar/Models/Module.php
+  ✓ No undefined properties
+
+[826/1748] Processing: src/Modules/Settings/Calendar/Views/ActivityTypes.php
+  ✓ No undefined properties
+
+[827/1748] Processing: src/Modules/Settings/Calendar/Views/UserColors.php
+  ✓ No undefined properties
+
+[828/1748] Processing: src/Modules/Settings/Companies/Actions/DeleteAjax.php
+  ✓ No undefined properties
+
+[829/1748] Processing: src/Modules/Settings/Companies/Actions/SaveAjax.php
+  ✓ No undefined properties
+
+[830/1748] Processing: src/Modules/Settings/Companies/Models/Module.php

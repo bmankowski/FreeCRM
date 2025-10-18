@@ -14,6 +14,14 @@ namespace App\Modules\Vtiger\Models;
 class FindDuplicate extends Model
 {
 
+    /** @var object|null */
+    protected $module;
+    /** @var mixed */
+    protected $result;
+    /** @var int|array|null */
+    protected $rows;
+
+
 	public function setModule($moduleModel)
 	{
 		$this->module = $moduleModel;

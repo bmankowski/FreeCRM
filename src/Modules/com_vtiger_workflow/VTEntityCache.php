@@ -14,6 +14,16 @@ namespace App\Modules\com_vtiger_workflow;
 
 class VTWorkflowEntity {
 
+    /** @var array */
+    protected $data;
+    /** @var int|string */
+    protected $id;
+    /** @var string */
+    protected $moduleName;
+    /** @var mixed */
+    protected $user;
+
+
 	function __construct($user, $id)
 	{
 		$this->moduleName = null;
@@ -106,6 +116,12 @@ class VTWorkflowEntity {
 
 class VTEntityCache
 {
+
+    /** @var array */
+    protected $cache;
+    /** @var mixed */
+    protected $user;
+
 
 	function __construct($user)
 	{

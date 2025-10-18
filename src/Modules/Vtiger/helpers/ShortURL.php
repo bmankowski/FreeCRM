@@ -15,6 +15,20 @@ namespace App\Modules\Vtiger;
  * Helper methods to work with ShortURLs
  */
 class ShortURL {
+
+    /** @var mixed */
+    protected $handler_class;
+    /** @var mixed */
+    protected $handler_data;
+    /** @var mixed */
+    protected $handler_function;
+    /** @var mixed */
+    protected $handler_path;
+    /** @var int|string */
+    protected $id;
+    /** @var mixed */
+    protected $uid;
+
 	/*
 	 * @param options array(
 	 * 'handler_path'     => 'path/to/TrackerClass.php',

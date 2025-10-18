@@ -19,6 +19,12 @@ class Export extends Model
 	protected $moduleName;
 	protected $recordsListFromRequest = [];
 
+    /** @var array|null */
+    protected $accessibleFields;
+    /** @var array|null */
+    protected $moduleFieldInstances;
+
+
 	public static function getInstanceFromRequest(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');

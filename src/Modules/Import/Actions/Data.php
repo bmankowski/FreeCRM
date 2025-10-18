@@ -29,6 +29,10 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 	public $batchImport = true;
 	public $entitydata = [];
 
+    /** @var array */
+    protected $currentInventoryRawData;
+
+
 	const IMPORT_RECORD_NONE = 0;
 	const IMPORT_RECORD_CREATED = 1;
 	const IMPORT_RECORD_SKIPPED = 2;
