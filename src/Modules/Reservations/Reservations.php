@@ -100,7 +100,7 @@ class Reservations extends \App\CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		$registerLink = false;
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
 			$moduleInstance = \App\CRMEntity::getInstance('Reservations');

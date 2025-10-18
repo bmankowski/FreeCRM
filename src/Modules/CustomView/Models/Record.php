@@ -302,7 +302,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function save()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
@@ -383,7 +383,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function setConditionsForFilter()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
@@ -542,7 +542,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getNextSeq($moduleName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$moduleName]);
 		$id = (int) $db->getSingleValue($result) + 1;
 		return $id;
@@ -594,7 +594,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getStandardCriteria()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$cvId = $this->getId();
 		if (empty($cvId)) {
@@ -638,7 +638,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getAdvancedCriteria()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$default_charset = vglobal('default_charset');
 
 		$cvId = $this->getId();
@@ -800,13 +800,13 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function approve()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(\App\CustomView::CV_STATUS_PUBLIC, $this->getId()));
 	}
 
 	public function deny()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(\App\CustomView::CV_STATUS_PRIVATE, $this->getId()));
 	}
 
@@ -843,7 +843,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		if (\App\Cache::has('getAllFilters', $cacheName)) {
 			return \App\Cache::get('getAllFilters', $cacheName);
 		}
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_customview';
 		$params = [];
 		if (!empty($moduleName)) {
@@ -1064,7 +1064,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getAllFilterByModule($module)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = "SELECT cvid FROM vtiger_customview WHERE viewname='All' AND entitytype = ?";
 		$result = $db->pquery($query, array($module));
 		$viewId = $db->query_result($result, 0, 'cvid');

@@ -83,7 +83,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function checkStatus($record)
 	{
 		$archive = true;
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$users = $this->getUsers(true);
 		foreach ($users as $userId => $name) {
 			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ? && status = ?', [$record, $userId, 1]);
@@ -111,7 +111,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getMarkInfo($record, $userId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?', [$record, $userId]);
 		while ($row = $db->getRow($result)) {
 			return $row;

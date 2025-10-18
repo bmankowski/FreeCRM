@@ -143,7 +143,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getAllChildren()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$parentRoleString = $this->getParentRoleString();
 
@@ -166,7 +166,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getProfileIdList()
 	{
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
 
 		$result = $db->pquery($query, array($this->getId()));
@@ -190,7 +190,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			return false;
 		}
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$query = 'SELECT directly_related_to_role, vtiger_profile.profileid FROM vtiger_role2profile 
                   INNER JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_role2profile.profileid 
@@ -389,7 +389,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function delete($transferToRole)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$roleId = $this->getId();
 		$transferRoleId = $transferToRole->getId();
 
@@ -472,7 +472,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getAll($baseRole = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$params = [];
 
 		$sql = 'SELECT * FROM vtiger_role';
@@ -521,7 +521,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getBaseRole()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$result = $db->query('SELECT * FROM vtiger_role WHERE depth=0 LIMIT 1');
 		if ($db->getRowCount($result) > 0) {
@@ -557,7 +557,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getUsers()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($this->getId()));
 		$numOfRows = $db->num_rows($result);
 

@@ -7,7 +7,7 @@ namespace App\Modules\OSSMailScanner\cron;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$db = \App\Database\database\PearDatabase::getInstance();
+$db = \App\Database\PearDatabase::getInstance();
 $scanerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 $result = $db->query("SELECT vtiger_ossmailview.*,roundcube_users.actions FROM vtiger_ossmailview INNER JOIN roundcube_users ON roundcube_users.user_id = vtiger_ossmailview.rc_user WHERE vtiger_ossmailview.verify = 1");
 while ($row = $db->getRow($result)) {

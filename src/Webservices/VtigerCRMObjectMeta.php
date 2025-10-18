@@ -93,7 +93,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	private function computeAccess()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$active = Module::isModuleActive($this->getTabName());
 		if ($active === false) {
 			$this->hasAccess = false;
@@ -213,7 +213,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function hasAssignPrivilege($webserviceId)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		// administrator's have assign privilege
 		if (\vtlib\Functions::userIsAdministrator($this->user))
@@ -383,7 +383,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function getObjectEntityName($webserviceId)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id = $idComponents[1];

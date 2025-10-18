@@ -13,7 +13,7 @@
 function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = null)
 {
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();

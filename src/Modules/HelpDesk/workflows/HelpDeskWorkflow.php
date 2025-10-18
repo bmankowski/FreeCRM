@@ -19,7 +19,7 @@ function getContactsMailsFromTicket($id)
 	if (empty($id)) {
 		return [];
 	}
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$mails = [];
 	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
 	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
@@ -81,7 +81,7 @@ function HelpDeskClosedNotifyContacts(\App\Modules\Vtiger\Models\Record $recordM
  */
 function HelpDeskNewCommentAccount(\App\Modules\Vtiger\Models\Record $recordModel)
 {
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
 	$moduleName = \vtlib\Functions::getCRMRecordType($relatedToId);
@@ -135,7 +135,7 @@ function HelpDeskNewCommentContacts(\App\Modules\Vtiger\Models\Record $recordMod
 function HelpDeskNewCommentOwner(\App\Modules\Vtiger\Models\Record $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$relatedToId = $recordModel->get('related_to');
 	$mails = [];
 	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 && crmid = ? ';

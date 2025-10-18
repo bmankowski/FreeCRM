@@ -13,7 +13,7 @@
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
-namespace App\Database\database;
+namespace App\Database;
 
 use App\AppConfig;
 
@@ -821,7 +821,7 @@ class PearDatabase
 		if (!\App\AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
 			return;
 		}
-		$db = \App\Database\database\PearDatabase::getInstance('log');
+		$db = \App\Database\PearDatabase::getInstance('log');
 		$now = date('Y-m-d H:i:s');
 		$group = $this->logSqlTimeGroup;
 		$logTable = 'l_yf_sqltime';

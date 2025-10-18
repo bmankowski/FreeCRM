@@ -16,7 +16,7 @@ class NoPermittedToApi extends \Exception
 		\App\Http\Vtiger_Session::init();
 
 		$request = \App\Http\AppRequest::init();
-		$dbLog = \App\Database\database\PearDatabase::getInstance('log');
+		$dbLog = \App\Database\PearDatabase::getInstance('log');
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
 		$dbLog->insert('o_yf_access_for_api', [
 			'username' => empty($userName) ? '-' : $userName,

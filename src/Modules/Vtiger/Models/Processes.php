@@ -18,7 +18,7 @@ class Processes {
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__ . " | Process: $process, Type: $type");
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$processList = [
 			'marketing' => 'yetiforce_proc_marketing',
 			'sales' => 'yetiforce_proc_sales',

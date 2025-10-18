@@ -24,7 +24,7 @@ class VTUpdateWorkTime extends VTTask
 			vglobal('workflowIdsAlreadyDone', []);
 		}
 		$globalIds = vglobal('workflowIdsAlreadyDone');
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$referenceIds = [];
 		$referenceName = \App\Modules\OSSTimeControl\Models\Record::$referenceFieldsToTime;
 

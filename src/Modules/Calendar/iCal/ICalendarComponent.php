@@ -525,7 +525,7 @@ class iCalendar_event extends iCalendar_component
 
 	public function iCalendar_event_attendee($activity)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', array($activity['id']));
 		while ($row = $adb->getRow($result)) {
 			if (!empty($row['email'])) {

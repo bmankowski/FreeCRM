@@ -286,7 +286,7 @@ class Documents extends \App\CRMEntity
 	 */
 	public function isFolderPresent($folderid)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?', array($folderid));
 		if (!empty($result) && $adb->num_rows($result) > 0)
 			return true;
@@ -298,7 +298,7 @@ class Documents extends \App\CRMEntity
 	 */
 	public function getFolderDefault()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 
@@ -316,7 +316,7 @@ class Documents extends \App\CRMEntity
 	{
 		parent::restore($modulename, $id);
 
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$fresult = $adb->pquery('SELECT folderid FROM vtiger_notes WHERE notesid = ?', array($id));
 		if (!empty($fresult) && $adb->num_rows($fresult)) {
 			$folderid = $adb->query_result($fresult, 0, 'folderid');

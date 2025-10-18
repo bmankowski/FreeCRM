@@ -343,7 +343,7 @@ class Util {
 	 */
 	public static function getCurrentInfoOfUser()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
 		if ($db->num_rows($result))
@@ -417,7 +417,7 @@ class Util {
 
 	public static function setCalendarDefaultActivityTypesForUser($userId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$userEntries = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE userid=?', array($userId));
 		$activityIds = [];
 		if ($db->num_rows($userEntries) <= 0) {
@@ -449,7 +449,7 @@ class Util {
 
 	public static function isUserDeleted($userid)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
 		$count = $db->num_rows($result);
 		if ($count > 0)

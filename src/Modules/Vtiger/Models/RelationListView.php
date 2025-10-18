@@ -365,7 +365,7 @@ class RelationListView extends Model
 	 */
 	public function getRelatedTreeEntriesCount()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$recordId = $this->getParentRecordModel()->getId();
 		$relModuleId = $this->getRelatedModuleModel()->getId();
 		$treeViewModel = $this->getTreeViewModel();
@@ -529,7 +529,7 @@ class RelationListView extends Model
 
 	public function getCurrencySymbol($recordId, $fieldModel)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$moduleName = $fieldModel->getModuleName();
 		$fieldName = $fieldModel->get('name');
 		$tableName = $fieldModel->get('table');

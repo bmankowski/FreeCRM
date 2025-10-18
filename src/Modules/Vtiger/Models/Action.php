@@ -41,7 +41,7 @@ class Action extends Model
 
 	public function isModuleEnabled($module)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		if (!$module->isEntityModule()) {
 			return false;
 		}
@@ -92,7 +92,7 @@ class Action extends Model
 
 	public static function getInstanceWithIdOrName($value)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
@@ -131,7 +131,7 @@ class Action extends Model
 
 	public static function getAllBasic($configurable = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', \App\Utils\Utils::generateQuestionMarks($basicActionIds));
@@ -150,7 +150,7 @@ class Action extends Model
 
 	public static function getAllUtility($configurable = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', \App\Utils\Utils::generateQuestionMarks($basicActionIds));

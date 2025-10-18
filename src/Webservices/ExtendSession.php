@@ -12,7 +12,7 @@
 function vtws_extendSession()
 {
 	global $API_VERSION, $application_unique_key;
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	if (isset($_SESSION["authenticated_user_id"]) && $_SESSION["app_unique_key"] == $application_unique_key) {
 		$userId = $_SESSION["authenticated_user_id"];
 		$sessionManager = new SessionManager();

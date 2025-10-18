@@ -47,7 +47,7 @@ class Map extends \App\Modules\Vtiger\Models\Model
 
 	public static function markAsDeleted($mapId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_import_maps SET deleted=1 WHERE id=?', array($mapId));
 	}
 
@@ -85,7 +85,7 @@ class Map extends \App\Modules\Vtiger\Models\Model
 
 	public function save()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$map = $this->getAllValues();
 		$map['content'] = "" . $db->getEmptyBlob() . "";

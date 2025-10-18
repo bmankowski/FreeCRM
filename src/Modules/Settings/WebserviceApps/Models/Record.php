@@ -29,7 +29,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			return false;
 		}
 		$model = new self();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE id = ? LIMIT 1', [$recordId]);
 		$data = $db->getRow($result);
 		$model->setData($data);

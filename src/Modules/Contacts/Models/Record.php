@@ -71,7 +71,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$imageDetails = array();
 		$recordId = $this->getId();
 

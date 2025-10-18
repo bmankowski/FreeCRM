@@ -379,7 +379,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getAll($onlyActive = true)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users';
 		$params = [];
@@ -535,7 +535,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$imageDetails = [];
 		$recordId = $this->getId();
@@ -606,7 +606,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
 		$smId = $db->query_result($checkResult, 0, 'smid');
@@ -723,7 +723,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstanceByName($userName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
 
 		if ($db->num_rows($result)) {
@@ -742,7 +742,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function isAccountOwner()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT is_owner FROM vtiger_users WHERE id = ?', [$this->getId()]);
 		$isOwner = $db->getSingleValue($result);
 		if ($isOwner == 1) {
@@ -753,7 +753,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getActiveAdminUsers()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));

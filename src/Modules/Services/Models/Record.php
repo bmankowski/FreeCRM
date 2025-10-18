@@ -24,7 +24,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			return $activeStatus;
 		}
 		$recordId = $this->getId();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT discontinued FROM vtiger_service WHERE serviceid = ?', array($recordId));
 		$activeStatus = $db->query_result($result, 'discontinued');
 		return $activeStatus;

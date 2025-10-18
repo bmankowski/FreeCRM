@@ -15,7 +15,7 @@ class InventoryUtils
 	 */
 	public static function getInventoryCurrencyInfo($module, $id)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into function getInventoryCurrencyInfo($module, $id).");
 
@@ -56,7 +56,7 @@ class InventoryUtils
 	 */
 	public static function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$price_details = [];
 
 		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
@@ -168,7 +168,7 @@ class InventoryUtils
 	 */
 	public static function getProductBaseCurrency($productid, $module = 'Products')
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		if ($module == 'Services') {
 			$sql = "select currency_id from vtiger_service where serviceid=?";
@@ -190,7 +190,7 @@ class InventoryUtils
 	 */
 	public static function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$nameCache = $productid . $mode . $module;
 		$convRate = \Vtiger_Cache::get('getBaseConversionRateForProduct', $nameCache);
 		if ($convRate !== false) {

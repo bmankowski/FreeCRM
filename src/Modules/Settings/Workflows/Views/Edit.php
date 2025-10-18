@@ -64,7 +64,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 			}
 		}
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$workflowManager = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$viewer->assign('MAX_ALLOWED_SCHEDULED_WORKFLOWS', $workflowManager->getMaxAllowedScheduledWorkflows());
 		$viewer->assign('SCHEDULED_WORKFLOW_COUNT', $workflowManager->getScheduledWorkflowsCount());

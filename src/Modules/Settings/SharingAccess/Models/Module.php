@@ -90,7 +90,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function save()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';
 		$params = [$this->get('permission'), $this->getId()];
 		$db->pquery($sql, $params);
@@ -102,7 +102,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getInstance($value)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$instance = false;
 		$query = false;
 		if (vtlib\Utils::isNumber($value)) {
@@ -165,7 +165,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	{
 		$phpMaxExecutionTime = vglobal('php_max_execution_time');
 		set_time_limit($phpMaxExecutionTime);
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		require_once(ROOT_DIRECTORY . '/src/Modules/Users/CreateUserPrivilegeFile.php');
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);

@@ -20,7 +20,7 @@ class VtigerConnector extends WSAPP_BaseConnector
 
 	public function __construct()
 	{
-		$this->db = \App\Database\database\PearDatabase::getInstance();
+		$this->db = \App\Database\PearDatabase::getInstance();
 	}
 
 	public function getDbInstance()

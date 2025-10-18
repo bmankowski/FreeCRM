@@ -320,7 +320,7 @@ class Project extends \App\CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-			$adb = \App\Database\database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 
 			$moduleInstance = vtlib\Module::getInstance($modulename);
 			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
@@ -358,7 +358,7 @@ class Project extends \App\CRMEntity
 		} else if ($event_type == 'module.preupdate') {
 			
 		} else if ($event_type == 'module.postupdate') {
-			$adb = \App\Database\database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 
 			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
 			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
@@ -443,7 +443,7 @@ class Project extends \App\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

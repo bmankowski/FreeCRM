@@ -16,7 +16,7 @@ require_once 'include.runtime.BaseModel';
 
 function vtws_convertlead($entityvalues, $user)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	\App\Log::trace('Start ' . __METHOD__);
 	if (empty($entityvalues['assignedTo'])) {
@@ -143,7 +143,7 @@ function vtws_convertlead($entityvalues, $user)
 
 function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler, $leadHandler, $leadinfo)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	$column;
 	$entityName = $entityvalue['name'];
@@ -214,7 +214,7 @@ function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, 
 
 function vtws_getConvertLeadFieldInfo($module, $fieldname)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	$describe = vtws_describe($module, vglobal('current_user'));
 	foreach ($describe['fields'] as $index => $fieldInfo) {
@@ -239,7 +239,7 @@ function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityv
 
 function vtws_updateConvertLeadStatus($entityIds, $leadId, $user)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
 		$sql = "UPDATE vtiger_leaddetails SET converted = 1 where leadid=?";

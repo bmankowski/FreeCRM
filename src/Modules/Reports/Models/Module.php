@@ -32,7 +32,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 		if ($currentUser->isAdminUser() || in_array($owner, $subOrdinates) || $owner == $currentUser->getId()) {
 			$reportId = $reportModel->getId();
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 
 			$db->pquery('DELETE FROM vtiger_selectquery WHERE queryid = ?', array($reportId));
 
@@ -96,7 +96,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getRecentRecords($limit = 10)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM vtiger_report ORDER BY reportid DESC LIMIT ?', array($limit));
 		$rows = $db->num_rows($result);

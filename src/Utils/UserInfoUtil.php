@@ -11,7 +11,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$focus = new \App\Utils\GetUserGroups();
 	$focus->getAllUserGroups($userid);
 	//Asha: Remove implode if not required and if so, also remove explode functions used at the recieving end of this function
@@ -34,7 +34,7 @@ class UserInfoUtil
 
 	\App\Log::trace("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$check = [];
 	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2utility where profileid=? order by(tabid)";
@@ -330,7 +330,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering isReadPermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$ownertype = '';
@@ -440,7 +440,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering isReadWritePermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$ownertype = '';
@@ -548,7 +548,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$sql = "select * from vtiger_profile2globalpermissions where profileid=?";
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
@@ -573,7 +573,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$sql = "select * from vtiger_profile2tab where profileid=?";
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
@@ -601,7 +601,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getProfileActionPermission(" . $profileid . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$check = [];
 	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2standardpermissions where profileid=?";
@@ -637,7 +637,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$actionArr = getProfileActionPermission($profileid);
 	$utilArr = getTabsUtilityActionPermission($profileid);
 	foreach ($utilArr as $tabid => $act_arr) {
@@ -658,7 +658,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace('Entering getAllRoleDetails() method ...');
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$role_det = [];
 	$query = "select * from vtiger_role";
 	$result = $adb->pquery($query, []);
@@ -711,7 +711,7 @@ class UserInfoUtil
 		return $roleRelatedUsers;
 	}
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$query = 'select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
 	$result = $adb->pquery($query, array($roleId));
 	$num_rows = $adb->num_rows($result);
@@ -744,7 +744,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$roleInfoArr = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$parentRole = $roleInfoArr['parentrole'];
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
@@ -767,7 +767,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinatesInformation(" . $roleId . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	static $roleInfoCache = [];
 	if (!empty($roleInfoCache[$roleId])) {
 		return $roleInfoCache[$roleId];
@@ -804,7 +804,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinatesRoleIds(" . $roleId . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$roleDetails = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$roleParentSeq = $roleDetails['parentrole'];
 
@@ -827,7 +827,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_us2role' => 'to_roleid',
 		'vtiger_datashare_us2rs' => 'to_roleandsubid',
@@ -867,7 +867,7 @@ class UserInfoUtil
 
 	\App\Log::trace("Entering deleteGroupRelatedSharingRules(" . $grpId . ") method ...");
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_grp2grp' => 'share_groupid::to_groupid',
 		'vtiger_datashare_grp2role' => 'share_groupid',
@@ -902,7 +902,7 @@ class UserInfoUtil
 
 	\App\Log::trace("Entering deleteGroupRelatedSharingRules(" . $usId . ") method ...");
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_us2us' => 'share_userid::to_userid',
 		'vtiger_datashare_us2grp' => 'share_userid',
@@ -941,7 +941,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getAllUserName() method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$query = "select * from vtiger_users where deleted=0";
 	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
@@ -963,7 +963,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getAllGroupName() method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$query = "select * from vtiger_groups";
 	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
@@ -985,7 +985,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
 	$res = $adb->pquery($query2, array($shareid));
 	$typestr = $adb->query_result($res, 0, 'relationtype');
@@ -1064,7 +1064,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$userGlobalPerrArr = [];
@@ -1101,7 +1101,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$userTabPerrArr = [];
@@ -1142,7 +1142,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$actionPerrArr = [];
@@ -1182,7 +1182,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$subRoleAndUsers = [];
 	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {
@@ -1215,7 +1215,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	$grp_array = [];
 	$tabid = \App\Module::getModuleId($module);
@@ -1255,7 +1255,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getListViewSecurityParameter(" . $module . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	$tabid = \App\Module::getModuleId($module);
 	$current_user = vglobal('current_user');
@@ -1345,7 +1345,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering get_current_user_access_groups(" . $module . ") method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$current_user_group_list = getCurrentUserGroupList();
 	$sharing_write_group_list = getWriteSharingGroupsList($module);
 	$query = "select groupname,groupid from vtiger_groups";
@@ -1438,7 +1438,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	require_once('src/Modules/Users/CreateUserPrivilegeFile.php');
 	$query = "select id from vtiger_users where deleted=0";
 	$result = $adb->pquery($query, []);

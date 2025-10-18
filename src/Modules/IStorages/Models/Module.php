@@ -40,7 +40,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$adb = \App\Db::getInstance();
 		$productRecords = [];
 		foreach ($data as $product) {
@@ -95,7 +95,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public static function getAllQtyInStocks()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$sumProduct = [];
 		$sumProductInStorage = [];
 		foreach (self::$modulesToCalculate as $type => $modules) {
@@ -128,7 +128,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public static function setQtyInStocks($stock)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		list($sumProduct, $sumProductInStorage) = $stock;
 		if (empty($sumProduct)) {
 			$db->update('vtiger_products', ['qtyinstock' => 0]);

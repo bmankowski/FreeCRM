@@ -122,7 +122,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getAllNonMapped($includedIds = array())
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		if (!is_array($includedIds)) {
 			if (!empty($includedIds)) {
 				$includedIds = array($includedIds);

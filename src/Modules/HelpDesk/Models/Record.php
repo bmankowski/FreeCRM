@@ -30,7 +30,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCommentsList()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$commentsList = array();
 
 		$result = $db->pquery("SELECT commentcontent AS comments FROM vtiger_modcomments WHERE related_to = ?", array($this->getId()));

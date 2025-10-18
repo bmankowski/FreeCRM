@@ -38,7 +38,7 @@ class VTScheduledReport extends Reports
 
 	public function getReportScheduleInfo()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		if (!empty($this->id)) {
 			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);

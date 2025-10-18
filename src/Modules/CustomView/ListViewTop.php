@@ -32,7 +32,7 @@ namespace App\Modules\CustomView;
  */
 function getMetricList($filters = [])
 {
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$privilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 	$ssql = 'select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype where vtiger_customview.setmetrics = 1 ';

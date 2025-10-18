@@ -302,7 +302,7 @@ class Accounts extends \App\CRMEntity
 	 */
 	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
 
@@ -366,7 +366,7 @@ class Accounts extends \App\CRMEntity
 	 */
 	public function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 

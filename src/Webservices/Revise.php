@@ -11,7 +11,7 @@
 function vtws_revise($element, $user)
 {
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	
 	$idList = vtws_getIdComponents($element['id']);
 

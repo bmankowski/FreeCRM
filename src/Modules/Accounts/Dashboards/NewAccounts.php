@@ -36,7 +36,7 @@ class NewAccounts extends \Vtiger_Index_View
 	
 		$params[] = $pagingModel->getPageLimit();
 		$params[] = $pagingModel->getStartIndex();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery($sql, $params);
 		$newAccounts = [];
 		while ($row = $db->getRow($result)) {

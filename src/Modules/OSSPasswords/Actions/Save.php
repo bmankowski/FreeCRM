@@ -42,7 +42,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$mode = $recordModel->get('mode');
 
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		// check if encryption is enabled
 		$config = false;

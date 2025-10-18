@@ -225,7 +225,7 @@ class Module extends \Vtiger_Record_Model
 
 	public static function deleteSettingsField($block, $name)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$blockId = \vtlib\Deprecated::getSettingsBlockId($block);
 		$db->delete('vtiger_settings_field', 'name = ? && blockid=?', [$name, $blockId]);
 	}

@@ -21,11 +21,11 @@ class ApiAddress {
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$registerLink = false;
 		if ($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			$adb = \App\Database\database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 			$registerLink = true;
 
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");

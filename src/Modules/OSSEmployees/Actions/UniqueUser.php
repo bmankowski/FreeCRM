@@ -20,7 +20,7 @@ class UniqueUser extends \App\Runtime\Vtiger_Action_Controller
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 
 		$userId = $request->get('userId');

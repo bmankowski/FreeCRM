@@ -142,7 +142,7 @@ class EmailTemplate
 				}
 				$sql .= ' ' . $tableList[0] . '.' . $moduleTableIndexList[$tableList[0]] . '=?';
 				$sqlparams = array($recordId);
-				$db = \App\Database\database\PearDatabase::getInstance();
+				$db = \App\Database\PearDatabase::getInstance();
 				$result = $db->pquery($sql, $sqlparams);
 				$it = new SqlResultIterator($db, $result);
 				//assuming there can only be one row.
@@ -249,7 +249,7 @@ class EmailTemplate
 
 	public function isActive($field, $mod)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$tabid = \App\Module::getModuleId($mod);
 		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));

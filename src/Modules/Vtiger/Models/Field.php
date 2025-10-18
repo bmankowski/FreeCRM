@@ -193,7 +193,7 @@ class Field extends \vtlib\Field
 	public function getWebserviceFieldObject()
 	{
 		if ($this->webserviceField === false) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 
 			$row = [];
 			$row['uitype'] = $this->get('uitype');
@@ -906,7 +906,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getDocumentFolders()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 

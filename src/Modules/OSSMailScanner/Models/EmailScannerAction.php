@@ -12,7 +12,7 @@ class EmailScannerAction {
 
 	public function process(OSSMail_Mail_Model $mail, $moduleName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$mailId = $mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;

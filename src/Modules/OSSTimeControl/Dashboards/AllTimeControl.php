@@ -43,7 +43,7 @@ class AllTimeControl extends \Vtiger_Index_View
 			$accessibleUsers[$user] = \App\Modules\Users\Models\Record::getInstanceById($user, 'Users')->getName();
 			$user = [$user];
 		}
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$sql = "SELECT timecontrol_type, color FROM vtiger_timecontrol_type";
 		$result = $db->query($sql);
 		while ($row = $db->fetch_array($result)) {

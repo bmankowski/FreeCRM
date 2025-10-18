@@ -199,7 +199,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 			self::$lockEditCache[$moduleName . $recordId] = $return;
 			return $return;
 		}
-		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\Database\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\Database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
@@ -276,7 +276,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 	{
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$modulesSchema = [];
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
@@ -359,7 +359,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
@@ -395,7 +395,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 				}
 			}
 		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
 			$query = sprintf($query, $relationInfo['rel'], $relationInfo['table'], $relationInfo['base']);

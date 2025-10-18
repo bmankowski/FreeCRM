@@ -28,9 +28,9 @@ function vtws_listtypes($fieldTypeList, $user)
 	try {
 
 		/**
-		 * @var \App\Database\database\PearDatabase
+		 * @var \App\Database\PearDatabase
 		 */
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		vtws_preserveGlobal('current_user', $user);
 		//get All the modules the current user is permitted to Access.

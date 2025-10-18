@@ -12,7 +12,7 @@ function vtws_history($element, $user)
 {
 	$MAXLIMIT = 100;
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	// Mandatory input validation
 	if (empty($element['module']) && empty($element['record'])) {

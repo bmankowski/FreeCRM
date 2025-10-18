@@ -188,7 +188,7 @@ class MappedFields extends Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
 			$result = $db->pquery($query, [$this->getId()]);
 			$mapping = $db->getArray($result);

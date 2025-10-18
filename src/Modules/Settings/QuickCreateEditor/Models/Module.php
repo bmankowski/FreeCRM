@@ -19,7 +19,7 @@ class Module extends \Vtiger_Module_Model
 	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
 		$fieldIdList = array();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_field SET ';
 		$query .=' quickcreatesequence= CASE ';

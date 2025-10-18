@@ -32,7 +32,7 @@ class OutlookSyncServer extends SyncServer
 	public function put($key, $element, $user)
 	{
 		
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$appid = parent::appid_with_key($key);
 		if (empty($appid)) {
 			throw new WebServiceException('WSAPP04', "Access restricted to app");

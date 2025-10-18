@@ -17,7 +17,7 @@ class OSSMail {
 
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$displayLabel = 'OSSMail';
 			$adb->pquery("UPDATE vtiger_tab SET customized=0 WHERE name=?", array($displayLabel), true);
@@ -56,7 +56,7 @@ class OSSMail {
 		} else if ($eventType == 'module.preupdate') {
 			
 		} else if ($eventType == 'module.postupdate') {
-			$adb = \App\Database\database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 			$OSSMail = vtlib\Module::getInstance('OSSMail');
 			if (version_compare($OSSMail->version, '1.39', '>')) {
 				$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');

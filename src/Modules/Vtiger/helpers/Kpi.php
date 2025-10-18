@@ -28,7 +28,7 @@ class Kpi {
 
 	public function getKpiList()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$list = [];
 		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? && discontinued = ?;";
 		$params = array(0, 1);
@@ -67,7 +67,7 @@ class Kpi {
 		$reference = 30;
 		$tolerance = '1.00%';
 		$maxValue = 100;
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
@@ -105,7 +105,7 @@ class Kpi {
 	{
 		$reference = 30;
 		$tolerance = '1 dzień';
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
@@ -142,7 +142,7 @@ class Kpi {
 		$reference = 12;
 		$tolerance = '2.00%';
 		$maxValue = 100;
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
@@ -181,7 +181,7 @@ class Kpi {
 		$reference = 12;
 		$tolerance = '2 godziny';
 		$maxValue = 100;
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
@@ -217,7 +217,7 @@ class Kpi {
 	{
 		$reference = 12;
 		$tolerance = '2 godziny';
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
@@ -253,7 +253,7 @@ class Kpi {
 	{
 		$reference = 2;
 		$tolerance = '0';
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$sql = "SELECT COUNT(ticketid) 
 			FROM vtiger_troubletickets 

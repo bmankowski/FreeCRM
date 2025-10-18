@@ -18,7 +18,7 @@ class RecordNumber
 	 */
 	public static function isModuleSequenceConfigured($tabId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		if (!is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
@@ -76,7 +76,7 @@ class RecordNumber
 	 */
 	public static function incrementNumber($moduleId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		//when we save new invoice we will increment the invoice id and write
 		$result = $db->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ?', [$moduleId]);
 		$row = $db->getRow($result);
@@ -123,7 +123,7 @@ class RecordNumber
 		if (is_string($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ? ', [$tabId]);
 		$row = $adb->getRow($result);
 

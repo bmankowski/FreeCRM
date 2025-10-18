@@ -32,7 +32,7 @@ class Email
 
 	public static function findCrmidByEmail($value, $allowedModules = [], $skipModules = [])
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$rows = $ids = $params = $fields = [];
 		$query = '';
 		$countWhere = 0;

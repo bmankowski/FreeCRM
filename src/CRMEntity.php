@@ -61,7 +61,7 @@ class CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->db = \App\Database\database\PearDatabase::getInstance();
+		$this->db = \App\Database\PearDatabase::getInstance();
 		$this->column_fields = \App\Utils\Utils::getColumnFields(get_class($this));
 	}
 
@@ -129,7 +129,7 @@ class CRMEntity
 	// Function which returns the value based on result type (array / ADODB ResultSet)
 	private function resolve_query_result_value($result, $index, $columnname)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if (is_array($result))
 			return $result[$index][$columnname];
 		else
@@ -142,7 +142,7 @@ class CRMEntity
 	 */
 	public function deleteRelation($table_name)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$check_query = "select * from $table_name where " . $this->tab_name_index[$table_name] . "=?";
 		$check_result = $adb->pquery($check_query, array($this->id));
 		$num_rows = $adb->num_rows($check_result);
@@ -161,7 +161,7 @@ class CRMEntity
 	{
 
 		Log::trace("in getOldFileName  " . $notesid);
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
 		$result = $adb->pquery($query1, array($notesid));
 		$noofrows = $adb->num_rows($result);
@@ -326,7 +326,7 @@ class CRMEntity
 	 */
 	public function checkIfCustomTableExists($tablename)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$query = sprintf("SELECT * FROM %s", $adb->sql_escape_string($tablename));
 		$result = $this->db->pquery($query, []);
 		$testrow = $this->db->getFieldsCount($result);
@@ -344,7 +344,7 @@ class CRMEntity
 	 */
 	public function constructCustomQueryAddendum($tablename, $module)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$tabid = Module::getModuleId($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql1, array($tabid));
@@ -378,7 +378,7 @@ class CRMEntity
 	/** Function to initialize the required fields array for that particular module */
 	public function initRequiredFields($module)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$tabid = Module::getModuleId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
@@ -446,7 +446,7 @@ class CRMEntity
 
 	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
 		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
 	}
@@ -497,7 +497,7 @@ class CRMEntity
 
 	public function checkModuleSeqNumber($table, $column, $no)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sql_escape_string($column), $adb->sql_escape_string($table), $adb->sql_escape_string($column)), [$no]);
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows > 0)
@@ -565,7 +565,7 @@ class CRMEntity
 			$crmid = $this->id;
 		}
 		if ($crmid) {
-			$adb = \App\Database\database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 			$result = $adb->pquery("SELECT viewedtime,modifiedtime,smcreatorid,smownerid,modifiedby FROM vtiger_crmentity WHERE crmid=?", Array($crmid));
 			$resinfo = $adb->fetch_array($result);
 
@@ -611,7 +611,7 @@ class CRMEntity
 
 	public function markAsViewed($userid)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$adb->update('vtiger_crmentity', ['viewedtime' => date('Y-m-d H:i:s')], 'crmid = ? && smownerid = ?', [$this->id, $userid]);
 	}
 
@@ -641,7 +641,7 @@ class CRMEntity
 
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
 
 		foreach ($withCrmid as $relcrmid) {
@@ -658,7 +658,7 @@ class CRMEntity
 
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule == 'Documents') {
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
@@ -696,7 +696,7 @@ class CRMEntity
 	 */
 	public function delete_related_module($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		if (!is_array($withCrmid))
 			$withCrmid = Array($withCrmid);
 		foreach ($withCrmid as $relcrmid) {
@@ -718,7 +718,7 @@ class CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -781,7 +781,7 @@ class CRMEntity
 
 	public function generateReportsQuery($module, $queryPlanner)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$primary = CRMEntity::getInstance($module);
 
 		\App\Utils\VtlibUtils::setupModuleVars($module, $primary);
@@ -905,7 +905,7 @@ class CRMEntity
 
 	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$secondary = CRMEntity::getInstance($secmodule);
 
 		\App\Utils\VtlibUtils::setupModuleVars($secmodule, $secondary);
@@ -1111,7 +1111,7 @@ class CRMEntity
 	 */
 	public function add_related_to($module, $fieldname)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$related_to = $this->column_fields[$fieldname];
 
@@ -1185,7 +1185,7 @@ class CRMEntity
 			return;
 		}
 
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		// Look for fields that has presence value NOT IN (0,2)
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		if ($cachedModuleFields === false) {
@@ -1221,7 +1221,7 @@ class CRMEntity
 	/** END * */
 	public function buildSearchQueryForFieldTypes($uitypes, $value = false)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		if (!is_array($uitypes))
 			$uitypes = array($uitypes);
@@ -1374,7 +1374,7 @@ class CRMEntity
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .
 			$query;
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			return true;

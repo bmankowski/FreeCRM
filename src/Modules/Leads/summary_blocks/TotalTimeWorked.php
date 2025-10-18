@@ -22,7 +22,7 @@ class TotalTimeWorked {
 	{
 		
 		\App\Log::trace("Entering TotalTimeWorked::process() method ...");
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$timecontrol = 'SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_osstimecontrol.osstimecontrolid
 			WHERE vtiger_crmentity.deleted=0 &&  vtiger_osstimecontrol.link = ?';

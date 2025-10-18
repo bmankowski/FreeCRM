@@ -32,7 +32,7 @@ class CalDAV {
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.dav_status = 1;';
 		$result = $db->query($query);
 		while ($row = $db->getRow($result)) {
@@ -145,7 +145,7 @@ class CalDAV {
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->insert('dav_calendarobjects', [
 			'calendarid' => $this->calendarId,
 			'uri' => $calUri,
@@ -225,7 +225,7 @@ class CalDAV {
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->update('dav_calendarobjects', [
 			'calendardata' => $calendarData,
 			'lastmodified' => $modifiedtime,
@@ -246,7 +246,7 @@ class CalDAV {
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $card['id']);
 		$this->addChange($calendar['uri'], 3);
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->delete('dav_calendarobjects', 'id = ?', [$calendar['id']]);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
@@ -267,7 +267,7 @@ class CalDAV {
 	public function recordSync()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
 		$result = $db->pquery($query, [$this->calendarId]);
 
@@ -336,7 +336,7 @@ class CalDAV {
 				}
 				$record->save();
 
-				$db = \App\Database\database\PearDatabase::getInstance();
+				$db = \App\Database\PearDatabase::getInstance();
 				$db->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
 					], 'id = ?', [$cal['id']]
@@ -397,7 +397,7 @@ class CalDAV {
 					$record->set('visibility', \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
-				$db = \App\Database\database\PearDatabase::getInstance();
+				$db = \App\Database\PearDatabase::getInstance();
 				$db->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
 					], 'id = ?', [$cal['id']]
@@ -562,7 +562,7 @@ class CalDAV {
 
 	public function getDavDetail()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? && crmid = ?;';
 		$result = $db->pquery($sql, [$this->calendarId, $this->record['crmid']]);
 		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
@@ -578,7 +578,7 @@ class CalDAV {
 	 */
 	protected function addChange($objectUri, $operation)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?';
 		$db->pquery($query, [$objectUri, $this->calendarId, $operation, $this->calendarId]);
 		$db->pquery('UPDATE dav_calendars SET synctoken = synctoken + 1 WHERE id = ?', [$this->calendarId]);
@@ -598,7 +598,7 @@ class CalDAV {
 			return true;
 		}
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT visibility FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE activityid = ? And vtiger_crmentity.deleted=?';
 		$result = $db->pquery($query, [$cal['crmid'], 0]);
 		if ($db->num_rows($result) == 0) {
@@ -763,7 +763,7 @@ class CalDAV {
 
 	protected function recordSaveAttendee(\App\Modules\Vtiger\Models\Record $record, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record->getId()]);
 		$invities = [];
 		while ($row = $db->getRow($result)) {
@@ -820,7 +820,7 @@ class CalDAV {
 
 	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$owner = \App\Modules\Users\Models\Privileges::getInstanceById($record['smownerid']);
 
 		$invities = [];

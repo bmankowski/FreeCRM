@@ -236,7 +236,7 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 	public function getEntityCount()
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$startDate = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('end'));

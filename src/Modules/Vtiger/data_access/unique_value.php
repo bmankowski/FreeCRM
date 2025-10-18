@@ -18,7 +18,7 @@ Class DataAccess_unique_value
 
 	public function process($moduleName, $ID, $record_form, $config)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$moduleNameID = \vtlib\Functions::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
@@ -186,7 +186,7 @@ Class DataAccess_unique_value
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' && vtiger_field.displaytype IN ('1','10') ORDER BY name", [], true);
 		$fields = [];
 		$ModuleFields = [];

@@ -16,7 +16,7 @@ Class DataAccess_check_assigneduser
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$allowedUsers = $config['field'];
 		$assignedUser = $record_form['assigned_user_id'];
 		if (!is_array($allowedUsers))

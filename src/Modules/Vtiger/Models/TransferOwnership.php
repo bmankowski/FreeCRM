@@ -16,7 +16,7 @@ class TransferOwnership extends Model
 
 	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [], $relModData)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$basicModule = $request->getModule();
 		$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($basicModule);
 		$relatedIds = [];

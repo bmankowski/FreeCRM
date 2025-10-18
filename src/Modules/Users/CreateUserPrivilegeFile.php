@@ -163,7 +163,7 @@ function createUserSharingPrivilegesfile($userid)
 function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_members, $mod_share_read_per, $mod_share_write_per, $def_org_share)
 {
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$related_mod_sharing_permission = [];
 	$mod_share_read_permission = [];
 	$mod_share_write_permission = [];
@@ -499,7 +499,7 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
  */
 function populateSharingtmptables($userid)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 	require('user_privileges/sharing_privileges_' . $userid . '.php');
 	//Deleting from the existing vtiger_tables
@@ -548,7 +548,7 @@ function populateSharingtmptables($userid)
  */
 function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$tabid = \App\Module::getModuleId($module);
 
 	if (!$var_name_arr) {
@@ -626,7 +626,7 @@ function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_na
  */
 function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	$tabid = \App\Module::getModuleId($module);
 	$reltabid = \App\Module::getModuleId($relmodule);
 

@@ -86,7 +86,7 @@ function vtJsonOwnersList($adb)
 
 	echo \App\Json::encode($ownersList);
 }
-$adb = \App\Database\database\PearDatabase::getInstance();
+$adb = \App\Database\PearDatabase::getInstance();
 $request = \App\Http\AppRequest::init();
 $mode = $request->get('mode');
 

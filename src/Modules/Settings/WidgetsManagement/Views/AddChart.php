@@ -16,7 +16,7 @@ class AddChart extends \App\Modules\Settings\Vtiger\Views\BasicModal
 	public function getReports()
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? AND owner = ?';
 		$params = ['chart', $currentUser->getId()];
 		$result = $db->pquery($query, $params);

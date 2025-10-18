@@ -8,26 +8,23 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once("src/Modules/Users/Users.php");
-require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObject.php");
-require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObjectMeta.php");
-require_once(ROOT_DIRECTORY . "/src/Webservices/DataTransform.php");
-require_once(ROOT_DIRECTORY . "/src/Webservices/WebServiceError.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php');
+namespace App\events;
+
+use Exception;
+use ReflectionObject;
 
 /*
  * An implementation of VTEntityType that uses the webservices api to reflect on vtiger's types.
  */
 
 
-namespace App\events;
 
 class VTWSEntityType
 {
 
 	function __construct($entityTypeName, $user)
 	{
-		$describeResult = vtws_describe($entityTypeName, $user);
+		$describeResult = \vtws_describe($entityTypeName, $user);
 		//print_r($describeResult);
 		$this->entityTypeName = $entityTypeName;
 		$this->description = $describeResult;
@@ -35,7 +32,7 @@ class VTWSEntityType
 
 	function usingGlobalCurrentUser($entityTypeName)
 	{
-		$current_user = vglobal('current_user');
+		$current_user = \vglobal('current_user');
 		return new VTWSEntityType($entityTypeName, $current_user);
 	}
 
@@ -46,7 +43,7 @@ class VTWSEntityType
 
 	function getTabId()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if (!isset($this->tabId)) {
 			$result = $adb->pquery("select tabid from vtiger_tab where name=?", array($this->entityTypeName));
 			$this->tabId = $adb->query_result($result, 0, "tabid");

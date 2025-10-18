@@ -30,7 +30,7 @@ class compose extends \Vtiger_Index_View
 		$params = \App\Modules\OSSMail\Models\Module::getComposeParam($request);
 		$key = md5(count($params) . microtime());
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->delete('u_yf_mail_compose_data', '`userid` = ?;', [$currentUser->getId()]);
 		$db->insert('u_yf_mail_compose_data', [
 			'key' => $key,

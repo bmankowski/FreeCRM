@@ -30,7 +30,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	static function getListPriceValues($id)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid = ?', [$id]);
 		$listpriceValues = [];
 		while ($row = $db->fetch_array($listPrice)) {
@@ -45,7 +45,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getSubProducts()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT vtiger_products.productid FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
@@ -113,7 +113,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$imageDetails = array();
 		$recordId = $this->getId();
 
@@ -165,7 +165,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$query = false;
 		if ($moduleName !== false && ($moduleName == 'Products' || $moduleName == 'Services' )) {
 			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-			$adb = \App\Database\database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 			$params = ['%' . $currentUser->getId() . '%', "%$searchKey%"];
 			$queryFrom = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';
 			$queryWhere = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? && u_yf_crmentity_search_label.`searchlabel` LIKE ?';
@@ -256,7 +256,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			return $activeStatus;
 		}
 		$recordId = $this->getId();
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT discontinued FROM vtiger_products WHERE productid = ?', array($recordId));
 		$activeStatus = $db->query_result($result, 'discontinued');
 		return $activeStatus;
@@ -288,7 +288,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
@@ -395,7 +395,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getProductBaseCurrency($productid, $module = 'Products')
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if ($module == 'Services') {
 			$sql = 'select currency_id from vtiger_service where serviceid=?';
 		} else {
@@ -408,7 +408,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		if ($mode == 'edit') {
 			if ($module == 'Services') {

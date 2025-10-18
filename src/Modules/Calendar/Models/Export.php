@@ -89,7 +89,7 @@ class Export extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
 		$timeZoneId = explode('/', date_default_timezone_get());
 

@@ -49,7 +49,7 @@ class CustomRecordNumberingModule extends \Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$sql = 'SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? AND presence = ? AND tabid IN (SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = ?);';
 		$result = $db->pquery($sql, [1, 0, 4]);

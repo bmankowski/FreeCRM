@@ -11,7 +11,7 @@
 
 function vtws_relatedtypes($elementType, $user)
 {
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	$allowedTypes = vtws_listtypes(null, $user);
 

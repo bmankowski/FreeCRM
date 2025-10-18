@@ -184,7 +184,7 @@ class MenuItem extends \Vtiger_Record_Model
 	 */
 	public static function getInstance($name, $menuModel = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE name = ?', self::$itemsTable);
 		$params = [$name];
@@ -216,7 +216,7 @@ class MenuItem extends \Vtiger_Record_Model
 	 */
 	public static function getInstanceById($id, $menuModel = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$itemsTable, self::$itemId);
 		$params = array($id);

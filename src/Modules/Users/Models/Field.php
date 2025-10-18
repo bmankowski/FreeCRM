@@ -85,7 +85,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 		if ($this->get('uitype') == 32) {
 			return \App\Runtime\Vtiger_Language_Handler::getAllLanguages();
 		} else if ($this->get('uitype') == '115') {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 
 			$query = 'SELECT %s FROM vtiger_%s';
 			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());

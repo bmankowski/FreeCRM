@@ -291,7 +291,7 @@ class Owner
 		if (\App\Cache::has('OwnerGroups', $cacheKey)) {
 			return \App\Cache::get('OwnerGroups', $cacheKey);
 		}
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
 		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';

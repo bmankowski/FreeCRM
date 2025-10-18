@@ -28,7 +28,7 @@ class TextParser extends \App\TextParser\Base
 		$pagingModel->set('limit', 'no_limit');
 		$relationModuleName = 'Products';
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		// Products from main storage
 		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
 		// Summary table with products from all storages

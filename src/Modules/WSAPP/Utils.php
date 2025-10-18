@@ -13,7 +13,7 @@ namespace App\Modules\WSAPP;
 
 function wsapp_getHandler($appType)
 {
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$result = $db->pquery("SELECT * FROM vtiger_wsapp_handlerdetails WHERE type=?", array($appType));
 
 	$handlerResult = array();
@@ -27,7 +27,7 @@ function wsapp_getHandler($appType)
 
 function wsapp_getApplicationName($key)
 {
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 
 	$result = $db->pquery("SELECT name from vtiger_wsapp WHERE appkey=?", array($key));
 	$name = false;
@@ -40,7 +40,7 @@ function wsapp_getApplicationName($key)
 function wsapp_getRecordEntityNameIds($entityNames, $modules, $user)
 {
 	$entityMetaList = array();
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 
 	if (empty($entityNames))
 		return;
@@ -106,7 +106,7 @@ function wsapp_checkIfRecordsAssignToUser($recordsIds, $userIds)
 		return $assignedRecordIds;
 	if (!is_array($userIds))
 		$userIds = [$userIds];
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$query = sprintf("SELECT * FROM vtiger_crmentity where crmid IN (%s) and smownerid in (%s)", \App\Utils\Utils::generateQuestionMarks($recordsIds), \App\Utils\Utils::generateQuestionMarks($userIds));
 	$params = [];
 	foreach ($recordsIds as $id) {
@@ -126,7 +126,7 @@ function wsapp_checkIfRecordsAssignToUser($recordsIds, $userIds)
 
 function wsapp_getAppKey($appName)
 {
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$query = "SELECT * FROM vtiger_wsapp WHERE name=?";
 	$params = array($appName);
 	$result = $db->pquery($query, $params);
@@ -139,7 +139,7 @@ function wsapp_getAppKey($appName)
 
 function wsapp_getAppSyncType($appKey)
 {
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$query = "SELECT type FROM vtiger_wsapp WHERE appkey=?";
 	$params = array($appKey);
 	$result = $db->pquery($query, $params);
@@ -152,7 +152,7 @@ function wsapp_getAppSyncType($appKey)
 
 function wsapp_RegisterHandler($type, $handlerClass, $handlerPath)
 {
-	$db = \App\Database\database\PearDatabase::getInstance();
+	$db = \App\Database\PearDatabase::getInstance();
 	$query = "SELECT 1 FROM vtiger_wsapp_handlerdetails where type=?";
 	$result = $db->pquery($query, array($type));
 	if ($db->num_rows($result) > 0) {

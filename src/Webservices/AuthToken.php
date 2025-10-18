@@ -11,7 +11,7 @@
 function vtws_getchallenge($username)
 {
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 
 	$user = new Users();
 	$userid = $user->retrieve_user_id($username);

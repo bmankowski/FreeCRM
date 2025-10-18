@@ -22,7 +22,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedIdsList($relatedModuleName, $excludedIds = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$query = 'SELECT vtiger_campaign_records.crmid FROM vtiger_campaign_records
 					INNER JOIN vtiger_crmentity ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = ?

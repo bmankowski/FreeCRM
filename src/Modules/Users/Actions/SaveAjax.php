@@ -191,7 +191,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 		$recordModel->set('status', 'Active');
 		$recordModel->save();
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", array(0, $record));
 
 		$userModuleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);

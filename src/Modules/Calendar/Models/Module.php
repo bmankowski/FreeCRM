@@ -258,7 +258,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getSharedUsersOfCurrentUser($id)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id as userid
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 			WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
@@ -282,7 +282,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getSharedUsersInfoOfCurrentUser($id)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$query = "SELECT shareduserid,color,visible FROM vtiger_shareduserinfo where userid = ?";
 		$result = $db->pquery($query, array($id));
@@ -306,7 +306,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getCalendarViewTypes($id)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$query = "SELECT * FROM vtiger_calendar_user_activitytypes 
 			INNER JOIN vtiger_calendar_default_activitytypes on vtiger_calendar_default_activitytypes.id=vtiger_calendar_user_activitytypes.defaultid 
@@ -348,7 +348,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function deleteSharedUsers($currentUserId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$delquery = "DELETE FROM vtiger_sharedcalendar WHERE userid=?";
 		$db->pquery($delquery, array($currentUserId));
 	}
@@ -360,7 +360,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function insertSharedUsers($currentUserId, $sharedIds, $sharedType = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		foreach ($sharedIds as $sharedId) {
 			if ($sharedId != $currentUserId) {
 				$sql = "INSERT INTO vtiger_sharedcalendar VALUES (?,?)";
@@ -384,7 +384,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getRecentRecords($limit = 10)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = parent::getDeletedRecordCondition();
@@ -414,7 +414,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getCalendarReminder($allReminder = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];

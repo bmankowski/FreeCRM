@@ -14,7 +14,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 	public function addRelation($mailId, $crmid, $date = false)
 	{
 		$return = false;
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		\App\CRMEntity::trackLinkedInfo($crmid);
 		$destinationModuleName = \App\Record::getType($crmid);
 		$data = [

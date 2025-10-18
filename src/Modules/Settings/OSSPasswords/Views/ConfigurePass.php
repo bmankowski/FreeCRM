@@ -45,7 +45,7 @@ class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
 		// config

@@ -48,7 +48,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getRecord($recordId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', array($recordId));
 
@@ -65,7 +65,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getWebsiteUrl($recordId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', array($recordId));
 
 		return $db->query_result($result, 0, 'portalurl');
@@ -73,7 +73,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getAllRecords()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$record = array();
 
 		$result = $db->pquery('SELECT portalid, portalname FROM vtiger_portal', array());
@@ -94,7 +94,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$query = 'DELETE FROM vtiger_portal';
 		$params = array();

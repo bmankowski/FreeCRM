@@ -73,7 +73,7 @@ class WSAPP {
 
 	public function registerCustomWebservices($operations)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		foreach ($operations as $operation_name => $operation_info) {
 			$checkres = $adb->pquery("SELECT operationid FROM vtiger_ws_operation WHERE name=?", array($operation_name));
@@ -104,7 +104,7 @@ class WSAPP {
 
 	public function registerHandlers()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$handlerDetails = array();
 
@@ -126,7 +126,7 @@ class WSAPP {
 
 	public function registerVtigerCRMApp()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$appName = "vtigerCRM";
 		$type = "user";
 		$uid = uniqid();

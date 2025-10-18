@@ -173,7 +173,7 @@ class Rule extends \App\Modules\Vtiger\Models\Record
 	protected function getRuleComponents()
 	{
 		if (!isset($this->rule_details) && $this->getId()) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
 			$sourceType = $relationTypeComponents[0];
@@ -405,7 +405,7 @@ class Rule extends \App\Modules\Vtiger\Models\Record
 
 	public function delete()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$ruleId = $this->getId();
 
 		$relationTypeComponents = explode('::', $this->get('relationtype'));
@@ -440,7 +440,7 @@ class Rule extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getAllByModule($moduleModel)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ?';
 		$params = array($moduleModel->getId());

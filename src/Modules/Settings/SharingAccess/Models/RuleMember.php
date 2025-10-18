@@ -88,7 +88,7 @@ class RuleMember extends \App\Modules\Vtiger\Models\Record
 
 	public static function getInstance($qualifiedId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$idComponents = self::getIdComponentsFromQualifiedId($qualifiedId);
 		$type = $idComponents[0];

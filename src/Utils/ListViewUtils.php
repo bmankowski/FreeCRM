@@ -272,7 +272,7 @@ class ListViewUtils
 	 */
 	public static function getEntityId($module, $entityName)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		\App\Log::trace("in getEntityId " . $entityName);
 
@@ -335,7 +335,7 @@ class ListViewUtils
 	 */
 	public static function getFirstModule($module, $fieldname)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
 		$result = $adb->pquery($sql, array(\App\Module::getModuleId($module), $fieldname));
 

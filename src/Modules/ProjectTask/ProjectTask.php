@@ -320,7 +320,7 @@ class ProjectTask extends \App\CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			$projectTaskResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectTask'));
 			$projecttaskTabid = $adb->query_result($projectTaskResult, 0, 'tabid');

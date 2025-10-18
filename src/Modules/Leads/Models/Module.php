@@ -30,7 +30,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getRecentRecords($limit = 10)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$module = $this->getName();
 		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
 		if (!empty($owner)) {
@@ -136,7 +136,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	{
 		$convertedInfo = [];
 		if ($recordIdsList) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$query = sprintf('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (%s)', implode(',', $recordIdsList));
 			$result = $db->query($query);
 			while ($row = $db->getRow($result)) {
@@ -197,7 +197,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		\App\Log::trace('Start ' . __METHOD__);
 		if ($recordModel) {
 			$params = [];
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
 			$mappingFields = \App\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "

@@ -30,7 +30,7 @@ class Systems extends \Vtiger_Record_Model
 
 	public function save()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$id = $this->getId();
 		$params = array();
@@ -52,7 +52,7 @@ class Systems extends \Vtiger_Record_Model
 
 	public static function getInstanceFromServerType($type, $componentName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE server_type = ?', self::tableName);
 		$params = [$type];
 		$result = $db->pquery($query, $params);

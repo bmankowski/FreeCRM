@@ -374,7 +374,7 @@ class Oss_Tool
 	 */
 	private static function generateFieldName()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$id = $db->getUniqueID("vtiger_field");
 
 		return 'cf_' . $id;

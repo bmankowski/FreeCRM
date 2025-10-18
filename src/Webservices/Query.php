@@ -15,7 +15,7 @@ function vtws_query($q, $user)
 
 	static $vtws_query_cache = [];
 
-	$adb = \App\Database\database\PearDatabase::getInstance();
+	$adb = \App\Database\PearDatabase::getInstance();
 	
 
 	// Cache the instance for re-use		

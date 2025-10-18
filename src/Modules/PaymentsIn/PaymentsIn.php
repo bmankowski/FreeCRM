@@ -105,7 +105,7 @@ class PaymentsIn extends \App\CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			$ModuleInstance = \App\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
@@ -147,7 +147,7 @@ class PaymentsIn extends \App\CRMEntity
 
 	private function addWorkflow($moduleName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager();
 		$emm->addEntityMethod($moduleName, $functionName, "src/Modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);

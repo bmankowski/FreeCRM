@@ -212,7 +212,7 @@ class PDF extends Model
 
 	public function deleteConditions()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->update(self::$baseTable, [
 			'conditions' => ''
 			], self::$baseIndex . ' = ? LIMIT 1', [$this->getId()]

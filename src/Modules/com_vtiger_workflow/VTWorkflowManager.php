@@ -426,7 +426,7 @@ class Workflow
 	public function setNextTriggerTime($time)
 	{
 		if ($time) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$db->pquery("UPDATE com_vtiger_workflows SET nexttrigger_time=? WHERE workflow_id=?", array($time, $this->id));
 			$this->nexttrigger_time = $time;
 		}

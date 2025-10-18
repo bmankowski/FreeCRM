@@ -30,7 +30,7 @@ class VTAddressBookTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();
 		$entityId = $recordModel->getId();
 

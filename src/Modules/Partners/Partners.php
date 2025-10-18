@@ -88,7 +88,7 @@ class Partners extends \App\CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = \App\CRMEntity::getInstance('Partners');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PR', '1');
@@ -120,7 +120,7 @@ class Partners extends \App\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

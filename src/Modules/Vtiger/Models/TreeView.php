@@ -121,7 +121,7 @@ class TreeView extends Model
 	public function getTreeList()
 	{
 		$tree = [];
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
 		while ($row = $db->getRow($result)) {

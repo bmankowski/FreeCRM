@@ -25,7 +25,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 			$relatedModuleName = $this->getRelationModuleModel()->getName();
 
 			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-				$db = \App\Database\database\PearDatabase::getInstance();
+				$db = \App\Database\PearDatabase::getInstance();
 
 				$updateQuery = 'UPDATE vtiger_campaign_records SET campaignrelstatusid = CASE crmid ';
 				foreach ($statusDetails as $relatedRecordId => $status) {

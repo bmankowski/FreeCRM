@@ -66,7 +66,7 @@ class Block extends \vtlib\Block
 
 	public function __update()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_blocks SET blocklabel=?,display_status=? WHERE blockid=?';
 		$params = array($this->label, $this->display_status, $this->id);
@@ -185,7 +185,7 @@ class Block extends \vtlib\Block
 
 	public static function updateSequenceNumber($sequenceList)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence = CASE blockid ';
 		foreach ($sequenceList as $blockId => $sequence) {
 			$query .= ' WHEN ' . $blockId . ' THEN ' . $sequence;
@@ -196,7 +196,7 @@ class Block extends \vtlib\Block
 
 	public static function checkFieldsExists($blockId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT 1 FROM vtiger_field WHERE block=?';
 		$result = $db->pquery($query, array($blockId));
 		return ($db->num_rows($result) > 0) ? true : false;
@@ -208,14 +208,14 @@ class Block extends \vtlib\Block
 	 */
 	public static function pushDown($fromSequence, $sourceModuleTabId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence=sequence+1 WHERE sequence > ? and tabid=?';
 		$result = $db->pquery($query, array($fromSequence, $sourceModuleTabId));
 	}
 
 	public static function getAllBlockSequenceList($moduleTabId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT blockid,sequence FROM vtiger_blocks where tabid=?';
 		$result = $db->pquery($query, array($moduleTabId));
 		$response = [];

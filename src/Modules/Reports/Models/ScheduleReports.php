@@ -33,7 +33,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 	 */
 	public static function getInstanceById($recordId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$scheduledReportModel = new self();
 
 		if (!empty($recordId)) {
@@ -58,7 +58,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function saveScheduleReport()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 
 		$reportid = $this->get('reportid');
 		$scheduleid = $this->get('scheduleid');
@@ -282,7 +282,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 
 	public function updateNextTriggerTime()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
 		\vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));

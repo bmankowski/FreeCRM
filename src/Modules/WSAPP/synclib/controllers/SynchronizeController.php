@@ -34,7 +34,7 @@ abstract class WSAPP_SynchronizeController
 	{
 		$this->targetConnector = $this->getTargetConnector();
 		$this->sourceConnector = $this->getSourceConnector();
-		$this->db = \App\Database\database\PearDatabase::getInstance();
+		$this->db = \App\Database\PearDatabase::getInstance();
 		$this->user = $user;
 	}
 

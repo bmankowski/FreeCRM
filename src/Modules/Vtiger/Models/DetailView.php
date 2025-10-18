@@ -78,7 +78,7 @@ class DetailView extends Model
 		$linkModelList = $detailViewLinks = [];
 
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
-			$adb = \App\Database\database\PearDatabase::getInstance();
+			$adb = \App\Database\PearDatabase::getInstance();
 			$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($adb);
 			$workflows = $wfs->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {

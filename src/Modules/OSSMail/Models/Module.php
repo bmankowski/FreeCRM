@@ -23,7 +23,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
 
 		$settingsLinks[] = array(
@@ -135,7 +135,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public static function getComposeParameters()
 	{
 		if (!self::$composeParam) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$result = $db->pquery('SELECT parameter,value FROM vtiger_ossmailscanner_config WHERE conf_type = ?', ['email_list']);
 			$config = [];
 			$numRowsResult = $db->num_rows($result);

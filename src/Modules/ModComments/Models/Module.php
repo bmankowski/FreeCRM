@@ -66,7 +66,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);
 	}
 }

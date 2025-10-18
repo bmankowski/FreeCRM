@@ -79,7 +79,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	public static function deleteRecords($recordIdsList = array())
 	{
 		if ($recordIdsList) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$db->delete('vtiger_smsnotifier_servers', 'id IN (' . \App\Utils\Utils::generateQuestionMarks($recordIdsList) . ')', $recordIdsList);
 			return true;
 		}

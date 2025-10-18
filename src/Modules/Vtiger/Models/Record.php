@@ -377,7 +377,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 	 */
 	public function save()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
 		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
@@ -477,7 +477,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 	 */
 	public function delete()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->startTransaction();
 
 		$this->getModule()->deleteRecord($this);
@@ -708,7 +708,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
 		$crmId = $db->query_result($checkResult, 0, 'crmid');
 		if ($this->getId() == $crmId) {
@@ -727,7 +727,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 	{
 		$description = $this->get('description');
 		if (empty($description)) {
-			$db = \App\Database\database\PearDatabase::getInstance();
+			$db = \App\Database\PearDatabase::getInstance();
 			$result = $db->pquery("SELECT description FROM vtiger_crmentity WHERE crmid = ?", array($this->getId()));
 			$description = $db->query_result($result, 0, "description");
 		}
@@ -785,7 +785,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 
 	public function trackView()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$id = $this->getId();
 		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
 		if ($id != '') {
@@ -910,7 +910,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 
 	public static function getInventoryDataById($ID, $moduleName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventoryField->getTableName('data');
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);

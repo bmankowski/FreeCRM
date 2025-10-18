@@ -101,7 +101,7 @@ class TaskRecord extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getAllForWorkflow($workflowModel, $active = false)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$tm = new VTTaskManager($db);
 		$tasks = $tm->getTasksForWorkflow($workflowModel->getId());
@@ -116,7 +116,7 @@ class TaskRecord extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getInstance($taskId, $workflowModel = null)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$tm = new VTTaskManager($db);
 		$task = $tm->retrieveTask($taskId);
 		if ($workflowModel === null) {
@@ -127,7 +127,7 @@ class TaskRecord extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getCleanInstance($workflowModel, $taskName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$tm = new VTTaskManager($db);
 		$task = $tm->createTask($taskName, $workflowModel->getId());
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);

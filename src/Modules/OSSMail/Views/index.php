@@ -40,7 +40,7 @@ class index extends \Vtiger_Index_View
 					$this->mainUrl .= '?';
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
-				$db = \App\Database\database\PearDatabase::getInstance();
+				$db = \App\Database\PearDatabase::getInstance();
 				$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
 				$params = ['language' => \App\Runtime\Vtiger_Language_Handler::getLanguage()];

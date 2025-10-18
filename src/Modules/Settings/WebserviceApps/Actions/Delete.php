@@ -15,7 +15,7 @@ class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$db->delete('w_yf_servers', 'id = ?', [$request->get('id')]);
 	}
 }

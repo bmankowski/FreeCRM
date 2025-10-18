@@ -101,7 +101,7 @@ class Activity extends \App\CRMEntity
 
 	public function __construct()
 	{
-		$this->db = \App\Database\database\PearDatabase::getInstance();
+		$this->db = \App\Database\PearDatabase::getInstance();
 		$this->column_fields = \App\Utils\Utils::getColumnFields('Calendar');
 	}
 
@@ -346,7 +346,7 @@ class Activity extends \App\CRMEntity
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
 			"int(1) default 0) ignore " . $query;
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
@@ -366,7 +366,7 @@ class Activity extends \App\CRMEntity
 
 	protected function getListViewAccessibleUsers($sharedid)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		;
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'

@@ -22,7 +22,7 @@ class TaskDue {
 	{
 		
 		\App\Log::trace("Entering TaskDue::process() method ...");
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$currentDate = date('Y-m-d');
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask

@@ -90,7 +90,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function updateDownloadCount()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$notesId = $this->get('id');
 
 		$result = $db->pquery("SELECT filedownloadcount FROM vtiger_notes WHERE notesid = ?", array($notesId));
@@ -106,7 +106,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public static function getReferenceModuleByDocId($record)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$sql = 'SELECT DISTINCT vtiger_crmentity.setype 
 			   FROM vtiger_crmentity INNER JOIN vtiger_senotesrel 
 				   ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid 

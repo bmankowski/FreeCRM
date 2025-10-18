@@ -250,7 +250,7 @@ class Widget extends Model
 
 	public static function removeWidgetFromList($id)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$query = "SELECT templateid FROM vtiger_module_dashboard_widgets WHERE id = ?";
 		$result = $db->pquery($query, [$id]);
 		$templateId = $db->getSingleValue($result);

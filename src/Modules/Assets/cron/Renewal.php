@@ -6,7 +6,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-$db = \App\Database\database\PearDatabase::getInstance();
+$db = \App\Database\PearDatabase::getInstance();
 
 $renewal = ['PLL_PLANNED', 'PLL_WAITING_FOR_RENEWAL', ''];
 $query = 'SELECT 

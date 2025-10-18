@@ -32,7 +32,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 
 	public function getLinkedRecord()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$targetId = $this->get('targetid');
 		$targetModule = $this->get('targetmodule');

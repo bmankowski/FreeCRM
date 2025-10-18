@@ -1234,7 +1234,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$this->syntax_error = true;
 			throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "There is an syntax error in query");
 		}
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		$handler = vtws_getModuleHandlerFromName($moduleName, $this->user);
 		$objectMeta = $handler->getMeta();
 		$this->out['moduleName'] = $moduleName;
@@ -1397,7 +1397,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	public function yy_r41()
 	{
-		$adb = \App\Database\database\PearDatabase::getInstance();
+		$adb = \App\Database\PearDatabase::getInstance();
 		if (empty($this->out['meta'])) {
 		// / ProCRM
 			$module = $this->out['moduleName'];

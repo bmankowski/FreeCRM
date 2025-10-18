@@ -137,7 +137,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function save()
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 
 		$params = array($this->get('providertype'), $this->get('isactive'), $this->get('username'), $this->get('password'), $this->get('parameters'));
 		$id = $this->getId();
@@ -159,7 +159,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		$db = \App\Database\database\PearDatabase::getInstance();
+		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_smsnotifier_servers WHERE id = ?', array($recordId));
 
 		if ($db->num_rows($result)) {
