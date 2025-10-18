@@ -45,7 +45,7 @@ class PDF extends Model
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return \App\Modules\Vtiger\Util::toSafeHTML(decode_html($displayName));
+		return \App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($displayName));
 	}
 
 	public function get($key)
@@ -117,7 +117,7 @@ class PDF extends Model
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
 
-		if (!isRecordExists($recordId)) {
+		if (!\App\Utils\Utils::isRecordExists($recordId)) {
 			return [];
 		}
 		if (!$moduleName) {

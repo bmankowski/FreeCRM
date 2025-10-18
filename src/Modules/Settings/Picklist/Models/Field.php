@@ -50,7 +50,7 @@ class Field extends \Vtiger_Field_Model
 		}
 		$query .= ' FROM  vtiger_role2picklist INNER JOIN %s ON vtiger_role2picklist.picklistvalueid = %s.picklist_valueid' .
 			' WHERE roleid IN (%s) order by sortid';
-		$query = sprintf($query, $fieldName, $tableName, $tableName, generateQuestionMarks($roleIdList));
+		$query = sprintf($query, $fieldName, $tableName, $tableName, \App\Utils\Utils::generateQuestionMarks($roleIdList));
 		if ($intersectionMode) {
 			$query .= ' GROUP BY picklistvalueid';
 		}
@@ -66,7 +66,7 @@ class Field extends \Vtiger_Field_Model
 				}
 			}
 			//Need to decode the picklist values twice which are saved from old ui
-			$pickListValues[] = decode_html(decode_html($rowData[$fieldName]));
+			$pickListValues[] = \App\Utils\ListViewUtils::decodeHtml(\App\Utils\ListViewUtils::decodeHtml($rowData[$fieldName]));
 		}
 		return $pickListValues;
 	}

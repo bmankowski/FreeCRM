@@ -21,7 +21,7 @@ class ApiAddress {
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 		$adb = \App\database\PearDatabase::getInstance();
 		$registerLink = false;
 		if ($eventType == 'module.postinstall') {

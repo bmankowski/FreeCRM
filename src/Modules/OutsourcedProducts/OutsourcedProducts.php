@@ -111,7 +111,7 @@ class OutsourcedProducts extends \App\CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {

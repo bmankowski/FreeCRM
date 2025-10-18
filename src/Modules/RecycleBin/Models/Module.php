@@ -171,7 +171,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function deleteFiles($recordIds)
 	{
 		$db = \App\database\PearDatabase::getInstance();
-		$getAttachmentsIdQuery = sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
+		$getAttachmentsIdQuery = sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', \App\Utils\Utils::generateQuestionMarks($recordIds));
 		$result = $db->pquery($getAttachmentsIdQuery, [$recordIds]);
 		$attachmentsIds = [];
 		if ($db->num_rows($result)) {
@@ -180,10 +180,10 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			}
 		}
 		if (!empty($attachmentsIds)) {
-			$deleteRelQuery = sprintf('DELETE FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
+			$deleteRelQuery = sprintf('DELETE FROM vtiger_seattachmentsrel WHERE crmid in(%s)', \App\Utils\Utils::generateQuestionMarks($recordIds));
 			$db->pquery($deleteRelQuery, array($recordIds));
 			$attachmentsLocation = array();
-			$getPathQuery = sprintf('SELECT * FROM vtiger_attachments WHERE attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
+			$getPathQuery = sprintf('SELECT * FROM vtiger_attachments WHERE attachmentsid in (%s)', \App\Utils\Utils::generateQuestionMarks($attachmentsIds));
 			$pathResult = $db->pquery($getPathQuery, array($attachmentsIds));
 			if ($db->num_rows($pathResult)) {
 				for ($i = 0; $i < ($db->num_rows($pathResult)); $i++) {
@@ -197,7 +197,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 					}
 				}
 			}
-			$where = sprintf('attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
+			$where = sprintf('attachmentsid in (%s)', \App\Utils\Utils::generateQuestionMarks($attachmentsIds));
 			$db->delete('vtiger_attachments', $where, [$attachmentsIds]);
 		}
 	}

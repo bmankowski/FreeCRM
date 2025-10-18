@@ -7,8 +7,6 @@ use App\User;
 use DateTime;
 use DateTimeZone;
 
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-
 class DateTimeRange
 {
 

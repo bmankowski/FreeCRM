@@ -260,9 +260,9 @@ class DataTransform
 		foreach ($moduleFields as $fieldName => $fieldObj) {
 			if ($fieldObj->getFieldDataType() == "currency" && !empty($row[$fieldName])) {
 				if ($fieldObj->getUIType() == '71') {
-					$row[$fieldName] = \App\fields\CurrencyField::convertToUserFormat($row[$fieldName], $current_user);
+					$row[$fieldName] = \App\Fields\CurrencyField::convertToUserFormat($row[$fieldName], $current_user);
 				} else if ($fieldObj->getUIType() == '72') {
-					$row[$fieldName] = \App\fields\CurrencyField::convertToUserFormat($row[$fieldName], $current_user, true);
+					$row[$fieldName] = \App\Fields\CurrencyField::convertToUserFormat($row[$fieldName], $current_user, true);
 				}
 			}
 		}

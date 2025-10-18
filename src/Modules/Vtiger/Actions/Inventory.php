@@ -69,7 +69,7 @@ class Inventory extends \App\Runtime\Vtiger_Action_Controller
 			return;
 		}
 
-		$baseCurrency = \App\Modules\Vtiger\Util::getBaseCurrency();
+		$baseCurrency = \App\Modules\Vtiger\helpers\Util::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
 			$selectedCurrency = \vtlib\Functions::getCurrencySymbolandRate($currency);
@@ -138,7 +138,7 @@ class Inventory extends \App\Runtime\Vtiger_Action_Controller
 		$recordModuleName = $recordModel->getModuleName();
 		$info = [
 			'id' => $recordId,
-			'name' => decode_html($recordModel->getName()),
+			'name' => \App\Utils\ListViewUtils::decodeHtml($recordModel->getName()),
 			'description' => $recordModel->get('description'),
 		];
 		if (in_array($recordModuleName, ['Products', 'Services'])) {

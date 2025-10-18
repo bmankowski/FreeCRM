@@ -35,7 +35,7 @@ class BasicAjax extends \App\Runtime\Vtiger_Action_Controller
 		if (is_array($records)) {
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordModel) {
-					$result[] = array('label' => decode_html($recordModel->getSearchName()), 'value' => decode_html($recordModel->getName()), 'id' => $recordModel->getId());
+					$result[] = array('label' => \App\Utils\ListViewUtils::decodeHtml($recordModel->getSearchName()), 'value' => \App\Utils\ListViewUtils::decodeHtml($recordModel->getName()), 'id' => $recordModel->getId());
 				}
 			}
 		}

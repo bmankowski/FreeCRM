@@ -123,7 +123,7 @@ class Colors extends \App\Modules\Vtiger\Models\Model
 		while ($row = $dataReader->read()) {
 			$groupColors[] = [
 				'id' => $row[$primaryKey],
-				'value' => decode_html(decode_html($row[$fieldName])),
+				'value' => \App\Utils\ListViewUtils::decodeHtml(\App\Utils\ListViewUtils::decodeHtml($row[$fieldName])),
 				'color' => $row['color']
 			];
 		}

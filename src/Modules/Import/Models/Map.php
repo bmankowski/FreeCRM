@@ -92,7 +92,7 @@ class Map extends \App\Modules\Vtiger\Models\Model
 		$columnNames = array_keys($map);
 		$columnValues = array_values($map);
 		if (count($map) > 0) {
-			$sql = 'INSERT INTO ' . self::$tableName . ' (' . implode(',', $columnNames) . ') VALUES (' . generateQuestionMarks($columnValues) . ')';
+			$sql = 'INSERT INTO ' . self::$tableName . ' (' . implode(',', $columnNames) . ') VALUES (' . \App\Utils\Utils::generateQuestionMarks($columnValues) . ')';
 			$db->pquery($sql, [$columnValues]);
 
 			$table = self::$tableName;

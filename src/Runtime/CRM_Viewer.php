@@ -120,7 +120,7 @@ class CRM_Viewer extends \Smarty
 		// Register static classes for template use
 		$this->registerClass('AppConfig', '\App\AppConfig');
 		$this->registerClass('AppRequest', '\App\Http\\AppRequest');
-		$this->registerClass('Vtiger_Util_Helper', '\App\Modules\\Vtiger\\Util');
+		$this->registerClass('Vtiger_Util_Helper', '\App\Modules\\Vtiger\\helpers\\Util');
 		$this->registerClass('Vtiger_Menu_Model', '\App\Modules\\Vtiger\Models\\Menu');
 		$this->registerClass('Vtiger_Module_Model', '\App\Modules\\Vtiger\Models\\Module');
 		$this->registerClass('Vtiger_Language_Handler', '\App\\Runtime\\Vtiger_Language_Handler');
@@ -143,13 +143,13 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'htmlspecialchars', 'htmlspecialchars');
 		$this->registerPlugin('modifier', 'file_exists', 'file_exists');
 		$this->registerPlugin('modifier', 'intval', 'intval');
-		$this->registerPlugin('modifier', 'decode_html', 'decode_html');
+		$this->registerPlugin('modifier', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
 		$this->registerPlugin('function', 'explode', 'explode');
 		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
 		$this->registerPlugin('function', 'file_exists', 'file_exists');
 		$this->registerPlugin('function', 'intval', 'intval');
 		$this->registerPlugin('function', 'strtoupper', 'strtoupper');
-		$this->registerPlugin('function', 'decode_html', 'decode_html');
+		$this->registerPlugin('function', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
 
 
 

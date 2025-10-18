@@ -54,7 +54,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 				return false;
 			}
 			$destinationModuleFocus = \App\CRMEntity::getInstance($destinationModuleName);
-			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+			\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 			return true;
 		}

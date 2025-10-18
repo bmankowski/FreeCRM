@@ -12,7 +12,7 @@ namespace App\Modules\CustomView;
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
-require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 global $adv_filter_options;
 
@@ -611,7 +611,7 @@ class CustomView extends \App\CRMEntity
 						$advfiltersql = " (" . $advorsqls . ") ";
 					}
 					elseif ($comparator == 'bw' && count($valuearray) == 2) {
-						$advfiltersql = "(" . $columns[0] . "." . $columns[1] . " between '" . getValidDBInsertDateTimeValue(trim($valuearray[0]), $datatype) . "' and '" . getValidDBInsertDateTimeValue(trim($valuearray[1]), $datatype) . "')";
+						$advfiltersql = "(" . $columns[0] . "." . $columns[1] . " between '" . \App\Utils\Utils::getValidDBInsertDateTimeValue(trim($valuearray[0]), $datatype) . "' and '" . \App\Utils\Utils::getValidDBInsertDateTimeValue(trim($valuearray[1]), $datatype) . "')";
 					} elseif ($comparator == 'y') {
 						$advfiltersql = sprintf("(%s.%s IS NULL || %s.%s = '')", $columns[0], $columns[1], $columns[0], $columns[1]);
 					} else {
@@ -700,7 +700,7 @@ class CustomView extends \App\CRMEntity
 			$temp_value .= " ||  vtiger_groups$tableNameSuffix.groupname" . $this->getAdvComparator($comparator, $value, $datatype) . ')';
 			$value = $temp_value; // Hot fix: removed unbalanced closing bracket ")";
 		} elseif ($fieldname == "inventorymanager") {
-			$value = $tablename . "." . $fieldname . $this->getAdvComparator($comparator, getUserId_Ol($value), $datatype);
+			$value = $tablename . "." . $fieldname . $this->getAdvComparator($comparator, \App\Utils\Utils::getUserId_Ol($value), $datatype);
 		} elseif ($change_table_field[$fieldname] != '') {//Added to handle special cases
 			$value = $change_table_field[$fieldname] . $this->getAdvComparator($comparator, $value, $datatype);
 		} elseif ($change_table_field[$tablename . "." . $fieldname] != '') {//Added to handle special cases
@@ -720,7 +720,7 @@ class CustomView extends \App\CRMEntity
 					$value = 1;
 				elseif (strtolower($value) == 'no')
 					$value = 0;
-			} else if (is_uitype($field_uitype, '_picklist_')) { /* Fix for tickets 4465 and 4629 */
+			} else if (\App\Utils\Utils::is_uitype($field_uitype, '_picklist_')) { /* Fix for tickets 4465 and 4629 */
 				// Get all the keys for the for the Picklist value
 				$mod_keys = array_keys($mod_strings, $value);
 
@@ -856,30 +856,30 @@ class CustomView extends \App\CRMEntity
 		}
 		if ($comparator == "s") {
 			if (trim($value) == "" && ($datatype == "V" || $datatype == "E")) {
-				$rtvalue = " like '" . formatForSqlLike($value, 3) . "'";
+				$rtvalue = " like '" . \App\Utils\Utils::formatForSqlLike($value, 3) . "'";
 			} else {
-				$rtvalue = " like '" . formatForSqlLike($value, 2) . "'";
+				$rtvalue = " like '" . \App\Utils\Utils::formatForSqlLike($value, 2) . "'";
 			}
 		}
 		if ($comparator == "ew") {
 			if (trim($value) == "" && ($datatype == "V" || $datatype == "E")) {
-				$rtvalue = " like '" . formatForSqlLike($value, 3) . "'";
+				$rtvalue = " like '" . \App\Utils\Utils::formatForSqlLike($value, 3) . "'";
 			} else {
-				$rtvalue = " like '" . formatForSqlLike($value, 1) . "'";
+				$rtvalue = " like '" . \App\Utils\Utils::formatForSqlLike($value, 1) . "'";
 			}
 		}
 		if ($comparator == "c") {
 			if (trim($value) == "" && ($datatype == "V" || $datatype == "E")) {
-				$rtvalue = " like '" . formatForSqlLike($value, 3) . "'";
+				$rtvalue = " like '" . \App\Utils\Utils::formatForSqlLike($value, 3) . "'";
 			} else {
-				$rtvalue = " like '" . formatForSqlLike($value) . "'";
+				$rtvalue = " like '" . \App\Utils\Utils::formatForSqlLike($value) . "'";
 			}
 		}
 		if ($comparator == "k") {
 			if (trim($value) == "" && ($datatype == "V" || $datatype == "E")) {
 				$rtvalue = " not like ''";
 			} else {
-				$rtvalue = " not like '" . formatForSqlLike($value) . "'";
+				$rtvalue = " not like '" . \App\Utils\Utils::formatForSqlLike($value) . "'";
 			}
 		}
 		if ($comparator == "l") {

@@ -112,7 +112,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		} else {
 			$profileList = $currentUser->getProfiles();
 
-			$sql = sprintf('SELECT globalactionpermission,globalactionid FROM vtiger_profile2globalpermissions WHERE profileid IN (%s)', generateQuestionMarks($profileList));
+			$sql = sprintf('SELECT globalactionpermission,globalactionid FROM vtiger_profile2globalpermissions WHERE profileid IN (%s)', \App\Utils\Utils::generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList));
 			while ($row = $adb->getRow($result)) {
 				$permission = $row['globalactionpermission'];
@@ -128,7 +128,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 				}
 			}
 
-			$sql = sprintf('select permissions from vtiger_profile2tab where profileid in (%s) and tabid = ?', generateQuestionMarks($profileList));
+			$sql = sprintf('select permissions from vtiger_profile2tab where profileid in (%s) and tabid = ?', \App\Utils\Utils::generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList, $this->getTabId()));
 			$standardDefined = false;
 			$permission = $adb->getSingleValue($result);
@@ -139,7 +139,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 				$this->hasAccess = true;
 			}
 
-			$sql = sprintf("select * from vtiger_profile2standardpermissions where profileid in (%s) and tabid=?", generateQuestionMarks($profileList));
+			$sql = sprintf("select * from vtiger_profile2standardpermissions where profileid in (%s) and tabid=?", \App\Utils\Utils::generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList, $this->getTabId()));
 			while ($row = $adb->getRow($result)) {
 				$standardDefined = true;
@@ -204,7 +204,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id = $idComponents[1];
 
-		$permitted = isPermitted($this->getTabName(), $operation, $id);
+		$permitted = \App\Utils\UserInfoUtil::isPermitted($this->getTabName(), $operation, $id);
 		if (strcmp($permitted, "yes") === 0) {
 			return true;
 		}
@@ -443,7 +443,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id = $idComponents[1];
 
-		$nameList = getEntityName($this->getTabName(), array($id));
+		$nameList = \App\Utils\Utils::getEntityName($this->getTabName(), array($id));
 		return $nameList[$id];
 	}
 

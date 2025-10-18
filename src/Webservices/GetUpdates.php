@@ -106,7 +106,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$baseCRMTable = " vtiger_crmentity ";
 
 	//modifiedtime - next token
-	$q = "SELECT modifiedtime FROM $baseCRMTable WHERE  modifiedtime>? and setype IN(" . generateQuestionMarks($accessableModules) . ") ";
+	$q = "SELECT modifiedtime FROM $baseCRMTable WHERE  modifiedtime>? and setype IN(" . \App\Utils\Utils::generateQuestionMarks($accessableModules) . ") ";
 	$params = array($datetime);
 	foreach ($accessableModules as $entityModule) {
 		if ($entityModule == "Events")
@@ -114,7 +114,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$params[] = $entityModule;
 	}
 	if (!$applicationSync) {
-		$q .= ' and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
+		$q .= ' and smownerid IN(' . \App\Utils\Utils::generateQuestionMarks($ownerIds) . ')';
 		$params = array_merge($params, $ownerIds);
 	}
 
@@ -164,7 +164,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$fromClause = $queryGenerator->getFromClause();
 		$fromClause .= " INNER JOIN (select modifiedtime, crmid,deleted,setype FROM $baseCRMTable WHERE setype=? and modifiedtime >? and modifiedtime<=?";
 		if (!$applicationSync) {
-			$fromClause .= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
+			$fromClause .= 'and smownerid IN(' . \App\Utils\Utils::generateQuestionMarks($ownerIds) . ')';
 			$params = array_merge($params, $ownerIds);
 		}
 		$fromClause .= ' ) vtiger_ws_sync ON (vtiger_crmentity.crmid = vtiger_ws_sync.crmid)';
@@ -195,7 +195,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		}
 	}
 
-	$q = "SELECT crmid FROM $baseCRMTable WHERE modifiedtime>?  and setype IN(" . generateQuestionMarks($accessableModules) . ")";
+	$q = "SELECT crmid FROM $baseCRMTable WHERE modifiedtime>?  and setype IN(" . \App\Utils\Utils::generateQuestionMarks($accessableModules) . ")";
 	$params = array($maxModifiedTime);
 
 	foreach ($accessableModules as $entityModule) {
@@ -204,7 +204,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$params[] = $entityModule;
 	}
 	if (!$applicationSync) {
-		$q .= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
+		$q .= 'and smownerid IN(' . \App\Utils\Utils::generateQuestionMarks($ownerIds) . ')';
 		$params = array_merge($params, $ownerIds);
 	}
 

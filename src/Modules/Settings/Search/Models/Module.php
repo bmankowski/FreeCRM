@@ -127,7 +127,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		$query .=' END ';
 
-		$query .= sprintf(' WHERE tabid IN (%s)', generateQuestionMarks($tabIdList));
+		$query .= sprintf(' WHERE tabid IN (%s)', \App\Utils\Utils::generateQuestionMarks($tabIdList));
 		$db->pquery($query, [$tabIdList]);
 		\App\Log::trace("Exiting \App\Modules\Settings\Search\Models\Module::updateSequenceNumber() method ...");
 	}

@@ -13,7 +13,7 @@ namespace App\Modules\WSAPP;
 
 require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 
 class SyncServer {
 

@@ -153,8 +153,8 @@ class Documents extends \App\CRMEntity
 
 		include('include/utils/ExportUtils.php');
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Documents', 'detail_view');
-		$fields_list = getFieldsListFromQuery($sql);
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery('Documents', 'detail_view');
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -166,7 +166,7 @@ class Documents extends \App\CRMEntity
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id " .
 			" LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid=vtiger_groups.groupid "
 		;
-		$query .= getNonAdminAccessControlQuery('Documents', $current_user);
+		$query .= \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery('Documents', $current_user);
 		$where_auto = ' vtiger_crmentity.deleted=0';
 		if ($where != '')
 			$query .= "  WHERE ($where) && " . $where_auto;
@@ -334,7 +334,7 @@ class Documents extends \App\CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = 'Documents';
-		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\App\Module::isModuleActive($moduleName) && \App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;

@@ -102,7 +102,7 @@ class Activity extends \App\CRMEntity
 	public function __construct()
 	{
 		$this->db = \App\database\PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Calendar');
+		$this->column_fields = \App\Utils\Utils::getColumnFields('Calendar');
 	}
 
 	/**

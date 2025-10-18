@@ -37,9 +37,9 @@ class Currency extends Base
 		if ($value) {
 			if ($uiType === 72) {
 				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-				$value = \App\fields\CurrencyField::convertToUserFormat($value, null, true);
+				$value = \App\Fields\CurrencyField::convertToUserFormat($value, null, true);
 			} else {
-				$value = \App\fields\CurrencyField::convertToUserFormat($value);
+				$value = \App\Fields\CurrencyField::convertToUserFormat($value);
 			}
 			if (!$this->edit) {
 				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
@@ -73,7 +73,7 @@ class Currency extends Base
 	 */
 	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
 	{
-		return \App\fields\CurrencyField::convertToUserFormat($value, $user, $skipConversion);
+		return \App\Fields\CurrencyField::convertToUserFormat($value, $user, $skipConversion);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Currency extends Base
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
 	{
-		return \App\fields\CurrencyField::convertToDBFormat($value, $user, $skipConversion);
+		return \App\Fields\CurrencyField::convertToDBFormat($value, $user, $skipConversion);
 	}
 
 	/**
@@ -115,18 +115,18 @@ class Currency extends Base
 			if (!$moduleName)
 				$moduleName = \vtlib\Functions::getCRMRecordType($recordId);
 			if ($this->get('field')->getName() === 'unit_price') {
-				$currencyId = getProductBaseCurrency($recordId, $moduleName);
+				$currencyId = \App\Utils\InventoryUtils::getProductBaseCurrency($recordId, $moduleName);
 				$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);
 				$currencySymbol = $cursym_convrate['symbol'];
 			} else {
-				$currencyInfo = getInventoryCurrencyInfo($moduleName, $recordId);
+				$currencyInfo = \App\Utils\InventoryUtils::getInventoryCurrencyInfo($moduleName, $recordId);
 				$currencySymbol = $currencyInfo['currency_symbol'];
 			}
 		} else {
-			$currencyModal = new \App\fields\CurrencyField($value);
+			$currencyModal = new \App\Fields\CurrencyField($value);
 			$currencyModal->initialize();
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
-		return \App\fields\CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+		return \App\Fields\CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
 }

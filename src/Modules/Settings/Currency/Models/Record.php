@@ -137,7 +137,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$params = array();
 		if (!empty($includedIds)) {
 			$params = $includedIds;
-			$query .= ' or vtiger_currency_info.id IN(' . generateQuestionMarks($includedIds) . ')';
+			$query .= ' or vtiger_currency_info.id IN(' . \App\Utils\Utils::generateQuestionMarks($includedIds) . ')';
 		}
 		$result = $db->pquery($query, $params);
 		$currencyModelList = array();

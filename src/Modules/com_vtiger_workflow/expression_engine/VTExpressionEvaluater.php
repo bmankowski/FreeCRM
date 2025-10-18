@@ -115,8 +115,8 @@ function __vt_time_diff($arr)
 	if (empty($time_operand1) || empty($time_operand2))
 		return 0;
 
-	$time_operand1 = getValidDBInsertDateTimeValue($time_operand1);
-	$time_operand2 = getValidDBInsertDateTimeValue($time_operand2);
+	$time_operand1 = \App\Utils\Utils::getValidDBInsertDateTimeValue($time_operand1);
+	$time_operand2 = \App\Utils\Utils::getValidDBInsertDateTimeValue($time_operand2);
 
 	//to give the difference if it is only time field
 	if (empty($time_operand1) && empty($time_operand2)) {

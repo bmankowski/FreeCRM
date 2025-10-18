@@ -62,7 +62,7 @@ class CRMEntity
 	public function __construct()
 	{
 		$this->db = \App\database\PearDatabase::getInstance();
-		$this->column_fields = getColumnFields(get_class($this));
+		$this->column_fields = \App\Utils\Utils::getColumnFields(get_class($this));
 	}
 
 	static function getInstance($module)
@@ -208,7 +208,7 @@ class CRMEntity
 
 		// Lookup module field cache
 		if ($module == 'Calendar' || $module == 'Events') {
-			getColumnFields('Calendar');
+			\App\Utils\Utils::getColumnFields('Calendar');
 			if (VTCacheUtils::lookupFieldInfo_Module('Events'))
 				$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
 			else
@@ -511,7 +511,7 @@ class CRMEntity
 	public function updateMissingSeqNumber($module)
 	{
 		Log::trace("Entered updateMissingSeqNumber function");
-		vtlib_setup_modulevars($module, $this);
+		\App\Utils\VtlibUtils::setupModuleVars($module, $this);
 		$tabid = Module::getModuleId($module);
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
@@ -784,7 +784,7 @@ class CRMEntity
 		$adb = \App\database\PearDatabase::getInstance();
 		$primary = CRMEntity::getInstance($module);
 
-		vtlib_setup_modulevars($module, $primary);
+		\App\Utils\VtlibUtils::setupModuleVars($module, $primary);
 		$moduletable = $primary->table_name;
 		$moduleindex = $primary->table_index;
 		$modulecftable = $primary->customFieldTable[0];
@@ -828,7 +828,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\App\Utils\VtlibUtils::setupModuleVars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -846,7 +846,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\App\Utils\VtlibUtils::setupModuleVars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -908,7 +908,7 @@ class CRMEntity
 		$adb = \App\database\PearDatabase::getInstance();
 		$secondary = CRMEntity::getInstance($secmodule);
 
-		vtlib_setup_modulevars($secmodule, $secondary);
+		\App\Utils\VtlibUtils::setupModuleVars($secmodule, $secondary);
 
 		$tablename = $secondary->table_name;
 		$tableindex = $secondary->table_index;
@@ -943,7 +943,7 @@ class CRMEntity
 					for ($j = 0; $j < $rows_ui10_modules_query; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\App\Utils\VtlibUtils::setupModuleVars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -960,7 +960,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\App\Utils\VtlibUtils::setupModuleVars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -1052,7 +1052,7 @@ class CRMEntity
 
 	public function getRelationQuery($module, $secmodule, $table_name, $column_name, $queryPlanner)
 	{
-		$tab = getRelationTables($module, $secmodule);
+		$tab = \App\Utils\Utils::getRelationTables($module, $secmodule);
 
 		foreach ($tab as $key => $value) {
 			$tables[] = $key;
@@ -1121,7 +1121,7 @@ class CRMEntity
 
 		//check if the field has module information; if not get the first module
 		if (!strpos($related_to, "::::")) {
-			$module = getFirstModule($module, $fieldname);
+			$module = \App\Utils\ListViewUtils::getFirstModule($module, $fieldname);
 			$value = $related_to;
 		} else {
 			//check the module of the field
@@ -1142,7 +1142,7 @@ class CRMEntity
 		$result = $adb->pquery($query, array($value));
 
 		if (!isset($this->checkFlagArr[$module])) {
-			$this->checkFlagArr[$module] = (isPermitted($module, 'EditView', '') == 'yes');
+			$this->checkFlagArr[$module] = (\App\Utils\UserInfoUtil::isPermitted($module, 'EditView', '') == 'yes');
 		}
 
 		if ($adb->num_rows($result) > 0) {
@@ -1190,7 +1190,7 @@ class CRMEntity
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		if ($cachedModuleFields === false) {
 			// Initialize the fields calling suitable API
-			getColumnFields($module);
+			\App\Utils\Utils::getColumnFields($module);
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		}
 
@@ -1229,7 +1229,7 @@ class CRMEntity
 
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		if ($cachedModuleFields === false) {
-			getColumnFields($module); // This API will initialize the cache as well
+			\App\Utils\Utils::getColumnFields($module); // This API will initialize the cache as well
 			// We will succeed now due to above function call
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
@@ -1425,7 +1425,7 @@ class CRMEntity
 		//as mysql query optimizer puts crmentity on the left side and considerably slow down
 		$query = preg_replace('/\s+/', ' ', $query);
 		if (strripos($query, ' WHERE ') !== false) {
-			vtlib_setup_modulevars($this->moduleName, $this);
+			\App\Utils\VtlibUtils::setupModuleVars($this->moduleName, $this);
 			$query = str_ireplace(' where ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
 		}
 		return $query;

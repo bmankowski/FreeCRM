@@ -17,8 +17,6 @@ use Users_Privileges_Model;
 use DateTime;
 use DateTimeZone;
 
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-
 class DateTimeField
 {
 

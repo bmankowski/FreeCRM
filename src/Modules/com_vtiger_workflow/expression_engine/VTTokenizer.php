@@ -34,7 +34,7 @@ class VTExpressionTokenizer
 
 	function __construct($expr)
 	{
-		$expr = decode_html($expr);
+		$expr = \App\Utils\ListViewUtils::decodeHtml($expr);
 		$tokenTypes = array(
 			"SPACE" => array('\s+', '_vt_processtoken_id'),
 			"SYMBOL" => array('[a-zA-Z][\w]*', '_vt_processtoken_symbol'),

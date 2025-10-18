@@ -99,8 +99,8 @@ class Products extends \App\CRMEntity
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Products", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery("Products", "detail_view");
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$query = "SELECT $fields_list FROM " . $this->table_name . "
 			INNER JOIN vtiger_crmentity
@@ -129,7 +129,7 @@ class Products extends \App\CRMEntity
 	public function isparent_check()
 	{
 		$adb = \App\database\PearDatabase::getInstance();
-		$isparent_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
+		$isparent_query = $adb->pquery(\App\Utils\ListViewUtils::getListQuery("Products") . " && (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$isparent = $adb->num_rows($isparent_query);
 		return $isparent;
 	}
@@ -139,7 +139,7 @@ class Products extends \App\CRMEntity
 	public function ismember_check()
 	{
 		$adb = \App\database\PearDatabase::getInstance();
-		$ismember_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
+		$ismember_query = $adb->pquery(\App\Utils\ListViewUtils::getListQuery("Products") . " && (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$ismember = $adb->num_rows($ismember_query);
 		return $ismember;
 	}

@@ -38,6 +38,6 @@ class CommentsModel {
 
 	public function content()
 	{
-		return decode_html($this->data['commentcontent']);
+		return \App\Utils\ListViewUtils::decodeHtml($this->data['commentcontent']);
 	}
 }

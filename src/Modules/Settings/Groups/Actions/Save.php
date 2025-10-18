@@ -40,7 +40,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 			$recordModel = new \App\Modules\Settings\Groups\Models\Record();
 		}
 		if ($recordModel) {
-			$recordModel->set('groupname', decode_html($request->get('groupname')));
+			$recordModel->set('groupname', \App\Utils\ListViewUtils::decodeHtml($request->get('groupname')));
 			$recordModel->set('description', $request->get('description'));
 			$recordModel->set('group_members', $request->get('members'));
 			$recordModel->set('modules', $request->get('modules'));

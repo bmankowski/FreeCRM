@@ -88,7 +88,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	public function __create($elementType, $element)
 	{
-		require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+		require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 		$db = \App\database\PearDatabase::getInstance();
 
 		$this->id = $this->getNextId($elementType, $element);
@@ -97,7 +97,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 		//Insert into group vtiger_table
 		$query = "insert into {$this->entityTableName}(" . implode(',', array_keys($element)) .
-			") values(" . generateQuestionMarks(array_keys($element)) . ")";
+			") values(" . \App\Utils\Utils::generateQuestionMarks(array_keys($element)) . ")";
 		$result = null;
 		$transactionSuccessful = vtws_runQueryAsTransaction($query, array_values($element), $result);
 		return $transactionSuccessful;

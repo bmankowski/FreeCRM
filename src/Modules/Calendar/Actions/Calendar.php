@@ -71,7 +71,7 @@ class Calendar extends \App\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');
 		$actionname = 'EditView';
-		if (isPermitted($moduleName, $actionname, $recordId) === 'no') {
+		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, $actionname, $recordId) === 'no') {
 			$succes = false;
 		} else {
 			$delta = $request->get('delta');

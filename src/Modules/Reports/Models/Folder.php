@@ -326,7 +326,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 		for ($i = 0; $i < $noOfRows; $i++) {
 			$primaryModule = $db->query_result($result, $i, 'primarymodule');
 			$reportid = $db->query_result($result, $i, 'reportmodulesid');
-			if (isPermitted($primaryModule, 'index') == "yes") {
+			if (\App\Utils\UserInfoUtil::isPermitted($primaryModule, 'index') == "yes") {
 				$allowedReportIds[] = $reportid;
 			}
 		}

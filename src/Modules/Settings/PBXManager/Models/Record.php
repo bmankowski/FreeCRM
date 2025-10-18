@@ -44,7 +44,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);
-			$parameters = \App\Json::decode(decode_html($row['parameters']));
+			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}
@@ -59,7 +59,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if ($row !== false) {
 			$recordModel = new self();
 			$recordModel->setData($row);
-			$parameters = \App\Json::decode(decode_html($recordModel->get('parameters')));
+			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}

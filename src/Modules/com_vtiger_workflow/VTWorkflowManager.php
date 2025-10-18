@@ -13,7 +13,7 @@ namespace App\Modules\com_vtiger_workflow;
  * ********************************************************************************** */
 
 require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
-require_once ROOT_DIRECTORY . '/src/utils/ConfigReader.php';
+require_once ROOT_DIRECTORY . '/src/Utils/ConfigReader.php';
 require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 
 class VTWorkflowManager {

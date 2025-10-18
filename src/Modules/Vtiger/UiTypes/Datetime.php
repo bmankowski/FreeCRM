@@ -83,6 +83,6 @@ class Datetime extends Base
 	 */
 	public static function getDateTimeValue($dateTime)
 	{
-		return \App\Modules\Vtiger\Util::convertDateTimeIntoUsersDisplayFormat($dateTime);
+		return \App\Modules\Vtiger\helpers\Util::convertDateTimeIntoUsersDisplayFormat($dateTime);
 	}
 }

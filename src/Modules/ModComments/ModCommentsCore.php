@@ -83,7 +83,7 @@ class ModCommentsCore extends \App\CRMEntity
 
 	public function __construct()
 	{
-		$this->column_fields = getColumnFields('ModComments');
+		$this->column_fields = \App\Utils\Utils::getColumnFields('ModComments');
 		$this->db = \App\database\PearDatabase::getInstance();
 	}
 
@@ -161,7 +161,7 @@ class ModCommentsCore extends \App\CRMEntity
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = \App\CRMEntity::getInstance($related_module);
-			vtlib_setup_modulevars($related_module, $other);
+			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
 				$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -232,9 +232,9 @@ class ModCommentsCore extends \App\CRMEntity
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('ModComments', "detail_view");
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery('ModComments', "detail_view");
 
-		$fields_list = getFieldsListFromQuery($sql);
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name
 					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
@@ -258,7 +258,7 @@ class ModCommentsCore extends \App\CRMEntity
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = \App\CRMEntity::getInstance($related_module);
-			vtlib_setup_modulevars($related_module, $other);
+			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
@@ -276,7 +276,7 @@ class ModCommentsCore extends \App\CRMEntity
 		// Security Check for Field Access
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3) {
 			//Added security check to get the permitted records only
-			$query = $query . " " . getListViewSecurityParameter($thismodule);
+			$query = $query . " " . \App\Utils\UserInfoUtil::getListViewSecurityParameter($thismodule);
 		}
 		return $query;
 	}
@@ -330,7 +330,7 @@ class ModCommentsCore extends \App\CRMEntity
 
 		$query = $select_clause . $from_clause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values, $ui_type_arr, $module) .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . \App\Utils\Utils::get_on_clause($field_values, $ui_type_arr, $module) .
 			$where_clause .
 			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
 

@@ -52,7 +52,7 @@ class iCalLastImport {
 
 		$fieldNames = array_keys($this->fieldData);
 		$fieldValues = array_values($this->fieldData);
-		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', array($fieldValues));
+		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . \App\Utils\Utils::generateQuestionMarks($fieldValues) . ')', array($fieldValues));
 	}
 
 	public function undo($moduleName, $userId)

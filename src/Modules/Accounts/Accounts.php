@@ -91,8 +91,8 @@ class Accounts extends \App\CRMEntity
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Accounts", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery("Accounts", "detail_view");
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then vtiger_users.user_name else vtiger_groups.groupname end as user_name
 	       			FROM " . $this->entity_table . "
@@ -254,7 +254,7 @@ class Accounts extends \App\CRMEntity
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
+		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (\App\Utils\UserInfoUtil::isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
 			$rawData = '';

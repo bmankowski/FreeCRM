@@ -34,7 +34,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid = ?', [$id]);
 		$listpriceValues = [];
 		while ($row = $db->fetch_array($listPrice)) {
-			$listpriceValues[$row['currencyid']] = \App\fields\CurrencyField::convertToUserFormat($row['actual_price'], null, true);
+			$listpriceValues[$row['currencyid']] = \App\Fields\CurrencyField::convertToUserFormat($row['actual_price'], null, true);
 		}
 		return $listpriceValues;
 	}
@@ -134,7 +134,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				$imageName = $db->query_result($result, $i, 'name');
 
 				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalNamesList[] = decode_html($imageName);
+				$imageOriginalNamesList[] = \App\Utils\ListViewUtils::decodeHtml($imageName);
 
 				//urlencode - added to handle special characters like #, %, etc.,
 				$imageNamesList[] = $imageName;
@@ -336,14 +336,14 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				if ($cur_value === null || $cur_value == '') {
 					$price_details[$i]['check_value'] = false;
 					if ($unit_price != null) {
-						$cur_value = \App\fields\CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
+						$cur_value = \App\Fields\CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
 					} else {
 						$cur_value = '0';
 					}
 				} else {
 					$price_details[$i]['check_value'] = true;
 				}
-				$price_details[$i]['curvalue'] = \App\fields\CurrencyField::convertToUserFormat($cur_value, null, true);
+				$price_details[$i]['curvalue'] = \App\Fields\CurrencyField::convertToUserFormat($cur_value, null, true);
 				$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 				$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 			}
@@ -476,7 +476,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
-		$productBaseConvRate = getBaseConversionRateForProduct($this->getId(), $this->mode);
+		$productBaseConvRate = \App\Utils\InventoryUtils::getBaseConversionRateForProduct($this->getId(), $this->mode);
 		$currencySet = false;
 		$currencyDetails = \vtlib\Functions::getAllCurrency(true);
 		if (!$this->isNew()) {
@@ -487,8 +487,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$curCheckName = 'cur_' . $curid . '_check';
 			$curValue = 'curname' . $curid;
 			if (\App\Http\AppRequest::get($curCheckName) === 'on' || \App\Http\AppRequest::get($curCheckName) === 1) {
-				$requestPrice = \App\fields\CurrencyField::convertToDBFormat(\App\Http\AppRequest::get('unit_price'), null, true);
-				$actualPrice = \App\fields\CurrencyField::convertToDBFormat(\App\Http\AppRequest::get($curValue), null, true);
+				$requestPrice = \App\Fields\CurrencyField::convertToDBFormat(\App\Http\AppRequest::get('unit_price'), null, true);
+				$actualPrice = \App\Fields\CurrencyField::convertToDBFormat(\App\Http\AppRequest::get($curValue), null, true);
 				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
 				$convertedPrice = $actualConversionRate * $requestPrice;
 				\App\Log::trace("Going to save the Product - $curName currency relationship");
@@ -547,7 +547,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				->createCommand()->query();
 		$productImageMap = [];
 		while ($imageName = $dataReader->readColumn(0)) {
-			$productImageMap [] = decode_html($imageName);
+			$productImageMap [] = \App\Utils\ListViewUtils::decodeHtml($imageName);
 		}
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();

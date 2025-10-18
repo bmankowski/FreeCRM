@@ -311,7 +311,7 @@ class Owner
 			array_push($params, $this->currentUser->getId());
 
 			if (count($userPrivileges['groups']) != 0) {
-				$query .= ' || vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
+				$query .= ' || vtiger_groups.groupid in (' . \App\Utils\Utils::generateQuestionMarks($userPrivileges['groups']) . ')';
 				array_push($params, $userPrivileges['groups']);
 			}
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
@@ -319,7 +319,7 @@ class Owner
 			array_push($params, $userPrivileges['parent_role_seq'] . '::%');
 
 			if (count($userPrivileges['groups']) != 0) {
-				$query .= ' union select vtiger_groups.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_groups inner join vtiger_group2rs on vtiger_groups.groupid=vtiger_group2rs.groupid where vtiger_group2rs.roleandsubid in (' . generateQuestionMarks($userPrivileges['parent_roles']) . ')';
+				$query .= ' union select vtiger_groups.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_groups inner join vtiger_group2rs on vtiger_groups.groupid=vtiger_group2rs.groupid where vtiger_group2rs.roleandsubid in (' . \App\Utils\Utils::generateQuestionMarks($userPrivileges['parent_roles']) . ')';
 				array_push($params, $userPrivileges['parent_roles']);
 			}
 
@@ -339,7 +339,7 @@ class Owner
 
 		// Get the id and the name.
 		while ($row = $db->getRow($result)) {
-			$tempResult[$row['groupid']] = decode_html($row['groupname']);
+			$tempResult[$row['groupid']] = \App\Utils\ListViewUtils::decodeHtml($row['groupname']);
 		}
 		\App\Cache::save('OwnerGroups', $cacheKey, $tempResult);
 		\App\Log::trace('Exiting getGroups method ...');

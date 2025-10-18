@@ -125,15 +125,15 @@ class Module extends \Vtiger_Module_Model
 		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
 
 		$pickListValues = array();
-		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($valueToDeleteId) . ")";
+		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . \App\Utils\Utils::generateQuestionMarks($valueToDeleteId) . ")";
 		$pickListValuesResult = $db->pquery($valuesOfDeleteIds, array($valueToDeleteId));
 		$num_rows = $db->num_rows($pickListValuesResult);
 		for ($i = 0; $i < $num_rows; $i++) {
-			$pickListValues[] = decode_html($db->query_result($pickListValuesResult, $i, $pickListFieldName));
+			$pickListValues[] = \App\Utils\ListViewUtils::decodeHtml($db->query_result($pickListValuesResult, $i, $pickListFieldName));
 		}
 
-		$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($replaceValueId) . ")", array($replaceValueId));
-		$replaceValue = decode_html($db->query_result($replaceValueQuery, 0, $pickListFieldName));
+		$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . \App\Utils\Utils::generateQuestionMarks($replaceValueId) . ")", array($replaceValueId));
+		$replaceValue = \App\Utils\ListViewUtils::decodeHtml($db->query_result($replaceValueQuery, 0, $pickListFieldName));
 
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
@@ -142,15 +142,15 @@ class Module extends \Vtiger_Module_Model
 		//if role based then we need to delete all the values in role based picklist
 		if ($fieldModel->isRoleBased()) {
 			$picklistValueIdToDelete = array();
-			$query = sprintf('SELECT picklist_valueid FROM %s WHERE %s IN (%s)', $this->getPickListTableName($pickListFieldName), $primaryKey, generateQuestionMarks($valueToDeleteId));
+			$query = sprintf('SELECT picklist_valueid FROM %s WHERE %s IN (%s)', $this->getPickListTableName($pickListFieldName), $primaryKey, \App\Utils\Utils::generateQuestionMarks($valueToDeleteId));
 			$result = $db->pquery($query, $valueToDeleteId);
 			$num_rows = $db->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValueIdToDelete[] = $db->query_result($result, $i, 'picklist_valueid');
 			}
-			$db->delete('vtiger_role2picklist', 'picklistvalueid IN (' . generateQuestionMarks($picklistValueIdToDelete) . ')', $picklistValueIdToDelete);
+			$db->delete('vtiger_role2picklist', 'picklistvalueid IN (' . \App\Utils\Utils::generateQuestionMarks($picklistValueIdToDelete) . ')', $picklistValueIdToDelete);
 		}
-		$db->delete($this->getPickListTableName($pickListFieldName), $primaryKey . ' IN (' . generateQuestionMarks($valueToDeleteId) . ')', $valueToDeleteId);
+		$db->delete($this->getPickListTableName($pickListFieldName), $primaryKey . ' IN (' . \App\Utils\Utils::generateQuestionMarks($valueToDeleteId) . ')', $valueToDeleteId);
 		$adb->createCommand()->delete('vtiger_picklist_dependency', ['sourcevalue' => $pickListValues, 'sourcefield' => $pickListFieldName])
 			->execute();
 

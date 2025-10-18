@@ -250,7 +250,7 @@ class Module extends \vtlib\Module
 			$forCrmid = \App\Http\AppRequest::get('return_id');
 			if ($forModule && $forCrmid) {
 				$focus = \App\CRMEntity::getInstance($forModule);
-				relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);
+				\App\Utils\Utils::relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);
 			}
 		}
 		$eventHandler->trigger('EntityAfterSave');

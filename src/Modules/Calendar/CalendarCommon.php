@@ -80,7 +80,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	
 	$currentUser = vglobal('current_user');
 	$adb = \App\database\PearDatabase::getInstance();
-	require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+	require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 	$current_language = vglobal('current_language');
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
 	\App\Log::trace("Entering getActivityDetails(" . $description . ") method ...");
@@ -161,7 +161,7 @@ function calendarview_getSelectedUserFilterQuerySuffix()
 		if ($onlyForUser != 'ALL') {
 			// For logged in user include the group records also.
 			if ($onlyForUser == $currentUser->id) {
-				$userGroupIds = fetchUserGroupids($currentUser->id);
+				$userGroupIds = \App\Utils\UserInfoUtil::fetchUserGroupids($currentUser->id);
 				// User does not belong to any group? Let us reset to non-existent group
 				if (!empty($userGroupIds))
 					$userGroupIds .= ',';

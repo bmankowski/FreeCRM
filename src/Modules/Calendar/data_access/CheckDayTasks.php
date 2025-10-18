@@ -38,7 +38,7 @@ class CheckDayTasks {
 			WHERE vtiger_crmentity.deleted = ? && vtiger_activity.date_start = ? && vtiger_activity.smownerid = ?';
 		$params = [0, $recordData['date_start'], $userRecordModel->getId()];
 		if (!empty($status)) {
-			$sql .= ' && vtiger_activity.status IN (' . generateQuestionMarks($status) . ')';
+			$sql .= ' && vtiger_activity.status IN (' . \App\Utils\Utils::generateQuestionMarks($status) . ')';
 			$params[] = $status;
 		}
 		$result = $db->pquery($sql, $params);

@@ -65,10 +65,10 @@ class ShortURL {
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
 		if ($rs && $db->num_rows($rs)) {
 			$record = $db->fetch_array($rs);
-			$handlerPath = decode_html($record['handler_path']);
-			$handlerClass = decode_html($record['handler_class']);
-			$handlerFn = decode_html($record['handler_function']);
-			$handlerData = json_decode(decode_html($record['handler_data']), true);
+			$handlerPath = \App\Utils\ListViewUtils::decodeHtml($record['handler_path']);
+			$handlerClass = \App\Utils\ListViewUtils::decodeHtml($record['handler_class']);
+			$handlerFn = \App\Utils\ListViewUtils::decodeHtml($record['handler_function']);
+			$handlerData = json_decode(\App\Utils\ListViewUtils::decodeHtml($record['handler_data']), true);
 
 			\vtlib\Deprecated::checkFileAccessForInclusion($handlerPath);
 			require_once $handlerPath;
@@ -105,7 +105,7 @@ class ShortURL {
 			$self->handler_path = $row['handler_path'];
 			$self->handler_class = $row['handler_class'];
 			$self->handler_function = $row['handler_function'];
-			$self->handler_data = json_decode(decode_html($row['handler_data']), true);
+			$self->handler_data = json_decode(\App\Utils\ListViewUtils::decodeHtml($row['handler_data']), true);
 		}
 		return $self;
 	}

@@ -18,9 +18,9 @@ require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObject.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObjectMeta.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/DataTransform.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/WebServiceErrorCode.php");
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
-require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/VtlibUtils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceEntityOperation.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/VTWS_PreserveGlobal.php';
 
@@ -31,8 +31,8 @@ require_once ROOT_DIRECTORY . '/src/Webservices/VTWS_PreserveGlobal.php';
 
 function vtws_getUsersInTheSameGroup($id)
 {
-	require_once(ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php');
-	require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
+	require_once(ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php');
+	require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
 
 	$groupUsers = new GetGroupUsers();
 	$userGroups = new GetUserGroups();
@@ -86,7 +86,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	$tabName = \App\Module::getModuleName($moduleId);
 	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
 		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
-		$result = get_current_user_access_groups($tabName);
+		$result = \App\Utils\UserInfoUtil::get_current_user_access_groups($tabName);
 	} else {
 		$result = \vtlib\Functions::get_group_options();
 	}
@@ -506,7 +506,7 @@ function vtws_getActorEntityNameById($entityId, $idList)
 			}
 
 			$query1 = "select $nameFields as entityname, $indexField from $tableName where " .
-				"$indexField in (" . generateQuestionMarks($idList) . ")";
+				"$indexField in (" . \App\Utils\Utils::generateQuestionMarks($idList) . ")";
 			$params1 = array($idList);
 			$result = $db->pquery($query1, $params1);
 			if (is_object($result)) {

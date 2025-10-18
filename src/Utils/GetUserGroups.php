@@ -15,8 +15,6 @@
 
 namespace App\Utils;
 
-require_once(ROOT_DIRECTORY . '/src/utils/GetParentGroups.php');
-
 class GetUserGroups
 {
 
@@ -31,11 +29,11 @@ class GetUserGroups
 	public function getAllUserGroups($userid)
 	{
 		//Retreiving from the user2grouptable
-		$userGroups = App\PrivilegeUtil::getUserGroups($userid);
+		$userGroups = \App\PrivilegeUtil::getUserGroups($userid);
 		//Setting the User Role
 		$userRole = \App\PrivilegeUtil::getRoleByUsers($userid);
 		//Retreiving from the vtiger_user2role
-		$roleGroups = App\PrivilegeUtil::getRoleGroups($userRole);
+		$roleGroups = \App\PrivilegeUtil::getRoleGroups($userRole);
 		//Retreiving from the user2rs
 		$rsGroups = \App\PrivilegeUtil::getRoleSubordinatesGroups($userRole);
 		$this->user_groups = array_unique(array_merge($this->user_groups, $userGroups, $roleGroups, $rsGroups));

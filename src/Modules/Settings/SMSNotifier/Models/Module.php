@@ -80,7 +80,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 		if ($recordIdsList) {
 			$db = \App\database\PearDatabase::getInstance();
-			$db->delete('vtiger_smsnotifier_servers', 'id IN (' . generateQuestionMarks($recordIdsList) . ')', $recordIdsList);
+			$db->delete('vtiger_smsnotifier_servers', 'id IN (' . \App\Utils\Utils::generateQuestionMarks($recordIdsList) . ')', $recordIdsList);
 			return true;
 		}
 		return false;

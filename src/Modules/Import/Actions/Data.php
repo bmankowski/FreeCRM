@@ -487,7 +487,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
 				if (\App\Module::isModuleActive($referenceModuleName)) {
-					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, decode_html($entityLabel));
+					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, \App\Utils\ListViewUtils::decodeHtml($entityLabel));
 				} else {
 					$referenceModuleName = $defaultFieldValues[$fieldName];
 					$referencedModules = $fieldInstance->getReferenceList();
@@ -508,7 +508,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 					} elseif ($referenceModule === 'Currency') {
 						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);
 					} else {
-						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, decode_html($entityLabel));
+						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, \App\Utils\ListViewUtils::decodeHtml($entityLabel));
 					}
 					if ($referenceEntityId) {
 						$entityId = $referenceEntityId;
@@ -626,7 +626,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 					$valuesList = explode(' ', $fieldValue);
 					if (count($valuesList) === 1)
 						$fieldValue = '';
-					$fieldValue = getValidDBInsertDateTimeValue($fieldValue);
+					$fieldValue = \App\Utils\Utils::getValidDBInsertDateTimeValue($fieldValue);
 					if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/", $fieldValue) == 0) {
 						$fieldValue = '';
 					}
@@ -636,7 +636,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 					if ($fieldValue === null || $fieldValue === '0000-00-00') {
 						$fieldValue = '';
 					}
-					$fieldValue = getValidDBInsertDateValue($fieldValue);
+					$fieldValue = \App\Utils\Utils::getValidDBInsertDateValue($fieldValue);
 					if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $fieldValue) == 0) {
 						$fieldValue = '';
 					}
@@ -758,7 +758,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 			$emailSubject = 'vtiger CRM - Scheduled Import Report for ' . $importDataController->module;
 			$viewer = new CRM_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
-			$viewer->assign('INVENTORY_MODULES', getInventoryModules());
+			$viewer->assign('INVENTORY_MODULES', \App\Utils\Utils::getInventoryModules());
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);

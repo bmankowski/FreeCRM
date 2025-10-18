@@ -14,9 +14,7 @@
  *
  */
 
-namespace App\utils;
-
-require_once(ROOT_DIRECTORY . '/src/utils/GetParentGroups.php');
+namespace App\Utils;
 
 class GetGroupUsers
 {

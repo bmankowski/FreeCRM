@@ -24,7 +24,7 @@ class ExportToXml extends Model
 			$this->tplName = $request->get('xmlExportType');
 		}
 		$query = $this->getExportQuery($request);
-		$fileName = str_replace(' ', '_', decode_html(\App\Runtime\Vtiger_Language_Handler::translate($this->moduleName, $this->moduleName)));
+		$fileName = str_replace(' ', '_', \App\Utils\ListViewUtils::decodeHtml(\App\Runtime\Vtiger_Language_Handler::translate($this->moduleName, $this->moduleName)));
 		$entries = $query->all();
 		$entriesInventory = [];
 		if ($this->moduleInstance->isInventory()) {

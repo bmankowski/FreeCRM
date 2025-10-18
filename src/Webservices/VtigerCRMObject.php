@@ -159,7 +159,7 @@ class VtigerCRMObject
 
 		//added to fix the issue of utf8 characters
 		foreach ($this->instance->column_fields as $key => $value) {
-			$this->instance->column_fields[$key] = decode_html($value);
+			$this->instance->column_fields[$key] = \App\Utils\ListViewUtils::decodeHtml($value);
 		}
 
 		$this->instance->mode = "edit";
@@ -173,7 +173,7 @@ class VtigerCRMObject
 		$adb = \App\database\PearDatabase::getInstance();
 		$error = false;
 		$adb->startTransaction();
-		DeleteEntity($this->getTabName(), $this->getTabName(), $this->instance, $id, $returnid);
+		\App\Utils\Utils::DeleteEntity($this->getTabName(), $this->getTabName(), $this->instance, $id, $returnid);
 		$error = $adb->hasFailedTransaction();
 		$adb->completeTransaction();
 		return !$error;

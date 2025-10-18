@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\helpers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -356,7 +356,7 @@ class Util {
 
 	public static function getGroupsIdsForUsers($userId)
 	{
-		require_once ROOT_DIRECTORY . '/src/utils/GetUserGroups.php';
+		require_once ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php';
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);

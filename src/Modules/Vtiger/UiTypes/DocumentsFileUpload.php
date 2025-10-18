@@ -76,11 +76,11 @@ class DocumentsFileUpload extends Base
 		if ($value === null) {
 			$fileName = (new \App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();
 			if ($fileName) {
-				return decode_html($fileName);
+				return \App\Utils\ListViewUtils::decodeHtml($fileName);
 			}
 			return $value;
 		} else {
-			return decode_html($value);
+			return \App\Utils\ListViewUtils::decodeHtml($value);
 		}
 	}
 }

@@ -20,7 +20,7 @@ require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
-require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/VtlibUtils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceEntityOperation.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/Retrieve.php';
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityCache.php';

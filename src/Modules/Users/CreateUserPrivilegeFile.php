@@ -12,9 +12,9 @@ namespace App\Modules\Users;
 
 require_once('config/config.php');
 require_once('src/Modules/Users/Users.php');
-require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
-require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
-require_once(ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php');
+require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
+require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
+require_once(ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php');
 
 /** Creates a file with all the user, user-role,user-profile, user-groups informations 
  * @param $userid -- user id:: Type integer
@@ -58,7 +58,7 @@ function createUserPrivilegesfile($userid)
 			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
 			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
 			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\Modules\Vtiger\Util::getGroupsIdsForUsers($userid)) . ";\n";
+			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\Modules\Vtiger\helpers\Util::getGroupsIdsForUsers($userid)) . ";\n";
 			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
 			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
 			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
@@ -200,7 +200,7 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 										$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
 									} else {
 
-										$share_role_users = getRoleUserIds($shareEntId);
+										$share_role_users = \App\Utils\UserInfoUtil::getRoleUserIds($shareEntId);
 									}
 
 									$role_read_per[$shareEntId] = $share_role_users;
@@ -213,7 +213,7 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 									$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
 								} else {
 
-									$share_role_users = getRoleUserIds($shareEntId);
+									$share_role_users = \App\Utils\UserInfoUtil::getRoleUserIds($shareEntId);
 								}
 
 								$role_write_per[$shareEntId] = $share_role_users;
@@ -226,7 +226,7 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 									$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
 								} else {
 
-									$share_role_users = getRoleUserIds($shareEntId);
+									$share_role_users = \App\Utils\UserInfoUtil::getRoleUserIds($shareEntId);
 								}
 
 								$role_read_per[$shareEntId] = $share_role_users;

@@ -13,7 +13,7 @@ use App\Modules\ModComments\Models\CommentsModel;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/VtlibUtils.php';
 
 class ModComments extends ModCommentsCore
 {
@@ -53,7 +53,7 @@ class ModComments extends ModCommentsCore
 	static function getWidget($name)
 	{
 		if ($name == 'DetailViewBlockCommentWidget' &&
-			isPermitted('ModComments', 'DetailView') == 'yes') {
+			\App\Utils\UserInfoUtil::isPermitted('ModComments', 'DetailView') == 'yes') {
 			require_once dirname(__FILE__) . '/widgets/DetailViewBlockComment.php';
 			return (new ModComments_DetailViewBlockCommentWidget());
 		}

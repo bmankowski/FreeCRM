@@ -115,7 +115,7 @@ class VTCreateEventTask extends \App\Modules\com_vtiger_workflow\VTTask
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
-		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		\App\Utils\Utils::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 		$currentUser = vglobal('current_user');
 		$currentUser = $this->originalUser;
 	}

@@ -19,10 +19,10 @@ function getFieldByReportLabel($module, $label)
 		return $cacheLabel;
 
 	// this is required so the internal cache is populated or reused.
-	getColumnFields($module);
+	\App\Utils\Utils::getColumnFields($module);
 	//lookup all the accessible fields
 	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
-	$label = decode_html($label);
+	$label = \App\Utils\ListViewUtils::decodeHtml($label);
 
 	if ($module == 'Calendar') {
 		$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
@@ -43,7 +43,7 @@ function getFieldByReportLabel($module, $label)
 
 	foreach ($cachedModuleFields as $fieldInfo) {
 		$fieldLabel = str_replace(' ', '_', $fieldInfo['fieldlabel']);
-		$fieldLabel = decode_html($fieldLabel);
+		$fieldLabel = \App\Utils\ListViewUtils::decodeHtml($fieldLabel);
 		if ($label == $fieldLabel) {
 			VTCacheUtils::setReportFieldByLabel($module, $label, $fieldInfo);
 			return $fieldInfo;
@@ -124,7 +124,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 				$fieldvalue = CurrencyField::appendCurrencySymbol($formattedCurrencyValue, $cur_sym_rate['symbol']);
 			}
 		} else {
-			$currencyField = new \App\fields\CurrencyField($value);
+			$currencyField = new \App\Fields\CurrencyField($value);
 			$fieldvalue = $currencyField->getDisplayValue();
 		}
 	} elseif ($dbField->name == "PriceBooks_Currency") {
@@ -132,7 +132,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$fieldvalue = \App\Runtime\Vtiger_Language_Handler::translate($value, 'Currency');
 		}
 	} elseif (in_array($dbField->name, $report->ui101_fields) && !empty($value)) {
-		$entityNames = getEntityName('Users', $value);
+		$entityNames = \App\Utils\Utils::getEntityName('Users', $value);
 		$fieldvalue = $entityNames[$value];
 	} elseif ($fieldType == 'date' && !empty($value)) {
 		if ($module == 'Calendar' && $field->getFieldName() == 'due_date') {
@@ -213,7 +213,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	}
 	$fieldvalue = str_replace("<", "&lt;", $fieldvalue);
 	$fieldvalue = str_replace(">", "&gt;", $fieldvalue);
-	$fieldvalue = decode_html($fieldvalue);
+	$fieldvalue = \App\Utils\ListViewUtils::decodeHtml($fieldvalue);
 
 	if (stristr($fieldvalue, "|##|") && empty($fieldType)) {
 		$fieldvalue = str_ireplace(' |##| ', ', ', $fieldvalue);

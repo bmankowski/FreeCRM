@@ -73,7 +73,7 @@ class VTUpdateFieldsTask extends VTTask
 						$fieldValue = $this->calculateProductUnitPrice($fieldValue);
 					}
 				}
-				$recordModel->set($fieldName, decode_html($fieldValue));
+				$recordModel->set($fieldName, \App\Utils\ListViewUtils::decodeHtml($fieldValue));
 			}
 			// Added as Mass Edit triggers workflow and date and currency fields are set to user format
 			// When saving the information in database saveentity API should convert to database format
@@ -105,7 +105,7 @@ class VTUpdateFieldsTask extends VTTask
 	 */
 	public function calculateProductUnitPrice($fieldValue)
 	{
-		$currency_details = getAllCurrencies('all');
+		$currency_details = \App\Utils\InventoryUtils::getAllCurrencies('all');
 		for ($i = 0; $i < count($currency_details); $i++) {
 			$curid = $currency_details[$i]['curid'];
 			$cur_checkname = 'cur_' . $curid . '_check';

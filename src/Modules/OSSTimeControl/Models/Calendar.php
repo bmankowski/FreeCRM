@@ -20,7 +20,7 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 		$db = \App\database\PearDatabase::getInstance();
 		$module = 'OSSTimeControl';
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$query = getListQuery($module);
+		$query = \App\Utils\ListViewUtils::getListQuery($module);
 		$params = array();
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('start'), null, false);

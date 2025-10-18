@@ -11,7 +11,7 @@ namespace App\Modules\WSAPP;
  * *********************************************************************************** */
 
 require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 
 function wsapp_getHandler($appType)
 {
@@ -71,13 +71,13 @@ function wsapp_getRecordEntityNameIds($entityNames, $modules, $user)
 				FROM %s as moduleentity 
 				INNER JOIN vtiger_crmentity as crmentity 
 				WHERE %s IN(%s) && crmentity.deleted=0 
-				AND crmentity.crmid = moduleentity.%s", $meta->getObectIndexColumn(), $nameFields, $meta->getEntityBaseTable(), $nameFields, generateQuestionMarks($entityNames), $meta->getObectIndexColumn());
+				AND crmentity.crmid = moduleentity.%s", $meta->getObectIndexColumn(), $nameFields, $meta->getEntityBaseTable(), $nameFields, \App\Utils\Utils::generateQuestionMarks($entityNames), $meta->getObectIndexColumn());
 		$result = $db->pquery($query, $entityNames);
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$id = $db->query_result($result, $i, 'id');
 			$entityName = $db->query_result($result, $i, 'entityname');
-			$entityNameIds[decode_html($entityName)] = vtws_getWebserviceEntityId($moduleName, $id);
+			$entityNameIds[\App\Utils\ListViewUtils::decodeHtml($entityName)] = vtws_getWebserviceEntityId($moduleName, $id);
 		}
 	}
 	return $entityNameIds;
@@ -109,7 +109,7 @@ function wsapp_checkIfRecordsAssignToUser($recordsIds, $userIds)
 	if (!is_array($userIds))
 		$userIds = [$userIds];
 	$db = \App\database\PearDatabase::getInstance();
-	$query = sprintf("SELECT * FROM vtiger_crmentity where crmid IN (%s) and smownerid in (%s)", generateQuestionMarks($recordsIds), generateQuestionMarks($userIds));
+	$query = sprintf("SELECT * FROM vtiger_crmentity where crmid IN (%s) and smownerid in (%s)", \App\Utils\Utils::generateQuestionMarks($recordsIds), \App\Utils\Utils::generateQuestionMarks($userIds));
 	$params = [];
 	foreach ($recordsIds as $id) {
 		$params[] = $id;

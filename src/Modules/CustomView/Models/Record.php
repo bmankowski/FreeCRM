@@ -48,7 +48,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function getOwnerName()
 	{
 		$ownerId = $this->getOwnerId();
-		$entityNames = getEntityName('Users', array($ownerId));
+		$entityNames = \App\Utils\Utils::getEntityName('Users', array($ownerId));
 		return $entityNames[$ownerId];
 	}
 
@@ -705,7 +705,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					}
 					$advfilterval = implode(",", $val);
 				}
-				$criteria['value'] = \App\Modules\Vtiger\Util::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = \App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$groupId = $relcriteriarow['groupid'];
@@ -866,8 +866,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$customViews = [];
 		while ($row = $db->fetch_array($result)) {
 			$customView = new self();
-			if (strlen(decode_html($row['viewname'])) > 40) {
-				$row['viewname'] = substr(decode_html($row['viewname']), 0, 36) . '...';
+			if (strlen(\App\Utils\ListViewUtils::decodeHtml($row['viewname'])) > 40) {
+				$row['viewname'] = substr(\App\Utils\ListViewUtils::decodeHtml($row['viewname']), 0, 36) . '...';
 			}
 			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
 		}

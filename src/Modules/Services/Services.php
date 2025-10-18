@@ -179,9 +179,9 @@ class Services extends \App\CRMEntity
 		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Services', 'detail_view');
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery('Services', 'detail_view');
 
-		$fields_list = getFieldsListFromQuery($sql);
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$query = "SELECT $fields_list
 					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
@@ -252,7 +252,7 @@ class Services extends \App\CRMEntity
 
 		$query = $select_clause . $from_clause .
 			' LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=' . $this->table_name . '.' . $this->table_index .
-			' INNER JOIN (' . $sub_query . ') AS temp ON ' . get_on_clause($field_values, $ui_type_arr, $module) .
+			' INNER JOIN (' . $sub_query . ') AS temp ON ' . \App\Utils\Utils::get_on_clause($field_values, $ui_type_arr, $module) .
 			$where_clause .
 			" ORDER BY $table_cols," . $this->table_name . '.' . $this->table_index . ' ASC';
 
@@ -442,7 +442,7 @@ class Services extends \App\CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 
-		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
@@ -502,7 +502,7 @@ class Services extends \App\CRMEntity
 		if ($relatedName && $relatedName != 'getRelatedList') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$where = '(relcrmid= ? AND module IN (' . generateQuestionMarks($return_modules) . ') AND crmid IN (' . generateQuestionMarks($entityIds) . ')) OR (crmid= ? AND relmodule IN (' . generateQuestionMarks($return_modules) . ') AND relcrmid IN (' . generateQuestionMarks($entityIds) . '))';
+			$where = '(relcrmid= ? AND module IN (' . \App\Utils\Utils::generateQuestionMarks($return_modules) . ') AND crmid IN (' . \App\Utils\Utils::generateQuestionMarks($entityIds) . ')) OR (crmid= ? AND relmodule IN (' . \App\Utils\Utils::generateQuestionMarks($return_modules) . ') AND relcrmid IN (' . \App\Utils\Utils::generateQuestionMarks($entityIds) . '))';
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		}

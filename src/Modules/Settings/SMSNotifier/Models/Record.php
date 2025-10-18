@@ -169,7 +169,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$recordModel = new self();
 			$recordModel->setData($rowData)->setModule($moduleModel);
 
-			$parameters = \App\Json::decode(decode_html($recordModel->get('parameters')));
+			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}

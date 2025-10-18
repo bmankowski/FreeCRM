@@ -134,10 +134,10 @@ class Action extends Model
 		$db = \App\database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
-		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
+		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', \App\Utils\Utils::generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' AND actionname NOT IN (' . \App\Utils\Utils::generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
@@ -153,10 +153,10 @@ class Action extends Model
 		$db = \App\database\PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
-		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));
+		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', \App\Utils\Utils::generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' AND actionname NOT IN (' . \App\Utils\Utils::generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);

@@ -162,7 +162,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			case 'laststart' :
 			case 'lastend' : $fieldValue = intval($fieldValue);
 				if ($fieldValue) {
-					$fieldValue = dateDiffAsString($fieldValue, time());
+					$fieldValue = \App\Utils\Utils::dateDiffAsString($fieldValue, time());
 				} else {
 					$fieldValue = '';
 				}

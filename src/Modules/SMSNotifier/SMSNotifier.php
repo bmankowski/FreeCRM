@@ -57,15 +57,15 @@ class SMSNotifier extends SMSNotifierBase
 		if ($linktoids !== false) {
 
 			if ($linktoModule !== false) {
-				relateEntities($focus, $moduleName, $focus->id, $linktoModule, $linktoids);
+				\App\Utils\Utils::relateEntities($focus, $moduleName, $focus->id, $linktoModule, $linktoids);
 			} else {
 				// Link modulename not provided (linktoids can belong to mix of module so determine proper modulename)
 				$query = "SELECT setype,crmid FROM vtiger_crmentity WHERE crmid IN (%s)";
-				$query = sprintf($query, generateQuestionMarks($linktoids));
+				$query = sprintf($query, \App\Utils\Utils::generateQuestionMarks($linktoids));
 				$linkidsetypes = $adb->pquery($query, [$linktoids]);
 				if ($linkidsetypes && $adb->num_rows($linkidsetypes)) {
 					while ($linkidsetypesrow = $adb->fetch_array($linkidsetypes)) {
-						relateEntities($focus, $moduleName, $focus->id, $linkidsetypesrow['setype'], $linkidsetypesrow['crmid']);
+						\App\Utils\Utils::relateEntities($focus, $moduleName, $focus->id, $linkidsetypesrow['setype'], $linkidsetypesrow['crmid']);
 					}
 				}
 			}
@@ -137,7 +137,7 @@ class SMSNotifier extends SMSNotifierBase
 		if ($type == 'U') {
 			$userIds = array($assignedtoid);
 		} else {
-			require_once(ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php');
+			require_once(ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php');
 			$getGroupObj = new GetGroupUsers();
 			$getGroupObj->getAllUsersInGroup($assignedtoid);
 			$userIds = $getGroupObj->group_users;
@@ -147,7 +147,7 @@ class SMSNotifier extends SMSNotifierBase
 
 		if (count($userIds) > 0) {
 			$phoneSqlQuery = "select phone_mobile, id from vtiger_users WHERE status='Active' && id in(%s)";
-			$phoneSqlQuery = sprintf($phoneSqlQuery, generateQuestionMarks($userIds));
+			$phoneSqlQuery = sprintf($phoneSqlQuery, \App\Utils\Utils::generateQuestionMarks($userIds));
 			$phoneSqlResult = $adb->pquery($phoneSqlQuery, [$userIds]);
 			while ($phoneSqlResultRow = $adb->fetch_array($phoneSqlResult)) {
 				$number = $phoneSqlResultRow['phone_mobile'];
@@ -264,7 +264,7 @@ class SMSNotifierManager
 			$provider = SMSNotifier_Provider_Model::getInstance($resultrow['providertype']);
 			$parameters = array();
 			if (!empty($resultrow['parameters']))
-				$parameters = \App\Json::decode(decode_html($resultrow['parameters']));
+				$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($resultrow['parameters']));
 			foreach ($parameters as $k => $v) {
 				$provider->setParameter($k, $v);
 			}

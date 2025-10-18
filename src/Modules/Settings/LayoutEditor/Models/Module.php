@@ -197,7 +197,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
 
-		$quickCreate = in_array($moduleName, getInventoryModules()) ? 3 : 1;
+		$quickCreate = in_array($moduleName, \App\Utils\Utils::getInventoryModules()) ? 3 : 1;
 
 		$fieldModel = new \App\Modules\Settings\LayoutEditor\Models\Field();
 		$fieldModel->set('name', $columnName)

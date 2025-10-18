@@ -75,7 +75,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getPricesForProducts($currencyId, $productIdsList)
 	{
-		return getPricesForProducts($currencyId, $productIdsList, $this->getName());
+		return \App\Utils\InventoryUtils::getPricesForProducts($currencyId, $productIdsList, $this->getName());
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
-		if (!empty($searchValue) && empty($parentId) && empty($parentModule) && (in_array($relatedModule, getInventoryModules()))) {
+		if (!empty($searchValue) && empty($parentId) && empty($parentModule) && (in_array($relatedModule, \App\Utils\Utils::getInventoryModules()))) {
 			$matchingRecords = \App\Modules\Products\Models\Record::getSearchResult($searchValue, $this->getName());
 		} else {
 			return parent::searchRecord($searchValue);

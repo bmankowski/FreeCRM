@@ -39,7 +39,7 @@ class DragDropAjax extends \App\Runtime\Vtiger_Action_Controller
 		$actionname = 'EditView';
 
 		$response = new \App\Http\Vtiger_Response();
-		if (isPermitted($moduleName, $actionname, $recordId) === 'no') {
+		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, $actionname, $recordId) === 'no') {
 			$result = array('ispermitted' => false, 'error' => false);
 			$response->setResult($result);
 			$response->emit();
@@ -86,7 +86,7 @@ class DragDropAjax extends \App\Runtime\Vtiger_Action_Controller
 		$actionname = 'EditView';
 
 		$response = new \App\Http\Vtiger_Response();
-		if (isPermitted($moduleName, $actionname, $recordId) === 'no') {
+		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, $actionname, $recordId) === 'no') {
 			$result = ['ispermitted' => false];
 			$response->setResult($result);
 			$response->emit();

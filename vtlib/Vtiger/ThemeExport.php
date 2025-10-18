@@ -94,9 +94,9 @@ class ThemeExport extends Package
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
 		$layoutresultrow = $adb->fetch_array($sqlresult);
 
-		$resultThemename = decode_html($layoutresultrow['name']);
-		$resultThemelabel = decode_html($layoutresultrow['label']);
-		$resultthemeparent = decode_html($layoutresultrow['parent']);
+		$resultThemename = \App\Utils\ListViewUtils::decodeHtml($layoutresultrow['name']);
+		$resultThemelabel = \App\Utils\ListViewUtils::decodeHtml($layoutresultrow['label']);
+		$resultthemeparent = \App\Utils\ListViewUtils::decodeHtml($layoutresultrow['parent']);
 
 		if (!empty($resultThemename)) {
 			$themeName = $resultThemename;

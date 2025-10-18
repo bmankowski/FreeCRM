@@ -24,7 +24,7 @@ class Privilege
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false, $userId = false)
 	{
-		\App\Log::trace("Entering isPermitted($moduleName,$actionName,$record,$userId) method ...");
+		\App\Log::trace("Entering \App\Utils\UserInfoUtil::isPermitted($moduleName,$actionName,$record,$userId) method ...");
 		if (!$userId) {
 			$userId = \App\User::getCurrentUserId();
 		}
@@ -49,7 +49,7 @@ class Privilege
 		}
 		//Retreiving the Tabid and Action Id
 		$tabid = Module::getModuleId($moduleName);
-		$actionid = getActionid($actionName);
+		$actionid = \App\Utils\Utils::getActionid($actionName);
 		$checkModule = $moduleName;
 
 		if ($checkModule == 'Events') {

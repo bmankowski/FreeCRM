@@ -59,7 +59,7 @@ class Cron
 	 */
 	public function getName()
 	{
-		return decode_html($this->data['name']);
+		return \App\Utils\ListViewUtils::decodeHtml($this->data['name']);
 	}
 
 	/**

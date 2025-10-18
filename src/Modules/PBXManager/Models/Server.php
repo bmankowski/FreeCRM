@@ -33,7 +33,7 @@ class Server extends \App\Modules\Vtiger\Models\Model
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);
-			$parameters = \App\Json::decode(decode_html($row['parameters']));
+			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}

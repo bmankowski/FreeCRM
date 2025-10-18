@@ -11,7 +11,7 @@ namespace App\Modules\PickList;
  * All Rights Reserved.
  * ******************************************************************************* */
 
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 require_once ROOT_DIRECTORY . '/src/Modules/PickList/PickListUtils.php';
 
 class DependencyPicklist {
@@ -171,10 +171,10 @@ class DependencyPicklist {
 			$pickArray = array();
 			$sourceField = $adb->query_result($result, $i, 'sourcefield');
 			$targetField = $adb->query_result($result, $i, 'targetfield');
-			$sourceValue = decode_html($adb->query_result($result, $i, 'sourcevalue'));
-			$targetValues = decode_html($adb->query_result($result, $i, 'targetvalues'));
+			$sourceValue = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'sourcevalue'));
+			$targetValues = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'targetvalues'));
 			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
-			$criteria = decode_html($adb->query_result($result, $i, 'criteria'));
+			$criteria = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'criteria'));
 			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
 
 			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] != null) {
@@ -188,7 +188,7 @@ class DependencyPicklist {
 			}
 			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
 				foreach (\App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
-					$pickArray[] = decode_html($picklistValue);
+					$pickArray[] = \App\Utils\ListViewUtils::decodeHtml($picklistValue);
 				}
 				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
 			}

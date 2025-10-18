@@ -32,7 +32,7 @@ class Module extends \Vtiger_Module_Model
 		}
 
 		$query .=' END ';
-		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdList));
+		$query .= sprintf(' WHERE fieldid IN (%s)', \App\Utils\Utils::generateQuestionMarks($fieldIdList));
 		$db->pquery($query, array($fieldIdList));
 	}
 }

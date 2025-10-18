@@ -40,7 +40,7 @@ class Report extends Reports
 							WHERE vtiger_report.reportid = ?";
 				$params = array($reportId);
 
-				require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
+				require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_' . $userId . '.php');
 
 				$userGroups = new GetUserGroups();
@@ -48,7 +48,7 @@ class Report extends Reports
 				$userGroupsList = $userGroups->user_groups;
 
 				if (!empty($userGroupsList) && $currentUser->isAdminUser() === false) {
-					$userGroupsQuery = " (shareid IN (" . generateQuestionMarks($userGroupsList) . ") && setype='groups') OR";
+					$userGroupsQuery = " (shareid IN (" . \App\Utils\Utils::generateQuestionMarks($userGroupsList) . ") && setype='groups') OR";
 					array_push($params, $userGroupsList);
 				}
 
@@ -101,8 +101,8 @@ class Report extends Reports
 				$this->primodule = $cachedInfo["primarymodule"];
 				$this->secmodule = $cachedInfo["secondarymodules"];
 				$this->reporttype = $cachedInfo["reporttype"];
-				$this->reportname = decode_html($cachedInfo["reportname"]);
-				$this->reportdescription = decode_html($cachedInfo["description"]);
+				$this->reportname = \App\Utils\ListViewUtils::decodeHtml($cachedInfo["reportname"]);
+				$this->reportdescription = \App\Utils\ListViewUtils::decodeHtml($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
 				if ($currentUser->isAdminUser() === true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"] == $userId) {
 					$this->is_editable = true;
@@ -122,7 +122,7 @@ class Report extends Reports
 	public function getModulesList()
 	{
 		foreach ($this->module_list as $key => $value) {
-			if (isPermitted($key, 'index') == "yes") {
+			if (\App\Utils\UserInfoUtil::isPermitted($key, 'index') == "yes") {
 				$modules [$key] = \App\Runtime\Vtiger_Language_Handler::translate($key, $key);
 			}
 		}

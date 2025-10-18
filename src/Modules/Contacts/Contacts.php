@@ -134,8 +134,8 @@ class Contacts extends \App\CRMEntity
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Contacts", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery("Contacts", "detail_view");
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$query = "SELECT vtiger_contactdetails.salutation as 'Salutation',$fields_list,case when (vtiger_users.user_name not like '') then vtiger_users.user_name else vtiger_groups.groupname end as user_name
                                 FROM vtiger_contactdetails
@@ -150,7 +150,7 @@ class Contacts extends \App\CRMEntity
                         	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_contactdetails vtiger_contactdetails2
 					ON vtiger_contactdetails2.contactid = vtiger_contactdetails.reportsto";
-		$query .= getNonAdminAccessControlQuery('Contacts', $current_user);
+		$query .= \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery('Contacts', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')

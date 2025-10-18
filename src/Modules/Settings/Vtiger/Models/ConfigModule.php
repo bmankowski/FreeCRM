@@ -112,7 +112,7 @@ class ConfigModule extends \App\Modules\Settings\Vtiger\Models\Module
 			$presence = [0];
 			$restrictedModules = array('Integration', 'Dashboard');
 			$query = 'SELECT name, tablabel FROM vtiger_tab WHERE presence IN (%s) AND isentitytype = ? AND name NOT IN (%s)';
-			$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
+			$query = sprintf($query, \App\Utils\Utils::generateQuestionMarks($presence), \App\Utils\Utils::generateQuestionMarks($restrictedModules));
 			$result = $db->pquery($query, [$presence, '1', $restrictedModules]);
 			$numOfRows = $db->num_rows($result);
 

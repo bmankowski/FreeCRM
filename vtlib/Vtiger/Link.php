@@ -43,7 +43,7 @@ class Link
 	{
 		foreach ($valuemap as $key => $value) {
 			if ($key == 'linkurl' || $key == 'linkicon') {
-				$this->$key = decode_html($value);
+				$this->$key = \App\Utils\ListViewUtils::decodeHtml($value);
 			} else {
 				$this->$key = $value;
 			}
@@ -176,7 +176,7 @@ class Link
 			if (is_array($type)) {
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
-					$permittedTabIdList = getPermittedModuleIdList();
+					$permittedTabIdList = \App\Utils\UserInfoUtil::getPermittedModuleIdList();
 					if (!empty($permittedTabIdList)) {
 						$permittedTabIdList [] = 0;  // Added to support one link for all modules
 						foreach ($permittedTabIdList as $moduleId) {

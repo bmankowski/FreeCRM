@@ -8,15 +8,15 @@
  * All Rights Reserved.
  * ******************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/events/SqlResultIterator.php';
+namespace App\Utils;
+
+use App\events\SqlResultIterator;
 
 /**
  * Description of EmailTemplateUtils
  *
  * @author mak
  */
-
-namespace App\utils;
 
 class EmailTemplate
 {
@@ -241,7 +241,6 @@ class EmailTemplate
 
 	public function isModuleActive($module)
 	{
-		include_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
 		if (\App\Module::isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
 			return true;
 		}

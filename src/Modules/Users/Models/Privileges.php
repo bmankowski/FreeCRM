@@ -183,7 +183,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 	public static function getNonAdminAccessControlQuery($module)
 	{
 		$currentUser = vglobal('current_user');
-		return getNonAdminAccessControlQuery($module, $currentUser);
+		return \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($module, $currentUser);
 	}
 
 	protected static $lockEditCache = [];

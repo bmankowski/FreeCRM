@@ -66,7 +66,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function updateCallStatus($recordIds)
 	{
 		$db = \App\database\PearDatabase::getInstance();
-		$where = sprintf("pbxmanagerid IN (%s) && callstatus='ringing'", generateQuestionMarks($recordIds));
+		$where = sprintf("pbxmanagerid IN (%s) && callstatus='ringing'", \App\Utils\Utils::generateQuestionMarks($recordIds));
 		$db->update(self::moduletableName, ['callstatus' => 'no-response'], $where, $recordIds);
 	}
 
@@ -253,7 +253,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		if ($cachedModuleFields === false) {
-			getColumnFields($module); // This API will initialize the cache as well
+	\App\Utils\Utils::getColumnFields($module); // This API will initialize the cache as well
 			// We will succeed now due to above function call
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}

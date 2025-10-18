@@ -83,7 +83,7 @@ class VTScheduledReport extends Reports
 
 			if (!empty($recipientsInfo['roles'])) {
 				foreach ($recipientsInfo['roles'] as $roleId) {
-					$roleUsers = getRoleUsers($roleId);
+					$roleUsers = \App\Utils\UserInfoUtil::getRoleUsers($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -92,7 +92,7 @@ class VTScheduledReport extends Reports
 
 			if (!empty($recipientsInfo['rs'])) {
 				foreach ($recipientsInfo['rs'] as $roleId) {
-					$users = getRoleAndSubordinateUsers($roleId);
+					$users = \App\Utils\UserInfoUtil::getRoleAndSubordinateUsers($roleId);
 					foreach ($users as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -101,7 +101,7 @@ class VTScheduledReport extends Reports
 
 
 			if (!empty($recipientsInfo['groups'])) {
-				require_once ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php';
+				require_once ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php';
 				foreach ($recipientsInfo['groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);
@@ -256,23 +256,23 @@ class VTScheduledReport extends Reports
 		switch ($type) {
 			case 'users' : if (empty($name))
 					$name = \App\Fields\Owner::getUserLabel($value);
-				$optionName = 'User::' . addslashes(decode_html($name));
+				$optionName = 'User::' . addslashes(\App\Utils\ListViewUtils::decodeHtml($name));
 				$optionValue = 'users::' . $value;
 				break;
 			case 'groups' : if (empty($name)) {
 					$name = \App\Fields\Owner::getGroupName($value);
 				}
-				$optionName = 'Group::' . addslashes(decode_html($name));
+				$optionName = 'Group::' . addslashes(\App\Utils\ListViewUtils::decodeHtml($name));
 				$optionValue = 'groups::' . $value;
 				break;
 			case 'roles' : if (empty($name))
 					$name = \App\PrivilegeUtil::getRoleName($value);
-				$optionName = 'Roles::' . addslashes(decode_html($name));
+				$optionName = 'Roles::' . addslashes(\App\Utils\ListViewUtils::decodeHtml($name));
 				$optionValue = 'roles::' . $value;
 				break;
 			case 'rs' : if (empty($name))
 					$name = \App\PrivilegeUtil::getRoleName($value);
-				$optionName = 'RoleAndSubordinates::' . addslashes(decode_html($name));
+				$optionName = 'RoleAndSubordinates::' . addslashes(\App\Utils\ListViewUtils::decodeHtml($name));
 				$optionValue = 'rs::' . $value;
 				break;
 		}
@@ -294,7 +294,7 @@ class VTScheduledReport extends Reports
 
 	public static function getAvailableUsersHTML()
 	{
-		$userDetails = getAllUserName();
+		$userDetails = \App\Utils\UserInfoUtil::getAllUserName();
 		$usersHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
 		foreach ($userDetails as $userId => $userName) {
 			$usersHTML .= VTScheduledReport::generateRecipientOption('users', $userId, $userName);
@@ -316,7 +316,7 @@ class VTScheduledReport extends Reports
 
 	public static function getAvailableRolesHTML()
 	{
-		$roleDetails = getAllRoleDetails();
+		$roleDetails = \App\Utils\UserInfoUtil::getAllRoleDetails();
 		$rolesHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
 		foreach ($roleDetails as $roleId => $roleInfo) {
 			$rolesHTML .= VTScheduledReport::generateRecipientOption('roles', $roleId, $roleInfo[0]);
@@ -327,7 +327,7 @@ class VTScheduledReport extends Reports
 
 	public static function getAvailableRolesAndSubordinatesHTML()
 	{
-		$roleDetails = getAllRoleDetails();
+		$roleDetails = \App\Utils\UserInfoUtil::getAllRoleDetails();
 		$rolesAndSubHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
 		foreach ($roleDetails as $roleId => $roleInfo) {
 			$rolesAndSubHTML .= VTScheduledReport::generateRecipientOption('rs', $roleId, $roleInfo[0]);

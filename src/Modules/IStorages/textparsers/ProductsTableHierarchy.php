@@ -66,7 +66,7 @@ class TextParser extends \App\TextParser\Base
 		$storageSubjectList = rtrim($storageSubjectList, ', ');
 		// Gets the sum of products quantity in all storages
 		$productsQty = [];
-		$query = sprintf('SELECT qtyinstock, relcrmid, crmid FROM u_yf_istorages_products WHERE crmid IN (%s)', generateQuestionMarks($storageIdsArray));
+		$query = sprintf('SELECT qtyinstock, relcrmid, crmid FROM u_yf_istorages_products WHERE crmid IN (%s)', \App\Utils\Utils::generateQuestionMarks($storageIdsArray));
 		$result = $db->pquery($query, [$storageIdsArray]);
 
 		while ($row = $db->getRow($result)) {

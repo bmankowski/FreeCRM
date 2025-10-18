@@ -107,7 +107,7 @@ class ProductPriceBookPopup extends \Vtiger_Index_View
 
 		//get the unit prices for the pricebooks based on the product currency
 		$productUnitPrice = \vtlib\Functions::getUnitPrice($sourceRecord, $sourceModule);
-		$productPriceDetails = getPriceDetailsForProduct($sourceRecord, $productUnitPrice, 'available', $sourceModule);
+		$productPriceDetails = \App\Utils\InventoryUtils::getPriceDetailsForProduct($sourceRecord, $productUnitPrice, 'available', $sourceModule);
 
 		$productCurrencyPrice = array();
 		foreach ($productPriceDetails as $priceDetails) {

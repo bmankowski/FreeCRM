@@ -14,7 +14,7 @@ namespace App\Modules\Users\Actions;
 chdir(dirname(__FILE__) . "/../../../");
 require_once ROOT_DIRECTORY . '/src/RequirementsValidation.php';
 require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-include_once ROOT_DIRECTORY . "/src/utils/VtlibUtils.php";
+include_once ROOT_DIRECTORY . "/src/Utils/VtlibUtils.php";
 include_once ROOT_DIRECTORY . "/src/Webservices/Custom/ChangePassword.php";
 include_once ROOT_DIRECTORY . "/src/Webservices/Utils.php";
 include_once 'src/Modules/Vtiger/helpers/ShortURL.php';
@@ -38,7 +38,7 @@ class ForgotPassword {
 		);
 		$valid = $shortURLModel->compareEquals($validateData);
 		if ($valid) {
-			$userId = getUserId_Ol($userName);
+			$userId = \App\Utils\Utils::getUserId_Ol($userName);
 			$user = Users::getActiveAdminUser();
 			$wsUserId = vtws_getWebserviceEntityId('Users', $userId);
 			vtws_changePassword($wsUserId, '', $newPassword, $confirmPassword, $user);

@@ -1,31 +1,18 @@
 <?php
-/* * *******************************************************************************
- * * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * ****************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
-require_once ROOT_DIRECTORY . '/src/utils/GetUserGroups.php';
-require_once ROOT_DIRECTORY . '/src/events/include.php';
-require_once ROOT_DIRECTORY . '/src/Runtime/Globals.php';
-require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
-
-/** Function to get the lists of groupids releated with an user
- * This function accepts the user id as arguments and
- * returns the groupids related with the user id
- * as a comma seperated string
+/**
+ * FreeCRM User Info Utilities
  */
-function fetchUserGroupids($userid)
+
+namespace App\Utils;
+
+class UserInfoUtil
+{
+	public static function fetchUserGroupids($userid)
 {
 
 	\App\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
 	$adb = \App\database\PearDatabase::getInstance();
-	$focus = new GetUserGroups();
+	$focus = new \App\Utils\GetUserGroups();
 	$focus->getAllUserGroups($userid);
 	//Asha: Remove implode if not required and if so, also remove explode functions used at the recieving end of this function
 	$groupidlists = implode(",", $focus->user_groups);
@@ -42,7 +29,7 @@ function fetchUserGroupids($userid)
  *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
  *
  */
-function getTabsUtilityActionPermission($profileid)
+	public static function getTabsUtilityActionPermission($profileid)
 {
 
 	\App\Log::trace("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
@@ -77,7 +64,7 @@ function getTabsUtilityActionPermission($profileid)
  * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
  *
  */
-function isPermitted($module, $actionname, $record_id = '')
+	public static function isPermitted($module, $actionname, $record_id = '')
 {
 
 	\App\Log::trace("Entering isPermitted($module,$actionname,$record_id) method ...");
@@ -293,7 +280,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	return $permission;
 }
 
-function isPermittedBySharing($module, $tabid, $actionid, $record_id)
+	public static function isPermittedBySharing($module, $tabid, $actionid, $record_id)
 {
 	$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 	$defaultOrgSharingPermission = $userPrivilegesModel->get('defaultOrgSharingPermission');
@@ -339,7 +326,7 @@ function isPermittedBySharing($module, $tabid, $actionid, $record_id)
  * @param $tabid -- Tab Id:: Type integer
  * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
  */
-function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
+	public static function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
 {
 
 	\App\Log::trace("Entering isReadPermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
@@ -449,7 +436,7 @@ function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
  * @param $tabid -- Tab Id:: Type integer
  * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
  */
-function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
+	public static function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 {
 
 	\App\Log::trace("Entering isReadWritePermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
@@ -557,7 +544,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
  * @returns Profile Gloabal Permission Array in the following format:
  * $profileGloblaPermisson=Array($viewall_actionid=>permission, $editall_actionid=>permission)
  */
-function getProfileGlobalPermission($profileid)
+	public static function getProfileGlobalPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
@@ -582,7 +569,7 @@ function getProfileGlobalPermission($profileid)
  * @returns Profile Tabs Permission Array in the following format:
  * $profileTabPermisson=Array($tabid1=>permission, $tabid2=>permission,........., $tabidn=>permission)
  */
-function getProfileTabsPermission($profileid)
+	public static function getProfileTabsPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
@@ -610,7 +597,7 @@ function getProfileTabsPermission($profileid)
  *                                |
  *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
  */
-function getProfileActionPermission($profileid)
+	public static function getProfileActionPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileActionPermission(" . $profileid . ") method ...");
@@ -646,7 +633,7 @@ function getProfileActionPermission($profileid)
  *                                |
  *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
  */
-function getProfileAllActionPermission($profileid)
+	public static function getProfileAllActionPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
@@ -667,7 +654,7 @@ function getProfileAllActionPermission($profileid)
 /** Function to get all  the vtiger_role information
  * @returns $allRoleDetailArray-- Array will contain the details of all the vtiger_roles. RoleId will be the key:: Type array
  */
-function getAllRoleDetails()
+	public static function getAllRoleDetails()
 {
 
 	\App\Log::trace('Entering getAllRoleDetails() method ...');
@@ -714,7 +701,7 @@ function getAllRoleDetails()
  * @returns $roleUsers-- Role Related User Array in the following format:
  *       $roleUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName));
  */
-function getRoleUsers($roleId)
+	public static function getRoleUsers($roleId)
 {
 
 	\App\Log::trace('Entering getRoleUsers(' . $roleId . ') method ...');
@@ -743,7 +730,7 @@ function getRoleUsers($roleId)
  * @returns $roleUserIds-- Role Related User Array in the following format:
  *       $roleUserIds=Array($userId1,$userId2,........,$userIdn);
  */
-function getRoleUserIds($roleId)
+	public static function getRoleUserIds($roleId)
 {
 	return \App\PrivilegeUtil::getUsersByRole($roleId);
 }
@@ -753,7 +740,7 @@ function getRoleUserIds($roleId)
  * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
  *       $roleSubUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName));
  */
-function getRoleAndSubordinateUsers($roleId)
+	public static function getRoleAndSubordinateUsers($roleId)
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
@@ -776,7 +763,7 @@ function getRoleAndSubordinateUsers($roleId)
  * @returns $roleSubInfo-- Role and Subordinates Information array in the following format:
  *       $roleSubInfo=Array($roleId1=>Array($rolename,$parentrole,$roledepth,$immediateParent), $roleId2=>Array($rolename,$parentrole,$roledepth,$immediateParent),.....);
  */
-function getRoleAndSubordinatesInformation($roleId)
+	public static function getRoleAndSubordinatesInformation($roleId)
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinatesInformation(" . $roleId . ") method ...");
@@ -813,7 +800,7 @@ function getRoleAndSubordinatesInformation($roleId)
  * @returns $roleSubRoleIds-- Role and Subordinates RoleIds in an Array in the following format:
  *       $roleSubRoleIds=Array($roleId1,$roleId2,........,$roleIdn);
  */
-function getRoleAndSubordinatesRoleIds($roleId)
+	public static function getRoleAndSubordinatesRoleIds($roleId)
 {
 
 	\App\Log::trace("Entering getRoleAndSubordinatesRoleIds(" . $roleId . ") method ...");
@@ -836,7 +823,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 /** Function to delete the vtiger_role related sharing rules
  * @param $roleid -- RoleId :: Type varchar
  */
-function deleteRoleRelatedSharingRules($roleId)
+	public static function deleteRoleRelatedSharingRules($roleId)
 {
 
 	\App\Log::trace('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
@@ -875,7 +862,7 @@ function deleteRoleRelatedSharingRules($roleId)
 /** Function to delete the group related sharing rules
  * @param $roleid -- RoleId :: Type varchar
  */
-function deleteGroupRelatedSharingRules($grpId)
+	public static function deleteGroupRelatedSharingRules($grpId)
 {
 
 	\App\Log::trace("Entering deleteGroupRelatedSharingRules(" . $grpId . ") method ...");
@@ -910,7 +897,7 @@ function deleteGroupRelatedSharingRules($grpId)
 	\App\Log::trace('Exiting deleteGroupRelatedSharingRules method ...');
 }
 
-function deleteUserRelatedSharingRules($usId)
+	public static function deleteUserRelatedSharingRules($usId)
 {
 
 	\App\Log::trace("Entering deleteGroupRelatedSharingRules(" . $usId . ") method ...");
@@ -950,7 +937,7 @@ function deleteUserRelatedSharingRules($usId)
  * @returns $userArray -- User Array in the following format:
  * $userArray=Array($userid1=>$username, $userid2=>$username,............,$useridn=>$username);
  */
-function getAllUserName()
+	public static function getAllUserName()
 {
 
 	\App\Log::trace("Entering getAllUserName() method ...");
@@ -972,7 +959,7 @@ function getAllUserName()
  * @returns $grpArray -- Group Array in the following format:
  * $grpArray=Array($grpid1=>$grpname, $grpid2=>$grpname,............,$grpidn=>$grpname);
  */
-function getAllGroupName()
+	public static function getAllGroupName()
 {
 
 	\App\Log::trace("Entering getAllGroupName() method ...");
@@ -994,7 +981,7 @@ function getAllGroupName()
  * It takes the following input parameters:
  *     $shareid -- Id of the Sharing Rule to be updated
  */
-function deleteSharingRule($shareid)
+	public static function deleteSharingRule($shareid)
 {
 
 	\App\Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
@@ -1026,7 +1013,7 @@ function deleteSharingRule($shareid)
  * 				    'RS::ROLE'=>'datashare_rs2role',
  * 				    'RS::RS'=>'datashare_rs2rs');
  */
-function getDataShareTableName()
+	public static function getDataShareTableName()
 {
 
 	\App\Log::trace('Entering getDataShareTableName() method ...');
@@ -1057,7 +1044,7 @@ function getDataShareTableName()
  *  @returns Table Name -- Type Varchar
  *
  */
-function getDSTableNameForType($typeString)
+	public static function getDSTableNameForType($typeString)
 {
 
 	\App\Log::trace("Entering getDSTableNameForType(" . $typeString . ") method ...");
@@ -1073,7 +1060,7 @@ function getDSTableNameForType($typeString)
  *     $gloabalPerrArray=(view all action id=>permission,
   edit all action id=>permission)							);
  */
-function getCombinedUserGlobalPermissions($userId)
+	public static function getCombinedUserGlobalPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
@@ -1110,7 +1097,7 @@ function getCombinedUserGlobalPermissions($userId)
  *     $tabPerrArray=(tabid1=>permission,
  * 			   tabid2=>permission)							);
  */
-function getCombinedUserTabsPermissions($userId)
+	public static function getCombinedUserTabsPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
@@ -1151,7 +1138,7 @@ function getCombinedUserTabsPermissions($userId)
  *     $actionPerrArray=(tabid1=>permission,
  * 			   tabid2=>permission);
  */
-function getCombinedUserActionPermissions($userId)
+	public static function getCombinedUserActionPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
@@ -1191,7 +1178,7 @@ function getCombinedUserActionPermissions($userId)
   |
   vtiger_roleidn=>Array(userid1,userid2,userid3));
  */
-function getSubordinateRoleAndUsers($roleId)
+	public static function getSubordinateRoleAndUsers($roleId)
 {
 
 	\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
@@ -1206,7 +1193,7 @@ function getSubordinateRoleAndUsers($roleId)
 	return $subRoleAndUsers;
 }
 
-function getCurrentUserGroupList()
+	public static function getCurrentUserGroupList()
 {
 
 	\App\Log::trace("Entering getCurrentUserGroupList() method ...");
@@ -1224,7 +1211,7 @@ function getCurrentUserGroupList()
 	return $grpList;
 }
 
-function getWriteSharingGroupsList($module)
+	public static function getWriteSharingGroupsList($module)
 {
 
 	\App\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
@@ -1244,7 +1231,7 @@ function getWriteSharingGroupsList($module)
 	return $shareGrpList;
 }
 
-function constructList($array, $data_type)
+	public static function constructList($array, $data_type)
 {
 
 	\App\Log::trace("Entering constructList(" . $array . "," . $data_type . ") method ...");
@@ -1264,7 +1251,7 @@ function constructList($array, $data_type)
 	return $list;
 }
 
-function getListViewSecurityParameter($module)
+	public static function getListViewSecurityParameter($module)
 {
 
 	\App\Log::trace("Entering getListViewSecurityParameter(" . $module . ") method ...");
@@ -1354,7 +1341,7 @@ function getListViewSecurityParameter($module)
 	return $sec_query;
 }
 
-function get_current_user_access_groups($module)
+	public static function get_current_user_access_groups($module)
 {
 
 	\App\Log::trace("Entering get_current_user_access_groups(" . $module . ") method ...");
@@ -1384,7 +1371,7 @@ function get_current_user_access_groups($module)
  * @returns permitted module name Array :: Type Array
  *
  */
-function getPermittedModuleNames()
+	public static function getPermittedModuleNames()
 {
 
 	\App\Log::trace("Entering getPermittedModuleNames() method ...");
@@ -1415,7 +1402,7 @@ function getPermittedModuleNames()
  * @global Users $current_user
  * @return Array Array of accessible tabids.
  */
-function getPermittedModuleIdList()
+	public static function getPermittedModuleIdList()
 {
 	$current_user = vglobal('current_user');
 	$permittedModules = [];
@@ -1447,7 +1434,7 @@ function getPermittedModuleIdList()
  * This function will recalculate all the sharing rules for all the vtiger_users in the Organization and will write them in flat vtiger_files
  *
  */
-function RecalculateSharingRules()
+	public static function RecalculateSharingRules()
 {
 
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
@@ -1470,8 +1457,10 @@ function RecalculateSharingRules()
  * @param Users $user - user for which query needs to be generated.
  * @return String Access control Query for the user.
  */
-function getNonAdminAccessControlQuery($module, $user, $scope = '')
+	public static function getNonAdminAccessControlQuery($module, $user, $scope = '')
 {
 	$instance = CRMEntity::getInstance($module);
 	return $instance->getNonAdminAccessControlQuery($module, $user, $scope);
 }
+}
+

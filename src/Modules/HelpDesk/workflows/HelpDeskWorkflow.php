@@ -150,7 +150,7 @@ function HelpDeskNewCommentOwner(\App\Modules\Vtiger\Models\Record $recordModel)
 				$mails[] = $currentUser->column_fields['email1'];
 			}
 		} else {
-			require_once(ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php');
+			require_once(ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php');
 			$ggu = new GetGroupUsers();
 			$ggu->getAllUsersInGroup($smownerid);
 			foreach ($ggu->group_users as $userId) {

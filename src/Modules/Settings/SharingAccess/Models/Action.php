@@ -76,7 +76,7 @@ class Action extends \Vtiger_Record_Model
 		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
 		$params = [];
 		if ($configurable) {
-			$sql .= sprintf(' WHERE share_action_name NOT IN (%s)', generateQuestionMarks(self::$nonConfigurableActions));
+			$sql .= sprintf(' WHERE share_action_name NOT IN (%s)', \App\Utils\Utils::generateQuestionMarks(self::$nonConfigurableActions));
 			array_push($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);

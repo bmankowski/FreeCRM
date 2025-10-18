@@ -315,7 +315,7 @@ class ReportRun extends \App\CRMEntity
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 			list($module, $field) = explode('__', $module_field, 2);
 			$inventory_fields = array('serviceid');
-			$inventory_modules = getInventoryModules();
+			$inventory_modules = \App\Utils\Utils::getInventoryModules();
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if (sizeof($permitted_fields[$module]) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 				$permitted_fields[$module] = $this->getaccesfield($module);
@@ -401,13 +401,13 @@ class ReportRun extends \App\CRMEntity
 			$field_label_data = explode('__', $selectedfields[2]);
 			$module = $field_label_data[0];
 			if ($module != $this->primarymodule) {
-				$columnSQL = 'case when (' . $selectedfields[0] . '.' . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+				$columnSQL = 'case when (' . $selectedfields[0] . '.' . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 				$this->queryPlanner->addTable("vtiger_crmentity$module");
 			} else {
 				if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
-					$columnSQL = 'case when ( vtiger_crmentity.' . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+					$columnSQL = 'case when ( vtiger_crmentity.' . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 				} else {
-					$columnSQL = 'case when (' . $selectedfields[0] . '.' . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
+					$columnSQL = 'case when (' . $selectedfields[0] . '.' . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity.crmid !='') then 'no' else '-' end end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 					$this->queryPlanner->addTable($selectedfields[0]);
 				}
 			}
@@ -416,27 +416,27 @@ class ReportRun extends \App\CRMEntity
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
 					$columnSQL = "YEAR(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME)) AS Calendar__Start__Date__and__Time__Year";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
-					$columnSQL = 'YEAR(vtiger_crmentity.' . $selectedfields[1] . ") AS '" . decode_html($header_label) . "__Year'";
+					$columnSQL = 'YEAR(vtiger_crmentity.' . $selectedfields[1] . ") AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "__Year'";
 				} else {
-					$columnSQL = 'YEAR(' . $selectedfields[0] . '.' . $selectedfields[1] . ") AS '" . decode_html($header_label) . "__Year'";
+					$columnSQL = 'YEAR(' . $selectedfields[0] . '.' . $selectedfields[1] . ") AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "__Year'";
 				}
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} elseif ($selectedfields[5] == 'M') {
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
 					$columnSQL = "MONTHNAME(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME)) AS Calendar__Start__Date__and__Time__Month";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
-					$columnSQL = "MONTHNAME(vtiger_crmentity." . $selectedfields[1] . ") AS '" . decode_html($header_label) . "__Month'";
+					$columnSQL = "MONTHNAME(vtiger_crmentity." . $selectedfields[1] . ") AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "__Month'";
 				} else {
-					$columnSQL = 'MONTHNAME(' . $selectedfields[0] . "." . $selectedfields[1] . ") AS '" . decode_html($header_label) . "__Month'";
+					$columnSQL = 'MONTHNAME(' . $selectedfields[0] . "." . $selectedfields[1] . ") AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "__Month'";
 				}
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} elseif ($selectedfields[5] == 'MY') { // used in charts to get the year also, which will be used for click throughs
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
 					$columnSQL = "date_format(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME), '%M %Y') AS Calendar__Start__Date__and__Time__Month";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
-					$columnSQL = 'date_format(vtiger_crmentity.' . $selectedfields[1] . ", '%M %Y') AS '" . decode_html($header_label) . "__Month'";
+					$columnSQL = 'date_format(vtiger_crmentity.' . $selectedfields[1] . ", '%M %Y') AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "__Month'";
 				} else {
-					$columnSQL = 'date_format(' . $selectedfields[0] . "." . $selectedfields[1] . ", '%M %Y') AS '" . decode_html($header_label) . "__Month'";
+					$columnSQL = 'date_format(' . $selectedfields[0] . "." . $selectedfields[1] . ", '%M %Y') AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "__Month'";
 				}
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} else {
@@ -449,9 +449,9 @@ class ReportRun extends \App\CRMEntity
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
 					$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME) AS Calendar__Start__Date__and__Time";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
-					$columnSQL = "date_format(vtiger_crmentity." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
+					$columnSQL = "date_format(vtiger_crmentity." . $selectedfields[1] . ",'$userformat') AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				} else {
-					$columnSQL = "date_format (" . $selectedfields[0] . "." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
+					$columnSQL = "date_format (" . $selectedfields[0] . "." . $selectedfields[1] . ",'$userformat') AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				}
 
 				$this->queryPlanner->addTable($selectedfields[0]);
@@ -470,10 +470,10 @@ class ReportRun extends \App\CRMEntity
 			}
 			if ($temp_module_from_tablename == $module) {
 				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
-				$columnSQL = " case when(" . $selectedfields[0] . ".last_name NOT LIKE '' $condition ) THEN " . $concatSql . " else vtiger_groups" . $module . ".groupname end AS '" . decode_html($header_label) . "'";
+				$columnSQL = " case when(" . $selectedfields[0] . ".last_name NOT LIKE '' $condition ) THEN " . $concatSql . " else vtiger_groups" . $module . ".groupname end AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable('vtiger_groups' . $module); // Auto-include the dependent module table.
 			} else {//Some Fields can't assigned to groups so case avoided (fields like inventory manager)
-				$columnSQL = $selectedfields[0] . ".user_name AS '" . decode_html($header_label) . "'";
+				$columnSQL = $selectedfields[0] . ".user_name AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 			}
 			$this->queryPlanner->addTable($selectedfields[0]);
 		} elseif (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'modifiedby')) {
@@ -489,7 +489,7 @@ class ReportRun extends \App\CRMEntity
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'smcreatorid')) {
 			$targetTableName = 'vtiger_createdby' . $module;
 			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
-			$columnSQL = "trim($concatSql) AS " . decode_html($header_label) . "";
+			$columnSQL = "trim($concatSql) AS " . \App\Utils\ListViewUtils::decodeHtml($header_label) . "";
 			$this->queryPlanner->addTable("vtiger_crmentity$module");
 			$this->queryPlanner->addTable($targetTableName);
 
@@ -509,47 +509,47 @@ class ReportRun extends \App\CRMEntity
 
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} elseif ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
-			$columnSQL = "vtiger_crmentity." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
+			$columnSQL = "vtiger_crmentity." . $selectedfields[1] . " AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 		} elseif ($selectedfields[0] == 'vtiger_products' && $selectedfields[1] == 'unit_price') {
-			$columnSQL = "concat(" . $selectedfields[0] . ".currency_id,'::',innerProduct.actual_unit_price) AS '" . decode_html($header_label) . "'";
+			$columnSQL = "concat(" . $selectedfields[0] . ".currency_id,'::',innerProduct.actual_unit_price) AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 			$this->queryPlanner->addTable("innerProduct");
 		} elseif (in_array($selectedfields[2], $this->append_currency_symbol_to_value)) {
 			if ($selectedfields[1] == 'discount_amount') {
-				$columnSQL = "CONCAT(" . $selectedfields[0] . ".currency_id,'::', IF(" . $selectedfields[0] . ".discount_amount != ''," . $selectedfields[0] . ".discount_amount, (" . $selectedfields[0] . ".discount_percent/100) * " . $selectedfields[0] . ".subtotal)) AS " . decode_html($header_label);
+				$columnSQL = "CONCAT(" . $selectedfields[0] . ".currency_id,'::', IF(" . $selectedfields[0] . ".discount_amount != ''," . $selectedfields[0] . ".discount_amount, (" . $selectedfields[0] . ".discount_percent/100) * " . $selectedfields[0] . ".subtotal)) AS " . \App\Utils\ListViewUtils::decodeHtml($header_label);
 			} else {
-				$columnSQL = "concat(" . $selectedfields[0] . ".currency_id,'::'," . $selectedfields[0] . "." . $selectedfields[1] . ") AS '" . decode_html($header_label) . "'";
+				$columnSQL = "concat(" . $selectedfields[0] . ".currency_id,'::'," . $selectedfields[0] . "." . $selectedfields[1] . ") AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 			}
 		} elseif ($selectedfields[0] == 'vtiger_notes' && ($selectedfields[1] == 'filelocationtype' || $selectedfields[1] == 'filesize' || $selectedfields[1] == 'folderid' || $selectedfields[1] == 'filestatus')) {
 			if ($selectedfields[1] == 'filelocationtype') {
-				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when 'I' then 'Internal' when 'E' then 'External' else '-' end AS '" . decode_html($selectedfields[2]) . "'";
+				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when 'I' then 'Internal' when 'E' then 'External' else '-' end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 			} else if ($selectedfields[1] == 'folderid') {
 				$columnSQL = "`vtiger_trees_templates_data`.name AS '$selectedfields[2]'";
 				$this->queryPlanner->addTable("`vtiger_trees_templates_data`");
 			} elseif ($selectedfields[1] == 'filestatus') {
-				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when '1' then 'yes' when '0' then 'no' else '-' end AS '" . decode_html($selectedfields[2]) . "'";
+				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when '1' then 'yes' when '0' then 'no' else '-' end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 			} elseif ($selectedfields[1] == 'filesize') {
-				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when '' then '-' else concat(" . $selectedfields[0] . "." . $selectedfields[1] . "/1024,'  ','KB') end AS '" . decode_html($selectedfields[2]) . "'";
+				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when '' then '-' else concat(" . $selectedfields[0] . "." . $selectedfields[1] . "/1024,'  ','KB') end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 			}
 		} elseif ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 			if ($selectedfields[1] == 'discount_amount') {
-				$columnSQL = " case when (vtiger_inventoryproductrel{$module}.discount_amount != '') then vtiger_inventoryproductrel{$module}.discount_amount else ROUND((vtiger_inventoryproductrel{$module}.listprice * vtiger_inventoryproductrel{$module}.quantity * (vtiger_inventoryproductrel{$module}.discount_percent/100)),3) end AS '" . decode_html($header_label) . "'";
+				$columnSQL = " case when (vtiger_inventoryproductrel{$module}.discount_amount != '') then vtiger_inventoryproductrel{$module}.discount_amount else ROUND((vtiger_inventoryproductrel{$module}.listprice * vtiger_inventoryproductrel{$module}.quantity * (vtiger_inventoryproductrel{$module}.discount_percent/100)),3) end AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable($selectedfields[0] . $module);
 			} else if ($selectedfields[1] == 'productid') {
-				$columnSQL = "vtiger_products{$module}.productname AS '" . decode_html($header_label) . "'";
+				$columnSQL = "vtiger_products{$module}.productname AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable("vtiger_products{$module}");
 			} else if ($selectedfields[1] == 'serviceid') {
-				$columnSQL = "vtiger_service{$module}.servicename AS '" . decode_html($header_label) . "'";
+				$columnSQL = "vtiger_service{$module}.servicename AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable("vtiger_service{$module}");
 			} else if ($selectedfields[1] == 'listprice') {
 				$moduleInstance = \App\CRMEntity::getInstance($module);
-				$columnSQL = $selectedfields[0] . $module . "." . $selectedfields[1] . "/" . $moduleInstance->table_name . ".conversion_rate AS '" . decode_html($header_label) . "'";
+				$columnSQL = $selectedfields[0] . $module . "." . $selectedfields[1] . "/" . $moduleInstance->table_name . ".conversion_rate AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable($selectedfields[0] . $module);
 			} else {
-				$columnSQL = $selectedfields[0] . $module . "." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
+				$columnSQL = $selectedfields[0] . $module . "." . $selectedfields[1] . " AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable($selectedfields[0] . $module);
 			}
 		} else {
-			$columnSQL = $selectedfields[0] . "." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
+			$columnSQL = $selectedfields[0] . "." . $selectedfields[1] . " AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 			$this->queryPlanner->addTable($selectedfields[0]);
 		}
 		return $columnSQL;
@@ -571,7 +571,7 @@ class ReportRun extends \App\CRMEntity
 		if ($module == "Calendar") {
 			if (count($profileList) > 0) {
 				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
-								and vtiger_field.presence IN (0,2) and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
+								and vtiger_field.presence IN (0,2) and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
 				array_push($params, $profileList);
 			} else {
 				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
@@ -581,7 +581,7 @@ class ReportRun extends \App\CRMEntity
 			array_push($params, $module);
 			if (count($profileList) > 0) {
 				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0
-								and vtiger_field.presence IN (0,2) and vtiger_def_org_field.visible=0 and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
+								and vtiger_field.presence IN (0,2) and vtiger_def_org_field.visible=0 and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
 				array_push($params, $profileList);
 			} else {
 				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0
@@ -627,7 +627,7 @@ class ReportRun extends \App\CRMEntity
 				foreach ($fieldSqlColumns as $columnSql) {
 					$queryColumn .= " WHEN $columnSql NOT LIKE '' THEN $columnSql";
 				}
-				$moduleFieldLabel = \App\Purifier::purify(decode_html($moduleFieldLabel));
+				$moduleFieldLabel = \App\Purifier::purify(\App\Utils\ListViewUtils::decodeHtml($moduleFieldLabel));
 				$queryColumn .= " ELSE '' END) ELSE '' END) AS '$moduleFieldLabel'";
 				$this->queryPlanner->addTable($tableName);
 			}
@@ -736,16 +736,16 @@ class ReportRun extends \App\CRMEntity
 			}
 		}
 		if ($comparator == 's') {
-			$rtvalue = " like " . formatForSqlLike($value, 2, $is_field);
+			$rtvalue = " like " . \App\Utils\Utils::formatForSqlLike($value, 2, $is_field);
 		}
 		if ($comparator == 'ew') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 1, $is_field);
+			$rtvalue = ' like ' . \App\Utils\Utils::formatForSqlLike($value, 1, $is_field);
 		}
 		if ($comparator == 'c') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' like ' . \App\Utils\Utils::formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'k') {
-			$rtvalue = ' not like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' not like ' . \App\Utils\Utils::formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'l') {
 			$rtvalue = ' < ' . $adb->quote($value);
@@ -933,14 +933,14 @@ class ReportRun extends \App\CRMEntity
 									if ($type == 'DT') {
 										$userStartDate = $userStartDate . ' 00:00:00';
 									}
-									$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+									$startDateTime = \App\Utils\Utils::getValidDBInsertDateTimeValue($userStartDate);
 
 									$endDateTime = new \App\Fields\DateTimeField($endDate . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									if ($type == 'DT') {
 										$userEndDate = $userEndDate . ' 23:59:59';
 									}
-									$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+									$endDateTime = \App\Utils\Utils::getValidDBInsertDateTimeValue($userEndDate);
 
 									if ($selectedFields[1] == 'birthday') {
 										$tableColumnSql = 'DATE_FORMAT(' . $selectedFields[0] . '.' . $selectedFields[1] . ', "%m%d")';
@@ -989,8 +989,8 @@ class ReportRun extends \App\CRMEntity
 									$tempDate = strtotime($date2) - 1;
 									$date2 = date('Y-m-d H:i:s', $tempDate);
 
-									$start = getValidDBInsertDateTimeValue($date1);
-									$end = getValidDBInsertDateTimeValue($date2);
+									$start = \App\Utils\Utils::getValidDBInsertDateTimeValue($date1);
+									$end = \App\Utils\Utils::getValidDBInsertDateTimeValue($date2);
 									$start = "'$start'";
 									$end = "'$end'";
 									if ($comparator == 'e')
@@ -1005,12 +1005,12 @@ class ReportRun extends \App\CRMEntity
 									$startDateTime = new \App\Fields\DateTimeField($startDateTime[0] . ' ' . date('H:i:s'));
 									$userStartDate = $startDateTime->getDisplayDate();
 									$userStartDate = $userStartDate . ' 00:00:00';
-									$start = getValidDBInsertDateTimeValue($userStartDate);
+									$start = \App\Utils\Utils::getValidDBInsertDateTimeValue($userStartDate);
 
 									$endDateTime = new \App\Fields\DateTimeField($endDateTime[0] . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									$userEndDate = $userEndDate . ' 23:59:59';
-									$end = getValidDBInsertDateTimeValue($userEndDate);
+									$end = \App\Utils\Utils::getValidDBInsertDateTimeValue($userEndDate);
 
 									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' AND '$end'";
 								} else if ($comparator == 'a' || $comparator == 'b') {
@@ -1021,13 +1021,13 @@ class ReportRun extends \App\CRMEntity
 										$nextday = $modifiedDate->format('Y-m-d H:i:s');
 										$temp = strtotime($nextday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Utils\Utils::getValidDBInsertDateTimeValue($date);
 										$advfiltergroupsql .= "$tableColumnSql > '$value'";
 									} else {
 										$prevday = $dateTime->format('Y-m-d H:i:s');
 										$temp = strtotime($prevday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Utils\Utils::getValidDBInsertDateTimeValue($date);
 										$advfiltergroupsql .= "$tableColumnSql < '$value'";
 									}
 								}
@@ -1346,14 +1346,14 @@ class ReportRun extends \App\CRMEntity
 					if ($type == 'DT') {
 						$userStartDate = $userStartDate . ' 00:00:00';
 					}
-					$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+					$startDateTime = \App\Utils\Utils::getValidDBInsertDateTimeValue($userStartDate);
 
 					$endDateTime = new \App\Fields\DateTimeField($enddate . ' ' . date('H:i:s'));
 					$userEndDate = $endDateTime->getDisplayDate();
 					if ($type == 'DT') {
 						$userEndDate = $userEndDate . ' 23:59:00';
 					}
-					$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+					$endDateTime = \App\Utils\Utils::getValidDBInsertDateTimeValue($userEndDate);
 
 					if ($selectedfields[1] == 'birthday') {
 						$tableColumnSql = "DATE_FORMAT(" . $selectedfields[0] . "." . $selectedfields[1] . ", '%m%d')";
@@ -1452,9 +1452,9 @@ class ReportRun extends \App\CRMEntity
 				if ($fieldType == 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 					if ($field->getUIType() == '72') {
-						$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value, null, true);
+						$adv_filter_value = \App\Fields\CurrencyField::convertToDBFormat($adv_filter_value, null, true);
 					} else {
-						$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value);
+						$adv_filter_value = \App\Fields\CurrencyField::convertToDBFormat($adv_filter_value);
 					}
 				}
 
@@ -1607,7 +1607,7 @@ class ReportRun extends \App\CRMEntity
 		$result = $adb->pquery($sreportsortsql, array($reportid, $reportid));
 		$grouplist = array();
 
-		$inventoryModules = getInventoryModules();
+		$inventoryModules = \App\Utils\Utils::getInventoryModules();
 		while ($reportsortrow = $adb->fetch_array($result)) {
 			$fieldcolname = $reportsortrow["columnname"];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
@@ -1626,7 +1626,7 @@ class ReportRun extends \App\CRMEntity
 				if (stripos($selectedfields[1], 'cf_') == 0 && stristr($selectedfields[1], 'cf_') === true) {
 					//In sql queries forward slash(/) is treated as query terminator,so to avoid this problem
 					//the column names are enclosed within ('[]'),which will treat this as part of column name
-					$sqlvalue = "`" . $adb->sql_escape_string(decode_html($selectedfields[2])) . "` " . $sortorder;
+					$sqlvalue = "`" . $adb->sql_escape_string(\App\Utils\ListViewUtils::decodeHtml($selectedfields[2])) . "` " . $sortorder;
 				} else {
 					$sqlvalue = "`" . self::replaceSpecialChar($selectedfields[2]) . "` " . $sortorder;
 				}
@@ -1670,7 +1670,7 @@ class ReportRun extends \App\CRMEntity
 	 */
 	public function replaceSpecialChar($selectedfield)
 	{
-		$selectedfield = decode_html(decode_html($selectedfield));
+		$selectedfield = \App\Utils\ListViewUtils::decodeHtml(\App\Utils\ListViewUtils::decodeHtml($selectedfield));
 		preg_match('/&/', $selectedfield, $matches);
 		if (!empty($matches)) {
 			$selectedfield = str_replace('&', 'and', ($selectedfield));
@@ -1749,7 +1749,7 @@ class ReportRun extends \App\CRMEntity
 					if (count($secondarymodule) > 1) {
 						$query .= $focQuery . $this->getReportsNonAdminAccessControlQuery($value, $current_user, $value);
 					} else {
-						$query .= $focQuery . getNonAdminAccessControlQuery($value, $current_user, $value);
+						$query .= $focQuery . \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($value, $current_user, $value);
 						;
 					}
 				}
@@ -1867,7 +1867,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0';
 		} else if ($module == 'Accounts') {
 			$query = 'from vtiger_account
@@ -1911,7 +1911,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Contacts') {
 			$query = 'from vtiger_contactdetails
@@ -1963,7 +1963,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0';
 		}
 
@@ -2011,7 +2011,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) . '
+				\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) . '
 				where vtiger_crmentity.deleted=0';
 		} else if ($module == 'HelpDesk') {
 			$matrix = $this->queryPlanner->newDependencyMatrix();
@@ -2067,7 +2067,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Calendar') {
 
@@ -2122,7 +2122,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Campaigns') {
 			$query = 'from vtiger_campaign
@@ -2162,7 +2162,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0';
 		} else if ($module == 'OSSTimeControl') {
 			$query = 'FROM vtiger_osstimecontrol
@@ -2206,7 +2206,7 @@ class ReportRun extends \App\CRMEntity
 
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
-					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+					\App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 					' WHERE vtiger_crmentity.deleted=0';
 			}
 		}
@@ -2289,7 +2289,7 @@ class ReportRun extends \App\CRMEntity
 			$reportquery = sprintf('select DISTINCT %s %s %s ', $selectedcolumns, $reportquery, $wheresql);
 		}
 
-		$reportquery = listQueryNonAdminChange($reportquery, $this->primarymodule);
+		$reportquery = \App\Utils\ListViewUtils::listQueryNonAdminChange($reportquery, $this->primarymodule);
 
 		if (trim($groupsquery) != "" && $type !== 'COLUMNSTOTOTAL') {
 			if ($chartReport === true) {
@@ -2715,9 +2715,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__SUM';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2726,9 +2726,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__AVG';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2737,9 +2737,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MIN';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2748,9 +2748,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MAX';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$totalpdf[$rowcount][$arraykey] = $conv_value;
 						}else {
 							$totalpdf[$rowcount][$arraykey] = '';
@@ -2827,9 +2827,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__SUM';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -2838,9 +2838,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__AVG';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -2849,9 +2849,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MIN';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -2860,9 +2860,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MAX';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= '<td class="rptTotal">' . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= '<td class="rptTotal">&nbsp;</td>';
@@ -3032,9 +3032,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__SUM';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";
@@ -3043,9 +3043,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__AVG';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";
@@ -3054,9 +3054,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MIN';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";
@@ -3065,9 +3065,9 @@ class ReportRun extends \App\CRMEntity
 						$arraykey = $value . '__MAX';
 						if (isset($keyhdr[$arraykey])) {
 							if ($convert_price)
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
 							else
-								$conv_value = \App\fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+								$conv_value = \App\Fields\CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
 							$coltotalhtml .= "<td class='rptTotal'>" . $conv_value . '</td>';
 						}else {
 							$coltotalhtml .= "<td class='rptTotal'>&nbsp;</td>";
@@ -3291,7 +3291,7 @@ class ReportRun extends \App\CRMEntity
 		global $modules;
 		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$rep_header = ltrim($fldname);
-		$rep_header = decode_html($rep_header);
+		$rep_header = \App\Utils\ListViewUtils::decodeHtml($rep_header);
 		$labelInfo = explode('__', $rep_header);
 		$rep_module = $labelInfo[0];
 		if (is_array($this->labelMapping) && !empty($this->labelMapping[$rep_header])) {
@@ -3301,7 +3301,7 @@ class ReportRun extends \App\CRMEntity
 				$rep_module = '';
 			}
 			array_shift($labelInfo);
-			$fieldLabel = decode_html(implode("__", $labelInfo));
+			$fieldLabel = \App\Utils\ListViewUtils::decodeHtml(implode("__", $labelInfo));
 			$rep_header_temp = preg_replace("/\s+/", "__", $fieldLabel);
 			$rep_header = "$rep_module $fieldLabel";
 		}
@@ -3327,7 +3327,7 @@ class ReportRun extends \App\CRMEntity
 		if ($this->secondarymodule != '')
 			array_push($id, \App\Module::getModuleId($this->secondarymodule));
 
-		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
+		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', \App\Utils\Utils::generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
 		$roleid = $current_user->roleid;
 		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
@@ -3435,7 +3435,7 @@ class ReportRun extends \App\CRMEntity
 						continue;
 					}
 					if (is_string($value)) {
-						$value = decode_html($value);
+						$value = \App\Utils\ListViewUtils::decodeHtml($value);
 					}
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, $this->getPhpExcelTypeFromValue($value));
 					$count = $count + 1;
@@ -3468,7 +3468,7 @@ class ReportRun extends \App\CRMEntity
 				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName) . '-' . \App\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleName));
 				$count++;
 				foreach ($array_value as $hdr => $value) {
-					$value = decode_html($value);
+					$value = \App\Utils\ListViewUtils::decodeHtml($value);
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value);
 					$count = $count + 1;
 				}
@@ -3543,7 +3543,7 @@ class ReportRun extends \App\CRMEntity
                             LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid and vtiger_reportsortcol.reportid = vtiger_reportgroupbycolumn.reportid)
                             WHERE columnname!='none' and vtiger_reportsortcol.reportid=? ORDER By sortcolid";
 		$sortFieldResult = $adb->pquery($sortFieldQuery, array($reportid));
-		$inventoryModules = getInventoryModules();
+		$inventoryModules = \App\Utils\Utils::getInventoryModules();
 		if ($adb->num_rows($sortFieldResult) > 0) {
 			$fieldcolname = $adb->query_result($sortFieldResult, 0, 'columnname');
 			list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(":", $fieldcolname);

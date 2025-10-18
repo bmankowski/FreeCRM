@@ -59,7 +59,7 @@ class Menu extends \Vtiger_Record_Model
 	public function getUrl()
 	{
 		$url = $this->get('linkto');
-		$url = decode_html($url);
+		$url = \App\Utils\ListViewUtils::decodeHtml($url);
 		$url .= '&block=' . $this->getId();
 		return $url;
 	}

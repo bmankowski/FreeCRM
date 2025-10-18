@@ -99,7 +99,7 @@ class MenuItem extends \Vtiger_Record_Model
 	public function getUrl()
 	{
 		$url = $this->get('linkto');
-		$url = decode_html($url);
+		$url = \App\Utils\ListViewUtils::decodeHtml($url);
 		if (isset(self::$transformedUrlMapping[$url])) {
 			$url = self::$transformedUrlMapping[$url];
 		}

@@ -112,7 +112,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('IMPORT_ID', $importId);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
-		$viewer->assign('INVENTORY_MODULES', getInventoryModules());
+		$viewer->assign('INVENTORY_MODULES', \App\Utils\Utils::getInventoryModules());
 		$viewer->assign('CONTINUE_IMPORT', $continueImport);
 
 		$viewer->view('ImportStatus.tpl', 'Import');
@@ -128,7 +128,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('OWNER_ID', $ownerId);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
-		$viewer->assign('INVENTORY_MODULES', getInventoryModules());
+		$viewer->assign('INVENTORY_MODULES', \App\Utils\Utils::getInventoryModules());
 		$viewer->assign('TYPE', $importInfo['type']);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
 

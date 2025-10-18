@@ -9,7 +9,7 @@
  * ********************************************************************************** */
 
 
-namespace App\utils;
+namespace App\Utils;
 
 class ConfigReader
 {

@@ -186,7 +186,7 @@ class VTJsonCondition {
 				case 'date':
 					if ($condition !== 'between' && strtotime($value)) {
 						//strtotime condition is added for days before, days after where we give integer values, so strtotime will return 0 for such cases.
-						$value = getValidDBInsertDateValue($value);
+						$value = \App\Utils\Utils::getValidDBInsertDateValue($value);
 					}
 					break;
 				case 'time':

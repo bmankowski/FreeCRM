@@ -524,7 +524,7 @@ class Relation extends Model
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		$sourceModuleFocus = \App\CRMEntity::getInstance($sourceModuleName);
-		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
+		\App\Utils\Utils::relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
 
 	/**
@@ -578,7 +578,7 @@ class Relation extends Model
 				return false;
 			}
 			$destinationModuleFocus = \App\CRMEntity::getInstance($destinationModuleName);
-			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+			\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
 		}
 	}
@@ -723,7 +723,7 @@ class Relation extends Model
 			$presence = $relatedInfo['presence'];
 			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $presence;
 		}
-		$query .= ' END WHERE tabid=? && relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
+		$query .= ' END WHERE tabid=? && relation_id IN (' . \App\Utils\Utils::generateQuestionMarks($relation_ids) . ')';
 		$db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 

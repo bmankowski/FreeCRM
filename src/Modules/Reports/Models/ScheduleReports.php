@@ -40,12 +40,12 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 			$scheduledReportResult = $db->pquery('SELECT * FROM vtiger_schedulereports WHERE reportid = ?', array($recordId));
 			if ($db->num_rows($scheduledReportResult) > 0) {
 				$reportScheduleInfo = $db->query_result_rowdata($scheduledReportResult, 0);
-				$reportScheduleInfo['schdate'] = decode_html($reportScheduleInfo['schdate']);
-				$reportScheduleInfo['schdayoftheweek'] = decode_html($reportScheduleInfo['schdayoftheweek']);
-				$reportScheduleInfo['schdayofthemonth'] = decode_html($reportScheduleInfo['schdayofthemonth']);
-				$reportScheduleInfo['schannualdates'] = decode_html($reportScheduleInfo['schannualdates']);
-				$reportScheduleInfo['recipients'] = decode_html($reportScheduleInfo['recipients']);
-				$reportScheduleInfo['specificemails'] = decode_html($reportScheduleInfo['specificemails']);
+				$reportScheduleInfo['schdate'] = \App\Utils\ListViewUtils::decodeHtml($reportScheduleInfo['schdate']);
+				$reportScheduleInfo['schdayoftheweek'] = \App\Utils\ListViewUtils::decodeHtml($reportScheduleInfo['schdayoftheweek']);
+				$reportScheduleInfo['schdayofthemonth'] = \App\Utils\ListViewUtils::decodeHtml($reportScheduleInfo['schdayofthemonth']);
+				$reportScheduleInfo['schannualdates'] = \App\Utils\ListViewUtils::decodeHtml($reportScheduleInfo['schannualdates']);
+				$reportScheduleInfo['recipients'] = \App\Utils\ListViewUtils::decodeHtml($reportScheduleInfo['recipients']);
+				$reportScheduleInfo['specificemails'] = \App\Utils\ListViewUtils::decodeHtml($reportScheduleInfo['specificemails']);
 				$reportScheduleInfo['scheduleFileType'] = $reportScheduleInfo['filetype'];
 				$scheduledReportModel->setData($reportScheduleInfo);
 			}
@@ -77,7 +77,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 			$date = $this->get('schdate');
 			$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
 			$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-			$currentTime = \App\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
+			$currentTime = \App\Modules\Vtiger\helpers\Util::getActiveAdminCurrentDateTime();
 			if ($nextTriggerTime > $currentTime) {
 				$this->set('next_trigger_time', $nextTriggerTime);
 			} else {
@@ -156,7 +156,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 
 			if (!empty($recipients['Roles'])) {
 				foreach ($recipients['Roles'] as $roleId) {
-					$roleUsers = getRoleUsers($roleId);
+					$roleUsers = \App\Utils\UserInfoUtil::getRoleUsers($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -164,7 +164,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 			}
 
 			if (!empty($recipients['Groups'])) {
-				require_once ROOT_DIRECTORY . '/src/utils/GetGroupUsers.php';
+				require_once ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php';
 				foreach ($recipients['Groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);
@@ -176,7 +176,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 		$recipientsEmails = [];
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				if (!\App\Modules\Vtiger\Util::isUserDeleted($userId)) {
+				if (!\App\Modules\Vtiger\helpers\Util::isUserDeleted($userId)) {
 					$userName = \App\Fields\Owner::getUserLabel($userId);
 					$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {
@@ -206,7 +206,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 		$reportRecordModel = \App\Modules\Reports\Models\Record::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
 		\vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
-		$reportname = decode_html($reportRecordModel->getName());
+		$reportname = \App\Utils\ListViewUtils::decodeHtml($reportRecordModel->getName());
 		$subject = $reportname;
 		\vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
 		$baseFileName = $reportname . '__' . $currentTime;

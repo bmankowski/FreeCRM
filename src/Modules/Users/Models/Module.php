@@ -123,8 +123,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
-			$currency_code = decode_html($db->query_result($result, 0, 'currency_code'));
-			$currency_symbol = decode_html($db->query_result($result, 0, 'currency_symbol'));
+			$currency_code = \App\Utils\ListViewUtils::decodeHtml($db->query_result($result, 0, 'currency_code'));
+			$currency_symbol = \App\Utils\ListViewUtils::decodeHtml($db->query_result($result, 0, 'currency_symbol'));
 		}
 
 		//Updating Database
@@ -206,9 +206,9 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$result = $adb->pquery($currency_query, array());
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
-			$currencyname = decode_html($adb->query_result($result, $i, 'currency_name'));
-			$currencycode = decode_html($adb->query_result($result, $i, 'currency_code'));
-			$currencysymbol = decode_html($adb->query_result($result, $i, 'currency_symbol'));
+			$currencyname = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'currency_name'));
+			$currencycode = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'currency_code'));
+			$currencysymbol = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'currency_symbol'));
 			$currencies[$currencyname] = array($currencycode, $currencysymbol);
 		}
 		return $currencies;
@@ -225,7 +225,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$result = $adb->pquery($timezone_query, array());
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
-			$time_zone = decode_html($adb->query_result($result, $i, 'time_zone'));
+			$time_zone = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'time_zone'));
 			$time_zones_list[$time_zone] = $time_zone;
 		}
 		return $time_zones_list;
@@ -251,8 +251,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$result = $adb->query($language_query);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
-			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
-			$label = decode_html($adb->query_result($result, $i, 'label'));
+			$lang_prefix = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'prefix'));
+			$label = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'label'));
 			$languages[$lang_prefix] = $label;
 		}
 		asort($languages);
@@ -316,7 +316,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		}
 		$recordModel->saveToDb();
 		//After adding new user, set the default activity types for new user
-		\App\Modules\Vtiger\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		\App\Modules\Vtiger\helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\User::getCurrentUserRealId() === $recordModel->getId()) {
 			Vtiger_Session::set('language', $recordModel->get('language'));
 		}

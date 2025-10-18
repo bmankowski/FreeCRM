@@ -83,8 +83,8 @@ class Vendors extends \App\CRMEntity
 		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Vendors', 'detail_view');
-		$fields_list = getFieldsListFromQuery($sql);
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery('Vendors', 'detail_view');
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$query = "SELECT $fields_list FROM " . $this->entity_table . "
                                 INNER JOIN vtiger_vendor

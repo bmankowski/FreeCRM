@@ -34,7 +34,7 @@ class GetTCInfo extends \App\Runtime\Vtiger_Action_Controller
 
 		$sourceData = array();
 
-		if (isRecordExists($id)) {
+		if (\App\Utils\Utils::isRecordExists($id)) {
 			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $sourceModule);
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;

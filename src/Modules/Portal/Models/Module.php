@@ -100,16 +100,16 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$params = array();
 
 		if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
-			$query .= sprintf(' WHERE portalid IN (%s)', generateQuestionMarks($selectedIds));
+			$query .= sprintf(' WHERE portalid IN (%s)', \App\Utils\Utils::generateQuestionMarks($selectedIds));
 			$params = $selectedIds;
 		} else if ($selectedIds == 'all') {
 			if (empty($searchValue) && count($excludedIds) > 0) {
-				$query .= sprintf(' WHERE portalid NOT IN ()', generateQuestionMarks($excludedIds));
+				$query .= sprintf(' WHERE portalid NOT IN ()', \App\Utils\Utils::generateQuestionMarks($excludedIds));
 				$params = $excludedIds;
 			} else if (!empty($searchValue) && count($excludedIds) < 1) {
 				$query .= sprintf(" WHERE portalname LIKE '%s'", "%$searchValue%");
 			} else if (!empty($searchValue) && count($excludedIds) > 0) {
-				$query .= sprintf(" WHERE portalname LIKE '%s' && portalid NOT IN (%s)", "%$searchValue%", generateQuestionMarks($excludedIds));
+				$query .= sprintf(" WHERE portalname LIKE '%s' && portalid NOT IN (%s)", "%$searchValue%", \App\Utils\Utils::generateQuestionMarks($excludedIds));
 				$params = $excludedIds;
 			}
 		}

@@ -552,7 +552,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				$imagePath = $db->query_result($result, 0, 'path');
 				$imageName = $db->query_result($result, 0, 'name');
 				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalName = decode_html($imageName);
+				$imageOriginalName = \App\Utils\ListViewUtils::decodeHtml($imageName);
 				$imageDetails[] = array(
 					'id' => $imageId,
 					'orgname' => $imageOriginalName,

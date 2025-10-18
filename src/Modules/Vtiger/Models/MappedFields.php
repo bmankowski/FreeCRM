@@ -73,7 +73,7 @@ class MappedFields extends Model
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
-		if (!isRecordExists($recordId)) {
+		if (!\App\Utils\Utils::isRecordExists($recordId)) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return [];
 		}

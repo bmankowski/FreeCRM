@@ -118,7 +118,7 @@ class CurrencyField
 		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
 		$this->conversionRate = $currencyRateAndSymbol['rate'];
 		$this->currencySymbolPlacement = $user->currency_symbol_placement;
-		$this->numberOfDecimal = getCurrencyDecimalPlaces();
+		$this->numberOfDecimal = \App\Utils\Utils::getCurrencyDecimalPlaces();
 	}
 
 	public function getCurrencySymbol()
@@ -482,7 +482,7 @@ class CurrencyField
 			else
 				$decimalSeparator = $user->currency_decimal_separator;
 
-			$fieldValue = explode(decode_html($decimalSeparator), $value);
+			$fieldValue = explode(\App\Utils\ListViewUtils::decodeHtml($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {
 				if (strlen($fieldValue[1]) == 1) {
 					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];

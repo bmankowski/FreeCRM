@@ -16,13 +16,13 @@ class Notebook extends Model
 
 	public function getContent()
 	{
-		$data = \App\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->get('data')));
 		return $data['contents'];
 	}
 
 	public function getLastSavedDate()
 	{
-		$data = \App\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->get('data')));
 		return $data['lastSavedOn'];
 	}
 

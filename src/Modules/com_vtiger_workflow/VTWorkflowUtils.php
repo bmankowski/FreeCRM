@@ -152,7 +152,7 @@ class VTWorkflowUtils {
 			from vtiger_field
 			inner join vtiger_tab
 				on vtiger_field.tabid=vtiger_tab.tabid
-			where vtiger_tab.name not in(%s) and vtiger_tab.isentitytype=1 and vtiger_tab.presence in (0,2) ', generateQuestionMarks($modules_not_supported));
+			where vtiger_tab.name not in(%s) and vtiger_tab.isentitytype=1 and vtiger_tab.presence in (0,2) ', \App\Utils\Utils::generateQuestionMarks($modules_not_supported));
 		$it = new SqlResultIterator($adb, $adb->pquery($sql, [$modules_not_supported]));
 		$modules = array();
 		foreach ($it as $row) {

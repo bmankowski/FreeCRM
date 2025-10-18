@@ -25,7 +25,7 @@ class NeglectedAccounts extends \Vtiger_Index_View
 			(vtiger_entity_stats.crmactivity <= ? OR vtiger_entity_stats.crmactivity IS NULL)';
 		$params = [$moduleName, 0, 0];
 		if (is_array($user)) {
-			$sql .= ' AND vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
+			$sql .= ' AND vtiger_crmentity.smownerid IN (' . \App\Utils\Utils::generateQuestionMarks($user) . ') ';
 			$params = array_merge($params, $user);
 		} else {
 			$sql .= ' AND vtiger_crmentity.smownerid = ? ';

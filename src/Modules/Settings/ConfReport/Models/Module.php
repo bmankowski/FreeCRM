@@ -364,9 +364,9 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$permissions = array();
-		require_once ROOT_DIRECTORY . '/src/utils/VtlibUtils.php';
+		require_once ROOT_DIRECTORY . '/src/Utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
-			$isWriteable = vtlib_isWriteable($value);
+			$isWriteable = \App\Utils\VtlibUtils::isWriteable($value);
 			if (!$isWriteable || !$onlyError) {
 				$permissions[$index]['permission'] = 'TruePermission';
 				$permissions[$index]['path'] = $value;

@@ -85,8 +85,8 @@ class Leads extends \App\CRMEntity
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Leads", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery("Leads", "detail_view");
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');

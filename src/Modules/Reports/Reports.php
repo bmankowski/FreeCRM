@@ -83,13 +83,13 @@ class Reports extends \App\CRMEntity
 				$ssql .= " where vtiger_report.reportid = ?";
 				$params = array($reportid);
 
-				require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
+				require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_' . $current_user->id . '.php');
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($current_user->id);
 				$user_groups = $userGroups->user_groups;
 				if (!empty($user_groups) && $is_admin === false) {
-					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
+					$user_group_query = " (shareid IN (" . \App\Utils\Utils::generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
 					array_push($params, $user_groups);
 				}
 
@@ -126,8 +126,8 @@ class Reports extends \App\CRMEntity
 				$this->primodule = $cachedInfo["primarymodule"];
 				$this->secmodule = $cachedInfo["secondarymodules"];
 				$this->reporttype = $cachedInfo["reporttype"];
-				$this->reportname = decode_html($cachedInfo["reportname"]);
-				$this->reportdescription = decode_html($cachedInfo["description"]);
+				$this->reportname = \App\Utils\ListViewUtils::decodeHtml($cachedInfo["reportname"]);
+				$this->reportdescription = \App\Utils\ListViewUtils::decodeHtml($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
 				if ($is_admin === true || in_array($cachedInfo["owner"], $subordinate_users) || $cachedInfo["owner"] == $current_user->id)
 					$this->is_editable = 'true';
@@ -145,12 +145,12 @@ class Reports extends \App\CRMEntity
 		$adb = \App\database\PearDatabase::getInstance();
 		if (!isset($module))
 			return;
-		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
 		}
-		$sql = sprintf('SELECT blockid, blocklabel FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($tabid));
+		$sql = sprintf('SELECT blockid, blocklabel FROM vtiger_blocks WHERE tabid IN (%s)', \App\Utils\Utils::generateQuestionMarks($tabid));
 		$res = $adb->pquery($sql, [$tabid]);
 		$noOfRows = $adb->num_rows($res);
 		if ($noOfRows <= 0)
@@ -178,7 +178,7 @@ class Reports extends \App\CRMEntity
 		$this->module_list = array();
 
 		// Prefetch module info to check active or not and also get list of tabs
-		$modulerows = vtlib_prefetchModuleActiveInfo(false);
+		$modulerows = \App\Utils\VtlibUtils::prefetchModuleActiveInfo(false);
 
 		$cachedInfo = VTCacheUtils::lookupReport_ListofModuleInfos();
 
@@ -206,7 +206,7 @@ class Reports extends \App\CRMEntity
 				}
 
 				$moduleids = array_keys($this->module_id);
-				$query = sprintf('SELECT blockid, blocklabel, tabid FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($moduleids));
+				$query = sprintf('SELECT blockid, blocklabel, tabid FROM vtiger_blocks WHERE tabid IN (%s)', \App\Utils\Utils::generateQuestionMarks($moduleids));
 				$reportblocks = $adb->pquery($query, [$moduleids]);
 				$prev_block_label = '';
 				if ($adb->num_rows($reportblocks)) {
@@ -243,7 +243,7 @@ class Reports extends \App\CRMEntity
 					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.module
 					WHERE vtiger_tab.isentitytype = 1
 					AND vtiger_tab.name NOT IN(%s)
-					AND vtiger_tab.presence = 0", generateQuestionMarks($restricted_modules), generateQuestionMarks($restricted_modules));
+					AND vtiger_tab.presence = 0", \App\Utils\Utils::generateQuestionMarks($restricted_modules), \App\Utils\Utils::generateQuestionMarks($restricted_modules));
 				$relatedmodules = $adb->pquery($query, [$restricted_modules, $restricted_modules]);
 				if ($adb->num_rows($relatedmodules)) {
 					while ($resultrow = $adb->fetch_array($relatedmodules)) {
@@ -262,7 +262,7 @@ class Reports extends \App\CRMEntity
 
 							$rel_mod = array();
 							foreach ($old_related_modules[$module] as $key => $name) {
-								if (\App\Module::isModuleActive($name) && isPermitted($name, 'index', '')) {
+								if (\App\Module::isModuleActive($name) && \App\Utils\UserInfoUtil::isPermitted($name, 'index', '')) {
 									$rel_mod[] = $name;
 								}
 							}
@@ -306,8 +306,8 @@ class Reports extends \App\CRMEntity
 					$details['id'] = $reportfldrow["folderid"];
 					$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"] : $mod_strings[$reportfldrow["foldername"]];
 					$details['description'] = $reportfldrow["description"];
-					$details['fname'] = popup_decode_html($details['name']);
-					$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
+					$details['fname'] = \App\Utils\ListViewUtils::popupDecodeHtml($details['name']);
+					$details['fdescription'] = \App\Utils\ListViewUtils::popupDecodeHtml($reportfldrow["description"]);
 					$details['details'] = $reportsInAllFolders[$reportfldrow["folderid"]];
 					$returndata[] = $details;
 				}
@@ -319,8 +319,8 @@ class Reports extends \App\CRMEntity
 				$details['id'] = $reportfldrow["folderid"];
 				$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"] : $mod_strings[$reportfldrow["foldername"]];
 				$details['description'] = $reportfldrow["description"];
-				$details['fname'] = popup_decode_html($details['name']);
-				$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
+				$details['fname'] = \App\Utils\ListViewUtils::popupDecodeHtml($details['name']);
+				$details['fdescription'] = \App\Utils\ListViewUtils::popupDecodeHtml($reportfldrow["description"]);
 				$returndata[] = $details;
 			} while ($reportfldrow = $adb->fetch_array($result));
 		}
@@ -370,7 +370,7 @@ class Reports extends \App\CRMEntity
 				else
 					$report_details['editable'] = 'false';
 
-				if (isPermitted($report["primarymodule"], 'index') == "yes")
+				if (\App\Utils\UserInfoUtil::isPermitted($report["primarymodule"], 'index') == "yes")
 					$returndata[] = $report_details;
 			}while ($report = $adb->fetch_array($result));
 		}
@@ -404,12 +404,12 @@ class Reports extends \App\CRMEntity
 		}
 
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
-		require_once(ROOT_DIRECTORY . '/src/utils/GetUserGroups.php');
+		require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
 		$userGroups = new GetUserGroups();
 		$userGroups->getAllUserGroups($currentUser->getId());
 		$user_groups = $userGroups->user_groups;
 		if (!empty($user_groups) && $is_admin === false) {
-			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
+			$user_group_query = " (shareid IN (" . \App\Utils\Utils::generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
 			array_push($params, $user_groups);
 		}
 
@@ -455,7 +455,7 @@ class Reports extends \App\CRMEntity
 				else
 					$report_details['editable'] = 'false';
 
-				if (isPermitted($report["primarymodule"], 'index') == "yes")
+				if (\App\Utils\UserInfoUtil::isPermitted($report["primarymodule"], 'index') == "yes")
 					$returndata [$report["folderid"]][] = $report_details;
 			}while ($report = $adb->fetch_array($result));
 		}
@@ -582,12 +582,12 @@ class Reports extends \App\CRMEntity
 		$params = array($tabid, $block);
 
 		$profileList = $currentUser->getProfiles();
-		$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", generateQuestionMarks($tabid), generateQuestionMarks($block));
+		$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", \App\Utils\Utils::generateQuestionMarks($tabid), \App\Utils\Utils::generateQuestionMarks($block));
 		if ($profileList !== false && count($profileList) > 0) {
-			$sql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
+			$sql .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 			array_push($params, $profileList);
 		}
-		$sql .= ' and tablename NOT IN (' . generateQuestionMarks($skipTalbes) . ') ';
+		$sql .= ' and tablename NOT IN (' . \App\Utils\Utils::generateQuestionMarks($skipTalbes) . ') ';
 
 		//fix for Ticket #4016
 		if ($module == "Calendar")
@@ -736,7 +736,7 @@ class Reports extends \App\CRMEntity
 		if ($module == "Calendar") {
 			$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
 			if (count($profileList) > 0) {
-				$query .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
+				$query .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 				array_push($params, $profileList);
 			}
 			$query .= " group by vtiger_field.fieldid order by block,sequence";
@@ -744,7 +744,7 @@ class Reports extends \App\CRMEntity
 			array_push($params, $this->primodule, $this->secmodule);
 			$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?,?)) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
 			if (count($profileList) > 0) {
-				$query .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
+				$query .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 				array_push($params, $profileList);
 			}
 			$query .= " group by vtiger_field.fieldid order by block,sequence";
@@ -809,7 +809,7 @@ class Reports extends \App\CRMEntity
 		$selected_mod = explode(':', $this->secmodule);
 		array_push($selected_mod, $this->primodule);
 
-		$inventoryModules = getInventoryModules();
+		$inventoryModules = \App\Utils\Utils::getInventoryModules();
 		while ($columnslistrow = $adb->fetch_array($result)) {
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
@@ -900,9 +900,9 @@ class Reports extends \App\CRMEntity
 				}
 				if ($fieldType == 'currency') {
 					if ($field->getUIType() == '71') {
-						$advfilterval = \App\fields\CurrencyField::convertToUserFormat($advfilterval, $current_user);
+						$advfilterval = \App\Fields\CurrencyField::convertToUserFormat($advfilterval, $current_user);
 					} else if ($field->getUIType() == '72') {
-						$advfilterval = \App\fields\CurrencyField::convertToUserFormat($advfilterval, $current_user, true);
+						$advfilterval = \App\Fields\CurrencyField::convertToUserFormat($advfilterval, $current_user, true);
 					}
 				}
 
@@ -926,7 +926,7 @@ class Reports extends \App\CRMEntity
 				}
 
 				//In vtiger6 report filter conditions, if the value has "(double quotes) then it is failed.
-				$criteria['value'] = \App\Modules\Vtiger\Util::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = \App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$advft_criteria[$relcriteriarow['groupid']]['columns'][$j] = $criteria;
@@ -1035,7 +1035,7 @@ class Reports extends \App\CRMEntity
 		$profileList = $currentUser->getProfiles();
 		$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_def_org_field.visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
 		if ($profileList !== false && count($profileList) > 0) {
-			$ssql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
+			$ssql .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 			array_push($sparams, $profileList);
 		}
 		//Added to avoid display the Related fields (Account name,Vandor name,product name, etc) in Report Calculations(SUM,AVG..)
@@ -1142,7 +1142,7 @@ function getReportsModuleList($focus)
 	$adb = \App\database\PearDatabase::getInstance();
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
-		if (isPermitted($key, 'index') == "yes") {
+		if (\App\Utils\UserInfoUtil::isPermitted($key, 'index') == "yes") {
 			$count_flag = 1;
 			$modules [$key] = \App\Runtime\Vtiger_Language_Handler::translate($key, $key);
 		}
@@ -1161,7 +1161,7 @@ function getReportRelatedModules($module, $focus)
 	if (\App\Module::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
 			foreach ($focus->related_modules[$module] as $rel_modules) {
-				if (isPermitted($rel_modules, 'index') == "yes") {
+				if (\App\Utils\UserInfoUtil::isPermitted($rel_modules, 'index') == "yes") {
 					$optionhtml [] = $rel_modules;
 				}
 			}
@@ -1212,9 +1212,9 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		if ($fieldType == 'currency') {
 			// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 			if ($field->getUIType() == '72') {
-				$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value, null, true);
+				$adv_filter_value = \App\Fields\CurrencyField::convertToDBFormat($adv_filter_value, null, true);
 			} else {
-				$adv_filter_value = \App\fields\CurrencyField::convertToDBFormat($adv_filter_value);
+				$adv_filter_value = \App\Fields\CurrencyField::convertToDBFormat($adv_filter_value);
 			}
 		}
 

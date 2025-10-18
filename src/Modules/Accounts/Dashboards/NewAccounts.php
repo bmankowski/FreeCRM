@@ -25,7 +25,7 @@ class NewAccounts extends \Vtiger_Index_View
 			WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.createdtime >= ? AND vtiger_crmentity.createdtime <= ? AND vtiger_crmentity.deleted = ?';
 		$params = [$moduleName, $time['start'], $time['end'], 0];
 		if (is_array($user)) {
-			$sql .= ' AND vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
+			$sql .= ' AND vtiger_crmentity.smownerid IN (' . \App\Utils\Utils::generateQuestionMarks($user) . ') ';
 			$params = array_merge($params, $user);
 		} else {
 			$sql .= ' AND vtiger_crmentity.smownerid = ? ';

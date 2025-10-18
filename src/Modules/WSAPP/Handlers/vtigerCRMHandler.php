@@ -244,7 +244,7 @@ class vtigerCRMHandler extends SyncHandler
 			}
 
 			foreach ($referenceModuleIds as $referenceModule => $idLists) {
-				$nameList = getEntityName($referenceModule, $idLists);
+				$nameList = \App\Utils\Utils::getEntityName($referenceModule, $idLists);
 				foreach ($nameList as $key => $value)
 					$referenceIdsName[$key] = $value;
 			}
@@ -253,7 +253,7 @@ class vtigerCRMHandler extends SyncHandler
 				$record = $records[$i];
 				if (!empty($record[$referenceFieldName])) {
 					$wsId = vtws_getIdComponents($record[$referenceFieldName]);
-					$record[$referenceFieldName] = decode_html($referenceIdsName[$wsId[1]]);
+					$record[$referenceFieldName] = \App\Utils\ListViewUtils::decodeHtml($referenceIdsName[$wsId[1]]);
 				}
 				$records[$i] = $record;
 			}

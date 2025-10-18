@@ -30,7 +30,7 @@ class SubProducts extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$productId = $request->get('record');
 		$values = [];
-		if (isRecordExists($productId)) {
+		if (\App\Utils\Utils::isRecordExists($productId)) {
 			$productModel = \App\Modules\Vtiger\Models\Record::getInstanceById($productId);
 			$subProducts = $productModel->getSubProducts();
 

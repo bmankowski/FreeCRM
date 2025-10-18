@@ -3,7 +3,7 @@
 namespace App\Modules\Calendar\iCal;
 
 // $Id: iCalendar_components.php,v 1.8 2005/07/21 22:31:44 defacer Exp $
-require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 
 class ICalendarComponent {
 

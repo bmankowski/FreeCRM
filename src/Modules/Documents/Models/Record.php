@@ -187,7 +187,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$fileSize = 0;
 			$fileDownloadCount = null;
 		}
-		$db->createCommand()->update('vtiger_notes', ['filename' => decode_html($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
+		$db->createCommand()->update('vtiger_notes', ['filename' => \App\Utils\ListViewUtils::decodeHtml($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table
 		if ($fileLocationType === 'I') {
 			if (!isset($this->file)) {

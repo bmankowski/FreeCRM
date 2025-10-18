@@ -13,7 +13,7 @@ namespace App\Modules\PBXManager;
  * *********************************************************************************** */
 
 require_once ROOT_DIRECTORY . '/src/events/include.php';
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 
 class PBXManager extends \App\CRMEntity
 {

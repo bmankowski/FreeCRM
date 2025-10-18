@@ -205,7 +205,7 @@ class Export extends Model
 	public function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', decode_html(\LanguageTranslator::translate($moduleName, $moduleName))) . '.csv';
+		$fileName = str_replace(' ', '_', \App\Utils\ListViewUtils::decodeHtml(\LanguageTranslator::translate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
@@ -254,7 +254,7 @@ class Export extends Model
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = trim(decode_html($value), "\"");
+			$value = trim(\App\Utils\ListViewUtils::decodeHtml($value), "\"");
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 
@@ -275,13 +275,13 @@ class Export extends Model
 					$value = '';
 				}
 			} elseif ($uitype === 52 || $type === 'owner') {
-				$value = \App\Modules\Vtiger\Util::getOwnerName($value);
+				$value = \App\Modules\Vtiger\helpers\Util::getOwnerName($value);
 			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
 				foreach ($owners as $owner) {
-					$values[] = \App\Modules\Vtiger\Util::getOwnerName($owner);
+					$values[] = \App\Modules\Vtiger\helpers\Util::getOwnerName($owner);
 				}
 				$value = implode(',', $values);
 			} elseif ($type === 'reference') {

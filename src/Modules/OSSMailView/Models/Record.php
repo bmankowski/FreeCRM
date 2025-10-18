@@ -35,7 +35,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			return \vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \vtlib\Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {
-			return decode_html($value);
+			return \App\Utils\ListViewUtils::decodeHtml($value);
 		}
 		return $value;
 	}
@@ -87,7 +87,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				$queryParams[] = $type;
 			}
 			$query = 'SELECT vtiger_ossmailview.* FROM vtiger_ossmailview INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid';
-			$query .= sprintf(' WHERE ossmailviewid IN (%s) %s', generateQuestionMarks($ids), $ifwhere);
+			$query .= sprintf(' WHERE ossmailviewid IN (%s) %s', \App\Utils\Utils::generateQuestionMarks($ids), $ifwhere);
 			$query .= \App\PrivilegeQuery::getAccessConditions('OSSMailView', false, $srecord);
 			$query .= ' ORDER BY date DESC';
 			if ($config['widget_limit'] != '') {
@@ -147,7 +147,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function findEmail($record, $module)
 	{
-		if (!isRecordExists($record))
+		if (!\App\Utils\Utils::isRecordExists($record))
 			return false;
 		$returnEmail = '';
 		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
@@ -164,7 +164,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					$accountId = $recordModel->get('related_to');
 					break;
 			}
-			if (isRecordExists($accountId)) {
+			if (\App\Utils\Utils::isRecordExists($accountId)) {
 				$setype = \vtlib\Functions::getCRMRecordType($accountId);
 				$returnEmail = $this->findEmail($accountId, $setype);
 			}

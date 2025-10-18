@@ -26,7 +26,7 @@ class Rss extends \Vtiger_Index_View
 		}
 		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
-		$data = \App\Json::decode(decode_html($data));
+		$data = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($data));
 		$listSubjects = [];
 		foreach ($data['channels'] as $rss) {
 			try {

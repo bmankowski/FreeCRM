@@ -58,7 +58,7 @@ class Calendar extends \App\Runtime\Vtiger_Action_Controller
 		$date_start = date('Y-m-d', strtotime($request->get('start')));
 		$time_start = date('H:i:s', strtotime($request->get('start')));
 		$succes = false;
-		if (isPermitted($moduleName, 'EditView', $recordId) === 'no') {
+		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView', $recordId) === 'no') {
 			$succes = false;
 		} else {
 			if (!empty($recordId)) {

@@ -351,7 +351,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
 			$order = $db->query_result($result, $i, 'sortorder');
-			$sortColumns[decode_html($column)] = $order;
+			$sortColumns[\App\Utils\ListViewUtils::decodeHtml($column)] = $order;
 		}
 		return $sortColumns;
 	}
@@ -560,7 +560,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$countSelectedFields = count($selectedFields);
 			for ($i = 0; $i < $countSelectedFields; $i++) {
 				if (!empty($selectedFields[$i])) {
-					$db->pquery("INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)", array($this->getId(), $i, decode_html($selectedFields[$i])));
+					$db->pquery("INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)", array($this->getId(), $i, \App\Utils\ListViewUtils::decodeHtml($selectedFields[$i])));
 				}
 			}
 		}
@@ -760,7 +760,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$tmpDir = vglobal('tmp_dir');
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
-		$fileName = decode_html($this->getName()) . '.xls';
+		$fileName = \App\Utils\ListViewUtils::decodeHtml($this->getName()) . '.xls';
 		$reportRun->writeReportToExcelFile($tempFileName, $advanceFilterSql);
 
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
@@ -788,7 +788,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'csv');
 		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);
-		$fileName = decode_html($this->getName()) . '.csv';
+		$fileName = \App\Utils\ListViewUtils::decodeHtml($this->getName()) . '.csv';
 
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
 			header('Pragma: public');

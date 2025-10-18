@@ -157,7 +157,7 @@ class WebserviceField
 	public function getBlockName()
 	{
 		if (empty($this->blockName)) {
-			$this->blockName = getBlockName($this->blockId);
+			$this->blockName = \App\Utils\Utils::getBlockName($this->blockId);
 		}
 		return $this->blockName;
 	}
@@ -404,7 +404,7 @@ class WebserviceField
 			for ($i = 0; $i < $numRows; ++$i) {
 				$elem = [];
 				$picklistValue = $db->query_result($result, $i, $fieldName);
-				$picklistValue = decode_html($picklistValue);
+				$picklistValue = \App\Utils\ListViewUtils::decodeHtml($picklistValue);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
@@ -417,7 +417,7 @@ class WebserviceField
 			$details = \App\Fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
 			for ($i = 0; $i < sizeof($details); ++$i) {
 				$elem = [];
-				$picklistValue = decode_html($details[$i]);
+				$picklistValue = \App\Utils\ListViewUtils::decodeHtml($details[$i]);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';

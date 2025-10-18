@@ -146,7 +146,7 @@ class ServiceContracts extends \App\CRMEntity
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = \App\CRMEntity::getInstance($related_module);
-			vtlib_setup_modulevars($related_module, $other);
+			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index =" .
 				"$this->table_name.$columnname";
@@ -258,9 +258,9 @@ class ServiceContracts extends \App\CRMEntity
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('ServiceContracts', "detail_view");
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery('ServiceContracts', "detail_view");
 
-		$fields_list = getFieldsListFromQuery($sql);
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name
 					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
@@ -285,7 +285,7 @@ class ServiceContracts extends \App\CRMEntity
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = \App\CRMEntity::getInstance($related_module);
-			vtlib_setup_modulevars($related_module, $other);
+			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = " .
 				"$this->table_name.$columnname";
@@ -342,7 +342,7 @@ class ServiceContracts extends \App\CRMEntity
 
 		$query = $select_clause . $from_clause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values, $ui_type_arr, $module) .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . \App\Utils\Utils::get_on_clause($field_values, $ui_type_arr, $module) .
 			$where_clause .
 			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
 
@@ -357,7 +357,7 @@ class ServiceContracts extends \App\CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 
-		require_once(ROOT_DIRECTORY . '/src/utils/utils.php');
+		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 		$adb = \App\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
@@ -420,7 +420,7 @@ class ServiceContracts extends \App\CRMEntity
 			$entityIds = array($entityIds);
 		$selectTicketsQuery = sprintf('SELECT ticketid FROM vtiger_troubletickets
 								WHERE (parent_id IS NULL || parent_id = 0)
-									AND ticketid IN (%s)', generateQuestionMarks($entityIds));
+									AND ticketid IN (%s)', \App\Utils\Utils::generateQuestionMarks($entityIds));
 		$selectTicketsResult = $this->db->pquery($selectTicketsQuery, [$entityIds]);
 		$noOfTickets = $this->db->num_rows($selectTicketsResult);
 		for ($i = 0; $i < $noOfTickets; ++$i) {
@@ -462,7 +462,7 @@ class ServiceContracts extends \App\CRMEntity
 		for ($i = 0; $i < $noOfTickets; ++$i) {
 			$ticketId = $this->db->query_result($contractTicketsResult, $i, 'relcrmid');
 			$ticketFocus->id = $ticketId;
-			if (isRecordExists($ticketId)) {
+			if (\App\Utils\Utils::isRecordExists($ticketId)) {
 				$ticketFocus->retrieve_entity_info($ticketId, 'HelpDesk');
 				if (strtolower($ticketFocus->column_fields['ticketstatus']) == 'closed') {
 					$totalUsedUnits += $this->computeUsedUnits($ticketFocus->column_fields);

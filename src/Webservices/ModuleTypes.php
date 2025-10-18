@@ -34,7 +34,7 @@ function vtws_listtypes($fieldTypeList, $user)
 
 		vtws_preserveGlobal('current_user', $user);
 		//get All the modules the current user is permitted to Access.
-		$allModuleNames = getPermittedModuleNames();
+		$allModuleNames = \App\Utils\UserInfoUtil::getPermittedModuleNames();
 		if (array_search('Calendar', $allModuleNames) !== false) {
 			array_push($allModuleNames, 'Events');
 		}
@@ -49,7 +49,7 @@ function vtws_listtypes($fieldTypeList, $user)
 				 where vtiger_profile2field.visible=0 and vtiger_def_org_field.visible = 0
 				 and vtiger_field.presence in (0,2)
 				 and vtiger_user2role.userid=? and fieldtype in (" .
-				generateQuestionMarks($fieldTypeList) . ')';
+				\App\Utils\Utils::generateQuestionMarks($fieldTypeList) . ')';
 			$params = [];
 			$params[] = $user->id;
 			foreach ($fieldTypeList as $fieldType)
@@ -68,7 +68,7 @@ function vtws_listtypes($fieldTypeList, $user)
 				"vtiger_ws_entity.id=vtiger_ws_entity_tables.webservice_entity_id inner join " .
 				"vtiger_ws_entity_fieldtype on vtiger_ws_entity_fieldtype.table_name=" .
 				"vtiger_ws_entity_tables.table_name where fieldtype=(" .
-				generateQuestionMarks($fieldTypeList) . ')';
+				\App\Utils\Utils::generateQuestionMarks($fieldTypeList) . ')';
 			$result = $db->pquery($sql, $params);
 			$it = new SqlResultIterator($db, $result);
 			$entityList = [];

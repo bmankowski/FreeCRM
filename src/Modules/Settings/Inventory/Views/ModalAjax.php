@@ -33,7 +33,7 @@ class ModalAjax extends \App\Modules\Settings\Inventory\Views\CreditLimits
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('CURRENCY', \App\Modules\Vtiger\Util::getBaseCurrency());
+		$viewer->assign('CURRENCY', \App\Modules\Vtiger\helpers\Util::getBaseCurrency());
 		echo $viewer->view('Modal.tpl', $qualifiedModuleName, true);
 	}
 }

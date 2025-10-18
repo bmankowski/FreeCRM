@@ -9,7 +9,7 @@ namespace App\Modules\WSAPP\Handlers;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/fields/DateTimeField.php';
+require_once ROOT_DIRECTORY . '/src/Fields/DateTimeField.php';
 require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/SyncServer.php';
 require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Handlers/SyncHandler.php';
 require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/OutlookSyncServer.php';

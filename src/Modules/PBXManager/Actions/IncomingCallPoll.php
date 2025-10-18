@@ -12,7 +12,7 @@ namespace App\Modules\PBXManager\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 include_once ROOT_DIRECTORY . '/src/Webservices/Create.php';
-include_once ROOT_DIRECTORY . '/src/utils/utils.php';
+include_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 
 class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 {
@@ -82,7 +82,7 @@ class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 						$name = $recordModel->get('customernumber') . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HIDDEN', 'PBXManager');
 						$recordModel->set('callername', $name);
 					} else {
-						$entityNames = getEntityName($moduleName, array($callerid));
+						$entityNames = \App\Utils\Utils::getEntityName($moduleName, array($callerid));
 						$callerName = $entityNames[$callerid];
 						$recordModel->set('callername', $callerName);
 					}
@@ -92,7 +92,7 @@ class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 				if ($direction == 'inbound') {
 					$userid = $recordModel->get('user');
 					if ($userid) {
-						$entityNames = getEntityName('Users', array($userid));
+						$entityNames = \App\Utils\Utils::getEntityName('Users', array($userid));
 						$userName = $entityNames[$userid];
 						$recordModel->set('answeredby', $userName);
 					}
@@ -120,13 +120,13 @@ class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 		foreach ($mandatoryFieldModels as $mandatoryField) {
 			$fieldName = $mandatoryField->get('name');
 			$fieldType = $mandatoryField->getFieldDataType();
-			$defaultValue = decode_html($mandatoryField->get('defaultvalue'));
+			$defaultValue = \App\Utils\ListViewUtils::decodeHtml($mandatoryField->get('defaultvalue'));
 			if (!empty($element[$fieldName])) {
 				continue;
 			} else {
 				$fieldValue = $defaultValue;
 				if (empty($fieldValue)) {
-					$fieldValue = \App\Modules\Vtiger\Util::getDefaultMandatoryValue($fieldType);
+					$fieldValue = \App\Modules\Vtiger\helpers\Util::getDefaultMandatoryValue($fieldType);
 				}
 				$element[$fieldName] = $fieldValue;
 			}

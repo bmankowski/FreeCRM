@@ -191,7 +191,7 @@ class Block extends \vtlib\Block
 		foreach ($sequenceList as $blockId => $sequence) {
 			$query .= ' WHEN ' . $blockId . ' THEN ' . $sequence;
 		}
-		$query .= sprintf(' END WHERE blockid IN (%s)', generateQuestionMarks($sequenceList));
+		$query .= sprintf(' END WHERE blockid IN (%s)', \App\Utils\Utils::generateQuestionMarks($sequenceList));
 		$db->pquery($query, array_keys($sequenceList));
 	}
 

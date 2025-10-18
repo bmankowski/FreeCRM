@@ -14,7 +14,7 @@ require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObject.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObjectMeta.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/DataTransform.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/WebServiceError.php");
-require_once ROOT_DIRECTORY . '/src/utils/utils.php';
+require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
 require_once(ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php');
 require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';

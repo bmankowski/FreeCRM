@@ -17,10 +17,9 @@ Do not rely solely on CLI tests. The application must be tested through the web 
 
 ## PHP Namespace Guidelines
 - All classes in `src/` directory use `FreeCRM\` namespace
-- Subdirectories follow PSR-4: `src/Http/` → `FreeCRM\Http\`
+- Subdirectories follow PSR-4: `App\Http\`
 - Always use proper `use` statements at the top of files
-- Global PHP classes need `\` prefix when used in namespaced files (e.g., `\Exception`, `\HTTP_Session`)
-- If you see unnecessary "include" or "include_once" clause - repair it.
+- If you see unnecessary "include" or "include_once" clause - remove it.
 
 ## Common Namespace Error Patterns & Fixes
 
@@ -70,10 +69,8 @@ new DateTimeZone($tz);
 new Exception($msg);
 ```
 
-**Note**: Option 1 (inline `\` prefix) is recommended because:
-- It's more explicit that these are PHP built-in classes
-- Doesn't clutter the file with many `use` statements
-- Standard convention in PHP community
+**Note**: 
+- use fully qualified class names
 
 ### Quick Reference: Common Class Locations
 - `AppConfig` → `\App\AppConfig`
@@ -90,18 +87,10 @@ new Exception($msg);
 4. Add appropriate namespace prefix (either `\App\...` or `\` for global)
 5. Test with curl commands to verify fix
 
-## File Paths
-- Never use `include/` paths - always use `ROOT_DIRECTORY . '/src/'`
-- Class files in `vendor/yetiforce/` with `namespace App;` may need imports like:
-  - `use FreeCRM\AppConfig;`
-  - `use FreeCRM\Http\Vtiger_Session;`
-  - `use FreeCRM\Http\AppRequest;`
-
 ## Autoloading
 - After changing `composer.json`, run: `composer dump-autoload`
-- Files listed in `composer.json` "files" array must use exact filenames (e.g., `Vtiger_Cache.php` not `Cache.php`)
 
 ## Error Checking
-- Check `cache/logs/phpError.log` for runtime errors
+- Check `cache/logs/system.log` for runtime errors
 - PHP deprecation warnings in CLI are non-critical if web version works
 - Session warnings in CLI mode are expected and harmless

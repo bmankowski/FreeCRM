@@ -123,8 +123,8 @@ class HelpDesk extends \App\CRMEntity
 		include("include/utils/ExportUtils.php");
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery("HelpDesk", "detail_view");
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -145,7 +145,7 @@ class HelpDesk extends \App\CRMEntity
 				LEFT JOIN vtiger_products
 					ON vtiger_products.productid=vtiger_troubletickets.product_id";
 		//end
-		$query .= getNonAdminAccessControlQuery('HelpDesk', $current_user);
+		$query .= \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery('HelpDesk', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
@@ -185,7 +185,7 @@ class HelpDesk extends \App\CRMEntity
 			$tktresult = $adb->pquery("select * from vtiger_troubletickets where ticketid=?", array($ticketid));
 			$crmresult = $adb->pquery("select * from vtiger_crmentity where crmid=?", array($ticketid));
 
-			$updatelog = decode_html($adb->query_result($tktresult, 0, "update_log"));
+			$updatelog = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($tktresult, 0, "update_log"));
 
 			$old_owner_id = $adb->query_result($crmresult, 0, "smownerid");
 			$old_status = $adb->query_result($tktresult, 0, "status");
@@ -199,7 +199,7 @@ class HelpDesk extends \App\CRMEntity
 				if ($assigntype == 'T')
 					$updatelog .= ' Transferred to group ' . $ownerName . '\.';
 				else
-					$updatelog .= ' Transferred to user ' . decode_html($ownerName) . '\.'; // Need to decode UTF characters which are migrated from versions < 5.0.4.
+					$updatelog .= ' Transferred to user ' . \App\Utils\ListViewUtils::decodeHtml($ownerName) . '\.'; // Need to decode UTF characters which are migrated from versions < 5.0.4.
 			}
 			//Status change log
 			if ($old_status != $focus->column_fields['ticketstatus'] && $focus->column_fields['ticketstatus'] != '') {

@@ -164,7 +164,7 @@ class BasicAjax extends \Vtiger_Index_View
 			$recordsList = [];
 			foreach ($matchingRecords as $module => &$modules) {
 				foreach ($modules as $recordID => &$recordModel) {
-					$label = decode_html($recordModel->getName());
+					$label = \App\Utils\ListViewUtils::decodeHtml($recordModel->getName());
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';

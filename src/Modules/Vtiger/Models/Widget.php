@@ -49,7 +49,7 @@ class Widget extends Model
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = \App\Json::decode(decode_html($position));
+			$position = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($position));
 			return intval($position['col']);
 		}
 		return $default;
@@ -59,7 +59,7 @@ class Widget extends Model
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = \App\Json::decode(decode_html($position));
+			$position = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($position));
 			return intval($position['row']);
 		}
 		return $default;
@@ -71,7 +71,7 @@ class Widget extends Model
 	 */
 	public function getUrl()
 	{
-		$url = decode_html($this->get('linkurl')) . '&linkid=' . $this->get('linkid');
+		$url = \App\Utils\ListViewUtils::decodeHtml($this->get('linkurl')) . '&linkid=' . $this->get('linkid');
 		$widgetid = $this->has('widgetid') ? $this->get('widgetid') : $this->get('id');
 		$url .= '&widgetid=' . $widgetid . '&active=' . $this->get('active');
 
@@ -94,7 +94,7 @@ class Widget extends Model
 	{
 		$widgetName = $this->get('name');
 		if (empty($widgetName)) {
-			$linkUrl = decode_html($this->getUrl());
+			$linkUrl = \App\Utils\ListViewUtils::decodeHtml($this->getUrl());
 			preg_match('/name=[a-zA-Z]+/', $linkUrl, $matches);
 			$matches = explode('=', $matches[0]);
 			$widgetName = $matches[1];

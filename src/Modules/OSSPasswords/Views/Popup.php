@@ -26,7 +26,7 @@ class Popup extends \Vtiger_Index_View
 
 		$showFilter = (in_array($sourceModule, ['HelpDesk', 'Project', 'SSalesProcesses']) && $moduleName == 'OSSPasswords') ? true : false;
 		//list of records is narrowed to contacts related to help desks account, only in Help Desk Contacts relation view
-		if ($showFilter && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], "module=$moduleName&src_module=$sourceModule") === 0) {
+		if ($showFilter && \App\Utils\Utils::isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], "module=$moduleName&src_module=$sourceModule") === 0) {
 			$filterField = ['HelpDesk' => 'parent_id', 'Project' => 'linktoaccountscontacts', 'OSSPasswords' => 'related_to'];
 			$relParentModule = 'Accounts';
 			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);

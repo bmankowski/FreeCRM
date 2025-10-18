@@ -198,7 +198,7 @@ class ModTracker {
                 INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
                     && vtiger_modtracker_basic.changedon = vtiger_crmentity.modifiedtime
                 WHERE id > ? && changedon >= ? && module IN (%s)
-                ORDER BY id', generateQuestionMarks($accessibleModules));
+                ORDER BY id', \App\Utils\Utils::generateQuestionMarks($accessibleModules));
 
 		$params = array($uniqueId, $datetime);
 		foreach ($accessibleModules as $entityModule) {
@@ -253,7 +253,7 @@ class ModTracker {
 		$output['deleted'] = $deletedRecords;
 
 		$moreQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE id > ? && changedon >= ? && module
-            IN(%s)', generateQuestionMarks($accessibleModules));
+            IN(%s)', \App\Utils\Utils::generateQuestionMarks($accessibleModules));
 
 		$param = array($maxUniqueId, $maxModifiedTime);
 		foreach ($accessibleModules as $entityModule) {
@@ -302,8 +302,8 @@ class ModTracker {
 			$field['postvalue'] = $adb->query_result($fieldResult, $i, 'postvalue');
 			$field['prevalue'] = $adb->query_result($fieldResult, $i, 'prevalue');
 			if ($decodeHTML) {
-				$field['postvalue'] = decode_html($field['postvalue']);
-				$field['prevalue'] = decode_html($field['prevalue']);
+				$field['postvalue'] = \App\Utils\ListViewUtils::decodeHtml($field['postvalue']);
+				$field['prevalue'] = \App\Utils\ListViewUtils::decodeHtml($field['prevalue']);
 			}
 			$fields[$fieldName] = $field;
 		}
@@ -314,7 +314,7 @@ class ModTracker {
 	{
 		$moduleName = $linkData->getModule();
 		$recordId = $linkData->getInputParameter('record');
-		if (isPermitted($moduleName, 'DetailView', $recordId) == 'yes') {
+		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, 'DetailView', $recordId) == 'yes') {
 			return true;
 		}
 		return false;

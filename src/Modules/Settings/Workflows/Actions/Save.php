@@ -61,7 +61,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Basic
 				$date = $request->get('schdate');
 				$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-				$currentTime = \App\Modules\Vtiger\Util::getActiveAdminCurrentDateTime();
+				$currentTime = \App\Modules\Vtiger\helpers\Util::getActiveAdminCurrentDateTime();
 				if ($nextTriggerTime > $currentTime) {
 					$workflowModel->set('nexttrigger_time', $nextTriggerTime);
 				} else {

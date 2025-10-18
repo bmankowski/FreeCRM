@@ -209,7 +209,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		$cbrecord = $this->getId();
 		if (!empty($cbrecord)) {
-			$cbdate = getValidDBInsertDateValue($this->get('date_start'));
+			$cbdate = \App\Utils\Utils::getValidDBInsertDateValue($this->get('date_start'));
 			$cbtime = $this->get('time_start');
 			$reminderid = (new \App\Db\Query())->select(['reminderid'])->from('vtiger_activity_reminder_popup')
 				->where(['recordid' => $cbrecord])

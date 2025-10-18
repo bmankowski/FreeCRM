@@ -131,22 +131,22 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			$model->setData($row);
 			$model->setId($row['crmid']);
 			if ($row['parent_id']) {
-				if (isRecordExists($row['parent_id'])) {
+				if (\App\Utils\Utils::isRecordExists($row['parent_id'])) {
 					$record = \App\Modules\Vtiger\Models\Record::getInstanceById($row['parent_id']);
 					if ($record->getModuleName() == 'Accounts') {
 						$model->set('contractor', $record);
 					} else if ($record->getModuleName() == 'Project') {
-						if (isRecordExists($record->get('linktoaccountscontacts'))) {
+						if (\App\Utils\Utils::isRecordExists($record->get('linktoaccountscontacts'))) {
 							$recordContractor = \App\Modules\Vtiger\Models\Record::getInstanceById($record->get('linktoaccountscontacts'));
 							$model->set('contractor', $recordContractor);
 						}
 					} else if ($record->getModuleName() == 'ServiceContracts') {
-						if (isRecordExists($record->get('sc_realted_to'))) {
+						if (\App\Utils\Utils::isRecordExists($record->get('sc_realted_to'))) {
 							$recordContractor = \App\Modules\Vtiger\Models\Record::getInstanceById($record->get('sc_realted_to'));
 							$model->set('contractor', $recordContractor);
 						}
 					} else if ($record->getModuleName() == 'HelpDesk') {
-						if (isRecordExists($record->get('parent_id'))) {
+						if (\App\Utils\Utils::isRecordExists($record->get('parent_id'))) {
 							$recordContractor = \App\Modules\Vtiger\Models\Record::getInstanceById($record->get('parent_id'));
 							;
 							$model->set('contractor', $recordContractor);
@@ -155,7 +155,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 				}
 			}
 
-			$contactsA = getActivityRelatedContacts($row['activityid']);
+			$contactsA = \App\Utils\Utils::getActivityRelatedContacts($row['activityid']);
 			if (count($contactsA)) {
 				foreach ($contactsA as $j => $rcA2) {
 					$contactsA[$j] = '<a href="index.php?module=Contacts&view=Detail&record=' . $j . '">' . $rcA2 . '</a>';
@@ -219,9 +219,9 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			$model->setData($row);
 			$model->setId($row['crmid']);
 			if ($row['projectid']) {
-				if (isRecordExists($row['projectid'])) {
+				if (\App\Utils\Utils::isRecordExists($row['projectid'])) {
 					$record = \App\Modules\Vtiger\Models\Record::getInstanceById($row['projectid'], 'Project');
-					if (isRecordExists($record->get('linktoaccountscontacts'))) {
+					if (\App\Utils\Utils::isRecordExists($record->get('linktoaccountscontacts'))) {
 						$model->set('account', '<a href="index.php?module=' . \vtlib\Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . \vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 					}
 				}

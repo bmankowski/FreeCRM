@@ -77,7 +77,7 @@ class VTCreateEntityTask extends VTTask
 					}
 				}
 				if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
-					$userId = getUserId_Ol($fieldValue);
+					$userId = \App\Utils\Utils::getUserId_Ol($fieldValue);
 					$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 
 					if ($userId == 0 && $groupId == 0) {
@@ -92,7 +92,7 @@ class VTCreateEntityTask extends VTTask
 			// To handle cyclic process
 			//$newEntity->_from_workflow = true;
 			$newRecordModel->save();
-			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
+			\App\Utils\Utils::relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {
 			$saveContinue = true;
 			$newRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($entityType);
@@ -157,7 +157,7 @@ class VTCreateEntityTask extends VTTask
 				}
 			}
 			if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
-				$userId = getUserId_Ol($fieldValue);
+				$userId = \App\Utils\Utils::getUserId_Ol($fieldValue);
 				$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 
 				if ($userId == 0 && $groupId == 0) {
