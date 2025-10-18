@@ -4708,3 +4708,700 @@ Found 1748 PHP files to process
   ✓ No undefined properties
 
 [1302/1748] Processing: src/Modules/Vtiger/Dashboards/History.php
+  ✓ No undefined properties
+
+[1303/1748] Processing: src/Modules/Vtiger/Dashboards/KeyMetrics.php
+  ✓ No undefined properties
+
+[1304/1748] Processing: src/Modules/Vtiger/Dashboards/Kpi.php
+  ✓ No undefined properties
+
+[1305/1748] Processing: src/Modules/Vtiger/Dashboards/ListUpdatedRecord.php
+  ✓ No undefined properties
+
+[1306/1748] Processing: src/Modules/Vtiger/Dashboards/MailsList.php
+  ✓ No undefined properties
+
+[1307/1748] Processing: src/Modules/Vtiger/Dashboards/MiniList.php
+  ✓ No undefined properties
+
+[1308/1748] Processing: src/Modules/Vtiger/Dashboards/Notebook.php
+  ✓ No undefined properties
+
+[1309/1748] Processing: src/Modules/Vtiger/Dashboards/OverdueActivities.php
+  ✓ No undefined properties
+
+[1310/1748] Processing: src/Modules/Vtiger/Dashboards/ProductsSoldToRenew.php
+  ✅ Found 6 undefined properties in class ProductsSoldToRenew
+    /** @var array */
+          protected $data;
+    /** @var mixed */
+          protected $listviewHeaders;
+    /** @var mixed */
+          protected $listviewRecords;
+    /** @var mixed */
+          protected $queryGenerator;
+    /** @var array|null */
+          protected $targetModuleModel;
+    /** @var array|null */
+          protected $widgetModel;
+
+[1311/1748] Processing: src/Modules/Vtiger/Dashboards/Rss.php
+  ✓ No undefined properties
+
+[1312/1748] Processing: src/Modules/Vtiger/Dashboards/ServicesSoldToRenew.php
+  ✅ Found 1 undefined properties in class ServicesSoldToRenew
+    /** @var array */
+          protected $data;
+
+[1313/1748] Processing: src/Modules/Vtiger/Handlers/Vtiger_Attachments_Handler.php
+  ✓ No undefined properties
+
+[1314/1748] Processing: src/Modules/Vtiger/Handlers/Vtiger_AutomaticAssignment_Handler.php
+  ✓ No undefined properties
+
+[1315/1748] Processing: src/Modules/Vtiger/Handlers/Vtiger_MultiReferenceUpdater_Handler.php
+  ✓ No undefined properties
+
+[1316/1748] Processing: src/Modules/Vtiger/Handlers/Vtiger_RecordLabelUpdater_Handler.php
+  ✓ No undefined properties
+
+[1317/1748] Processing: src/Modules/Vtiger/Handlers/Vtiger_SharingPrivileges_Handler.php
+  ✓ No undefined properties
+
+[1318/1748] Processing: src/Modules/Vtiger/Handlers/Vtiger_Workflow_Handler.php
+  ✓ No undefined properties
+
+[1319/1748] Processing: src/Modules/Vtiger/Models/Action.php
+  ✓ No undefined properties
+
+[1320/1748] Processing: src/Modules/Vtiger/Models/Block.php
+  ✓ No undefined properties
+
+[1321/1748] Processing: src/Modules/Vtiger/Models/ChartFilter.php
+  ✓ No undefined properties
+
+[1322/1748] Processing: src/Modules/Vtiger/Models/CssScript.php
+  ✓ No undefined properties
+
+[1323/1748] Processing: src/Modules/Vtiger/Models/DashBoard.php
+  ✅ Found 1 undefined properties in class DashBoard
+    /** @var object|null */
+          protected $module;
+
+[1324/1748] Processing: src/Modules/Vtiger/Models/DetailRecordStructure.php
+  ✓ No undefined properties
+
+[1325/1748] Processing: src/Modules/Vtiger/Models/DetailView.php
+  ✓ No undefined properties
+
+[1326/1748] Processing: src/Modules/Vtiger/Models/EditRecordStructure.php
+  ✓ No undefined properties
+
+[1327/1748] Processing: src/Modules/Vtiger/Models/EditView.php
+  ✓ No undefined properties
+
+[1328/1748] Processing: src/Modules/Vtiger/Models/Export.php
+  ✓ No undefined properties
+
+[1329/1748] Processing: src/Modules/Vtiger/Models/ExportToXml.php
+  ✅ Found 4 undefined properties in class ExportToXml
+    /** @var array|null */
+          protected $moduleFieldInstances;
+    /** @var mixed */
+          protected $moduleInstance;
+    /** @var string */
+          protected $moduleName;
+    /** @var mixed */
+          protected $xmlList;
+
+[1330/1748] Processing: src/Modules/Vtiger/Models/Field.php
+  ✓ No undefined properties
+
+[1331/1748] Processing: src/Modules/Vtiger/Models/Files.php
+  ✓ No undefined properties
+
+[1332/1748] Processing: src/Modules/Vtiger/Models/FindDuplicate.php
+  ✓ No undefined properties
+
+[1333/1748] Processing: src/Modules/Vtiger/Models/Image.php
+  ✓ No undefined properties
+
+[1334/1748] Processing: src/Modules/Vtiger/Models/Inventory.php
+  ✓ No undefined properties
+
+[1335/1748] Processing: src/Modules/Vtiger/Models/InventoryField.php
+  ✓ No undefined properties
+
+[1336/1748] Processing: src/Modules/Vtiger/Models/JsScript.php
+  ✓ No undefined properties
+
+[1337/1748] Processing: src/Modules/Vtiger/Models/Link.php
+  ✓ No undefined properties
+
+[1338/1748] Processing: src/Modules/Vtiger/Models/ListView.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var mixed */
+          protected $colorList;
+
+[1339/1748] Processing: src/Modules/Vtiger/Models/MappedFields.php
+  ✓ No undefined properties
+
+[1340/1748] Processing: src/Modules/Vtiger/Models/MassEditRecordStructure.php
+  ✓ No undefined properties
+
+[1341/1748] Processing: src/Modules/Vtiger/Models/Menu.php
+  ✓ No undefined properties
+
+[1342/1748] Processing: src/Modules/Vtiger/Models/MiniList.php
+  ✓ No undefined properties
+
+[1343/1748] Processing: src/Modules/Vtiger/Models/Model.php
+  ✓ No undefined properties
+
+[1344/1748] Processing: src/Modules/Vtiger/Models/Module.php
+  ✅ Found 1 undefined properties in class Module
+    /** @var array|null */
+          protected $summaryFields;
+
+[1345/1748] Processing: src/Modules/Vtiger/Models/ModuleMeta.php
+  ✓ No undefined properties
+
+[1346/1748] Processing: src/Modules/Vtiger/Models/Notebook.php
+  ✓ No undefined properties
+
+[1347/1748] Processing: src/Modules/Vtiger/Models/PDF.php
+  ✓ No undefined properties
+
+[1348/1748] Processing: src/Modules/Vtiger/Models/Paging.php
+  ✓ No undefined properties
+
+[1349/1748] Processing: src/Modules/Vtiger/Models/Processes.php
+  ✓ No undefined properties
+
+[1350/1748] Processing: src/Modules/Vtiger/Models/QuickCreateRecordStructure.php
+  ✓ No undefined properties
+
+[1351/1748] Processing: src/Modules/Vtiger/Models/Record.php
+  ✓ No undefined properties
+
+[1352/1748] Processing: src/Modules/Vtiger/Models/RecordStructure.php
+  ✓ No undefined properties
+
+[1353/1748] Processing: src/Modules/Vtiger/Models/RelatedCommentModal.php
+  ✓ No undefined properties
+
+[1354/1748] Processing: src/Modules/Vtiger/Models/Relation.php
+  ✓ No undefined properties
+
+[1355/1748] Processing: src/Modules/Vtiger/Models/RelationListView.php
+  ✓ No undefined properties
+
+[1356/1748] Processing: src/Modules/Vtiger/Models/SummaryRecordStructure.php
+  ✓ No undefined properties
+
+[1357/1748] Processing: src/Modules/Vtiger/Models/TooltipView.php
+  ✅ Found 2 undefined properties in class TooltipView
+    /** @var object|null */
+          protected $module;
+    /** @var mixed */
+          protected $structuredValues;
+
+[1358/1748] Processing: src/Modules/Vtiger/Models/TransferOwnership.php
+  ✓ No undefined properties
+
+[1359/1748] Processing: src/Modules/Vtiger/Models/TreeCategoryModal.php
+  ✓ No undefined properties
+
+[1360/1748] Processing: src/Modules/Vtiger/Models/TreeView.php
+  ✅ Found 1 undefined properties in class TreeView
+    /** @var int|string|null */
+          protected $lastTreeId;
+
+[1361/1748] Processing: src/Modules/Vtiger/Models/Utility.php
+  ✓ No undefined properties
+
+[1362/1748] Processing: src/Modules/Vtiger/Models/Watchdog.php
+  ✓ No undefined properties
+
+[1363/1748] Processing: src/Modules/Vtiger/Models/Widget.php
+  ✓ No undefined properties
+
+[1364/1748] Processing: src/Modules/Vtiger/Models/WorkflowTrigger.php
+  ✅ Found 1 undefined properties in class Record
+    /** @var mixed */
+          protected $executeUser;
+
+[1365/1748] Processing: src/Modules/Vtiger/UiTypes/Base.php
+  ✓ No undefined properties
+
+[1366/1748] Processing: src/Modules/Vtiger/UiTypes/Boolean.php
+  ✓ No undefined properties
+
+[1367/1748] Processing: src/Modules/Vtiger/UiTypes/CategoryMultipicklist.php
+  ✓ No undefined properties
+
+[1368/1748] Processing: src/Modules/Vtiger/UiTypes/CompanySelect.php
+  ✓ No undefined properties
+
+[1369/1748] Processing: src/Modules/Vtiger/UiTypes/Currency.php
+  ✓ No undefined properties
+
+[1370/1748] Processing: src/Modules/Vtiger/UiTypes/CurrencyList.php
+  ✓ No undefined properties
+
+[1371/1748] Processing: src/Modules/Vtiger/UiTypes/Date.php
+  ✓ No undefined properties
+
+[1372/1748] Processing: src/Modules/Vtiger/UiTypes/Datetime.php
+  ✓ No undefined properties
+
+[1373/1748] Processing: src/Modules/Vtiger/UiTypes/DocumentsFileUpload.php
+  ✅ Found 1 undefined properties in class DocumentsFileUpload
+    /** @var int|string */
+          protected $id;
+
+[1374/1748] Processing: src/Modules/Vtiger/UiTypes/DocumentsFolder.php
+  ✓ No undefined properties
+
+[1375/1748] Processing: src/Modules/Vtiger/UiTypes/Double.php
+  ✓ No undefined properties
+
+[1376/1748] Processing: src/Modules/Vtiger/UiTypes/Email.php
+  ✓ No undefined properties
+
+[1377/1748] Processing: src/Modules/Vtiger/UiTypes/FileLocationType.php
+  ✓ No undefined properties
+
+[1378/1748] Processing: src/Modules/Vtiger/UiTypes/Image.php
+  ✓ No undefined properties
+
+[1379/1748] Processing: src/Modules/Vtiger/UiTypes/Integer.php
+  ✓ No undefined properties
+
+[1380/1748] Processing: src/Modules/Vtiger/UiTypes/InventoryLimit.php
+  ✓ No undefined properties
+
+[1381/1748] Processing: src/Modules/Vtiger/UiTypes/Languages.php
+  ✓ No undefined properties
+
+[1382/1748] Processing: src/Modules/Vtiger/UiTypes/Modules.php
+  ✓ No undefined properties
+
+[1383/1748] Processing: src/Modules/Vtiger/UiTypes/MultiImage.php
+  ✓ No undefined properties
+
+[1384/1748] Processing: src/Modules/Vtiger/UiTypes/MultiReferenceValue.php
+  ✓ No undefined properties
+
+[1385/1748] Processing: src/Modules/Vtiger/UiTypes/Multiowner.php
+  ✓ No undefined properties
+
+[1386/1748] Processing: src/Modules/Vtiger/UiTypes/Multipicklist.php
+  ✓ No undefined properties
+
+[1387/1748] Processing: src/Modules/Vtiger/UiTypes/Owner.php
+  ✓ No undefined properties
+
+[1388/1748] Processing: src/Modules/Vtiger/UiTypes/Password.php
+  ✓ No undefined properties
+
+[1389/1748] Processing: src/Modules/Vtiger/UiTypes/Percentage.php
+  ✓ No undefined properties
+
+[1390/1748] Processing: src/Modules/Vtiger/UiTypes/Phone.php
+  ✓ No undefined properties
+
+[1391/1748] Processing: src/Modules/Vtiger/UiTypes/Picklist.php
+  ✓ No undefined properties
+
+[1392/1748] Processing: src/Modules/Vtiger/UiTypes/RangeTime.php
+  ✓ No undefined properties
+
+[1393/1748] Processing: src/Modules/Vtiger/UiTypes/RecordNumber.php
+  ✓ No undefined properties
+
+[1394/1748] Processing: src/Modules/Vtiger/UiTypes/Recurrence.php
+  ✓ No undefined properties
+
+[1395/1748] Processing: src/Modules/Vtiger/UiTypes/Reference.php
+  ✓ No undefined properties
+
+[1396/1748] Processing: src/Modules/Vtiger/UiTypes/ReferenceLink.php
+  ✓ No undefined properties
+
+[1397/1748] Processing: src/Modules/Vtiger/UiTypes/ReferenceProcess.php
+  ✓ No undefined properties
+
+[1398/1748] Processing: src/Modules/Vtiger/UiTypes/ReferenceSubProcess.php
+  ✓ No undefined properties
+
+[1399/1748] Processing: src/Modules/Vtiger/UiTypes/Reminder.php
+  ✓ No undefined properties
+
+[1400/1748] Processing: src/Modules/Vtiger/UiTypes/Salutation.php
+  ✓ No undefined properties
+
+[1401/1748] Processing: src/Modules/Vtiger/UiTypes/SharedOwner.php
+  ✓ No undefined properties
+
+[1402/1748] Processing: src/Modules/Vtiger/UiTypes/Taxes.php
+  ✓ No undefined properties
+
+[1403/1748] Processing: src/Modules/Vtiger/UiTypes/Text.php
+  ✓ No undefined properties
+
+[1404/1748] Processing: src/Modules/Vtiger/UiTypes/Theme.php
+  ✓ No undefined properties
+
+[1405/1748] Processing: src/Modules/Vtiger/UiTypes/Time.php
+  ✓ No undefined properties
+
+[1406/1748] Processing: src/Modules/Vtiger/UiTypes/TotalTime.php
+  ✓ No undefined properties
+
+[1407/1748] Processing: src/Modules/Vtiger/UiTypes/Tree.php
+  ✓ No undefined properties
+
+[1408/1748] Processing: src/Modules/Vtiger/UiTypes/Url.php
+  ✓ No undefined properties
+
+[1409/1748] Processing: src/Modules/Vtiger/UiTypes/UserCreator.php
+  ✓ No undefined properties
+
+[1410/1748] Processing: src/Modules/Vtiger/UiTypes/UserReference.php
+  ✓ No undefined properties
+
+[1411/1748] Processing: src/Modules/Vtiger/UiTypes/UserRole.php
+  ✓ No undefined properties
+
+[1412/1748] Processing: src/Modules/Vtiger/Views/AddNotePad.php
+  ✓ No undefined properties
+
+[1413/1748] Processing: src/Modules/Vtiger/Views/AutoAssignRecord.php
+  ✓ No undefined properties
+
+[1414/1748] Processing: src/Modules/Vtiger/Views/Basic.php
+  ✓ No undefined properties
+
+[1415/1748] Processing: src/Modules/Vtiger/Views/BasicAjax.php
+  ✓ No undefined properties
+
+[1416/1748] Processing: src/Modules/Vtiger/Views/BasicModal.php
+  ✓ No undefined properties
+
+[1417/1748] Processing: src/Modules/Vtiger/Views/ChartFilter.php
+  ✓ No undefined properties
+
+[1418/1748] Processing: src/Modules/Vtiger/Views/DashBoard.php
+  ✓ No undefined properties
+
+[1419/1748] Processing: src/Modules/Vtiger/Views/Detail.php
+  ✓ No undefined properties
+
+[1420/1748] Processing: src/Modules/Vtiger/Views/Edit.php
+  ✓ No undefined properties
+
+[1421/1748] Processing: src/Modules/Vtiger/Views/EditFieldByModal.php
+  ✓ No undefined properties
+
+[1422/1748] Processing: src/Modules/Vtiger/Views/Export.php
+  ✓ No undefined properties
+
+[1423/1748] Processing: src/Modules/Vtiger/Views/FileUpload.php
+  ✓ No undefined properties
+
+[1424/1748] Processing: src/Modules/Vtiger/Views/FindDuplicates.php
+  ✅ Found 3 undefined properties in class FindDuplicates
+    /** @var mixed */
+          protected $listViewEntries;
+    /** @var mixed */
+          protected $listViewHeaders;
+    /** @var int|array|null */
+          protected $rows;
+
+[1425/1748] Processing: src/Modules/Vtiger/Views/FindDuplicatesAjax.php
+  ✓ No undefined properties
+
+[1426/1748] Processing: src/Modules/Vtiger/Views/Footer.php
+  ✓ No undefined properties
+
+[1427/1748] Processing: src/Modules/Vtiger/Views/GenerateModal.php
+  ✓ No undefined properties
+
+[1428/1748] Processing: src/Modules/Vtiger/Views/Header.php
+  ✓ No undefined properties
+
+[1429/1748] Processing: src/Modules/Vtiger/Views/Import.php
+  ✓ No undefined properties
+
+[1430/1748] Processing: src/Modules/Vtiger/Views/Index.php
+  ✓ No undefined properties
+
+[1431/1748] Processing: src/Modules/Vtiger/Views/IndexAjax.php
+  ✓ No undefined properties
+
+[1432/1748] Processing: src/Modules/Vtiger/Views/Inventory.php
+  ✓ No undefined properties
+
+[1433/1748] Processing: src/Modules/Vtiger/Views/ListAjax.php
+  ✅ Found 1 undefined properties in class ListAjax
+    /** @var array|null */
+          protected $listViewModel;
+
+[1434/1748] Processing: src/Modules/Vtiger/Views/ListView.php
+  ✓ No undefined properties
+
+[1435/1748] Processing: src/Modules/Vtiger/Views/MassActionAjax.php
+  ✓ No undefined properties
+
+[1436/1748] Processing: src/Modules/Vtiger/Views/MergeRecord.php
+  ✓ No undefined properties
+
+[1437/1748] Processing: src/Modules/Vtiger/Views/MiniListWizard.php
+  ✓ No undefined properties
+
+[1438/1748] Processing: src/Modules/Vtiger/Views/PDF.php
+  ✓ No undefined properties
+
+[1439/1748] Processing: src/Modules/Vtiger/Views/Pagination.php
+  ✓ No undefined properties
+
+[1440/1748] Processing: src/Modules/Vtiger/Views/Popup.php
+  ✅ Found 1 undefined properties in class Popup
+    /** @var mixed */
+          protected $listViewCount;
+
+[1441/1748] Processing: src/Modules/Vtiger/Views/PopupAjax.php
+  ✓ No undefined properties
+
+[1442/1748] Processing: src/Modules/Vtiger/Views/QuickCreateAjax.php
+  ✓ No undefined properties
+
+[1443/1748] Processing: src/Modules/Vtiger/Views/QuickDetailModal.php
+  ✓ No undefined properties
+
+[1444/1748] Processing: src/Modules/Vtiger/Views/RelatedCommentModal.php
+  ✓ No undefined properties
+
+[1445/1748] Processing: src/Modules/Vtiger/Views/RelatedList.php
+  ✓ No undefined properties
+
+[1446/1748] Processing: src/Modules/Vtiger/Views/SendMailModal.php
+  ✓ No undefined properties
+
+[1447/1748] Processing: src/Modules/Vtiger/Views/ShowWidget.php
+  ✓ No undefined properties
+
+[1448/1748] Processing: src/Modules/Vtiger/Views/SmartDetail.php
+  ✅ Found 1 undefined properties in class SmartDetail
+    /** @var mixed */
+          protected $record;
+
+[1449/1748] Processing: src/Modules/Vtiger/Views/TimeLineModal.php
+  ✓ No undefined properties
+
+[1450/1748] Processing: src/Modules/Vtiger/Views/TooltipAjax.php
+  ✓ No undefined properties
+
+[1451/1748] Processing: src/Modules/Vtiger/Views/TreeCategoryModal.php
+  ✓ No undefined properties
+
+[1452/1748] Processing: src/Modules/Vtiger/Views/TreePopup.php
+  ✓ No undefined properties
+
+[1453/1748] Processing: src/Modules/Vtiger/Views/TreeRecords.php
+  ✓ No undefined properties
+
+[1454/1748] Processing: src/Modules/Vtiger/Views/VariablePanel.php
+  ✓ No undefined properties
+
+[1455/1748] Processing: src/Modules/Vtiger/Views/VtigerBasicView.php
+  ✓ No undefined properties
+
+[1456/1748] Processing: src/Modules/Vtiger/Views/VtigerFooterView.php
+  ✓ No undefined properties
+
+[1457/1748] Processing: src/Modules/Vtiger/Views/VtigerHeaderView.php
+  ✓ No undefined properties
+
+[1458/1748] Processing: src/Modules/Vtiger/Views/Vtiger_Index_View.php
+  ✓ No undefined properties
+
+[1459/1748] Processing: src/Modules/Vtiger/Views/WidgetFullscreen.php
+  ✓ No undefined properties
+
+[1460/1748] Processing: src/Modules/Vtiger/Views/WorkflowTrigger.php
+  ✓ No undefined properties
+
+[1461/1748] Processing: src/Modules/Vtiger/Widgets/Activities.php
+  ✅ Found 1 undefined properties in class Activities
+    /** @var array */
+          protected $Data;
+
+[1462/1748] Processing: src/Modules/Vtiger/Widgets/Basic.php
+  ✅ Found 1 undefined properties in class Basic
+    /** @var array */
+          protected $Data;
+
+[1463/1748] Processing: src/Modules/Vtiger/Widgets/Comments.php
+  ✅ Found 1 undefined properties in class Comments
+    /** @var array */
+          protected $Data;
+
+[1464/1748] Processing: src/Modules/Vtiger/Widgets/CountRecords.php
+  ✅ Found 1 undefined properties in class CountRecords
+    /** @var array */
+          protected $Data;
+
+[1465/1748] Processing: src/Modules/Vtiger/Widgets/EmailList.php
+  ✅ Found 1 undefined properties in class EmailList
+    /** @var array */
+          protected $Data;
+
+[1466/1748] Processing: src/Modules/Vtiger/Widgets/FastEdit.php
+  ✅ Found 1 undefined properties in class FastEdit
+    /** @var array */
+          protected $Data;
+
+[1467/1748] Processing: src/Modules/Vtiger/Widgets/HistoryRelation.php
+  ✅ Found 1 undefined properties in class HistoryRelation
+    /** @var array */
+          protected $Data;
+
+[1468/1748] Processing: src/Modules/Vtiger/Widgets/PreviewMail.php
+  ✓ No undefined properties
+
+[1469/1748] Processing: src/Modules/Vtiger/Widgets/ProductsServices.php
+  ✅ Found 1 undefined properties in class ProductsServices
+    /** @var array */
+          protected $Data;
+
+[1470/1748] Processing: src/Modules/Vtiger/Widgets/RelatedModule.php
+  ✅ Found 1 undefined properties in class RelatedModule
+    /** @var array */
+          protected $Data;
+
+[1471/1748] Processing: src/Modules/Vtiger/Widgets/Summary.php
+  ✓ No undefined properties
+
+[1472/1748] Processing: src/Modules/Vtiger/Widgets/SummaryCategory.php
+  ✓ No undefined properties
+
+[1473/1748] Processing: src/Modules/Vtiger/Widgets/Updates.php
+  ✓ No undefined properties
+
+[1474/1748] Processing: src/Modules/Vtiger/Widgets/WYSIWYG.php
+  ✓ No undefined properties
+
+[1475/1748] Processing: src/Modules/Vtiger/data_access/blockEditView.php
+  ✓ No undefined properties
+
+[1476/1748] Processing: src/Modules/Vtiger/data_access/check_alltask.php
+  ✓ No undefined properties
+
+[1477/1748] Processing: src/Modules/Vtiger/data_access/check_assigneduser.php
+  ✓ No undefined properties
+
+[1478/1748] Processing: src/Modules/Vtiger/data_access/check_task.php
+  ✓ No undefined properties
+
+[1479/1748] Processing: src/Modules/Vtiger/data_access/check_taskdate.php
+  ✓ No undefined properties
+
+[1480/1748] Processing: src/Modules/Vtiger/data_access/check_taskstatus.php
+  ✓ No undefined properties
+
+[1481/1748] Processing: src/Modules/Vtiger/data_access/colorList.php
+  ✓ No undefined properties
+
+[1482/1748] Processing: src/Modules/Vtiger/data_access/show_quick_create.php
+  ✓ No undefined properties
+
+[1483/1748] Processing: src/Modules/Vtiger/data_access/test.php
+  ✓ No undefined properties
+
+[1484/1748] Processing: src/Modules/Vtiger/data_access/unique_value.php
+  ✓ No undefined properties
+
+[1485/1748] Processing: src/Modules/Vtiger/data_access/validate_mandatory.php
+  ✓ No undefined properties
+
+[1486/1748] Processing: src/Modules/Vtiger/files/Basic.php
+  ✅ Found 1 undefined properties in class tiger_Basic_File
+    /** @var string|null */
+          protected $fileType;
+
+[1487/1748] Processing: src/Modules/Vtiger/files/Image.php
+  ✓ No undefined properties
+
+[1488/1748] Processing: src/Modules/Vtiger/filters/Basic.php
+  ✓ No undefined properties
+
+[1489/1748] Processing: src/Modules/Vtiger/helpers/AdvancedFilter.php
+  ✓ No undefined properties
+
+[1490/1748] Processing: src/Modules/Vtiger/helpers/Kpi.php
+  ✓ No undefined properties
+
+[1491/1748] Processing: src/Modules/Vtiger/helpers/ListUpdatedRecord.php
+  ✓ No undefined properties
+
+[1492/1748] Processing: src/Modules/Vtiger/helpers/ShortURL.php
+  ✓ No undefined properties
+
+[1493/1748] Processing: src/Modules/Vtiger/helpers/UpdaterField.php
+  ✓ No undefined properties
+
+[1494/1748] Processing: src/Modules/Vtiger/helpers/Util.php
+  ✓ No undefined properties
+
+[1495/1748] Processing: src/Modules/Vtiger/inventoryfields/Basic.php
+  ✓ No undefined properties
+
+[1496/1748] Processing: src/Modules/Vtiger/inventoryfields/Comment.php
+  ✓ No undefined properties
+
+[1497/1748] Processing: src/Modules/Vtiger/inventoryfields/Currency.php
+  ✓ No undefined properties
+
+[1498/1748] Processing: src/Modules/Vtiger/inventoryfields/Discount.php
+  ✓ No undefined properties
+
+[1499/1748] Processing: src/Modules/Vtiger/inventoryfields/DiscountMode.php
+  ✓ No undefined properties
+
+[1500/1748] Processing: src/Modules/Vtiger/inventoryfields/GrossPrice.php
+  ✓ No undefined properties
+
+[1501/1748] Processing: src/Modules/Vtiger/inventoryfields/ItemNumber.php
+  ✓ No undefined properties
+
+[1502/1748] Processing: src/Modules/Vtiger/inventoryfields/Margin.php
+  ✓ No undefined properties
+
+[1503/1748] Processing: src/Modules/Vtiger/inventoryfields/MarginP.php
+  ✓ No undefined properties
+
+[1504/1748] Processing: src/Modules/Vtiger/inventoryfields/Name.php
+  ✓ No undefined properties
+
+[1505/1748] Processing: src/Modules/Vtiger/inventoryfields/NetPrice.php
+  ✓ No undefined properties
+
+[1506/1748] Processing: src/Modules/Vtiger/inventoryfields/PicklistField.php
+  ✓ No undefined properties
+
+[1507/1748] Processing: src/Modules/Vtiger/inventoryfields/Purchase.php
+  ✓ No undefined properties
+
+[1508/1748] Processing: src/Modules/Vtiger/inventoryfields/Quantity.php
+  ✓ No undefined properties
+
+[1509/1748] Processing: src/Modules/Vtiger/inventoryfields/Reference.php
+  ✓ No undefined properties
+
+[1510/1748] Processing: src/Modules/Vtiger/inventoryfields/Tax.php
+  ✓ No undefined properties
+
+[1511/1748] Processing: src/Modules/Vtiger/inventoryfields/TaxMode.php

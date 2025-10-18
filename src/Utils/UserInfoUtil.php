@@ -94,7 +94,7 @@ class UserInfoUtil
 
 	//Retreiving the Tabid and Action Id
 	$tabid = \App\Module::getModuleId($module);
-	$actionid = getActionid($actionname);
+	$actionid = \App\Utils\Utils::getActionid($actionname);
 	$checkModule = $module;
 
 	if ($checkModule == 'Events') {
@@ -192,7 +192,7 @@ class UserInfoUtil
 		//Retreiving the RecordOwnerId
 		$recOwnType = '';
 		$recOwnId = '';
-		$recordOwnerArr = getRecordOwnerId($record_id);
+		$recordOwnerArr = \App\Utils\Utils::getRecordOwnerId($record_id);
 
 		foreach ($recordOwnerArr as $type => $id) {
 			$recOwnType = $type;
@@ -252,7 +252,7 @@ class UserInfoUtil
 								break;
 							case 2:
 								if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
-									$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
+									$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 									$relatedPermission = $permission == 'yes' ? true : false;
 								}
 								break;
@@ -267,7 +267,7 @@ class UserInfoUtil
 			}
 		}
 		if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
-			$permission = isPermittedBySharing($module, $tabid, $actionid, $record_id);
+			$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($module, $tabid, $actionid, $record_id);
 		}
 		vglobal('isPermittedLog', 'SEC_RECORD_BY_SHARING_' . strtoupper($permission));
 		\App\Log::trace('Exiting isPermitted method ... - isPermittedBySharing');
@@ -289,7 +289,7 @@ class UserInfoUtil
 	//Checking for Default Org Sharing permission
 	if ($othersPermissionId == 0) {
 		if ($actionid == 1 || $actionid == 0) {
-			return isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
+			return \App\Utils\UserInfoUtil::isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
 		} elseif ($actionid == 2) {
 			return 'no';
 		} else {
@@ -305,9 +305,9 @@ class UserInfoUtil
 		return 'yes';
 	} elseif ($othersPermissionId == 3) {
 		if ($actionid == 3 || $actionid == 4) {
-			return isReadPermittedBySharing($module, $tabid, $actionid, $record_id);
+			return \App\Utils\UserInfoUtil::isReadPermittedBySharing($module, $tabid, $actionid, $record_id);
 		} elseif ($actionid == 0 || $actionid == 1) {
-			return isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
+			return \App\Utils\UserInfoUtil::isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
 		} elseif ($actionid == 2) {
 			return 'no';
 		} else {
@@ -343,7 +343,7 @@ class UserInfoUtil
 		return $sharePer;
 	}
 
-	$recordOwnerArr = getRecordOwnerId($record_id);
+	$recordOwnerArr = \App\Utils\Utils::getRecordOwnerId($record_id);
 	foreach ($recordOwnerArr as $type => $id) {
 		$ownertype = $type;
 		$ownerid = $id;
@@ -453,7 +453,7 @@ class UserInfoUtil
 		return $sharePer;
 	}
 
-	$recordOwnerArr = getRecordOwnerId($record_id);
+	$recordOwnerArr = \App\Utils\Utils::getRecordOwnerId($record_id);
 	foreach ($recordOwnerArr as $type => $id) {
 		$ownertype = $type;
 		$ownerid = $id;
@@ -638,8 +638,8 @@ class UserInfoUtil
 
 	\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
 	$adb = \App\Database\PearDatabase::getInstance();
-	$actionArr = getProfileActionPermission($profileid);
-	$utilArr = getTabsUtilityActionPermission($profileid);
+	$actionArr = \App\Utils\UserInfoUtil::getProfileActionPermission($profileid);
+	$utilArr = \App\Utils\UserInfoUtil::getTabsUtilityActionPermission($profileid);
 	foreach ($utilArr as $tabid => $act_arr) {
 		$act_tab_arr = $actionArr[$tabid];
 		foreach ($act_arr as $utilid => $util_perr) {
@@ -853,7 +853,7 @@ class UserInfoUtil
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($shareid = $dataReader->readColumn(0)) {
-			deleteSharingRule($shareid);
+			\App\Utils\UserInfoUtil::deleteSharingRule($shareid);
 		}
 	}
 	\App\Log::trace("Exiting deleteRoleRelatedSharingRules method ...");
@@ -891,7 +891,7 @@ class UserInfoUtil
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$shareid = $adb->query_result($result, $i, 'shareid');
-			deleteSharingRule($shareid);
+			\App\Utils\UserInfoUtil::deleteSharingRule($shareid);
 		}
 	}
 	\App\Log::trace('Exiting deleteGroupRelatedSharingRules method ...');
@@ -917,17 +917,17 @@ class UserInfoUtil
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
-		$params = array($grpId);
+		$params = array($usId);
 		if (sizeof($colNameArr) > 1) {
 			$query .= " or " . $colNameArr[1] . "=?";
-			array_push($params, $grpId);
+			array_push($params, $usId);
 		}
 
 		$result = $adb->pquery($query, $params);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$shareid = $adb->query_result($result, $i, 'shareid');
-			deleteSharingRule($shareid);
+			\App\Utils\UserInfoUtil::deleteSharingRule($shareid);
 		}
 	}
 	\App\Log::trace('Exiting deleteGroupRelatedSharingRules method ...');
@@ -1048,7 +1048,7 @@ class UserInfoUtil
 {
 
 	\App\Log::trace("Entering getDSTableNameForType(" . $typeString . ") method ...");
-	$dataShareTableColArr = getDataShareTableName();
+	$dataShareTableColArr = \App\Utils\UserInfoUtil::getDataShareTableName();
 	$tableName = $dataShareTableColArr[$typeString];
 	\App\Log::trace("Exiting getDSTableNameForType method ...");
 	return $tableName;
@@ -1070,11 +1070,11 @@ class UserInfoUtil
 	$userGlobalPerrArr = [];
 
 	if (isset($profArr[0])) {
-		$userGlobalPerrArr = getProfileGlobalPermission($profArr[0]);
+		$userGlobalPerrArr = \App\Utils\UserInfoUtil::getProfileGlobalPermission($profArr[0]);
 	}
 	if ($no_of_profiles != 1) {
 		for ($i = 1; $i < $no_of_profiles; $i++) {
-			$tempUserGlobalPerrArr = getProfileGlobalPermission($profArr[$i]);
+			$tempUserGlobalPerrArr = \App\Utils\UserInfoUtil::getProfileGlobalPermission($profArr[$i]);
 
 			foreach ($userGlobalPerrArr as $globalActionId => $globalActionPermission) {
 				if ($globalActionPermission == 1) {
@@ -1107,11 +1107,11 @@ class UserInfoUtil
 	$userTabPerrArr = [];
 
 	if (isset($profArr[0])) {
-		$userTabPerrArr = getProfileTabsPermission($profArr[0]);
+		$userTabPerrArr = \App\Utils\UserInfoUtil::getProfileTabsPermission($profArr[0]);
 	}
 	if ($no_of_profiles != 1) {
 		for ($i = 1; $i < $no_of_profiles; $i++) {
-			$tempUserTabPerrArr = getProfileTabsPermission($profArr[$i]);
+			$tempUserTabPerrArr = \App\Utils\UserInfoUtil::getProfileTabsPermission($profArr[$i]);
 
 			foreach ($userTabPerrArr as $tabId => $tabPermission) {
 				if ($tabPermission == 1) {
@@ -1147,11 +1147,11 @@ class UserInfoUtil
 	$no_of_profiles = sizeof($profArr);
 	$actionPerrArr = [];
 	if (isset($profArr[0])) {
-		$actionPerrArr = getProfileAllActionPermission($profArr[0]);
+		$actionPerrArr = \App\Utils\UserInfoUtil::getProfileAllActionPermission($profArr[0]);
 	}
 	if ($no_of_profiles != 1) {
 		for ($i = 1; $i < $no_of_profiles; $i++) {
-			$tempActionPerrArr = getProfileAllActionPermission($profArr[$i]);
+			$tempActionPerrArr = \App\Utils\UserInfoUtil::getProfileAllActionPermission($profArr[$i]);
 
 			foreach ($actionPerrArr as $tabId => $perArr) {
 				foreach ($perArr as $actionid => $per) {
@@ -1186,7 +1186,7 @@ class UserInfoUtil
 	$subRoleAndUsers = [];
 	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {
-		$userArray = getRoleUsers($subRoleId);
+		$userArray = \App\Utils\UserInfoUtil::getRoleUsers($subRoleId);
 		$subRoleAndUsers[$subRoleId] = $userArray;
 	}
 	\App\Log::trace("Exiting getSubordinateRoleAndUsers method ...");
@@ -1226,7 +1226,7 @@ class UserInfoUtil
 		$grp_id = $adb->query_result($result, $i, 'sharedgroupid');
 		$grp_array[] = $grp_id;
 	}
-	$shareGrpList = constructList($grp_array, 'INTEGER');
+	$shareGrpList = \App\Utils\UserInfoUtil::constructList($grp_array, 'INTEGER');
 	\App\Log::trace("Exiting getWriteSharingGroupsList method ...");
 	return $shareGrpList;
 }
@@ -1346,20 +1346,20 @@ class UserInfoUtil
 
 	\App\Log::trace("Entering get_current_user_access_groups(" . $module . ") method ...");
 	$adb = \App\Database\PearDatabase::getInstance();
-	$current_user_group_list = getCurrentUserGroupList();
-	$sharing_write_group_list = getWriteSharingGroupsList($module);
+	$current_user_group_list = \App\Utils\UserInfoUtil::getCurrentUserGroupList();
+	$sharing_write_group_list = \App\Utils\UserInfoUtil::getWriteSharingGroupsList($module);
 	$query = "select groupname,groupid from vtiger_groups";
 	$params = [];
 	if (count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0) {
-		$query .= sprintf(" WHERE (groupid in (%s) || groupid IN (%s))", generateQuestionMarks($current_user_group_list), generateQuestionMarks($sharing_write_group_list));
+		$query .= sprintf(" WHERE (groupid in (%s) || groupid IN (%s))", \App\Utils\Utils::generateQuestionMarks($current_user_group_list), \App\Utils\Utils::generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $current_user_group_list, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
 	} elseif (count($current_user_group_list) > 0) {
-		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($current_user_group_list));
+		$query .= sprintf(" WHERE groupid IN (%s)", \App\Utils\Utils::generateQuestionMarks($current_user_group_list));
 		array_push($params, $current_user_group_list);
 		$result = $adb->pquery($query, $params);
 	} elseif (count($sharing_write_group_list) > 0) {
-		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($sharing_write_group_list));
+		$query .= sprintf(" WHERE groupid IN (%s)", \App\Utils\Utils::generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
 	}
@@ -1445,8 +1445,8 @@ class UserInfoUtil
 	$num_rows = $adb->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
 		$id = $adb->query_result($result, $i, 'id');
-		createUserPrivilegesfile($id);
-		createUserSharingPrivilegesfile($id);
+		\App\Modules\Users\createUserPrivilegesfile($id);
+		\App\Modules\Users\createUserSharingPrivilegesfile($id);
 	}
 	\App\Log::trace("Exiting RecalculateSharingRules method ...");
 }
