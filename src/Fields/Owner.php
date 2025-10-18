@@ -38,12 +38,12 @@ class Owner
 		}
 
 		$cacheKey = $moduleName . $currentUser->getId();
-		$instance = Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
+		$instance = \App\Runtime\Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
 			$instance->moduleName = $moduleName != false ? $moduleName : \App\Http\AppRequest::get('module');
 			$instance->currentUser = $currentUser;
-			Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
+		\App\Runtime\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
 		}
 		return $instance;
 	}
@@ -60,7 +60,7 @@ class Owner
 	public function getAccessibleGroups($private = '', $fieldType = false, $translate = false)
 	{
 		$cacheKey = $private . $this->moduleName . $fieldType;
-		$accessibleGroups = Vtiger_Cache::get('getAccessibleGroups', $cacheKey);
+		$accessibleGroups = \App\Runtime\Vtiger_Cache::get('getAccessibleGroups', $cacheKey);
 		if ($accessibleGroups === false) {
 			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
@@ -68,7 +68,7 @@ class Owner
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
 			}
-			Vtiger_Cache::set('getAccessibleGroups', $cacheKey, $accessibleGroups);
+		\App\Runtime\Vtiger_Cache::set('getAccessibleGroups', $cacheKey, $accessibleGroups);
 		}
 		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
@@ -93,7 +93,7 @@ class Owner
 	public function getAccessibleUsers($private = '', $fieldType = false)
 	{
 		$cacheKey = $private . $this->moduleName . $fieldType . $fieldType;
-		$accessibleUser = Vtiger_Cache::get('getAccessibleUsers', $cacheKey);
+		$accessibleUser = \App\Runtime\Vtiger_Cache::get('getAccessibleUsers', $cacheKey);
 		if ($accessibleUser === false) {
 			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
@@ -113,7 +113,7 @@ class Owner
 			} else {
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			}
-			Vtiger_Cache::set('getAccessibleUsers', $cacheKey, $accessibleUser);
+		\App\Runtime\Vtiger_Cache::set('getAccessibleUsers', $cacheKey, $accessibleUser);
 		}
 		return $accessibleUser;
 	}

@@ -9,8 +9,6 @@
  * *********************************************************************************** */
 
 namespace App\Runtime;
-
-include_once __DIR__ . '/cache/Vtiger_Cache_Connector.php';
 use App\Runtime\Cache\Vtiger_Cache_Connector;
 
 class Vtiger_Cache

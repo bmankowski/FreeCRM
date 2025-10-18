@@ -377,7 +377,7 @@ class WebserviceField
 
 	public function getPicklistDetails()
 	{
-		$cache = Vtiger_Cache::getInstance();
+		$cache = \App\Runtime\Vtiger_Cache::getInstance();
 		if ($cache->getPicklistDetails($this->getTabId(), $this->getFieldName())) {
 			return $cache->getPicklistDetails($this->getTabId(), $this->getFieldName());
 		} else {
