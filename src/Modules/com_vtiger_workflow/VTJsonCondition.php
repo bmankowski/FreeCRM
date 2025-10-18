@@ -156,7 +156,6 @@ class VTJsonCondition {
 				$value = $recordModel->get($value);
 			}
 		} elseif ($expressionType === 'expression') {
-			require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/include.php';
 			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
 			$expression = $parser->expression();
 			$exprEvaluater = new VTFieldExpressionEvaluater($expression);

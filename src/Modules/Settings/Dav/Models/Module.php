@@ -93,7 +93,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public function deleteKey($params)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();

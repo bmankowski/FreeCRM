@@ -466,7 +466,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::removeWidget(" . $data . ") method ...");
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$query = 'DELETE FROM vtiger_module_dashboard WHERE vtiger_module_dashboard.id = ?';
 		$params = array($data['id']);
 		$adb->pquery($query, $params);

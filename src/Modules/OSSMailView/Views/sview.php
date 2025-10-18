@@ -36,7 +36,7 @@ class sview extends \Vtiger_Index_View
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');

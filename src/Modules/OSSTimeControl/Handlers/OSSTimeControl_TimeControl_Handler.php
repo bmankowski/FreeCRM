@@ -10,8 +10,6 @@ namespace App\Modules\OSSTimeControl\Handlers;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityCache.php';
 require_once ROOT_DIRECTORY . '/include/Webservices/Utils.php';
 require_once ROOT_DIRECTORY . '/include/Webservices/Retrieve.php';
 

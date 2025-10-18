@@ -11,8 +11,6 @@ namespace App\Modules\PBXManager\Actions;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-include_once ROOT_DIRECTORY . '/src/Webservices/Create.php';
-include_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 
 class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 {

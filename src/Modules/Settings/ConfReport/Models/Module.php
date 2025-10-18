@@ -251,7 +251,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 				$directiveValues['mysql.connect_timeout']['status'] = true;
 			$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
 
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
 			if ($maxAllowedPacket < 16777216) {
@@ -364,7 +364,6 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$permissions = array();
-		require_once ROOT_DIRECTORY . '/src/Utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
 			$isWriteable = \App\Utils\VtlibUtils::isWriteable($value);
 			if (!$isWriteable || !$onlyError) {

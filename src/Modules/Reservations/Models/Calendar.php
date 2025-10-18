@@ -118,7 +118,7 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 
 	public static function getCalendarTypes()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?;", ['type', 'vtiger_reservations']);
 		$templateId = $db->query_result($result, 0, 'fieldparams');
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', [$templateId]);

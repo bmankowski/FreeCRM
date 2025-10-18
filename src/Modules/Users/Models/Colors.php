@@ -43,7 +43,7 @@ class Colors extends \App\Modules\Vtiger\Models\Model
 
 	public static function getUserColors()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->query('SELECT * FROM vtiger_users');
 
 		$userColors = [];
@@ -60,7 +60,7 @@ class Colors extends \App\Modules\Vtiger\Models\Model
 
 	public static function updateUserColor($params)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_users SET cal_color = ? WHERE id = ?;', array($params['color'], $params['id']));
 	}
 
@@ -87,7 +87,7 @@ class Colors extends \App\Modules\Vtiger\Models\Model
 
 	public static function getGroupColors()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->query('SELECT * FROM vtiger_groups');
 
 		$groupColors = [];
@@ -103,7 +103,7 @@ class Colors extends \App\Modules\Vtiger\Models\Model
 
 	public static function updateGroupColor($params)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_groups SET color = ? WHERE groupid = ?;', array($params['color'], $params['id']));
 	}
 

@@ -3,10 +3,6 @@
 
 namespace App\Modules\Calendar\Models;
 
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_rfc2445.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_components.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_properties.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_parameters.php';
 
 class Export extends \App\Modules\Vtiger\Models\Model
 {
@@ -93,7 +89,7 @@ class Export extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
 		$timeZoneId = explode('/', date_default_timezone_get());
 

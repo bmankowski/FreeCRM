@@ -11,12 +11,6 @@ namespace App\Modules\Calendar\Actions;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_rfc2445.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_components.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_properties.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/iCalendar_parameters.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/ical-parser-class.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCalLastImport.php';
 
 class ImportICS extends \App\Runtime\Vtiger_Action_Controller
 {

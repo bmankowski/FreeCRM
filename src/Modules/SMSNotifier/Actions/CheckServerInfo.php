@@ -25,7 +25,7 @@ class CheckServerInfo extends \App\Runtime\Vtiger_Action_Controller
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$response = new \App\Http\Vtiger_Response();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_smsnotifier_servers WHERE isactive = 1', array());

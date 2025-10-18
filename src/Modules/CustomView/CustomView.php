@@ -12,8 +12,6 @@ namespace App\Modules\CustomView;
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
-require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 global $adv_filter_options;
 
 $adv_filter_options = array(
@@ -93,7 +91,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getCustomViewByCvid($cvid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
@@ -133,7 +131,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getCustomViewCombo($viewid = '', $markselected = true)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
@@ -220,7 +218,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getColumnsListByCvid($cvid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 
@@ -292,7 +290,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getAdvFilterByCvid($cvid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$advft_criteria = [];
 		$dataReaderGroup = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
 				->where(['cvid' => $cvid])
@@ -405,7 +403,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function isFieldPresent_ByColumnTable($columnname, $tablename)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if (!isset($this->_fieldby_tblcol_cache[$tablename])) {
 			$query = 'SELECT columnname FROM vtiger_field WHERE tablename = ? and presence in (0,2)';
@@ -436,7 +434,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getCvColumnListSQL($cvid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$columnslist = $this->getColumnsListByCvid($cvid);
 		if (isset($columnslist)) {
 			foreach ($columnslist as $columnname => $value) {
@@ -489,7 +487,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getCVStdFilterSQL($cvid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$stdfiltersql = '';
 		$stdfilterlist = [];
@@ -662,7 +660,7 @@ class CustomView extends \App\CRMEntity
 	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
 	{
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$currentModule = vglobal('currentModule');
 		$mod_strings = vglobal('mod_strings');
@@ -757,7 +755,7 @@ class CustomView extends \App\CRMEntity
 	{
 
 		\App\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$adv_chk_value = $value;
 		$value = '(';
@@ -940,7 +938,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getCustomActionDetails($cvid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$sSQL = "select vtiger_customaction.* from vtiger_customaction inner join vtiger_customview on vtiger_customaction.cvid = vtiger_customview.cvid";
 		$sSQL .= " where vtiger_customaction.cvid=?";

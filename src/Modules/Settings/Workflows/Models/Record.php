@@ -19,8 +19,6 @@ use App\Modules\Settings\WorkflowsModels\TaskRecord;
  */
 
 
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 class Record extends \App\Modules\Settings\Vtiger\Models\Record
 {
@@ -98,7 +96,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function save()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 
 		$wf = $this->getWorkflowObject();
@@ -122,7 +120,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function delete()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wm->delete($this->getId());
 	}
@@ -190,7 +188,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getInstance($workflowId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wf = $wm->retrieve($workflowId);
 		return self::getInstanceFromWorkflowObject($wf);
@@ -198,7 +196,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getCleanInstance($moduleName)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
@@ -236,7 +234,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public static function getActiveCount()
 	{
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
 		$taskManager = new VTTaskManager($db);
 		$taskList = $taskManager->getTasks();
@@ -404,7 +402,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getReferenceFieldName($relatedModule)
 	{
 		if ($relatedModule) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 
 			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
 			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
@@ -420,7 +418,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function updateNextTriggerTime()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
@@ -432,7 +430,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getTasksForExport()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$query = 'SELECT summary, task FROM com_vtiger_workflowtasks WHERE workflow_id = ?;';
 		$result = $db->pquery($query, [$this->getId()]);
@@ -447,7 +445,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getAllAmountWorkflowsAmount()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$query = 'SELECT workflow_id FROM com_vtiger_workflows;';
 		$result = $db->query($query);
 		$numRows = $db->getRowCount($result);

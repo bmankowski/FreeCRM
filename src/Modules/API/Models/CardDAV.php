@@ -46,7 +46,7 @@ class CardDAV {
 
 	public function syncCrmRecord($moduleName)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$create = $deletes = $updates = 0;
 		$result = $this->getCrmRecordsToSync($moduleName);
 		while ($record = $db->getRow($result)) {
@@ -93,7 +93,7 @@ class CardDAV {
 	public function syncAddressBooks()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $this->getDavCardsToSync();
 		$create = $deletes = $updates = 0;
 		while ($card = $db->getRow($result)) {
@@ -338,7 +338,7 @@ class CardDAV {
 
 	public function getCrmRecordsToSync($moduleName)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		if ($moduleName == 'Contacts') {
 			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email, jobtitle, vtiger_crmentity.modifiedtime,vtiger_contactaddress.* '
 				. 'FROM vtiger_contactdetails '
@@ -357,7 +357,7 @@ class CardDAV {
 
 	public function getCardDetail($crmid)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM dav_cards WHERE addressbookid = ? && crmid = ?;';
 		$result = $db->pquery($sql, [$this->addressBookId, $crmid]);
 		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
@@ -365,7 +365,7 @@ class CardDAV {
 
 	public function getDavCardsToSync()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$query = 'SELECT dav_cards.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype FROM dav_cards LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_cards.crmid WHERE addressbookid = ?';
 		$result = $db->pquery($query, [$this->addressBookId]);
 		return $result;

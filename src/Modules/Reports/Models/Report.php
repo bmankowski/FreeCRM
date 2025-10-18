@@ -10,7 +10,6 @@ namespace App\Modules\Reports\Models;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/Reports/Reports.php';
 
 class Report extends Reports
 {
@@ -23,7 +22,7 @@ class Report extends Reports
 
 	public function Reports($reportId = "")
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = $currentUser->getId();
 

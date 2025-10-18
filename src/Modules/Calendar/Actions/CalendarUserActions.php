@@ -52,7 +52,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 		$userId = $currentUser->getId();
 		$sharedUserId = $request->get('userid');
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? && shareduserid=?', array($userId, $sharedUserId));
 		if ($db->num_rows($result) > 0) {
 			$db->pquery('UPDATE vtiger_shareduserinfo SET visible=? WHERE userid=? && shareduserid=?', array('0', $userId, $sharedUserId));
@@ -78,7 +78,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 		$sharedUserId = $request->get('selectedUser');
 		$color = $request->get('selectedColor');
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$queryResult = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? && shareduserid=?', array($userId, $sharedUserId));
 
@@ -106,7 +106,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 		$viewfieldname = $request->get('viewfieldname');
 
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
 			INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid
 			SET vtiger_calendar_user_activitytypes.visible=? WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.module=? && vtiger_calendar_default_activitytypes.fieldname=?', array('0', $userId, $viewmodule, $viewfieldname));
@@ -130,7 +130,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 		$viewfieldname = $request->get('viewfieldname');
 		$viewcolor = $request->get('viewColor');
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
 					INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid

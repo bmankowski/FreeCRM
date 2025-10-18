@@ -10,7 +10,6 @@ namespace App\Modules\SMSNotifier\Models;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/SMSNotifier/SMSNotifier.php';
 
 class Record extends \App\Modules\Vtiger\Models\Record
 {

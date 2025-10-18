@@ -18,7 +18,7 @@ namespace App\Modules\Calendar;
  */
 function getSharedCalendarId($sharedid)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$query = "SELECT * from vtiger_sharedcalendar where sharedid=?";
 	$result = $adb->pquery($query, array($sharedid));
 	if ($adb->num_rows($result) != 0) {
@@ -79,8 +79,7 @@ function getActivityDetails($description, $user_id, $from = '')
 {
 	
 	$currentUser = vglobal('current_user');
-	$adb = \App\database\PearDatabase::getInstance();
-	require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$current_language = vglobal('current_language');
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
 	\App\Log::trace("Entering getActivityDetails(" . $description . ") method ...");
@@ -154,7 +153,7 @@ function calendarview_getSelectedUserId()
 function calendarview_getSelectedUserFilterQuerySuffix()
 {
 	$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$onlyForUser = calendarview_getSelectedUserId();
 	$qcondition = '';
 	if (!empty($onlyForUser)) {

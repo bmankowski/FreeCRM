@@ -12,8 +12,6 @@ namespace App\Modules\PBXManager;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/events/include.php';
-require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 
 class PBXManager extends \App\CRMEntity
 {
@@ -207,7 +205,7 @@ class PBXManager extends \App\CRMEntity
 	public function addSettingsLinks()
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
 		$integrationBlockCount = $adb->num_rows($integrationBlock);
 
@@ -237,7 +235,7 @@ class PBXManager extends \App\CRMEntity
 	public function removeSettingsLinks()
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
 		\App\Log::info('Settings Field Removed');
 	}
@@ -248,7 +246,7 @@ class PBXManager extends \App\CRMEntity
 	public function addActionMapping()
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 
@@ -279,7 +277,7 @@ class PBXManager extends \App\CRMEntity
 	public function removeActionMapping()
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 

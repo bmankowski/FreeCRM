@@ -10,7 +10,7 @@
 
 function vtws_logout($sessionId, $user)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$sql = "select type from vtiger_ws_operation where name=?";
 	$result = $adb->pquery($sql, array("logout"));
 	$row = $adb->query_result_rowdata($result, 0);

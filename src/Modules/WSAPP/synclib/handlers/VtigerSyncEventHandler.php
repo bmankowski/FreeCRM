@@ -11,8 +11,6 @@ namespace App\Modules\WSAPP\synclib\handlers;
  * All Rights Reserved.
  *
  * ****************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/SyncServer.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Handlers/SyncHandler.php';
 
 class VtigerSyncEventHandler extends SyncHandler
 {

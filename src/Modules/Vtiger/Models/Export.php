@@ -52,7 +52,7 @@ class Export extends Model
 	 */
 	public function exportData(Vtiger_Request $request)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 		$query = $this->getExportQuery($request);
 

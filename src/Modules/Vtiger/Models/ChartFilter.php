@@ -200,7 +200,7 @@ class ChartFilter extends Model
 	{
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$suffix = '';
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {

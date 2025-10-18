@@ -42,7 +42,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
 		if (!empty($searchValue)) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 
 			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? || last_name LIKE ?) && status = ?';
 			$params = array("%$searchValue%", "%$searchValue%", 'Active');
@@ -81,7 +81,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function checkDuplicateUser($userName)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$query = 'SELECT user_name FROM vtiger_users WHERE user_name = ?';
 		$result = $db->pquery($query, array($userName));
@@ -97,7 +97,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function deleteRecord($recordModel)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$moduleName = $this->get('name');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?";
@@ -119,7 +119,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function updateBaseCurrency($currencyName)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
@@ -200,7 +200,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getCurrenciesList()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
 		$result = $adb->pquery($currency_query, array());
@@ -219,7 +219,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getTimeZonesList()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
 		$result = $adb->pquery($timezone_query, array());
@@ -245,7 +245,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getLanguagesList()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$language_query = 'SELECT prefix, label FROM vtiger_language';
 		$result = $adb->query($language_query);

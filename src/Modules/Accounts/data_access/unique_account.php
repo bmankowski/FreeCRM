@@ -18,7 +18,7 @@ Class DataAccess_unique_account
 
 	public function process($moduleName, $ID, $recordForm, $config)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$params = [];
 		$hierarchyAll = [];
 		$save = true;

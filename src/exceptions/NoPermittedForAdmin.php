@@ -22,7 +22,7 @@ class NoPermittedForAdmin extends \Exception
 		\App\Http\Vtiger_Session::init();
 
 		$request = \App\Http\AppRequest::init();
-		$dbLog = \App\database\PearDatabase::getInstance('log');
+		$dbLog = \App\Database\database\PearDatabase::getInstance('log');
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
 
 		$data = [

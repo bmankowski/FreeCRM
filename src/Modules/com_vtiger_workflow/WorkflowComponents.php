@@ -9,9 +9,6 @@ namespace App\Modules\com_vtiger_workflow;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 function vtJsonFields($adb, Vtiger_Request $request)
 {
@@ -89,7 +86,7 @@ function vtJsonOwnersList($adb)
 
 	echo \App\Json::encode($ownersList);
 }
-$adb = \App\database\PearDatabase::getInstance();
+$adb = \App\Database\database\PearDatabase::getInstance();
 $request = \App\Http\AppRequest::init();
 $mode = $request->get('mode');
 

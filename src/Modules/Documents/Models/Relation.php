@@ -38,7 +38,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 				$mailId = $sourceRecordId;
 				$crmid = $relatedRecordId;
 			}
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
 				return true;
 			} else {

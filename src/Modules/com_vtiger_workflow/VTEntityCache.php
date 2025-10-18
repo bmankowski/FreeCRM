@@ -11,7 +11,6 @@ namespace App\Modules\com_vtiger_workflow;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 
 class VTWorkflowEntity {
 
@@ -60,7 +59,7 @@ class VTWorkflowEntity {
 		$cache = \App\Runtime\Vtiger_Cache::getInstance();
 
 		if ($this->moduleName == null) {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 			$wsId = $this->data['id'];
 			$parts = explode('x', $wsId);
 			if ($cache->getModuleName($parts[0])) {

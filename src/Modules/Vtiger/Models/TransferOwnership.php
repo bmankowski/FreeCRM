@@ -16,7 +16,7 @@ class TransferOwnership extends Model
 
 	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [], $relModData)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$basicModule = $request->getModule();
 		$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($basicModule);
 		$relatedIds = [];
@@ -80,7 +80,6 @@ class TransferOwnership extends Model
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			], ['crmid' => $relatedModuleRecordIds]
 		)->execute();
-		require_once ROOT_DIRECTORY . '/src/Modules/ModTracker/ModTracker.php';
 		$flag = ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {

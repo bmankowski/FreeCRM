@@ -268,7 +268,7 @@ class Services extends \App\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -442,8 +442,7 @@ class Services extends \App\CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 
-		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);

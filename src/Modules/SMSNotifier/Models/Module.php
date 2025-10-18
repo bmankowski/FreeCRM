@@ -52,7 +52,6 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getSettingLinks()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = array();

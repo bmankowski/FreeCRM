@@ -9,15 +9,9 @@ namespace App\Modules\WSAPP\synclib\controllers;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/SyncStateModel.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/VtigerModel.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/TargetModel.php';
 
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/connectors/VtigerConnector.php';
 
-require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
 
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/api/ws/Register.php';
 
 abstract class WSAPP_SynchronizeController
 {
@@ -40,7 +34,7 @@ abstract class WSAPP_SynchronizeController
 	{
 		$this->targetConnector = $this->getTargetConnector();
 		$this->sourceConnector = $this->getSourceConnector();
-		$this->db = \App\database\PearDatabase::getInstance();
+		$this->db = \App\Database\database\PearDatabase::getInstance();
 		$this->user = $user;
 	}
 

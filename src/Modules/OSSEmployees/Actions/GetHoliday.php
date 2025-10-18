@@ -20,7 +20,7 @@ class GetHoliday extends \App\Runtime\Vtiger_Action_Controller
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 
 		$id = $request->get('id');

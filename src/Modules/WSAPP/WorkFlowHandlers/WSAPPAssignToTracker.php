@@ -11,10 +11,6 @@ namespace App\Modules\WSAPP\WorkFlowHandlers;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once ROOT_DIRECTORY . '/src/events/VTEntityData.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/DataTransform.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/SyncServer.php';
 
 class WSAPPAssignToTracker extends VTEventHandler
 {
@@ -27,7 +23,7 @@ class WSAPPAssignToTracker extends VTEventHandler
 	public function handleEvent($eventName, $entityData)
 	{
 		$current_user = vglobal('current_user');
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$moduleName = $entityData->getModuleName();
 
 		//Specific to VAS

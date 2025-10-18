@@ -33,7 +33,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 	 */
 	public static function getInstanceById($recordId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$scheduledReportModel = new self();
 
 		if (!empty($recordId)) {
@@ -58,7 +58,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function saveScheduleReport()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$reportid = $this->get('reportid');
 		$scheduleid = $this->get('scheduleid');
@@ -164,7 +164,6 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 			}
 
 			if (!empty($recipients['Groups'])) {
-				require_once ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php';
 				foreach ($recipients['Groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);
@@ -202,7 +201,6 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 		foreach ($recipientEmails as $name => $email) {
 			$to[$email] = $name;
 		}
-		require_once ROOT_DIRECTORY . '/src/Modules/Report/Models/Record.php';
 		$reportRecordModel = \App\Modules\Reports\Models\Record::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
 		\vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
@@ -251,7 +249,6 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function getNextTriggerTime()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManager.php';
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
@@ -285,7 +282,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 
 	public function updateNextTriggerTime()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
 		\vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
@@ -315,7 +312,6 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 
 	public static function runScheduledReports()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 

@@ -90,7 +90,7 @@ class SRecurringOrders extends \App\CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = \App\CRMEntity::getInstance('SRecurringOrders');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');

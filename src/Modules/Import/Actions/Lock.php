@@ -26,7 +26,7 @@ class Lock extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function lock($importId, $module, $user)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if (!\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			\vtlib\Utils::CreateTable(
@@ -42,7 +42,7 @@ class Lock extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function unLock($user, $module = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$query = 'DELETE FROM vtiger_import_locks WHERE userid=?';
 			$params = array(method_exists($user, 'get') ? $user->get('id') : $user->id);
@@ -56,7 +56,7 @@ class Lock extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function isLockedForModule($module)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?', array(\App\Module::getModuleId($module)));

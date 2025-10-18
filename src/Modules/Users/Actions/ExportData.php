@@ -19,7 +19,7 @@ class ExportData extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function ExportData(\App\Http\Vtiger_Request $request)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 
 		$this->moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);

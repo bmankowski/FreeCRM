@@ -98,7 +98,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	{
 		$flag = false;
 		if (!empty($subProductId)) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$result = $db->pquery("SELECT vtiger_seproductsrel.crmid from vtiger_seproductsrel INNER JOIN
                 vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid 
 					AND vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.setype=? 

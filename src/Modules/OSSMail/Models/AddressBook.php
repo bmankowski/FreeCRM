@@ -16,7 +16,7 @@ class AddressBook {
 	public static function createABFile()
 	{
 		$mails = [];
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->query(sprintf('SELECT * FROM %s', self::TABLE));
 		while ($row = $adb->getRow($result)) {
 			$name = $row['name'];

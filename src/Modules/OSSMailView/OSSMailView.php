@@ -304,8 +304,7 @@ class OSSMailView extends \App\CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);
 			$displayLabel = 'OSSMailView';

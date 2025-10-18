@@ -26,7 +26,7 @@ class GetParentGroups
 	 */
 	public function getAllParentGroups($groupid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		
 		\App\Log::trace("Entering getAllParentGroups(" . $groupid . ") method...");
 		$query = "select groupid from vtiger_group2grouprel where containsgroupid=?";

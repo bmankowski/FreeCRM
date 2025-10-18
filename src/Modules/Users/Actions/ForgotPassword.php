@@ -12,11 +12,6 @@ namespace App\Modules\Users\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . "/../../../");
-require_once ROOT_DIRECTORY . '/src/RequirementsValidation.php';
-require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-include_once ROOT_DIRECTORY . "/src/Utils/VtlibUtils.php";
-include_once ROOT_DIRECTORY . "/src/Webservices/Custom/ChangePassword.php";
-include_once ROOT_DIRECTORY . "/src/Webservices/Utils.php";
 include_once 'src/Modules/Vtiger/helpers/ShortURL.php';
 
 class ForgotPassword {
@@ -53,7 +48,7 @@ class ForgotPassword {
 
 	public function requestForgotPassword(\App\Http\Vtiger_Request $request)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$username = \App\Purifier::purify($request->get('user_name'));
 		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
 		if ($adb->num_rows($result) > 0) {

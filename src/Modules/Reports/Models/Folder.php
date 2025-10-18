@@ -55,7 +55,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function save()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$folderId = $this->getId();
 		if (!empty($folderId)) {
@@ -74,7 +74,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function delete()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_reportfolder WHERE folderid = ?', array($this->getId()));
 	}
 
@@ -179,7 +179,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	{
 		$folderModel = \App\Runtime\Vtiger_Cache::get('reportsFolder', $folderId);
 		if (!$folderModel) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$folderModel = Reports_Folder_Model::getInstance();
 
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", array($folderId));
@@ -199,7 +199,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	 */
 	public static function getAll()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$folders = \App\Runtime\Vtiger_Cache::get('reports', 'folders');
 		if (!$folders) {
 			$folders = array();
@@ -224,7 +224,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function checkDuplicate()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$query = 'SELECT 1 FROM vtiger_reportfolder WHERE foldername = ?';
 		$params = array($this->getName());
@@ -249,7 +249,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function hasReports()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_report WHERE folderid = ?', array($this->getId()));
 
@@ -315,7 +315,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function getReportsCount()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$params = array();
 
 		// To get the report ids which are permitted for the user
@@ -401,7 +401,7 @@ class Folder extends \App\Modules\Vtiger\Models\Model
 	 */
 	public function getRecordIds($skipRecords = false, $module)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$baseTableName = "vtiger_report";
 		$baseTableId = "reportid";
 		$folderId = $this->getId();

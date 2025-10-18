@@ -6,8 +6,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-$db = \App\database\PearDatabase::getInstance();
+$db = \App\Database\database\PearDatabase::getInstance();
 
 $renewal = ['PLL_PLANNED', 'PLL_WAITING_FOR_RENEWAL', ''];
 $query = 'SELECT 

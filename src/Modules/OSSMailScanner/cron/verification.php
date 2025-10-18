@@ -10,6 +10,5 @@ namespace App\Modules\OSSMailScanner\cron;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
 $recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
 $recordModel->verificationCron();

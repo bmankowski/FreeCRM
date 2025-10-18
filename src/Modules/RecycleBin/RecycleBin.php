@@ -21,8 +21,7 @@ class RecycleBin {
 	public function vtlib_handler($moduleName, $eventType)
 	{
 
-		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
 			// Mark the module as Standard module

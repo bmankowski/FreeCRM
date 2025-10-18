@@ -22,7 +22,7 @@ class OtherTasks {
 	{
 		
 		\App\Log::trace("Entering OtherTasks::process() method ...");
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_projecttask.projecttaskid

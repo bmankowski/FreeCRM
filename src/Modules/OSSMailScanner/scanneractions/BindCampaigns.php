@@ -28,7 +28,7 @@ class BindCampaigns extends Model
 			$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsCcaddress);
 			$crmIds = \App\Modules\OSSMailScanner\Models\Record::_merge_array($crmIds, $crmidsBccaddress);
 
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			foreach ($campaignIds as $campaignId) {
 				foreach ($crmIds as $recordId) {
 					$db->update('vtiger_campaign_records', [

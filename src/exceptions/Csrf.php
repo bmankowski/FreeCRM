@@ -14,7 +14,7 @@ class Csrf extends \Exception
 		parent::__construct($message, $code, $previous);
 		\App\Http\Vtiger_Session::init();
 
-		$dbLog = \App\database\PearDatabase::getInstance('log');
+		$dbLog = \App\Database\database\PearDatabase::getInstance('log');
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
 		$dbLog->insert('o_yf_csrf', [
 			'username' => empty($userName) ? '-' : $userName,

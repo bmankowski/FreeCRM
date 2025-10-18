@@ -162,7 +162,7 @@ class HelpDesk extends \App\CRMEntity
 	 */
 	public function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 
 		if ($mode != 'edit') {//this will be updated when we create new ticket
@@ -231,7 +231,7 @@ class HelpDesk extends \App\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 

@@ -95,7 +95,7 @@ class HolidaysEntitlement extends \App\CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = \App\CRMEntity::getInstance('HolidaysEntitlement');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'HE', '1');

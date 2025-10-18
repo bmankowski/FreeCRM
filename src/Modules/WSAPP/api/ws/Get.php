@@ -9,8 +9,6 @@ namespace App\Modules\WSAPP\api\ws;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 
 function wsapp_get($key, $module, $token, $user)
 {

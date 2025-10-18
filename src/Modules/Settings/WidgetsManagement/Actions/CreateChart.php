@@ -15,7 +15,7 @@ class CreateChart extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$linkId = $request->get('linkId');
 		$chartName = $request->get('chartName');
 		$blockid = $request->get('blockid');

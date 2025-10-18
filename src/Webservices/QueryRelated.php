@@ -9,13 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-include_once ROOT_DIRECTORY . '/src/Webservices/Query.php';
-include_once ROOT_DIRECTORY . '/src/Webservices/RelatedTypes.php';
 
 function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = null)
 {
 
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();

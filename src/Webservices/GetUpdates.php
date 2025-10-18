@@ -8,16 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
 
 function vtws_sync($mtime, $elementType, $syncType, $user)
 {
 	return 'Currently not supported';
 
 	global $recordString, $modifiedTimeString;
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$numRecordsLimit = 100;
 	$ignoreModules = array("Users");
 	$typed = true;

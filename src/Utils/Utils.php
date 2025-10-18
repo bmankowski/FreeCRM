@@ -140,7 +140,7 @@ class Utils
 		if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
 			return $cache->getUserId($username);
 		} else {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 			$sql = "select id from vtiger_users where user_name=?";
 			$result = $adb->pquery($sql, array($username));
 			$num_rows = $adb->num_rows($result);
@@ -179,7 +179,7 @@ class Utils
 			$actionid = $actionIds[$action];
 		}
 		if (empty($actionid)) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$query = 'select actionid from vtiger_actionmapping where actionname=?';
 			$result = $db->pquery($query, [$action]);
 			$actionid = $db->getSingleValue($result);
@@ -197,7 +197,7 @@ class Utils
 	{
 
 		\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$actionName = \App\Runtime\Vtiger_Cache::get('getActionName', $actionid);
 		if ($actionName) {
@@ -245,7 +245,7 @@ class Utils
 	{
 
 		\App\Log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$query = "update vtiger_products set qtyinstock=? where productid=?";
 		$adb->pquery($query, array($upd_qty, $product_id));
 		\App\Log::trace("Exiting updateProductQty method ...");
@@ -336,7 +336,7 @@ class Utils
 	 */
 	public static function formatForSqlLike($str, $flag = 0, $is_field = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (isset($str)) {
 			if ($is_field === false) {
 				$str = str_replace('%', '\%', $str);
@@ -395,7 +395,7 @@ class Utils
 	 */
 	public static function getCallerInfo($number)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if (empty($number)) {
 			return false;
@@ -427,7 +427,7 @@ class Utils
 	 */
 	public static function get_use_asterisk($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (!\App\Module::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
 			return false;
 		}
@@ -455,7 +455,7 @@ class Utils
 	 * */
 	public static function getRelationTables($module, $secmodule)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$primary_obj = \CRMEntity::getInstance($module);
 		$secondary_obj = \CRMEntity::getInstance($secmodule);
 
@@ -638,7 +638,7 @@ class Utils
 	 */
 	public static function getBlockName($blockid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$blockname = \App\Utils\VTCacheUtils::lookupBlockLabelWithId($blockid);
 
@@ -711,7 +711,7 @@ class Utils
 	 */
 	public static function getActivityRelatedContacts($activityId)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
 		$result = $adb->pquery($query, array($activityId));

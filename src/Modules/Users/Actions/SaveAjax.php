@@ -13,7 +13,6 @@ use App\Modules\Settings\PasswordModels\Record;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Webservices/Custom/ChangePassword.php';
 
 class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
@@ -192,7 +191,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 		$recordModel->set('status', 'Active');
 		$recordModel->save();
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", array(0, $record));
 
 		$userModuleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);

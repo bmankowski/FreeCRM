@@ -13,7 +13,6 @@ namespace App\Modules\ModTracker;
  * ********************************************************************************** */
 
 
-include_once ROOT_DIRECTORY . '/src/Webservices/GetUpdates.php';
 
 class ModTracker {
 
@@ -50,7 +49,7 @@ class ModTracker {
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_OTHER_SETTINGS', [
@@ -185,7 +184,7 @@ class ModTracker {
 	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
 		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$datetime = date('Y-m-d H:i:s', $mtime);
 
 		$accessibleModules = $this->getModTrackerEnabledModules();
@@ -285,7 +284,7 @@ class ModTracker {
 
 	public static function getRecordFieldChanges($crmid, $time, $decodeHTML = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$date = date('Y-m-d H:i:s', $time);
 

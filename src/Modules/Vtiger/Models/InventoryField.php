@@ -463,7 +463,7 @@ class InventoryField extends Model
 	 */
 	public function saveField($type, $param)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$columns = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSpan'];
 		$set = [];
 		$params = [];
@@ -524,7 +524,7 @@ class InventoryField extends Model
 	 */
 	public function getUniqueID($instance)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT MAX(id) AS max FROM `%s` WHERE `invtype` = ? ', $this->getTableName('fields'));
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
@@ -552,7 +552,7 @@ class InventoryField extends Model
 			return $instance;
 		}
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$table = $this->getTableName('autofield');
 		$result = $db->pquery(sprintf('SELECT * FROM %s', $table));
 		$fields = [];

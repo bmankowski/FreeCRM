@@ -297,7 +297,6 @@ class OSSPasswords extends \App\CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 		require_once(ROOT_DIRECTORY . '/src/events/include.php');
 
 		$db = \App\Db::getInstance();

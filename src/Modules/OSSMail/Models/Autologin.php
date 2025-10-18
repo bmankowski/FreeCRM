@@ -16,7 +16,7 @@ class Autologin {
 
 	public static function getAutologinUsers()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$user_id = $currentUserModel->getId();
 		$users = [];

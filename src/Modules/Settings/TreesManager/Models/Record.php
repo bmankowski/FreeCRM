@@ -323,7 +323,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getInstanceById($record)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_trees_templates WHERE templateid = ?';
 		$params = array($record);
 		$result = $db->pquery($sql, $params);

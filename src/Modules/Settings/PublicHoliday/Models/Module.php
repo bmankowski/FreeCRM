@@ -129,7 +129,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday(" . $date . ") method ...");
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$sql = 'SELECT COUNT(1) as num FROM `vtiger_publicholiday` WHERE `holidaydate` = ?;';
 		$params = array($date);
 

@@ -107,7 +107,7 @@ class ConfigModule extends \App\Modules\Settings\Vtiger\Models\Module
 	public function getPicklistValues($fieldName)
 	{
 		if ($fieldName === 'default_module') {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 
 			$presence = [0];
 			$restrictedModules = array('Integration', 'Dashboard');

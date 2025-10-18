@@ -11,7 +11,6 @@ namespace App\Modules\Reports;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportUtils.php';
 global $calpath;
 global $app_list_strings;
 global $modules;
@@ -142,10 +141,9 @@ class Reports extends \App\CRMEntity
 	// Update the module list for listing columns for report creation.
 	public function updateModuleList($module)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (!isset($module))
 			return;
-		require_once(ROOT_DIRECTORY . '/src/Utils/utils.php');
 		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
@@ -170,7 +168,7 @@ class Reports extends \App\CRMEntity
 	{
 		global $old_related_modules;
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$restricted_modules = array('Events');
 		$restricted_blocks = array('LBL_COMMENTS', 'LBL_COMMENT_INFORMATION');
 
@@ -289,7 +287,7 @@ class Reports extends \App\CRMEntity
 	{
 
 		global $mod_strings;
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
@@ -336,7 +334,7 @@ class Reports extends \App\CRMEntity
 	 */
 	public function sgetAllRpt($fldrId, $paramsList)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$returndata = [];
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
@@ -386,7 +384,7 @@ class Reports extends \App\CRMEntity
 	public function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
 	{
 	$srptdetails = "";
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$currentUser = \App\User::getCurrentUserModel();
 
 	$mod_strings = vglobal('mod_strings');
@@ -568,7 +566,7 @@ class Reports extends \App\CRMEntity
 	 */
 	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		if (is_string($block))
@@ -654,7 +652,7 @@ class Reports extends \App\CRMEntity
 	 */
 	public function getSelectedStandardCriteria($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
 		$result = $adb->pquery($sSQL, array($reportid));
 		$selectedstdfilter = $adb->fetch_array($result);
@@ -727,7 +725,7 @@ class Reports extends \App\CRMEntity
 	public function getaccesfield($module)
 	{
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$access_fields = [];
 
 		$profileList = $currentUser->getProfiles();
@@ -767,7 +765,7 @@ class Reports extends \App\CRMEntity
 	public function getSelctedSortingColumns($reportid)
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
@@ -795,7 +793,7 @@ class Reports extends \App\CRMEntity
 	 */
 	public function getSelectedColumnsList($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$current_user = vglobal('current_user');
 
@@ -853,7 +851,7 @@ class Reports extends \App\CRMEntity
 
 	public function getAdvancedFilterList($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 		$current_user = vglobal('current_user');
@@ -951,7 +949,7 @@ class Reports extends \App\CRMEntity
 	 */
 	public function sgetRptFldrSaveReport()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
@@ -991,7 +989,7 @@ class Reports extends \App\CRMEntity
 	 */
 	public function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$options = [];
 		if ($reportid != "") {
@@ -1026,7 +1024,7 @@ class Reports extends \App\CRMEntity
 	public function sgetColumnstoTotalHTML($module)
 	{
 		//retreive the vtiger_tabid
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$tabid = \App\Module::getModuleId($module);
@@ -1139,7 +1137,7 @@ class Reports extends \App\CRMEntity
  */
 function getReportsModuleList($focus)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
 		if (\App\Utils\UserInfoUtil::isPermitted($key, 'index') == "yes") {
@@ -1175,7 +1173,7 @@ function getReportRelatedModules($module, $focus)
 function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_groups)
 {
 
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
 
 	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";

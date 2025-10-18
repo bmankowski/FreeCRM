@@ -79,7 +79,7 @@ class VtigerCRMObject
 		$tid = \App\Module::getModuleId($objectName);
 
 		if ($tid === false) {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 
 			$sql = "select * from vtiger_tab where name=?;";
 			$params = array($objectName);
@@ -109,14 +109,14 @@ class VtigerCRMObject
 
 	public function read($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$this->instance->retrieve_entity_info($id, $this->getTabName());
 		return true;
 	}
 
 	public function create($element)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$error = false;
 		foreach ($element as $k => $v) {
@@ -130,7 +130,7 @@ class VtigerCRMObject
 
 	public function update($element)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$error = false;
 
 		foreach ($element as $k => $v) {
@@ -145,7 +145,7 @@ class VtigerCRMObject
 
 	public function revise($element)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$error = false;
 
 		$error = $this->read($this->getObjectId());
@@ -170,7 +170,7 @@ class VtigerCRMObject
 
 	public function delete($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$error = false;
 		$adb->startTransaction();
 		\App\Utils\Utils::DeleteEntity($this->getTabName(), $this->getTabName(), $this->instance, $id, $returnid);
@@ -186,7 +186,7 @@ class VtigerCRMObject
 
 	public function exists($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$exists = false;
 		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";
@@ -201,7 +201,7 @@ class VtigerCRMObject
 
 	public function getSEType($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$seType = null;
 		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";

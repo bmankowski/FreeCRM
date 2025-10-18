@@ -15,7 +15,7 @@ class ExportUtils
 	 */
 	public static function getPermittedBlocks($module, $disp_view)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
 
@@ -70,7 +70,7 @@ class ExportUtils
 	 */
 	public static function getFieldsListFromQuery($query)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into the function getFieldsListFromQuery($query)");
 

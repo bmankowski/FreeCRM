@@ -7,7 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ******************************************************************************* */
-require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 /**
  * this file will be used to store the functions to be used in the picklist module
  */

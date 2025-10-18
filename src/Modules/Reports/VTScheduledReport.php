@@ -11,8 +11,6 @@ namespace App\Modules\Reports;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Modules/Reports/Reports.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportRun.php';
 
 class VTScheduledReport extends Reports
 {
@@ -40,7 +38,7 @@ class VTScheduledReport extends Reports
 
 	public function getReportScheduleInfo()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if (!empty($this->id)) {
 			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
@@ -101,7 +99,6 @@ class VTScheduledReport extends Reports
 
 
 			if (!empty($recipientsInfo['groups'])) {
-				require_once ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php';
 				foreach ($recipientsInfo['groups'] as $groupId) {
 					$userGroups = new GetGroupUsers();
 					$userGroups->getAllUsersInGroup($groupId);
@@ -365,7 +362,6 @@ class VTScheduledReport extends Reports
 
 	public static function runScheduledReports($adb)
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 		$util = new VTWorkflowUtils();
 		$adminUser = $util->adminUser();
 

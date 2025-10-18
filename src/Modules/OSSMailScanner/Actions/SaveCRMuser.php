@@ -28,7 +28,7 @@ class SaveCRMuser extends \App\Runtime\Vtiger_Action_Controller
 		$userid = $request->get('userid');
 		$value = $request->get('value');
 		if ($userid) {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 			$adb->pquery('update roundcube_users set crm_user_id = ? WHERE user_id = ?', [$value, $userid]);
 			$success = true;
 			$data = \App\Runtime\Vtiger_Language_Handler::translate('JS_saveuser_info', 'OSSMailScanner');

@@ -52,7 +52,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 	public function isSubProduct($subProductId)
 	{
 		if (!empty($subProductId)) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$result = $db->pquery('SELECT crmid FROM vtiger_seproductsrel WHERE crmid = ?', array($subProductId));
 			if ($db->num_rows($result) > 0) {
 				return true;

@@ -11,7 +11,6 @@ namespace App\Modules\Leads\Views;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/ConvertLead.php';
 
 class SaveConvertLead extends \App\Runtime\Vtiger_View_Controller
 {

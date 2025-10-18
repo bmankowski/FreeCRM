@@ -128,7 +128,7 @@ class Products extends \App\CRMEntity
 	 */
 	public function isparent_check()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$isparent_query = $adb->pquery(\App\Utils\ListViewUtils::getListQuery("Products") . " && (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$isparent = $adb->num_rows($isparent_query);
 		return $isparent;
@@ -138,7 +138,7 @@ class Products extends \App\CRMEntity
 	 */
 	public function ismember_check()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$ismember_query = $adb->pquery(\App\Utils\ListViewUtils::getListQuery("Products") . " && (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$ismember = $adb->num_rows($ismember_query);
 		return $ismember;
@@ -152,7 +152,7 @@ class Products extends \App\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -266,7 +266,7 @@ class Products extends \App\CRMEntity
 
 	public function deleteProduct2ProductRelation($record, $return_id, $is_parent)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if ($is_parent == 0) {
 			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
 			$adb->pquery($sql, array($record, $return_id));

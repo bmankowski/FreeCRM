@@ -17,7 +17,7 @@ abstract class PrefixScannerAction
 
 	public function findAndBind()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$mailId = $this->mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;

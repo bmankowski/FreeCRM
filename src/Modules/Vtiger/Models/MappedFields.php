@@ -188,7 +188,7 @@ class MappedFields extends Model
 
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
 			$result = $db->pquery($query, [$this->getId()]);
 			$mapping = $db->getArray($result);
@@ -247,7 +247,6 @@ class MappedFields extends Model
 		if (\App\Cache::staticHas(__METHOD__, $key)) {
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
 		$conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $recordModel);

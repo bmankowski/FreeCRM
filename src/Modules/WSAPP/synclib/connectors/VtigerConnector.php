@@ -10,14 +10,6 @@ namespace App\Modules\WSAPP\synclib\connectors;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/connectors/BaseConnector.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/api/ws/Get.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/VtigerModel.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/PullResultModel.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/api/ws/Map.php';
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/api/ws/Put.php';
-require_once ROOT_DIRECTORY . '/src/database/PearDatabase.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 
 class VtigerConnector extends WSAPP_BaseConnector
 {
@@ -28,7 +20,7 @@ class VtigerConnector extends WSAPP_BaseConnector
 
 	public function __construct()
 	{
-		$this->db = \App\database\PearDatabase::getInstance();
+		$this->db = \App\Database\database\PearDatabase::getInstance();
 	}
 
 	public function getDbInstance()

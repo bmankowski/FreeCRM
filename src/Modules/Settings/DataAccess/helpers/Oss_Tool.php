@@ -11,10 +11,6 @@
 
 namespace App\Modules\Settings\DataAccess\helpers;
  
-include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-include_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
-include_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
-include_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
 
 use vtlib\Functions;
 
@@ -378,7 +374,7 @@ class Oss_Tool
 	 */
 	private static function generateFieldName()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$id = $db->getUniqueID("vtiger_field");
 
 		return 'cf_' . $id;

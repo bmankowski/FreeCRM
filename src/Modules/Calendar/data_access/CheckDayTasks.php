@@ -19,7 +19,7 @@ class CheckDayTasks {
 			return ['save_record' => true];
 		}
 		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$typeInfo = 'info';
 		$statusType = $config['statusType'];
 		switch ($statusType) {

@@ -302,8 +302,6 @@ class Util {
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
 	{
-		require_once ROOT_DIRECTORY . '/src/Runtime/LanguageHandler.php';
-		require_once ROOT_DIRECTORY . '/src/Runtime/Globals.php';
 		if ($userObject) {
 			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {
@@ -326,8 +324,6 @@ class Util {
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
 	{
-		require_once ROOT_DIRECTORY . '/src/Runtime/LanguageHandler.php';
-		require_once ROOT_DIRECTORY . '/src/Runtime/Globals.php';
 		if ($userObject) {
 			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {
@@ -347,7 +343,7 @@ class Util {
 	 */
 	public static function getCurrentInfoOfUser()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
 		if ($db->num_rows($result))
@@ -356,7 +352,6 @@ class Util {
 
 	public static function getGroupsIdsForUsers($userId)
 	{
-		require_once ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php';
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);
@@ -422,7 +417,7 @@ class Util {
 
 	public static function setCalendarDefaultActivityTypesForUser($userId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$userEntries = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE userid=?', array($userId));
 		$activityIds = [];
 		if ($db->num_rows($userEntries) <= 0) {
@@ -454,7 +449,7 @@ class Util {
 
 	public static function isUserDeleted($userid)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
 		$count = $db->num_rows($result);
 		if ($count > 0)

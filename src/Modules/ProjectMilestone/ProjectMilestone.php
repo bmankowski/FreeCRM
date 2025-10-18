@@ -312,7 +312,7 @@ class ProjectMilestone extends \App\CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 
 			$projectMilestoneResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectMilestone'));

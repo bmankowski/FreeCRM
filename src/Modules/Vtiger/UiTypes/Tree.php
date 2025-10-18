@@ -87,7 +87,7 @@ class Tree extends Base
 	public function getAllValue()
 	{
 		$template = $this->get('field')->getFieldParams();
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$values = [];
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
 		while ($row = $adb->getRow($result)) {
@@ -111,7 +111,7 @@ class Tree extends Base
 
 	public static function getDisplayValueByField($tree, $field, $module)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? && fieldname = ?', array(\vtlib\Functions::getModuleId($module), $field));
 		if ($adb->num_rows($result) == 0) {
 			return false;

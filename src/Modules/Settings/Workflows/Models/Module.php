@@ -101,7 +101,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public static function getExpressions()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$mem = new VTExpressionsManager($db);
 		return $mem->expressionFunctions();
@@ -131,7 +131,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
 			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
 			WHERE `module_name` =?', [$moduleInstance->name]);
@@ -157,7 +157,6 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			foreach ($data['workflow_tasks'] as $task) {
 				$db->createCommand()->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
 				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
-				include_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				$taskObject = unserialize($task['task']);
 				$taskObject->workflowId = intval($workflowId);
 				$taskObject->id = intval($taskId);
@@ -176,7 +175,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function exportTaskMethod($methodName)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$query = 'SELECT workflowtasks_entitymethod_id, module_name, method_name, function_path, function_name FROM com_vtiger_workflowtasks_entitymethod WHERE method_name = ?;';
 		$result = $db->pquery($query, [$methodName]);
@@ -194,7 +193,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);

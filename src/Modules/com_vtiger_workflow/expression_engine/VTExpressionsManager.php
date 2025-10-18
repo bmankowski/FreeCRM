@@ -10,7 +10,6 @@ namespace App\Modules\com_vtiger_workflow\expression_engine;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/events/SqlResultIterator.php';
 
 class VTExpressionsManager {
 

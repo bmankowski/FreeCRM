@@ -8,8 +8,7 @@ namespace App\Modules\Notification;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-$db = \App\database\PearDatabase::getInstance();
+$db = \App\Database\database\PearDatabase::getInstance();
 $notifications = new Cron_Notification();
 $result = $db->query('SELECT * FROM u_yf_watchdog_schedule');
 while ($row = $db->getRow($result)) {
@@ -27,7 +26,7 @@ class Notification {
 	 */
 	public function executeScheduled($row)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$currentTime = time();
 		$timestampEndDate = empty($row['last_execution']) ? $currentTime : strtotime($row['last_execution'] . ' +' . $row['frequency'] . 'min');
 		if ($currentTime >= $timestampEndDate) {

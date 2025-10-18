@@ -45,7 +45,7 @@ class Action extends \Vtiger_Record_Model
 
 	public static function getInstanceFromQResult($result, $rowNo = 0)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$row = $db->query_result_rowdata($result, $rowNo);
 		$actionModel = new self();
 		return $actionModel->setData($row);
@@ -53,7 +53,7 @@ class Action extends \Vtiger_Record_Model
 
 	public static function getInstance($value)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
@@ -71,7 +71,7 @@ class Action extends \Vtiger_Record_Model
 
 	public static function getAll($configurable = true)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
 		$params = [];

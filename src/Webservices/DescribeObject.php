@@ -11,7 +11,7 @@
 function vtws_describe($elementType, $user)
 {
 
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $elementType);
 	$handlerPath = $webserviceObject->getHandlerPath();

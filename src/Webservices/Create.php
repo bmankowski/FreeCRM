@@ -15,7 +15,7 @@ function vtws_create($elementType, $element, $user)
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied");
 	}
 
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	
 
 	// Cache the instance for re-use

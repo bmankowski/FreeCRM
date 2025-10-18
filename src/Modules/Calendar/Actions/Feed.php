@@ -12,7 +12,6 @@ namespace App\Modules\Calendar\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Webservices/Query.php';
 
 class Feed extends \App\Runtime\Vtiger_Action_Controller
 {
@@ -40,7 +39,6 @@ class Feed extends \App\Runtime\Vtiger_Action_Controller
 
 	public function getGroupsIdsForUsers($userId)
 	{
-		require_once ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php';
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);

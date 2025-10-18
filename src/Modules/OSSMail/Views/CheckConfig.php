@@ -29,6 +29,5 @@ class CheckConfig extends \Vtiger_Index_View
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/OSSMail/Views/CheckConfigCore.php';
 	}
 }

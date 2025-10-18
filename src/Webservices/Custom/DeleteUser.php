@@ -15,7 +15,7 @@ require_once(ROOT_DIRECTORY . "/src/events/include.php");
  */
 function vtws_deleteUser($id, $newOwnerId, $user)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();

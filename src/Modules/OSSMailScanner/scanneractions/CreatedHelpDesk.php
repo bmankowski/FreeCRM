@@ -24,7 +24,7 @@ class CreatedHelpDesk {
 			}
 		}
 		$create = true;
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		if ($prefix !== false) {
 			$result = $db->pquery('SELECT ticketid FROM vtiger_troubletickets where ticket_no = ? LIMIT 1', [$prefix]);
 			$create = $db->getRowCount($result) == 0;
@@ -46,7 +46,7 @@ class CreatedHelpDesk {
 		$parentId = (int) $mail->findEmailAdress('fromaddress', 'Accounts', false);
 		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('HelpDesk');
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		if (empty($parentId) && !empty($contactId)) {
 			$resultAccount = $db->pquery('SELECT parentid FROM vtiger_contactdetails where contactid = ? LIMIT 1', [$contactId]);
 			if ($db->getRowCount($resultAccount)) {

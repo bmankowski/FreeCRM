@@ -41,7 +41,7 @@ class VTTaskType
 
 	public static function registerTaskType($taskType)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$modules = \App\Json::encode($taskType['modules']);
 		$taskTypeId = $adb->getUniqueID('com_vtiger_workflow_tasktypes');
 		$taskType['id'] = $taskTypeId;
@@ -52,7 +52,7 @@ class VTTaskType
 
 	public static function getAll($moduleName = '')
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_tasktypes", array());
 		$numrows = $adb->num_rows($result);
@@ -91,7 +91,7 @@ class VTTaskType
 
 	public static function getInstanceFromTaskType($taskType)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_tasktypes where tasktypename=?", array($taskType));
 		$taskTypes['name'] = $adb->query_result($result, 0, 'tasktypename');

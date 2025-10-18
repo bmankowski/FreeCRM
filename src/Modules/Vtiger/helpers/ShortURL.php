@@ -38,7 +38,7 @@ class ShortURL {
 
 	static function generate(array $options)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$uid = uniqid("", true);
 
@@ -60,7 +60,7 @@ class ShortURL {
 
 	static function handle($uid)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
 		if ($rs && $db->num_rows($rs)) {
@@ -95,7 +95,7 @@ class ShortURL {
 
 	public function getInstance($id)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$self = new self();
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($id));
 		if ($rs && $db->num_rows($rs)) {
@@ -128,7 +128,7 @@ class ShortURL {
 
 	public function delete()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($this->id));
 	}
 }

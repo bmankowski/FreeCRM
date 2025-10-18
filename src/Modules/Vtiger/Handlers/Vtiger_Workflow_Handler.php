@@ -2,7 +2,6 @@
 
 namespace App\Modules\Vtiger\Handlers;
 
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowManager.php';
 
 /**
  * Workflow handler

@@ -22,7 +22,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getPassword($recordId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sql = '';
 		// check if passwords are encrypted
@@ -87,7 +87,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getConfiguration()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_passwords_config;';
 

@@ -9,7 +9,6 @@ namespace App\Modules\WSAPP\synclib\connectors;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/connectors/BaseConnector.php';
 
 abstract class WSAPP_TargetConnector extends WSAPP_BaseConnector
 {

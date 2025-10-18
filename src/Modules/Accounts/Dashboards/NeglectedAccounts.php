@@ -35,7 +35,7 @@ class NeglectedAccounts extends \Vtiger_Index_View
 		$sql .= ' ORDER BY vtiger_entity_stats.crmactivity IS NULL, vtiger_entity_stats.crmactivity  ASC  LIMIT ? OFFSET ?';
 		$params[] = $pagingModel->getPageLimit();
 		$params[] = $pagingModel->getStartIndex();
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery($sql, $params);
 		$accounts = [];
 		while ($row = $db->getRow($result)) {

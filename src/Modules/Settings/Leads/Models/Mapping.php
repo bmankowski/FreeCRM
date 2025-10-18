@@ -155,7 +155,7 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function save($mapping)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = [];
 		foreach ($mapping as $mappingDetails) {
 

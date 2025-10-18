@@ -31,7 +31,7 @@ class Module extends \Vtiger_Record_Model
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$params = [];
 		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
 		$sql = 'SELECT * FROM yetiforce_proc_sales';

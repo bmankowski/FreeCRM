@@ -11,7 +11,6 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/Custom/DeleteUser.php';
 
 class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 {

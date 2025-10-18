@@ -17,7 +17,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Starting Quick Edit OSSPasswords');
 

@@ -20,7 +20,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('Portal');
 
 		$query = $this->getQuery();

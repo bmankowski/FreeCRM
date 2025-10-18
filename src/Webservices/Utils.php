@@ -9,21 +9,6 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once(ROOT_DIRECTORY . '/src/database/PearDatabase.php');
-require_once(ROOT_DIRECTORY . '/src/Modules/Users/Users.php');
-require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
-require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObject.php");
-require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObjectMeta.php");
-require_once(ROOT_DIRECTORY . "/src/Webservices/DataTransform.php");
-require_once(ROOT_DIRECTORY . "/src/Webservices/WebServiceErrorCode.php");
-require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
-require_once ROOT_DIRECTORY . '/src/Utils/VtlibUtils.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceEntityOperation.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/VTWS_PreserveGlobal.php';
-
 /* Function to return all the users in the groups that this user is part of.
  * @param $id - id of the user
  * returns Array:UserIds userid of all the users in the groups that this user is part of.
@@ -31,11 +16,8 @@ require_once ROOT_DIRECTORY . '/src/Webservices/VTWS_PreserveGlobal.php';
 
 function vtws_getUsersInTheSameGroup($id)
 {
-	require_once(ROOT_DIRECTORY . '/src/Utils/GetGroupUsers.php');
-	require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
-
-	$groupUsers = new GetGroupUsers();
-	$userGroups = new GetUserGroups();
+	$groupUsers = new \App\Utils\GetGroupUsers();
+	$userGroups = new \App\Utils\GetUserGroups();
 	$allUsers = [];
 	$userGroups->getAllUserGroups($id);
 	$groups = $userGroups->user_groups;
@@ -68,7 +50,7 @@ function vtws_generateRandomAccessKey($length = 10)
  */
 function vtws_getVtigerVersion()
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$query = 'select * from vtiger_version';
 	$result = $adb->pquery($query, []);
 	$version = '';
@@ -80,7 +62,7 @@ function vtws_getVtigerVersion()
 
 function vtws_getUserAccessibleGroups($moduleId, $user)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	require('user_privileges/user_privileges_' . $user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $user->id . '.php');
 	$tabName = \App\Module::getModuleName($moduleId);
@@ -106,8 +88,8 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 
 function vtws_getWebserviceGroupFromGroups($groups)
 {
-	$adb = \App\database\PearDatabase::getInstance();
-	$webserviceObject = VtigerWebserviceObject::fromName($adb, 'Groups');
+	$adb = \App\Database\database\PearDatabase::getInstance();
+	$webserviceObject = \App\Webservices\VtigerWebserviceObject::fromName($adb, 'Groups');
 	foreach ($groups as $index => $group) {
 		$groups[$index]['id'] = vtws_getId($webserviceObject->getEntityId(), $group['id']);
 	}
@@ -135,7 +117,7 @@ function vtws_getId($objId, $elemId)
 
 function getEmailFieldId($meta, $entityId)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	//no email field accessible in the module. since its only association pick up the field any way.
 	$query = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=?
 		and uitype=13 and presence in (0,2)";
@@ -167,7 +149,7 @@ function vtws_getParameter($parameterArray, $paramName, $default = null)
 function vtws_getEntityNameFields($moduleName)
 {
 
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
 	$result = $adb->pquery($query, array($moduleName));
 	$rowCount = $adb->num_rows($result);
@@ -188,7 +170,7 @@ function vtws_getEntityNameFields($moduleName)
  */
 function vtws_getModuleNameList()
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
 	$sql = "select name from vtiger_tab where isentitytype=1 and name not in ('Rss'," .
 		"'Recyclebin','Events') order by tabsequence";
@@ -202,7 +184,7 @@ function vtws_getModuleNameList()
 
 function vtws_getWebserviceEntities()
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
 	$sql = "select name,id,ismodule from vtiger_ws_entity";
 	$res = $adb->pquery($sql, []);
@@ -226,7 +208,7 @@ function vtws_getWebserviceEntities()
 function vtws_getModuleInstance($webserviceObject)
 {
 	$moduleName = $webserviceObject->getEntityName();
-	return CRMEntity::getInstance($moduleName);
+	return \App\CRMEntity::getInstance($moduleName);
 }
 
 function vtws_getOwnerType($ownerId)
@@ -236,7 +218,7 @@ function vtws_getOwnerType($ownerId)
 
 function vtws_runQueryAsTransaction($query, $params, &$result)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
 	$adb->startTransaction();
 	$result = $adb->pquery($query, $params);
@@ -247,11 +229,11 @@ function vtws_runQueryAsTransaction($query, $params, &$result)
 
 function vtws_getCalendarEntityType($id)
 {
-	$seType = Vtiger_Cache::get('vtws_getCalendarEntityType', $id);
+	$seType = \Vtiger_Cache::get('vtws_getCalendarEntityType', $id);
 	if ($seType !== false) {
 		return $seType;
 	}
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
 	$sql = 'select activitytype from vtiger_activity where activityid=?';
 	$result = $adb->pquery($sql, array($id));
@@ -264,7 +246,7 @@ function vtws_getCalendarEntityType($id)
 			}
 		}
 	}
-	Vtiger_Cache::set('vtws_getCalendarEntityType', $id, $seType);
+	\Vtiger_Cache::set('vtws_getCalendarEntityType', $id, $seType);
 	return $seType;
 }
 /* * *
@@ -273,8 +255,8 @@ function vtws_getCalendarEntityType($id)
 
 function vtws_getWebserviceEntityId($entityName, $id)
 {
-	$adb = \App\database\PearDatabase::getInstance();
-	$webserviceObject = VtigerWebserviceObject::fromName($adb, $entityName);
+	$adb = \App\Database\database\PearDatabase::getInstance();
+	$webserviceObject = \App\Webservices\VtigerWebserviceObject::fromName($adb, $entityName);
 	return $webserviceObject->getEntityId() . 'x' . $id;
 }
 
@@ -352,10 +334,10 @@ function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 
 function vtws_getName($id, $user)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
 
-	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
+	$webserviceObject = \App\Webservices\VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
 
@@ -368,7 +350,7 @@ function vtws_getName($id, $user)
 
 function vtws_preserveGlobal($name, $value)
 {
-	return VTWS_PreserveGlobal::preserveGlobal($name, $value);
+	return \App\Webservices\VTWS_PreserveGlobal::preserveGlobal($name, $value);
 }
 
 /**
@@ -386,7 +368,7 @@ function vtws_preserveGlobal($name, $value)
  */
 function vtws_addWebserviceOperation($name, $handlerFilePath, $handlerMethodName, $requestType, $preLogin = 0)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$createOperationQuery = "insert into vtiger_ws_operation(operationid,name,handler_path,handler_method,type,prelogin)
 		values (?,?,?,?,?,?);";
 	if (strtolower($requestType) != 'get' && strtolower($requestType) != 'post') {
@@ -418,7 +400,7 @@ function vtws_addWebserviceOperation($name, $handlerFilePath, $handlerMethodName
  */
 function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, $sequence)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$supportedTypes = array('string', 'encoded', 'datetime', 'double', 'boolean');
 	if (!is_numeric($sequence)) {
 		$sequence = 1;
@@ -444,9 +426,9 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
  */
 function vtws_getModuleHandlerFromName($name, $user)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
-	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
+	$webserviceObject = \App\Webservices\VtigerWebserviceObject::fromName($adb, $name);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
 
@@ -460,9 +442,9 @@ function vtws_getModuleHandlerFromName($name, $user)
 
 function vtws_getModuleHandlerFromId($id, $user)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 
-	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
+	$webserviceObject = \App\Webservices\VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
 
@@ -474,22 +456,22 @@ function vtws_getModuleHandlerFromId($id, $user)
 
 function vtws_getActorEntityName($name, $idList)
 {
-	$db = \App\database\PearDatabase::getInstance();
+	$db = \App\Database\database\PearDatabase::getInstance();
 	if (!is_array($idList) && count($idList) == 0) {
 		return [];
 	}
-	$entity = VtigerWebserviceObject::fromName($db, $name);
+	$entity = \App\Webservices\VtigerWebserviceObject::fromName($db, $name);
 	return vtws_getActorEntityNameById($entity->getEntityId(), $idList);
 }
 
 function vtws_getActorEntityNameById($entityId, $idList)
 {
-	$db = \App\database\PearDatabase::getInstance();
+	$db = \App\Database\database\PearDatabase::getInstance();
 	if (!is_array($idList) && count($idList) == 0) {
 		return [];
 	}
 	$nameList = [];
-	$webserviceObject = VtigerWebserviceObject::fromId($db, $entityId);
+	$webserviceObject = \App\Webservices\VtigerWebserviceObject::fromId($db, $entityId);
 	$query = "select * from vtiger_ws_entity_name where entity_id = ?";
 	$result = $db->pquery($query, array($entityId));
 	if (is_object($result)) {
@@ -524,7 +506,7 @@ function vtws_getActorEntityNameById($entityId, $idList)
 
 function vtws_isRoleBasedPicklist($name)
 {
-	$db = \App\database\PearDatabase::getInstance();
+	$db = \App\Database\database\PearDatabase::getInstance();
 	$sql = "select picklistid from vtiger_picklist where name = ?";
 	$result = $db->pquery($sql, array($name));
 	return ($db->num_rows($result) > 0);
@@ -532,7 +514,7 @@ function vtws_isRoleBasedPicklist($name)
 
 function vtws_getConvertLeadFieldMapping()
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$sql = "select * from vtiger_convertleadmapping";
 	$result = $adb->pquery($sql, []);
 	if ($result === false) {
@@ -553,7 +535,7 @@ function vtws_getConvertLeadFieldMapping()
  */
 function vtws_getRelatedNotesAttachments($id, $relatedId)
 {
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	$db = \App\Db::getInstance();
 
 	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
@@ -669,7 +651,7 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 {
 
 	if (empty($leadId) || empty($relatedId) || (empty($accountId) && empty($contactId))) {
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Activities/Emails");
+		throw new \App\Webservices\WebServiceException(\App\Webservices\WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Activities/Emails");
 	}
 	$db = \App\Db::getInstance();
 	if (!empty($accountId)) {
@@ -711,7 +693,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 {
 
 	if (empty($leadId) || empty($relatedId) || empty($seType)) {
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Records");
+		throw new \App\Webservices\WebServiceException(\App\Webservices\WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Records");
 	}
 	vtws_getRelatedNotesAttachments($leadId, $relatedId);
 	vtws_saveLeadRelatedProducts($leadId, $relatedId, $seType);
@@ -724,8 +706,8 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 function vtws_transferComments($sourceRecordId, $destinationRecordId)
 {
 	if (\App\Module::isModuleActive('ModComments')) {
-		CRMEntity::getInstance('ModComments');
-		ModComments::transferRecords($sourceRecordId, $destinationRecordId);
+		\App\CRMEntity::getInstance('ModComments');
+		\ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}
 }
 
@@ -825,7 +807,6 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 		$classNameWithDoubleQuotes = $taskComponents[2];
 		$className = str_replace('"', '', $classNameWithDoubleQuotes);
 		require_once("src/Modules/com_vtiger_workflow/VTTaskManager.php");
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/tasks/' . $className . '.php';
 		$unserializeTask = unserialize($task);
 		if (array_key_exists('field_value_mapping', $unserializeTask)) {
 			$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);

@@ -108,7 +108,7 @@ class IStorages extends \App\CRMEntity
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$current_user = vglobal('current_user');
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
@@ -213,7 +213,7 @@ class IStorages extends \App\CRMEntity
 	 */
 	public function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering getParentIStorages(' . $id . ') method ...');
 
@@ -280,7 +280,7 @@ class IStorages extends \App\CRMEntity
 	 */
 	public function getChildIStorages($id, &$childIStorages, $depthBase)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 

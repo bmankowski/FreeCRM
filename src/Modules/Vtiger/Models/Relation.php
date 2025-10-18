@@ -704,7 +704,7 @@ class Relation extends Model
 
 	public static function updateRelationSequenceAndPresence($relatedInfoList, $sourceModuleTabId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_relatedlists SET sequence=CASE ';
 		$relation_ids = [];
 		foreach ($relatedInfoList as $relatedInfo) {
@@ -739,7 +739,7 @@ class Relation extends Model
 
 	public static function removeRelationById($relationId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		if ($relationId) {
 			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
 			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
@@ -749,7 +749,7 @@ class Relation extends Model
 
 	public static function updateRelationSequence($modules)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		foreach ($modules as $module) {
 			$db->update('vtiger_relatedlists', [
 				'sequence' => (int) $module['index'] + 1

@@ -26,7 +26,7 @@ class FindDuplicate extends Model
 
 	public function getListViewHeaders()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$listViewHeaders = [];
 		$listViewHeaders[] = new \App\Modules\Vtiger\Models\Base(array('name' => 'recordid', 'label' => 'ID'));
@@ -77,7 +77,7 @@ class FindDuplicate extends Model
 
 	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $paging)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$module = $moduleModel->getName();
 
@@ -175,7 +175,7 @@ class FindDuplicate extends Model
 		if ($this->rows) {
 			$rows = $this->rows;
 		} else {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 
 			$moduleModel = $this->getModule();
 			$module = $moduleModel->getName();
@@ -213,7 +213,7 @@ class FindDuplicate extends Model
 
 	public function getMassDeleteRecords(Vtiger_Request $request)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$module = $request->getModule();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
 

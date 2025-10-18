@@ -19,12 +19,11 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getSettingLinks()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
 
 		$settingsLinks[] = array(
@@ -136,7 +135,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public static function getComposeParameters()
 	{
 		if (!self::$composeParam) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$result = $db->pquery('SELECT parameter,value FROM vtiger_ossmailscanner_config WHERE conf_type = ?', ['email_list']);
 			$config = [];
 			$numRowsResult = $db->num_rows($result);

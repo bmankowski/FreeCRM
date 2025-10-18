@@ -7,10 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
 // Use existing exception class instead of missing WebServiceError
-require_once ROOT_DIRECTORY . '/src/Webservices/WebServiceException.php';
 
 ?>

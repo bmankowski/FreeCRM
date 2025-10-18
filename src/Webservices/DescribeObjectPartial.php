@@ -9,12 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-include_once ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php';
 
 function vtws_describe_partial($elementType, $user)
 {
 
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $elementType);
 	$handlerPath = $webserviceObject->getHandlerPath();

@@ -49,7 +49,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getInvities()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [(int) $this->getId()]);
 		$invitees = [];
 		while ($row = $db->getRow($result)) {
@@ -66,7 +66,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getInviteUserMailData()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		return []; // To do
 		$return_id = $this->getId();
 		$cont_qry = "select * from vtiger_cntactivityrel where activityid=?";

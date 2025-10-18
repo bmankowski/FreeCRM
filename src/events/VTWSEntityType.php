@@ -8,18 +8,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
 require_once("src/Modules/Users/Users.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObject.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/VtigerCRMObjectMeta.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/DataTransform.php");
 require_once(ROOT_DIRECTORY . "/src/Webservices/WebServiceError.php");
-require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/ModuleTypes.php';
 require_once(ROOT_DIRECTORY . '/src/Webservices/DescribeObject.php');
-require_once ROOT_DIRECTORY . '/src/Webservices/WebserviceField.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/EntityMeta.php';
-require_once ROOT_DIRECTORY . '/src/Webservices/VtigerWebserviceObject.php';
 
 /*
  * An implementation of VTEntityType that uses the webservices api to reflect on vtiger's types.
@@ -52,7 +46,7 @@ class VTWSEntityType
 
 	function getTabId()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (!isset($this->tabId)) {
 			$result = $adb->pquery("select tabid from vtiger_tab where name=?", array($this->entityTypeName));
 			$this->tabId = $adb->query_result($result, 0, "tabid");

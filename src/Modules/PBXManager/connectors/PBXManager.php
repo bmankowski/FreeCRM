@@ -11,7 +11,6 @@ namespace App\Modules\PBXManager;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
 
 class Connector {
 

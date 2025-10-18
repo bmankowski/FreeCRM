@@ -21,7 +21,7 @@ class Tree extends \App\Modules\Vtiger\Models\Model
 	public function getFolders()
 	{
 		$folders = [];
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$lastId = 0;
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
 		while ($row = $db->getRow($result)) {
@@ -58,7 +58,7 @@ class Tree extends \App\Modules\Vtiger\Models\Model
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, \vtlib\Functions::getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);

@@ -15,7 +15,7 @@ class checkType {
 	public function process($moduleName, $id, $recordData, $config)
 	{
 		if ((empty($recordData['storage_type']) || $recordData['storage_type'] == 'PLL_INTERNAL') && empty($recordData['parentid'])) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$query = 'SELECT u_yf_istorages.istorageid FROM u_yf_istorages 
 				INNER JOIN vtiger_crmentity ON u_yf_istorages.istorageid = vtiger_crmentity.crmid 
 				WHERE parentid = ? AND vtiger_crmentity.deleted = ?';

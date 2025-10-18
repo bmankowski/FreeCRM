@@ -11,7 +11,6 @@ namespace App\Modules\PaymentsOut;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/PaymentsOut/helpers/mt940.php';
 
 class mbank extends mt940
 {

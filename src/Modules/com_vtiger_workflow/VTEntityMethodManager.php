@@ -16,14 +16,14 @@ class VTEntityMethodManager {
 
 	public function addEntityMethod($moduleName, $methodName, $functionPath, $functionName)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$id = $adb->getUniqueId("com_vtiger_workflowtasks_entitymethod");
 		$adb->pquery("insert into com_vtiger_workflowtasks_entitymethod (workflowtasks_entitymethod_id, module_name, function_path, function_name, method_name) values (?,?,?,?,?)", array($id, $moduleName, $functionPath, $functionName, $methodName));
 	}
 
 	public function executeMethod(\App\Modules\Vtiger\Models\Record $recordModel, $methodName)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();
 		$result = $adb->pquery("select function_path, function_name from com_vtiger_workflowtasks_entitymethod where module_name=? and method_name=?", array($moduleName, $methodName));
 		if ($adb->num_rows($result) != 0) {
@@ -37,7 +37,7 @@ class VTEntityMethodManager {
 
 	public function methodsForModule($moduleName)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->pquery("select method_name from com_vtiger_workflowtasks_entitymethod where module_name=?", array($moduleName));
 		$it = new SqlResultIterator($adb, $result);
 		$methodNames = array();
@@ -66,6 +66,6 @@ class VTEntityMethodManager {
 	 */
 	public function removeEntityMethod($moduleName, $methodName)
 	{
-		\App\database\PearDatabase::getInstance()->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
+		\App\Database\database\PearDatabase::getInstance()->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
 	}
 }

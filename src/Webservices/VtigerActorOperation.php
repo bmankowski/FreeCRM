@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Webservices/VtigerCRMActorMeta.php';
 
 namespace App\Webservices;
 
@@ -88,8 +87,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	public function __create($elementType, $element)
 	{
-		require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$this->id = $this->getNextId($elementType, $element);
 

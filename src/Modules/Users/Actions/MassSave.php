@@ -52,7 +52,7 @@ class MassSave extends \App\Runtime\Vtiger_Action_Controller
 		$recordIds = $this->getRecordsListFromRequest($request);
 
 		if (empty($recordIds) && $request->get('selected_ids') == 'all') {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 
 			$sql = "SELECT `id` FROM `vtiger_users`";
 			$result = $db->query($sql, true);

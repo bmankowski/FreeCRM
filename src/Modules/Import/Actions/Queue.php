@@ -51,7 +51,7 @@ class Queue extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function remove($importId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', array($importId));
 		}
@@ -59,7 +59,7 @@ class Queue extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function removeForUser($user)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($user->id));
 		}
@@ -67,7 +67,7 @@ class Queue extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function getUserCurrentImportInfo($user)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
@@ -97,7 +97,7 @@ class Queue extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function getImportInfoById($importId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', array($importId));
@@ -112,7 +112,7 @@ class Queue extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function getAll($temp_status = false)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$query = 'SELECT * FROM vtiger_import_queue';
 		$params = array();
@@ -152,7 +152,7 @@ class Queue extends \App\Runtime\Vtiger_Action_Controller
 
 	static function updateStatus($importId, $temp_status)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_import_queue SET temp_status=? WHERE importid=?', array($temp_status, $importId));
 	}
 }

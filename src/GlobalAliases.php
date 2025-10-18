@@ -55,7 +55,7 @@ spl_autoload_register(function ($class) {
 		'Vtiger_Datetime_UIType' => 'App\Modules\Vtiger\UiTypes\Datetime',
 		'Vtiger_MultiReferenceValue_UIType' => 'App\Modules\Vtiger\UiTypes\MultiReferenceValue',
 		// Database - used globally
-		'PearDatabase' => 'App\database\PearDatabase',
+		'PearDatabase' => 'App\Database\PearDatabase',
 	];
 	
 	if (isset($aliases[$class]) && class_exists($aliases[$class])) {

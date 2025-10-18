@@ -9,7 +9,6 @@ namespace App\Modules\WSAPP\api\ws;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/SyncServer.php';
 
 function wsapp_register($type, $syncType, $user)
 {

@@ -101,7 +101,7 @@ class OSSTimeControl extends \App\CRMEntity
 	{
 		$registerLink = false;
 		$displayLabel = 'Time Control';
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
 

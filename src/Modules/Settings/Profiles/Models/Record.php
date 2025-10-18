@@ -102,7 +102,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function getGlobalPermissions()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (!isset($this->global_permissions)) {
 			$globalPermissions = [];
@@ -263,7 +263,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function getProfileTabPermissions()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_tab_permissions)) {
 			$profile2TabPermissions = [];
@@ -301,7 +301,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function getProfileActionPermissions()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_action_permissions)) {
 			$profile2ActionPermissions = [];
@@ -324,7 +324,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function getProfileUtilityPermissions()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if (!isset($this->profile_utility_permissions)) {
 			$profile2UtilityPermissions = [];
@@ -397,7 +397,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function delete($transferToRecord)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$profileId = $this->getId();
 		$transferProfileId = $transferToRecord->getId();
 
@@ -432,7 +432,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function save()
 	{
 		$adb = \App\Db::getInstance();
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$modulePermissions = $this->getModulePermissions();
 
 		$profileName = $this->get('profilename');
@@ -516,7 +516,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	protected function saveModulePermissions($moduleModel, $permissions)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$adb = \App\Db::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
@@ -720,7 +720,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getAllByRole($roleId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sql = 'SELECT vtiger_profile.*
 					FROM vtiger_profile
@@ -745,7 +745,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getAll()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_profile';
 		$result = $db->query($sql);
 		$profiles = [];
@@ -769,7 +769,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			return $instance;
 		}
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_profile WHERE profileid = ?';
 		$result = $db->pquery($sql, [$profileId]);
 		if ($db->getRowCount($result) > 0) {
@@ -846,7 +846,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getUsersList($profileId = false)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$params = [0];
 		$query = 'SELECT id FROM vtiger_users
 					INNER JOIN vtiger_user2role ON vtiger_user2role.userid = vtiger_users.id
@@ -870,7 +870,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$profileId = $this->getId();
 		if (!empty($profileId)) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Module::getModuleId($module);

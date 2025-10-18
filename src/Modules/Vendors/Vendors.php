@@ -117,7 +117,7 @@ class Vendors extends \App\CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -244,7 +244,7 @@ class Vendors extends \App\CRMEntity
 
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Contacts', 'Products', 'Campaigns'])) {

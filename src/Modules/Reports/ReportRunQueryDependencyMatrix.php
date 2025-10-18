@@ -18,7 +18,6 @@ global $theme;
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
 require_once('src/Modules/Reports/Reports.php');
-require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportUtils.php';
 require_once('src/Modules/Vtiger/helpers/Util.php');
 
 /*
@@ -178,7 +177,7 @@ class ReportRunQueryPlanner
 
 	public function initializeTempTables()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
 			if (!in_array($uniqueName, self::$existTables)) {
 				$query1 = sprintf('CREATE TEMPORARY TABLE %s AS %s', $uniqueName, $tempTableInfo['query']);
@@ -210,7 +209,7 @@ class ReportRunQueryPlanner
 
 	public function cleanup()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$oldDieOnError = $adb->dieOnError;
 		$adb->dieOnError = false; // To avoid abnormal termination during shutdown...
@@ -298,7 +297,7 @@ class ReportRun extends \App\CRMEntity
 			return $this->_columnslist;
 		}
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 		$current_user = vglobal('current_user');
@@ -390,7 +389,7 @@ class ReportRun extends \App\CRMEntity
 
 	public function getColumnSQL($selectedfields)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
 
 		list($module, $field) = explode('__', $selectedfields[2]);
@@ -562,7 +561,7 @@ class ReportRun extends \App\CRMEntity
 	public function getaccesfield($module)
 	{
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$access_fields = Array();
 
 		$profileList = $currentUser->getProfiles();
@@ -642,7 +641,7 @@ class ReportRun extends \App\CRMEntity
 	public function getSelectedColumnsList($reportid)
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -693,7 +692,7 @@ class ReportRun extends \App\CRMEntity
 	{
 
 		global $ogReport;
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$default_charset = \App\AppConfig::main('default_charset');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
@@ -784,7 +783,7 @@ class ReportRun extends \App\CRMEntity
 	public function getFilterComparedField($field)
 	{
 		global $ogReport;
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (!empty($this->secondarymodule)) {
 			$secModules = explode(':', $this->secondarymodule);
 			foreach ($secModules as $secModule) {
@@ -838,7 +837,7 @@ class ReportRun extends \App\CRMEntity
 	 */
 	public function getAdvFilterList($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 
 		$advft_criteria = array();
@@ -893,7 +892,7 @@ class ReportRun extends \App\CRMEntity
 	public function generateAdvFilterSql($advfilterlist)
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$advfiltersql = '';
 		foreach ($advfilterlist as $groupindex => $groupinfo) {
@@ -1306,7 +1305,7 @@ class ReportRun extends \App\CRMEntity
 			return $this->_stdfilterlist;
 		}
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$stdfilterlist = array();
 
@@ -1421,7 +1420,7 @@ class ReportRun extends \App\CRMEntity
 	 */
 	public function RunTimeAdvFilter($advft_criteria, $advft_criteria_groups)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$advfilterlist = array();
 		$advfiltersql = '';
@@ -1512,7 +1511,7 @@ class ReportRun extends \App\CRMEntity
 	 */
 	public function getStandardCriterialSql($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -1575,7 +1574,7 @@ class ReportRun extends \App\CRMEntity
 
 	public function hasGroupingList()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT 1 FROM vtiger_reportsortcol WHERE reportid=? and columnname <> "none"', array($this->reportid));
 		return ($result && $adb->num_rows($result)) ? true : false;
 	}
@@ -1590,7 +1589,7 @@ class ReportRun extends \App\CRMEntity
 	 */
 	public function getGroupingList($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -1686,7 +1685,7 @@ class ReportRun extends \App\CRMEntity
 	public function getSelectedOrderbyList($reportid)
 	{
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -1799,7 +1798,7 @@ class ReportRun extends \App\CRMEntity
 					$query = $this->getNonAdminAccessQuery($module, $user, $current_user_parent_role_seq, $current_user_groups);
 				}
 
-				$db = \App\database\PearDatabase::getInstance();
+				$db = \App\Database\database\PearDatabase::getInstance();
 				$result = $db->pquery($query, array());
 				$rows = $db->num_rows($result);
 				for ($i = 0; $i < $rows; $i++) {
@@ -2363,7 +2362,7 @@ class ReportRun extends \App\CRMEntity
 	// Performance Optimization: Added parameter directOutput to avoid building big-string!
 	public function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		global $modules;
 		global $mod_strings;
@@ -3104,7 +3103,7 @@ class ReportRun extends \App\CRMEntity
 			return $this->_columnstotallist;
 		}
 
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
@@ -3245,7 +3244,7 @@ class ReportRun extends \App\CRMEntity
 	 */
 	public function getColumnsToTotalColumns($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		global $modules;
 
 
@@ -3321,7 +3320,7 @@ class ReportRun extends \App\CRMEntity
 	 * */
 	public function getAccessPickListValues()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$id = array(\App\Module::getModuleId($this->primarymodule));
 		if ($this->secondarymodule != '')
@@ -3501,7 +3500,7 @@ class ReportRun extends \App\CRMEntity
 
 	public function getGroupByTimeList($reportId)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$groupByTimeQuery = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=?";
 		$groupByTimeRes = $adb->pquery($groupByTimeQuery, array($reportId));
 		$num_rows = $adb->num_rows($groupByTimeRes);
@@ -3537,7 +3536,7 @@ class ReportRun extends \App\CRMEntity
 
 	public function GetFirstSortByField($reportid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$groupByField = "";
 		$sortFieldQuery = "SELECT * FROM vtiger_reportsortcol
                             LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid and vtiger_reportsortcol.reportid = vtiger_reportgroupbycolumn.reportid)
@@ -3572,7 +3571,7 @@ class ReportRun extends \App\CRMEntity
 
 	public function getReferenceFieldColumnList($moduleName, $fieldInfo)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$columnsSqlList = array();
 

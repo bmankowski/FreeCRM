@@ -17,7 +17,7 @@ class Calendar extends \App\Modules\Vtiger\Models\Model
 
 	public function getEntity()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$module = 'OSSTimeControl';
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$query = \App\Utils\ListViewUtils::getListQuery($module);

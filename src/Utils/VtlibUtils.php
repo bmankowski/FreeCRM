@@ -47,7 +47,7 @@ class VtlibUtils
 
 		// Initialize from DB if cache information is not available or force flag is set
 		if ($tabrows === false || $force) {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 			$tabres = $adb->query("SELECT * FROM vtiger_tab");
 			$tabrows = [];
 			if ($tabres) {
@@ -67,7 +67,7 @@ class VtlibUtils
 	 */
 	public static function recreateUserPrivilegeFiles()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$userres = $adb->query('SELECT id FROM vtiger_users WHERE deleted = 0');
 		if ($userres && $adb->num_rows($userres)) {
 			while ($userrow = $adb->fetch_array($userres)) {
@@ -249,7 +249,7 @@ class VtlibUtils
 	public static function getPicklistValuesAccessibleToAll($fieldColumnname)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$columnname = $adb->quote($fieldColumnname, false);
 		$tablename = 'vtiger_' . $fieldColumnname;
@@ -297,7 +297,7 @@ class VtlibUtils
 	 */
 	public static function getPicklistValues($columnname)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$tablename = "vtiger_$columnname";
 		$tablename = $adb->quote($tablename, false);

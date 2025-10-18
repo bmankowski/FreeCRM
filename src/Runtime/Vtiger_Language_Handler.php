@@ -14,7 +14,7 @@
 
 namespace App\Runtime;
 
-use App\database\PearDatabase;
+use App\Database\PearDatabase;
 use App\Vtiger_Loader;
 use App\Http\Vtiger_Session;
 use App\AppConfig;
@@ -297,7 +297,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguageLabel($name)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', [$name]);
 		if ($db->num_rows($languageResult)) {
 			return $db->query_result($languageResult, 0, 'label');

@@ -14,7 +14,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$param = $users = [];
 		$sql = 'SELECT * FROM roundcube_users';
@@ -121,7 +121,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (count($users) == 0) {
 			return false;
 		}
@@ -154,7 +154,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
 		$account = [];
@@ -228,7 +228,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			return self::$usersCache[$userid];
 		}
 		$user = false;
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM roundcube_users where user_id = ?', [$userid]);
 		if ($adb->getRowCount($result)) {
 			$user = $adb->getRow($result);
@@ -618,7 +618,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
 		if ($dbupdate) {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 			$adb->pquery("update roundcube_users set language=?", array($param['language']));
 		}
 		return \App\Runtime\Vtiger_Language_Handler::translate('JS_save_config_info', 'OSSMailScanner');
@@ -678,7 +678,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public static function getAccountByHash($hash)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM roundcube_users WHERE preferences LIKE \'%s\'', "%:\"$hash\";%");
 		$result = $db->query($query);
 		if ($db->getRowCount($result) > 0) {

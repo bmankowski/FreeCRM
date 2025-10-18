@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-include_once ROOT_DIRECTORY . '/src/Webservices/QueryRelated.php';
 
 function vtws_retrieve_related($id, $relatedType, $relatedLabel, $user)
 {

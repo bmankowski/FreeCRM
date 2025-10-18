@@ -40,7 +40,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getHolidaysEntitlement($recordId, $year, $list = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		if (!$list)
 			$sql .= "AND year = $year;";
@@ -59,7 +59,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function yearExist($recordId, $year)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$sql = "SELECT year FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		$parametry = array();
 		$result = $adb->pquery($sql, $parametry, true);
@@ -75,7 +75,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getHoliday($recordId, $year)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossholidays WHERE ossemployeesid= $recordId;";
 		$parametry = array();
 		$result = $adb->pquery($sql, $parametry, true);
@@ -130,7 +130,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function checkUser($userId, $return_id = false)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_crmentity WHERE smownerid = ? && setype = ? && deleted = ?;";
 		$result = $adb->pquery($sql, array($userId, 'OSSEmployees', 0), true);
 		$num = $adb->num_rows($result);
@@ -153,7 +153,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			return '';
 		}
 		$moduleModel = \App\Modules\Vtiger\Models\Record::getInstanceById($employeeID, 'OSSEmployees');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? ";

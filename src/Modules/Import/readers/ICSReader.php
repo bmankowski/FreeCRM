@@ -11,7 +11,6 @@ namespace App\Modules\Import\readers;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Modules/Calendar/iCal/ical-parser-class.php';
 
 class ICSReader extends iCal
 {

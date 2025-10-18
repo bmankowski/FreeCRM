@@ -13,7 +13,6 @@ namespace App\Modules\Settings\Groups\Models;
  * *********************************************************************************** */
 
 
-require_once ROOT_DIRECTORY . '/src/events/include.php';
 
 /**
  * Roles Record Model Class

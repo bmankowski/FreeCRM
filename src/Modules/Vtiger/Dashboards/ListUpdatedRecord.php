@@ -12,7 +12,6 @@ namespace App\Modules\Vtiger\Dashboards;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Modules/Vtiger/helpers/ListUpdatedRecord.php';
 
 use App\Http\Vtiger_Request;
 

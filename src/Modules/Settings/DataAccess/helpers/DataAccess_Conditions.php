@@ -130,7 +130,6 @@ class DataAccess_Conditions
 
 	private function checkSingleCondition($form, $cndArray)
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/Settings/DataAccess/helpers/DataAccess_ConditionsTest.php';
 		$methodName = $this->createFunctionName($cndArray['comparator']);
 		$class = new \ReflectionClass(__NAMESPACE__ . '\DataAccess_ConditionsTest');
 		$methodList = $class->getMethods(\ReflectionMethod::IS_STATIC);

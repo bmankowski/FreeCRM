@@ -27,8 +27,6 @@ namespace App\Modules\Users;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Webservices/Utils.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Users/UserTimeZones.php';
 
 // User is used to store customer information.
 /** Main class for the user module
@@ -163,7 +161,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->db = \App\database\PearDatabase::getInstance();
+		$this->db = \App\Database\database\PearDatabase::getInstance();
 		$this->column_fields = \App\Utils\Utils::getColumnFields('Users');
 		$this->column_fields['currency_name'] = '';
 		$this->column_fields['currency_code'] = '';
@@ -497,7 +495,7 @@ class Users extends \App\CRMEntity
 				return $users[$userName]['id'];
 			}
 		}
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
 		if ($row && $row['deleted'] == '0') {
@@ -551,7 +549,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function retrieve_entity_info($record, $module)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 
@@ -671,7 +669,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function getHomeStuffOrder($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if (!is_array($this->homeorder_array)) {
 			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'CVLVT', 'HLT',
 				'GRT', 'MNL', 'LTFAQ');
@@ -721,7 +719,7 @@ class Users extends \App\CRMEntity
 
 	public function insertUserdetails($inVal)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$uid = $this->id;
 		$s1 = $adb->getUniqueID("vtiger_homestuff");
 		$visibility = $this->getDefaultHomeModuleVisibility('ALVT', $inVal);
@@ -802,7 +800,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function saveHomeStuffOrder($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		\App\Log::trace("Entering in function saveHomeOrder($id)");
 
@@ -891,7 +889,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function mark_deleted($id)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
@@ -905,7 +903,7 @@ class Users extends \App\CRMEntity
 	 */
 	public static function getActiveAdminId()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$cache = \App\Runtime\Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();

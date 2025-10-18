@@ -30,7 +30,7 @@ class VTUpdateCalendarDates extends VTTask
 		if (count($delta) == 0) {
 			return;
 		}
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_activity_update_dates INNER JOIN com_vtiger_workflowtasks ON com_vtiger_workflowtasks.task_id = vtiger_activity_update_dates.task_id '
 			. 'WHERE vtiger_activity_update_dates.parent = ?', [$entityId]);
 		while ($row = $adb->fetch_array($result)) {

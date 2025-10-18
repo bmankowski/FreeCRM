@@ -21,7 +21,7 @@ abstract class WebserviceEntityOperation
 
 	/**
 	 *
-	 * @var \App\database\PearDatabase
+	 * @var \App\Database\database\PearDatabase
 	 */
 	protected $pearDB;
 	protected static $metaCache = [];

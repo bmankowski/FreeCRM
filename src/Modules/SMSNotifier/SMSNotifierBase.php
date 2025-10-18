@@ -87,7 +87,7 @@ class SMSNotifierBase extends \App\CRMEntity
 	public function __construct()
 	{
 		$this->column_fields = \App\Utils\Utils::getColumnFields(vglobal('currentModule'));
-		$this->db = \App\database\PearDatabase::getInstance();
+		$this->db = \App\Database\database\PearDatabase::getInstance();
 	}
 
 	public function getSortOrder()
@@ -341,7 +341,7 @@ class SMSNotifierBase extends \App\CRMEntity
 		$unregisterLinks = false;
 
 		if ($event_type == 'module.postinstall') {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 			$unregisterLinks = true;
 			$registerLinks = true;
 

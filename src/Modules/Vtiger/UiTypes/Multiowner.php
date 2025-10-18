@@ -67,7 +67,7 @@ class Multiowner extends Base
 	 */
 	public static function getOwnerType($id)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_users WHERE id = ?', array($id));
 		if ($db->num_rows($result) > 0) {

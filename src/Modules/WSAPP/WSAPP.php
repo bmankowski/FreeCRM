@@ -11,7 +11,6 @@ namespace App\Modules\WSAPP;
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once(ROOT_DIRECTORY . '/src/events/include.php');
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/Utils.php';
 
 class WSAPP {
 
@@ -74,7 +73,7 @@ class WSAPP {
 
 	public function registerCustomWebservices($operations)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		foreach ($operations as $operation_name => $operation_info) {
 			$checkres = $adb->pquery("SELECT operationid FROM vtiger_ws_operation WHERE name=?", array($operation_name));
@@ -105,7 +104,7 @@ class WSAPP {
 
 	public function registerHandlers()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$handlerDetails = array();
 
@@ -127,7 +126,7 @@ class WSAPP {
 
 	public function registerVtigerCRMApp()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$appName = "vtigerCRM";
 		$type = "user";
 		$uid = uniqid();

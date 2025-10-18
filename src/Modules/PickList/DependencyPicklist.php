@@ -11,14 +11,11 @@ namespace App\Modules\PickList;
  * All Rights Reserved.
  * ******************************************************************************* */
 
-require_once ROOT_DIRECTORY . '/src/Utils/utils.php';
-require_once ROOT_DIRECTORY . '/src/Modules/PickList/PickListUtils.php';
-
 class DependencyPicklist {
 
 	static function getDependentPicklistFields($module = '')
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		if (empty($module)) {
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', array());
@@ -60,7 +57,7 @@ class DependencyPicklist {
 
 	static function getAvailablePicklists($module)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$tabId = \App\Module::getModuleId($module);
 
@@ -159,7 +156,7 @@ class DependencyPicklist {
 
 	static function getPicklistDependencyDatasource($module)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$tabId = \App\Module::getModuleId($module);
 
@@ -212,7 +209,7 @@ class DependencyPicklist {
 
 	static function getDependentPickListModules()
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 
 		$query = 'SELECT distinct vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name as tabname FROM vtiger_field
 						INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid

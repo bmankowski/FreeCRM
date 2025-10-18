@@ -11,7 +11,6 @@ namespace App\Modules\WSAPP\synclib\models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/SyncRecordModel.php';
 
 class TargetModel extends WSAPP_SyncRecordModel
 {

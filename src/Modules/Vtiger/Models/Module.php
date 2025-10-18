@@ -134,7 +134,6 @@ class Module extends \vtlib\Module
 	 */
 	public function isTrackingEnabled()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/ModTracker/ModTracker.php';
 		$trackingEnabled = \App\Modules\ModTracker\ModTracker::isTrackingEnabledForModule($this->getName());
 		return ($this->isActive() && $trackingEnabled);
 	}
@@ -282,9 +281,7 @@ class Module extends \vtlib\Module
 			$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/include.php';
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
-		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_DELETE);
+		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\Database\database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
@@ -350,7 +347,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getAllFilterCvidForModule()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE viewname = 'All' AND entitytype = ?", [$this->getName()]);
 		if ($result->rowCount()) {
@@ -773,7 +770,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getRecentRecords($limit = 10)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
@@ -830,7 +827,7 @@ class Module extends \vtlib\Module
 				}
 			}
 		} else {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$query = 'SELECT 1 FROM vtiger_field WHERE uitype=4 and tabid=?';
 			$params = array($this->getId());
 			$result = $db->pquery($query, $params);
@@ -1047,7 +1044,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getDefaultCustomFilter()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE setdefault = 1 && entitytype = ?", array($this->getName()));
 		if ($db->num_rows($result)) {
@@ -1067,7 +1064,7 @@ class Module extends \vtlib\Module
 		if (!$this->isCommentEnabled()) {
 			return $comments;
 		}
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$accessConditions = \App\PrivilegeQuery::getAccessConditions('ModComments');
 		$query = sprintf('SELECT vtiger_crmentity.*, vtiger_modcomments.* FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
@@ -1109,7 +1106,7 @@ class Module extends \vtlib\Module
 			}
 		}
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT vtiger_modtracker_basic.*
 								FROM vtiger_modtracker_basic
 								INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
@@ -1303,7 +1300,6 @@ class Module extends \vtlib\Module
 		if (!$this->isEntityModule()) {
 			return [];
 		}
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
@@ -1410,7 +1406,7 @@ class Module extends \vtlib\Module
 		if (empty($parentId) || empty($parentModule)) {
 			$matchingRecords = \App\Modules\Vtiger\Models\Record::getSearchResult($searchValue, $this->getName());
 		} else if ($parentId && $parentModule) {
-			$adb = \App\database\PearDatabase::getInstance();
+			$adb = \App\Database\database\PearDatabase::getInstance();
 			$result = $adb->query($this->getSearchRecordsQuery($searchValue, $parentId, $parentModule));
 
 			while ($row = $adb->getRow($result)) {
@@ -1455,8 +1451,7 @@ class Module extends \vtlib\Module
 	 */
 	public function vtJsonDependentModules()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/WorkflowComponents.php';
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$param = array('modulename' => $this->getName());
 		return vtJsonDependentModules($db, $param);
 	}

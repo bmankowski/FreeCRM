@@ -14,7 +14,7 @@ namespace App\Runtime;
 use App\Http\Vtiger_Session;
 use App\AppConfig;
 use App\Vtiger_Loader;
-use App\database\PearDatabase;
+use App\Database\PearDatabase;
 
 class Yeti_Layout
 {
@@ -43,7 +43,7 @@ class Yeti_Layout
 
 	public static function getAllLayouts()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT name,label FROM vtiger_layout');
 		$folders = [
 			'basic' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DEFAULT')

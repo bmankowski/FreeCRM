@@ -11,8 +11,6 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/Reports/Reports.php';
-require_once ROOT_DIRECTORY . '/src/Modules/Reports/ReportRun.php';
 require_once('src/Modules/Reports/ReportUtils.php');
 require_once('Report.php');
 
@@ -139,7 +137,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$self = new self();
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
@@ -292,7 +290,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedFields()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT vtiger_selectcolumn.columnname FROM vtiger_report
 					INNER JOIN vtiger_selectquery ON vtiger_selectquery.queryid = vtiger_report.queryid
@@ -320,7 +318,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedCalculationFields()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT vtiger_reportsummary.columnname FROM vtiger_reportsummary
 					INNER JOIN vtiger_report ON vtiger_report.reportid = vtiger_reportsummary.reportsummaryid
@@ -340,7 +338,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedSortFields()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT vtiger_reportsortcol.* FROM vtiger_report
 					INNER JOIN vtiger_reportsortcol ON vtiger_report.reportid = vtiger_reportsortcol.reportid
@@ -362,7 +360,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getSelectedStandardFilter()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = array();
@@ -408,7 +406,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function save()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		$reportId = $this->getId();
@@ -480,7 +478,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveSortFields()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sortFields = $this->get('sortFields');
 
@@ -505,7 +503,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveCalculationFields()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$calculationFields = $this->get('calculationFields');
 		$countCalculationFields = count($calculationFields);
@@ -519,7 +517,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveStandardFilter()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$standardFilter = $this->get('standardFilter');
 		if (!empty($standardFilter)) {
@@ -534,7 +532,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveSharingInformation()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$sharingInfo = $this->get('sharingInfo');
 		if ($sharingInfo) {
 			foreach ($sharingInfo as $key => $value) {
@@ -552,7 +550,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveSelectedFields()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$selectedFields = $this->get('selectedFields');
 
@@ -571,7 +569,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveAdvancedFilters()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$reportId = $this->getId();
 		$advancedFilter = $this->get('advancedFilter');
@@ -671,7 +669,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveScheduleInformation()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$selectedRecipients = $this->get('selectedRecipients');
 		$scheduledInterval = $this->get('scheduledInterval');
@@ -686,7 +684,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function deleteScheduling()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_scheduled_reports WHERE reportid = ?', array($this->getId()));
 	}
 
@@ -734,7 +732,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		if ($query === null)
 			$query = $this->get('recordCountQuery');
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$count = 0;
 		$result = $adb->query($query, array());
 		if ($adb->num_rows($result) > 0) {
@@ -835,7 +833,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function move($folderId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$db->pquery("UPDATE vtiger_report SET folderid = ? WHERE reportid = ?", array($folderId, $this->getId()));
 	}
@@ -1051,7 +1049,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function checkDuplicate()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$record = $this->getId();
 		$params = [];
 		$query = "SELECT 1 FROM vtiger_report WHERE reportname = ?";
@@ -1151,7 +1149,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveReportType()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$data = $this->get('reporttypedata');
 		if (!empty($data)) {
 			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($this->getId()));
@@ -1161,7 +1159,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getReportTypeInfo()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT data FROM vtiger_reporttype WHERE reportid = ?", array($this->getId()));
 

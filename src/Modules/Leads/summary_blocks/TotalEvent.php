@@ -22,7 +22,7 @@ class TotalEvent {
 	{
 		
 		\App\Log::trace("Entering TotalEvent::process() method ...");
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$activity = 'SELECT COUNT(vtiger_activity.activityid) AS count
 			FROM vtiger_activity 
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_activity.activityid 

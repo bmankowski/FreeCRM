@@ -55,7 +55,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getRssSources()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sql = 'Select *from vtiger_rss';
 		$result = $db->pquery($sql, array());

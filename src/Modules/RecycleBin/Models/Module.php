@@ -170,7 +170,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function deleteFiles($recordIds)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$getAttachmentsIdQuery = sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', \App\Utils\Utils::generateQuestionMarks($recordIds));
 		$result = $db->pquery($getAttachmentsIdQuery, [$recordIds]);
 		$attachmentsIds = [];
@@ -217,7 +217,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getDeletedRecordsTotalCount()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$totalCount = $db->pquery('select count(*) as count from vtiger_crmentity where deleted=1', array());
 		return $db->query_result($totalCount, 0, 'count');
 	}

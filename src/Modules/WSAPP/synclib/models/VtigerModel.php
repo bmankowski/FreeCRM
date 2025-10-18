@@ -10,7 +10,6 @@ namespace App\Modules\WSAPP\synclib\models;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once ROOT_DIRECTORY . '/src/Modules/WSAPP/synclib/Models/SyncRecordModel.php';
 
 // place holder vtiger type models 
 class VtigerModel extends WSAPP_SyncRecordModel

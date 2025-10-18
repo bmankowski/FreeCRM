@@ -12,9 +12,6 @@ namespace App\Modules\com_vtiger_workflow;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTJsonCondition.php';
-require_once ROOT_DIRECTORY . '/src/Utils/ConfigReader.php';
-require_once ROOT_DIRECTORY . '/src/Runtime/Vtiger_Cache.php';
 
 class VTWorkflowManager {
 
@@ -429,7 +426,7 @@ class Workflow
 	public function setNextTriggerTime($time)
 	{
 		if ($time) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$db->pquery("UPDATE com_vtiger_workflows SET nexttrigger_time=? WHERE workflow_id=?", array($time, $this->id));
 			$this->nexttrigger_time = $time;
 		}

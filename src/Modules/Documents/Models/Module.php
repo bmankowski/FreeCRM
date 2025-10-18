@@ -77,7 +77,6 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getSettingLinks()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');

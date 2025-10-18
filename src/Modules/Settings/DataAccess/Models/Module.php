@@ -329,7 +329,6 @@ class Module extends \Vtiger_Module_Model
 
 	public static function executeAjaxHandlers($module, $param)
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/Settings/DataAccess/helpers/DataAccess_Conditions.php';
 		$conditions = new \App\Modules\Settings\DataAccess\helpers\DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
@@ -394,7 +393,6 @@ class Module extends \Vtiger_Module_Model
 		if (key_exists($record, self::$colorListCache)) {
 			return self::$colorListCache[$record];
 		}
-		require_once ROOT_DIRECTORY . '/src/Modules/Settings/DataAccess/helpers/DataAccess_Conditions.php';
 
 		if (\App\Cache::has('DataAccess:colorList', $moduleName)) {
 			$colorList = \App\Cache::get('DataAccess:colorList', $moduleName);

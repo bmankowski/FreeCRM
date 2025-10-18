@@ -84,7 +84,7 @@ class ModCommentsCore extends \App\CRMEntity
 	public function __construct()
 	{
 		$this->column_fields = \App\Utils\Utils::getColumnFields('ModComments');
-		$this->db = \App\database\PearDatabase::getInstance();
+		$this->db = \App\Database\database\PearDatabase::getInstance();
 	}
 
 	public function getSortOrder()

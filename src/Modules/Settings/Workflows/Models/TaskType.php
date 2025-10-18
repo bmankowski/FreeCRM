@@ -48,7 +48,7 @@ class TaskType extends \Vtiger_Record_Model
 
 	public static function getInstanceFromClassName($taskClass)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery("SELECT * FROM com_vtiger_workflow_tasktypes where classname=?", array($taskClass));
 		$row = $db->query_result_rowdata($result, 0);
 		$taskTypeObject = VTTaskType::getInstance($row);

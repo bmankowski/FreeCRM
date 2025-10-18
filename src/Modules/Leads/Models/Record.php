@@ -86,7 +86,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$mappingFields = $this->get('mappingFields');
 
 		if (!$mappingFields) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 			$mappingFields = array();
 
 			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', array());

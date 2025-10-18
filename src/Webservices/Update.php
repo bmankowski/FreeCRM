@@ -11,7 +11,7 @@
 function vtws_update($element, $user)
 {
 
-	$adb = \App\database\PearDatabase::getInstance();
+	$adb = \App\Database\database\PearDatabase::getInstance();
 	
 	$idList = vtws_getIdComponents($element['id']);
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $idList[0]);

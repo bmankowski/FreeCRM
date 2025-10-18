@@ -17,7 +17,7 @@ class Chart extends \App\Modules\Vtiger\Models\Model
 	public static function getInstanceById($reportModel)
 	{
 		$self = new self();
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if (!empty($data)) {
@@ -463,7 +463,7 @@ class PieChart extends Base_Chart
 
 	public function generateData()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$values = [];
 		$chartSQL = $this->getQuery();
 		$result = $db->pquery($chartSQL, array());
@@ -548,7 +548,7 @@ class VerticalbarChart extends Base_Chart
 
 	public function generateData()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$chartSQL = $this->getQuery();
 
 		$result = $db->pquery($chartSQL, array());

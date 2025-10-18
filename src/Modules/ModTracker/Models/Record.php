@@ -291,7 +291,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function getFieldInstances()
 	{
 		$id = $this->get('id');
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$fieldInstances = [];
 		if ($this->isCreate() || $this->isUpdate()) {
@@ -317,7 +317,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function getRelationInstance()
 	{
 		$id = $this->get('id');
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		if ($this->isRelationLink() || $this->isRelationUnLink()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_relations WHERE id = ?', array($id));

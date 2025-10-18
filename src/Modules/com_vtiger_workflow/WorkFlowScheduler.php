@@ -13,7 +13,6 @@ namespace App\Modules\com_vtiger_workflow;
 
 require_once ('src/Modules/com_vtiger_workflow/WorkflowSchedulerInclude.php');
 require_once('src/Modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once ROOT_DIRECTORY . '/src/Modules/Users/Users.php';
 
 class WorkFlowScheduler {
 

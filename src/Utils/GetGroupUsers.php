@@ -29,7 +29,7 @@ class GetGroupUsers
 	 */
 	public function getAllUsersInGroup($groupid)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		
 		\App\Log::trace("Entering getAllUsersInGroup(" . $groupid . ") method...");
 		//Retreiving from the user2grouptable

@@ -30,7 +30,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 	{
 		$util = new VTWorkflowUtils();
 		$user = $util->adminUser();
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		$recordModel = $eventHandler->getRecordModel();
 		$entityData = $recordModel; // For now, use record model directly
 		$isNew = $recordModel->getPreviousValue() ? false : true;

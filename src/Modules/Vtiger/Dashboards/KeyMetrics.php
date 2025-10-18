@@ -47,7 +47,6 @@ class KeyMetrics extends \Vtiger_Index_View
 	{
 		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		vglobal('current_user', $current_user);
-		require_once ROOT_DIRECTORY . '/src/Modules/CustomView/ListViewTop.php';
 		$metriclists = getMetricList();
 		foreach ($metriclists as $key => &$metriclist) {
 			$queryGenerator = new \App\QueryGenerator($metriclist['module']);

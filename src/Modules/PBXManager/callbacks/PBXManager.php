@@ -11,8 +11,6 @@ namespace App\Modules\PBXManager;
  * All Rights Reserved.
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . '/../../../');
-include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
-require_once ROOT_DIRECTORY . '/src/http/Request.php';
 
 class Callbacks {
 

@@ -129,7 +129,7 @@ class Menu extends \Vtiger_Record_Model
 		if (isset(self::$cacheInstance[$id])) {
 			return self::$cacheInstance[$id];
 		}
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$menusTable, self::$menuId);
 		$params = [$id];
@@ -153,7 +153,7 @@ class Menu extends \Vtiger_Record_Model
 	 */
 	public static function getInstance($name)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE label = ?', self::$menusTable);
 		$params = [$name];

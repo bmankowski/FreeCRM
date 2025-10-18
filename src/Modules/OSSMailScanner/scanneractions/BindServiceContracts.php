@@ -28,7 +28,7 @@ class BindServiceContracts {
 		}
 
 		if (!empty($accountnumbers)) {
-			$db = \App\database\PearDatabase::getInstance();
+			$db = \App\Database\database\PearDatabase::getInstance();
 
 			$query = 'SELECT servicecontractsid FROM vtiger_servicecontracts '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '

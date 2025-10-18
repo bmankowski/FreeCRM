@@ -41,7 +41,7 @@ class logs extends \App\Modules\Settings\Vtiger\Views\Index
 
 	public function getNumLog()
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$limit = 30;
 		$result = $db->query("SELECT COUNT(id) as num FROM vtiger_ossmails_logs");
 		$numRecord = $db->query_result($result, 0, 'num');

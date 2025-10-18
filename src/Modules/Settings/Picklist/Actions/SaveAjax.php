@@ -37,7 +37,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 
 	public function updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		if ($pickListFieldName == 'activitytype')
 			$defaultFieldName = 'defaultactivitytype';
 		else

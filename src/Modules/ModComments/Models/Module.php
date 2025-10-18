@@ -44,7 +44,6 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getSettingLinks()
 	{
-		require_once ROOT_DIRECTORY . '/src/Modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = array();
@@ -67,7 +66,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);
 	}
 }

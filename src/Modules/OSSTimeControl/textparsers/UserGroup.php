@@ -69,7 +69,7 @@ class TextParser extends \App\TextParser\Base
 
 	public function getRoleName($userId)
 	{
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT rolename FROM vtiger_role INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role.roleid WHERE vtiger_user2role.userid = ?', [$userId]);
 		return $db->getSingleValue($result);
 	}

@@ -40,7 +40,7 @@ class Field extends \Vtiger_Field_Model
 			$intersectionMode = true;
 		}
 
-		$db = \App\database\PearDatabase::getInstance();
+		$db = \App\Database\database\PearDatabase::getInstance();
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
 		$idColName = $fieldName . 'id';

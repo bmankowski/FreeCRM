@@ -95,7 +95,7 @@ class Ideas extends \App\CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = \App\database\PearDatabase::getInstance();
+		$adb = \App\Database\database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 
 			$ModuleInstance = \App\CRMEntity::getInstance('Ideas');
