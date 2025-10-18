@@ -435,8 +435,8 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if (is_array($array_users)) {
 			require_once(ROOT_DIRECTORY . '/src/Modules/Users/CreateUserPrivilegeFile.php');
 			foreach ($array_users as $userid) {
-				createUserPrivilegesfile($userid);
-				createUserSharingPrivilegesfile($userid);
+				\App\Modules\Users\createUserPrivilegesfile($userid);
+				\App\Modules\Users\createUserSharingPrivilegesfile($userid);
 			}
 		}
 		\App\Privilege::setAllUpdater();

@@ -321,8 +321,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			Vtiger_Session::set('language', $recordModel->get('language'));
 		}
 		require_once '/modules/Users/CreateUserPrivilegeFile.php';
-		createUserPrivilegesfile($recordModel->getId());
-		createUserSharingPrivilegesfile($recordModel->getId());
+		\App\Modules\Users\createUserPrivilegesfile($recordModel->getId());
+		\App\Modules\Users\createUserSharingPrivilegesfile($recordModel->getId());
 
 		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();

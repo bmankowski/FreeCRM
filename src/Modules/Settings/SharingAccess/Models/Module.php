@@ -171,7 +171,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);
 
 		while (($id = $db->getSingleValue($result)) !== false) {
-			createUserSharingPrivilegesfile($id);
+			\App\Modules\Users\createUserSharingPrivilegesfile($id);
 		}
 	}
 }

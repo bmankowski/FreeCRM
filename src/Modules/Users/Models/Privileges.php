@@ -378,7 +378,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
@@ -415,7 +415,7 @@ class Privileges extends \App\Modules\Vtiger\Models\Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}

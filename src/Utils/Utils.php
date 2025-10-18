@@ -164,7 +164,7 @@ class Utils
 	public static function getActionid($action)
 	{
 
-		\App\Log::trace('Entering getActionid(' . $action . ') method ...');
+		\App\Log::trace('Entering \App\Utils\Utils::getActionid(' . $action . ') method ...');
 
 		if (empty($action)) {
 			return null;
@@ -224,7 +224,7 @@ class Utils
 	public static function getRecordOwnerId($record)
 	{
 
-		\App\Log::trace("Entering getRecordOwnerId($record) method ...");
+		\App\Log::trace("Entering \App\Utils\Utils::getRecordOwnerId($record) method ...");
 		$ownerArr = [];
 
 		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);

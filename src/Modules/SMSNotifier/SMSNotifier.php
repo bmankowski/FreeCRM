@@ -234,4 +234,3 @@ class SMSNotifier extends SMSNotifierBase
 		}
 		return $results;
 	}
-}

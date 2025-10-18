@@ -3486,4 +3486,3 @@ class ReportRun extends \App\CRMEntity
 		}
 		return $columnsSqlList;
 	}
-}
