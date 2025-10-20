@@ -4,7 +4,7 @@
 namespace App\Modules\Calendar\Models;
 
 
-class Export extends \App\Modules\Vtiger\Models\Model
+class Export extends \App\Runtime\Vtiger_Base_Model
 {
 
 	/**

@@ -12,7 +12,7 @@ namespace App\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class RelationListView extends \App\Modules\Vtiger\Models\Model
+class RelationListView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $addRelatedFieldToEntries = [

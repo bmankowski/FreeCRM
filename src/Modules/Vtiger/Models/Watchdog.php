@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Watchdog extends Model
+class Watchdog extends \App\Runtime\Vtiger_Base_Model
 {
 
 	const RECORD_ACTIVE = 1;

@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger Image Model Class
  */
-class Image extends Model
+class Image extends \App\Runtime\Vtiger_Base_Model
 {
 
 	/**

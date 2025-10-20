@@ -11,7 +11,7 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RecordStructure extends \App\Modules\Vtiger\Models\Model
+class RecordStructure extends \App\Runtime\Vtiger_Base_Model
 {
 	
 }

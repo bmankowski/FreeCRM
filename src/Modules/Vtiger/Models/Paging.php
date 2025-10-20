@@ -15,7 +15,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger Paging Model Class
  */
-class Paging extends Model
+class Paging extends \App\Runtime\Vtiger_Base_Model
 {
 
 	const DEFAULT_PAGE = 1;

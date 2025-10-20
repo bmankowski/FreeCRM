@@ -8,7 +8,7 @@ namespace App\Modules\OSSMailScanner\scanneractions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class BindLeads extends Model
+class BindLeads extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public function process(OSSMail_Mail_Model $mail, $moduleName = 'Leads')

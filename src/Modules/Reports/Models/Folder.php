@@ -11,7 +11,7 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Folder extends \App\Modules\Vtiger\Models\Model
+class Folder extends \App\Runtime\Vtiger_Base_Model
 {
 
 	/**

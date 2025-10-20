@@ -16,7 +16,7 @@ namespace App\Modules\Users\Models;
  * User Privileges Model Class
  */
 
-class Privileges extends \App\Modules\Vtiger\Models\Model
+class Privileges extends \App\Runtime\Vtiger_Base_Model
 {
 
 	/**

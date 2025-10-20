@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * CSS Script Model Class
  */
-class CssScript extends Model
+class CssScript extends \App\Runtime\Vtiger_Base_Model
 {
 
 	const DEFAULT_REL = 'stylesheet';

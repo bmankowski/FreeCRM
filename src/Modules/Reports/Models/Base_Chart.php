@@ -2,7 +2,7 @@
 
 namespace App\Modules\Reports\Models;
 
-abstract class Base_Chart extends \App\Modules\Vtiger\Models\Model
+abstract class Base_Chart extends \App\Runtime\Vtiger_Base_Model
 {
 
     /** @var array|null */

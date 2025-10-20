@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class MappedFields extends Model
+class MappedFields extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public static $baseTable = 'a_yf_mapped_config';

@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class PDF extends Model
+class PDF extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public static $baseTable = 'a_yf_pdf';

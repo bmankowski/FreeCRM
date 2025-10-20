@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger JS Script Model Class
  */
-class JsScript extends Model
+class JsScript extends \App\Runtime\Vtiger_Base_Model
 {
 
 	const DEFAULT_TYPE = 'text/javascript';

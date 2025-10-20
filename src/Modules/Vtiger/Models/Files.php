@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Files Model Class
  */
-class Files extends Model
+class Files extends \App\Runtime\Vtiger_Base_Model
 {
 
 	const ATTACHMENT_ACTIVE = 1;

@@ -11,7 +11,7 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ScheduleReports extends \App\Modules\Vtiger\Models\Model
+class ScheduleReports extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public $scheduledFormat = 'CSV';

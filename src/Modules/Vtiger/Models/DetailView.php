@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends Model
+class DetailView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $module;

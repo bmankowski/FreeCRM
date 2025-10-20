@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class RelationListView extends Model
+class RelationListView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $relationModel = false;

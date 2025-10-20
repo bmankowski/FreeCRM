@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class FindDuplicate extends Model
+class FindDuplicate extends \App\Runtime\Vtiger_Base_Model
 {
 
     /** @var object|null */

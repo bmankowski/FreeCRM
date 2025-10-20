@@ -51,7 +51,7 @@ use yii\validators\Validator;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class DynamicModel extends Model
+class DynamicModel extends \App\Runtime\Vtiger_Base_Model
 {
     /**
      * @var mixed[] dynamic attribute values (name => value).

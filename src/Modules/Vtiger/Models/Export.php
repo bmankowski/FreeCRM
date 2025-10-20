@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Export extends Model
+class Export extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $moduleInstance;

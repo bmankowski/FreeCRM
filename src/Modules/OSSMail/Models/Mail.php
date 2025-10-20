@@ -8,7 +8,7 @@ namespace App\Modules\OSSMail\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Mail extends \App\Modules\Vtiger\Models\Model
+class Mail extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $mailAccount = [];

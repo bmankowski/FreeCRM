@@ -15,7 +15,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends Model
+class ListView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	/**

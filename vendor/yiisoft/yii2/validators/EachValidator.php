@@ -16,7 +16,7 @@ use yii\base\Model;
  * EachValidator validates an array by checking each of its elements against an embedded validation rule.
  *
  * ```php
- * class MyModel extends Model
+ * class MyModel extends \App\Runtime\Vtiger_Base_Model
  * {
  *     public $categoryIDs = [];
  *

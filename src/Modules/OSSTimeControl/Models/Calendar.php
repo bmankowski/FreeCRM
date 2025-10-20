@@ -12,7 +12,7 @@ namespace App\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends \App\Modules\Vtiger\Models\Model
+class Calendar extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public function getEntity()

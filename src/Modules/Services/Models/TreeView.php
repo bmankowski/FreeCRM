@@ -8,7 +8,7 @@ namespace App\Modules\Services\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeView extends \App\Modules\Vtiger\Models\Model
+class TreeView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public function isActive()

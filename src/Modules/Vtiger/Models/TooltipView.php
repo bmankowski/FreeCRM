@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class TooltipView extends Model
+class TooltipView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $fields = false;

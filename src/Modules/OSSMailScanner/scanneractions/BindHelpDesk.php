@@ -9,7 +9,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class BindHelpDesk extends Model
+class BindHelpDesk extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public $moduleName = 'HelpDesk';

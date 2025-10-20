@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeCategoryModal extends Model
+class TreeCategoryModal extends \App\Runtime\Vtiger_Base_Model
 {
 
     /** @var int|string|null */

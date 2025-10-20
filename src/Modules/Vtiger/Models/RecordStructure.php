@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger Record Structure Model
  */
-class RecordStructure extends Model
+class RecordStructure extends \App\Runtime\Vtiger_Base_Model
 {
 
 	protected $record = false;

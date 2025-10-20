@@ -8,7 +8,7 @@ namespace App\Modules\Events\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class RecuringEvents extends \App\Modules\Vtiger\Models\Model
+class RecuringEvents extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public $recordModel;

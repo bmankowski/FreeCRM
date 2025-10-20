@@ -11,7 +11,7 @@ namespace App\Modules\Import\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Map extends \App\Modules\Vtiger\Models\Model
+class Map extends \App\Runtime\Vtiger_Base_Model
 {
 
 	static $tableName = 'vtiger_import_maps';

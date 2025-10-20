@@ -8,7 +8,7 @@ namespace App\Modules\Calendar\Models;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Calendar extends \App\Modules\Vtiger\Models\Model
+class Calendar extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public $moduleName = 'Calendar';

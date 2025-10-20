@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeView extends Model
+class TreeView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	static $_cached_instance;

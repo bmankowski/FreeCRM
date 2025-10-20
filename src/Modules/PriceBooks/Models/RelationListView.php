@@ -11,7 +11,7 @@ namespace App\Modules\PriceBooks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationListView extends \App\Modules\Vtiger\Models\Model
+class RelationListView extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public function getHeaders()

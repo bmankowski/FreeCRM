@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ModuleMeta extends Model
+class ModuleMeta extends \App\Runtime\Vtiger_Base_Model
 {
 
 	public $moduleName = false;

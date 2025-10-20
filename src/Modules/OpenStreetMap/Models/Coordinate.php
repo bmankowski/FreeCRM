@@ -8,7 +8,7 @@ namespace App\Modules\OpenStreetMap\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Coordinate extends \App\Modules\Vtiger\Models\Model
+class Coordinate extends \App\Runtime\Vtiger_Base_Model
 {
 
 	const earthRadius = 6378137;
