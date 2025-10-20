@@ -161,7 +161,7 @@ class Index extends \Vtiger_Basic_View
 	 * 
 	 * @param Vtiger_Request $request
 	 */
-	public function systemWarnings(Vtiger_Request $request)
+	public function systemWarnings(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -177,7 +177,7 @@ class Index extends \Vtiger_Basic_View
 	 * 
 	 * @param Vtiger_Request $request
 	 */
-	public function getWarningsList(Vtiger_Request $request)
+	public function getWarningsList(\App\Http\Vtiger_Request $request)
 	{
 		$folder = $request->get('folder');
 		$active = $request->getBoolean('active');
@@ -200,7 +200,7 @@ class Index extends \Vtiger_Basic_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -229,7 +229,7 @@ class Index extends \Vtiger_Basic_View
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
@@ -257,7 +257,7 @@ class Index extends \Vtiger_Basic_View
 		return false;
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
 	}
