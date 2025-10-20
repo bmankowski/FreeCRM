@@ -73,7 +73,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 			$viewer->assign('STYLES', $this->getHeaderCss($request));
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
+			$viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
 			$viewer->assign('IS_PREFERENCE', true);
 			$viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));

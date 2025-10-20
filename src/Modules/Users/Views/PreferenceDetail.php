@@ -101,7 +101,7 @@ class PreferenceDetail extends \Vtiger_Index_View
 			$viewer->assign('STYLES', $this->getHeaderCss($request));
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
-			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
+			$viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
 			$viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));

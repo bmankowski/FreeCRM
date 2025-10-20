@@ -50,8 +50,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			return array();
 		}
 
-		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
+		$layoutEditorImagePath = \App\Runtime\Vtiger_Theme::getImagePath('LayoutEditor.gif');
+		$editWorkflowsImagePath = \App\Runtime\Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = array();
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {

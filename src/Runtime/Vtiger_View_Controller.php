@@ -83,7 +83,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($vtigerRequest));
 	   $viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($vtigerRequest));
 	   $viewer->assign('STYLES', $this->getHeaderCss($vtigerRequest));
-	   $viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
+	   $viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
 	   $viewer->assign('LAYOUT_PATH', 'layouts/' . Yeti_Layout::getActiveLayout());
 	   $viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($vtigerRequest));
 	   $viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());

@@ -13,8 +13,7 @@ namespace App\Modules\Settings\Users\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Detail extends Users_PreferenceDetail_View
-{
+class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{

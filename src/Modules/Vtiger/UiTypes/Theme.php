@@ -30,7 +30,7 @@ class Theme extends Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$allSkins = Vtiger_Theme::getAllSkins();
+		$allSkins = \App\Runtime\Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];
 		$value = ucfirst($value);
 		return "<div class='col-md-4' style='width:230px; background-color:$skinColor;' title='$value'>&nbsp;</div>";

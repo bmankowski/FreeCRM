@@ -132,7 +132,7 @@ class Link extends \vtlib\Link
 		if (!$this->isIconExists()) {
 			return false;
 		}
-		return Vtiger_Theme::getImagePath($this->getIcon());
+		return \App\Runtime\Vtiger_Theme::getImagePath($this->getIcon());
 	}
 
 	/**

@@ -41,7 +41,7 @@ class Image extends Model
 	 */
 	public function getImagePath()
 	{
-		return Vtiger_Theme::getImagePath($this->get('imagename'));
+		return \App\Runtime\Vtiger_Theme::getImagePath($this->get('imagename'));
 	}
 
 	/**

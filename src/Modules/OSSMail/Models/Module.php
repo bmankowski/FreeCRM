@@ -20,7 +20,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function getSettingLinks()
 	{
 
-		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
+		$layoutEditorImagePath = \App\Runtime\Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 
 		$db = \App\Database\PearDatabase::getInstance();

@@ -18,7 +18,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function getSettingLinks()
 	{
 		$settingsLinks = parent::getSettingLinks();
-		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
+		$layoutEditorImagePath = \App\Runtime\Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' AND description =  'OSSMailView'", true);
 		$settingsLinks[] = array(

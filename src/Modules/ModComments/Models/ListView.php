@@ -36,7 +36,7 @@ class Model extends \App\Modules\Vtiger\Models\ListView
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflow&sourceModule=' . $this->getName(),
-				'linkicon' => Vtiger_Theme::getImagePath('EditWorkflows.png')
+				'linkicon' => \App\Runtime\Vtiger_Theme::getImagePath('EditWorkflows.png')
 			);
 			$links['LISTVIEWSETTING'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($settingsLink);
 		}

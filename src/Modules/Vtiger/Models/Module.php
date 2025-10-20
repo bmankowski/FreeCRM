@@ -1301,8 +1301,8 @@ class Module extends \vtlib\Module
 			return [];
 		}
 
-		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
+		$layoutEditorImagePath = \App\Runtime\Vtiger_Theme::getImagePath('LayoutEditor.gif');
+		$editWorkflowsImagePath = \App\Runtime\Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
 
 		$settingsLinks[] = array(

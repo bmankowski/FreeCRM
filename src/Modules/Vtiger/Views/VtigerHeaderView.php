@@ -152,12 +152,12 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$baseStyleCssPath = Vtiger_Theme::getBaseStylePath();
+		$baseStyleCssPath = \App\Runtime\Vtiger_Theme::getBaseStylePath();
 		$baseStyleCssPath = $this->checkAndConvertCssStyles(['~' . $baseStyleCssPath]);
 		$headerCssInstances = array_merge($headerCssInstances, $baseStyleCssPath);
 
 		$headerCss = \App\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
-		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
+		$selectedThemeCssPath = \App\Runtime\Vtiger_Theme::getThemeStyle();
 		$cssScriptModel = new Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
