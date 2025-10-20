@@ -1043,6 +1043,106 @@ class CRMEntity
 		}
 		return $sec_query;
 	}
+
+	/**
+	 * Get list view query.
+	 */
+	public function getListQuery($module, $where = '')
+	{
+		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
+
+		// Select Custom Field Table Columns if present
+		if (!empty($this->customFieldTable))
+			$query .= ", " . $this->customFieldTable[0] . ".* ";
+
+		$query .= " FROM $this->table_name";
+
+		$query .= "	INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
+
+		// Consider custom table join as well.
+		if (!empty($this->customFieldTable)) {
+			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
+				" = $this->table_name.$this->table_index";
+		}
+		$query .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
+		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
+
+		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
+			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
+			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", [$module]);
+		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+
+		for ($i = 0; $i < $linkedFieldsCount; $i++) {
+			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+
+			$other = \App\CRMEntity::getInstance($related_module);
+			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
+
+			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index =" .
+				"$this->table_name.$columnname";
+		}
+
+		$current_user = vglobal('current_user');
+		$query .= sprintf('%s WHERE vtiger_crmentity.deleted = 0 %s', $this->getNonAdminAccessControlQuery($module, $current_user), $where);
+		return $query;
+	}
+
+	/**
+	 * Create query to export the records.
+	 */
+	public function create_export_query($where)
+	{
+		global $current_user, $currentModule;
+
+		include("include/utils/ExportUtils.php");
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPermittedFieldsQuery('ServiceContracts', "detail_view");
+
+		$fields_list = \App\Utils\ExportUtils::getFieldsListFromQuery($sql);
+
+		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name
+					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
+
+		if (!empty($this->customFieldTable)) {
+			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
+				" = $this->table_name.$this->table_index";
+		}
+
+		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
+		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id and " .
+			"vtiger_users.status='Active'";
+
+		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
+			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($currentModule));
+		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+
+		for ($i = 0; $i < $linkedFieldsCount; $i++) {
+			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+
+			$other = \App\CRMEntity::getInstance($related_module);
+			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
+
+			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = " .
+				"$this->table_name.$columnname";
+		}
+
+		$query .= $this->getNonAdminAccessControlQuery($currentModule, $current_user);
+		$where_auto = " vtiger_crmentity.deleted=0";
+
+		if ($where != '')
+			$query .= " WHERE ($where) && $where_auto";
+		else
+			$query .= " WHERE $where_auto";
+
+		return $query;
+	}
+
 	/*
 	 * Function to get the relation query part of a report
 	 * @param - $module primary module name

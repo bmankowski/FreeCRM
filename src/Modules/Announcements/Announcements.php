@@ -3,13 +3,12 @@
 namespace App\Modules\Announcements;
 
 /**
- * Announcements CRMEntity Class
+ * Announcements \App\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Announcements extends \App\CRMEntity
 {

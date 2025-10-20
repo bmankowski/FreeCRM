@@ -253,7 +253,7 @@ class ListViewUtils
 				$query = sprintf($query, $where);
 				break;
 			default:
-				$focus = \CRMEntity::getInstance($module);
+				$focus = \App\CRMEntity::getInstance($module);
 				$query = $focus->getListQuery($module, $where);
 		}
 
@@ -366,7 +366,7 @@ class ListViewUtils
 	 */
 	public static function listQueryNonAdminChange($query, $module, $scope = '')
 	{
-		$instance = \CRMEntity::getInstance($module);
+		$instance = \App\CRMEntity::getInstance($module);
 		return $instance->listQueryNonAdminChange($query, $scope);
 	}
 }

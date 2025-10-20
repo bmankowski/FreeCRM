@@ -153,18 +153,18 @@ class PackageExport
 			$zip->copyDirectoryFromDisk("cron/modules/$module", "cron");
 
 		//Copy module templates files
-		if (is_dir('layouts/' . \CRM_Viewer::getDefaultLayoutName() . '/modules/' . $module))
-			$zip->copyDirectoryFromDisk('layouts/' . \CRM_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
+		if (is_dir('layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . '/modules/' . $module))
+			$zip->copyDirectoryFromDisk('layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
 
 		//Copy Settings module templates files, if any
-		if (is_dir('layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
-			$zip->copyDirectoryFromDisk('layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
+		if (is_dir('layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
+			$zip->copyDirectoryFromDisk('layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
 
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
 
 		foreach ($layoutDirectories as $key => $layoutName) {
-			if ($layoutName != 'layouts/' . \CRM_Viewer::getDefaultLayoutName()) {
+			if ($layoutName != 'layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName()) {
 				$moduleLayout = $layoutName . "/modules/$module";
 				if (is_dir($moduleLayout)) {
 					$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
@@ -181,8 +181,8 @@ class PackageExport
 		$this->__copyLanguageFiles($zip, $module);
 
 		//Copy image file
-		if (file_exists('layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
-			$zip->copyFileFromDisk('layouts/' . \CRM_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
+		if (file_exists('layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
+			$zip->copyFileFromDisk('layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
 		}
 
 		// Copty config files
@@ -352,7 +352,7 @@ class PackageExport
 		$this->openNode('tables');
 
 		if ($this->moduleInstance->isentitytype) {
-			$focus = \CRMEntity::getInstance($modulename);
+			$focus = \App\CRMEntity::getInstance($modulename);
 
 			// Setup required module variables which is need for vtlib API's
 			vtlib_setup_modulevars($modulename, $focus);

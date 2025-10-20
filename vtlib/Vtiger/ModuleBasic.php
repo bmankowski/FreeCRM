@@ -214,7 +214,7 @@ class ModuleBasic
 	public function delete()
 	{
 		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
-		$focus = \CRMEntity::getInstance($this->name);
+		$focus = \App\CRMEntity::getInstance($this->name);
 		$this->tableName = $focus->table_name;
 		if ($this->isentitytype) {
 			$this->deleteFromCRMEntity();

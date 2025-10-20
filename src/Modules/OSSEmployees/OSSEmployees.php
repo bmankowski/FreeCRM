@@ -12,7 +12,6 @@ namespace App\Modules\OSSEmployees;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class OSSEmployees extends \App\CRMEntity
 {

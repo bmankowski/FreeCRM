@@ -393,7 +393,7 @@ class ServiceContracts extends \App\CRMEntity
 
 	/**
 	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
+	 * NOTE: This function has been added to \App\CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
@@ -567,7 +567,7 @@ class ServiceContracts extends \App\CRMEntity
 
 	/**
 	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
+	 * NOTE: This function has been added to \App\CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
 	public function delete_related_module($module, $crmid, $with_module, $with_crmid)

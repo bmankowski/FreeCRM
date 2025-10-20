@@ -12,7 +12,6 @@ namespace App\Modules\OutsourcedProducts;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class OutsourcedProducts extends \App\CRMEntity
 {

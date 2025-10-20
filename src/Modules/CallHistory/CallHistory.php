@@ -12,7 +12,6 @@ namespace App\Modules\CallHistory;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class CallHistory extends \App\CRMEntity
 {

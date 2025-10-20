@@ -102,7 +102,7 @@ class MultiReferenceValue extends Base
 
 	/**
 	 * Getting the value for multireference
-	 * @param CRMEntity $entity CRMEntity instance
+	 * @param \App\CRMEntity $entity \App\CRMEntity instance
 	 * @param int $sourceRecord
 	 * @param int $destRecord
 	 * @return array
@@ -126,7 +126,7 @@ class MultiReferenceValue extends Base
 
 	/**
 	 * Add value to multireference
-	 * @param CRMEntity $entity CRMEntity instance
+	 * @param \App\CRMEntity $entity \App\CRMEntity instance
 	 * @param int $sourceRecord 
 	 * @param int $destRecord
 	 */

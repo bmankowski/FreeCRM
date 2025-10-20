@@ -51,7 +51,7 @@ class File
 			$userid = \Vtiger_Session::get('authenticated_user_id');
 			if ($userid && \App\AppConfig::main('application_unique_key') === \Vtiger_Session::get('app_unique_key')) {
 				\App\User::getCurrentUserModel();
-				$user = \CRMEntity::getInstance('Users');
+				$user = \App\CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				return $user;
 			}

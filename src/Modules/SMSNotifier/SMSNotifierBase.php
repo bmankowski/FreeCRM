@@ -11,7 +11,6 @@ namespace App\Modules\SMSNotifier;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('src/Modules/Vtiger/CRMEntity.php');
 
 class SMSNotifierBase extends \App\CRMEntity
 {

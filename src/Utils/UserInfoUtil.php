@@ -1334,7 +1334,7 @@ class UserInfoUtil
 		}
 		$sec_query .= " vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid from vtiger_tmp_read_group_sharing_per where userid=" . $current_user->id . " and tabid=" . $tabid . "))) ";
 	} else {
-		$modObj = CRMEntity::getInstance($module);
+		$modObj = \App\CRMEntity::getInstance($module);
 		$sec_query = $modObj->getListViewSecurityParameter($module);
 	}
 	\App\Log::trace("Exiting getListViewSecurityParameter method ...");
@@ -1459,7 +1459,7 @@ class UserInfoUtil
  */
 	public static function getNonAdminAccessControlQuery($module, $user, $scope = '')
 {
-	$instance = CRMEntity::getInstance($module);
+	$instance = \App\CRMEntity::getInstance($module);
 	return $instance->getNonAdminAccessControlQuery($module, $user, $scope);
 }
 }

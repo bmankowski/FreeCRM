@@ -8,7 +8,6 @@ namespace App\Modules\SRecurringOrders;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class SRecurringOrders extends \App\CRMEntity
 {

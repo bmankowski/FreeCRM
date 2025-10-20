@@ -428,7 +428,7 @@ class PackageImport extends PackageExport
 				// What files needs to be renamed?
 				[
 				// Templates folder
-				'templates' => 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/$module",
+				'templates' => 'layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
@@ -440,9 +440,9 @@ class PackageImport extends PackageExport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => 'layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => 'layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => 'modules/Settings',
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
@@ -450,7 +450,7 @@ class PackageImport extends PackageExport
 			);
 
 			if ($unzip->checkFileExistsInRootFolder("$module.png")) {
-				$unzip->unzip("$module.png", 'layouts/' . \CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+				$unzip->unzip("$module.png", 'layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
 
 			if ($unzip)

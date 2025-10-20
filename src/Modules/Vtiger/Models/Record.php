@@ -29,7 +29,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 	public $isNew = true;
 	
 	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
-	protected $entity;            // CRMEntity instance
+	protected $entity;            // \App\CRMEntity instance
 	protected $isWatchingRecord;  // Boolean - whether user is watching this record
 	protected $rawData;           // Raw data array
 
@@ -182,7 +182,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Function to get the entity instance of the recrod
-	 * @return CRMEntity object
+	 * @return \App\CRMEntity object
 	 */
 	public function getEntity()
 	{
@@ -194,7 +194,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Function to set the entity instance of the record
-	 * @param CRMEntity $entity
+	 * @param \App\CRMEntity $entity
 	 * @return \App\Modules\Vtiger\Models\Record instance
 	 */
 	public function setEntity($entity)

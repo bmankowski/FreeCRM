@@ -8,7 +8,6 @@ namespace App\Modules\SSalesProcesses;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class SSalesProcesses extends \App\CRMEntity
 {

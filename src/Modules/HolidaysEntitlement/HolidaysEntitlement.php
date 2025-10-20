@@ -12,7 +12,6 @@ namespace App\Modules\HolidaysEntitlement;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class HolidaysEntitlement extends \App\CRMEntity
 {

@@ -3,13 +3,12 @@
 namespace App\Modules\FCorectingInvoice;
 
 /**
- * FCorectingInvoice CRMEntity Class
+ * FCorectingInvoice \App\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class FCorectingInvoice extends \App\CRMEntity
 {

@@ -83,7 +83,7 @@ class QueryGenerator
 	private $fieldsModel;
 
 	/**
-	 * @var \CRMEntity 
+	 * @var \App\CRMEntity 
 	 */
 	private $entityModel;
 
@@ -240,8 +240,8 @@ class QueryGenerator
 	}
 
 	/**
-	 * Get CRMEntity Model
-	 * @return \CRMEntity
+	 * Get \App\CRMEntity Model
+	 * @return \App\CRMEntity
 	 */
 	public function getEntityModel()
 	{

@@ -12,7 +12,6 @@ namespace App\Modules\OSSSoldServices;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class OSSSoldServices extends \App\CRMEntity
 {

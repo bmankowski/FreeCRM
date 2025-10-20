@@ -12,7 +12,6 @@ namespace App\Modules\OSSTimeControl;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class OSSTimeControl extends \App\CRMEntity
 {

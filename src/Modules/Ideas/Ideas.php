@@ -12,7 +12,6 @@ namespace App\Modules\Ideas;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Ideas extends \App\CRMEntity
 {

@@ -12,7 +12,6 @@ namespace App\Modules\FBookkeeping;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class FBookkeeping extends \App\CRMEntity
 {

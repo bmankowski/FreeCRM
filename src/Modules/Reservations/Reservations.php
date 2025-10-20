@@ -12,7 +12,6 @@ namespace App\Modules\Reservations;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Reservations extends \App\CRMEntity
 {

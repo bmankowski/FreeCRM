@@ -115,7 +115,7 @@ class Record
 			$leftJoinTables = [];
 			$paramsCol = [];
 			$query = new \App\Db\Query();
-			$focus = \CRMEntity::getInstance($moduleName);
+			$focus = \App\CRMEntity::getInstance($moduleName);
 			foreach (array_filter($columns) as $column) {
 				if (array_key_exists($column, $moduleInfoExtend)) {
 					$otherTable = $moduleInfoExtend[$column]['tablename'];
@@ -291,7 +291,7 @@ class Record
 		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
 				if ($fields = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
-					$entity = \CRMEntity::getInstance($moduleName);
+					$entity = \App\CRMEntity::getInstance($moduleName);
 					$index = $entity->tab_name_index[$fields['tablename']];
 					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])
 						->from($fields['tablename'])

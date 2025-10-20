@@ -868,7 +868,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Get entity instance
-	 * @return CRMEntity
+	 * @return \App\CRMEntity
 	 */
 	public function getEntityInstance()
 	{

@@ -201,7 +201,7 @@ class WebUI extends EntryPoint
 		}
 
 		User::getCurrentUserModel();
-		$user = CRMEntity::getInstance('Users');
+		$user = \App\CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($userid);
 		$this->setLogin($user);
 

@@ -203,7 +203,7 @@ function vtws_getWebserviceEntities()
 /**
  *
  * @param VtigerWebserviceObject $webserviceObject
- * @return CRMEntity
+ * @return \App\CRMEntity
  */
 function vtws_getModuleInstance($webserviceObject)
 {

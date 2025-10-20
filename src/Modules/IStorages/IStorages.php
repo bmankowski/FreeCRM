@@ -3,13 +3,12 @@
 namespace App\Modules\IStorages;
 
 /**
- * IStorages CRMEntity Class
+ * IStorages \App\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class IStorages extends \App\CRMEntity
 {

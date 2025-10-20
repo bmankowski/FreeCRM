@@ -3,13 +3,12 @@
 namespace App\Modules\IIDN;
 
 /**
- * IIDN CRMEntity Class
+ * IIDN \App\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class IIDN extends \App\CRMEntity
 {

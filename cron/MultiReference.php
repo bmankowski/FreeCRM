@@ -12,7 +12,7 @@ $limit = 1000;
 $rows = (new \App\Db\Query())->from('s_#__multireference')->all();
 foreach ($rows as &$multireference) {
 	if ((int) $multireference['type'] === 0) {
-		$entity = CRMEntity::getInstance($multireference['source_module']);
+		$entity = \App\CRMEntity::getInstance($multireference['source_module']);
 		$queryGenerator = new \App\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addCondition('id', $multireference['lastid'], 'a');

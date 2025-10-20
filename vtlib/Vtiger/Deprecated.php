@@ -149,7 +149,7 @@ class Deprecated
 		if (!empty($cachedModuleStrings[$module])) {
 			return $cachedModuleStrings[$module];
 		}
-		$newStrings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
+		$newStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
 		$cachedModuleStrings[$module] = $newStrings['languageStrings'];
 
 		return $cachedModuleStrings[$module];
@@ -312,7 +312,7 @@ class Deprecated
 
 	public static function return_app_list_strings_language($language, $module = 'Vtiger')
 	{
-		$strings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
+		$strings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
 		return $strings['languageStrings'];
 	}
 }

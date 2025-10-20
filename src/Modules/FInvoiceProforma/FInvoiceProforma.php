@@ -12,7 +12,6 @@ namespace App\Modules\FInvoiceProforma;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class FInvoiceProforma extends \App\CRMEntity
 {

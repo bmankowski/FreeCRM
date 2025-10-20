@@ -64,19 +64,7 @@ spl_autoload_register(function ($class) {
 		// Core aliases - pointing to non-existent Vtiger\ namespaces
 		// These should probably be removed or updated to point to actual App\ classes
 		'Vtiger_Language_Handler' => '\App\Runtime\Vtiger_Language_Handler',  // Fixed: points to actual class
-		'CRM_Viewer' => '\App\Runtime\CRM_Viewer',  // Fixed: points to actual class
-		'Vtiger_Base_Model' => '\App\Runtime\Vtiger_Base_Model',  // Fixed: points to actual class
-		// Entity aliases - these may not exist in App\ namespace
-		'CRMEntity' => '\App\CRMEntity',  // Fixed: points to actual class
-		'Reports' => '\App\Modules\Reports\Reports',  // May not exist
-		'Calendar' => '\App\Modules\Calendar\Calendar',  // May not exist
-		'Leads' => '\App\Modules\Leads\Leads',  // May not exist
-		'Accounts' => '\App\Modules\Accounts\Accounts',  // May not exist
-		'Contacts' => '\App\Modules\Contacts\Contacts',  // May not exist
-		'HelpDesk' => '\App\Modules\HelpDesk\HelpDesk',  // May not exist
-		'Documents' => '\App\Modules\Documents\Documents',  // May not exist
-		'Products' => '\App\Modules\Products\Products',  // May not exist
-		'Campaigns' => '\App\Modules\Campaigns\Campaigns',  // May not exist
+
 		// Utility aliases
 		'EmailTemplate' => '\App\Utils\EmailTemplate',  // May not exist
 	];

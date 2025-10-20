@@ -3,13 +3,12 @@
 namespace App\Modules\IPreOrder;
 
 /**
- * IPreOrder CRMEntity Class
+ * IPreOrder \App\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class IPreOrder extends \App\CRMEntity
 {

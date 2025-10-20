@@ -13,7 +13,6 @@ namespace App\Modules\PaymentsOut;
  * *********************************************************************************************************************************** */
 
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class PaymentsOut extends \App\CRMEntity
 {

@@ -8,7 +8,6 @@ namespace App\Modules\SCalculations;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class SCalculations extends \App\CRMEntity
 {

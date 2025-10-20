@@ -8,7 +8,6 @@ namespace App\Modules\Competition;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class Competition extends \App\CRMEntity
 {

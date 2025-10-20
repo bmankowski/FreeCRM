@@ -3,13 +3,12 @@
 namespace App\Modules\FInvoiceCost;
 
 /**
- * FInvoiceCost CRMEntity Class
+ * FInvoiceCost \App\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class FInvoiceCost extends \App\CRMEntity
 {

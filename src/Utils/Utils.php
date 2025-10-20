@@ -405,7 +405,7 @@ class Utils
 		$params = [];
 		$name = array('Contacts', 'Accounts', 'Leads');
 		foreach ($name as $module) {
-			$focus = \CRMEntity::getInstance($module);
+			$focus = \App\CRMEntity::getInstance($module);
 			$query = $focus->buildSearchQueryForFieldTypes(11, $number);
 			if (empty($query))
 				return;
@@ -456,8 +456,8 @@ class Utils
 	public static function getRelationTables($module, $secmodule)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$primary_obj = \CRMEntity::getInstance($module);
-		$secondary_obj = \CRMEntity::getInstance($secmodule);
+		$primary_obj = \App\CRMEntity::getInstance($module);
+		$secondary_obj = \App\CRMEntity::getInstance($secmodule);
 
 		$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
 		if ($adb->num_rows($ui10_query) > 0) {

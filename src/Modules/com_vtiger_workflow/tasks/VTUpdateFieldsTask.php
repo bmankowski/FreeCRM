@@ -78,7 +78,7 @@ class VTUpdateFieldsTask extends VTTask
 			// When saving the information in database saveentity API should convert to database format
 			// and save it. But it converts in database format only if that date & currency fields are
 			// changed(massedit) other wise they wont be converted thereby changing the values in user
-			// format, CRMEntity.php line 474 has the login to check wheather to convert to database format
+			// format, \App\CRMEntity.php line 474 has the login to check wheather to convert to database format
 			//  For workflows update field tasks is deleted all the lineitems.
 			//	$focus->isLineItemUpdate = false;
 

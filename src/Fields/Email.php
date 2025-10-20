@@ -44,7 +44,7 @@ class Email
 			if (($allowedModules && !in_array($moduleName, $allowedModules)) || in_array($moduleName, $skipModules)) {
 				continue;
 			}
-			$instance = \CRMEntity::getInstance($moduleName);
+			$instance = \App\CRMEntity::getInstance($moduleName);
 			$isEntityType = isset($instance->tab_name_index['vtiger_crmentity']);
 			$join = $where = [];
 			foreach ($moduleFields as $tablename => &$columns) {

@@ -8,7 +8,6 @@ namespace App\Modules\SRequirementsCards;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class SRequirementsCards extends \App\CRMEntity
 {

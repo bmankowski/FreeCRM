@@ -3,7 +3,7 @@
 namespace App\Modules\OpenStreetMap;
 
 /**
- * OpenStreetMap CRMEntity Class
+ * OpenStreetMap \App\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>

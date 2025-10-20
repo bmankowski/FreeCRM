@@ -3,13 +3,12 @@
 namespace App\Modules\ISTRN;
 
 /**
- * ISTRN CRMEntity Class
+ * ISTRN \App\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class ISTRN extends \App\CRMEntity
 {

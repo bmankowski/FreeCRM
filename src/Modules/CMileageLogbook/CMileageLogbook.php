@@ -3,13 +3,12 @@
 namespace App\Modules\CMileageLogbook;
 
 /**
- * CInternalTickets CRMEntity Class
+ * CInternalTickets \App\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-include_once 'src/Modules/Vtiger/CRMEntity.php';
 
 class CMileageLogbook extends \App\CRMEntity
 {
