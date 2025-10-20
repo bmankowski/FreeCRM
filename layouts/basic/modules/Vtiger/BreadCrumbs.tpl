@@ -3,9 +3,9 @@
 <!-- layouts/basic/modules/Vtiger/BreadCrumbs.tpl -->
 	<div class="breadCrumbs" >
 		{if isset($BREADCRUMB_TITLE)}
-			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
+			{assign var="BREADCRUMBS" value=\App\Modules\Vtiger\Models\Menu::getBreadcrumbs($BREADCRUMB_TITLE)}
 		{else}
-			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
+			{assign var="BREADCRUMBS" value=\App\Modules\Vtiger\Models\Menu::getBreadcrumbs()}
 		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}

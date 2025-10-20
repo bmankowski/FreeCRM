@@ -13,7 +13,7 @@ namespace App\Modules\Settings\SalesProcesses\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \Vtiger_Record_Model
+class Module extends \App\Modules\Vtiger\Models\Record
 {
 
 	public static function getCleanInstance()

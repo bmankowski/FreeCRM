@@ -184,7 +184,7 @@ class EventHandler
 
 	/**
 	 * Set record model
-	 * @param \App\Vtiger_Record_Model $recordModel
+	 * @param \App\App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public function setRecordModel($recordModel)
 	{
@@ -229,7 +229,7 @@ class EventHandler
 
 	/**
 	 * Get record model
-	 * @return \Vtiger_Record_Model
+	 * @return \App\Modules\Vtiger\Models\Record
 	 */
 	public function getRecordModel()
 	{

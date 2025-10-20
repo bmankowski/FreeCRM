@@ -15,7 +15,7 @@
 		<span class="col-md-2">
 			<div style="position:relative;display:inline;">
 				{if $RECORD->get('customer') and $RECORD->get('customertype') eq 'Contacts'}
-					{assign var=MODULE_INSTANCE value=Vtiger_Record_Model::getInstanceById($RECORD->get('customer'),$RECORD->get('customertype'))}
+					{assign var=MODULE_INSTANCE value=\App\Modules\Vtiger\Models\Record::getInstanceById($RECORD->get('customer'),$RECORD->get('customertype'))}
 					{assign var=IMAGE_DETAILS value=$MODULE_INSTANCE->getImageDetails()}
 					{if $IMAGE_DETAILS}
 						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}

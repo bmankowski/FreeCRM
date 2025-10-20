@@ -18,7 +18,7 @@
 				{/foreach}
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">
-					{"LBL_UPLOAD_ERROR"|t:$QUALIFIED_MODULE} <a href="{Settings_Workflows_Module_Model::getDefaultUrl()}">{"LBL_RETURN"|t:$QUALIFIED_MODULE}</a>
+					{"LBL_UPLOAD_ERROR"|t:$QUALIFIED_MODULE} <a href="{\App\Modules\Settings\Workflows\Models\Module::getDefaultUrl()}">{"LBL_RETURN"|t:$QUALIFIED_MODULE}</a>
 				</p>
 			{/if}
 		{else}
@@ -38,7 +38,7 @@
 				<br>
 				<div class="pull-right">
 					<button class="btn btn-success" type="submit"><strong>{"LBL_UPLOAD_TRIGGER"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
-					<a href="{Settings_Workflows_Module_Model::getDefaultUrl()}" class="btn btn-warning" type="button">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
+					<a href="{\App\Modules\Settings\Workflows\Models\Module::getDefaultUrl()}" class="btn btn-warning" type="button">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
 				</div>
 			</form>
 		{/if}

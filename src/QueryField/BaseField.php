@@ -18,7 +18,7 @@ class BaseField
 	protected $queryGenerator;
 
 	/**
-	 * @var \Vtiger_Field_Model 
+	 * @var \App\Modules\Vtiger\Models\Field 
 	 */
 	protected $fieldModel;
 
@@ -50,7 +50,7 @@ class BaseField
 	/**
 	 * Constructor
 	 * @param \App\QueryGenerator $queryGenerator
-	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
 	 * @param string|array $value
 	 * @param string $operator
 	 */

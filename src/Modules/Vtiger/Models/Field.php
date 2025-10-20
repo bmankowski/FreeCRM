@@ -1165,7 +1165,7 @@ class Field extends \vtlib\Field
 	 * Function returns field instance for field ID
 	 * @param int $fieldId
 	 * @param int $moduleTabId
-	 * @return \Vtiger_Field_Model
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{

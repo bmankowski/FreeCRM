@@ -18,7 +18,7 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * Settings Menu Model Class
  */
 
-class Menu extends \Vtiger_Record_Model
+class Menu extends \App\Modules\Vtiger\Models\Record
 {
 
 	protected static $menusTable = 'vtiger_settings_blocks';

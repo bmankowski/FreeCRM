@@ -11,7 +11,7 @@ use App\Modules\Settings\Vtiger\Models\Field;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Field extends \Vtiger_Field_Model
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	/**

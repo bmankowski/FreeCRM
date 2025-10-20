@@ -13,8 +13,8 @@
 <!-- layouts/basic/modules/Settings/Vtiger/SettingsShortCut.tpl -->
 	<div id="shortcut_{$SETTINGS_SHORTCUT->getId()}" style="margin-left: 20px !important;" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}" class="col-md-3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTINGS_SHORTCUT->getUrl()}">
 		<button data-id="{$SETTINGS_SHORTCUT->getId()}" title="{"LBL_REMOVE"|t:$QUALIFIED_MODULE}" title="Close" type="button" class="unpin close">x</button>
-		<h5 class="themeTextColor">{$SETTINGS_SHORTCUT->get('name')|t:Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto'))}</h5>
-		<div>{$SETTINGS_SHORTCUT->get('description')|t:Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto'))}</div>
+		<h5 class="themeTextColor">{$SETTINGS_SHORTCUT->get('name')|t:\App\Modules\Vtiger\Models\Menu::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto'))}</h5>
+		<div>{$SETTINGS_SHORTCUT->get('description')|t:\App\Modules\Vtiger\Models\Menu::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto'))}</div>
 	</div>
 <!--/layouts/basic/modules/Settings/Vtiger/SettingsShortCut.tpl -->
 {/strip}	

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Password\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \Vtiger_Record_Model
+class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	public static function getPassDetail($type = false)

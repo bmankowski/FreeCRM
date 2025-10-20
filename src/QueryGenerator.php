@@ -78,7 +78,7 @@ class QueryGenerator
 	private $moduleModel;
 
 	/**
-	 * @var array \Vtiger_Field_Model 
+	 * @var array \App\Modules\Vtiger\Models\Field 
 	 */
 	private $fieldsModel;
 
@@ -397,7 +397,7 @@ class QueryGenerator
 
 	/**
 	 * Get field module
-	 * @return \Vtiger_Field_Model
+	 * @return \App\Modules\Vtiger\Models\Field
 	 */
 	public function getModuleField($fieldName)
 	{
@@ -832,7 +832,7 @@ class QueryGenerator
 	/**
 	 * Set related field join
 	 * @param string[] $fieldDetail
-	 * @return Vtiger_Field_Model|boolean
+	 * @return \App\Modules\Vtiger\Models\Field|boolean
 	 */
 	protected function addRelatedJoin($fieldDetail)
 	{
@@ -852,7 +852,7 @@ class QueryGenerator
 
 	/**
 	 * Get query related field instance
-	 * @param \Vtiger_Field_Model $field
+	 * @param \App\Modules\Vtiger\Models\Field $field
 	 * @param array $relatedInfo
 	 * @return QueryField\BaseField
 	 * @throws \Exception\AppException

@@ -17,7 +17,7 @@ namespace App\Modules\Settings\Workflows\Models;
  */
 require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
 
-class TaskType extends \Vtiger_Record_Model
+class TaskType extends \App\Modules\Vtiger\Models\Record
 {
 
 	public function getId()

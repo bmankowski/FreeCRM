@@ -121,7 +121,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('AppConfig', '\App\AppConfig');
 		$this->registerClass('AppRequest', '\App\Http\\AppRequest');
 		$this->registerClass('Vtiger_Util_Helper', '\App\Modules\\Vtiger\\helpers\\Util');
-		$this->registerClass('Vtiger_Menu_Model', '\App\Modules\\Vtiger\Models\\Menu');
+		$this->registerClass('\App\Modules\Vtiger\Models\Menu', '\App\Modules\\Vtiger\Models\\Menu');
 		$this->registerClass('Vtiger_Language_Handler', '\App\\Runtime\\Vtiger_Language_Handler');
 		$this->registerClass('Settings_WidgetsManagement_Module_Model', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
 		$this->registerClass('Settings_Calendar_Module_Model', '\App\Modules\\Settings\\Calendar\Models\\Module');

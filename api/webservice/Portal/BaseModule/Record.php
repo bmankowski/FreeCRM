@@ -16,7 +16,7 @@ class Record extends \Api\Core\BaseAction
 
 	/**
 	 * Record model
-	 * @var \Vtiger_Record_Model 
+	 * @var \App\Modules\Vtiger\Models\Record 
 	 */
 	protected $recordModel = false;
 
@@ -31,7 +31,7 @@ class Record extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		$method = $this->controller->method;
 		if ('POST' === $method) {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
+			$this->recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			if (!$this->recordModel->isCreateable()) {
 				throw new \Api\Core\Exception('No permissions to create record', 401);
 			}
@@ -40,7 +40,7 @@ class Record extends \Api\Core\BaseAction
 			if (!$record || !\App\Record::isExists($record, $moduleName)) {
 				throw new \Api\Core\Exception('Record doesn\'t exist', 401);
 			}
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$this->recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
 					if (!$this->recordModel->isDeletable()) {
@@ -76,7 +76,7 @@ class Record extends \Api\Core\BaseAction
 		$moduleModel = $recordModel->getModule();
 
 		$displayData = $fieldsLabel = [];
-		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
+		$moduleBlockFields = \App\Modules\Vtiger\Models\Field::getAllForModule($moduleModel);
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
 				$block = $moduleField->get('block');

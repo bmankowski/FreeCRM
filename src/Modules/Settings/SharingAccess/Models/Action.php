@@ -16,7 +16,7 @@ namespace App\Modules\Settings\SharingAccess\Models;
 /**
  * Sharing Access Action Model Class
  */
-class Action extends \Vtiger_Record_Model
+class Action extends \App\Modules\Vtiger\Models\Record
 {
 
 	static $nonConfigurableActions = array('Hide Details', 'Hide Details and Add Events', 'Show Details', 'Show Details and Add Events');

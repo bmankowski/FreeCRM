@@ -15,7 +15,6 @@ namespace vtlib;
  * @package vtlib
  */
 
-use App\Modules\Settings\Vtiger\Models\Module as Settings_Vtiger_Module_Model;
 class ModuleBasic
 {
 
@@ -233,14 +232,14 @@ class ModuleBasic
 		$this->deleteFromModentityNum();
 		Cron::deleteForModule($moduleInstance);
 		Profile::deleteForModule($moduleInstance);
-		\Settings_Workflows_Module_Model::deleteForModule($moduleInstance);
+		\App\Modules\Settings\Workflows\Models\Module::deleteForModule($moduleInstance);
 		Menu::deleteForModule($moduleInstance);
 		$this->deleteGroup2Modules();
 		$this->deleteModuleTables();
 		$this->deleteCRMEntityRel();
 		Profile::deleteForModule($this);
 		Link::deleteAll($this->id);
-		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
+		\App\Modules\Settings\Vtiger\Models\Module::deleteSettingsFieldBymodule($this->name);
 		$this->deleteDir($moduleInstance);
 		$this->__delete();
 		self::syncfile();
@@ -514,7 +513,7 @@ class ModuleBasic
 		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name]);
 		$dataReader = $query->createCommand()->query();
 		while ($id = $dataReader->readColumn(0)) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
+			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $this->name);
 			$recordModel->delete();
 		}
 		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentity', ['setype' => $this->name])->execute();

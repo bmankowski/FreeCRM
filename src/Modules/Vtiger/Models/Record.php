@@ -348,7 +348,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 	}
 
 	/**
-	 * Function returns the Vtiger_Field_Model
+	 * Function returns the \App\Modules\Vtiger\Models\Field
 	 * @param string $fieldName - field name
 	 * @return <\App\Modules\Vtiger\Models\Field>
 	 */

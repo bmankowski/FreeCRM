@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class TermsAndConditions extends \Vtiger_Record_Model
+class TermsAndConditions extends \App\Modules\Vtiger\Models\Record
 {
 
 	const tableName = 'vtiger_inventory_tandc';

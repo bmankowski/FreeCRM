@@ -67,13 +67,13 @@ class TextParser
 	/** @var string Module name */
 	public $moduleName;
 
-	/** @var \Vtiger_Record_Model Record model */
+	/** @var \App\Modules\Vtiger\Models\Record Record model */
 	public $recordModel;
 
 	/** @var string|null Parser type */
 	public $type;
 
-	/** @var \Vtiger_Record_Model Source record model */
+	/** @var \App\Modules\Vtiger\Models\Record Source record model */
 	protected $sourceRecordModel;
 
 	/** @var string Content */
@@ -109,10 +109,10 @@ class TextParser
 
 	/**
 	 * Get instanace by record model
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @return \self
 	 */
-	public static function getInstanceByModel(\Vtiger_Record_Model $recordModel)
+	public static function getInstanceByModel(\App\Modules\Vtiger\Models\Record $recordModel)
 	{
 		$class = get_called_class();
 		$instance = new $class();
@@ -506,10 +506,10 @@ class TextParser
 	/**
 	 * Get record display value
 	 * @param mixed $value
-	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
 	 * @return string
 	 */
-	protected function recordDisplayValue($value, \Vtiger_Field_Model $fieldModel)
+	protected function recordDisplayValue($value, \App\Modules\Vtiger\Models\Field $fieldModel)
 	{
 		if ($value === '' || !$fieldModel->isViewEnabled()) {
 			return '-';
@@ -605,7 +605,7 @@ class TextParser
 
 	/**
 	 * Check if this content can be used
-	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
 	 * @param string $moduleName
 	 * @return boolean
 	 */

@@ -36,7 +36,7 @@
 		</div>
 	</div>
 	<br>
-	{assign var="SUPPORTED_MODULE_MODELS" value=Settings_Workflows_Module_Model::getSupportedModules()}
+	{assign var="SUPPORTED_MODULE_MODELS" value=\App\Modules\Settings\Workflows\Models\Module::getSupportedModules()}
 	<div class="row">
 		<div class="col-md-3">
 			<label class=""><strong>{"LBL_MODULE"|t:$QUALIFIED_MODULE}: </strong></label>

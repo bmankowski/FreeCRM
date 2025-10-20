@@ -16,7 +16,7 @@ do {
 	try {
 		$rows = (new \App\Db\Query())->from('s_#__handler_updater')->limit($updaterLimit)->all($db);
 		foreach ($rows as &$row) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid'], \App\Module::getModuleName($row['tabid']));
+			$recordModel  =  \App\Modules\Vtiger\Models\Record::getInstanceById($row['crmid'], \App\Module::getModuleName($row['tabid']));
 			$eventHandler->setRecordModel($recordModel);
 			$eventHandler->setModuleName($recordModel->getModuleName());
 			$eventHandler->setParams($row['params']);

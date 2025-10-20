@@ -17,7 +17,7 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
 /**
  * Settings Module Model Class
  */
-class Module extends \Vtiger_Record_Model
+class Module extends \App\Modules\Vtiger\Models\Record
 {
 
 	public $baseTable = 'vtiger_settings_field';

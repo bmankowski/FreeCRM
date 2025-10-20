@@ -19,7 +19,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return <Array of \Vtiger_Field_Model> - list of field models
+	 * @return <Array of \App\Modules\Vtiger\Models\Field> - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{

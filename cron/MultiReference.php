@@ -29,7 +29,7 @@ foreach ($rows as &$multireference) {
 		unset($queryGenerator);
 		while ($id = $dataReader->readColumn(0)) {
 			foreach ($fields as &$field) {
-				$fieldModel = new Vtiger_Field_Model ();
+				$fieldModel = new \App\Modules\Vtiger\Models\Field ();
 				$fieldModel->initialize($field);
 				$UITypeModel = $fieldModel->getUITypeModel();
 				$UITypeModel->reloadValue($multireference['source_module'], $id);
@@ -55,7 +55,7 @@ foreach ($rows as &$multireference) {
 			}
 			$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 			foreach ($fields as $field) {
-				$fieldModel = new Vtiger_Field_Model();
+				$fieldModel = new \App\Modules\Vtiger\Models\Field();
 				$fieldModel->initialize($field);
 				$UITypeModel = $fieldModel->getUITypeModel();
 				$UITypeModel->reloadValue($multireference['source_module'], $multireference['lastid']);

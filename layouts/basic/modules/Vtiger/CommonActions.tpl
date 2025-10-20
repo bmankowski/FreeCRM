@@ -87,7 +87,7 @@
 			{/if}
 		</div>
 	</div>	
-	{*{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
+	{*{assign var="BREADCRUMBS" value=\App\Modules\Vtiger\Models\Menu::getBreadcrumbs()}
 	{if $BREADCRUMBS}
 		<div class="breadcrumbsContainer col-md-12" style="display: none;">
 			<div class="breadcrumbsLinks">

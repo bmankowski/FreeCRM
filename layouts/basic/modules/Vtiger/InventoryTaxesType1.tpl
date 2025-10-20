@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/InventoryTaxesType1.tpl -->
 	{if $TAX_TYPE == '0' && $TAX_FIELD && $RECORD}
-		{assign var=RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RECORD)}
+		{assign var=RECORD_MODEL value=\App\Modules\Vtiger\Models\Record::getInstanceById($RECORD)}
 		{assign var=SELECTED_TAXES value=Vtiger_Taxes_UIType::getValues($RECORD_MODEL->get($TAX_FIELD))}
 		{if count($SELECTED_TAXES) > 0}
 			<div class="panel panel-default">

@@ -90,7 +90,7 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \Vtiger_Record_Model record model
+	 * @param \App\Modules\Vtiger\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

@@ -212,7 +212,7 @@ class Record
 
 	/**
 	 * Update record label on save
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 */
 	public static function updateLabelOnSave($recordModel)
 	{

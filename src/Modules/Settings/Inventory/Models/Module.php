@@ -9,7 +9,7 @@ namespace App\Modules\Settings\Inventory\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \Vtiger_Record_Model
+class Module extends \App\Modules\Vtiger\Models\Record
 {
 
 	public static function getCleanInstance()

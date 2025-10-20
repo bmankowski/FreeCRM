@@ -18,7 +18,7 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * Vtiger Settings MenuItem Model Class
  */
 
-class MenuItem extends \Vtiger_Record_Model
+class MenuItem extends \App\Modules\Vtiger\Models\Record
 {
 	/**
 	 * @var \App\Modules\Settings\Vtiger\Models\Menu

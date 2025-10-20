@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Vtiger\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Systems extends \Vtiger_Record_Model
+class Systems extends \App\Modules\Vtiger\Models\Record
 {
 
 	const tableName = 'vtiger_systems';

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Workflows\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Field extends \Vtiger_Field_Model
+class Field extends \App\Modules\Vtiger\Models\Field
 {
 
 	/**
@@ -37,11 +37,11 @@ class Field extends \Vtiger_Field_Model
 	/**
 	 * Function to get comment field which will useful in creating conditions
 	 * @param \App\Modules\Vtiger\Models\Module $moduleModel
-	 * @return <\Vtiger_Field_Model>
+	 * @return <\App\Modules\Vtiger\Models\Field>
 	 */
 	public static function getCommentFieldForFilterConditions($moduleModel)
 	{
-		$commentField = new \Vtiger_Field_Model();
+		$commentField = new \App\Modules\Vtiger\Models\Field();
 		$commentField->set('name', '_VT_add_comment');
 		$commentField->set('label', 'Comment');
 		$commentField->setModule($moduleModel);
@@ -53,7 +53,7 @@ class Field extends \Vtiger_Field_Model
 	/**
 	 * Function to get comment fields list which are useful in tasks
 	 * @param \App\Modules\Vtiger\Models\Module $moduleModel
-	 * @return <Array> list of Field models <\Vtiger_Field_Model>
+	 * @return <Array> list of Field models <\App\Modules\Vtiger\Models\Field>
 	 */
 	public static function getCommentFieldsListForTasks($moduleModel)
 	{
@@ -61,7 +61,7 @@ class Field extends \Vtiger_Field_Model
 
 		$commentFieldModelsList = array();
 		foreach ($commentsFieldsInfo as $fieldName => $fieldLabel) {
-			$commentField = new \Vtiger_Field_Model();
+			$commentField = new \App\Modules\Vtiger\Models\Field();
 			$commentField->setModule($moduleModel);
 			$commentField->set('name', $fieldName);
 			$commentField->set('label', $fieldLabel);
