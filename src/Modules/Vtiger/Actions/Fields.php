@@ -81,7 +81,7 @@ class Fields extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function searches for value data 
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function searchValues(\App\Http\Vtiger_Request $request)
 	{

@@ -34,7 +34,7 @@ class Login extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function verifies application access
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{

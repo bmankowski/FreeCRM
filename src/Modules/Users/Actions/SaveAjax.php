@@ -49,7 +49,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -93,7 +93,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
 	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
@@ -146,7 +146,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 
 	/**
 	 * Mass edit users passwords
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws WebServiceException
 	 */
 	public function editPasswords(\App\Http\Vtiger_Request $request)
@@ -179,7 +179,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 	}
 	/*
 	 * To restore a user
-	 * @param Vtiger_Request Object
+	 * @param \App\Http\Vtiger_Request Object
 	 */
 
 	public function restoreUser(\App\Http\Vtiger_Request $request)

@@ -77,7 +77,7 @@ return RectorConfig::configure()
         __DIR__ . '/vendor',
         
         // Skip specific legacy files that might break if modified
-        __DIR__ . '/include/LegacyAliases.php',
+        // LegacyAliases.php has been consolidated into GlobalAliases.php
         
         // Skip directories with legacy/third-party code
         __DIR__ . '/libraries',  // Third-party libraries (HTTP_Session, etc.)

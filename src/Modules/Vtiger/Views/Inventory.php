@@ -49,7 +49,7 @@ class Inventory  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to show taxes
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showTaxes(\App\Http\Vtiger_Request $request)
 	{

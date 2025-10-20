@@ -221,7 +221,7 @@ class PDF extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Checks if given record has valid pdf template
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean true if valid template exists for this record
 	 */
 	public function hasValidTemplate(\App\Http\Vtiger_Request $request)

@@ -32,7 +32,7 @@ class RelationAjax extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to add relations using related module viewid
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function addRelationsFromRelatedModuleViewId(\App\Http\Vtiger_Request $request)
 	{
@@ -65,7 +65,7 @@ class RelationAjax extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to update Relation status
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function updateStatus(\App\Http\Vtiger_Request $request)
 	{

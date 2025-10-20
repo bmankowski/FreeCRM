@@ -63,7 +63,7 @@ class ChangesReviewedOn extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function marks forwarded records as reviewed
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function reviewChanges(\App\Http\Vtiger_Request $request)
 	{

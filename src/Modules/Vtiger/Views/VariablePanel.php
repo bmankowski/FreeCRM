@@ -15,7 +15,7 @@ class VariablePanel extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
@@ -35,7 +35,7 @@ class VariablePanel extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Process function
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{

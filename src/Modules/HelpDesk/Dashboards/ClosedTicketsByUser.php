@@ -81,7 +81,7 @@ class ClosedTicketsByUser  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Main function 
-	 * @param Vtiger_Request $request 
+	 * @param \App\Http\Vtiger_Request $request 
 	 */
 	public function process(Vtiger_Request $request)
 	{

@@ -426,7 +426,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
 
 			$query = (new \App\Db\Query())
-				->select('recordid')
+				->select(['recordid', 'vtiger_activity_reminder_popup.datetime'])
 				->from('vtiger_activity_reminder_popup')
 				->innerJoin('vtiger_activity', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid')
@@ -441,7 +441,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time])->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC]);
 
 			$dataReader = $query->createCommand()->query();
-			while ($recordId = $dataReader->readColumn(0)) {
+			while ($row = $dataReader->read()) {
+				$recordId = $row['recordid'];
 				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {

@@ -20,7 +20,7 @@ class WidgetFullscreen  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */

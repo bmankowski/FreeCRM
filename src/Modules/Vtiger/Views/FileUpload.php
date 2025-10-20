@@ -19,7 +19,7 @@ class FileUpload  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Checking permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -41,7 +41,7 @@ class FileUpload  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -57,7 +57,7 @@ class FileUpload  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Get scripts for modal window
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Vtiger\Models\JsScript[]
 	 */
 	public function getModalScripts(\App\Http\Vtiger_Request $request)

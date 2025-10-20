@@ -36,7 +36,7 @@ class MassSaveAjax extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
 	private function getRecordModelsFromRequest(\App\Http\Vtiger_Request $request)

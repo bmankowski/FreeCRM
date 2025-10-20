@@ -37,7 +37,7 @@ class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get Shared Users
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function getSharedUsersList(\App\Http\Vtiger_Request $request)
 	{

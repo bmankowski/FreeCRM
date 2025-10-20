@@ -33,7 +33,7 @@ class TreeCategoryModal  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get size modal window
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string
 	 */
 	public function getSize(\App\Http\Vtiger_Request $request)

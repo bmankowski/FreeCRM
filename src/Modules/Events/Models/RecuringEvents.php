@@ -53,7 +53,7 @@ class RecuringEvents extends \App\Modules\Vtiger\Models\Model
 
 	/**
 	 * Function to get instance of class
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return Events_RecuringEvents_Model
 	 */
 	public static function getInstanceFromRequest(Vtiger_Request $request)

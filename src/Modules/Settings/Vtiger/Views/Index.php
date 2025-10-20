@@ -91,7 +91,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 
 	/**
 	 * Index
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function index(\App\Http\Vtiger_Request $request)
 	{
@@ -158,7 +158,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 	/**
 	 * Displays warnings system
 	 * 
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function systemWarnings(\App\Http\Vtiger_Request $request)
 	{
@@ -174,7 +174,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 	/**
 	 * Displays a list of system warnings
 	 * 
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function getWarningsList(\App\Http\Vtiger_Request $request)
 	{
@@ -196,7 +196,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
@@ -225,7 +225,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
+	 * @param \App\Http\Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)

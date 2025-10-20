@@ -43,7 +43,7 @@ class MassSave extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return array - List of \App\Modules\Vtiger\Models\Record instances
 	 */
 	public function getRecordModelsFromRequest(\App\Http\Vtiger_Request $request)

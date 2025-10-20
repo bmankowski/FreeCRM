@@ -35,7 +35,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to get the custom view model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\CustomView\Models\Record or Module specific Record Model instance
 	 */
 	private function getCVModelFromRequest(\App\Http\Vtiger_Request $request)

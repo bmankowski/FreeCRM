@@ -139,7 +139,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
    /**
 	* Retrieves css styles that need to loaded in the page
-	* @param Vtiger_Request $vtigerRequest - request model
+	* @param \App\Http\Vtiger_Request $vtigerRequest - request model
 	* @return <array> - array of Vtiger_CssScript_Model
 	*/
    public function getHeaderCss(Vtiger_Request $vtigerRequest)
@@ -170,7 +170,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
    /**
 	* Retrieves headers scripts that need to loaded in the page
-	* @param Vtiger_Request $vtigerRequest - request model
+	* @param \App\Http\Vtiger_Request $vtigerRequest - request model
 	* @return <array> - array of Vtiger_JsScript_Model
 	*/
    public function getHeaderScripts(Vtiger_Request $vtigerRequest)

@@ -13,7 +13,7 @@ class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function checks permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermitted
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -40,7 +40,7 @@ class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function proccess
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -59,12 +59,12 @@ class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 		if (empty(Vtiger_Session::get('baseUserId'))) {
 			Vtiger_Session::set('baseUserId', $baseUserId);
 			$status = 'Signed in';
-		} elseif ($userId === Vtiger_Session::get('baseUserId')) {
+		} elseif ($userId === \App\Http\Vtiger_Session::get('baseUserId')) {
 			$baseUserId = $userId;
 			Vtiger_Session::set('baseUserId', '');
 			$status = 'Signed out';
 		} else {
-			$baseUserId = Vtiger_Session::get('baseUserId');
+			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
 		}
 
 		$db = \App\Db::getInstance('log');

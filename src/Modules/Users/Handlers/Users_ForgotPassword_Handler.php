@@ -17,7 +17,7 @@ class Users_ForgotPassword_Handler {
 	public function changePassword($data)
 	{
 		$site_URL = rtrim(vglobal('site_URL'), '/');
-		$request = new Vtiger_Request($data);
+		$request = new \App\Http\Vtiger_Request($data);
 		$userName = $request->get('username');
 		$viewer = CRM_Viewer::getInstance();
 		$companyModel = \App\Company::getInstanceById();

@@ -41,7 +41,7 @@ class Folder extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function that saves/updates the Folder
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function save(\App\Http\Vtiger_Request $request)
 	{
@@ -70,7 +70,7 @@ class Folder extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function that deletes the Folder
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function delete(\App\Http\Vtiger_Request $request)
 	{

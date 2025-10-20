@@ -15,7 +15,7 @@ class AutoAssignRecord  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Checking permission 
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean
 	 * @throws \Exception\NoPermitted
 	 */
@@ -33,7 +33,7 @@ class AutoAssignRecord  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function get modal size
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string
 	 */
 	public function getSize(\App\Http\Vtiger_Request $request)
@@ -43,7 +43,7 @@ class AutoAssignRecord  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -66,7 +66,7 @@ class AutoAssignRecord  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Css models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Vtiger\Models\JsScript[] - List of \App\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getModalScripts(\App\Http\Vtiger_Request $request)

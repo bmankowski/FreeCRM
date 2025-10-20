@@ -125,7 +125,7 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(Vtiger_Request $request)
@@ -144,7 +144,7 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Function to get the list of Css models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Vtiger\Models\CssScript instances
 	 */
 	public function getHeaderCss(Vtiger_Request $request)

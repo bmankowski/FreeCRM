@@ -16,7 +16,7 @@ class SummationByUser  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(Vtiger_Request $request)
 	{

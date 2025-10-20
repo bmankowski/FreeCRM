@@ -14,7 +14,7 @@ class Popup  extends \App\Modules\Vtiger\Views\Index
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @param CRM_Viewer $viewer
 	 */
 

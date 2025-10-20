@@ -17,7 +17,7 @@ class ExportData extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to check permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\NoPermitted
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -29,7 +29,7 @@ class ExportData extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function is called by the controller
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{

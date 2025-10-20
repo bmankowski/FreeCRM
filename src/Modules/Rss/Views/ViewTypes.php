@@ -35,7 +35,7 @@ class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to display rss sidebar widget
-	 * @param Vtiger_Request $request 
+	 * @param \App\Http\Vtiger_Request $request 
 	 */
 	public function getRssWidget(\App\Http\Vtiger_Request $request)
 	{
@@ -52,7 +52,7 @@ class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get the rss add form 
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function getRssAddForm(\App\Http\Vtiger_Request $request)
 	{

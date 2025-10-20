@@ -121,7 +121,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Add relation
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function addRelationOperation(Vtiger_Request $request)
 	{

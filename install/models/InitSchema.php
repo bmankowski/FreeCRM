@@ -286,7 +286,7 @@ class Install_InitSchema_Model
 
 	/**
 	 * Set company details
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function setCompanyDetails(Vtiger_Request $request)
 	{

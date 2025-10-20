@@ -25,7 +25,7 @@ class MassSaveAjax extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function that saves SMS records
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{

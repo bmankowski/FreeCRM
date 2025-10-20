@@ -17,7 +17,7 @@ class SendMailModal  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
@@ -35,7 +35,7 @@ class SendMailModal  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Pocess function
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -57,7 +57,7 @@ class SendMailModal  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Get records list from request
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return int[]
 	 */
 	public function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)
@@ -81,7 +81,7 @@ class SendMailModal  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Get query instance
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Db\Query
 	 */
 	public function getQuery(\App\Http\Vtiger_Request $request)

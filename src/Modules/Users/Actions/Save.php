@@ -41,7 +41,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
 	protected function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
@@ -66,7 +66,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean
 	 */
 	public function process(\App\Http\Vtiger_Request $request)

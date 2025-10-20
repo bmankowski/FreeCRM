@@ -13,7 +13,7 @@ $DEBUG_CONFIG = [
 	'LOG_TO_PROFILE' => true,
 	// Level of saved/displayed logs
 	// Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'], 
-	'LOG_LEVELS' => ['error', 'warning', 'info', 'debug', 'trace'],
+	'LOG_LEVELS' => ['error', 'warning'],
 	// Level of saved/displayed tracerts. // Values: int
 	'LOG_TRACE_LEVEL' => 5,
 	// Display Main Debug Console

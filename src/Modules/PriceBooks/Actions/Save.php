@@ -16,7 +16,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to save record
-	 * @param Vtiger_Request $request - values of the record
+	 * @param \App\Http\Vtiger_Request $request - values of the record
 	 * @return \App\Modules\Vtiger\Models\Record - record Model of saved record
 	 */
 	public function saveRecord(\App\Http\Vtiger_Request $request)

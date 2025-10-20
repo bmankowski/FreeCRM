@@ -86,7 +86,7 @@ abstract class Vtiger_Controller
 	/**
 	 * Function invokes exposed methods for this class
 	 * @param string $name - method name
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws Exception
 	 */
 	public function invokeExposedMethod(...$parameters)

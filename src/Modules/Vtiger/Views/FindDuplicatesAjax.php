@@ -25,7 +25,7 @@ class FindDuplicatesAjax  extends \App\Modules\Vtiger\Views\Index
 	}
 	/**
 	 * Function to get listView count
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	/* function getListViewCount(\App\Http\Vtiger_Request $request){
 	  $moduleName = $request->getModule();

@@ -56,9 +56,41 @@ spl_autoload_register(function ($class) {
 		// Database - used globally
 		'PearDatabase' => 'App\Database\PearDatabase',
 	];
+
+	// Legacy aliases from LegacyAliases.php - Core aliases
+	// NOTE: These were pointing to non-existent Vtiger\ namespaces
+	// The actual codebase uses App\ namespace, so these aliases are likely unused
+	$legacyAliases = [
+		// Core aliases - pointing to non-existent Vtiger\ namespaces
+		// These should probably be removed or updated to point to actual App\ classes
+		'Vtiger_Response' => '\App\Http\Vtiger_Response',  // Fixed: points to actual class
+		'Vtiger_Loader' => '\App\Vtiger_Loader',  // Fixed: points to actual class
+		'Vtiger_Language_Handler' => '\App\Runtime\Vtiger_Language_Handler',  // Fixed: points to actual class
+		'CRM_Viewer' => '\App\Runtime\CRM_Viewer',  // Fixed: points to actual class
+		'Vtiger_Theme' => '\App\Runtime\Vtiger_Theme',  // Fixed: points to actual class
+		'Vtiger_JavaScript' => '\App\Runtime\Vtiger_JavaScript',  // Fixed: points to actual class
+		'Vtiger_Controller' => '\App\Runtime\Vtiger_Controller',  // Fixed: points to actual class
+		'Vtiger_Base_Model' => '\App\Runtime\Vtiger_Base_Model',  // Fixed: points to actual class
+		// Entity aliases - these may not exist in App\ namespace
+		'CRMEntity' => '\App\CRMEntity',  // Fixed: points to actual class
+		'Reports' => '\App\Modules\Reports\Reports',  // May not exist
+		'Calendar' => '\App\Modules\Calendar\Calendar',  // May not exist
+		'Leads' => '\App\Modules\Leads\Leads',  // May not exist
+		'Accounts' => '\App\Modules\Accounts\Accounts',  // May not exist
+		'Contacts' => '\App\Modules\Contacts\Contacts',  // May not exist
+		'HelpDesk' => '\App\Modules\HelpDesk\HelpDesk',  // May not exist
+		'Documents' => '\App\Modules\Documents\Documents',  // May not exist
+		'Products' => '\App\Modules\Products\Products',  // May not exist
+		'Campaigns' => '\App\Modules\Campaigns\Campaigns',  // May not exist
+		// Utility aliases
+		'EmailTemplate' => '\App\Utils\EmailTemplate',  // May not exist
+	];
+
+	// Merge both arrays
+	$allAliases = array_merge($aliases, $legacyAliases);
 	
-	if (isset($aliases[$class]) && class_exists($aliases[$class])) {
-		class_alias($aliases[$class], $class);
+	if (isset($allAliases[$class]) && class_exists($allAliases[$class])) {
+		class_alias($allAliases[$class], $class);
 		return true;
 	}
 	return false;

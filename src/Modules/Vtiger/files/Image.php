@@ -29,7 +29,7 @@ class Image extends File
 
 	/**
 	 * View image
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string|boolean
 	 * @throws \Exception\NoPermitted
 	 */

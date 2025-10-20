@@ -211,7 +211,7 @@ class Vtiger_Language_Handler
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
 		} elseif (Vtiger_Session::get('language') != '') {
-			$language = Vtiger_Session::get('language');
+			$language = \App\Http\Vtiger_Session::get('language');
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}

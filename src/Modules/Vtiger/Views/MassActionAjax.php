@@ -38,7 +38,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns the mass edit form
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showMassEditForm(\App\Http\Vtiger_Request $request)
 	{
@@ -90,7 +90,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns the Add Comment form
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showAddCommentForm(\App\Http\Vtiger_Request $request)
 	{
@@ -127,7 +127,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function shows form that will lets you send SMS
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showSendSMSForm(\App\Http\Vtiger_Request $request)
 	{
@@ -175,7 +175,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns the record Ids selected in the current filter
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return integer
 	 */
 	public function getRecordsListFromRequest(\App\Http\Vtiger_Request $request, $module = false)
@@ -216,7 +216,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function shows the List of Mail Merge Templates
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showMailMergeTemplates(\App\Http\Vtiger_Request $request)
 	{
@@ -238,7 +238,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function shows the duplicate search form
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showDuplicatesSearchForm(\App\Http\Vtiger_Request $request)
 	{

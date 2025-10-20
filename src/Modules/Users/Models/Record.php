@@ -17,8 +17,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getRealId()
 	{
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			return Vtiger_Session::get('baseUserId');
+		if (Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
+			return \App\Http\Vtiger_Session::get('baseUserId');
 		}
 		return $this->getId();
 	}

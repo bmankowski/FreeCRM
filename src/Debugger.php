@@ -106,6 +106,16 @@ class Debugger
 			}
 			$targets['file'] = $target;
 		}
+		
+		// Add SQL log target for SELECT queries
+		if (\App\AppConfig::debug('LOG_TO_FILE')) {
+			$sqlTarget = [
+				'class' => 'App\Log\SqlLogTarget',
+				'levels' => ['profile'], // Only profile level for SQL queries
+				'categories' => ['SQL_SELECT'] // Only SELECT queries
+			];
+			$targets['sql'] = $sqlTarget;
+		}
 		if (\App\AppConfig::debug('LOG_TO_PROFILE')) {
 			$levels = $normalizeLevels(\App\AppConfig::debug('LOG_LEVELS'));
 			$target = [

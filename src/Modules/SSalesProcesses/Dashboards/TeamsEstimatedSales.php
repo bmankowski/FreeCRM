@@ -80,7 +80,7 @@ class TeamsEstimatedSales  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Main function
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{

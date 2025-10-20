@@ -20,7 +20,7 @@ abstract class Vtiger_Basic_File
 
 	/**
 	 * Checking permission in get method
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean
 	 */
 	public function getCheckPermission(Vtiger_Request $request)
@@ -40,7 +40,7 @@ abstract class Vtiger_Basic_File
 
 	/**
 	 * Checking permission in post method
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean
 	 */
 	public function postCheckPermission(Vtiger_Request $request)
@@ -63,7 +63,7 @@ abstract class Vtiger_Basic_File
 
 	/**
 	 * Get and save files
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function post(Vtiger_Request $request)
 	{

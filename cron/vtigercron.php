@@ -14,8 +14,8 @@ chdir(dirname(__FILE__) . '/../');
 include_once ROOT_DIRECTORY . '/src/main/WebUI.php';
 
 Vtiger_Session::init();
-$authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
-$appUniqueKey = Vtiger_Session::get('app_unique_key');
+$authenticatedUserId = \App\Http\Vtiger_Session::get('authenticated_user_id');
+$appUniqueKey = \App\Http\Vtiger_Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === AppConfig::main('application_unique_key'));
 
 if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') === AppRequest::get('app_key')) {

@@ -89,7 +89,7 @@ class ZipReader extends FileReader
 	public function getFirstRowData($hasHeader)
 	{
 		$data = $this->request->getAll();
-		$newRequest = new Vtiger_Request($data);
+		$newRequest = new \App\Http\Vtiger_Request($data);
 		$newRequest->set('type', $this->extension);
 		$fileReader = \App\Modules\Import\Models\Module::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
@@ -124,7 +124,7 @@ class ZipReader extends FileReader
 	public function read()
 	{
 		$data = $this->request->getAll();
-		$newRequest = new Vtiger_Request($data);
+		$newRequest = new \App\Http\Vtiger_Request($data);
 		$newRequest->set('type', $this->extension);
 		$fileReader = \App\Modules\Import\Models\Module::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {

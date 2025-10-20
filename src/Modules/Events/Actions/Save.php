@@ -17,7 +17,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to save record
-	 * @param Vtiger_Request $request - values of the record
+	 * @param \App\Http\Vtiger_Request $request - values of the record
 	 * @return \App\Modules\Vtiger\Models\Record - record Model of saved record
 	 */
 	public function saveRecord(\App\Http\Vtiger_Request $request)
@@ -44,7 +44,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Vtiger\Models\Record
 	 */
 	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)

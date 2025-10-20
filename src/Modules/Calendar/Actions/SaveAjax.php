@@ -107,7 +107,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
 	 */
 	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)

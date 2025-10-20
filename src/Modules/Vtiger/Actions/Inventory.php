@@ -38,7 +38,7 @@ class Inventory extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function verifies whether the Account's credit limit has been reached
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function checkLimits(\App\Http\Vtiger_Request $request)
 	{

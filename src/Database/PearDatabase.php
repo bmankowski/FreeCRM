@@ -311,9 +311,11 @@ class PearDatabase
 		$sqlStartTime = microtime(true);
 
 		try {
-			\App\Log::beginProfile($query, __METHOD__);
+			// Use specific category for SELECT queries to route to SQL log
+			$category = $this->isSelectQuery($query) ? 'SQL_SELECT' : __METHOD__;
+			\App\Log::beginProfile($query, $category);
 			$this->stmt = $this->database->query($query);
-			\App\Log::endProfile($query, __METHOD__);
+			\App\Log::endProfile($query, $category);
 
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
 		} catch (\PDOException $e) {
@@ -341,9 +343,11 @@ class PearDatabase
 		try {
 			$this->stmt = $this->database->prepare($query);
 
-			\App\Log::beginProfile($query, __METHOD__);
+			// Use specific category for SELECT queries to route to SQL log
+			$category = $this->isSelectQuery($query) ? 'SQL_SELECT' : __METHOD__;
+			\App\Log::beginProfile($query, $category);
 			$this->stmt->execute($params);
-			\App\Log::endProfile($query, __METHOD__);
+			\App\Log::endProfile($query, $category);
 
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\PDOException $e) {
@@ -905,5 +909,16 @@ class PearDatabase
 			}
 		}
 		return '=\'' . $val . '\'';
+	}
+
+	/**
+	 * Check if the query is a SELECT query
+	 * @param string $query The SQL query to check
+	 * @return bool True if it's a SELECT query, false otherwise
+	 */
+	private function isSelectQuery($query)
+	{
+		$query = trim($query);
+		return stripos($query, 'SELECT') === 0;
 	}
 }

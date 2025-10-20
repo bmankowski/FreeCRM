@@ -293,7 +293,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function shows the entire detail for the record
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <type>
 	 */
 	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
@@ -396,7 +396,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns recent changes made on the record
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showRecentActivities(\App\Http\Vtiger_Request $request)
 	{
@@ -457,7 +457,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns latest comments
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <type>
 	 */
 	public function showRecentComments(\App\Http\Vtiger_Request $request)
@@ -494,7 +494,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns related records
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <type>
 	 */
 	public function showRelatedList(\App\Http\Vtiger_Request $request)
@@ -519,7 +519,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function sends the child comments for a comment
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return mixed
 	 */
 	public function showChildComments(\App\Http\Vtiger_Request $request)
@@ -541,7 +541,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function send all the comments in thead
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return mixed
 	 */
 	public function showThreadComments(\App\Http\Vtiger_Request $request)
@@ -563,7 +563,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function sends all the comments for a parent(Accounts, Contacts etc)
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return mixed
 	 */
 	public function showAllComments(\App\Http\Vtiger_Request $request)
@@ -617,7 +617,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get activities
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <List of activity models>
 	 */
 	public function getActivities(\App\Http\Vtiger_Request $request)
@@ -674,7 +674,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns related records based on related moduleName
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <type>
 	 */
 	public function showRelatedRecords(\App\Http\Vtiger_Request $request)
@@ -851,7 +851,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Show recent relation
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string
 	 */
 	public function showRecentRelation(\App\Http\Vtiger_Request $request)

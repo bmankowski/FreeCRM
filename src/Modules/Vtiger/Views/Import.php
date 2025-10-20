@@ -42,7 +42,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -61,7 +61,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
@@ -79,7 +79,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * First step to import records
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function importBasicStep(\App\Http\Vtiger_Request $request)
 	{
@@ -106,7 +106,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function verifies, validates and uploads data for import
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function uploadAndParse(\App\Http\Vtiger_Request $request)
 	{
@@ -173,7 +173,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Continue import
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function continueImport(\App\Http\Vtiger_Request $request)
 	{

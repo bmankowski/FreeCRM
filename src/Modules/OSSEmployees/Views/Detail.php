@@ -25,7 +25,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

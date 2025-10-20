@@ -64,7 +64,7 @@ class HistoryRelation extends \App\Modules\Vtiger\Widgets\Basic
 
 	/**
 	 * Function gets records for timeline widget
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return array - List of records
 	 */

@@ -16,7 +16,7 @@ class QuickDetailModal  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
@@ -53,7 +53,7 @@ class QuickDetailModal  extends \App\Modules\Vtiger\Views\Index
 				if (!empty($widget['url'])) {
 					parse_str($widget['url'], $output);
 					$method = $output['mode'];
-					$widgetRequest = new Vtiger_Request($output);
+					$widgetRequest = new \App\Http\Vtiger_Request($output);
 					$widgetRequest->set('isReadOnly', 'true');
 					if ($detailView->isMethodExposed($method)) {
 						$label = '';

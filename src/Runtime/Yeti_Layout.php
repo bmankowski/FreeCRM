@@ -21,7 +21,7 @@ class Yeti_Layout
 
 	public static function getActiveLayout()
 	{
-		$layout = Vtiger_Session::get('layout');
+		$layout = \App\Http\Vtiger_Session::get('layout');
 		if (!empty($layout)) {
 			return $layout;
 		}

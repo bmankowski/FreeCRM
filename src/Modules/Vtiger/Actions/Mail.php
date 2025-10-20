@@ -13,7 +13,7 @@ class Mail extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -40,7 +40,7 @@ class Mail extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Process function
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -52,7 +52,7 @@ class Mail extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Check if smtps are active
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function checkSmtp(\App\Http\Vtiger_Request $request)
 	{
@@ -67,7 +67,7 @@ class Mail extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Send mails
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function sendMails(\App\Http\Vtiger_Request $request)
 	{
@@ -100,7 +100,7 @@ class Mail extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Get query instance
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Db\Query
 	 */
 	public function getQuery(\App\Http\Vtiger_Request $request)

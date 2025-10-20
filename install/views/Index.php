@@ -208,7 +208,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function Step7(Vtiger_Request $request)
 	{
-		$webuiInstance = new Vtiger_WebUI();
+		$webuiInstance = new \App\EntryPoint\WebUI();
 		$isInstalled = $webuiInstance->isInstalled();
 		if ($isInstalled) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {

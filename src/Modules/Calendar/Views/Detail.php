@@ -107,7 +107,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function shows the entire detail for the record
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <type>
 	 */
 	public function showModuleDetailView(\App\Http\Vtiger_Request $request)

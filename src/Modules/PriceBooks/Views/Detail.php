@@ -19,7 +19,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function returns related records
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return <type>
 	 */
 	public function showRelatedList(\App\Http\Vtiger_Request $request)

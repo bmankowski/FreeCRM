@@ -50,7 +50,7 @@ class BasicAjax  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to display the UI for advance search on any of the module
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showAdvancedSearch(\App\Http\Vtiger_Request $request)
 	{
@@ -103,7 +103,7 @@ class BasicAjax  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to display the Search Results
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function showSearchResults(\App\Http\Vtiger_Request $request)
 	{

@@ -19,7 +19,7 @@ class AppRequest
 	public static function init()
 	{
 		if (!self::$request) {
-			self::$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+			self::$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		}
 
 		return self::$request;

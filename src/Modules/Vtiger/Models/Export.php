@@ -54,7 +54,7 @@ class Export extends Model
 
 	/**
 	 * Function exports the data based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function exportData(Vtiger_Request $request)
 	{
@@ -129,7 +129,7 @@ class Export extends Model
 
 	/**
 	 * Function that generates Export Query based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string export query
 	 */
 	public function getExportQuery(Vtiger_Request $request)
@@ -191,7 +191,7 @@ class Export extends Model
 
 	/**
 	 * Function returns the export type - This can be extended to support different file exports
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string
 	 */
 	public function getExportContentType(Vtiger_Request $request)
@@ -204,7 +204,7 @@ class Export extends Model
 
 	/**
 	 * Function that create the exported file
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @param array $headers - output file header
 	 * @param array $entries - outfput file data
 	 */

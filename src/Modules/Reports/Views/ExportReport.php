@@ -38,7 +38,7 @@ class ExportReport extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Preprocess
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @param boolean $display
 	 * @return boolean
 	 */
@@ -62,7 +62,7 @@ class ExportReport extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Function exports the report in a Excel sheet
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function GetXLS(\App\Http\Vtiger_Request $request)
 	{
@@ -74,7 +74,7 @@ class ExportReport extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Function exports report in a CSV file
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function GetCSV(\App\Http\Vtiger_Request $request)
 	{
@@ -86,7 +86,7 @@ class ExportReport extends \App\Runtime\Vtiger_View_Controller
 
 	/**
 	 * Function displays the report in printable format
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function GetPrintReport(\App\Http\Vtiger_Request $request)
 	{

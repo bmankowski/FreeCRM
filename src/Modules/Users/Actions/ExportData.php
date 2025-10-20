@@ -15,7 +15,7 @@ class ExportData extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function exports the data based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function ExportData(\App\Http\Vtiger_Request $request)
 	{
@@ -37,7 +37,7 @@ class ExportData extends \App\Runtime\Vtiger_Action_Controller
 
 	/**
 	 * Function that generates Export Query based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return string export query
 	 */
 	public function getExportQuery(\App\Http\Vtiger_Request $request)

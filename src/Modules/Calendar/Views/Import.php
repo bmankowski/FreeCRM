@@ -51,7 +51,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to show import UI in Calendar Module
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function import(\App\Http\Vtiger_Request $request)
 	{
@@ -66,7 +66,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to show result of import
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function importResult(\App\Http\Vtiger_Request $request)
 	{
@@ -170,7 +170,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to show result of undo import
-	 * @param Vtiger_Request $request
+	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function undoImport(\App\Http\Vtiger_Request $request)
 	{
