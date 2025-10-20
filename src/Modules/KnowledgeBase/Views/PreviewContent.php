@@ -9,7 +9,7 @@ namespace App\Modules\KnowledgeBase\Views;
  */
 
 use App\Http\Vtiger_Request;
-class PreviewContent extends \Vtiger_Index_View
+class PreviewContent  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request, $display = true)

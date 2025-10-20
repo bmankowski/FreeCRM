@@ -15,7 +15,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
 
 use App\Http\Vtiger_Request;
 
-class OpenTickets extends \Vtiger_Index_View
+class OpenTickets  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

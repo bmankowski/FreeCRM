@@ -10,7 +10,7 @@ namespace App\Modules\OSSSoldServices\Views;
  */
 
 use App\Http\Vtiger_Request;
-class EditFieldByModal extends \Vtiger_Index_View
+class EditFieldByModal  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function getModalScripts(\App\Http\Vtiger_Request $request)

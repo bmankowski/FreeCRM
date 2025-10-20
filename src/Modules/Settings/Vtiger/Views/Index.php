@@ -19,7 +19,7 @@ use App\Modules\Settings\ModuleManager\Models\Module;
 
 use App\Http\Vtiger_Session;
 
-class Index extends \Vtiger_Basic_View
+class Index extends \App\Modules\Vtiger\Views\Basic
 {
 
 	public function __construct()

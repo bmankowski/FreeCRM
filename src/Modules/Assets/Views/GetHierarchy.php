@@ -10,7 +10,7 @@ namespace App\Modules\Assets\Views;
  */
 
 use App\Http\Vtiger_Request;
-class GetHierarchy extends \Vtiger_Index_View
+class GetHierarchy  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class EditFolder extends \Vtiger_Index_View
+class EditFolder  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

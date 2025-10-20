@@ -17,11 +17,14 @@
  * ******************************************************************************
  * Contributor(s): YetiForce.com */
 
+
+namespace App\Modules\Vtiger\Views;
+
 use App\Http\Vtiger_Request;
 use App\AppConfig;
 use App\Runtime\Vtiger_Language_Handler;
 
-abstract class Vtiger_Basic_View extends Vtiger_Footer_View
+abstract class Basic extends Footer
 {
 
 	public function __construct()

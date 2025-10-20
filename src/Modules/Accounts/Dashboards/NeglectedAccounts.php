@@ -10,7 +10,7 @@ namespace App\Modules\Accounts\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class NeglectedAccounts extends \Vtiger_Index_View
+class NeglectedAccounts  extends \App\Modules\Vtiger\Views\Index
 {
 
 	private $conditions = [];

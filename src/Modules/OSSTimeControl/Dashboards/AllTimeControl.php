@@ -11,7 +11,7 @@ use App\Modules\Settings\TimeControlProcessesModels\Module;
  */
 use App\Http\Vtiger_Request;
 
-class AllTimeControl extends \Vtiger_Index_View
+class AllTimeControl  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function getSearchParams($assignedto = '', $dateStart, $dateEnd)

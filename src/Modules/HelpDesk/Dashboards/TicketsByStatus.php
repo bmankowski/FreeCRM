@@ -15,7 +15,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
 
 use App\Http\Vtiger_Request;
 
-class TicketsByStatus extends \Vtiger_Index_View
+class TicketsByStatus  extends \App\Modules\Vtiger\Views\Index
 {
 
 	private $conditions = false;

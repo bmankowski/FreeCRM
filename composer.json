@@ -74,11 +74,7 @@
 			"src/Runtime/Globals.php",
 			"src/GlobalAliases.php",
 			"src/Runtime/TemplateHelpers.php",
-			"vtlib/Vtiger/Deprecated.php",
-			"src/Modules/Vtiger/Views/VtigerHeaderView.php",
-			"src/Modules/Vtiger/Views/VtigerFooterView.php",
-			"src/Modules/Vtiger/Views/VtigerBasicView.php",
-			"src/Modules/Vtiger/Views/Vtiger_Index_View.php"
+			"vtlib/Vtiger/Deprecated.php"
 		]
 	},
 	"repositories": {

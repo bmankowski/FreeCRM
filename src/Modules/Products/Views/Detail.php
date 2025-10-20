@@ -14,7 +14,7 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class Detail extends \Vtiger_Index_View
+class Detail  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function showModuleDetailView(\App\Http\Vtiger_Request $request)

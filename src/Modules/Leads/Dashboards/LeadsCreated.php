@@ -13,7 +13,7 @@ namespace App\Modules\Leads\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class LeadsCreated extends \Vtiger_Index_View
+class LeadsCreated  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

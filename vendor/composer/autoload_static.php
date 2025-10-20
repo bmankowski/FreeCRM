@@ -17,10 +17,6 @@ class ComposerStaticInitYT
         'b175d2585531c9bdb746aa39a222811f' => __DIR__ . '/../..' . '/src/GlobalAliases.php',
         'be7f8f4a06ddef5737f29c25b6a403f8' => __DIR__ . '/../..' . '/src/Runtime/TemplateHelpers.php',
         '0b7deb1a752d6f8b7a7c214200c6c25f' => __DIR__ . '/../..' . '/vtlib/Vtiger/Deprecated.php',
-        'cff73e1eeb4c0b11a9564c8c66df0d83' => __DIR__ . '/../..' . '/src/Modules/Vtiger/Views/VtigerHeaderView.php',
-        '267ad84d76d7600b3ae9ef83b8b79bf4' => __DIR__ . '/../..' . '/src/Modules/Vtiger/Views/VtigerFooterView.php',
-        'd58d069933f30adffe4a0eac15dad0fb' => __DIR__ . '/../..' . '/src/Modules/Vtiger/Views/VtigerBasicView.php',
-        '8791a3209a96e056aac84f6a098c83b0' => __DIR__ . '/../..' . '/src/Modules/Vtiger/Views/Vtiger_Index_View.php',
     );
 
     public static $prefixLengthsPsr4 = array (

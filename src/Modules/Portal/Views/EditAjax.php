@@ -13,7 +13,7 @@ namespace App\Modules\Portal\Views;
 
 
 use App\Http\Vtiger_Request;
-class EditAjax extends \Vtiger_Index_View
+class EditAjax  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -15,7 +15,7 @@ namespace App\Modules\Vtiger\Views;
 
 use App\HttpVtiger_Request;
 
-class DashBoard extends \Vtiger_Index_View
+class DashBoard  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

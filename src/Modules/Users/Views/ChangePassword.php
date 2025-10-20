@@ -14,7 +14,7 @@ namespace App\Modules\Users\Views;
 
 
 use App\Http\Vtiger_Request;
-class ChangePassword extends \Vtiger_Index_View
+class ChangePassword  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -10,7 +10,7 @@ namespace App\Modules\Services\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Popup extends \Vtiger_Index_View
+class Popup  extends \App\Modules\Vtiger\Views\Index
 {
 	
 }

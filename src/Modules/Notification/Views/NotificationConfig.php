@@ -11,7 +11,7 @@ namespace App\Modules\Notification\Views;
  */
 
 use App\Http\Vtiger_Request;
-class NotificationConfig extends \Vtiger_Index_View
+class NotificationConfig  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

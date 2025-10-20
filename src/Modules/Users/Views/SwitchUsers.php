@@ -9,7 +9,7 @@ namespace App\Modules\Users\Views;
  */
 
 use App\Http\Vtiger_Request;
-class SwitchUsers extends \Vtiger_Index_View
+class SwitchUsers  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

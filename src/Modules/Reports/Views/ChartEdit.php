@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Reports_ChartEdit_View extends Vtiger_Edit_View
+Class Reports_ChartEdit_View extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function __construct()

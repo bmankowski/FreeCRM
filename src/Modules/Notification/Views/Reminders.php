@@ -14,7 +14,7 @@ namespace App\Modules\Notification\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Reminders extends \Vtiger_Index_View
+class Reminders  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

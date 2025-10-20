@@ -11,7 +11,7 @@ namespace App\Modules\FInvoice\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class SummationByMonths extends \Vtiger_Index_View
+class SummationByMonths  extends \App\Modules\Vtiger\Views\Index
 {
 
 	private $conditions = false;

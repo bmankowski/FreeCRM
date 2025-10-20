@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-class TreeCategoryModal extends \Vtiger_Index_View
+class TreeCategoryModal  extends \App\Modules\Vtiger\Views\Index
 {
 
     /** @var string|null */

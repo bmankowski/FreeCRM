@@ -13,7 +13,7 @@ namespace App\Modules\ModComments\Views;
 
 
 use App\Http\Vtiger_Request;
-class View extends \Vtiger_Index_View
+class View  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

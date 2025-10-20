@@ -13,7 +13,7 @@ namespace App\Modules\SMSNotifier\Views;
 
 
 use App\Http\Vtiger_Request;
-class Edit extends \Vtiger_Index_View
+class Edit  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

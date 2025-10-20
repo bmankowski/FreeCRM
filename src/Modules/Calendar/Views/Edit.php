@@ -11,7 +11,7 @@ namespace App\Modules\Calendar\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Calendar_Edit_View extends Vtiger_Edit_View
+Class Calendar_Edit_View extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function __construct()

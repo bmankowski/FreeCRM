@@ -13,7 +13,7 @@ namespace App\Modules\Vtiger\Actions;
 
 use App\Http\Vtiger_Request;
 
-class SaveWidgetPositions extends \Vtiger_Index_View
+class SaveWidgetPositions  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

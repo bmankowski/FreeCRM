@@ -8,7 +8,7 @@ namespace App\Modules\SSalesProcesses\Dashboards;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class EstimatedValueByStatus extends \Vtiger_Index_View
+class EstimatedValueByStatus  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

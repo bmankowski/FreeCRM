@@ -13,7 +13,7 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class MoreCurrenciesList extends \Vtiger_Index_View
+class MoreCurrenciesList  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

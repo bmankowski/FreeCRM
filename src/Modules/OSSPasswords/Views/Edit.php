@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class OSSPasswords_Edit_View extends Vtiger_Edit_View
+Class OSSPasswords_Edit_View extends \App\Modules\Vtiger\Views\Edit
 {
 
 	/**

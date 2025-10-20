@@ -8,7 +8,7 @@ namespace App\Modules\SSalesProcesses\Dashboards;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class TeamsEstimatedSales extends \Vtiger_Index_View
+class TeamsEstimatedSales  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

@@ -13,7 +13,7 @@ namespace App\Modules\Services\Views;
 
 
 use App\Http\Vtiger_Request;
-class MoreCurrenciesList extends \Vtiger_Index_View
+class MoreCurrenciesList  extends \App\Modules\Vtiger\Views\Index
 {
 	
 }

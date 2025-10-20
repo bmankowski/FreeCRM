@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Views;
 
 
 use App\Http\Vtiger_Request;
-class Popup extends \Vtiger_Index_View
+class Popup  extends \App\Modules\Vtiger\Views\Index
 {
 
 	protected $listViewEntries = false;

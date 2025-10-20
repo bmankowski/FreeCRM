@@ -13,7 +13,7 @@ namespace App\Modules\Services\Views;
 
 
 use App\Http\Vtiger_Request;
-class PriceBookProductPopup extends \Vtiger_Index_View
+class PriceBookProductPopup  extends \App\Modules\Vtiger\Views\Index
 {
 	
 }

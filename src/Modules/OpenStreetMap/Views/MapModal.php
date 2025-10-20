@@ -10,7 +10,7 @@ namespace App\Modules\OpenStreetMap\Views;
  */
 
 use App\Http\Vtiger_Request;
-class MapModal extends \Vtiger_Index_View
+class MapModal  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function getSize(\App\Http\Vtiger_Request $request)

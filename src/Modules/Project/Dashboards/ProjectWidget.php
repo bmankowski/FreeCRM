@@ -13,7 +13,7 @@ namespace App\Modules\Project\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class ProjectWidget extends \Vtiger_Index_View
+class ProjectWidget  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

@@ -10,7 +10,7 @@ namespace App\Modules\Vtiger\Views;
  */
 
 use App\Http\Vtiger_Request;
-class SendMailModal extends \Vtiger_Index_View
+class SendMailModal  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public $fields = [];

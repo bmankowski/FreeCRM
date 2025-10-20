@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\Views;
  */
 
 use App\Http\Vtiger_Request;
-class PDF extends \Vtiger_Index_View
+class PDF  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

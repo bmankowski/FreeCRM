@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger\Views;
  */
 
 use App\Http\Vtiger_Request;
-class GenerateModal extends \Vtiger_Index_View
+class GenerateModal  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

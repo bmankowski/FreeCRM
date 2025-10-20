@@ -14,7 +14,7 @@ namespace App\Modules\Services\Views;
 
 
 use App\Http\Vtiger_Request;
-class QuickCreateAjax extends \Vtiger_Index_View
+class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

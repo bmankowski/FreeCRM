@@ -14,7 +14,7 @@ namespace App\Modules\Leads\Views;
 
 
 use App\Http\Vtiger_Request;
-class ConvertLead extends \Vtiger_Index_View
+class ConvertLead  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

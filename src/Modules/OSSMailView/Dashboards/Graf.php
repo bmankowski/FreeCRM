@@ -14,7 +14,7 @@ namespace App\Modules\OSSMailView\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class Graf extends \Vtiger_Index_View
+class Graf  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

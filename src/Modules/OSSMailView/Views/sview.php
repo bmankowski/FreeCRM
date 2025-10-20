@@ -14,7 +14,7 @@ namespace App\Modules\OSSMailView\Views;
 
 
 use App\Http\Vtiger_Request;
-class sview extends \Vtiger_Index_View
+class sview  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

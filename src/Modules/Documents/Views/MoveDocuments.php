@@ -13,7 +13,7 @@ namespace App\Modules\Documents\Views;
 
 
 use App\Http\Vtiger_Request;
-class MoveDocuments extends \Vtiger_Index_View
+class MoveDocuments  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

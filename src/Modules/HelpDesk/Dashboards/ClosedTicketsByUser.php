@@ -11,7 +11,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
  */
 use App\Http\Vtiger_Request;
 
-class ClosedTicketsByUser extends \Vtiger_Index_View
+class ClosedTicketsByUser  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

@@ -13,7 +13,7 @@ namespace App\Modules\Rss\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView extends \Vtiger_Index_View
+class ListView  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

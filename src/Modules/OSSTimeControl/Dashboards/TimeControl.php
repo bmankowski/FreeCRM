@@ -16,7 +16,7 @@ use App\Modules\Settings\PublicHolidayModels\Module;
 
 use App\Http\Vtiger_Request;
 
-class TimeControl extends \Vtiger_Index_View
+class TimeControl  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function getSearchParams($assignedto = '', $date)

@@ -13,7 +13,7 @@ namespace App\Modules\Vtiger\Views;
 
 
 use App\Http\Vtiger_Request;
-class IndexAjax extends \Vtiger_Index_View
+class IndexAjax  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function __construct()

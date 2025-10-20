@@ -13,7 +13,7 @@ namespace App\Modules\Campaigns\Views;
 
 
 use App\Http\Vtiger_Request;
-class RelatedList extends \Vtiger_Index_View
+class RelatedList  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

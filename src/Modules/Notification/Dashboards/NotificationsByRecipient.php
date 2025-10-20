@@ -10,7 +10,7 @@ namespace App\Modules\Notification\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class NotificationsByRecipient extends \Vtiger_Index_View
+class NotificationsByRecipient  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

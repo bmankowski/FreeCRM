@@ -13,7 +13,7 @@ namespace App\Modules\Vtiger\Views;
 
 
 use App\Http\Vtiger_Request;
-class MiniListWizard extends \Vtiger_Index_View
+class MiniListWizard  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

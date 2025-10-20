@@ -14,7 +14,7 @@ namespace App\Modules\Reservations\Views;
 
 
 use App\Http\Vtiger_Request;
-class RightPanel extends \Vtiger_Index_View
+class RightPanel  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function __construct()

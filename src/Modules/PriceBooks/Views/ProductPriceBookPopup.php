@@ -14,7 +14,7 @@ namespace App\Modules\PriceBooks\Views;
 
 
 use App\Http\Vtiger_Request;
-class ProductPriceBookPopup extends \Vtiger_Index_View
+class ProductPriceBookPopup  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

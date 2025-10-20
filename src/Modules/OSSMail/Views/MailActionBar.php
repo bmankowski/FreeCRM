@@ -10,7 +10,7 @@ namespace App\Modules\OSSMail\Views;
  */
 
 use App\Http\Vtiger_Request;
-class MailActionBar extends \Vtiger_Index_View
+class MailActionBar  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

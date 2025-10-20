@@ -14,7 +14,7 @@ namespace App\Modules\Users\Views;
 
 
 use App\Http\Vtiger_Request;
-class DeleteUser extends \Vtiger_Index_View
+class DeleteUser  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

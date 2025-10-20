@@ -11,7 +11,7 @@ namespace App\Modules\Users\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Users_PreferenceEdit_View extends Vtiger_Edit_View
+class PreferenceEdit extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -10,7 +10,7 @@ namespace App\Modules\Accounts\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class NewAccounts extends \Vtiger_Index_View
+class NewAccounts  extends \App\Modules\Vtiger\Views\Index
 {
 
 	private function getAccounts($moduleName, $user, $time, $pagingModel)

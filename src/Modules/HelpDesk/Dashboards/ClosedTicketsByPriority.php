@@ -11,7 +11,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
  */
 use App\Http\Vtiger_Request;
 
-class ClosedTicketsByPriority extends \Vtiger_Index_View
+class ClosedTicketsByPriority  extends \App\Modules\Vtiger\Views\Index
 {
 	/**
 	 * Return search params (use to in bulding address URL to listview)

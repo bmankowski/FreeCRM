@@ -14,7 +14,7 @@ namespace App\Modules\OSSTimeControl\Views;
 
 
 use App\Http\Vtiger_Request;
-class InRelation extends \Vtiger_Index_View
+class InRelation  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -10,7 +10,7 @@ namespace App\Modules\Reports\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class Charts extends \Vtiger_Index_View
+class Charts  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(Vtiger_Request $request)

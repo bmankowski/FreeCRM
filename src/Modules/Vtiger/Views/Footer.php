@@ -8,9 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Http\Vtiger_Request;
-
-abstract class Vtiger_Footer_View extends Vtiger_Header_View
+namespace App\Modules\Vtiger\Views;
+abstract class Footer extends Header
 {
 
 	public function __construct()

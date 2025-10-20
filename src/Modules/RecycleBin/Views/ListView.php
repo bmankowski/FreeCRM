@@ -14,7 +14,7 @@ namespace App\Modules\RecycleBin\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView extends \Vtiger_Index_View
+class ListView  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

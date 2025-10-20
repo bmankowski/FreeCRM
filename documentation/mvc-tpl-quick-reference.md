@@ -170,7 +170,7 @@ foreach ($records as $record) {
 ## Common Controller Pattern
 
 ```php
-class Vtiger_MyView_View extends Vtiger_Index_View {
+class Vtiger_MyView_View extends \App\Modules\Vtiger\Views\Index {
     
     public function process(Vtiger_Request $request) {
         $viewer = $this->getViewer($request);

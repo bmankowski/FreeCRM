@@ -13,7 +13,7 @@ namespace App\Modules\Vtiger\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class Notebook extends \Vtiger_Index_View
+class Notebook  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(Vtiger_Request $request, $widget = NULL)

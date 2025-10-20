@@ -13,7 +13,7 @@ namespace App\Modules\Vtiger\Views;
 
 
 use App\Http\Vtiger_Request;
-class AddNotePad extends \Vtiger_Index_View
+class AddNotePad  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

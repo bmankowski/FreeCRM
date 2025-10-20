@@ -6,7 +6,7 @@
 namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
-class Pagination extends \Vtiger_Index_View
+class Pagination  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function __construct()

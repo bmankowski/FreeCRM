@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Views;
 
 
 use App\Http\Vtiger_Request;
-class Import extends \Vtiger_Index_View
+class Import  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function __construct()

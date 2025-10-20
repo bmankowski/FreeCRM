@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-class QuickDetailModal extends \Vtiger_Index_View
+class QuickDetailModal  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

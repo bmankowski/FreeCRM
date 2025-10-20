@@ -13,8 +13,7 @@ namespace App\Modules\Vtiger\Views;
  * ********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
-class Index extends \Vtiger_Index_View
+class Index extends \App\Modules\Vtiger\Views\Basic
 {
 
 	public function __construct()

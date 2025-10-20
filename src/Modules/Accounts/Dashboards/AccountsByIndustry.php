@@ -10,7 +10,7 @@ namespace App\Modules\Accounts\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class AccountsByIndustry extends \Vtiger_Index_View
+class AccountsByIndustry  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

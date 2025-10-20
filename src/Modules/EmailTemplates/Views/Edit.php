@@ -2,7 +2,7 @@
 
 namespace App\Modules\EmailTemplates\Views;
 
-class Edit extends \Vtiger_Index_View
+class Edit  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

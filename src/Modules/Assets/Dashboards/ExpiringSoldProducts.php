@@ -15,7 +15,7 @@ namespace App\Modules\Assets\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class ExpiringSoldProducts extends \Vtiger_Index_View
+class ExpiringSoldProducts  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(Vtiger_Request $request)

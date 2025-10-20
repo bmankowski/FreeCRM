@@ -1,5 +1,8 @@
 <?php
 
+
+namespace App\Modules\Vtiger\Views;
+
 use App\Http\Vtiger_Request;
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -11,7 +14,7 @@ use App\Http\Vtiger_Request;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-Class Vtiger_Edit_View extends Vtiger_Index_View
+class Edit extends \App\Modules\Vtiger\Views\Index
 {
 
 	protected $record = false;

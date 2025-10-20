@@ -14,7 +14,7 @@ namespace App\Modules\Leads\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class LeadsByStatus extends \Vtiger_Index_View
+class LeadsByStatus  extends \App\Modules\Vtiger\Views\Index
 {
 
 	private $conditions = false;

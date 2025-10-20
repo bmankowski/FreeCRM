@@ -10,7 +10,7 @@ namespace App\Modules\Vtiger\Views;
  */
 
 use App\Http\Vtiger_Request;
-class RelatedCommentModal extends \Vtiger_Index_View
+class RelatedCommentModal  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

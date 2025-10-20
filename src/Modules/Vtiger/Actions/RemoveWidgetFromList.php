@@ -10,7 +10,7 @@ namespace App\Modules\Vtiger\Actions;
  */
 use App\Http\Vtiger_Request;
 
-class RemoveWidgetFromList extends \Vtiger_Index_View
+class RemoveWidgetFromList  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

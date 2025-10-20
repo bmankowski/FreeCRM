@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Views;
  */
 
 use App\Http\Vtiger_Request;
-class FileUpload extends \Vtiger_Index_View
+class FileUpload  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

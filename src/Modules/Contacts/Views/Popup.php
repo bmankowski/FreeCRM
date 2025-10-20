@@ -14,7 +14,7 @@ namespace App\Modules\Contacts\Views;
 
 
 use App\Http\Vtiger_Request;
-class Popup extends \Vtiger_Index_View
+class Popup  extends \App\Modules\Vtiger\Views\Index
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents

@@ -15,7 +15,7 @@ namespace App\Modules\Vtiger\Views;
 
 use App\Http\Vtiger_Request;
 
-class WidgetFullscreen extends \Vtiger_Index_View
+class WidgetFullscreen  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

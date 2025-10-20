@@ -16,8 +16,4 @@ return array(
     'b175d2585531c9bdb746aa39a222811f' => $baseDir . '/src/GlobalAliases.php',
     'be7f8f4a06ddef5737f29c25b6a403f8' => $baseDir . '/src/Runtime/TemplateHelpers.php',
     '0b7deb1a752d6f8b7a7c214200c6c25f' => $baseDir . '/vtlib/Vtiger/Deprecated.php',
-    'cff73e1eeb4c0b11a9564c8c66df0d83' => $baseDir . '/src/Modules/Vtiger/Views/VtigerHeaderView.php',
-    '267ad84d76d7600b3ae9ef83b8b79bf4' => $baseDir . '/src/Modules/Vtiger/Views/VtigerFooterView.php',
-    'd58d069933f30adffe4a0eac15dad0fb' => $baseDir . '/src/Modules/Vtiger/Views/VtigerBasicView.php',
-    '8791a3209a96e056aac84f6a098c83b0' => $baseDir . '/src/Modules/Vtiger/Views/Vtiger_Index_View.php',
 );

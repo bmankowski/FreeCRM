@@ -14,7 +14,7 @@ namespace App\Modules\PriceBooks\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListPriceUpdate extends \Vtiger_Index_View
+class ListPriceUpdate  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

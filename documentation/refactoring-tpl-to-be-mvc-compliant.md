@@ -1206,7 +1206,7 @@ For real-time detection, configure your editor:
 class Vtiger_HeaderController_Test extends PHPUnit\Framework\TestCase {
     
     public function testPrepareConfigData() {
-        $controller = new Vtiger_Index_View();
+        $controller  = new \App\Modules\Vtiger\Views\Index();
         $request = new Vtiger_Request(['module' => 'Vtiger']);
         
         $viewer = $controller->prepareViewData($request);

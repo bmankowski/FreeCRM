@@ -14,7 +14,7 @@ namespace App\Modules\Leads\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class LeadsByStatusConverted extends \Vtiger_Index_View
+class LeadsByStatusConverted  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function getSearchParams($value, $assignedto, $dates)

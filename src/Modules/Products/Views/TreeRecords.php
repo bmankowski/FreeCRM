@@ -10,7 +10,7 @@ namespace App\Modules\Products\Views;
  */
 
 use App\Http\Vtiger_Request;
-class TreeRecords extends \Vtiger_Index_View
+class TreeRecords  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

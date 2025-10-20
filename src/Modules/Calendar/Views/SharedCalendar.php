@@ -13,7 +13,7 @@ namespace App\Modules\Calendar\Views;
 
 
 use App\Http\Vtiger_Request;
-class SharedCalendar extends \Vtiger_Index_View
+class SharedCalendar  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

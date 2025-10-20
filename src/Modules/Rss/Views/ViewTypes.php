@@ -14,7 +14,7 @@ namespace App\Modules\Rss\Views;
 
 
 use App\Http\Vtiger_Request;
-class ViewTypes extends \Vtiger_Index_View
+class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function __construct()

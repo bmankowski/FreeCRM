@@ -10,7 +10,7 @@ namespace App\Modules\Vtiger\Views;
  */
 
 use App\Http\Vtiger_Request;
-class AutoAssignRecord extends \Vtiger_Index_View
+class AutoAssignRecord  extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

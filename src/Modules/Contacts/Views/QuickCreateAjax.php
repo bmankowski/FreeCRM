@@ -13,7 +13,7 @@ namespace App\Modules\Contacts\Views;
 
 
 use App\Http\Vtiger_Request;
-class QuickCreateAjax extends \Vtiger_Index_View
+class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

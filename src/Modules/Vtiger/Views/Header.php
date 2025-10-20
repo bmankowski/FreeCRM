@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-use App\Runtime\Vtiger_View_Controller;
+namespace App\Modules\Vtiger\Views;
 use App\Http\Vtiger_Request;
 use App\Runtime\Vtiger_Theme;
 
@@ -17,7 +17,7 @@ use App\Runtime\Vtiger_CssScript_Model;
 
 use App\AppConfig;
 
-abstract class Vtiger_Header_View extends Vtiger_View_Controller
+abstract class Header extends \App\Runtime\Vtiger_View_Controller
 {
 
 	public function __construct()
@@ -41,7 +41,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	protected function checkFileUriInRelocatedMouldesFolder($fileuri)
 	{
 		if (strpos($fileuri, '?') !== false) {
-			list ($filename, $query) = explode('?', $fileuri);
+			list($filename, $query) = explode('?', $fileuri);
 		} else {
 			$filename = $fileuri;
 		}

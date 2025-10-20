@@ -13,7 +13,7 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class PriceBookProductPopupAjax extends \Vtiger_Index_View
+class PriceBookProductPopupAjax  extends \App\Modules\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
