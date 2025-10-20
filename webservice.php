@@ -107,7 +107,7 @@ try {
 
 	if ($userid) {
 
-		$seed_user = new Users();
+		$seed_user = new \App\Modules\Users\Users();
 		$current_user = $seed_user->retrieveCurrentUserInfoFromFile($userid);
 	} else {
 		$current_user = null;

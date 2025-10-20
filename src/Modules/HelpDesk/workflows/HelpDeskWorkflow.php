@@ -144,7 +144,7 @@ function HelpDeskNewCommentOwner(\App\Modules\Vtiger\Models\Record $recordModel)
 		$smownerid = $db->getSingleValue($result);
 		$ownerType = vtws_getOwnerType($smownerid);
 		if ($ownerType == 'Users') {
-			$user = new Users();
+			$user = new \App\Modules\Users\Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($smownerid);
 			if ($currentUser->column_fields['emailoptout'] == '1') {
 				$mails[] = $currentUser->column_fields['email1'];
@@ -154,7 +154,7 @@ function HelpDeskNewCommentOwner(\App\Modules\Vtiger\Models\Record $recordModel)
 			$ggu = new GetGroupUsers();
 			$ggu->getAllUsersInGroup($smownerid);
 			foreach ($ggu->group_users as $userId) {
-				$user = new Users();
+				$user = new \App\Modules\Users\Users();
 				$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 				if ($currentUser->column_fields['emailoptout'] == '1') {
 					$mails[] = $currentUser->column_fields['email1'];

@@ -790,7 +790,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 		$importQueue = Import_Queue_Action::getAll(Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
 		foreach ($importQueue as $importId => $importInfo) {
 			$userId = $importInfo['user_id'];
-			$user = new Users();
+			$user = new \App\Modules\Users\Users();
 			$user->id = $userId;
 			$user->retrieve_entity_info($userId, 'Users');
 

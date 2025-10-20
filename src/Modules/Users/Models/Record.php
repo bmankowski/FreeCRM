@@ -392,7 +392,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$noOfUsers = $db->num_rows($result);
 		$users = [];
 		if ($noOfUsers > 0) {
-			$focus = new Users();
+			$focus = new \App\Modules\Users\Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userId = $db->query_result($result, $i, 'id');
 				$focus->id = $userId;
@@ -761,7 +761,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$noOfUsers = $db->num_rows($result);
 		$users = [];
 		if ($noOfUsers > 0) {
-			$focus = new Users();
+			$focus = new \App\Modules\Users\Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userId = $db->query_result($result, $i, 'id');
 				$focus->id = $userId;

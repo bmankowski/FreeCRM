@@ -27,7 +27,7 @@ function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, 
 	vtws_preserveGlobal('current_user', $user);
 	$idComponents = vtws_getIdComponents($id);
 	if ($idComponents[1] == $user->id || \vtlib\Functions::userIsAdministrator($user)) {
-		$newUser = new Users();
+		$newUser = new \App\Modules\Users\Users();
 		$newUser->retrieve_entity_info($idComponents[1], 'Users');
 		if (!\vtlib\Functions::userIsAdministrator($user)) {
 			if (empty($oldPassword)) {

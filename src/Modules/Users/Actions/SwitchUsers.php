@@ -47,7 +47,7 @@ class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();
 		$userId = $request->get('id');
-		$user = new Users();
+		$user = new \App\Modules\Users\Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$name = $currentUserModel->getName();
 		$userName = $currentUser->column_fields['user_name'];

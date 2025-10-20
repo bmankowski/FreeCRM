@@ -42,7 +42,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		parent::preProcess($request);
 		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
 			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
-			$user = new \Users();
+			$user = new\App\Modules\Users\Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
 			\App\User::setCurrentUserId($baseUserId);
@@ -54,7 +54,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		parent::preProcessAjax($request);
 		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
 			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
-			$user = new \Users();
+			$user = new\App\Modules\Users\Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
 			\App\User::setCurrentUserId($baseUserId);
@@ -87,7 +87,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$request->delete('action');
 		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
 			$userId = \App\Http\Vtiger_Session::get('authenticated_user_id');
-			$user = new \Users();
+			$user = new\App\Modules\Users\Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 			vglobal('current_user', $currentUser);
 			\App\User::setCurrentUserId($userId);

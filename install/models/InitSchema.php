@@ -89,7 +89,7 @@ class Install_InitSchema_Model
 			'language' => $_SESSION['default_language']
 			]
 		);
-		$newUser = new Users();
+		$newUser = new \App\Modules\Users\Users();
 		$newUser->retrieve_entity_info(1, 'Users');
 		$newUser->change_password('admin', $adminPassword, false);
 		require_once('modules/Users/CreateUserPrivilegeFile.php');

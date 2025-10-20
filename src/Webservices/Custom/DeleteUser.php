@@ -55,7 +55,7 @@ function vtws_deleteUser($id, $newOwnerId, $user)
 		$newIdComponents[1] = 1;
 	}
 
-	$userObj = new Users();
+	$userObj = new \App\Modules\Users\Users();
 	$userObj->transformOwnerShipAndDelete($idComponents[1], $newIdComponents[1]);
 
 	VTWS_PreserveGlobal::flush();

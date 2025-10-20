@@ -128,7 +128,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			return self::$users[$id];
 		}
 		$entityData = \App\Module::getEntityInfo('Users');
-		$user = new Users();
+		$user = new \App\Modules\Users\Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
 		$colums = [];
 		foreach ($entityData['fieldnameArr'] as &$fieldname) {
