@@ -243,7 +243,7 @@ Update `Vtiger_Loader::getComponentClassName()` to return FQCNs.
    - Or keeps FQCN
 
 4. **`UpdateStaticCallsRector`**
-   - `Users_Record_Model::getInstance()` → `Record::getInstance()`
+   - `\App\Modules\Users\Models\Record::getInstance()` → `Record::getInstance()`
 
 5. **`StringClassReferenceRector`**
    - Finds `'Users_Record_Model'` strings

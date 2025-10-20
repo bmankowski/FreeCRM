@@ -233,7 +233,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to get all users related to this group
 	 * @param boolean $nonAdmin true/false
-	 * @return <Array> Users models list <Users_Record_Model>
+	 * @return <Array> Users models list <\App\Modules\Users\Models\Record>
 	 */
 	public function getUsersList($nonAdmin = false)
 	{

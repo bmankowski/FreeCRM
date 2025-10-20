@@ -348,11 +348,11 @@ class Owner
 
 	/**
 	 * Function returns List of Accessible Users for a Module
-	 * @return <Array of Users_Record_Model>
+	 * @return <Array of \App\Modules\Users\Models\Record>
 	 */
 	public function getAccessibleGroupForModule()
 	{
-		$curentUserPrivileges = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$curentUserPrivileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($this->currentUser->isAdmin() || $curentUserPrivileges->hasGlobalWritePermission()) {
 			$groups = $this->getAccessibleGroups('');
 		} else {
@@ -369,11 +369,11 @@ class Owner
 	/**
 	 * Function returns List of Accessible Users for a Module
 	 * @param string $module
-	 * @return <Array of Users_Record_Model>
+	 * @return <Array of \App\Modules\Users\Models\Record>
 	 */
 	public function getAccessibleUsersForModule()
 	{
-		$curentUserPrivileges = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$curentUserPrivileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($this->currentUser->isAdmin() || $curentUserPrivileges->hasGlobalWritePermission()) {
 			$users = $this->getAccessibleUsers('');
 		} else {

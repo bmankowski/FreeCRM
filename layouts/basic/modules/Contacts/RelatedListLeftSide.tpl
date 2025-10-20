@@ -13,7 +13,7 @@
 	<div class="actions">
 		<span class="glyphicon glyphicon-wrench toolsAction alignMiddle"></span>
 		<span class="actionImages hide">
-			{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
+			{if AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')}
 				{if $USER_MODEL->get('internal_mailer') == 1}
 					{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($RELATED_RECORD->getModuleName(), $RELATED_RECORD->getId(), 'Detail', 'new')}
 					<a target="_blank"  href="{$COMPOSE_URL}" title="{"LBL_SEND_EMAIL"|t}">

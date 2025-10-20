@@ -8,7 +8,6 @@
 spl_autoload_register(function ($class) {
 	$aliases = [
 		// Users models - used in .tpl files
-		'Users_Record_Model' => 'App\Modules\Users\Models\Record',
 		'Users_Privileges_Model' => 'App\Modules\Users\Models\Privileges',
 		'Users_Colors_Model' => 'App\Modules\Users\Models\Colors',
 		// ModComments models - used in .tpl files

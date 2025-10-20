@@ -12,8 +12,6 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-use App\Models\Users_Privileges_Model;
-use App\Fields\DateTimeField;
 class Datetime extends Base
 {
 

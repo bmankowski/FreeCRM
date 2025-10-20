@@ -2,32 +2,32 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/widgets/ProductsServices.tpl -->
 	<div class="addRelatedRecordBtn">
-		{if $RELATED_MODULE eq 'Products' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'Products' && \App\Modules\Users\Models\Privileges::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{"LBL_SELECT"|t:$MODULE_NAME}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'OutsourcedProducts' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'OutsourcedProducts' && \App\Modules\Users\Models\Privileges::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{"LBL_SELECT"|t:$MODULE_NAME}" type="button" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'Assets' && Users_Privileges_Model::isPermitted('Assets', 'CreateView')}
+		{if $RELATED_MODULE eq 'Assets' && \App\Modules\Users\Models\Privileges::isPermitted('Assets', 'CreateView')}
 			<button class="btn btn-xs btn-default" type="button" title="{"LBL_ADD"|t:$MODULE_NAME}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
 				<span class="glyphicon glyphicon-plus-sign" ></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'Services' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'Services' && \App\Modules\Users\Models\Privileges::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{"LBL_SELECT"|t:$MODULE_NAME}" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'OSSOutsourcedServices' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'OSSOutsourcedServices' && \App\Modules\Users\Models\Privileges::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{"LBL_SELECT"|t:$MODULE_NAME}" type="button" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'OSSSoldServices' && Users_Privileges_Model::isPermitted('OSSSoldServices', 'CreateView')}
+		{if $RELATED_MODULE eq 'OSSSoldServices' && \App\Modules\Users\Models\Privileges::isPermitted('OSSSoldServices', 'CreateView')}
 			<button class="btn btn-xs btn-default" type="button" title="{"LBL_SELECT"|t:$MODULE_NAME}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
 				<span class="glyphicon glyphicon-plus-sign" ></span>
 			</button>

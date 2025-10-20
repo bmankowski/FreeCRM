@@ -15,7 +15,7 @@
 							<h3 class='col-md-4 pushDown'>{"emailPreviewHeader"|t:$MODULENAME}</h3>
 							<div class='pull-right'>
 								<div class="btn-toolbar" >
-									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
+									{if AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')}
 										{if $USER_MODEL->get('internal_mailer') == 1}
 											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
 											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
@@ -47,7 +47,7 @@
 											</a>
 										{/if}
 									{/if}
-									{if Users_Privileges_Model::isPermitted($MODULENAME, 'PrintMail')}
+									{if \App\Modules\Users\Models\Privileges::isPermitted($MODULENAME, 'PrintMail')}
 										<span class="btn-group">
 											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-default" data-mode="previewPrint">
 												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;

@@ -46,11 +46,11 @@ new \App\Fields\DateTimeField($value);
 
 // WRONG:
 AppConfig::main('config');  // Looks for FreeCRM\fields\AppConfig
-Users_Privileges_Model::getCurrentUserPrivilegesModel();  // Looks for FreeCRM\fields\Users_Privileges_Model
+App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();  // Looks for FreeCRM\fields\Users_Privileges_Model
 
 // CORRECT:
 \App\AppConfig::main('config');  // References FreeCRM\AppConfig
-\Users_Privileges_Model::getCurrentUserPrivilegesModel();  // References global Users_Privileges_Model
+\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();  // References global Users_Privileges_Model
 ```
 
 ### Pattern 3: PHP Built-in Classes

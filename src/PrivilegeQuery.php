@@ -16,11 +16,11 @@ class PrivilegeQuery
 		if (!$userId) {
 			$userId = \App\User::getCurrentUserId();
 		}
-		$userModel = \Users_Privileges_Model::getInstanceById($userId);
+		$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 		if ($relatedRecord !== false && \App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$role = $userModel->getRoleDetail();
 			if ($role->get('listrelatedrecord') == 2) {
-				$rparentRecord = \Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
+				$rparentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {
 					$relatedRecord = $rparentRecord;
 				}
@@ -76,11 +76,11 @@ class PrivilegeQuery
 		} elseif (!$user) {
 			$userId = \App\User::getCurrentUserId();
 		}
-		$userModel = \Users_Privileges_Model::getInstanceById($userId);
+		$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 		if ($relatedRecord !== false && \App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$role = $userModel->getRoleDetail();
 			if ($role->get('listrelatedrecord') == 2) {
-				$rparentRecord = \Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
+				$rparentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {
 					$relatedRecord = $rparentRecord;
 				}

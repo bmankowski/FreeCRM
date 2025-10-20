@@ -34,7 +34,7 @@ class Index extends \Vtiger_Basic_View
 		$this->exposeMethod('getWarningsList');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -42,13 +42,13 @@ class Index extends \Vtiger_Basic_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
@@ -58,7 +58,7 @@ class Index extends \Vtiger_Basic_View
 	 * Pre process settings
 	 * @param Vtiger_Request $request
 	 */
-	public function preProcessSettings(Vtiger_Request $request)
+	public function preProcessSettings(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -75,7 +75,7 @@ class Index extends \Vtiger_Basic_View
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -85,7 +85,7 @@ class Index extends \Vtiger_Basic_View
 		$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
 	}
 
-	public function postProcessSettings(Vtiger_Request $request)
+	public function postProcessSettings(\App\Http\Vtiger_Request $request)
 	{
 		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
 	}
@@ -94,7 +94,7 @@ class Index extends \Vtiger_Basic_View
 	 * Index
 	 * @param Vtiger_Request $request
 	 */
-	public function index(Vtiger_Request $request)
+	public function index(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -113,7 +113,7 @@ class Index extends \Vtiger_Basic_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function github(Vtiger_Request $request)
+	public function github(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
@@ -149,7 +149,7 @@ class Index extends \Vtiger_Basic_View
 		$viewer->view('Github.tpl', $qualifiedModuleName);
 	}
 
-	public function DonateUs(Vtiger_Request $request)
+	public function DonateUs(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);

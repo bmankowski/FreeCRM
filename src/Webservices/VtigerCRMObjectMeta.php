@@ -17,7 +17,7 @@ use App\Module;
 use App\Field;
 use App\User;
 use App\Record;
-use Users_Privileges_Model;
+use \App\Modules\Users\Models\Privileges;
 
 class VtigerCRMObjectMeta extends EntityMeta
 {

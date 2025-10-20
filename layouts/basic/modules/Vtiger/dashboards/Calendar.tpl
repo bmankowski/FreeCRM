@@ -21,7 +21,7 @@
 		</div>
 		<div class="col-xs-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted('Calendar', 'CreateView')}
+				{if \App\Modules\Users\Models\Privileges::isPermitted('Calendar', 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{"LBL_ADD_RECORD"|t}" alt="{"LBL_ADD_RECORD"|t}"></span>

@@ -31,7 +31,7 @@
 
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE)}
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE)}&nbsp;</a></strong>
+		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE}&nbsp;</a></strong>
 	</div>
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
@@ -62,14 +62,19 @@
 					<th width="5%"></th>
 				</tr>
 			</thead>
+			<tbody>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
 				<tr>
 					<td><a class="btn btn-default" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a></td><td></td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=SEARCH_HEADERS}
 						<td>
 							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+							{assign var=SEARCH_INFO value=null}
+							{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
+								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
+							{/if}
 							{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
-                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
+                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
 					<td width="5%">
@@ -88,14 +93,16 @@
 				<td width="5%" class="{$WIDTHTYPE}">
 					<div class="row">
 						{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
+						{assign var=HAS_IMAGE value=false}
 						{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 								<div class="col-md-6">
 									<img class="list-user-img" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
 								</div>
+								{assign var=HAS_IMAGE value=true}
 							{/if}
 						{/foreach}
-						{if $IMAGE_DETAILS[0]['id'] eq null}
+						{if !$HAS_IMAGE}
 							<div class='col-md-6'>
 								<img class="list-user-img" alt="" src="{vimage_path('DefaultUserIcon.png')}">
 							</div>
@@ -130,6 +137,7 @@
 				</td>
 				</tr>
 			{/foreach}
+			</tbody>
 		</table>
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<table class="emptyRecordsDiv">

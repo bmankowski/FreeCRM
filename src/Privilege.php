@@ -227,10 +227,10 @@ class Privilege
 				}
 			}
 			if (\App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
-				$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($userId);
+				$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 				$role = $userPrivilegesModel->getRoleDetail();
 				if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
-					$parentRecord = \Users_Privileges_Model::getParentRecord($record, $moduleName, $role->get('previewrelatedrecord'), $actionid);
+					$parentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($record, $moduleName, $role->get('previewrelatedrecord'), $actionid);
 					if ($parentRecord) {
 						$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
 						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');

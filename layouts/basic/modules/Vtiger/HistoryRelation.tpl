@@ -33,7 +33,7 @@
 										<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" title="{"LBL_SHOW_PREVIEW_EMAIL"|t:"OSSMailView"}" class="showModal btn btn-xs btn-default" data-cb="Vtiger_Index_Js.registerMailButtons">
 											<span class="body-icon glyphicon glyphicon-search"></span>
 										</button>
-									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && $USER_MODEL->internal_mailer == 1}
+									{if AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail') && $USER_MODEL->internal_mailer == 1}
 										{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail')}
 										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=reply" data-popup="{$POPUP}" title="{"LBL_REPLY"|t:"OSSMailView"}">
 											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">

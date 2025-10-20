@@ -13,7 +13,7 @@ namespace App\Fields;
 
 use App\Log;
 use App\User;
-use Users_Privileges_Model;
+use \App\Modules\Users\Models\Privileges;
 use DateTime;
 use DateTimeZone;
 

@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/AdvanceFilterCondition.tpl -->
 	{if !$USER_MODEL}
-		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
+		{assign var=USER_MODEL value = \App\Modules\Users\Models\Record::getCurrentUserModel()}
 	{/if}
 	<div class="conditionRow">
 		<div class="col-md-4 conditionField">

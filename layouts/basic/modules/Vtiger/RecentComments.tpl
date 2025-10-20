@@ -92,7 +92,7 @@
 														<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
 														{"LBL_REPLY"|t:$MODULE_NAME}
 													</button>
-													{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
+													{if \App\Modules\Users\Models\Privileges::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 														<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
 															<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
 															{"LBL_EDIT"|t:$MODULE_NAME}

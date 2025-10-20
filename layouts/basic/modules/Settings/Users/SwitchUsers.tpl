@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Settings/Users/SwitchUsers.tpl -->
 	<input type="hidden" id="suCount" value="{count($SWITCH_USERS)}" />
-	{assign var="USERS" value=Users_Record_Model::getAll()}
+	{assign var="USERS" value=\App\Modules\Users\Models\Record::getAll()}
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
 	<div class="widget_header row">
 		<div class="col-md-12">

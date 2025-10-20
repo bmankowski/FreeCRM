@@ -43,7 +43,7 @@
 				</div>
 			</div>
 		{/if}
-			{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
+			{if \App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')}
 			<div class="row">
 				<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">

@@ -453,13 +453,13 @@ class TextParser
 	{
 		list($fieldName, $relatedField, $relatedModule) = explode('|', $params);
 		if (!isset($this->recordModel) ||
-			!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			!\App\Modules\Users\Models\Privileges::isPermitted($this->moduleName, 'DetailView', $this->record) ||
 			$this->recordModel->isEmpty($fieldName)) {
 			return '';
 		}
 		$relatedId = $this->recordModel->get($fieldName);
 		if ($relatedModule === 'Users') {
-			$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
+			$userRecordModel = \App\Modules\Users\Models\Privileges::getInstanceById($relatedId);
 			$instance = static::getInstanceByModel($userRecordModel);
 			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 				if (isset($this->$key)) {
@@ -491,7 +491,7 @@ class TextParser
 	 */
 	protected function sourceRecord($fieldName)
 	{
-		if (empty($this->sourceRecordModel) || !\Users_Privileges_Model::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
+		if (empty($this->sourceRecordModel) || !\App\Modules\Users\Models\Privileges::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
 			return '';
 		}
 		$instance = static::getInstanceByModel($this->sourceRecordModel);
@@ -537,7 +537,7 @@ class TextParser
 				$value = "$(translate : $this->moduleName|$value)$";
 				break;
 			case 'time':
-				$userModel = Users_Privileges_Model::getCurrentUserModel();
+				$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 				$value = \App\Fields\DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
 				if ($userModel->get('hour_format') === '12') {
 					if ($value) {

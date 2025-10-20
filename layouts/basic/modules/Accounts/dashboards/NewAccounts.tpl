@@ -6,7 +6,7 @@
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted('Accounts', 'CreateView')}
+				{if \App\Modules\Users\Models\Privileges::isPermitted('Accounts', 'CreateView')}
 					<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{"LBL_ADD_RECORD"|t}" alt="{"LBL_ADD_RECORD"|t}"></span>
 					</a>

@@ -77,7 +77,7 @@
 				<input type="text"  class="form-control" title="{"LBL_GLOBAL_SEARCH"|t}" id="globalSearchValue" placeholder="{"LBL_GLOBAL_SEARCH"|t}" results="10" />
 				<span id="searchIcon" class="input-group-addon cursorPointer"><span class="glyphicon glyphicon-search "></span></span>
 			</div>
-			{assign var="ROLE_DETAIL" value=Users_Record_Model::getCurrentUserModel()->getRoleDetail()}
+			{assign var="ROLE_DETAIL" value=\App\Modules\Users\Models\Record::getCurrentUserModel()->getRoleDetail()}
 			{if $ROLE_DETAIL->get('globalsearchadv') == 1}
 				<div class="pull-left">
 					<span class="adv-search navbar-form">
