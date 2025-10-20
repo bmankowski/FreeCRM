@@ -15,7 +15,7 @@ namespace App\Modules\Users\Views;
 
 use App\Http\Vtiger_Request;
 
-class PreferenceDetail extends \Vtiger_Index_View
+class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -141,6 +141,8 @@ class PreferenceDetail extends \Vtiger_Index_View
 
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Detail',
+			'modules.Vtiger.resources.RelatedList',
+			'modules.Vtiger.resources.ListSearch',
 			'modules.Users.resources.Detail',
 			'modules.' . $moduleName . '.resources.PreferenceDetail',
 			'modules.' . $moduleName . '.resources.PreferenceEdit'

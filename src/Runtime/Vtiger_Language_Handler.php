@@ -288,7 +288,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getAllLanguages()
 	{
-		return vtlib\Language::getAll();
+		return \vtlib\LanguageExport::getAll();
 	}
 
 	/**
