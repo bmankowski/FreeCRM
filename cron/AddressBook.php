@@ -10,7 +10,7 @@
 
 $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
 $db = PearDatabase::getInstance();
-$currentUser = Users::getActiveAdminUser();
+$currentUser = \App\Modules\Users\Users::getActiveAdminUser();
 $usersIds = \App\Fields\Owner::getUsersIds();
 $i = ['rows' => [], 'users' => count($usersIds)];
 $l = 0;

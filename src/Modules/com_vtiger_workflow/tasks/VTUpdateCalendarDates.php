@@ -78,7 +78,7 @@ class VTUpdateCalendarDates extends VTTask
 					$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 					$timeEnd = $dbInsertDateTime->format('H:i:s');
 				} else {
-					$adminUser = Users::getActiveAdminUser();
+					$adminUser = \App\Modules\Users\Users::getActiveAdminUser();
 					$timeEnd = $adminUser->column_fields['end_hour'];
 					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
 					$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);

@@ -229,7 +229,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 			$oReportRun->writeReportToExcelFile($filePath);
 		}
 		//Added cc to account owner
-		$accountOwnerId = Users::getActiveAdminId();
+		$accountOwnerId = \App\Modules\Users\Users::getActiveAdminId();
 		\App\Mailer::sendFromTemplate([
 			'to' => $to,
 			'cc' => [\App\User::getUserModel($accountOwnerId)->getDetail('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
@@ -250,7 +250,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 	public function getNextTriggerTime()
 	{
 		$default_timezone = vglobal('default_timezine');
-		$admin = Users::getActiveAdminUser();
+		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
 
@@ -294,7 +294,7 @@ class ScheduleReports extends \App\Modules\Vtiger\Models\Model
 		$default_timezone = vglobal('default_timezone');
 		// set the time zone to the admin's time zone, this is needed so that the scheduled reprots will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled reports
-		$admin = Users::getActiveAdminUser();
+		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date("Y-m-d H:i:s");

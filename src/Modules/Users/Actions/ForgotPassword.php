@@ -34,7 +34,7 @@ class ForgotPassword {
 		$valid = $shortURLModel->compareEquals($validateData);
 		if ($valid) {
 			$userId = \App\Utils\Utils::getUserId_Ol($userName);
-			$user = Users::getActiveAdminUser();
+			$user = \App\Modules\Users\Users::getActiveAdminUser();
 			$wsUserId = vtws_getWebserviceEntityId('Users', $userId);
 			vtws_changePassword($wsUserId, '', $newPassword, $confirmPassword, $user);
 		} else {

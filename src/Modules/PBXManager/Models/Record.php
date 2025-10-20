@@ -82,9 +82,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$details = array_change_key_case($params, CASE_LOWER);
 		$fieldModelList = $moduleModel->getFields();
 		if (!isset($details["assigned_user_id"]))
-			$details["assigned_user_id"] = Users::getActiveAdminId();
+			$details["assigned_user_id"] = \App\Modules\Users\Users::getActiveAdminId();
 		if (!isset($details["created_user_id"]))
-			$details["created_user_id"] = Users::getActiveAdminId();
+			$details["created_user_id"] = \App\Modules\Users\Users::getActiveAdminId();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$fieldValue = $details[$fieldName];
 			$recordModel->set($fieldName, $fieldValue);

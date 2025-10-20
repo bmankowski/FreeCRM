@@ -75,7 +75,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('CURRENT_USER', $currentUser);
-		$admin = Users::getActiveAdminUser();
+		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->assign('WEEK_START_ID', $weekDays[$currentUser->get('dayoftheweek')]);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);

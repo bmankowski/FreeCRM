@@ -14,7 +14,7 @@ use App\Runtime\Cache\Vtiger_Cache_Connector;
 class Vtiger_Cache
 {
 
-	private static $selfInstance = false;
+	private static $selfInstance = null;
 
 	public static $cacheEnable = false;
 
@@ -149,7 +149,7 @@ class Vtiger_Cache
 		}
 	}
 
-	private static $_admin_user_id = false;
+	private static $_admin_user_id = null;
 
 	public function getAdminUserId()
 	{

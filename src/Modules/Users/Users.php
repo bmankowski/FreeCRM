@@ -905,7 +905,7 @@ class Users extends \App\CRMEntity
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$cache = \App\Runtime\Vtiger_Cache::getInstance();
-		if ($cache->getAdminUserId()) {
+		if ($cache->getAdminUserId() !== null) {
 			return $cache->getAdminUserId();
 		} else {
 			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {

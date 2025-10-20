@@ -123,7 +123,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			if ($commentedBy) {
 				$commentedByModel = \App\Modules\Vtiger\Models\Record::getInstanceById($commentedBy, 'Users');
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
-					$activeAdmin = Users::getActiveAdminUser();
+					$activeAdmin = \App\Modules\Users\Users::getActiveAdminUser();
 					$commentedByModel = \App\Modules\Vtiger\Models\Record::getInstanceById($activeAdmin->id, 'Users');
 				}
 				return $commentedByModel;

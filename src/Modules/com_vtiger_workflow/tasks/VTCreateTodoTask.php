@@ -32,7 +32,7 @@ class VTCreateTodoTask extends VTTask
 
 	function getAdmin()
 	{
-		$user = Users::getActiveAdminUser();
+		$user = \App\Modules\Users\Users::getActiveAdminUser();
 		$currentUser = vglobal('current_user');
 		$this->originalUser = $currentUser;
 		$currentUser = $user;

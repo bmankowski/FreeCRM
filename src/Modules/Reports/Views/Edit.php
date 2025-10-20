@@ -127,7 +127,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('ROLES', \App\Modules\Settings\Roles\Models\Record::getAll());
 		$viewer->assign('WEEK_START_ID', $weekDays[$currentUserModel->get('dayoftheweek')]);
-		$admin = Users::getActiveAdminUser();
+		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
 
 		if ($request->get('isDuplicate')) {

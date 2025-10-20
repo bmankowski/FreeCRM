@@ -286,7 +286,7 @@ class Util {
 	public static function getActiveAdminCurrentDateTime()
 	{
 		$default_timezone = vglobal('default_timezone');
-		$admin = Users::getActiveAdminUser();
+		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
 		$date = date('Y-m-d H:i:s');

@@ -64,7 +64,7 @@ class WorkFlowScheduler {
 
 		// set the time zone to the admin's time zone, this is needed so that the scheduled workflow will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled workflows
-		$admin = Users::getActiveAdminUser();
+		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date('Y-m-d H:i:s');
@@ -196,7 +196,7 @@ class WorkFlowScheduler {
 
 		// based on the admin users time zone, since query generator expects datetime at user timezone
 		$default_timezone = vglobal('default_timezone');
-		$admin = Users::getActiveAdminUser();
+		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
 

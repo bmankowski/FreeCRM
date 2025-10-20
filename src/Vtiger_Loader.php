@@ -242,13 +242,3 @@ class Vtiger_Loader
 	}
 }
 
-/**
- * Summary of vimport
- * @param mixed $qualifiedName
- * @return bool
- * @deprecated
- */
-function vimport($qualifiedName)
-{
-	return Vtiger_Loader::includeOnce($qualifiedName);
-}
