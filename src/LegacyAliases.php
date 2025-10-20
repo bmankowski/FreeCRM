@@ -71,10 +71,6 @@ if (!class_exists('CRMEntity')) {
     class_alias('Vtiger\Core\Entity\CRMEntity', 'CRMEntity');
 }
 
-if (!class_exists('Users')) {
-    class_alias('Vtiger\Modules\Users\Users', 'Users');
-}
-
 if (!class_exists('Reports')) {
     class_alias('Vtiger\Modules\Reports\Reports', 'Reports');
 }
