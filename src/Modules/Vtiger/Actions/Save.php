@@ -81,8 +81,12 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		define('_PROCESS_TYPE', 'View');
-		define('_PROCESS_NAME', 'Detail');
+		if (!defined('_PROCESS_TYPE')) {
+			define('_PROCESS_TYPE', 'View');
+		}
+		if (!defined('_PROCESS_NAME')) {
+			define('_PROCESS_NAME', 'Detail');
+		}
 		$request->set('view', 'Detail');
 		$request->delete('action');
 		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {

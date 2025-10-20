@@ -18,7 +18,7 @@ class SwitchUsers extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_\App\Modules\Users\Models\Module::getInstance();
+		$moduleModel = \App\Modules\Settings\Users\Models\Module::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SWITCH_USERS', $moduleModel->getSwitchUsers());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

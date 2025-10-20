@@ -52,7 +52,7 @@ class AutoAssignRecord extends \Vtiger_Index_View
 		$users = [];
 
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
-		$autoAssignModel = Settings_\App\Modules\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
+		$autoAssignModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $autoAssignModel->searchRecord($recordModel);
 
 		$viewer = $this->getViewer($request);

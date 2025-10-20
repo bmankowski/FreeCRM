@@ -23,7 +23,7 @@ class Locks extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_\App\Modules\Users\Models\Module::getInstance();
+		$moduleModel = \App\Modules\Settings\Users\Models\Module::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('LOCKS', $moduleModel->getLocks());
 		$viewer->assign('LOCKS_TYPE', $moduleModel->getLocksTypes());

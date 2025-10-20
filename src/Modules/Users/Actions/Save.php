@@ -77,7 +77,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
-			$settingsModuleModel = \Settings_\App\Modules\Users\Models\Module::getInstance();
+			$settingsModuleModel = \\App\Modules\Settings\Users\Models\Module::getInstance();
 			$settingsModuleModel->refreshSwitchUsers();
 
 			$sharedIds = $request->get('sharedusers');

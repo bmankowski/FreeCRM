@@ -1280,7 +1280,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 			$userModel = \App\User::getCurrentUserModel();
 			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
-				$autoAssignModel = Settings_\App\Modules\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
+				$autoAssignModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 				$autoAssignRecord = $autoAssignModel->searchRecord($this, $userModel->getRole());
 				return $autoAssignRecord ? true : false;
 			}

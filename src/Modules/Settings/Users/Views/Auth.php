@@ -20,7 +20,7 @@ class Auth extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$settingsModel = Settings_\App\Modules\Users\Models\Module::getInstance();
+		$settingsModel = \App\Modules\Settings\Users\Models\Module::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

@@ -20,9 +20,9 @@ class Csrf extends \Exception
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
-			'referer' => $_SERVER['HTTP_REFERER'],
+			'referer' => $_SERVER['HTTP_REFERER'] ?? '',
 			'url' => \App\RequestUtil::getBrowserInfo()->url,
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
+			'agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		]);
 	}
 }

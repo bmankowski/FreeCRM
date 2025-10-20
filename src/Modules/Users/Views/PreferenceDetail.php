@@ -102,6 +102,7 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
+			$viewer->assign('LAYOUT_PATH', 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout());
 			$viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));

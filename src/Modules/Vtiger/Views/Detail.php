@@ -79,7 +79,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$summaryInfo = [];
 		// Take first block information as summary information
 		$stucturedValues = $this->recordStructure->getStructure();
-		$fieldsInHeader = $this->recordStructure->getFieldInHeader();
+		$fieldsInHeader = method_exists($this->recordStructure, 'getFieldInHeader') ? $this->recordStructure->getFieldInHeader() : false;
 		foreach ($stucturedValues as $blockLabel => $fieldList) {
 			$summaryInfo[$blockLabel] = $fieldList;
 			break;

@@ -61,7 +61,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 		}
 
 		$recordModel = $this->saveRecord($request);
-		$settingsModuleModel = Settings_\App\Modules\Users\Models\Module::getInstance();
+		$settingsModuleModel = \App\Modules\Settings\Users\Models\Module::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];

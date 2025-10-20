@@ -289,9 +289,9 @@ class Utils
 	{
 		// array_map will call the function specified in the first parameter for every element of the list in second parameter
 		if (is_array($items_list)) {
-			return implode(",", array_map("_questionify", $items_list));
+			return implode(",", array_map([self::class, '_questionify'], $items_list));
 		} else {
-			return implode(",", array_map("_questionify", explode(",", $items_list)));
+			return implode(",", array_map([self::class, '_questionify'], explode(",", $items_list)));
 		}
 	}
 
