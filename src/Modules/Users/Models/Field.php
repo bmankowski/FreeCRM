@@ -27,6 +27,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -94,7 +95,13 @@ class Field extends \App\Modules\Vtiger\Models\Field
 			$fieldPickListValues = array();
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
-				$fieldPickListValues[$picklistValue] = \App\Runtime\Vtiger_Language_Handler::translate($picklistValue, $this->getModuleName());
+				// Guard against null/empty values to avoid TypeError in translate()
+				if ($picklistValue === null) {
+					// Log information about missing picklist value
+					\App\Log::error('Missing picklist value for field: ' . $this->getFieldName());
+					continue;
+				}
+				$fieldPickListValues[$picklistValue] = \App\Runtime\Vtiger_Language_Handler::translate((string) $picklistValue, $this->getModuleName()); 
 			}
 			return $fieldPickListValues;
 		}
@@ -107,7 +114,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 */
 	public function getAllSkins()
 	{
-		return Vtiger_Theme::getAllSkins();
+		return \App\Runtime\Vtiger_Theme::getAllSkins();
 	}
 
 	/**

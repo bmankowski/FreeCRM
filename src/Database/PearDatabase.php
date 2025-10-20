@@ -478,13 +478,15 @@ class PearDatabase
 			$this->checkError('Result is not an object');
 		}
 
-		if (!isset($result->tmp)) {
-			$result->tmp = $result->fetchAll(\PDO::FETCH_ASSOC);
+		// Use static cache instead of setting dynamic properties on PDOStatement
+		$cacheKey = spl_object_hash($result);
+		if (!isset(self::$resultCache[$cacheKey])) {
+			self::$resultCache[$cacheKey] = $result->fetchAll(\PDO::FETCH_ASSOC);
 		}
-		if (!isset($result->tmp[$row]) || !isset($result->tmp[$row][$col])) {
+		if (!isset(self::$resultCache[$cacheKey][$row]) || !isset(self::$resultCache[$cacheKey][$row][$col])) {
 			return null;
 		}
-		return $result->tmp[$row][$col];
+		return self::$resultCache[$cacheKey][$row][$col];
 	}
 
 	// Function to get particular row from the query result
