@@ -23,7 +23,7 @@ class CreateEntity extends \App\Modules\Settings\Vtiger\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 
 		$workflowId = $request->get('for_workflow');
-		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
+		$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($workflowId);
 
 		$relatedModule = $request->get('relatedModule');
 		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);

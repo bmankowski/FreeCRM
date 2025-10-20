@@ -21,7 +21,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 		$recordId = $request->get('record');
 
 		$response = new \App\Http\Vtiger_Response();
-		$recordModel = Settings_Workflows_Record_Model::getInstance($recordId);
+		$recordModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 		if ($recordModel->isDefault()) {
 			$response->setError('LBL_DEFAULT_WORKFLOW', \App\Runtime\Vtiger_Language_Handler::translate('LBL_CANNOT_DELETE_DEFAULT_WORKFLOW', $qualifiedModule));
 		} else {

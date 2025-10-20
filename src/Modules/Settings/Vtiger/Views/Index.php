@@ -98,7 +98,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$usersCount = \App\Modules\Users\Models\Record::getCount(true);
-		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
+		$allWorkflows = \App\Modules\Settings\Workflows\Models\Record::getAllAmountWorkflowsAmount();
 		$activeModules = \App\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
 		$pinnedSettingsShortcuts = \App\Modules\Settings\Vtiger\Models\MenuItem::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');

@@ -22,7 +22,7 @@ class TasksList extends \App\Modules\Settings\Vtiger\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 
 		$recordId = $request->get('record');
-		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+		$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 

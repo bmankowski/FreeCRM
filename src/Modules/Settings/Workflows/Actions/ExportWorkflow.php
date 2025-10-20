@@ -17,7 +17,7 @@ class ExportWorkflow extends \App\Modules\Settings\Vtiger\Actions\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+		$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 		$workflowObject = $workflowModel->getWorkflowObject();
 		$workflowMethods = [];
 

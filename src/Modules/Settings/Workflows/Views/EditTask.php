@@ -27,7 +27,7 @@ class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 		$recordId = $request->get('task_id');
 		$workflowId = $request->get('for_workflow');
 
-		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
+		$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($workflowId);
 		$taskTypes = $workflowModel->getTaskTypes();
 		if ($recordId) {
 			$taskModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($recordId);

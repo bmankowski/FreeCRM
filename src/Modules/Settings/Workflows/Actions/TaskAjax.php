@@ -70,7 +70,7 @@ class TaskAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$record = $request->get('record');
 		$status = $request->get('status');
 		if (!empty($record)) {
-			$workflowModel = Settings_Workflows_Record_Model::getInstance($record);
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($record);
 			$taskList = $workflowModel->getTasks();
 			foreach ($taskList as $task) {
 				$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($task->getId());
@@ -96,7 +96,7 @@ class TaskAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 			if ($record) {
 				$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);
 			} else {
-				$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
+				$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($workflowId);
 				$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getCleanInstance($workflowModel, $request->get('taskType'));
 			}
 

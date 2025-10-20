@@ -36,7 +36,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$recordId = $request->get('record');
 		$viewer->assign('RECORDID', $recordId);
 		if ($recordId) {
-			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 			$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		}
 		$viewer->assign('RECORD_MODE', $request->getMode());
@@ -53,12 +53,12 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODULE_MODEL', $workflowModel->getModule());
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getCleanInstance($moduleName);
 			$selectedModule = $request->get('source_module');
 			if (!empty($selectedModule)) {
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
@@ -91,13 +91,13 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$recordId = $request->get('record');
 
 		if ($recordId) {
-			$workFlowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+			$workFlowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
 			$selectedModule = \App\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
-			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
+			$workFlowModel = \App\Modules\Settings\Workflows\Models\Record::getCleanInstance($selectedModuleName);
 		}
 
 		$requestData = $request->getAll();
@@ -147,13 +147,13 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$recordId = $request->get('record');
 
 		if ($recordId) {
-			$workFlowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+			$workFlowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
 			$selectedModule = \App\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
-			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
+			$workFlowModel = \App\Modules\Settings\Workflows\Models\Record::getCleanInstance($selectedModuleName);
 		}
 
 		$moduleModel = $workFlowModel->getModule();

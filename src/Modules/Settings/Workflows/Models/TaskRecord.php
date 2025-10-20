@@ -120,7 +120,7 @@ class TaskRecord extends \App\Modules\Settings\Vtiger\Models\Record
 		$tm = new VTTaskManager($db);
 		$task = $tm->retrieveTask($taskId);
 		if ($workflowModel === null) {
-			$workflowModel = Settings_Workflows_Record_Model::getInstance($task->workflowId);
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($task->workflowId);
 		}
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 	}

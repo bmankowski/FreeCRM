@@ -25,9 +25,9 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$executionCondition = $request->get('execution_condition');
 
 		if ($recordId) {
-			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($recordId);
 		} else {
-			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getCleanInstance($moduleName);
 		}
 
 		$response = new \App\Http\Vtiger_Response();
