@@ -17,7 +17,6 @@ use App\Http\Vtiger_Request;
 use App\Runtime\CRM_Viewer;
 
 use App\Runtime\Vtiger_Theme;
-use App\Runtime\Yeti_Layout;
 use App\Runtime\Vtiger_Language_Handler;
 use App\Vtiger_Loader;
 use App\Runtime\Vtiger_CssScript_Model;
@@ -84,7 +83,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($vtigerRequest));
 	   $viewer->assign('STYLES', $this->getHeaderCss($vtigerRequest));
 	   $viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
-	   $viewer->assign('LAYOUT_PATH', 'layouts/' . Yeti_Layout::getActiveLayout());
+	   $viewer->assign('LAYOUT_PATH', 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout());
 	   $viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($vtigerRequest));
 	   $viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
 	   $viewer->assign('LANGUAGE', \App\Runtime\Vtiger_Language_Handler::getLanguage());
@@ -265,7 +264,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				   $jsFile = $jFileName;
 			   }
 		   // Checking if file exists in selected layout
-		   $layoutPath = 'layouts/' . Yeti_Layout::getActiveLayout();
+		   $layoutPath = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout();
 		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $jsFile;
@@ -345,7 +344,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				   $cssFile = $cssFileName;
 			   }
 		   // Checking if file exists in selected layout
-		   $layoutPath = 'layouts/' . Yeti_Layout::getActiveLayout();
+		   $layoutPath = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout();
 		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   if ($preLayoutPath === '' || $preLayoutPath === '0') {

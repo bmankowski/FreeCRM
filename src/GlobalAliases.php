@@ -7,15 +7,7 @@
 // Create global class aliases using spl_autoload_register to avoid circular dependencies
 spl_autoload_register(function ($class) {
 	$aliases = [
-		// Users models - used in .tpl files
-		'Users_Privileges_Model' => 'App\Modules\Users\Models\Privileges',
-		'Users_Colors_Model' => 'App\Modules\Users\Models\Colors',
-		// ModComments models - used in .tpl files
-		'ModComments_Record_Model' => 'App\Modules\ModComments\Models\Record',
-		// ModTracker models - used in .tpl files
-		'ModTracker_Record_Model' => 'App\Modules\ModTracker\Models\Record',
 		// Vtiger base models - used in .tpl files
-		'Vtiger_Module_Model' => 'App\Modules\Vtiger\Models\Module',
 		'Vtiger_Record_Model' => 'App\Modules\Vtiger\Models\Record',
 		'Vtiger_Field_Model' => 'App\Modules\Vtiger\Models\Field',
 		'Vtiger_Menu_Model' => 'App\Modules\Vtiger\Models\Menu',

@@ -27,7 +27,7 @@ while ($row = $dataReader->read()) {
 	if (empty($task['active']) || ($last !== false && $last['module'] != $moduleName)) {
 		continue;
 	}
-	$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+	$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 	if (!$moduleModel->isActive()) {
 		continue;
 	}

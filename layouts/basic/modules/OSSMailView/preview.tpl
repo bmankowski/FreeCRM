@@ -21,11 +21,11 @@
 											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 											{assign var=POPUP value=$CONFIG['popup']}
 											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{"LBL_REPLY"|t:"OSSMailView"}">
-												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
+												<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
 												&nbsp;&nbsp;<strong>{"LBL_REPLY"|t:"OSSMailView"}</strong>
 											</button>
 											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll" data-popup="{$POPUP}" title="{"LBL_REPLYALLL"|t:"OSSMailView"}">
-												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
+												<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
 												&nbsp;&nbsp;<strong>{"LBL_REPLYALLL"|t:"OSSMailView"}</strong>
 											</button>
 											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward" data-popup="{$POPUP}" title="{"LBL_FORWARD"|t:"OSSMailView"}">
@@ -34,11 +34,11 @@
 											</button>
 										{else}
 											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'reply')}" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}">
-												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
+												<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
 												&nbsp;&nbsp;<strong>{"LBL_REPLY"|t:"OSSMailView"}</strong>
 											</a>
 											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'replyAll')}" title="{"LBL_REPLYALLL"|t:"OSSMailView"}">
-												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
+												<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
 												&nbsp;&nbsp;<strong>{"LBL_REPLYALLL"|t:"OSSMailView"}</strong>
 											</a>
 											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'forward')}" title="{"LBL_FORWARD"|t:"OSSMailView"}">

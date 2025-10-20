@@ -6,7 +6,7 @@
 		<div class="row noSpaces">
 			<div class="rightHeader paddingRight10">
 				<div class="pull-right rightHeaderBtn">
-					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
+					{assign var=QUICKCREATE_MODULES value=\App\Modules\Vtiger\Models\Module::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{'LBL_QUICK_CREATE'|t}" href="#">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

@@ -9,7 +9,7 @@
 			<div class="pull-right muted" style="font-size:x-small;">
 				<small title="{$item->get('date')}">{Vtiger_Util_Helper::formatDateDiffInStrings($item->get('date'))}</small>&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
-			<h5 style="margin-left:2%;">{$item->get('subject')} {if $item->get('attachments') && count($item->get('attachments')) > 0}<img alt="{"LBL_ATTACHMENT"|t}" class="pull-right" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}<h5>
+			<h5 style="margin-left:2%;">{$item->get('subject')} {if $item->get('attachments') && count($item->get('attachments')) > 0}<img alt="{"LBL_ATTACHMENT"|t}" class="pull-right" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}<h5>
 		</div>
 		<div class="col-md-12 marginLeftZero">
 			<div class="pull-right" >

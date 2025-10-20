@@ -19,20 +19,20 @@
 							{if $PRIVILEGESMODEL->internal_mailer == 1}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 								<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{"LBL_REPLY"|t:"OSSMailView"}">
-									<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
+									<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
 								</button>
 								<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{"LBL_REPLYALLL"|t:"OSSMailView"}">
-									<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
+									<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
 								</button>
 								<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{"LBL_FORWARD"|t:"OSSMailView"}">
 									<span class="glyphicon glyphicon-share-alt"></span>
 								</button>
 							{else}
 								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}">
-									<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
+									<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
 								</a>
 								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}" title="{"LBL_REPLYALLL"|t:"OSSMailView"}">
-									<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
+									<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
 								</a>
 								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" title="{"LBL_FORWARD"|t:"OSSMailView"}">
 									<span class="glyphicon glyphicon-share-alt"></span>
@@ -66,15 +66,15 @@
 					</h5>
 					<div class="pull-right">
 						{if $ROW['attachments'] eq 1}
-							<img class="pull-right" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />
+							<img class="pull-right" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />
 						{/if}
 						<span class="pull-right">
 							{if $ROW['type'] eq 0}
-								<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/outgoing.png')}" />
+								<img src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/outgoing.png')}" />
 							{elseif $ROW['type'] eq 1}
-								<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/incoming.png')}" />
+								<img src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/incoming.png')}" />
 							{elseif $ROW['type'] eq 2}
-								<img src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/internal.png')}" />
+								<img src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/internal.png')}" />
 							{/if}
 						</span>
 						<span class="pull-right smalSeparator"></span>

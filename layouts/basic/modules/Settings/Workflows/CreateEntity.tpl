@@ -21,7 +21,7 @@
 		<div>
 			<button type="button" class="btn btn-default" id="addFieldBtn">{"LBL_ADD_FIELD"|t:$QUALIFIED_MODULE}</button>
 		</div><br>
-		{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($TASK_OBJECT->entity_type)}
+		{assign var=RELATED_MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($TASK_OBJECT->entity_type)}
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
 			<div class="row conditionRow padding-bottom1per">

@@ -25,7 +25,7 @@
 					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search relatedPopup" title="{"LBL_SELECT"|t:$MODULE}" ></span>
 				</span>
 			{/if}
-			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_MODULE)}
+			{assign var=REFERENCE_MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($REFERENCE_MODULE)}
 			{if $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon cursorPointer createReferenceRecord">
 					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="glyphicon glyphicon-plus" title="{"LBL_CREATE"|t:$MODULE}"></span>

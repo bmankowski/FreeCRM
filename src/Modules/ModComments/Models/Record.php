@@ -156,7 +156,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 * Function returns latest comments for parent record
 	 * @param int $parentRecordId - parent record for which latest comment need to retrieved
 	 * @param \App\Modules\Vtiger\Models\Paging - paging model
-	 * @return ModComments_Record_Model if exits or null
+	 * @return \App\Modules\ModComments\Models\Record if exits or null
 	 */
 	public static function getRecentComments($parentRecordId, $pagingModel)
 	{
@@ -181,7 +181,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function returns all the parent comments model
 	 * @param <Integer> $parentId
-	 * @return ModComments_Record_Model(s)
+	 * @return \App\Modules\ModComments\Models\Record(s)
 	 */
 	public static function getAllParentComments($parentId, $hierarchy = false)
 	{

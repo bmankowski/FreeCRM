@@ -36,10 +36,10 @@
 									{if AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail') && $USER_MODEL->internal_mailer == 1}
 										{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail')}
 										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=reply" data-popup="{$POPUP}" title="{"LBL_REPLY"|t:"OSSMailView"}">
-											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
+											<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
 										</button>
 										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=replyAll" data-popup="{$POPUP}" title="{"LBL_REPLYALLL"|t:"OSSMailView"}">
-											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
+											<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
 										</button>
 										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=forward" data-popup="{$POPUP}" title="{"LBL_FORWARD"|t:"OSSMailView"}">
 											<span class="glyphicon glyphicon-share-alt"></span>

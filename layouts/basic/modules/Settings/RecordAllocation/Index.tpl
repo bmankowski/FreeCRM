@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Settings/RecordAllocation/Index.tpl -->
 	<input type="hidden" id="fieldType" value="{$TYPE}"/>
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
-	{assign var=ALL_MODULE_LIST value=Vtiger_Module_Model::getAll([0],[],true)}
+	{assign var=ALL_MODULE_LIST value=\App\Modules\Vtiger\Models\Module::getAll([0],[],true)}
 	<div class="">
 		<div class="alert alert-danger fade in">
 			<a href="#" class="close" data-dismiss="alert">&times;</a>

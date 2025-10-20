@@ -570,7 +570,7 @@ class ModuleBasic
 		Functions::recurseDelete("config/modules/{$moduleInstance->name}.php");
 		Functions::recurseDelete('modules/' . $moduleInstance->name);
 		Functions::recurseDelete('modules/Settings/' . $moduleInstance->name);
-		foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
+		foreach (\App\Runtime\Yeti_Layout::getAllLayouts() as $name => $label) {
 			Functions::recurseDelete("layouts/$name/modules/{$moduleInstance->name}");
 			Functions::recurseDelete("layouts/$name/modules/Settings/{$moduleInstance->name}");
 		}
@@ -585,7 +585,7 @@ class ModuleBasic
 		self::log(__METHOD__ . ' | Start');
 		$iconSize = ['', 48, 64, 128];
 		foreach ($iconSize as $value) {
-			foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
+			foreach (\App\Runtime\Yeti_Layout::getAllLayouts() as $name => $label) {
 				$fileName = "layouts/$name/skins/images/" . $this->name . $value . ".png";
 				if (file_exists($fileName)) {
 					@unlink($fileName);

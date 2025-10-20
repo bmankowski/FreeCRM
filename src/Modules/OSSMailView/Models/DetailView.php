@@ -27,7 +27,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
-					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReply.png'),
+					'linkimg' => \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReply.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -35,7 +35,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
-					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReplyAll.png'),
+					'linkimg' => \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReplyAll.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -53,7 +53,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkurl' => \App\Modules\OSSMail\Models\Module::getExternalUrlForWidget($recordModel, 'reply'),
-					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReply.png'),
+					'linkimg' => \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReply.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -62,7 +62,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkurl' => \App\Modules\OSSMail\Models\Module::getExternalUrlForWidget($recordModel, 'replyAll'),
-					'linkimg' => Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReplyAll.png'),
+					'linkimg' => \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/OSSMailView/previewReplyAll.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [

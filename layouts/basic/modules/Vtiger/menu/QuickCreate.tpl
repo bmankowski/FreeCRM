@@ -1,7 +1,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/menu/QuickCreate.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-	{assign var='MODULEMODEL' value=Vtiger_Module_Model::getInstance($MENU.tabid)}
+	{assign var='MODULEMODEL' value=\App\Modules\Vtiger\Models\Module::getInstance($MENU.tabid)}
 	{assign var='QUICKCREATEMODULE' value=$MODULEMODEL->isQuickCreateSupported()}
 	{assign var='SINGULAR_LABEL' value=$MODULEMODEL->getSingularLabelKey()}
 	{assign var='NAME' value=$MODULEMODEL->getName()}

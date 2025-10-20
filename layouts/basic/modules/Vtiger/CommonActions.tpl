@@ -28,7 +28,7 @@
 							<h4 class="panel-title"><strong>{"LBL_QUICK_CREATE"|t:$MODULE}</strong></h4>
 						</div>
 						<div class="panel-body paddingLRZero">
-							{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
+							{foreach key=NAME item=MODULEMODEL from=\App\Modules\Vtiger\Models\Module::getQuickCreateModules(true)}
 								{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 								{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
 								{if $singularLabel == 'SINGLE_Calendar'}
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 	{/if}*}
-	{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}
+	{assign var="MENUSCOLOR" value=\App\Modules\Users\Models\Colors::getModulesColors(true)}
 	{if $MENUSCOLOR}
 		<div class="menusColorContainer" style="display: none;">
 			<style>

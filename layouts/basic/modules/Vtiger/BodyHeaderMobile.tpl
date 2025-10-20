@@ -75,7 +75,7 @@
 								</div>
 								<div class="panel-body paddingLRZero">
 									{assign var='count' value=0}
-									{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
+									{foreach key=NAME item=MODULEMODEL from=\App\Modules\Vtiger\Models\Module::getQuickCreateModules(true)}
 										{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 										{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
 										{if $singularLabel == 'SINGLE_Calendar'}

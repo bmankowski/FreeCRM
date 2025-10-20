@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/AdvanceFilterExpressions.tpl -->
 	{if !$MODULE_MODEL}
-		{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($SOURCE_MODULE)}
+		{assign var=MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($SOURCE_MODULE)}
 	{/if}
 	{if !$DATE_FILTERS}
 		{assign var=DATE_FILTERS value=Vtiger_AdvancedFilter_Helper::getDateFilter($QUALIFIED_MODULE)}

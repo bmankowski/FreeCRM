@@ -24,14 +24,14 @@
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}" />
 		{/if}
 	{/if}
-	{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
+	{assign var=REFERENCE_MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($REFERENCE_LIST[0])}
 	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" title="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 	<div class="input-group referenceGroup">
 		{if $REFERENCE_LIST_COUNT > 1}
 			<div class="input-group-addon noSpaces referenceModulesListGroup">
 				<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="referenceModulesList" title="{"LBL_RELATED_MODULE_TYPE"|t}" required="required">
 					{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
-						{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE)}
+						{assign var=REFERENCE_MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($REFERENCE)}
 						<option value="{$REFERENCE}" title="{$REFERENCE|t:$REFERENCE}" data-is-quickcreate="{$REFERENCE_MODULE_MODEL->isQuickCreateSupported()}" data-parent="{$UITYPE_MODEL->getParentModule($REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{$REFERENCE|t:$REFERENCE}</option>
 					{/foreach}
 				</select>

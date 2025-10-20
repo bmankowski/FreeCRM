@@ -31,7 +31,7 @@ class Index  extends \App\Modules\Vtiger\Views\Index
 	{
 		$shortURL = str_replace('index.php', '', \App\AppConfig::main('site_URL'));
 		$viewer = $this->getViewer($request);
-		$viewer->assign('URLCSS', $shortURL . Yeti_Layout::getLayoutFile('src/Modules/AJAXChat/Chat.css'));
+		$viewer->assign('URLCSS', $shortURL . \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/AJAXChat/Chat.css'));
 		$viewer->assign('URL', $shortURL . "libraries/AJAXChat/index.php");
 		$viewer->view('Index.tpl', 'AJAXChat');
 	}

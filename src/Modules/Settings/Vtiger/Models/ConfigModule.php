@@ -123,7 +123,7 @@ class ConfigModule extends \App\Modules\Settings\Vtiger\Models\Module
 			}
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
-			return Yeti_Layout::getAllLayouts();
+			return \App\Runtime\Yeti_Layout::getAllLayouts();
 		}
 		return ['true', 'false'];
 	}

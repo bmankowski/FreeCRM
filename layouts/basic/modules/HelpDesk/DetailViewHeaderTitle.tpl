@@ -20,7 +20,7 @@
 				</a>		
 			</span>
 		</div>
-	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
+	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && \App\Modules\Vtiger\Models\Module::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
 		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts marginBottom10px" role="alert">
 			{if $SERVICE_CONTRACTS}

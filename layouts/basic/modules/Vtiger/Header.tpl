@@ -69,7 +69,7 @@
 			<div id="page">
 				<!-- container which holds data temporarly for pjax calls -->
 				<div id="pjaxContainer" class="hide noprint"></div>
-				{assign var="ANNOUNCEMENTS" value=Vtiger_Module_Model::getInstance('Announcements')}
+				{assign var="ANNOUNCEMENTS" value=\App\Modules\Vtiger\Models\Module::getInstance('Announcements')}
 				{if $ANNOUNCEMENTS && $ANNOUNCEMENTS->checkActive()}
 					{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
 				{/if}

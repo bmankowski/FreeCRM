@@ -23,8 +23,8 @@
 	.calCol_{$ITEM.label}{ background: {$ITEM.value}!important; }
 {/foreach}
 
-{foreach from=Vtiger_Module_Model::getAll() item=MODULE}
-	.modIcon_{$MODULE->get('name')}{ background-image: url("{Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
+{foreach from=\App\Modules\Vtiger\Models\Module::getAll() item=MODULE}
+	.modIcon_{$MODULE->get('name')}{ background-image: url("{\App\Runtime\Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
 {/foreach}
 </style>
 <div class="paddingLR10">

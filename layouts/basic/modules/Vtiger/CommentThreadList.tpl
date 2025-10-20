@@ -58,7 +58,7 @@
 				{/if}
 			</div>
 			<div class="commentActionsDiv">
-				{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
+				{assign var=COMMENTS_MODULE_MODEL value = \App\Modules\Vtiger\Models\Module::getInstance('ModComments')}
 				<span class="pull-right commentActions">
 					{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 					{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}

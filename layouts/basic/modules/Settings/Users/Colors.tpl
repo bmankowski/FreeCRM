@@ -41,7 +41,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=Users_Colors_Model::getUserColors() item=item key=key}
+						{foreach from=\App\Modules\Users\Models\Colors::getUserColors() item=item key=key}
 							<tr data-id="{$item.id}" data-color="{$item.color}">
 								<td>{$item.first}</td>
 								<td>{$item.last}</td>
@@ -65,7 +65,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=Users_Colors_Model::getGroupColors() item=item key=key}
+						{foreach from=\App\Modules\Users\Models\Colors::getGroupColors() item=item key=key}
 							<tr data-id="{$item.id}" data-color="{$item.color}">
 								<td>{$item.groupname}</td>
 								<td class="calendarColor" style="background: {$item.color};"></td>
@@ -89,7 +89,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=Users_Colors_Model::getModulesColors() item=item key=key}
+						{foreach from=\App\Modules\Users\Models\Colors::getModulesColors() item=item key=key}
 							<tr data-id="{$item.id}" data-color="{$item.color}">
 								<td>{$item.module|t:$item.module}</td>
 								<td>
@@ -133,7 +133,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												{assign var=FIELD value=Users_Colors_Model::getValuesFromField($ITEM.fieldname)}
+												{assign var=FIELD value=\App\Modules\Users\Models\Colors::getValuesFromField($ITEM.fieldname)}
 												{foreach from=$FIELD item=INNER_ITEM key=INNER_KEY}
 													<tr data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
 														<td>{$INNER_ITEM['value']|t:$MODULE_NAME}</td>

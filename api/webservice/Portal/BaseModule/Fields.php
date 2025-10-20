@@ -20,7 +20,7 @@ class Fields extends \Api\Core\BaseAction
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');
-		$module = \Vtiger_Module_Model::getInstance($moduleName);
+		$module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		$fields = $blocks = [];
 		foreach ($module->getFields() as &$field) {
 			$block = $field->get('block');

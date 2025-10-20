@@ -13,7 +13,7 @@ namespace App\Modules\Settings\ModuleManager\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \Vtiger_Module_Model
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public static function getNonVisibleModulesList()
@@ -85,7 +85,7 @@ class Module extends \Vtiger_Module_Model
 
 	/**
 	 * Function that returns all those modules that support Module Sequence Numbering
-	 * @return <Array of \Vtiger_Module_Model>
+	 * @return <Array of \App\Modules\Vtiger\Models\Module>
 	 */
 	public static function getModulesSupportingSequenceNumbering()
 	{

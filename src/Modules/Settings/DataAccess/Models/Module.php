@@ -13,7 +13,7 @@ namespace App\Modules\Settings\DataAccess\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \Vtiger_Module_Model
+class Module extends \App\Modules\Vtiger\Models\Module
 {
 
 	public static $moduleName = 'Settings:DataAccess';

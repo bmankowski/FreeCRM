@@ -16,11 +16,11 @@
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var=FIELD_NAME value=$FIELD_MODEL->getFieldName()}
 {if $FIELD_NAME eq 'defaulteventstatus'}
-    {assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}
+    {assign var=EVENT_MODULE value=\App\Modules\Vtiger\Models\Module::getInstance('Events')}
     {assign var=EVENTSTATUS_FIELD_MODEL value=$EVENT_MODULE->getField('activitystatus')}
     {assign var=PICKLIST_VALUES value=$EVENTSTATUS_FIELD_MODEL->getPicklistValues()} 
 {else if $FIELD_NAME eq 'defaultactivitytype'}
-    {assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}
+    {assign var=EVENT_MODULE value=\App\Modules\Vtiger\Models\Module::getInstance('Events')}
     {assign var=ACTIVITYTYPE_FIELD_MODEL value=$EVENT_MODULE->getField('activitytype')}
     {assign var=PICKLIST_VALUES value=$ACTIVITYTYPE_FIELD_MODEL->getPicklistValues()} 
 {/if}

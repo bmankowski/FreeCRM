@@ -15,7 +15,7 @@
 {if $HISTORIES neq false}
 	{foreach key=$index item=HISTORY from=$HISTORIES}
 		{assign var=MODELNAME value=get_class($HISTORY)}
-		{if $MODELNAME == 'ModTracker_Record_Model'}
+		{if $MODELNAME == '\App\Modules\ModTracker\Models\Record'}
 			{assign var=USER value=$HISTORY->getModifiedBy()}
 			{assign var=TIME value=$HISTORY->getActivityTime()}
 			{assign var=PARENT value=$HISTORY->getParent()}
@@ -124,7 +124,7 @@
 					</div>
 				</div>
 			{/if}
-			{else if $MODELNAME == 'ModComments_Record_Model'}
+			{else if $MODELNAME == '\App\Modules\ModComments\Models\Record'}
 			{assign var=TRANSLATED_MODULE_NAME value = 'SINGLE_ModComments'|t:'ModComments'}
 			<div class="row">
 				<div class="col-md-1">

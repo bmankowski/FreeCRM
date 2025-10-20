@@ -29,7 +29,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 * @param int $parentRecordId
 	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @param string $type
-	 * @return array - list of  ModTracker_Record_Model
+	 * @return array - list of  \App\Modules\ModTracker\Models\Record
 	 */
 	public static function getUpdates($parentRecordId, \App\Modules\Vtiger\Models\Paging $pagingModel, $type)
 	{

@@ -343,8 +343,8 @@ class Link extends \vtlib\Link
 		}
 		// added support for multilayout
 		if (strpos($linkModel->linkurl, '_layoutName_') !== false) {
-			$filePath1 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
-			$filePath2 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
+			$filePath1 = str_replace('_layoutName_', \App\Runtime\Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
+			$filePath2 = str_replace('_layoutName_', \App\Runtime\Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
 			if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath1)) {
 				$linkModel->linkurl = $filePath1;
 			} else if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath2)) {

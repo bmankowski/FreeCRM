@@ -840,7 +840,7 @@ class Module extends \vtlib\Module
 	 * Function to get all modules from CRM
 	 * @param <array> $presence
 	 * @param <array> $restrictedModulesList
-	 * @return <array> List of module models Vtiger_Module_Model
+	 * @return <array> List of module models \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{

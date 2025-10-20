@@ -50,7 +50,7 @@
 								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								<div class="form-group">
 									<select class="input-lg form-control" title="{"LBL_SELECT_LAYOUT"|t:$MODULE}" name="layout">
-										{foreach item=VALUE key=KEY from=Yeti_Layout::getAllLayouts()}
+										{foreach item=VALUE key=KEY from=\App\Runtime\Yeti_Layout::getAllLayouts()}
 											<option value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>	

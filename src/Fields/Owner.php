@@ -1,10 +1,6 @@
 <?php
 namespace App\Fields;
 
-use App\AppConfig;
-use App\Runtime\Vtiger_Cache;
-use App\Http\AppRequest;
-
 /**
  * Owner class
  * @package YetiForce.App
@@ -27,13 +23,13 @@ class Owner
 	 */
 	public static function getInstance($moduleName = false, $currentUser = false)
 	{
-		if ($currentUser && $currentUser instanceof Users) {
+		if ($currentUser && $currentUser instanceof \App\Modules\Users\Users) {
 			$currentUser = \App\User::getUserModel($currentUser->id);
 		} elseif ($currentUser === false) {
 			$currentUser = \App\User::getCurrentUserModel();
 		} elseif (is_numeric($currentUser)) {
 			$currentUser = \App\User::getUserModel($currentUser);
-		} elseif (is_object($currentUser) && get_class($currentUser) === 'Users_Record_Model') {
+		} elseif (is_object($currentUser) && get_class($currentUser) === '\App\Modules\Users\Models\Record') {
 			$currentUser = \App\User::getUserModel($currentUser->getId());
 		}
 

@@ -13,7 +13,7 @@ use App\Modules\Settings\Vtiger\Models\CustomRecordNumberingModule;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class CustomRecordNumberingModule extends \Vtiger_Module_Model
+class CustomRecordNumberingModule extends \App\Modules\Vtiger\Models\Module
 {
 
 	/**
@@ -45,7 +45,7 @@ class CustomRecordNumberingModule extends \Vtiger_Module_Model
 
 	/**
 	 * Function to ger Supported modules for Custom record numbering
-	 * @return <Array> list of supported modules \Vtiger_Module_Model
+	 * @return <Array> list of supported modules \App\Modules\Vtiger\Models\Module
 	 */
 	public static function getSupportedModules()
 	{

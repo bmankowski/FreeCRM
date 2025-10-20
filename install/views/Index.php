@@ -68,7 +68,7 @@ class Install_Index_view extends Vtiger_View_Controller
 			$dbconfig = AppConfig::main('dbconfig');
 			if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
 				$defaultModule = vglobal('default_module');
-				$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
+				$defaultModuleInstance = \App\Modules\Vtiger\Models\Module::getInstance($defaultModule);
 				$defaultView = $defaultModuleInstance->getDefaultViewName();
 				header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 			}

@@ -67,7 +67,7 @@
 					</div>
 				</div>
 				<div class="commentActionsDiv">
-					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
+					{assign var=COMMENTS_MODULE_MODEL value = \App\Modules\Vtiger\Models\Module::getInstance('ModComments')}
 					<div class="pull-right commentActions">
 						{if $CHILDS_ROOT_PARENT_MODEL}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}

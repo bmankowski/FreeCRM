@@ -73,7 +73,7 @@ class QueryGenerator
 	private $conditionsOr = [];
 
 	/**
-	 * @var \Vtiger_Module_Model 
+	 * @var \App\Modules\Vtiger\Models\Module 
 	 */
 	private $moduleModel;
 

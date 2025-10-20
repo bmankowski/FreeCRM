@@ -44,7 +44,7 @@
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search relatedPopup" title="{"LBL_SELECT"|t:$MODULE}" ></span>
 			</span>
 		{/if}
-		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCED_MODULE_NAME)}
+		{assign var=REFERENCE_MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($REFERENCED_MODULE_NAME)}
 		<!-- Show the add button only if it is edit view  -->
 		{if $VIEW eq 'Edit' && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon cursorPointer createReferenceRecord">

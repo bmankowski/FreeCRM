@@ -32,8 +32,8 @@
 {foreach from=Settings_Calendar_Module_Model::getUserColors('colors') item=ITEM}
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
 {/foreach}
-{foreach from=Vtiger_Module_Model::getAll() item=MODULE}
-	.modIcon_{$MODULE->get('name')}{ background-image: url("{Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
+{foreach from=\App\Modules\Vtiger\Models\Module::getAll() item=MODULE}
+	.modIcon_{$MODULE->get('name')}{ background-image: url("{\App\Runtime\Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
 {/foreach}
 </style>
 <div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
