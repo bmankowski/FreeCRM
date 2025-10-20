@@ -19,6 +19,10 @@ use App\AppConfig;
 
 class PearDatabase
 {
+	/**
+	 * @var array Cache for query results to avoid dynamic property warnings
+	 */
+	private static $resultCache = [];
 
 	protected $database = null;
 	protected $stmt = null;
@@ -507,10 +511,15 @@ class PearDatabase
 			\App\Log::error('Result is not an object');
 			$this->checkError('Result is not an object');
 		}
-		if (!isset($result->tmp)) {
-			$result->tmp = $result->fetchAll(\PDO::FETCH_ASSOC);
+		
+		// Use object hash as cache key to avoid dynamic property warnings
+		$cacheKey = spl_object_hash($result);
+		
+		if (!isset(self::$resultCache[$cacheKey])) {
+			self::$resultCache[$cacheKey] = $result->fetchAll(\PDO::FETCH_ASSOC);
 		}
-		return $result->tmp[$row];
+		
+		return self::$resultCache[$cacheKey][$row];
 	}
 
 	/**

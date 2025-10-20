@@ -20,6 +20,10 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
 
 class MenuItem extends \Vtiger_Record_Model
 {
+	/**
+	 * @var \App\Modules\Settings\Vtiger\Models\Menu
+	 */
+	public $menu;
 
 	protected static $itemsTable = 'vtiger_settings_field';
 	protected static $itemId = 'fieldid';

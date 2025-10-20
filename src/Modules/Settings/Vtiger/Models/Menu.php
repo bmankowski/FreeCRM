@@ -138,9 +138,11 @@ class Menu extends \Vtiger_Record_Model
 
 		if ($db->num_rows($result) > 0) {
 			$rowData = $db->query_result_rowdata($result, 0);
-			$instance = \App\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($rowData);
-			self::$cacheInstance[$id] = $instance;
-			return $instance;
+			if ($rowData && is_array($rowData)) {
+				$instance = \App\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($rowData);
+				self::$cacheInstance[$id] = $instance;
+				return $instance;
+			}
 		}
 		self::$cacheInstance[$id] = false;
 		return false;

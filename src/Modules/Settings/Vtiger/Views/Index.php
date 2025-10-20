@@ -17,7 +17,6 @@ use App\Modules\Settings\ModuleManager\Models\Module;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Http\Vtiger_Request;
 use App\Http\Vtiger_Session;
 
 class Index extends \Vtiger_Basic_View
