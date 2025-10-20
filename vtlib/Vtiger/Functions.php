@@ -713,7 +713,7 @@ class Functions
 		}
 		$request = AppRequest::init();
 		if ($request->isAjax()) {
-			$response = new Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 			$trace = '';
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {

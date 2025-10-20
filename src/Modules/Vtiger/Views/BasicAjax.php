@@ -178,7 +178,7 @@ class BasicAjax  extends \App\Modules\Vtiger\Views\Index
 					];
 				}
 			}
-			$response = new Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setResult($recordsList);
 			$response->emit();
 		}

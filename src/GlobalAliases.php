@@ -63,13 +63,8 @@ spl_autoload_register(function ($class) {
 	$legacyAliases = [
 		// Core aliases - pointing to non-existent Vtiger\ namespaces
 		// These should probably be removed or updated to point to actual App\ classes
-		'Vtiger_Response' => '\App\Http\Vtiger_Response',  // Fixed: points to actual class
-		'Vtiger_Loader' => '\App\Vtiger_Loader',  // Fixed: points to actual class
 		'Vtiger_Language_Handler' => '\App\Runtime\Vtiger_Language_Handler',  // Fixed: points to actual class
 		'CRM_Viewer' => '\App\Runtime\CRM_Viewer',  // Fixed: points to actual class
-		'Vtiger_Theme' => '\App\Runtime\Vtiger_Theme',  // Fixed: points to actual class
-		'Vtiger_JavaScript' => '\App\Runtime\Vtiger_JavaScript',  // Fixed: points to actual class
-		'Vtiger_Controller' => '\App\Runtime\Vtiger_Controller',  // Fixed: points to actual class
 		'Vtiger_Base_Model' => '\App\Runtime\Vtiger_Base_Model',  // Fixed: points to actual class
 		// Entity aliases - these may not exist in App\ namespace
 		'CRMEntity' => '\App\CRMEntity',  // Fixed: points to actual class

@@ -162,7 +162,7 @@ class FindDuplicates  extends \App\Modules\Vtiger\Views\Index
 		$result['module'] = $moduleName;
 		$result['count'] = $count;
 
-		$response = new Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();

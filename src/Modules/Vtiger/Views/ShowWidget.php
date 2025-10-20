@@ -47,7 +47,7 @@ class ShowWidget  extends \App\Modules\Vtiger\Views\Index
 			}
 		}
 
-		$response = new Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('NO_DATA')));
 		$response->emit();
 	}

@@ -187,7 +187,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 		$result['viewname'] = $cvId;
 		$result['count'] = $count;
 
-		$response = new Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
@@ -244,7 +244,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 		$result = array();
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $listViewCount;
-		$response = new Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

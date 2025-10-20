@@ -211,7 +211,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Trigger permission check for the current request
 	 * 
-	 * @param Vtiger_Controller $handler
+	 * @param \App\Runtime\Vtiger_Controller $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\AppException When module is not found
 	 * @throws \Exception\NoPermitted When user lacks permissions
@@ -239,7 +239,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Trigger pre-process phase
 	 * 
-	 * @param Vtiger_Controller $handler
+	 * @param \App\Runtime\Vtiger_Controller $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool|null True for AJAX requests, null otherwise
 
@@ -258,7 +258,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Trigger post-process phase
 	 * 
-	 * @param Vtiger_Controller $handler
+	 * @param \App\Runtime\Vtiger_Controller $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool|null True for AJAX requests, null otherwise
 	 */
@@ -613,7 +613,7 @@ class WebUI extends EntryPoint
 	 * @param string $componentType
 	 * @param string $componentName
 	 * @param string|null $qualifiedModuleName
-	 * @return Vtiger_Controller
+	 * @return \App\Runtime\Vtiger_Controller
 	 * @throws \Exception\AppException When handler class not found
 	 */
 	private function createHandler($componentType, $componentName, $qualifiedModuleName)
@@ -637,7 +637,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Execute handler with full lifecycle
 	 * 
-	 * @param Vtiger_Controller $handler
+	 * @param \App\Runtime\Vtiger_Controller $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $module
 	 * @param string|null $qualifiedModuleName
@@ -663,7 +663,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Validate handler request
 	 * 
-	 * @param Vtiger_Controller $handler
+	 * @param \App\Runtime\Vtiger_Controller $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function validateHandler($handler, \App\Http\Vtiger_Request $request)
@@ -677,7 +677,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Check if handler requires login
 	 * 
-	 * @param Vtiger_Controller $handler
+	 * @param \App\Runtime\Vtiger_Controller $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function checkHandlerLogin($handler, \App\Http\Vtiger_Request $request)
@@ -690,7 +690,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Check handler permissions
 	 * 
-	 * @param Vtiger_Controller $handler
+	 * @param \App\Runtime\Vtiger_Controller $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $module
 	 * @param string|null $qualifiedModuleName

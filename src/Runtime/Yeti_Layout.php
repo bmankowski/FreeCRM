@@ -32,7 +32,7 @@ class Yeti_Layout
 	public static function getLayoutFile(string $name)
 	{
 		$basePath = 'layouts/' . \App\AppConfig::main('defaultLayout') . '/';
-		$filePath = Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
+		$filePath = \App\Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			return $basePath . $name;
 		}

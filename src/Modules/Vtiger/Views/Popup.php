@@ -338,7 +338,7 @@ class Popup  extends \App\Modules\Vtiger\Views\Index
 		$result = [];
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $listViewCount;
-		$response = new Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

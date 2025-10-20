@@ -21,7 +21,7 @@ use App\Runtime\Vtiger_Controller;
 /**
  * Abstract Action Controller Class
  */
-abstract class Vtiger_Action_Controller extends Vtiger_Controller
+abstract class Vtiger_Action_Controller extends \App\Runtime\Vtiger_Controller
 {
 
 	public function __construct()

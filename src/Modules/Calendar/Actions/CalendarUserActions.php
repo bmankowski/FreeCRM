@@ -44,7 +44,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to delete the user calendar from shared calendar
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return Vtiger_Response $response
+	 * @return \App\Http\Vtiger_Response $response
 	 */
 	public function deleteUserCalendar(\App\Http\Vtiger_Request $request)
 	{
@@ -69,7 +69,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to add other user calendar to shared calendar
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return Vtiger_Response $response
+	 * @return \App\Http\Vtiger_Response $response
 	 */
 	public function addUserCalendar(\App\Http\Vtiger_Request $request)
 	{
@@ -96,7 +96,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to delete the calendar view from My Calendar
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return Vtiger_Response $response
+	 * @return \App\Http\Vtiger_Response $response
 	 */
 	public function deleteCalendarView(\App\Http\Vtiger_Request $request)
 	{
@@ -120,7 +120,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function to add calendar views to My calendar
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return Vtiger_Response $response
+	 * @return \App\Http\Vtiger_Response $response
 	 */
 	public function addCalendarView(\App\Http\Vtiger_Request $request)
 	{

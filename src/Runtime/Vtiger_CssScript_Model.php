@@ -11,10 +11,10 @@
 namespace App\Runtime;
 
 /**
- * CSS Script Model - extends Vtiger_JavaScript
+ * CSS Script Model - extends \App\Runtime\Vtiger_JavaScript
  */
 
-class Vtiger_CssScript_Model extends Vtiger_JavaScript
+class Vtiger_CssScript_Model extends \App\Runtime\Vtiger_JavaScript
 {
 	protected $data = [];
 	

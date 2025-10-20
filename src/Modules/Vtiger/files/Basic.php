@@ -78,7 +78,7 @@ abstract class Vtiger_Basic_File
 			}
 		}
 		if ($request->isAjax()) {
-			$response = new Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setResult([
 				'field' => $request->get('field'),
 				'module' => $request->getModule(),
