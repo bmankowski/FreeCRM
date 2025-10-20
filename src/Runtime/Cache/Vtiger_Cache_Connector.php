@@ -14,7 +14,7 @@ namespace App\Runtime\Cache;
 
 class Vtiger_Cache_Connector
 {
-	private static $selfInstance = false;
+	private static $selfInstance = null;
 	
 	private function __construct()
 	{
@@ -33,7 +33,7 @@ class Vtiger_Cache_Connector
 	public function get(string $ns, string $key)
 	{
 		// Use the new \App\Cache system for compatibility
-		return \App\Cache::get($ns . '_' . $key);
+		return \App\Cache::get($ns, $ns . '_' . $key);
 	}
 	
 	public function set(string $ns, string $key, $value)
