@@ -138,7 +138,9 @@ class Vtiger_Loader
 		$psr4ComponentFilePath = Vtiger_Loader::resolveNameToPath('src.Modules.' . $moduleDir . '.' . ucfirst($componentTypeDirectory) . '.' . $componentName);
 		$moduleSpecificComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
 		if (file_exists($psr4ComponentFilePath)) {
-			return $moduleSpecificComponentClassName;
+			// Return PSR-4 class name when PSR-4 file exists
+			$psr4ClassName = "App\\Modules\\" . str_replace('.', '\\', $moduleDir) . "\\" . ucfirst($componentTypeDirectory) . "\\" . $componentName;
+			return $psr4ClassName;
 		}
 		// Fallback to legacy location (src/Modules/)
 		$moduleSpecificComponentFilePath = Vtiger_Loader::resolveNameToPath('modules.' . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);

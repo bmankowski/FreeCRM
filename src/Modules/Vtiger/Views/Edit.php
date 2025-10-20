@@ -81,7 +81,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 			$this->record = $recordModel;
 		}
 
-		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $record);
+		$editModel = \App\Modules\Vtiger\Models\EditView::getInstance($moduleName, $record);
 		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $record];
 		$detailViewLinks = $editModel->getEditViewLinks($editViewLinkParams);
 		$viewer->assign('EDITVIEW_LINKS', $detailViewLinks);
@@ -114,7 +114,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 		}
 		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$isRelationOperation = $request->get('relationOperation');
 		//if it is relation edit
