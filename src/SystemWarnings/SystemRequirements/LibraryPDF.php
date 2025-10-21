@@ -19,11 +19,11 @@ class LibraryPDF extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		$this->status = Settings_ModuleManager_Library_Model::checkLibrary('mPDF') ? 0 : 1;
+		$this->status = \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') ? 0 : 1;
 		if ($this->status === 0) {
 			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
 			$this->linkTitle = \App\Runtime\Vtiger_Language_Handler::translate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
-			$this->description = \App\Runtime\Vtiger_Language_Handler::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', Settings_ModuleManager_Library_Model::TEMP_DIR);
+			$this->description = \App\Runtime\Vtiger_Language_Handler::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \App\Modules\Settings\ModuleManager\Models\Library::TEMP_DIR);
 		}
 	}
 }

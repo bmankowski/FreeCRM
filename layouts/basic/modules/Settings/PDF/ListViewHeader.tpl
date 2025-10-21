@@ -9,7 +9,7 @@
 					{"LBL_PDF_DESCRIPTION"|t:$QUALIFIED_MODULE}
 				</div>
 			</div>
-			{if Settings_ModuleManager_Library_Model::checkLibrary('mPDF')}
+			{if \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF')}
 				<div class="alert alert-danger" role="alert">
 					<div>
 						<h4>{'ERR_NO_REQUIRED_LIBRARY'|t:'Settings:Vtiger','mPDF'}</h4>

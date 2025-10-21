@@ -26,7 +26,6 @@ spl_autoload_register(function ($class) {
 		'Settings_LayoutEditor_Module_Model' => '\App\Modules\Settings\LayoutEditor\Models\Module',
 		'Settings_MailSmtp_Module_Model' => '\App\Modules\Settings\MailSmtp\Models\Module',
 		'Settings_Mail_Config_Model' => '\App\Modules\Settings\Mail\Models\Config',
-		'Settings_ModuleManager_Library_Model' => '\App\Modules\Settings\ModuleManager\Models\Library',
 		'Settings_ModuleManager_Module_Model' => '\App\Modules\Settings\ModuleManager\Models\Module',
 		'Settings_PBXManager_Module_Model' => '\App\Modules\Settings\PBXManager\Models\Module',
 		'Settings_PDF_Module_Model' => '\App\Modules\Settings\PDF\Models\Module',

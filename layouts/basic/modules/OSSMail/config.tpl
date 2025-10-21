@@ -27,7 +27,7 @@
 	</ul>
 	<div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
 		<div class="editViewContainer tab-pane active" id="tab_rc_config">
-			{if Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
+			{if \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('roundcube')}
 				<br>
 				<div class="alert alert-danger" role="alert">
 					<div>

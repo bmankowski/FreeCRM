@@ -12,7 +12,7 @@ namespace App;
 class SystemWarnings
 {
 
-	const FOLDERS = 'vendor/yetiforce/SystemWarnings';
+	const FOLDERS = 'src/SystemWarnings';
 	const SELECTED_FOLDERS = ['SystemRequirements', 'YetiForce'];
 
 	/**

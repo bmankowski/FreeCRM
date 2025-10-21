@@ -60,7 +60,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach key=NAME item=LIBRARY from=Settings_ModuleManager_Library_Model::getAll()}
+					{foreach key=NAME item=LIBRARY from=\App\Modules\Settings\ModuleManager\Models\Library::getAll()}
 						<tr>
 							<td><strong>{$NAME}</strong></td>
 							<td>{$LIBRARY['dir']}</td>
