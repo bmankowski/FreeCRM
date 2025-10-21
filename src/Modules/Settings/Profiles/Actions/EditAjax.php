@@ -34,7 +34,7 @@ Class Settings_Profiles_EditAjax_Action extends \App\Modules\Settings\Vtiger\Vie
 	{
 		$profileName = $request->get('profilename');
 		$recordId = $request->get('record');
-		$recordModel = Settings_Profiles_Record_Model::getInstanceByName($profileName, false, $recordId);
+		$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceByName($profileName, false, $recordId);
 		$response = new \App\Http\Vtiger_Response();
 		if (!empty($recordModel)) {
 			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));

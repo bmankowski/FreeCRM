@@ -251,12 +251,12 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the profiles associated with the current role
-	 * @return <Array> Settings_Profiles_Record_Model instances
+	 * @return <Array> \App\Modules\Settings\Profiles\Model\Record instances
 	 */
 	public function getProfiles()
 	{
 		if (!isset($this->profiles)) {
-			$this->profiles = Settings_Profiles_Record_Model::getAllByRole($this->getId());
+			$this->profiles = \App\Modules\Settings\Profiles\Model\Record::getAllByRole($this->getId());
 		}
 		return $this->profiles;
 	}

@@ -493,7 +493,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$profiles = [];
 		if (!empty($userProfiles)) {
 			foreach ($userProfiles as $profile) {
-				$profiles[$profile] = Settings_Profiles_Record_Model::getInstanceById($profile);
+				$profiles[$profile] = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($profile);
 			}
 		}
 		return $profiles;

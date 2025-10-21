@@ -33,7 +33,7 @@ Class Settings_Roles_EditAjax_View extends \App\Modules\Settings\Roles\Views\Ind
 			$viewer->assign('MODE', '');
 		}
 
-		$viewer->assign('ALL_PROFILES', Settings_Profiles_Record_Model::getAll());
+		$viewer->assign('ALL_PROFILES', \App\Modules\Settings\Profiles\Model\Record::getAll());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

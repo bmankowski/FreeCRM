@@ -20,7 +20,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		if ($request->get('record')) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
+			$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
 			$title = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAIL', $moduleName);
@@ -34,7 +34,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
+		$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($recordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);

@@ -73,7 +73,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 			//After role updation recreating user privilege files
 			if ($roleProfiles) {
 				foreach ($roleProfiles as $profileId) {
-					$profileRecordModel = Settings_Profiles_Record_Model::getInstanceById($profileId);
+					$profileRecordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($profileId);
 					$profileRecordModel->recalculate(array($recordId));
 				}
 			}

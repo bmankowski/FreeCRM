@@ -68,7 +68,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		 
-		$userIdsList = Settings_Profiles_Record_Model::getUsersList();
+		$userIdsList = \App\Modules\Settings\Profiles\Model\Record::getUsersList();
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
 				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);

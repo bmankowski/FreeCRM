@@ -23,8 +23,8 @@ class Delete extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$transferRecordId = $request->get('transfer_record');
 
 		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
-		$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
-		$transferToProfile = Settings_Profiles_Record_Model::getInstanceById($transferRecordId);
+		$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($recordId);
+		$transferToProfile = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($transferRecordId);
 		if ($recordModel && $transferToProfile) {
 			$recordModel->delete($transferToProfile);
 		}

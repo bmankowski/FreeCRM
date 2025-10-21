@@ -28,9 +28,9 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$recordId = $request->get('record');
 
 		if (!empty($recordId)) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
+			$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($recordId);
 		} else {
-			$recordModel = new Settings_Profiles_Record_Model();
+			$recordModel = new \App\Modules\Settings\Profiles\Model\Record();
 		}
 		if ($recordModel) {
 			$recordModel->set('profilename', $request->get('profilename'));
