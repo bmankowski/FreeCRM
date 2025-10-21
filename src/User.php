@@ -1,7 +1,5 @@
 <?php
 namespace App;
-use App\AppConfig;
-use App\Http\App\Http\Vtiger_Session;
 
 /**
  * User basic class

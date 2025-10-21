@@ -274,15 +274,6 @@ class Users extends \App\CRMEntity
 	 */
 
 
-	/** gives the user id for the specified user name
-	 * @param $user_name -- user name:: Type varchar
-	 * @returns user id
-	 */
-	public function retrieve_user_id($userName)
-	{
-		return \App\Modules\Users\Models\Record::getUserIdByName($userName);
-	}
-
 	/** Function to get the current user information from the user_privileges file
 	 * @param $userid -- user id:: Type integer
 	 * @returns user info in $this->column_fields array:: Type array
