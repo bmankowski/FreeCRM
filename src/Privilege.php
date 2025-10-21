@@ -1,7 +1,5 @@
 <?php
 namespace App;
-use App\AppConfig;
-use App\Http\AppRequest;
 
 /**
  * Privilege basic class
