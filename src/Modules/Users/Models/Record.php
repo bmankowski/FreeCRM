@@ -1223,6 +1223,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function loadUserInfoFromFile($userid)
 	{
 		$userPrivileges = \App\User::getPrivilegesFile($userid);
+		if ($userPrivileges === null) {
+			\App\Log::error("User privileges file not found for user: $userid");
+			return $this;
+		}
 		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->getData() as $field => $value_iter) {
 			if (isset($userInfo[$field])) {

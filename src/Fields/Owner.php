@@ -201,6 +201,10 @@ class Owner
 		// Including deleted vtiger_users for now.
 		if ($private === 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
+			if ($userPrivileges === null) {
+				\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+				return [];
+			}
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query = new \App\Db\Query ();
 			$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getId()]);
@@ -299,6 +303,10 @@ class Owner
 		}
 		if ($private == 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
+			if ($userPrivileges === null) {
+				\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+				return [];
+			}
 			if (strpos($query, 'WHERE') === false)
 				$query .= ' WHERE';
 			else

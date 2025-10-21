@@ -1023,6 +1023,10 @@ class CRMEntity
 		if ($current_user) {
 			$privileges = \App\User::getPrivilegesFile($current_user->id);
 			$sharingPrivileges = \App\User::getSharingFile($current_user->id);
+			if ($privileges === null || $sharingPrivileges === null) {
+				\App\Log::error("User privileges or sharing file not found for user: " . $current_user->id);
+				return '';
+			}
 		} else {
 			return '';
 		}

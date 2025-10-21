@@ -71,6 +71,11 @@ class PrivilegeFile
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
-		file_put_contents($file, 'return ' . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);
+		$content = '<?php return ' . \vtlib\Functions::varExportMin($user) . ';';
+		$result = file_put_contents($file, $content, LOCK_EX);
+		if ($result === false) {
+			\App\Log::error("Failed to write privilege file for user $userId: $file");
+			throw new \Exception("Failed to write privilege file for user $userId");
+		}
 	}
 }

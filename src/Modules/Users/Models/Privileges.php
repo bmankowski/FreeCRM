@@ -141,6 +141,10 @@ class Privileges extends \App\Runtime\Vtiger_Base_Model
 			return self::$userPrivilegesModelCache[$userId];
 		}
 		$valueMap = \App\User::getPrivilegesFile($userId);
+		if ($valueMap === null) {
+			\App\Log::error("User privileges file not found for user: $userId");
+			return null;
+		}
 		if (is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}

@@ -28,6 +28,10 @@ class Privileges extends \Api\Core\BaseAction
 		if (\App\User::isExists($userId)) {
 			$moduleId = \App\Module::getModuleId($moduleName);
 			$actionPermissions = \App\User::getPrivilegesFile($userId);
+			if ($actionPermissions === null) {
+				\App\Log::error("User privileges file not found for user: $userId");
+				return ['standardActions' => $privileges, 'error' => 'Privileges file not found'];
+			}
 			$isAdmin = $actionPermissions['is_admin'];
 			$permission = isset($actionPermissions['profile_action_permission'][$moduleId]) ? $actionPermissions['profile_action_permission'][$moduleId] : false;
 			if ($permission || $isAdmin) {

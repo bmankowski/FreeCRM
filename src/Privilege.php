@@ -29,6 +29,12 @@ class Privilege
 			$userId = \App\User::getCurrentUserId();
 		}
 	$userPrivileges = \App\User::getPrivilegesFile($userId);
+	if ($userPrivileges === null) {
+		\App\Log::error("User privileges file not found for user: $userId");
+		static::$isPermittedLevel = 'SEC_USER_PRIVILEGES_NOT_FOUND';
+		\App\Log::trace('Exiting isPermitted method ... - no privileges file');
+		return false;
+	}
 	$permission = false;
 	if (($moduleName == 'Users' || $moduleName == 'Home' || $moduleName == 'uploads') && \App\Http\AppRequest::get('parenttab') != 'Settings') {
 		//These modules dont have security right now

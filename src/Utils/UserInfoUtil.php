@@ -71,6 +71,12 @@ class UserInfoUtil
 
 	$current_user = vglobal('current_user');
 	$userPrivileges = \App\User::getPrivilegesFile($current_user->id);
+	if ($userPrivileges === null) {
+		\App\Log::error("User privileges file not found for user: " . $current_user->id);
+		vglobal('isPermittedLog', 'SEC_USER_PRIVILEGES_NOT_FOUND');
+		\App\Log::trace('Exiting isPermitted method ... - no privileges file');
+		return 'no';
+	}
 
 	$permission = 'no';
 	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && \App\Http\AppRequest::get('parenttab') != 'Settings') {
