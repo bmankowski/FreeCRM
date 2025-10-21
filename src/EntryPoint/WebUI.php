@@ -25,7 +25,7 @@ use App\CRMEntity;
 use App\Vtiger_Loader;
 use App\Debugger;
 use App\Http\Vtiger_Request;
-use App\Http\Vtiger_Session;
+use App\Http\App\Http\Vtiger_Session;
 use App\Runtime\Vtiger_Controller;
 use App\Runtime\Vtiger_Language_Handler;
 use App\Cache;
@@ -162,9 +162,9 @@ class WebUI extends EntryPoint
 	{
 		$returnParams = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
 
-		if ($returnParams && !Vtiger_Session::get('return_params')) {
+		if ($returnParams && !\App\Http\Vtiger_Session::get('return_params')) {
 			$returnParams = urlencode($returnParams);
-			Vtiger_Session::set('return_params', $returnParams);
+			\App\Http\Vtiger_Session::set('return_params', $returnParams);
 		}
 
 		header('Location: index.php');
@@ -391,7 +391,7 @@ class WebUI extends EntryPoint
 	 */
 	private function initializeSession(Vtiger_Request $request)
 	{
-		Vtiger_Session::init();
+		\App\Http\Vtiger_Session::init();
 
 		// Initialize CSRF protection if enabled
 		if ($this->shouldEnableCsrfProtection($request)) {

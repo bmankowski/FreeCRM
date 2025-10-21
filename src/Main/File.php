@@ -22,7 +22,7 @@ class File
 				header('Location: ' . \App\AppConfig::main('site_URL'), true, 301);
 			}
 		}
-		\Vtiger_Session::init();
+		\App\Http\Vtiger_Session::init();
 		$this->getLogin();
 		$moduleName = $request->getModule();
 		$action = $request->get('action');
@@ -47,9 +47,9 @@ class File
 	 */
 	public function getLogin()
 	{
-		if (\Vtiger_Session::has('authenticated_user_id')) {
-			$userid = \Vtiger_Session::get('authenticated_user_id');
-			if ($userid && \App\AppConfig::main('application_unique_key') === \Vtiger_Session::get('app_unique_key')) {
+		if (\App\Http\Vtiger_Session::has('authenticated_user_id')) {
+			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
+			if ($userid && \App\AppConfig::main('application_unique_key') === \App\Http\Vtiger_Session::get('app_unique_key')) {
 				\App\User::getCurrentUserModel();
 				$user = \App\CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);

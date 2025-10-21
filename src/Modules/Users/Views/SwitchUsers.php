@@ -30,7 +30,7 @@ class SwitchUsers  extends \App\Modules\Vtiger\Views\Index
 		$users = \App\Modules\Users\Models\Module::getSwitchUsers(true);
 		$userId = $request->get('id');
 		$baseUserId = $userId;
-		if (Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
+		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
 			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
 		}
 		unset($users[$baseUserId]);

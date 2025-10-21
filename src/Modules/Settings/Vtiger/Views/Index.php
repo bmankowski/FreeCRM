@@ -17,7 +17,7 @@ use App\Modules\Settings\ModuleManager\Models\Module;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Http\Vtiger_Session;
+use App\Http\App\Http\Vtiger_Session;
 
 class Index extends \App\Modules\Vtiger\Views\Basic
 {
@@ -104,7 +104,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 		$warnings = \App\SystemWarnings::getWarnings('all');
 
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
-		$viewer->assign('WARNINGS', !Vtiger_Session::has('SystemWarnings') ? $warnings : []);
+		$viewer->assign('WARNINGS', !\App\Http\Vtiger_Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);

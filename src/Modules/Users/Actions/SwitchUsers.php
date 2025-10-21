@@ -51,17 +51,17 @@ class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$name = $currentUserModel->getName();
 		$userName = $currentUser->column_fields['user_name'];
-		Vtiger_Session::set('authenticated_user_id', $userId);
-		Vtiger_Session::set('user_name', $userName);
-		Vtiger_Session::set('full_user_name', $name);
+		\App\Http\Vtiger_Session::set('authenticated_user_id', $userId);
+		\App\Http\Vtiger_Session::set('user_name', $userName);
+		\App\Http\Vtiger_Session::set('full_user_name', $name);
 
 		$status = 'Switched';
-		if (empty(Vtiger_Session::get('baseUserId'))) {
-			Vtiger_Session::set('baseUserId', $baseUserId);
+		if (empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
+			\App\Http\Vtiger_Session::set('baseUserId', $baseUserId);
 			$status = 'Signed in';
 		} elseif ($userId === \App\Http\Vtiger_Session::get('baseUserId')) {
 			$baseUserId = $userId;
-			Vtiger_Session::set('baseUserId', '');
+			\App\Http\Vtiger_Session::set('baseUserId', '');
 			$status = 'Signed out';
 		} else {
 			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');

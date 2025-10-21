@@ -11,7 +11,7 @@
 
 namespace App\Runtime;
 
-use App\Http\Vtiger_Session;
+use App\Http\App\Http\Vtiger_Session;
 use App\AppConfig;
 use App\Vtiger_Loader;
 use App\Database\PearDatabase;

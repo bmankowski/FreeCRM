@@ -318,7 +318,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		//After adding new user, set the default activity types for new user
 		\App\Modules\Vtiger\helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\User::getCurrentUserRealId() === $recordModel->getId()) {
-			Vtiger_Session::set('language', $recordModel->get('language'));
+			\App\Http\Vtiger_Session::set('language', $recordModel->get('language'));
 		}
 		require_once '/modules/Users/CreateUserPrivilegeFile.php';
 		\App\Modules\Users\createUserPrivilegesfile($recordModel->getId());

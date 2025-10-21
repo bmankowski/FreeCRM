@@ -11,13 +11,13 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
- use App\Http\Vtiger_Session;
+ use App\Http\App\Http\Vtiger_Session;
 class Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	public function getRealId()
 	{
-		if (Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
+		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
 			return \App\Http\Vtiger_Session::get('baseUserId');
 		}
 		return $this->getId();

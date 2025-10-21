@@ -1,7 +1,7 @@
 <?php
 namespace App;
 use App\AppConfig;
-use App\Http\Vtiger_Session;
+use App\Http\App\Http\Vtiger_Session;
 
 /**
  * User basic class
@@ -46,7 +46,7 @@ class User
 		if (static::$currentUserRealId) {
 			return static::$currentUserRealId;
 		}
-		if (Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId')) {
+		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId')) {
 			$id = \App\Http\Vtiger_Session::get('baseUserId');
 		} else {
 			$id = static::getCurrentUserId();
