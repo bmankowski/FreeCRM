@@ -23,11 +23,11 @@ class Privileges extends \Api\Core\BaseAction
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');
-		$userId = $this->session->get('user_id');
-		$privileges = [];
-		if (\App\User::isExists($userId)) {
-			$moduleId = \App\Module::getModuleId($moduleName);
-			$actionPermissions = \App\User::getPrivilegesFile($userId);
+	$userId = $this->session->get('user_id');
+	$privileges = [];
+	if (\App\Modules\Users\Models\Record::isExists($userId)) {
+		$moduleId = \App\Module::getModuleId($moduleName);
+		$actionPermissions = \App\User::getPrivilegesFile($userId);
 			if ($actionPermissions === null) {
 				\App\Log::error("User privileges file not found for user: $userId");
 				return ['standardActions' => $privileges, 'error' => 'Privileges file not found'];

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Vtiger/uitypes/TimeFieldSearchView.tpl -->
-{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+{assign var="FIELD_INFO" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SEARCH_VALUE" value=$SEARCH_INFO['searchValue']}
 {if !empty($SEARCH_VALUE)}
     {assign var=FIELD_VALUE value=$SEARCH_VALUE}

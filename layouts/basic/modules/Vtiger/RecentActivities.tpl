@@ -48,28 +48,28 @@
 														<span>{$FIELDMODEL->getName()|t:$MODULE_NAME}</span>:&nbsp;
 														{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 															&nbsp;{"LBL_FROM"|t} <strong style="white-space:pre-wrap;">
-															{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))|t:$MODULE_NAME}</strong>
+															{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))|t:$MODULE_NAME}</strong>
 														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-															&nbsp; <strong> {"LBL_DELETED"|t} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
+															&nbsp; <strong> {"LBL_DELETED"|t} </strong> ( <del>{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
 														{else}
 															&nbsp;{"LBL_CHANGED"|t}
 														{/if}
 														{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 															&nbsp;{"LBL_TO"|t}&nbsp;<strong style="white-space:pre-wrap;">
-															{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))|t:$MODULE_NAME}</strong>
+															{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))|t:$MODULE_NAME}</strong>
 														{/if}
 													</div>
 												{/if}
 											{/foreach}
 										</span>
-										<span class="pull-right"><p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getParent()->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p></span>
+										<span class="pull-right"><p class="muted"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($RECENT_ACTIVITY->getParent()->get('createdtime'))}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p></span>
 									</div>
 								</li>
 							{else if $RECENT_ACTIVITY->isUpdate()}
 								<li>
 									<div>
 										<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {"LBL_UPDATED"|t:$MODULE_NAME}</span>
-										<span class="pull-right"><p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
+										<span class="pull-right"><p class="muted"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
 									</div>
 									{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 										{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -77,15 +77,15 @@
 												<span>{$FIELDMODEL->getName()|t:$MODULE_NAME}</span>:&nbsp;
 													{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 														&nbsp;{"LBL_FROM"|t} <strong style="white-space:pre-wrap;">
-														{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))|t:$MODULE_NAME}</strong>
+														{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))|t:$MODULE_NAME}</strong>
 													{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-														&nbsp; <strong> {"LBL_DELETED"|t} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
+														&nbsp; <strong> {"LBL_DELETED"|t} </strong> ( <del>{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
 													{else}
 														&nbsp;{"LBL_CHANGED"|t}
 													{/if}
 													{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 														&nbsp;{"LBL_TO"|t}&nbsp;<strong style="white-space:pre-wrap;">
-														{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))|t:$MODULE_NAME}</strong>
+														{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))|t:$MODULE_NAME}</strong>
 													{/if}
 											</div>
 										{/if}
@@ -106,7 +106,7 @@
 													{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
 												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
 										(<span>{$RELATION->getLinkedRecord()->getModuleName()|t:$RELATION->getLinkedRecord()->getModuleName()}</span>)
-										<span class="pull-right"><p class="muted no-margin"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))}</small></p></span>
+										<span class="pull-right"><p class="muted no-margin"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($RELATION->get('changedon'))}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RELATION->get('changedon'))}</small></p></span>
 									</div>
 								</li>
 							{else if $RECENT_ACTIVITY->isRestore()}
@@ -126,7 +126,7 @@
 										</span>
 										<span class="pull-right">
 											<p class="muted no-margin">
-												<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}
+												<small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}
 												</small>
 											</p>
 										</span>

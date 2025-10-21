@@ -21,8 +21,8 @@
 				<form class="form-horizontal contentsBackground" id="moveReports" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="MoveReports" />
-					<input type="hidden" name="selected_ids" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SELECTED_IDS))}" />
-					<input type="hidden" name="excluded_ids" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($EXCLUDED_IDS))}" />
+					<input type="hidden" name="selected_ids" value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($SELECTED_IDS))}" />
+					<input type="hidden" name="excluded_ids" value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($EXCLUDED_IDS))}" />
 					<input type="hidden" name="viewname" value="{$VIEWNAME}" />
 					<div class="modal-body">
 						<div class="row verticalBottomSpacing">

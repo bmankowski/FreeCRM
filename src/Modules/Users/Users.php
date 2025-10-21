@@ -674,11 +674,11 @@ class Users extends \App\CRMEntity
 	 * Function to get the active admin user object
 	 * @return Users - Active Admin User Instance
 	 */
-	public static function getActiveAdminUser()
-	{
-		$adminId = \App\User::getActiveAdminId();
-		$user = \App\CRMEntity::getInstance('Users');
-		$user->retrieveCurrentUserInfoFromFile($adminId);
+public static function getActiveAdminUser()
+{
+	$adminId = \App\Modules\Users\Models\Record::getActiveAdminId();
+	$user = \App\CRMEntity::getInstance('Users');
+	$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
 	}
 }

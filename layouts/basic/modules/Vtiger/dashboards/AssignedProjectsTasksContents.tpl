@@ -36,7 +36,7 @@ font-size: 75%;
 				{/if}
 			</div>
 			{assign var=TARGETENDDATE value=$TASKS->get('targetenddate')}
-			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($TARGETENDDATE)}">{$TARGETENDDATE}</small></p>
+			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($TARGETENDDATE)}">{$TARGETENDDATE}</small></p>
 			<div class='clearfix'></div>
 		</div>
 		<div class='clearfix'></div>

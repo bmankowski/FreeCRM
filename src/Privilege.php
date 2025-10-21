@@ -12,6 +12,25 @@ class Privilege
 {
 
 	public static $isPermittedLevel;
+	protected static $userSharingCache = [];
+
+	/**
+	 * Get sharing privileges from file by id
+	 * @param int $userId
+	 * @return array|null
+	 */
+	public static function getSharingFile($userId)
+	{
+		if (isset(self::$userSharingCache[$userId])) {
+			return self::$userSharingCache[$userId];
+		}
+		if (!file_exists("user_privileges/sharing_privileges_{$userId}.php")) {
+			return null;
+		}
+		$sharingPrivileges = require("user_privileges/sharing_privileges_{$userId}.php");
+		self::$userSharingCache[$userId] = $sharingPrivileges;
+		return $sharingPrivileges;
+	}
 
 	/**
 	 * Function to check permission for a Module/Action/Record
@@ -25,17 +44,17 @@ class Privilege
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false, $userId = false)
 	{
-		\App\Log::trace("Entering \App\Utils\UserInfoUtil::isPermitted($moduleName,$actionName,$record,$userId) method ...");
-		
-		// Step 1: Initialize user ID and load privileges
-		if (!$userId) {
-			$userId = \App\User::getCurrentUserId();
-		}
-		
-		$userPrivileges = \App\User::getPrivilegesFile($userId);
-		if ($userPrivileges === null) {
-			return static::returnPermissionResult(false, 'SEC_USER_PRIVILEGES_NOT_FOUND', "User privileges file not found for user: $userId");
-		}
+	\App\Log::trace("Entering \App\Utils\UserInfoUtil::isPermitted($moduleName,$actionName,$record,$userId) method ...");
+	
+	// Step 1: Initialize user ID and load privileges
+	if (!$userId) {
+		$userId = \App\User::getCurrentUserId();
+	}
+	
+	$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($userId);
+	if ($userPrivileges === null) {
+		return static::returnPermissionResult(false, 'SEC_USER_PRIVILEGES_NOT_FOUND', "User privileges file not found for user: $userId");
+	}
 		
 		// Step 2: Check modules without security restrictions
 		if (static::checkModulesWithoutSecurity($moduleName)) {
@@ -447,11 +466,11 @@ class Privilege
 		return static::returnPermissionResult($permission, $level);
 	}
 
-	public static function isPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
-	{
-		$sharingPrivileges = \App\User::getSharingFile($userId);
-		//Retreiving the default Organisation sharing Access
-		$othersPermissionId = $sharingPrivileges['defOrgShare'][$tabId];
+public static function isPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
+{
+	$sharingPrivileges = self::getSharingFile($userId);
+	//Retreiving the default Organisation sharing Access
+	$othersPermissionId = $sharingPrivileges['defOrgShare'][$tabId];
 		//Checking for Default Org Sharing permission
 		if ($othersPermissionId == 0) {
 			if ($actionId == 1 || $actionId == 0) {
@@ -495,7 +514,7 @@ class Privilege
 	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
 		\App\Log::trace("Entering \App\Utils\UserInfoUtil::isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
-		$sharingPrivileges = \App\User::getSharingFile($userId);
+		$sharingPrivileges = self::getSharingFile($userId);
 
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;
@@ -587,7 +606,7 @@ class Privilege
 	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
 		\App\Log::trace("Entering \App\Utils\UserInfoUtil::isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
-		$sharingPrivileges = \App\User::getSharingFile($userId);
+		$sharingPrivileges = self::getSharingFile($userId);
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;
 		}

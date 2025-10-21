@@ -502,7 +502,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function filterUsers($users)
 	{
 		foreach ($users as $key => $userId) {
-			$userModel = \App\User::getUserModel($userId);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 			if (!$userModel->isActive() || !$userModel->getDetail('available') || !$userModel->getDetail('auto_assign') || $this->getCustomConditions($userModel)) {
 				unset($users[$key]);
 			}
@@ -561,11 +561,11 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getDefaultOwner()
 	{
-		$owner = $this->get('assign');
-		if (\App\Fields\Owner::getType($owner) === 'Users') {
-			return \App\User::isExists($owner) ? $owner : 0;
-		}
-		return \App\Modules\Settings\Groups\Models\Record::getInstance($owner) ? $owner : 0;
+	$owner = $this->get('assign');
+	if (\App\Fields\Owner::getType($owner) === 'Users') {
+		return \App\Modules\Users\Models\Record::isExists($owner) ? $owner : 0;
+	}
+	return \App\Modules\Settings\Groups\Models\Record::getInstance($owner) ? $owner : 0;
 	}
 
 	/**
@@ -581,11 +581,11 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$this->availableUsers = array_fill_keys($this->getUsers(), 0);
 		if (empty($this->availableUsers)) {
 			return $this->availableUsers;
-		}
+	}
 
-		$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), \App\User::getActiveAdminId());
-		$queryGenerator->setFields(['assigned_user_id']);
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id']);
+	$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), \App\Modules\Users\Models\Record::getActiveAdminId());
+	$queryGenerator->setFields(['assigned_user_id']);
+	$queryGenerator->addJoin(['INNER JOIN', 'vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id']);
 		$queryGenerator->addNativeCondition(['vtiger_users.available' => 1, 'vtiger_users.auto_assign' => 1]);
 		$conditions = $this->get('conditions');
 		if ($conditions) {

@@ -34,7 +34,7 @@
 						</button>
 					</div>
 				</div>
-				<div class="widgetContainer panel-collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
+				<div class="widgetContainer panel-collapse" id="{$MODULE}_sideBar_{\App\Modules\Vtiger\helpers\Util::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
 					<div class="panel-body">
 						
 					</div>

@@ -51,7 +51,7 @@
 			<div class="form-horizontal modalSummaryValues">
 				<div class="form-group">
 					<label class="col-sm-4 control-label">{"Subject"|t:$MODULE_NAME}:</label>
-					<div class="col-sm-8 textOverflowEllipsis fieldVal" data-subject="{Vtiger_Util_Helper::toSafeHTML($RECORD->get('subject'))}">
+					<div class="col-sm-8 textOverflowEllipsis fieldVal" data-subject="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($RECORD->get('subject'))}">
 						{$RECORD->get('subject')}
 					</div>
 				</div>
@@ -59,14 +59,14 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{'Start Date & Time'|t:$MODULE_NAME}:</label>
 						<div class="col-sm-8">
-							{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}
+							{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}
 						</div>
 						
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{"Due Date"|t:$MODULE_NAME}:</label>
 						<div class="col-sm-8">
-							{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}
+							{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}
 						</div>	
 					</div>
 					{if $RECORD->get('activitystatus') neq '' }

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Vtiger/uitypes/Owner.tpl -->
-	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->get('uitype') eq '53'}
 		{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}

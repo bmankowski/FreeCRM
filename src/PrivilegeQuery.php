@@ -46,7 +46,7 @@ class PrivilegeQuery
 				$query[] = "vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
 			}
 			if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
-				$sharingPrivileges = \App\User::getSharingFile($userId);
+				$sharingPrivileges = \App\Privilege::getSharingFile($userId);
 				if (isset($sharingPrivileges['permission'][$moduleName])) {
 					$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 					$sharingRuleInfo = $sharingPrivilegesModule['read'];
@@ -69,14 +69,16 @@ class PrivilegeQuery
 		return '';
 	}
 
-	public static function getConditions(\App\Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
-	{
-		if ($user && $user instanceof User) {
-			$userId = $user->getId();
-		} elseif (!$user) {
-			$userId = \App\User::getCurrentUserId();
-		}
-		$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
+public static function getConditions(\App\Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
+{
+	if ($user && (is_object($user) && method_exists($user, 'getId'))) {
+		$userId = $user->getId();
+	} elseif ($user && is_numeric($user)) {
+		$userId = $user;
+	} else {
+		$userId = \App\User::getCurrentUserId();
+	}
+	$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 		if ($relatedRecord !== false && \App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$role = $userModel->getRoleDetail();
 			if ($role->get('listrelatedrecord') == 2) {
@@ -110,7 +112,7 @@ class PrivilegeQuery
 				$conditions[] = ['vtiger_crmentity.smownerid' => $subQuery];
 			}
 			if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
-				$sharingPrivileges = \App\User::getSharingFile($userId);
+				$sharingPrivileges = \App\Privilege::getSharingFile($userId);
 				if (isset($sharingPrivileges['permission'][$moduleName])) {
 					$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 					$sharingRuleInfo = $sharingPrivilegesModule['read'];

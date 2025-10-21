@@ -34,7 +34,7 @@ class Notification {
 			if (\App\Privilege::isPermitted(self::MODULE_NAME, 'ReceivingMailNotifications', false, $row['userid']) && $this->existNotifications($row['userid'], $row['last_execution'], $endDate)) {
 				\App\Mailer::sendFromTemplate([
 					'template' => 'SendNotificationsViaMail',
-					'to' => \App\User::getUserModel($row['userid'])->getDetail('email1'),
+					'to' => \App\Modules\Users\Models\Record::getInstanceById($row['userid'], 'Users')->getDetail('email1'),
 					'startDate' => $row['last_execution'],
 					'endDate' => $endDate,
 					'userId' => $row['userid']

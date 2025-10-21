@@ -12,7 +12,7 @@
 		<tbody>
 			{foreach from=$LIST_SUCJECTS item=SUBJECT}
 				<tr>
-					<td><a href="{$SUBJECT['link']}"><strong title="{Vtiger_Util_Helper::toSafeHTML($SUBJECT['fullTitle'])}">{$SUBJECT['title']}</strong></a></td>
+					<td><a href="{$SUBJECT['link']}"><strong title="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($SUBJECT['fullTitle'])}">{$SUBJECT['title']}</strong></a></td>
 					<td>{$SUBJECT['source']}</td>
 					<td>{$SUBJECT['date']}</td>
 				</tr>

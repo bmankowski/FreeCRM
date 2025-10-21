@@ -30,11 +30,11 @@ class OverdueDeadlines extends Base
 		}
 		$moduleName = 'Calendar';
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$fields = $moduleModel->getFields();
-		$currentUserModel = \App\User::getCurrentUserModel();
-		$adminUser = !$currentUserModel->isAdmin() ? \App\User::getActiveAdminId() : $currentUserModel->getId();
+	$fields = $moduleModel->getFields();
+	$currentUserModel = \App\User::getCurrentUserModel();
+	$adminUser = !$currentUserModel->isAdmin() ? \App\Modules\Users\Models\Record::getActiveAdminId() : $currentUserModel->getId();
 
-		$queryGenerator = new \App\QueryGenerator($moduleName, $adminUser);
+	$queryGenerator = new \App\QueryGenerator($moduleName, $adminUser);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addNativeCondition(['vtiger_activity.status' => 'PLL_OVERDUE']);
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $currentUserModel->getId()]);

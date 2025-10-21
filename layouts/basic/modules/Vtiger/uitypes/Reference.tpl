@@ -14,7 +14,7 @@
 	{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 	{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
-	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if {$REFERENCE_LIST_COUNT} eq 1}
 		<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}" />
@@ -34,7 +34,7 @@
 		{/if}
 	{/if}
 	{assign var=REFERENCE_MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($REFERENCE_LIST[0])}
-	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" title="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
+	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" title="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 	<div class="input-group referenceGroup">
 		{if $REFERENCE_LIST_COUNT > 1}
 			<div class="input-group-addon noSpaces referenceModulesListGroup">
@@ -45,8 +45,8 @@
 				</select>
 			</div>
 		{/if}
-		<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($DISPLAYID))}" class="marginLeftZero form-control autoComplete" {if !empty($DISPLAYID)}readonly="true"{/if}
-			   value="{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($DISPLAYID))}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+		<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($DISPLAYID))}" class="marginLeftZero form-control autoComplete" {if !empty($DISPLAYID)}readonly="true"{/if}
+			   value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($DISPLAYID))}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{"LBL_TYPE_SEARCH"|t:$MODULE}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if} 
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 		<span class="input-group-btn cursorPointer">

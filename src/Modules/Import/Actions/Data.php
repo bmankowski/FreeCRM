@@ -213,11 +213,11 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 				$mergeFields = $this->mergeFields;
 				foreach ($mergeFields as $index => $mergeField) {
 					$comparisonValue = $fieldData[$mergeField];
-					$fieldInstance = $moduleFields[$mergeField];
-					if ($fieldInstance->getFieldDataType() == 'owner') {
-						$ownerId = \App\User::getUserIdByName($comparisonValue);
-						if (empty($ownerId)) {
-							$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
+				$fieldInstance = $moduleFields[$mergeField];
+				if ($fieldInstance->getFieldDataType() == 'owner') {
+					$ownerId = \App\Modules\Users\Models\Record::getUserIdByName($comparisonValue);
+					if (empty($ownerId)) {
+						$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
 						}
 						$comparisonValue = $ownerId ? $ownerId : 0;
 					}
@@ -404,7 +404,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 	public function transformOwner($fieldInstance, $fieldValue)
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
-		$ownerId = \App\User::getUserIdByName(trim($fieldValue));
+		$ownerId = \App\Modules\Users\Models\Record::getUserIdByName(trim($fieldValue));
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
@@ -430,11 +430,11 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$values = [];
 		if ($fieldValue) {
-			$owners = explode(',', $fieldValue);
-			foreach ($owners as $owner) {
-				$ownerId = \App\User::getUserIdByName(trim($owner));
-				if (empty($ownerId)) {
-					$ownerId = \App\Fields\Owner::getGroupId($owner);
+		$owners = explode(',', $fieldValue);
+		foreach ($owners as $owner) {
+			$ownerId = \App\Modules\Users\Models\Record::getUserIdByName(trim($owner));
+			if (empty($ownerId)) {
+				$ownerId = \App\Fields\Owner::getGroupId($owner);
 				}
 				if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 					$ownerId = $defaultFieldValues[$fieldName];
@@ -503,11 +503,11 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 				$referencedModules = $fieldInstance->getReferenceList();
 				$entityLabel = $fieldValue;
 				foreach ($referencedModules as $referenceModule) {
-					$referenceModuleName = $referenceModule;
-					if ($referenceModule === 'Users') {
-						$referenceEntityId = \App\User::getUserIdByName(trim($entityLabel));
-						if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
-							$referenceEntityId = $this->user->id;
+				$referenceModuleName = $referenceModule;
+				if ($referenceModule === 'Users') {
+					$referenceEntityId = \App\Modules\Users\Models\Record::getUserIdByName(trim($entityLabel));
+					if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
+						$referenceEntityId = $this->user->id;
 						}
 					} elseif ($referenceModule === 'Currency') {
 						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);

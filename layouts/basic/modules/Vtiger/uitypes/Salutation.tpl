@@ -19,13 +19,13 @@
 		<select class="chzn-select form-control" name="{$SALUTATION_FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $SALUTATION_FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
 			{if $SALUTATION_FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{"LBL_NONE"|t:$MODULE}</option>{/if}
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-				<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($SALUTATION_FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
+				<option value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($SALUTATION_FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
 			{/foreach}
 		</select>
 	</div>
 {/if}	
 	<div class="{if $SALUTATION_FIELD_MODEL}col-md-7{else}col-md-12{/if}">
-	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
 		<input {if $SALUTATION_FIELD_MODEL} {/if} id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" title="{$FIELD_MODEL->get('fieldvalue')|t}" type="text" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}"

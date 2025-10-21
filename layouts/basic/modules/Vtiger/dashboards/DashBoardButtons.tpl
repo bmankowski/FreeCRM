@@ -7,7 +7,7 @@
 			<div class="pull-right">
 				<div class="btn-toolbar">
 					<div class="btn-group">
-						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
+						{assign var="SPECIAL_WIDGETS" value=\App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
 							<button class="btn btn-default addButton dropdown-toggle" data-toggle="dropdown">
 								<p class="hidden-xs no-margin">

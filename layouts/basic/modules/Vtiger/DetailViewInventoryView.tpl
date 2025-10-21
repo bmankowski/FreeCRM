@@ -11,7 +11,7 @@
 		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
-		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
+		{assign var="BASE_CURRENCY" value=\App\Modules\Vtiger\helpers\Util::getBaseCurrency()}
 		{if in_array("currency",$COLUMNS)}
 			{if count($INVENTORY_ROWS) > 0 && $INVENTORY_ROWS[0]['currency'] != NULL}
 				{assign var="CURRENCY" value=$INVENTORY_ROWS[0]['currency']}

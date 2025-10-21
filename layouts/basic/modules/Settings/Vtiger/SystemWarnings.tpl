@@ -15,7 +15,7 @@
 					<input class="switchBtn" type="checkbox" title="{"LBL_WARNINGS_SWITCH"|t:$MODULE}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{"LBL_ACTIVE"|t:$MODULE}" data-off-text="{"LBL_ALL"|t}">
 				</div>
 				<hr>
-				<input type="hidden" id="treeValues" value="{Vtiger_Util_Helper::toSafeHTML($FOLDERS)}">
+				<input type="hidden" id="treeValues" value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FOLDERS)}">
 				<div id="jstreeContainer"></div>
 			</div>
 		</div>

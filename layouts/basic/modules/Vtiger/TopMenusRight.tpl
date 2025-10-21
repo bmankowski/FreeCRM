@@ -66,7 +66,7 @@
 									{assign var="HREF" value="javascript:;"}
 								{/if}
 								<li>
-									<a target="{$CHILDLINK->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LABEL)}" {if $LABEL=='Switch to old look'}switchLook{/if} href="{$HREF}" {$ONCLICK}>
+									<a target="{$CHILDLINK->target}" id="menubar_item_right_{\App\Modules\Vtiger\helpers\Util::replaceSpaceWithUnderScores($LABEL)}" {if $LABEL=='Switch to old look'}switchLook{/if} href="{$HREF}" {$ONCLICK}>
 										{$LABEL|t:$MODULE}
 									</a>
 								</li>
@@ -149,7 +149,7 @@
 								{assign var="href" value="javascript:;"}
 							{/if}
 						<li>
-							<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{$label|t:$MODULE}</a>
+							<a target="{$obj->target}" id="menubar_item_right_{\App\Modules\Vtiger\helpers\Util::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{$label|t:$MODULE}</a>
 						</li>
 					{/foreach}
 				{/foreach}

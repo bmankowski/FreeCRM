@@ -207,11 +207,11 @@ class Vtiger_Language_Handler
 
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
-		} elseif (\App\Http\Vtiger_Session::get('language') != '') {
-			$language = \App\Http\Vtiger_Session::get('language');
-		} else {
-			$language = User::getCurrentUserModel()->getDetail('language');
-		}
+	} elseif (\App\Http\Vtiger_Session::get('language') != '') {
+		$language = \App\Http\Vtiger_Session::get('language');
+	} else {
+		$language = User::getCurrentUserModel()->get('language');
+	}
 
 		$language = empty($language) ? vglobal('default_language') : strtolower($language);
 		static::$language = $language;

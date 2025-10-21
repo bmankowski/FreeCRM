@@ -388,11 +388,11 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id = $idComponents[1];
 
-		$seType = null;
-		if ($this->objectName === 'Users') {
-			if (User::isExists($id)) {
-				$seType = $this->objectName;
-			}
+	$seType = null;
+	if ($this->objectName === 'Users') {
+		if (\App\Modules\Users\Models\Record::isExists($id)) {
+			$seType = $this->objectName;
+		}
 		} else {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
 			if ($recordMetaData && $recordMetaData['deleted'] === 0) {
@@ -418,11 +418,11 @@ class VtigerCRMObjectMeta extends EntityMeta
 		// 
 		// NOTE: We are not caching the record existence 
 		// to ensure only latest state from DB is sent.
-		$exists = false;
-		if ($this->objectName == 'Users') {
-			$exists = User::isExists($recordId);
-		} else {
-			$exists = Record::isExists($recordId, $this->objectName);
+	$exists = false;
+	if ($this->objectName == 'Users') {
+		$exists = \App\Modules\Users\Models\Record::isExists($recordId);
+	} else {
+		$exists = Record::isExists($recordId, $this->objectName);
 		}
 		return $exists;
 	}

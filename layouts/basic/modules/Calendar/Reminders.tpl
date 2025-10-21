@@ -35,10 +35,10 @@
 				</div>
 				<div class="panel-body">
 					<div>
-						{'Start Date & Time'|t:$MODULE_NAME}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
+						{'Start Date & Time'|t:$MODULE_NAME}: <strong>{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					<div>
-						{"Due Date"|t:$MODULE_NAME}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
+						{"Due Date"|t:$MODULE_NAME}: <strong>{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					{if $RECORD->get('activitystatus') neq '' }
 						<div>

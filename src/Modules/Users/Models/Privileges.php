@@ -126,6 +126,46 @@ class Privileges extends \App\Runtime\Vtiger_Base_Model
 	}
 
 	protected static $userPrivilegesModelCache = [];
+	protected static $userPrivilegesCache = [];
+
+	/**
+	 * Get base privileges from file by id
+	 * @param int $userId
+	 * @return array|null
+	 */
+	public static function getPrivilegesFile($userId)
+	{
+		if (isset(self::$userPrivilegesCache[$userId])) {
+			return self::$userPrivilegesCache[$userId];
+		}
+		if (!file_exists("user_privileges/user_privileges_{$userId}.php")) {
+			return null;
+		}
+		$privileges = require("user_privileges/user_privileges_{$userId}.php");
+
+		$valueMap = [];
+		$valueMap['id'] = $userId;
+		$valueMap['is_admin'] = (bool) $is_admin;
+		$valueMap['user_info'] = $user_info;
+		$valueMap['_privileges'] = $privileges;
+		if (!$is_admin) {
+			$valueMap['roleid'] = $current_user_roles;
+			$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
+			$valueMap['profiles'] = $current_user_profiles;
+			$valueMap['profile_global_permission'] = $profileGlobalPermission;
+			$valueMap['profile_tabs_permission'] = $profileTabsPermission;
+			$valueMap['profile_action_permission'] = $profileActionPermission;
+			$valueMap['groups'] = $current_user_groups;
+		$valueMap['subordinate_roles'] = $subordinate_roles;
+		$valueMap['parent_roles'] = $parent_roles;
+		$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
+		$sharingPrivileges = \App\Privilege::getSharingFile($userId);
+		$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
+		$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
+		}
+		self::$userPrivilegesCache[$userId] = $valueMap;
+		return $valueMap;
+	}
 
 	/**
 	 * Static Function to get the instance of the User Privileges model, given the User id
@@ -140,7 +180,7 @@ class Privileges extends \App\Runtime\Vtiger_Base_Model
 		if (isset(self::$userPrivilegesModelCache[$userId])) {
 			return self::$userPrivilegesModelCache[$userId];
 		}
-		$valueMap = \App\User::getPrivilegesFile($userId);
+		$valueMap = self::getPrivilegesFile($userId);
 		if ($valueMap === null) {
 			\App\Log::error("User privileges file not found for user: $userId");
 			return null;
@@ -232,9 +272,10 @@ class Privileges extends \App\Runtime\Vtiger_Base_Model
 	{
 		self::$lockEditCache = [];
 		if ($userId) {
-			unset(self::$userPrivilegesModelCache[$userId]);
+			unset(self::$userPrivilegesModelCache[$userId], self::$userPrivilegesCache[$userId]);
 		} else {
 			self::$userPrivilegesModelCache = [];
+			self::$userPrivilegesCache = [];
 		}
 	}
 

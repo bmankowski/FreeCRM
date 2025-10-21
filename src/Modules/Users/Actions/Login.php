@@ -77,7 +77,7 @@ class Login extends \App\Runtime\Vtiger_Action_Controller
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-				if (\App\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\User::getUserModel($userId)->isAdmin()) {
+				if (\App\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->isAdmin()) {
 					header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 				} else {
 					header('Location: index.php');

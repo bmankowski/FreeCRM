@@ -104,10 +104,10 @@ class QueryGenerator
 	public function __construct($moduleName, $userId = false)
 	{
 		$this->moduleName = $moduleName;
-		$this->moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$this->entityModel = \App\CRMEntity::getInstance($moduleName);
-		$this->user = User::getUserModel($userId ? $userId : User::getCurrentUserId());
-	}
+	$this->moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+	$this->entityModel = \App\CRMEntity::getInstance($moduleName);
+	$this->user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : User::getCurrentUserId(), 'Users');
+}
 
 	/**
 	 * Get module name

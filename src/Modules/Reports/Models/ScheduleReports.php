@@ -177,7 +177,7 @@ class ScheduleReports extends \App\Runtime\Vtiger_Base_Model
 			foreach ($recipientsList as $userId) {
 				if (!\App\Modules\Vtiger\helpers\Util::isUserDeleted($userId)) {
 					$userName = \App\Fields\Owner::getUserLabel($userId);
-					$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
+					$userEmail = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {
 						$recipientsEmails[$userName] = $userEmail;
 					}
@@ -232,7 +232,7 @@ class ScheduleReports extends \App\Runtime\Vtiger_Base_Model
 		$accountOwnerId = \App\Modules\Users\Users::getActiveAdminId();
 		\App\Mailer::sendFromTemplate([
 			'to' => $to,
-			'cc' => [\App\User::getUserModel($accountOwnerId)->getDetail('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
+			'cc' => [\App\Modules\Users\Models\Record::getInstanceById($accountOwnerId, 'Users')->getDetail('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
 			'template' => 'ScheduleReprots',
 			'attachments' => $attachments,
 			'reportName' => $reportRecordModel->getName(),

@@ -103,7 +103,7 @@ class Notification extends \App\Runtime\Vtiger_Action_Controller
 		if (count($users)) {
 			foreach ($users as $user) {
 				if (isset($accessibleUsers[$user])) {
-					$email = \App\User::getUserModel($user)->getDetail('email1');
+					$email = \App\Modules\Users\Models\Record::getInstanceById($user, 'Users')->getDetail('email1');
 					\App\Mailer::addMail([
 						//'smtp_id' => 1,
 						'to' => [$email => \App\Fields\Owner::getLabel($user)],

@@ -2,8 +2,8 @@
 {strip}
 <!-- layouts/basic/modules/Vtiger/uitypes/Tree.tpl -->
 {assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
-{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
-{assign var="ALL_VALUE" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getUITypeModel()->getAllValue()))}
+{assign var="FIELD_INFO" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+{assign var="ALL_VALUE" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getUITypeModel()->getAllValue()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 <input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-displayvalue='{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}' data-fieldinfo='{$FIELD_INFO}' data-multiple="{if $FIELD_MODEL->get('uitype') == 309 }1{else}0{/if}" data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-allvalues='{$ALL_VALUE}'  />
 {assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}

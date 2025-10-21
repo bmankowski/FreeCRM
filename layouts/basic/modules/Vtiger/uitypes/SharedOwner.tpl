@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Vtiger/uitypes/SharedOwner.tpl -->
-	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->get('uitype') eq '120'}
 		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
@@ -50,7 +50,7 @@
 					{/foreach}
 				</optgroup>
 				{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
-					<option value="{$OWNER_ID}" {if in_array(Vtiger_Util_Helper::toSafeHTML($OWNER_NAME), $FIELD_VALUE)}selected{/if} disabled class="hide">{$OWNER_NAME}</option>
+					<option value="{$OWNER_ID}" {if in_array(\App\Modules\Vtiger\helpers\Util::toSafeHTML($OWNER_NAME), $FIELD_VALUE)}selected{/if} disabled class="hide">{$OWNER_NAME}</option>
 				{/foreach}
 			{/if}
 

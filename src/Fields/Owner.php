@@ -24,14 +24,14 @@ class Owner
 	public static function getInstance($moduleName = false, $currentUser = false)
 	{
 		if ($currentUser && $currentUser instanceof \App\Modules\Users\Users) {
-			$currentUser = \App\User::getUserModel($currentUser->id);
+			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id, 'Users');
 		} elseif ($currentUser === false) {
 			$currentUser = \App\User::getCurrentUserModel();
 		} elseif (is_numeric($currentUser)) {
-			$currentUser = \App\User::getUserModel($currentUser);
-		} elseif (is_object($currentUser) && get_class($currentUser) === '\App\Modules\Users\Models\Record') {
-			$currentUser = \App\User::getUserModel($currentUser->getId());
-		}
+			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser, 'Users');
+	} elseif (is_object($currentUser) && get_class($currentUser) === '\App\Modules\Users\Models\Record') {
+		$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser->getId(), 'Users');
+	}
 
 		$cacheKey = $moduleName . $currentUser->getId();
 		$instance = \App\Runtime\Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
@@ -197,13 +197,13 @@ class Owner
 	public function getQueryInitUsers($private = false, $status = false, $roles = false)
 	{
 		$entityData = \App\Module::getEntityInfo('Users');
-		$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
-		// Including deleted vtiger_users for now.
-		if ($private === 'private') {
-			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
-			if ($userPrivileges === null) {
-				\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
-				return [];
+	$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
+	// Including deleted vtiger_users for now.
+	if ($private === 'private') {
+		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
+		if ($userPrivileges === null) {
+			\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+			return [];
 			}
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query = new \App\Db\Query ();
@@ -299,13 +299,13 @@ class Owner
 
 		if (!empty($moduleName) && $moduleName != 'CustomView') {
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
-			$params[] = $tabid;
-		}
-		if ($private == 'private') {
-			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
-			if ($userPrivileges === null) {
-				\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
-				return [];
+		$params[] = $tabid;
+	}
+	if ($private == 'private') {
+		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
+		if ($userPrivileges === null) {
+			\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+			return [];
 			}
 			if (strpos($query, 'WHERE') === false)
 				$query .= ' WHERE';
@@ -410,7 +410,7 @@ class Owner
 		$users = $groups = [];
 		$adminInList = \App\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
-			$userModel = \App\User::getUserModel($id);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($id, 'Users');
 			$name = $userModel->getName();
 			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
 				$users[$id] = $name;

@@ -7,7 +7,7 @@
 	<input type="hidden" name="src_field" value="{$SRC_FIELD}" />
 	<input type="hidden" name="template" value="{$TEMPLATE}" />
 	<input type="hidden" id="treeLastID" value="{$LAST_ID}" />
-	<input type="hidden" name="tree" id="treePopupValues" value="{Vtiger_Util_Helper::toSafeHTML($TREE)}" />
+	<input type="hidden" name="tree" id="treePopupValues" value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($TREE)}" />
 	<input type="hidden" name="isMultiple" id="isMultiple" value="{$IS_MULTIPLE}" />
 	{assign var="MODULE_INSTANCE" value=\App\Modules\Vtiger\Models\Module::getInstance($MODULE)}
 	{assign var="FIELD_INSTANCE" value=Vtiger_Field_Model::getInstance($SRC_FIELD,$MODULE_INSTANCE)}

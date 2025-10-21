@@ -6,7 +6,7 @@
 	{if count($FIELDS) neq 0}
 		{assign var="DISCOUNTS_CONFIG" value=Vtiger_Inventory_Model::getDiscountsConfig()}
 		{assign var="TAXS_CONFIG" value=Vtiger_Inventory_Model::getTaxesConfig()}
-		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
+		{assign var="BASE_CURRENCY" value=\App\Modules\Vtiger\helpers\Util::getBaseCurrency()}
 
 		{assign var="COLUMNS" value=$INVENTORY_FIELD->getColumns()}
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}

@@ -58,7 +58,7 @@
 					</div>
 					<div class="pull-right muted">
 						<small title="{$ROW['date']}">
-							{Vtiger_Util_Helper::formatDateDiffInStrings($ROW['date'])}
+							{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($ROW['date'])}
 						</small>   
 					</div>
 					<h5 class="textOverflowEllipsis mailTitle mainFrom">

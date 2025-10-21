@@ -87,7 +87,7 @@ class Email
 
 	public static function getUserMail($userId)
 	{
-		$userModel = \App\User::getUserModel($userId);
+		$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 		return $userModel->getDetail('email1');
 	}
 }

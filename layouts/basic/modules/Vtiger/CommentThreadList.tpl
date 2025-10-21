@@ -33,7 +33,7 @@
 						</div>
 					</div>
 					<span class="pull-right paddingRight15">
-						<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+						<p class="muted"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}" class="commentModifiedTime">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
 					</span>
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 				{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 					<span class="{if empty($REASON_TO_EDIT)}row{else} col-xs-6 paddingRightZero{/if}">
 						<span class="pull-right">
-							<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
+							<p class="muted"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
 						</span>
 					</span>
 				{/if}

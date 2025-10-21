@@ -494,7 +494,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$userProfiles = $this->get('profiles');
 		if (empty($userProfiles)) {
 			$privilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->getId());
-			$userProfiles = $privilegesModel->get('profiles');
+			$userProfiles = $privilegesModel ? $privilegesModel->get('profiles') : [];
 			$this->set('profiles', $userProfiles);
 		}
 		$profiles = [];
@@ -1222,7 +1222,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function loadUserInfoFromFile($userid)
 	{
-		$userPrivileges = \App\User::getPrivilegesFile($userid);
+		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($userid);
 		if ($userPrivileges === null) {
 			\App\Log::error("User privileges file not found for user: $userid");
 			return $this;

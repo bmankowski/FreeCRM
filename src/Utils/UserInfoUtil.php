@@ -70,7 +70,7 @@ class UserInfoUtil
 	\App\Log::trace("Entering isPermitted($module,$actionname,$record_id) method ...");
 
 	$current_user = vglobal('current_user');
-	$userPrivileges = \App\User::getPrivilegesFile($current_user->id);
+	$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($current_user->id);
 	if ($userPrivileges === null) {
 		\App\Log::error("User privileges file not found for user: " . $current_user->id);
 		vglobal('isPermittedLog', 'SEC_USER_PRIVILEGES_NOT_FOUND');

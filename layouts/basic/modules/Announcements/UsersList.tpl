@@ -24,8 +24,8 @@
 						</td>
 						<td class="text-center">
 							{if isset($USER['date'])}
-								{Vtiger_Util_Helper::formatDateTimeIntoDayString($USER['date'])}&nbsp;
-								- {Vtiger_Util_Helper::formatDateDiffInStrings($USER['date'])}	
+								{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($USER['date'])}&nbsp;
+								- {\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($USER['date'])}	
 							{/if}
 						</td>
 					</tr> 

@@ -18,7 +18,7 @@ class DateTime
 
 	public static function currentUserJSDateFormat()
 	{
-		return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')];
+		return static::$jsDateFormat[\App\User::getCurrentUserModel()->get('date_format')];
 	}
 
 	/**

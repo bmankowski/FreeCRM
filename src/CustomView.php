@@ -241,11 +241,11 @@ class CustomView
 	{
 		if (!$user) {
 			$user = User::getCurrentUserId();
-		}
-		if (is_numeric($user)) {
-			$user = User::getUserModel($user);
-		}
-		$cacheName = $moduleName . '.' . $user->getId();
+	}
+	if (is_numeric($user)) {
+		$user = \App\Modules\Users\Models\Record::getInstanceById($user, 'Users');
+	}
+	$cacheName = $moduleName . '.' . $user->getId();
 		if (\App\Cache::staticHas('AppCustomView', $cacheName)) {
 			return \App\Cache::staticGet('AppCustomView', $cacheName);
 		}

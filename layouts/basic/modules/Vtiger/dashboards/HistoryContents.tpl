@@ -39,7 +39,7 @@
 						{/if}
 					</div>
 					<div class="col-md-11">
-					<p class="pull-right muted" style="padding-right:5px;"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$TIME")}</small></p>
+					<p class="pull-right muted" style="padding-right:5px;"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$TIME")}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings("$TIME")}</small></p>
 					{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
 					{if $HISTORY->isUpdate()}
 						{assign var=FIELDS value=$HISTORY->getFieldInstances()}
@@ -54,14 +54,14 @@
 								<div class='font-x-small'>
 									<span>{$FIELD->getName()|t:$FIELD->getModuleName()}</span>
 									{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
-										&nbsp;{"LBL_FROM"|t}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</strong>
+										&nbsp;{"LBL_FROM"|t}&nbsp; <strong>{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</strong>
 									{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-	                                    &nbsp; <strong> {"LBL_DELETED"|t} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</del> )
+	                                    &nbsp; <strong> {"LBL_DELETED"|t} </strong> ( <del>{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</del> )
 	                                {else}
 										&nbsp;{"LBL_CHANGED"|t}
 									{/if}
 	                                {if $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-										&nbsp;{"LBL_TO"|t}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('postvalue'))))}</strong>
+										&nbsp;{"LBL_TO"|t}&nbsp;<strong>{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('postvalue'))))}</strong>
 	                                {/if}    
 								</div>
 								{/if}
@@ -132,7 +132,7 @@
 				</div>
 				<div class="col-md-11">
 					{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
-					<p class="pull-right muted" style="padding-right:5px;"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$COMMENT_TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$COMMENT_TIME")}</small></p>
+					<p class="pull-right muted" style="padding-right:5px;"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$COMMENT_TIME")}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings("$COMMENT_TIME")}</small></p>
 					<div>
 						<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {"LBL_COMMENTED"|t} {"LBL_ON"|t} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 					</div>

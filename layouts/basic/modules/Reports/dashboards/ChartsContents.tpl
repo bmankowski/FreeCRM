@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Reports/dashboards/ChartsContents.tpl -->
 	<input type="hidden" name="typeChart" value="{$CHART_TYPE}">
-	<input class="widgetData" name="data" type="hidden" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}" />
+	<input class="widgetData" name="data" type="hidden" value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($DATA))}" />
 	{if count($DATA['values']) gt 0 }
 		<div class="widgetChartContainer chartcontent" style="height:100%;width:98%"></div>
 	{else}

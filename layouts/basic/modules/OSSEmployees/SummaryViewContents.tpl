@@ -25,7 +25,7 @@
 									{if $FIELD_VALUE|is_array}
 										{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
 									{/if}
-									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_VALUE)}' />
+									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FIELD_VALUE)}' />
 								{/if}
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
@@ -56,11 +56,11 @@
 			<div>
 				<p>
 					<small>
-						{"LBL_CREATED_ON"|t:$MODULE_NAME} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('createdtime'))}
+						{"LBL_CREATED_ON"|t:$MODULE_NAME} {\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($RECORD->get('createdtime'))}
 					</small>
 					<br />
 					<small>
-						{"LBL_MODIFIED_ON"|t:$MODULE_NAME} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('modifiedtime'))}
+						{"LBL_MODIFIED_ON"|t:$MODULE_NAME} {\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($RECORD->get('modifiedtime'))}
 					</small>
 				</p>
 			</div>
