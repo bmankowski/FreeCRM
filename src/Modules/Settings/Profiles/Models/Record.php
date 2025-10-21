@@ -829,7 +829,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
-		require_once(ROOT_DIRECTORY . '/src/Modules/Users/CreateUserPrivilegeFile.php');
+		 
 
 		$userIdsList = self::getUsersList($this->getId());
 		if ($userIdsList) {

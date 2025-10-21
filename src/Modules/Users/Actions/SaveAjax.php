@@ -289,7 +289,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 			$entity = $recordModel->getEntity();
 			$entity->createAccessKey();
 
-			require_once('src/Modules/Users/CreateUserPrivilegeFile.php');
+
 			\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($recordId);
 
 			require("user_privileges/user_privileges_$recordId.php");

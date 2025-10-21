@@ -167,7 +167,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		set_time_limit($phpMaxExecutionTime);
 		$db = \App\Database\PearDatabase::getInstance();
 
-		require_once(ROOT_DIRECTORY . '/src/Modules/Users/CreateUserPrivilegeFile.php');
+		 
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);
 
 		while (($id = $db->getSingleValue($result)) !== false) {

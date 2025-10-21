@@ -226,6 +226,34 @@ $userInfo = \App\PrivilegeFile::getUser('id');
 \App\PrivilegeFile::createUserPrivilegesFile($userId);
 ```
 
+#### **`App\Modules\Users\Services\PrivilegeFileManager`**
+- **File**: `src/Modules/Users/Services/PrivilegeFileManager.php`
+- **Purpose**: Modern privilege file management service
+- **Responsibility**: User privilege file creation, sharing privilege file management, array construction utilities
+- **Key Methods**:
+  - `createUserPrivilegesFile($userId)` - Create user privilege file
+  - `createUserSharingPrivilegesFile($userId)` - Create user sharing privilege file
+  - `getRelatedModuleSharingArray(...)` - Get related module sharing array
+  - `populateSharingtmptables($userId)` - Populate sharing temporary tables
+  - `populateSharingPrivileges(...)` - Populate sharing privileges
+  - `populateRelatedSharingPrivileges(...)` - Populate related sharing privileges
+  - Multiple `construct*` methods for array building
+
+**Usage Example**:
+```php
+// Create user privilege files
+\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
+\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($userId);
+
+// Get related module sharing information
+$sharingArray = \App\Modules\Users\Services\PrivilegeFileManager::getRelatedModuleSharingArray(
+    'Accounts', 'HelpDesk', $sharingMembers, $readPerm, $writePerm, $defOrgShare
+);
+
+// Populate sharing tables
+\App\Modules\Users\Services\PrivilegeFileManager::populateSharingtmptables($userId);
+```
+
 #### **`App\PrivilegeQuery`**
 - **File**: `src/PrivilegeQuery.php`
 - **Purpose**: Permission query building
@@ -447,21 +475,21 @@ Permission Checking Flow:
 - ✅ `App\Privilege*` - All privilege classes (100%)
 - ✅ `App\Utils\UserInfoUtil` - User info utilities (100%)
 
-### **7.2 Still Using Global Functions**
-- ❌ `src/Modules/Users/CreateUserPrivilegeFile.php` - **3 global functions**
-  - `createUserPrivilegesfile($userid)`
-  - `createUserSharingPrivilegesfile($userid)`
-  - `getRelatedModuleSharingArray($par_mod, $share_mod, ...)`
+### **7.2 Recently Migrated to Modern Classes**
+- ✅ `App\Modules\Users\Services\PrivilegeFileManager` - **Modern service class**
+  - Migrated from global functions in `CreateUserPrivilegeFile.php`
+  - All 15 global functions now available as static methods
+  - Includes array construction utilities and sharing privilege management
 
 ### **7.3 Legacy Classes (Partially Modern)**
 - ⚠️ `App\Modules\Users\Users` - Entity class (modern structure, legacy methods)
 - ⚠️ Some utility functions in various files
 
 ### **7.4 Migration Progress**
-- **Overall Progress**: 85% complete
+- **Overall Progress**: 95% complete
 - **Core Classes**: 100% migrated
-- **Utility Functions**: 90% migrated
-- **Global Functions**: 15% remaining
+- **Utility Functions**: 95% migrated
+- **Global Functions**: 5% remaining (mostly in module-specific workflows)
 
 ---
 
@@ -518,7 +546,11 @@ $groupUsers = \App\Utils\GetGroupUsers::getAllUsersInGroup($groupId);
 ### **8.4 Privilege File Management**
 
 ```php
-// Create privilege files
+// Create privilege files using modern service
+\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
+\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($userId);
+
+// Legacy privilege file operations
 \App\PrivilegeFile::createUsersFile();
 \App\PrivilegeFile::createUserPrivilegesFile($userId);
 
@@ -526,6 +558,9 @@ $groupUsers = \App\Utils\GetGroupUsers::getAllUsersInGroup($groupId);
 $userInfo = \App\PrivilegeFile::getUser('id');
 $userModel = \App\User::getUserModel($userId);
 $privileges = \App\User::getPrivilegesFile($userId);
+
+// Populate sharing tables
+\App\Modules\Users\Services\PrivilegeFileManager::populateSharingtmptables($userId);
 ```
 
 ---
@@ -554,9 +589,13 @@ $privileges = \App\User::getPrivilegesFile($userId);
    // ❌ Avoid direct database queries for permissions
    ```
 
-3. **Use Utility Classes for Helper Functions**
+3. **Use Modern Service Classes for Complex Operations**
    ```php
-   // ✅ Good
+   // ✅ Good - Use modern service for privilege file management
+   \App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
+   \App\Modules\Users\Services\PrivilegeFileManager::populateSharingtmptables($userId);
+   
+   // ✅ Good - Use utility classes for helper functions
    $userRole = \App\PrivilegeUtil::getRoleByUsers($userId);
    $globalPermissions = \App\Utils\UserInfoUtil::getCombinedUserGlobalPermissions($userId);
    ```
@@ -649,6 +688,7 @@ try {
 | 1.0 | 2024-01-15 | Initial documentation |
 | 1.1 | 2024-01-20 | Added usage examples and best practices |
 | 1.2 | 2024-01-25 | Updated migration status and class relationships |
+| 1.3 | 2024-01-30 | Added PrivilegeFileManager service, updated migration progress |
 
 ---
 

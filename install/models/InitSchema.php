@@ -8,7 +8,13 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Install_InitSchema_Model
+namespace App\Install;
+
+
+//class Install_InitSchema_Model
+
+
+class InitSchema_Model
 {
 
 	protected $sql_directory = 'install/install_schema/';
@@ -92,7 +98,7 @@ class Install_InitSchema_Model
 		$newUser = new \App\Modules\Users\Users();
 		$newUser->retrieve_entity_info(1, 'Users');
 		$newUser->change_password('admin', $adminPassword, false);
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
+		
 		\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile(1);
 	}
 

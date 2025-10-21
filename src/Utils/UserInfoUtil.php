@@ -1439,7 +1439,7 @@ class UserInfoUtil
 
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
 	$adb = \App\Database\PearDatabase::getInstance();
-	require_once('src/Modules/Users/CreateUserPrivilegeFile.php');
+
 	$query = "select id from vtiger_users where deleted=0";
 	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);

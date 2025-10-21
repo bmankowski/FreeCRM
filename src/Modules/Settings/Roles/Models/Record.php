@@ -433,7 +433,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$roleModel->save();
 		}
 		if (is_array($array_users)) {
-			require_once(ROOT_DIRECTORY . '/src/Modules/Users/CreateUserPrivilegeFile.php');
+			 
 			foreach ($array_users as $userid) {
 				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userid);
 				\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($userid);

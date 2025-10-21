@@ -117,7 +117,7 @@ class Deprecated
 				if (!$handle = fopen($filename, 'w+')) {
 					throw new \Exception\NoPermitted("Cannot open file ($filename)");
 				}
-				require_once('modules/Users/CreateUserPrivilegeFile.php');
+
 				$newbuf = "<?php\n";
 				$newbuf .= "\$tab_info_array=" . \vtlib\Functions::varExportMin($result_array) . ";\n";
 				$newbuf .= "\$tab_seq_array=" . \vtlib\Functions::varExportMin($seq_array) . ";\n";
