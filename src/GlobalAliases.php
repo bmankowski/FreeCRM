@@ -8,7 +8,6 @@
 spl_autoload_register(function ($class) {
 	$aliases = [
 		// Vtiger base models - used in .tpl files
-		'\App\Modules\Vtiger\Models\Field' => '\App\Modules\Vtiger\Models\Field',
 		'Vtiger_PDF_Model' => '\App\Modules\Vtiger\Models\PDF',
 		'Vtiger_RecordStructure_Model' => '\App\Modules\Vtiger\Models\RecordStructure',
 		'Vtiger_RelationListView_Model' => '\App\Modules\Vtiger\Models\RelationListView',
@@ -42,7 +41,6 @@ spl_autoload_register(function ($class) {
 		'Vtiger_Datetime_UIType' => '\App\Modules\Vtiger\UiTypes\Datetime',
 		'Vtiger_MultiReferenceValue_UIType' => '\App\Modules\Vtiger\UiTypes\MultiReferenceValue',
 		// Database - used globally
-		'PearDatabase' => '\App\Database\PearDatabase',
 	];
 
 

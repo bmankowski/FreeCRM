@@ -319,7 +319,7 @@ class ModuleBasic
 
 	/**
 	 * Set entity identifier field for this module
-	 * @param \Field Instance of field to use
+	 * @param \App\Modules\Vtiger\Models\Field Instance of field to use
 	 */
 	public function setEntityIdentifier($fieldInstance)
 	{

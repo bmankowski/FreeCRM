@@ -20,14 +20,10 @@
 
 namespace App\EntryPoint;
 
-use App\AppConfig;
-use App\CRMEntity;
-use App\Vtiger_Loader;
+
 use App\Debugger;
 use App\Http\Vtiger_Request;
-use App\Http\App\Http\Vtiger_Session;
 use App\Runtime\Vtiger_Controller;
-use App\Runtime\Vtiger_Language_Handler;
 use App\Cache;
 use App\Db;
 use App\Log;
