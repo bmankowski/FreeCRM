@@ -35,7 +35,7 @@ class Privileges extends \Api\Core\BaseAction
 			$isAdmin = $actionPermissions['is_admin'];
 			$permission = isset($actionPermissions['profile_action_permission'][$moduleId]) ? $actionPermissions['profile_action_permission'][$moduleId] : false;
 			if ($permission || $isAdmin) {
-				foreach (\Vtiger_Action_Model::$standardActions as $key => $value) {
+				foreach (\App\Modules\Vtiger\Models\Action::$standardActions as $key => $value) {
 					$privileges[$value] = $isAdmin ? true : isset($permission[$key]) && $permission[$key] === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
 				}
 			}

@@ -37,17 +37,17 @@ class TplMvcAnalyzer {
             'severity' => 'medium',
         ],
         'privilege' => [
-            'pattern' => '/\\\\App\\\\Privilege::/i',
+            'pattern' => '/\\\App\\\\Privilege::/i',
             'description' => 'Permission check in template',
             'severity' => 'high',
         ],
         'json_encode' => [
-            'pattern' => '/\\\\App\\\\Json::encode\(/i',
+            'pattern' => '/\\\App\\\\Json::encode\(/i',
             'description' => 'JSON encoding in template',
             'severity' => 'medium',
         ],
         'debugger' => [
-            'pattern' => '/\\\\App\\\\Debugger::/i',
+            'pattern' => '/\\\App\\\\Debugger::/i',
             'description' => 'Debugger call in template',
             'severity' => 'low',
         ],
@@ -67,7 +67,7 @@ class TplMvcAnalyzer {
             'severity' => 'medium',
         ],
         'field_classes' => [
-            'pattern' => '/\\\\App\\\\Fields::/i',
+            'pattern' => '/\\\App\\\\Fields::/i',
             'description' => 'Direct field utility call',
             'severity' => 'medium',
         ],

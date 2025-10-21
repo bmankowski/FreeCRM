@@ -326,13 +326,13 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 		$userId = 'Users:' . $currentUserModel->getId();
 		if (!empty($featured) && empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
+			\App\Modules\Settings\CustomView\Models\Module::setFeaturedFilterView($cvId, $userId, 'add');
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
+			\App\Modules\Settings\CustomView\Models\Module::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
 			$isExists = (new \App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $cvId, 'user' => $userId])->exists();
 			if (!$isExists) {
-				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
+				\App\Modules\Settings\CustomView\Models\Module::setFeaturedFilterView($cvId, $userId, 'add');
 			}
 		}
 		if (empty($setDefault) && !empty($cvIdOrg)) {

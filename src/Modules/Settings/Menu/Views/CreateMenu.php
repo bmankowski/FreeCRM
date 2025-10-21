@@ -26,7 +26,7 @@ class CreateMenu extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$settingsModel = Settings_Menu_Module_Model::getInstance();
+		$settingsModel = \App\Modules\Settings\Menu\Models\Module::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -39,9 +39,9 @@ class CreateMenu extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$qualifiedModuleName = $request->getModule(false);
 		$type = $request->get('mtype');
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', Settings_Menu_Module_Model::getInstance());
-		$viewer->assign('RECORD', Settings_Menu_Record_Model::getCleanInstance());
-		$viewer->assign('ICONS_LABEL', Settings_Menu_Record_Model::getIcons());
+		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Menu\Models\Module::getInstance());
+		$viewer->assign('RECORD', \App\Modules\Settings\Menu\Models\Record::getCleanInstance());
+		$viewer->assign('ICONS_LABEL', \App\Modules\Settings\Menu\Models\Record::getIcons());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPE', $type);
 		$viewer->view('CreateMenuStep2.tpl', $qualifiedModuleName);

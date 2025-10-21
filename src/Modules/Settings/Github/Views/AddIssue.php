@@ -25,7 +25,7 @@ class AddIssue extends \App\Modules\Vtiger\Views\BasicModal
 	{
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$clientModel = Settings_Github_Client_Model::getInstance();
+		$clientModel = \App\Modules\Settings\Github\Models\Client::getInstance();
 		$configuration = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue();
 		$libraries = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary();
 		$errorLibraries = [];

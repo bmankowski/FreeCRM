@@ -41,7 +41,7 @@ class Login extends \App\Runtime\Vtiger_Action_Controller
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
 		$moduleModel = \App\Modules\Users\Models\Module::getInstance('Users');
-		$bfInstance = class_exists('Settings_BruteForce_Module_Model') ? Settings_BruteForce_Module_Model::getCleanInstance() : null;
+		$bfInstance = class_exists('Settings_BruteForce_Module_Model') ? \App\Modules\Settings\BruteForce\Models\Module::getCleanInstance() : null;
 		if ($bfInstance && $bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			if ($moduleModel) {

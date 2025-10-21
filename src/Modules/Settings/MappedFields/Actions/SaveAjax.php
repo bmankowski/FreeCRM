@@ -30,11 +30,11 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$step = $params['step'];
 
 		if ($recordId) {
-			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
+			$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getInstanceById($recordId);
 		} else {
-			$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
+			$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getCleanInstance();
 		}
-		$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep($step);
+		$stepFields = \App\Modules\Settings\MappedFields\Models\Module::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			$moduleInstance->getRecord()->set($field, $params[$field]);
 			if ($field == 'conditions') {
@@ -57,7 +57,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$params = $request->get('param');
 		$recordId = $params['record'];
 
-		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
+		$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getInstanceById($recordId);
 		$moduleInstance->getRecord()->set('params', $params['otherConditions']);
 		$moduleInstance->setMapping($params['mapping']);
 		$moduleInstance->save(true);
@@ -70,7 +70,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function import(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
+		$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getCleanInstance();
 		$result = $moduleInstance->import($qualifiedModuleName);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);

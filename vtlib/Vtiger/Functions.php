@@ -1089,7 +1089,7 @@ class Functions
 
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
-		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$currencyUpdateModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
 		$info = [];
 

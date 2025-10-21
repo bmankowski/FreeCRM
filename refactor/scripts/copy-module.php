@@ -202,7 +202,7 @@ function transformPhpFile($filePath, $moduleName, $baseDir, $dryRun) {
 		}
 		
 		// Update Vtiger_Loader references
-		$content = str_replace('Vtiger_Loader::', '\\App\\Loader::', $content);
+		$content = str_replace('Vtiger_Loader::', '\App\\Loader::', $content);
 		
 		// Save transformed content
 		if (!$dryRun && $content !== $originalContent) {

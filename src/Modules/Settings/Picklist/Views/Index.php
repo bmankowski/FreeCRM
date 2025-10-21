@@ -19,12 +19,12 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 
 		$sourceModule = $request->get('source_module');
-		$pickListSupportedModules = Settings_Picklist_Module_Model::getPicklistSupportedModules();
+		$pickListSupportedModules = \App\Modules\Settings\Picklist\Models\Module::getPicklistSupportedModules();
 		if (empty($sourceModule)) {
 			//take the first module as the source module
 			$sourceModule = $pickListSupportedModules[0]->name;
 		}
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
+		$moduleModel = \App\Modules\Settings\Picklist\Models\Module::getInstance($sourceModule);
 		$viewer = $this->getViewer($request);
 		$qualifiedName = $request->getModule(false);
 

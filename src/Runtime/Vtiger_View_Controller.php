@@ -232,7 +232,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   $jsScriptInstances = [];
 
 	   foreach ($jsFileNames as $jFileName) {
-		   $jsScript = new Vtiger_JsScript_Model();
+		   $jsScript = new \App\Runtime\Vtiger_JsScript_Model();
 
 		   // external javascript source file handling
 		   if (strpos($jFileName, 'http://') === 0 || strpos($jFileName, 'https://') === 0) {
@@ -314,7 +314,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
    {
 	   $cssStyleInstances = [];
 	   foreach ($cssFileNames as $cssFileName) {
-		   $cssScriptModel = new Vtiger_CssScript_Model();
+		   $cssScriptModel = new \App\Runtime\Vtiger_CssScript_Model();
 		   if (strpos($cssFileName, 'http://') === 0 || strpos($cssFileName, 'https://') === 0) {
 			   $cssStyleInstances[] = $cssScriptModel->set('href', $cssFileName);
 			   continue;

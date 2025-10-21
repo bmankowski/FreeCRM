@@ -89,7 +89,7 @@ class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$fieldId = $request->get('fieldid');
-		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
+		$fieldInstance = \App\Modules\Settings\LayoutEditor\Models\Field::getInstance($fieldId);
 		$response = new \App\Http\Vtiger_Response();
 
 		if (!$fieldInstance->isCustomField()) {
@@ -112,7 +112,7 @@ class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 		$updatedFieldsList = $request->get('updatedFields');
 
 		//This will update the fields sequence for the updated blocks
-		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($updatedFieldsList);
+		\App\Modules\Settings\LayoutEditor\Models\Block::updateFieldSequenceNumber($updatedFieldsList);
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('success' => true));
@@ -124,10 +124,10 @@ class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$fieldIds = $request->get('fieldIdList');
-			Settings_LayoutEditor_Field_Model::makeFieldActive($fieldIds, $request->get('blockId'));
+			\App\Modules\Settings\LayoutEditor\Models\Field::makeFieldActive($fieldIds, $request->get('blockId'));
 			$responseData = array();
 			foreach ($fieldIds as $fieldId) {
-				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
+				$fieldModel = \App\Modules\Settings\LayoutEditor\Models\Field::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
 				$responseData[] = array_merge(array('id' => $fieldModel->getId(), 'blockid' => $fieldModel->get('block')->id, 'customField' => $fieldModel->isCustomField()), $fieldInfo);
 			}

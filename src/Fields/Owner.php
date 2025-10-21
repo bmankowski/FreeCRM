@@ -360,7 +360,7 @@ class Owner
 		if ($this->currentUser->isAdmin() || $curentUserPrivileges->hasGlobalWritePermission()) {
 			$groups = $this->getAccessibleGroups('');
 		} else {
-			$sharingAccessModel = \Settings_SharingAccess_Module_Model::getInstance($this->moduleName);
+			$sharingAccessModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($this->moduleName);
 			if ($sharingAccessModel && $sharingAccessModel->isPrivate()) {
 				$groups = $this->getAccessibleGroups('private');
 			} else {
@@ -381,7 +381,7 @@ class Owner
 		if ($this->currentUser->isAdmin() || $curentUserPrivileges->hasGlobalWritePermission()) {
 			$users = $this->getAccessibleUsers('');
 		} else {
-			$sharingAccessModel = \Settings_SharingAccess_Module_Model::getInstance($this->moduleName);
+			$sharingAccessModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($this->moduleName);
 			if ($sharingAccessModel && $sharingAccessModel->isPrivate()) {
 				$users = $this->getAccessibleUsers('private');
 			} else {

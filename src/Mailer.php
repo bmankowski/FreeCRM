@@ -328,7 +328,7 @@ class Mailer
 				Log::trace(trim($str), 'Mailer');
 			}
 		};
-		$currentUser = \\App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$this->to($currentUser->get('email1'));
 		$template = Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
 		if (!$template) {

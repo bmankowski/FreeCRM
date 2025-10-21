@@ -18,7 +18,7 @@ class ListView extends \Settings_Vtiger_ListView_Model
 
 	/**
 	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)

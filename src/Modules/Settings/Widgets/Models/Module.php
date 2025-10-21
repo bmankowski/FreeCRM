@@ -272,7 +272,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	/**
 	 * Function to get buttons which visible in header widget 
 	 * @param integer $moduleId Number id module
-	 * @return \Vtiger_Link_Model[]
+	 * @return \App\Modules\Vtiger\Models\Link[]
 	 */
 	public static function getHeaderButtons($moduleId)
 	{

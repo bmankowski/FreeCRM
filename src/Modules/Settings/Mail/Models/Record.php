@@ -174,7 +174,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		];
 
 		foreach ($recordLinks as &$recordLink) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

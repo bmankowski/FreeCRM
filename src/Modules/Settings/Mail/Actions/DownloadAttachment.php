@@ -35,7 +35,7 @@ class DownloadAttachment extends \Vtiger_Mass_Action
 	{
 		$id = $request->get('record');
 		$selectedFile = (int) $request->get('selectedFile');
-		$filePath = Settings_Mail_Module_Model::getAttachmentPath($id, $selectedFile);
+		$filePath = \App\Modules\Settings\Mail\Models\Module::getAttachmentPath($id, $selectedFile);
 		if (file_exists($filePath)) {
 			header('Content-Description: File Transfer');
 			header('Content-Type: application/octet-stream');

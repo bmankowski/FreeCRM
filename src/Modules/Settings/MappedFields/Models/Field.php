@@ -168,7 +168,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 			case 'SELF':
 				$fieldModel = parent::getInstance($value, $module);
 				if (!$fieldModel) {
-					$fields = Settings_MappedFields_Module_Model::getSpecialFields();
+					$fields = \App\Modules\Settings\MappedFields\Models\Module::getSpecialFields();
 					$fieldModel = $fields[$value];
 				}
 				break;

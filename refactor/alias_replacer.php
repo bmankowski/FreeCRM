@@ -21,7 +21,7 @@ class AliasReplacer
     private $searchPath = '.';
     private $changes = [];
     private $fileExtensions = ['php', 'tpl'];
-    private $excludeDirs = ['vendor', 'node_modules', '.git', 'cache', 'storage', 'logs'];
+    private $excludeDirs = ['vendor', 'node_modules', '.git', 'cache', 'storage', 'logs', 'old_modules', '.backup'];
 
     public function __construct($args = [])
     {
@@ -58,41 +58,87 @@ class AliasReplacer
 
     private function loadAliases()
     {
-        $aliasesFile = __DIR__ . '/src/GlobalAliases.php';
-        
-        if (!file_exists($aliasesFile)) {
-            throw new Exception("GlobalAliases.php not found at: $aliasesFile");
-        }
-
-        $content = file_get_contents($aliasesFile);
-        
-        // Extract the aliases array from the file
-        if (preg_match('/\$aliases\s*=\s*\[(.*?)\];/s', $content, $matches)) {
-            $aliasesString = $matches[1];
-            
-            // Parse the array entries
-            $lines = explode("\n", $aliasesString);
-            foreach ($lines as $line) {
-                $line = trim($line);
-                if (empty($line) || strpos($line, '//') === 0) {
-                    continue;
-                }
-                
-                // Match patterns like 'Vtiger_PDF_Model' => '\App\Modules\Vtiger\Models\PDF',
-                if (preg_match("/'([^']+)'\s*=>\s*'([^']+)'/", $line, $matches)) {
-                    $this->aliases[$matches[1]] = $matches[2];
-                }
-            }
-        }
+        // Alias map from migrate-alias-simple.php
+        $this->aliases = [
+            // Batch 1 (completed)
+            'Vtiger_Link_Model' => 'App\Modules\Vtiger\Models\Link',
+            'Vtiger_ListView_Model' => 'App\Modules\Vtiger\Models\ListView',
+            'Users_Module_Model' => 'App\Modules\Users\Models\Module',
+            'Vtiger_Action_Model' => 'App\Modules\Vtiger\Models\Action',
+            'Vtiger_Block_Model' => 'App\Modules\Vtiger\Models\Block',
+            'Vtiger_Relation_Model' => 'App\Modules\Vtiger\Models\Relation',
+            // Batch 2 (recommended)
+            'Settings_Vtiger_Module_Model' => 'App\Modules\Settings\Vtiger\Models\Module',
+            'VTWorkflowManager' => 'App\Modules\com_vtiger_workflow\VTWorkflowManager',
+            'Settings_Vtiger_Record_Model' => 'App\Modules\Settings\Vtiger\Models\Record',
+            'Vtiger_Paging_Model' => 'App\Modules\Vtiger\Models\Paging',
+            'Vtiger_DetailView_Model' => 'App\Modules\Vtiger\Models\DetailView',
+            'Vtiger_DependencyPicklist' => 'App\Modules\PickList\DependencyPicklist',
+            'VTJsonCondition' => 'App\Modules\com_vtiger_workflow\VTJsonCondition',
+            'Vtiger_TreeCategoryModal_Model' => 'App\Modules\Vtiger\Models\TreeCategoryModal',
+            'Vtiger_Utility_Model' => 'App\Modules\Vtiger\Models\Utility',
+            'Vtiger_TreeView_Model' => 'App\Modules\Vtiger\Models\TreeView',
+            'Vtiger_DashBoard_Model' => 'App\Modules\Vtiger\Models\DashBoard',
+            // Batch 3
+            'Vtiger_JsScript_Model' => 'App\Runtime\Vtiger_JsScript_Model',
+            'Vtiger_CRMEntity' => 'App\CRMEntity',
+            'Vtiger_CssScript_Model' => 'App\Runtime\Vtiger_CssScript_Model',
+            'ModTracker_ModTrackerHandler_Handler' => 'App\Modules\ModTracker\Handlers\Handler',
+            'Vtiger_Base_UIType' => 'App\Modules\Vtiger\UiTypes\Base',
+            'Vtiger_Workflow_Handler' => 'App\Modules\com_vtiger_workflow\VTWorkflowEventHandler',
+            'Vtiger_ModTracker_Model' => 'App\Modules\ModTracker\Models\ModTracker',
+            // Batch 4 - Settings modules
+            'Settings_Groups_Record_Model' => 'App\Modules\Settings\Groups\Models\Record',
+            'Settings_Currency_Record_Model' => 'App\Modules\Settings\Currency\Models\Record',
+            'Settings_CronTasks_Record_Model' => 'App\Modules\Settings\CronTasks\Models\Record',
+            'Settings_PDF_Record_Model' => 'App\Modules\Settings\PDF\Models\Record',
+            'Settings_AdvancedPermission_Record_Model' => 'App\Modules\Settings\AdvancedPermission\Models\Record',
+            'Settings_BruteForce_Module_Model' => 'App\Modules\Settings\BruteForce\Models\Module',
+            'Settings_MailSmtp_Record_Model' => 'App\Modules\Settings\MailSmtp\Models\Record',
+            'Settings_Companies_Record_Model' => 'App\Modules\Settings\Companies\Models\Record',
+            'Settings_Currency_Module_Model' => 'App\Modules\Settings\Currency\Models\Module',
+            'Settings_CronTasks_Module_Model' => 'App\Modules\Settings\CronTasks\Models\Module',
+            'Settings_Mail_Record_Model' => 'App\Modules\Settings\Mail\Models\Record',
+            'Settings_Mail_Module_Model' => 'App\Modules\Settings\Mail\Models\Module',
+            'Settings_Groups_Module_Model' => 'App\Modules\Settings\Groups\Models\Module',
+            // Batch 5 - More Settings
+            'Settings_Workflows_Record_Model' => 'App\Modules\Settings\Workflows\Models\Record',
+            'Settings_MappedFields_Module_Model' => 'App\Modules\Settings\MappedFields\Models\Module',
+            'Settings_SharingAccess_Module_Model' => 'App\Modules\Settings\SharingAccess\Models\Module',
+            'Settings_AutomaticAssignment_Record_Model' => 'App\Modules\Settings\AutomaticAssignment\Models\Record',
+            'Settings_Picklist_Module_Model' => 'App\Modules\Settings\Picklist\Models\Module',
+            'Settings_SharingAccess_Rule_Model' => 'App\Modules\Settings\SharingAccess\Models\Rule',
+            'Settings_AutomaticAssignment_Module_Model' => 'App\Modules\Settings\AutomaticAssignment\Models\Module',
+            'Settings_TreesManager_Record_Model' => 'App\Modules\Settings\TreesManager\Models\Record',
+            'Settings_Leads_Mapping_Model' => 'App\Modules\Settings\Leads\Models\Mapping',
+            'Settings_WebserviceUsers_Record_Model' => 'App\Modules\Settings\WebserviceUsers\Models\Record',
+            'Settings_PickListDependency_Record_Model' => 'App\Modules\Settings\PickListDependency\Models\Record',
+            'Settings_PickListDependency_Module_Model' => 'App\Modules\Settings\PickListDependency\Models\Module',
+            'Settings_Leads_Module_Model' => 'App\Modules\Settings\Leads\Models\Module',
+            'Settings_WebserviceUsers_Module_Model' => 'App\Modules\Settings\WebserviceUsers\Models\Module',
+            'Settings_WebserviceApps_Record_Model' => 'App\Modules\Settings\WebserviceApps\Models\Record',
+            // Batch 6 - More Settings
+            'Settings_LangManagement_Module_Model' => 'App\Modules\Settings\LangManagement\Models\Module',
+            'Settings_CurrencyUpdate_Module_Model' => 'App\Modules\Settings\CurrencyUpdate\Models\Module',
+            'Settings_MappedFields_Field_Model' => 'App\Modules\Settings\MappedFields\Models\Field',
+            'Settings_LayoutEditor_Field_Model' => 'App\Modules\Settings\LayoutEditor\Models\Field',
+            'Settings_Menu_Record_Model' => 'App\Modules\Settings\Menu\Models\Record',
+            'Settings_CustomView_Module_Model' => 'App\Modules\Settings\CustomView\Models\Module',
+            'Settings_Inventory_Record_Model' => 'App\Modules\Settings\Inventory\Models\Record',
+            'Settings_Menu_Module_Model' => 'App\Modules\Settings\Menu\Models\Module',
+            'Settings_HideBlocks_Record_Model' => 'App\Modules\Settings\HideBlocks\Models\Record',
+            'Settings_LayoutEditor_Block_Model' => 'App\Modules\Settings\LayoutEditor\Models\Block',
+            'Settings_Leads_Field_Model' => 'App\Modules\Settings\Leads\Models\Field',
+            'Settings_CurrencyUpdate_AbstractBank_Model' => 'App\Modules\Settings\CurrencyUpdate\Models\AbstractBank',
+            'Settings_Github_Client_Model' => 'App\Modules\Settings\Github\Models\Client',
+            'Settings_ApiAddress_Module_Model' => 'App\Modules\Settings\ApiAddress\Models\Module',
+        ];
 
         if (empty($this->aliases)) {
-            throw new Exception("No aliases found in GlobalAliases.php");
+            throw new Exception("No aliases found in alias map");
         }
 
-        echo "Loaded " . count($this->aliases) . " aliases:\n";
-        foreach ($this->aliases as $key => $value) {
-            echo "  $key => $value\n";
-        }
+        echo "Loaded " . count($this->aliases) . " aliases from migrate-alias-simple.php\n";
         echo "\n";
     }
 
@@ -161,8 +207,9 @@ class AliasReplacer
 
     private function processFile($filePath)
     {
-        // Skip the GlobalAliases.php file itself to avoid modifying the array definition
-        if (basename($filePath) === 'GlobalAliases.php') {
+        // Skip alias definition files to avoid modifying the array definitions
+        $basename = basename($filePath);
+        if ($basename === 'GlobalAliases.php' || $basename === 'LegacyAliases.php') {
             return;
         }
         
@@ -207,30 +254,57 @@ class AliasReplacer
     private function getReplacementPatterns($alias, $replacement)
     {
         $patterns = [];
+        $escapedAlias = preg_quote($alias, '/');
+        $fullReplacement = '\\' . $replacement;
         
-        // Pattern 1: Full class name with leading backslash (but not in array definitions)
-        $patterns['/\\\\' . preg_quote($alias, '/') . '\b/'] = '\\' . $replacement;
+        // Build regex pattern to check if already replaced (negative lookbehind)
+        // This prevents matching if the alias is already part of the full namespace
+        $escapedReplacementPath = preg_quote($replacement, '/');
+        $notAlreadyReplaced = '(?<!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\\\\)';
         
-        // Pattern 2: Class name without leading backslash (but with word boundary, not in array definitions)
-        $patterns['/\b' . preg_quote($alias, '/') . '\b/'] = $replacement;
+        // Pattern 1: new ClassName() or new \ClassName() -> new \Full\Namespace(
+        // Skip if already has the correct namespace path
+        $patterns['/\bnew\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '(?:\s|\())\\\\?' . $escapedAlias . '\s*\(/'] = 'new ' . $fullReplacement . '(';
         
-        // Pattern 3: new ClassName() - handle both with and without leading backslash
-        $patterns['/new\s+\\\\?' . preg_quote($alias, '/') . '\s*\(/'] = 'new \\' . $replacement . '(';
+        // Pattern 2: ClassName::method() or \ClassName::method() -> \Full\Namespace::method()
+        // Skip if already has the correct namespace path
+        $patterns['/(?<![\\\\a-zA-Z_])(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '::)\\\\?' . $escapedAlias . '::/'] = $fullReplacement . '::';
         
-        // Pattern 4: ClassName::method() - static method calls
-        $patterns['/\\\\?' . preg_quote($alias, '/') . '::/'] = '\\' . $replacement . '::';
+        // Pattern 3: instanceof ClassName or instanceof \ClassName -> instanceof \Full\Namespace
+        $patterns['/\binstanceof\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\b)\\\\?' . $escapedAlias . '\b/'] = 'instanceof ' . $fullReplacement;
         
-        // Pattern 5: instanceof ClassName
-        $patterns['/instanceof\s+\\\\?' . preg_quote($alias, '/') . '\b/'] = 'instanceof \\' . $replacement;
+        // Pattern 4: extends ClassName or extends \ClassName -> extends \Full\Namespace
+        $patterns['/\bextends\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\b)\\\\?' . $escapedAlias . '\b/'] = 'extends ' . $fullReplacement;
         
-        // Pattern 6: ClassName::class
-        $patterns['/\\\\?' . preg_quote($alias, '/') . '::class/'] = '\\' . $replacement . '::class';
+        // Pattern 5: implements ClassName or implements \ClassName -> implements \Full\Namespace
+        $patterns['/\bimplements\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\b)\\\\?' . $escapedAlias . '\b/'] = 'implements ' . $fullReplacement;
         
-        // Pattern 7: In use statements: use ClassName;
-        $patterns['/use\s+\\\\?' . preg_quote($alias, '/') . '\s*;/'] = 'use \\' . $replacement . ';';
+        // Pattern 6: use ClassName; or use \ClassName; -> use \Full\Namespace;
+        $patterns['/\buse\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\s*;)\\\\?' . $escapedAlias . '\s*;/'] = 'use ' . $fullReplacement . ';';
         
-        // Pattern 8: In use statements with as: use ClassName as Alias;
-        $patterns['/use\s+\\\\?' . preg_quote($alias, '/') . '\s+as\s+\w+\s*;/'] = 'use \\' . $replacement . ' as $1;';
+        // Pattern 7: use ClassName as -> use \Full\Namespace as
+        $patterns['/\buse\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\s+as)\\\\?' . $escapedAlias . '\s+as\s+/'] = 'use ' . $fullReplacement . ' as ';
+        
+        // Pattern 8: @var ClassName or @var \ClassName -> @var \Full\Namespace
+        $patterns['/@var\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\b)\\\\?' . $escapedAlias . '\b/'] = '@var ' . $fullReplacement;
+        
+        // Pattern 9: @param ClassName or @param \ClassName -> @param \Full\Namespace
+        $patterns['/@param\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\b)\\\\?' . $escapedAlias . '\b/'] = '@param ' . $fullReplacement;
+        
+        // Pattern 10: @return ClassName or @return \ClassName -> @return \Full\Namespace
+        $patterns['/@return\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\b)\\\\?' . $escapedAlias . '\b/'] = '@return ' . $fullReplacement;
+        
+        // Pattern 11: function foo(ClassName or function foo(\ClassName -> function foo(\Full\Namespace
+        $patterns['/\(\s*(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\s)\\\\?' . $escapedAlias . '\s+/'] = '(' . $fullReplacement . ' ';
+        
+        // Pattern 12: : ClassName) or : \ClassName) -> : \Full\Namespace) (return type)
+        $patterns['/:\s*(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\s*\))\\\\?' . $escapedAlias . '\s*\)/'] = ': ' . $fullReplacement . ')';
+        
+        // Pattern 13: catch (ClassName or catch (\ClassName -> catch (\Full\Namespace
+        $patterns['/\bcatch\s*\(\s*(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\b)\\\\?' . $escapedAlias . '\b/'] = 'catch (' . $fullReplacement;
+        
+        // Pattern 14: throw new ClassName or throw new \ClassName -> throw new \Full\Namespace
+        $patterns['/\bthrow\s+new\s+(?!' . str_replace('\\\\', '\\\\\\\\', $escapedReplacementPath) . '\s*\()\\\\?' . $escapedAlias . '\s*\(/'] = 'throw new ' . $fullReplacement . '(';
         
         return $patterns;
     }

@@ -162,7 +162,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$dataReader = $query->createCommand()->query();
 		$instanceList = [];
 		while ($row = $dataReader->read()) {
-			$instanceList[$row['id']] = new Settings_Currency_Record_Model($row);
+			$instanceList[$row['id']] = new \App\Modules\Settings\Currency\Models\Record($row);
 		}
 		return $instanceList;
 	}

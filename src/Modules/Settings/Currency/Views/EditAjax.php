@@ -19,13 +19,13 @@ class EditAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$record = $request->get('record');
 		if (!empty($record)) {
-			$recordModel = Settings_Currency_Record_Model::getInstance($record);
+			$recordModel = \App\Modules\Settings\Currency\Models\Record::getInstance($record);
 		} else {
-			$recordModel = new Settings_Currency_Record_Model();
+			$recordModel = new \App\Modules\Settings\Currency\Models\Record();
 		}
 
-		$allCurrencies = Settings_Currency_Record_Model::getAllNonMapped($record);
-		$otherExistingCurrencies = Settings_Currency_Record_Model::getAll($record);
+		$allCurrencies = \App\Modules\Settings\Currency\Models\Record::getAllNonMapped($record);
+		$otherExistingCurrencies = \App\Modules\Settings\Currency\Models\Record::getAll($record);
 
 		foreach ($otherExistingCurrencies as $currencyModel) {
 			if ($currencyModel->isBaseCurrency()) {

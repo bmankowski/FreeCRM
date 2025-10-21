@@ -32,9 +32,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = Settings_Companies_Record_Model::getInstance($recordId);
+			$recordModel = \App\Modules\Settings\Companies\Models\Record::getInstance($recordId);
 		} else {
-			$recordModel = new Settings_Companies_Record_Model();
+			$recordModel = new \App\Modules\Settings\Companies\Models\Record();
 		}
 		$exists = $recordModel->isCompanyDuplicated($request);
 		if (!$exists) {

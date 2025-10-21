@@ -23,7 +23,7 @@ class EditField extends \App\Modules\Settings\Vtiger\Views\BasicModal
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser() && !Settings_LayoutEditor_Field_Model::getInstance($request->get('fieldId')->isEditable())) {
+		if (!$currentUserModel->isAdminUser() && !\App\Modules\Settings\LayoutEditor\Models\Field::getInstance($request->get('fieldId')->isEditable())) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -37,7 +37,7 @@ class EditField extends \App\Modules\Settings\Vtiger\Views\BasicModal
 		$this->preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$fieldId = $request->get('fieldId');
-		$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
+		$fieldModel = \App\Modules\Settings\LayoutEditor\Models\Field::getInstance($fieldId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModule()->getName());

@@ -64,7 +64,7 @@ class Menu
 		$id = (new \App\Db\Query)->select('id')->from('yetiforce_menu')->where(['module' => $moduleInstance->id])->scalar();
 		if ($id) {
 			\App\Db::getInstance()->createCommand()->delete('yetiforce_menu', ['module' => $moduleInstance->id])->execute();
-			$menuRecordModel = new \Settings_Menu_Record_Model();
+			$menuRecordModel = new \App\Modules\Settings\Menu\Models\Record();
 			$menuRecordModel->refreshMenuFiles();
 		}
 	}

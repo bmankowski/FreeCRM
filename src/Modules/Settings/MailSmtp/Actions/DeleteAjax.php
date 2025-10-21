@@ -22,7 +22,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($record);
+		$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getInstanceById($record);
 		$recordModel->delete();
 
 		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);

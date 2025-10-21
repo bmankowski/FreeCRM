@@ -32,7 +32,7 @@ class Relation extends \App\Modules\Settings\Vtiger\Actions\Index
 		$status = $request->get('status');
 		$response = new \App\Http\Vtiger_Response();
 		try {
-			\Vtiger_Relation_Model::updateRelationPresence($relationId, $status);
+			\App\Modules\Vtiger\Models\Relation::updateRelationPresence($relationId, $status);
 			$response->setResult(array('success' => true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -45,7 +45,7 @@ class Relation extends \App\Modules\Settings\Vtiger\Actions\Index
 		$modules = $request->get('modules');
 		$response = new \App\Http\Vtiger_Response();
 		try {
-			\Vtiger_Relation_Model::updateRelationSequence($modules);
+			\App\Modules\Vtiger\Models\Relation::updateRelationSequence($modules);
 			$response->setResult(array('success' => true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -61,9 +61,9 @@ class Relation extends \App\Modules\Settings\Vtiger\Actions\Index
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			if ($isInventory) {
-				\Vtiger_Relation_Model::updateModuleRelatedInventoryFields($relationId, $fields);
+				\App\Modules\Vtiger\Models\Relation::updateModuleRelatedInventoryFields($relationId, $fields);
 			} else {
-				\Vtiger_Relation_Model::updateModuleRelatedFields($relationId, $fields);
+				\App\Modules\Vtiger\Models\Relation::updateModuleRelatedFields($relationId, $fields);
 			}
 			$response->setResult(array('success' => true));
 		} catch (Exception $e) {
@@ -93,7 +93,7 @@ class Relation extends \App\Modules\Settings\Vtiger\Actions\Index
 		$relationId = $request->get('relationId');
 		$response = new \App\Http\Vtiger_Response();
 		try {
-			\Vtiger_Relation_Model::removeRelationById($relationId);
+			\App\Modules\Vtiger\Models\Relation::removeRelationById($relationId);
 			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -107,7 +107,7 @@ class Relation extends \App\Modules\Settings\Vtiger\Actions\Index
 		$status = $request->get('status');
 		$response = new \App\Http\Vtiger_Response();
 		try {
-			\Vtiger_Relation_Model::updateStateFavorites($relationId, $status);
+			\App\Modules\Vtiger\Models\Relation::updateStateFavorites($relationId, $status);
 			$response->setResult(array('success' => true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

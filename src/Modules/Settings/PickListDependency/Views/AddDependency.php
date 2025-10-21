@@ -45,7 +45,7 @@ class AddDependency extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$module = $request->get('sourceModule');
 
-		$fieldList = Settings_PickListDependency_Module_Model::getAvailablePicklists($module);
+		$fieldList = \App\Modules\Settings\PickListDependency\Models\Module::getAvailablePicklists($module);
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($fieldList);

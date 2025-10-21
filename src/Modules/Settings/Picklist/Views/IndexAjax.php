@@ -91,7 +91,7 @@ class IndexAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function getPickListDetailsForModule(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('source_module');
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
+		$moduleModel = \App\Modules\Settings\Picklist\Models\Module::getInstance($sourceModule);
 		$pickListFields = $moduleModel->getFieldsByType(array('picklist', 'multipicklist'));
 
 		$qualifiedName = $request->getModule(false);

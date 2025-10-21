@@ -24,9 +24,9 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
 		if (!empty($record)) {
-			$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($record);
+			$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getInstanceById($record);
 		} else {
-			$recordModel = Settings_MailSmtp_Record_Model::getCleanInstance();
+			$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getCleanInstance();
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);

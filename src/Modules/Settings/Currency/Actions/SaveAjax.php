@@ -21,12 +21,12 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$record = $request->get('record');
 		if (empty($record)) {
 			//get instance from currency name, Aleady deleted and adding again same currency case 
-			$recordModel = Settings_Currency_Record_Model::getInstance($request->get('currency_name'));
+			$recordModel = \App\Modules\Settings\Currency\Models\Record::getInstance($request->get('currency_name'));
 			if (empty($recordModel)) {
-				$recordModel = new Settings_Currency_Record_Model();
+				$recordModel = new \App\Modules\Settings\Currency\Models\Record();
 			}
 		} else {
-			$recordModel = Settings_Currency_Record_Model::getInstance($record);
+			$recordModel = \App\Modules\Settings\Currency\Models\Record::getInstance($record);
 		}
 
 		$fieldList = array('currency_name', 'conversion_rate', 'currency_status', 'currency_code', 'currency_symbol');
@@ -47,7 +47,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 				}
 			}
 			$id = $recordModel->save();
-			$recordModel = Settings_Currency_Record_Model::getInstance($id);
+			$recordModel = \App\Modules\Settings\Currency\Models\Record::getInstance($id);
 			$response->setResult(array_merge($recordModel->getData(), array('record' => $recordModel->getId())));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

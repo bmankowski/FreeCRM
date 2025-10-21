@@ -42,7 +42,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		foreach ($langs as $lang) {
 			$params['lang'] = $lang;
 			$params['val'] = $form_data[$lang];
-			$saveResp = Settings_LangManagement_Module_Model::addTranslation($params);
+			$saveResp = \App\Modules\Settings\LangManagement\Models\Module::addTranslation($params);
 			if ($saveResp['success'] === false) {
 				break;
 			}
@@ -62,7 +62,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function saveTranslation(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::saveTranslation($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::saveTranslation($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
@@ -74,7 +74,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function saveView(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::saveView($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::saveView($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
@@ -90,7 +90,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function deleteTranslation(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::deleteTranslation($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::deleteTranslation($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
@@ -102,7 +102,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function add(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::add($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::add($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
@@ -114,7 +114,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::save($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::save($params);
 		$response = new \App\Http\Vtiger_Response();
 		if ($saveResp) {
 			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false))));
@@ -127,7 +127,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::delete($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::delete($params);
 		$response = new \App\Http\Vtiger_Response();
 		if ($saveResp) {
 			$response->setResult(['success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DeleteDataOK', $request->getModule(false))]);
@@ -140,7 +140,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function setAsDefault(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::setAsDefault($params);
 		$response = new \App\Http\Vtiger_Response();
 		if ($saveResp['success']) {
 			$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));

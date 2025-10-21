@@ -35,7 +35,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$mod = $request->get('mod');
 		$tpl = $request->get('tpl');
 		$ShowDifferences = $request->get('sd');
-		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($qualifiedModuleName);
 		$data = null;
 		if ($lang != '' && $mod != '') {
 			if ($tpl == 'editLang') {

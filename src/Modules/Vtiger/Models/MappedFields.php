@@ -198,8 +198,8 @@ class MappedFields extends \App\Runtime\Vtiger_Base_Model
 					$finalMapping[$mappingId] = [
 						'type' => $mappingDetails['type'],
 						'default' => $mappingDetails['default'],
-						'source' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['source'], $this->getModule(), $mappingDetails['type']),
-						'target' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['target'], $this->getRelatedModule(), $mappingDetails['type'])
+						'source' => \App\Modules\Settings\MappedFields\Models\Field::getInstance($mappingDetails['source'], $this->getModule(), $mappingDetails['type']),
+						'target' => \App\Modules\Settings\MappedFields\Models\Field::getInstance($mappingDetails['target'], $this->getRelatedModule(), $mappingDetails['type'])
 					];
 				}
 			}

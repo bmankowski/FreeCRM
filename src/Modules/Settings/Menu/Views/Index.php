@@ -22,7 +22,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$roleId = $request->get('roleid');
 		if (empty($roleId))
 			$roleId = 0;
-		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
+		$settingsModel = \App\Modules\Settings\Menu\Models\Record::getCleanInstance();
 		$rolesContainMenu = $settingsModel->getRolesContainMenu();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
@@ -30,7 +30,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ROLEID', $roleId);
 		$viewer->assign('DATA', $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT)));
-		$viewer->assign('LASTID', Settings_Menu_Module_Model::getLastId());
+		$viewer->assign('LASTID', \App\Modules\Settings\Menu\Models\Module::getLastId());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

@@ -23,11 +23,11 @@ Class Settings_SharingAccess_Index_View extends \App\Modules\Settings\Vtiger\Vie
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$viewer->assign('ALL_MODULES', Settings_SharingAccess_Module_Model::getAll(true));
+		$viewer->assign('ALL_MODULES', \App\Modules\Settings\SharingAccess\Models\Module::getAll(true));
 		$viewer->assign('ALL_ACTIONS', \App\Modules\Settings\SharingAccess\Models\Action::getAll());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
-		$viewer->assign('DEPENDENT_MODULES', Settings_SharingAccess_Module_Model::getDependentModules());
+		$viewer->assign('DEPENDENT_MODULES', \App\Modules\Settings\SharingAccess\Models\Module::getDependentModules());
 
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

@@ -50,7 +50,7 @@ class TreeCategoryModal  extends \App\Modules\Vtiger\Views\Index
 		$srcModule = $request->get('src_module');
 
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$treeCategoryModel = Vtiger_TreeCategoryModal_Model::getInstance($moduleModel);
+		$treeCategoryModel = \App\Modules\Vtiger\Models\TreeCategoryModal::getInstance($moduleModel);
 		$treeCategoryModel->set('srcRecord', $srcRecord);
 		$treeCategoryModel->set('srcModule', $srcModule);
 		$this->relationType = $treeCategoryModel->getRelationType();

@@ -39,6 +39,6 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	public static function delete($recordId)
 	{
 		\App\Db::getInstance()->createCommand()->update(self::tableName, ['deleted' => 1], ['id' => $recordId])->execute();
-		Settings_Currency_Record_Model::clearCache();
+		\App\Modules\Settings\Currency\Models\Record::clearCache();
 	}
 }

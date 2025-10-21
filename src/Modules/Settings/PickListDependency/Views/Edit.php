@@ -21,7 +21,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
+		$moduleModelList = \App\Modules\Settings\PickListDependency\Models\Module::getPicklistSupportedModules();
 
 		$selectedModule = $request->get('sourceModule');
 		if (empty($selectedModule)) {
@@ -29,7 +29,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		}
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
-		$recordModel = Settings_PickListDependency_Record_Model::getInstance($selectedModule, $sourceField, $targetField);
+		$recordModel = \App\Modules\Settings\PickListDependency\Models\Record::getInstance($selectedModule, $sourceField, $targetField);
 
 		$dependencyGraph = false;
 		if (!empty($sourceField) && !empty($targetField)) {
@@ -54,7 +54,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$module = $request->get('sourceModule');
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
-		$recordModel = Settings_PickListDependency_Record_Model::getInstance($module, $sourceField, $targetField);
+		$recordModel = \App\Modules\Settings\PickListDependency\Models\Record::getInstance($module, $sourceField, $targetField);
 		$valueMapping = $recordModel->getPickListDependency();
 		$nonMappedSourceValues = $recordModel->getNonMappedSourcePickListValues();
 

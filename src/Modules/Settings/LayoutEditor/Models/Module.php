@@ -144,7 +144,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 * @param string $fieldType
 	 * @param int $blockId
 	 * @param array $params
-	 * @return \Settings_LayoutEditor_Field_Model
+	 * @return \App\Modules\Settings\LayoutEditor\Models\Field
 	 * @throws Exception
 	 */
 	public function addField($fieldType, $blockId, $params)

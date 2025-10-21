@@ -43,9 +43,9 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$record = $request->get('record');
 
 		if (!empty($record)) {
-			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
+			$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($record);
 		} else {
-			$recordModel = new Settings_AdvancedPermission_Record_Model();
+			$recordModel = new \App\Modules\Settings\AdvancedPermission\Models\Record();
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
@@ -61,7 +61,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
-		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
+		$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($record);
 		$selectedModule = \App\Module::getModuleName($recordModel->get('tabid'));
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($selectedModule);
 		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);

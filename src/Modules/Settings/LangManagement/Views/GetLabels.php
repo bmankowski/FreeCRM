@@ -26,7 +26,7 @@ class GetLabels extends \App\Modules\Settings\Vtiger\Views\BasicModal
 		$sourceModule = $request->get('sourceModule');
 		$data = [];
 		if (!empty($lang) && $lang !== $langBase && !empty($sourceModule)) {
-			$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
+			$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($qualifiedModuleName);
 			$data = $moduleModel->getStatsData($langBase, $lang, $sourceModule);
 			if (isset($data[$sourceModule])) {
 				$data = $data[$sourceModule];

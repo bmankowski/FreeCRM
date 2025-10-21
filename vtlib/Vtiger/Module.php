@@ -89,7 +89,7 @@ class Module extends ModuleBasic
 		])->execute();
 
 		if ($functionName === 'getManyToMany') {
-			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
+			$refTableName = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($moduleInstance->name, $this->name);
 			$schema = $db->getSchema();
 			if (!$schema->getTableSchema($refTableName['table'])) {
 				$db->createTable($refTableName['table'], [
@@ -218,7 +218,7 @@ class Module extends ModuleBasic
 					file_put_contents($targetPath, $fileContent);
 				}
 			}
-			$languages = \Users_Module_Model::getLanguagesList();
+			$languages = \App\Modules\Users\Models\Module::getLanguagesList();
 			$langFile = 'languages/en_us/' . $this->name . '.php';
 			foreach ($languages as $key => $language) {
 				if ($key !== 'en_us') {
@@ -302,7 +302,7 @@ class Module extends ModuleBasic
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
 			Deprecated::createModuleMetaFile();
 			vtlib_RecreateUserPrivilegeFiles();
-			$menuRecordModel = new \Settings_Menu_Record_Model();
+			$menuRecordModel = new \App\Modules\Settings\Menu\Models\Record();
 			$menuRecordModel->refreshMenuFiles();
 		}
 	}

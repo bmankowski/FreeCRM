@@ -32,7 +32,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule(false);
 		$data = $request->get('param');
-		Settings_BruteForce_Module_Model::updateConfig($data);
+		\App\Modules\Settings\BruteForce\Models\Module::updateConfig($data);
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_SUCCESS', $moduleName)]);
@@ -47,7 +47,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule(false);
 		$id = $request->get('param');
-		$status = Settings_BruteForce_Module_Model::unBlock($id);
+		$status = \App\Modules\Settings\BruteForce\Models\Module::unBlock($id);
 
 		if (!$status) {
 			$return = ['success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNBLOCK_FAIL', $moduleName)];

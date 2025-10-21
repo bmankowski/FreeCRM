@@ -19,13 +19,13 @@ class TransformEditAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$record = $request->get('record');
 
-		$currencyList = Settings_Currency_Record_Model::getAll($record);
+		$currencyList = \App\Modules\Settings\Currency\Models\Record::getAll($record);
 
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('CURRENCY_LIST', $currencyList);
-		$viewer->assign('RECORD_MODEL', Settings_Currency_Record_Model::getInstance($record));
+		$viewer->assign('RECORD_MODEL', \App\Modules\Settings\Currency\Models\Record::getInstance($record));
 		echo $viewer->view('TransformEdit.tpl', $qualifiedName, true);
 	}
 }

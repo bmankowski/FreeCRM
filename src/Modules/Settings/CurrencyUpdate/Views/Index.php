@@ -17,7 +17,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
-		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		// synchronise bank list

@@ -26,9 +26,9 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$record = $request->get('record');
 
 		if ($record) {
-			$recordModel = Settings_Companies_Record_Model::getInstance($record);
+			$recordModel = \App\Modules\Settings\Companies\Models\Record::getInstance($record);
 		} else {
-			$recordModel = new Settings_Companies_Record_Model();
+			$recordModel = new \App\Modules\Settings\Companies\Models\Record();
 		}
 		$viewer->assign('COMPANY_COLUMNS', \App\Modules\Settings\Companies\Models\Module::getColumnNames());
 		$viewer->assign('INDUSTRY_LIST', \App\Modules\Settings\Companies\Models\Module::getIndustryList());
@@ -41,7 +41,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	/**
 	 * Get footer JS scripts
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return Vtiger_JsScript_Model[]
+	 * @return \App\Runtime\Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

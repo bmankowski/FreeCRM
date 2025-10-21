@@ -36,9 +36,9 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		if ($request->isEmpty('record') === false) {
-			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
+			$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($request->get('record'));
 		} else {
-			$recordModel = new Settings_AdvancedPermission_Record_Model();
+			$recordModel = new \App\Modules\Settings\AdvancedPermission\Models\Record();
 		}
 		$recordModel->set('name', $request->get('name'));
 		$recordModel->set('tabid', $request->get('tabid'));
@@ -57,7 +57,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 	 */
 	public function step2(\App\Http\Vtiger_Request $request)
 	{
-		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
+		$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($request->get('record'));
 		$conditions = \Vtiger_AdvancedFilter_Helper::transformToSave($request->get('conditions'));
 		$recordModel->set('conditions', $conditions);
 		$recordModel->save();

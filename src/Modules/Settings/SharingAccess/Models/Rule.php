@@ -150,7 +150,7 @@ class Rule extends \App\Modules\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$module = Settings_SharingAccess_Module_Model::getInstance($moduleName);
+		$module = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($moduleName);
 		$this->module = $module;
 		return $this;
 	}
@@ -400,7 +400,7 @@ class Rule extends \App\Modules\Vtiger\Models\Record
 			'relationtype' => $this->get('relationtype'),
 			], ['shareid' => $ruleId])->execute();
 
-		Settings_SharingAccess_Module_Model::recalculateSharingRules();
+		\App\Modules\Settings\SharingAccess\Models\Module::recalculateSharingRules();
 	}
 
 	public function delete()
@@ -417,7 +417,7 @@ class Rule extends \App\Modules\Vtiger\Models\Record
 		$db->delete($tableName, 'shareid = ?', [$ruleId]);
 		$db->delete('vtiger_datashare_module_rel', 'shareid = ?', [$ruleId]);
 
-		Settings_SharingAccess_Module_Model::recalculateSharingRules();
+		\App\Modules\Settings\SharingAccess\Models\Module::recalculateSharingRules();
 	}
 
 	/**

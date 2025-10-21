@@ -201,7 +201,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	} elseif ($field && $field->getUIType() == 117 && $value != '') {
 		if ($value != '0') {
-			$currencyList = Settings_Currency_Record_Model::getAll();
+			$currencyList = \App\Modules\Settings\Currency\Models\Record::getAll();
 			$fieldvalue = $currencyList[$value]->getName() . ' (' . $currencyList[$value]->get('currency_symbol') . ')';
 		} else {
 			$fieldvalue = '-';

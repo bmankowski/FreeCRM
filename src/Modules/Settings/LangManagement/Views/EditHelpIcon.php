@@ -33,7 +33,7 @@ class EditHelpIcon extends \App\Modules\Settings\Vtiger\Views\Index
 		$lang = $request->get('lang');
 		$mod = $request->get('mod');
 		$ShowDifferences = $request->get('sd');
-		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($qualifiedModuleName);
 		if ($lang != '' && $mod != '') {
 			$data = $moduleModel->loadAllFieldsFromModule($lang, $mod, $ShowDifferences);
 		}

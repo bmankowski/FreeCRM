@@ -12,7 +12,7 @@
 include_once 'modules/Vtiger/CRMEntity.php';
 
 use App\CRMEntity as Vtiger_CRMEntity;
-class _ModuleName_ extends Vtiger_CRMEntity
+class _ModuleName_ extends \App\CRMEntity
 {
 
 	public $table_name = 'vtiger_<modulename>';

@@ -27,9 +27,9 @@ class CreditLimits extends \App\Modules\Settings\Vtiger\Views\Index
 			return;
 		}
 		$view = $this->getView();
-		$recordModel = new Settings_Inventory_Record_Model();
+		$recordModel = new \App\Modules\Settings\Inventory\Models\Record();
 		$recordModel->setType($view);
-		$allData = Settings_Inventory_Record_Model::getDataAll($view);
+		$allData = \App\Modules\Settings\Inventory\Models\Record::getDataAll($view);
 
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);

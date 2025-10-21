@@ -19,7 +19,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 		$recordId = $request->get('record');
 
 		$response = new \App\Http\Vtiger_Response();
-		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
+		$moduleInstance = \App\Modules\Settings\MappedFields\Models\Module::getInstanceById($recordId);
 		if ($moduleInstance->delete()) {
 			$response->setResult(array('success' => 'true'));
 		} else {

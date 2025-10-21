@@ -41,8 +41,8 @@ Class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger
 		$qualifiedModuleName = $request->getModule(false);
 		$forModule = $request->get('for_module');
 
-		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
-		$ruleModelList = Settings_SharingAccess_Rule_Model::getAllByModule($moduleModel);
+		$moduleModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($forModule);
+		$ruleModelList = \App\Modules\Settings\SharingAccess\Models\Rule::getAllByModule($moduleModel);
 
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -63,16 +63,16 @@ Class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
-		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
+		$moduleModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($forModule);
 		if ($ruleId) {
-			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
+			$ruleModel = \App\Modules\Settings\SharingAccess\Models\Rule::getInstance($moduleModel, $ruleId);
 		} else {
-			$ruleModel = new Settings_SharingAccess_Rule_Model();
+			$ruleModel = new \App\Modules\Settings\SharingAccess\Models\Rule();
 			$ruleModel->setModuleFromInstance($moduleModel);
 		}
 
 		$viewer->assign('ALL_RULE_MEMBERS', \App\Modules\Settings\SharingAccess\Models\RuleMember::getAll());
-		$viewer->assign('ALL_PERMISSIONS', Settings_SharingAccess_Rule_Model::$allPermissions);
+		$viewer->assign('ALL_PERMISSIONS', \App\Modules\Settings\SharingAccess\Models\Rule::$allPermissions);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RULE_MODEL', $ruleModel);
 		$viewer->assign('MODULE', $moduleName);

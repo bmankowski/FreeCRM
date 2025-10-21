@@ -17,7 +17,7 @@ class FilterPermissions extends \App\Modules\Settings\Vtiger\Views\BasicModal
 	{
 		$moduleName = $request->getModule(false);
 		$sourceModuleId = $request->get('sourceModule');
-		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
+		$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($moduleName);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_DEFAULT', $request->get('isDefault'));

@@ -18,7 +18,7 @@ Class Settings_AdvancedPermission_Detail_View extends \App\Modules\Settings\Vtig
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
+		$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($record);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);

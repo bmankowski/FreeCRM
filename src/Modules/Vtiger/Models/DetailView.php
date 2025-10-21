@@ -52,7 +52,7 @@ class DetailView extends \App\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to set the record instance3
 	 * @param <type> $recordModuleInstance - record model
-	 * @return Vtiger_DetailView_Model
+	 * @return \App\Modules\Vtiger\Models\DetailView
 	 */
 	public function setRecord($recordModuleInstance)
 	{

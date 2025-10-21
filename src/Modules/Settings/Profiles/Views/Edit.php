@@ -61,8 +61,8 @@ Class Settings_Profiles_Edit_View extends \App\Modules\Settings\Vtiger\Views\Ind
 		}
 		$viewer->assign('ALL_PROFILES', $recordModel->getAll());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ALL_BASIC_ACTIONS', \Vtiger_Action_Model::getAllBasic(true));
-		$viewer->assign('ALL_UTILITY_ACTIONS', \Vtiger_Action_Model::getAllUtility(true));
+		$viewer->assign('ALL_BASIC_ACTIONS', \App\Modules\Vtiger\Models\Action::getAllBasic(true));
+		$viewer->assign('ALL_UTILITY_ACTIONS', \App\Modules\Vtiger\Models\Action::getAllUtility(true));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);

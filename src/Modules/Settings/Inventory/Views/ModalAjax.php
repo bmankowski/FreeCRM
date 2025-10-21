@@ -24,9 +24,9 @@ class ModalAjax extends \App\Modules\Settings\Inventory\Views\CreditLimits
 		$type = $request->get('type');
 
 		if (empty($id)) {
-			$recordModel = new Settings_Inventory_Record_Model();
+			$recordModel = new \App\Modules\Settings\Inventory\Models\Record();
 		} else {
-			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
+			$recordModel = \App\Modules\Settings\Inventory\Models\Record::getInstanceById($id, $type);
 		}
 
 		$viewer->assign('PAGE_LABELS', $this->getPageLabels($request));

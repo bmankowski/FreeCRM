@@ -20,7 +20,7 @@ class SaveActiveBank extends \App\Runtime\Vtiger_Action_Controller
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('id');
-		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 
 		if (!$moduleModel->setActiveBankById($id)) {
 			$return = array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SET_BANK_ERROR', 'Settings:CurrencyUpdate'));

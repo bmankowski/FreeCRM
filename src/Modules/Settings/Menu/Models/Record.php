@@ -37,7 +37,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getAll($roleId)
 	{
 
-		$settingsModel = Settings_Menu_Module_Model::getInstance();
+		$settingsModel = \App\Modules\Settings\Menu\Models\Module::getInstance();
 		$query = (new \App\Db\Query())->select('yetiforce_menu.*, vtiger_tab.name')->from('yetiforce_menu')
 				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
@@ -78,7 +78,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function save()
 	{
 		$db = \App\Db::getInstance();
-		$settingsModel = Settings_Menu_Module_Model::getInstance();
+		$settingsModel = \App\Modules\Settings\Menu\Models\Module::getInstance();
 		$edit = $this->get('edit');
 		$params = [];
 		$sqlCol = '';
@@ -153,7 +153,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			if (empty($id)) {
 				continue;
 			}
-			$recordModel = Settings_Menu_Record_Model::getInstanceById($id);
+			$recordModel = \App\Modules\Settings\Menu\Models\Record::getInstanceById($id);
 			$query = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['parentid' => $id]);
 			$dataReader = $query->createCommand()->query();
 			while ($childId = $dataReader->readColumn(0)) {
@@ -166,7 +166,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function getChildMenu($roleId, $parent)
 	{
-		$settingsModel = Settings_Menu_Module_Model::getInstance();
+		$settingsModel = \App\Modules\Settings\Menu\Models\Module::getInstance();
 		$menu = [];
 		$query = (new \App\Db\Query())->select(('yetiforce_menu.*, vtiger_tab.name'))
 			->from('yetiforce_menu')

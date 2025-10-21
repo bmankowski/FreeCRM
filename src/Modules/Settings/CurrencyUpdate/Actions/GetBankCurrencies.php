@@ -21,7 +21,7 @@ class GetBankCurrencies extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$mode = $request->get('mode');
 		$name = 'Settings_CurrencyUpdate_models_' . $request->get('name') . '_BankModel';
-		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$response = new \App\Http\Vtiger_Response();
 
 		if ($mode == 'supported') {

@@ -16,7 +16,7 @@ class Sorting extends \App\Modules\Settings\Vtiger\Views\BasicModal
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
+		$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($moduleName);
 		$sourceModuleId = $request->get('sourceModule');
 		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModuleId);
 		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($sourceModuleModel);

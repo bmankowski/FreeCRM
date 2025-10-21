@@ -291,11 +291,11 @@ class RelationListView extends \App\Runtime\Vtiger_Base_Model
 
 	/**
 	 * Get tree view model
-	 * @return Vtiger_TreeCategoryModal_Model
+	 * @return \App\Modules\Vtiger\Models\TreeCategoryModal
 	 */
 	public function getTreeViewModel()
 	{
-		return Vtiger_TreeCategoryModal_Model::getInstance($this->getRelatedModuleModel());
+		return \App\Modules\Vtiger\Models\TreeCategoryModal::getInstance($this->getRelatedModuleModel());
 	}
 
 	/**

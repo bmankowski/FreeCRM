@@ -337,7 +337,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function cleanInstallationFiles()
 	{
-		$languagesList = Users_Module_Model::getLanguagesList();
+		$languagesList = \App\Modules\Users\Models\Module::getLanguagesList();
 		foreach ($languagesList as $key => $value) {
 			$langPath = "languages/$key/Install.php";
 			if (file_exists($langPath)) {

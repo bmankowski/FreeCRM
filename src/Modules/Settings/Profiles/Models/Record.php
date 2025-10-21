@@ -162,7 +162,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if (is_object($action) && is_a($action, '\Vtiger_Action_Model')) {
 			$actionId = $action->getId();
 		} else {
-			$action = \Vtiger_Action_Model::getInstance($action);
+			$action = \App\Modules\Vtiger\Models\Action::getInstance($action);
 			$actionId = $action->getId();
 		}
 		if (!$actionId) {
@@ -354,7 +354,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$profileTabPermissions = $this->getProfileTabPermissions();
 			$profileActionPermissions = $this->getProfileActionPermissions();
 			$profileUtilityPermissions = $this->getProfileUtilityPermissions();
-			$allTabActions = \Vtiger_Action_Model::getAll(true);
+			$allTabActions = \App\Modules\Vtiger\Models\Action::getAll(true);
 
 			foreach ($allModules as $id => $moduleModel) {
 				$permissions = [];
@@ -476,7 +476,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$allModuleModules = \App\Modules\Vtiger\Models\Module::getAll(array(0), \App\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
 		if (count($allModuleModules) > 0) {
-			$actionModels = \Vtiger_Action_Model::getAll(true);
+			$actionModels = \App\Modules\Vtiger\Models\Action::getAll(true);
 			foreach ($allModuleModules as $tabId => $moduleModel) {
 				if ($moduleModel->isActive() && isset($profilePermissions[$moduleModel->getId()])) {
 					$this->saveModulePermissions($moduleModel, $profilePermissions[$moduleModel->getId()]);
@@ -532,7 +532,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if ($moduleModel->isEntityModule() || $moduleModel->isUtilityActionEnabled()) {
 			if (isset($permissions['actions']) || $moduleModel->isUtilityActionEnabled()) {
 				$actionPermissions = isset($permissions['actions']) ? $permissions['actions'] : [];
-				$actionsIdsList = \Vtiger_Action_Model::$standardActions;
+				$actionsIdsList = \App\Modules\Vtiger\Models\Action::$standardActions;
 				//Dividing on actions
 				$utilityIdsList = [];
 				foreach ($actionPermissions as $actionId => $permission) {
@@ -550,11 +550,11 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 					} elseif ($actionsIdsList) {
 						$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
 						foreach ($actionsIdsList as $actionId => $permission) {
-							if (in_array($permission, \Vtiger_Action_Model::$nonConfigurableActions)) {
+							if (in_array($permission, \App\Modules\Vtiger\Models\Action::$nonConfigurableActions)) {
 								$permission = 'on';
 							}
 							$permissionValue = $this->tranformInputPermissionValue($permission);
-							if (isset(\Vtiger_Action_Model::$standardActions[$actionId])) {
+							if (isset(\App\Modules\Vtiger\Models\Action::$standardActions[$actionId])) {
 								if ($permission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 									$actionEnabled = true;
 								}
@@ -565,7 +565,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 						$db->pquery($actionsUpdateQuery, [$profileId, $tabId]);
 					}
 
-					foreach (\Vtiger_Action_Model::$utilityActions as $utilityActionId => $utilityActionName) {
+					foreach (\App\Modules\Vtiger\Models\Action::$utilityActions as $utilityActionId => $utilityActionName) {
 						if (!isset($utilityIdsList[$utilityActionId])) {
 							$utilityIdsList[$utilityActionId] = 'off';
 						}
@@ -588,7 +588,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 					$count = count($actionsIdsList);
 					$actionsInsertQuery = 'INSERT INTO vtiger_profile2standardpermissions(profileid, tabid, operation, permissions) VALUES ';
 					foreach ($actionsIdsList as $actionId => $permission) {
-						if (in_array($permission, \Vtiger_Action_Model::$nonConfigurableActions)) {
+						if (in_array($permission, \App\Modules\Vtiger\Models\Action::$nonConfigurableActions)) {
 							$permission = 'on';
 						}
 						$actionEnabled = true;

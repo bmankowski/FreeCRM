@@ -20,10 +20,10 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		$bfInstance = \App\Modules\Settings\BruteForce\Models\Module::getCleanInstance();
 		$viewer = $this->getViewer($request);
-		$adminUsers = Settings_BruteForce_Module_Model::getAdminUsers();
-		$usersForNotifications = Settings_BruteForce_Module_Model::getUsersForNotifications();
+		$adminUsers = \App\Modules\Settings\BruteForce\Models\Module::getAdminUsers();
+		$usersForNotifications = \App\Modules\Settings\BruteForce\Models\Module::getUsersForNotifications();
 
 		$viewer->assign('MODULE_MODEL', $bfInstance);
 		$viewer->assign('CONFIG', $bfInstance->getData());

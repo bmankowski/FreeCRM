@@ -29,7 +29,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function createMenu(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
-		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
+		$recordModel = \App\Modules\Settings\Menu\Models\Record::getCleanInstance();
 		$recordModel->initialize($data);
 		$recordModel->save();
 		$response = new \App\Http\Vtiger_Response();
@@ -43,7 +43,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function updateMenu(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
-		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
+		$recordModel = \App\Modules\Settings\Menu\Models\Record::getInstanceById($data['id']);
 		$recordModel->initialize($data);
 		$recordModel->set('edit', true);
 		$recordModel->save($data);
@@ -58,7 +58,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function removeMenu(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
-		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
+		$settingsModel = \App\Modules\Settings\Menu\Models\Record::getCleanInstance();
 		$settingsModel->removeMenu($data);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
@@ -71,7 +71,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function updateSequence(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('mdata');
-		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
+		$recordModel = \App\Modules\Settings\Menu\Models\Record::getCleanInstance();
 		$recordModel->saveSequence($data, true);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
@@ -89,7 +89,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$fromRole = filter_var($request->get('fromRole'), FILTER_SANITIZE_NUMBER_INT);
 		$toRole = filter_var($request->get('toRole'), FILTER_SANITIZE_NUMBER_INT);
-		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
+		$recordModel = \App\Modules\Settings\Menu\Models\Record::getCleanInstance();
 		$recordModel->copyMenu($fromRole, $toRole);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(

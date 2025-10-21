@@ -20,7 +20,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 		$sourceModule = $request->get('sourceModule');
 		$sourceField = $request->get('sourceField');
 		$targetField = $request->get('targetField');
-		$recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $targetField);
+		$recordModel = \App\Modules\Settings\PickListDependency\Models\Record::getInstance($sourceModule, $sourceField, $targetField);
 
 		$response = new \App\Http\Vtiger_Response();
 		try {

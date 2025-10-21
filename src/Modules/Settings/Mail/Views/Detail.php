@@ -36,10 +36,10 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_Mail_Record_Model::getInstance($record);
+		$recordModel = \App\Modules\Settings\Mail\Models\Record::getInstance($record);
 		$viewer = $this->getViewer($request);
 		if ($recordModel === false) {
-			$moduleModel = new Settings_Mail_Module_Model();
+			$moduleModel = new \App\Modules\Settings\Mail\Models\Module();
 			$viewer->assign('MODULE_MODEL', $moduleModel);
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);

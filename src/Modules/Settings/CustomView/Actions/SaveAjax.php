@@ -26,7 +26,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		Settings_CustomView_Module_Model::delete($params);
+		\App\Modules\Settings\CustomView\Models\Module::delete($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
@@ -38,8 +38,8 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function updateField(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		Settings_CustomView_Module_Model::updateField($params);
-		Settings_CustomView_Module_Model::updateOrderAndSort($params);
+		\App\Modules\Settings\CustomView\Models\Module::updateField($params);
+		\App\Modules\Settings\CustomView\Models\Module::updateOrderAndSort($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Saving CustomView', $request->getModule(false))
@@ -50,7 +50,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	public function upadteSequences(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		$result = Settings_CustomView_Module_Model::upadteSequences($params);
+		$result = \App\Modules\Settings\CustomView\Models\Module::upadteSequences($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_SEQUENCES', $request->getModule(false))
@@ -63,9 +63,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$params = $request->get('param');
 		$type = $request->get('type');
 		if ($type == 'default') {
-			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($params['tabid'], $params['cvid'], $params['user'], $params['action']);
+			$result = \App\Modules\Settings\CustomView\Models\Module::setDefaultUsersFilterView($params['tabid'], $params['cvid'], $params['user'], $params['action']);
 		} elseif ($type == 'featured') {
-			$result = Settings_CustomView_Module_Model::setFeaturedFilterView($params['cvid'], $params['user'], $params['action']);
+			$result = \App\Modules\Settings\CustomView\Models\Module::setFeaturedFilterView($params['cvid'], $params['user'], $params['action']);
 		}
 
 		if (!empty($result)) {

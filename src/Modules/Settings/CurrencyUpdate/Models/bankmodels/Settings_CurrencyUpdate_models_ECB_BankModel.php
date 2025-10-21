@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Models;
 /**
  * Class for connection to European Central Bank currency exchange rates
  */
-class Settings_CurrencyUpdate_models_ECB_BankModel extends \Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_models_ECB_BankModel extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 {
 	/*
 	 * Returns bank name
@@ -37,14 +37,14 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends \Settings_CurrencyUpd
 	public function getSupportedCurrencies()
 	{
 		$supportedCurrencies = [];
-		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
+		$supportedCurrencies[\App\Modules\Settings\CurrencyUpdate\Models\Module::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$source = $this->getSource();
 
 		$XML = simplexml_load_file($source[0]);
 
 		foreach ($XML->Cube->Cube[0] as $currency) {
 			$currencyCode = (string) $currency['currency'];
-			$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode)] = $currencyCode;
+			$supportedCurrencies[\App\Modules\Settings\CurrencyUpdate\Models\Module::getCRMCurrencyName($currencyCode)] = $currencyCode;
 		}
 
 		return $supportedCurrencies;
@@ -66,7 +66,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends \Settings_CurrencyUpd
 
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
-		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$selectedBank = $moduleModel->getActiveBankId();
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
 

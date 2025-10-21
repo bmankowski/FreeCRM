@@ -22,7 +22,7 @@ class GetChart extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$modules = [];
 		$data = [];
 		if (!empty($langs) && $langs !== $langBase) {
-			$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
+			$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($qualifiedModuleName);
 			$modules = $moduleModel->getModFromLang($langBase);
 			$data = $moduleModel->getStatsData($langBase, $langs);
 		}

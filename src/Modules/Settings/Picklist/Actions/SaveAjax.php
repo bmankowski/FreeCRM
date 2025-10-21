@@ -71,7 +71,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$newValue = $request->getRaw('newValue');
 		$pickListName = $request->get('picklistName');
 		$moduleName = $request->get('source_module');
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
+		$moduleModel = \App\Modules\Settings\Picklist\Models\Module::getInstance($moduleName);
 		$fieldModel = \App\Modules\Settings\Picklist\Models\Field::getInstance($pickListName, $moduleModel);
 		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
@@ -108,7 +108,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		if ($moduleName == 'Events' && ($pickListFieldName == 'activitytype' || $pickListFieldName == 'activitystatus')) {
 			$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 		}
-		$moduleModel = new Settings_Picklist_Module_Model();
+		$moduleModel = new \App\Modules\Settings\Picklist\Models\Module();
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$status = $moduleModel->renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id);
@@ -129,7 +129,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		if ($moduleName == 'Events' && ($pickListFieldName == 'activitytype' || $pickListFieldName == 'activitystatus')) {
 			$this->updateDefaultPicklistValues($pickListFieldName, $valueToDelete, $replaceValue);
 		}
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
+		$moduleModel = \App\Modules\Settings\Picklist\Models\Module::getInstance($moduleName);
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$status = $moduleModel->remove($pickListFieldName, $valueToDelete, $replaceValue, $moduleName);
@@ -160,7 +160,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 			$roleIdList = $userSelectedRoles;
 		}
 
-		$moduleModel = new Settings_Picklist_Module_Model();
+		$moduleModel = new \App\Modules\Settings\Picklist\Models\Module();
 
 		$response = new \App\Http\Vtiger_Response();
 		try {
@@ -176,7 +176,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 	{
 		$picklistValues = $request->getRaw('picklistValues');
 
-		$moduleModel = new Settings_Picklist_Module_Model();
+		$moduleModel = new \App\Modules\Settings\Picklist\Models\Module();
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$moduleModel->updateSequence($request->getForSql('picklistName'), $picklistValues);
@@ -193,7 +193,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$disabledValues = $request->getRaw('disabled_values', []);
 		$roleSelected = $request->get('rolesSelected');
 
-		$moduleModel = new Settings_Picklist_Module_Model();
+		$moduleModel = new \App\Modules\Settings\Picklist\Models\Module();
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $enabledValues, $disabledValues, array($roleSelected));

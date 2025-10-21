@@ -18,7 +18,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('SUPPORTED_MODULE_MODELS', Settings_CustomView_Module_Model::getSupportedModules());
+		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\CustomView\Models\Module::getSupportedModules());
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -26,7 +26,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$supportedModuleId = $request->get('sourceModule');
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_MODULE_ID', $supportedModuleId);
 		$viewer->assign('MODULE_MODEL', $moduleModel);

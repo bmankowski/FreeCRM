@@ -23,7 +23,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	/**
 	 * Function includes class instances
 	 * @param string $moduleName Optional module name for compatibility
-	 * @return Settings_BruteForce_Module_Model
+	 * @return \App\Modules\Settings\BruteForce\Models\Module
 	 */
 	public static function getCleanInstance($moduleName = null)
 	{

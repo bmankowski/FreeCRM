@@ -17,7 +17,7 @@ class List extends \App\Modules\Settings\Vtiger\Views\List
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
+		$moduleModelList = \App\Modules\Settings\PickListDependency\Models\Module::getPicklistSupportedModules();
 		$forModule = $request->get('formodule');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_MODULES_LIST', $moduleModelList);
@@ -28,7 +28,7 @@ class List extends \App\Modules\Settings\Vtiger\Views\List
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		if ($request->isAjax()) {
-			$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
+			$moduleModelList = \App\Modules\Settings\PickListDependency\Models\Module::getPicklistSupportedModules();
 			$forModule = $request->get('formodule');
 
 			$viewer = $this->getViewer($request);

@@ -21,9 +21,9 @@ class EditMenu extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', Settings_Menu_Module_Model::getInstance());
-		$viewer->assign('RECORD', Settings_Menu_Record_Model::getInstanceById($id));
-		$viewer->assign('ICONS_LABEL', Settings_Menu_Record_Model::getIcons());
+		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Menu\Models\Module::getInstance());
+		$viewer->assign('RECORD', \App\Modules\Settings\Menu\Models\Record::getInstanceById($id));
+		$viewer->assign('ICONS_LABEL', \App\Modules\Settings\Menu\Models\Record::getIcons());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ID', $id);
 		$viewer->view('EditMenu.tpl', $qualifiedModuleName);

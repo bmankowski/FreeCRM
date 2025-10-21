@@ -60,9 +60,9 @@ class TplRefactor {
             
             // Debugger calls
             [
-                'pattern' => '/\\\\App\\\\Debugger::isDebugBar\(\)/',
+                'pattern' => '/\\\App\\\\Debugger::isDebugBar\(\)/',
                 'replacement' => '$DEBUG_BAR_ENABLED',
-                'controller' => "\$viewer->assign('DEBUG_BAR_ENABLED', \\App\\Debugger::isDebugBar());",
+                'controller' => "\$viewer->assign('DEBUG_BAR_ENABLED', \App\\Debugger::isDebugBar());",
             ],
         ];
     }
@@ -186,25 +186,25 @@ class TplRefactor {
         }
         
         // Detect permission checks
-        if (preg_match_all('/\\\\App\\\\Privilege::isPermitted\(([^)]+)\)/i', $content, $matches)) {
+        if (preg_match_all('/\\\App\\\\Privilege::isPermitted\(([^)]+)\)/i', $content, $matches)) {
             $hasCode = true;
             $code .= "// Permission checks\n";
             foreach ($matches[0] as $i => $match) {
                 $params = $matches[1][$i];
                 $varName = 'isPermitted' . ($i + 1);
-                $code .= "\${$varName} = \\App\\Privilege::isPermitted($params);\n";
+                $code .= "\${$varName} = \App\\Privilege::isPermitted($params);\n";
                 $code .= "\$viewer->assign('$varName', \${$varName});\n";
             }
             $code .= "\n";
         }
         
         // Detect JSON encodings
-        if (preg_match_all('/\\\\App\\\\Json::encode\(\$([A-Z_]+)\)/i', $content, $matches)) {
+        if (preg_match_all('/\\\App\\\\Json::encode\(\$([A-Z_]+)\)/i', $content, $matches)) {
             $hasCode = true;
             $code .= "// JSON encoded data\n";
             foreach (array_unique($matches[1]) as $varName) {
                 $code .= "// Note: Encode \${$varName} before assigning\n";
-                $code .= "\$viewer->assign('{$varName}_JSON', \\App\\Json::encode(\${$varName}));\n";
+                $code .= "\$viewer->assign('{$varName}_JSON', \App\\Json::encode(\${$varName}));\n";
             }
             $code .= "\n";
         }

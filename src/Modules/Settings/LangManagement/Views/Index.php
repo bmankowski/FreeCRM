@@ -20,7 +20,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($qualifiedModuleName);
 		$langs = $moduleModel->getLang();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('LANGS', $langs);

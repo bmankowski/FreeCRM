@@ -18,7 +18,7 @@ class SaveKeysAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$clientId = $request->get('client_id');
 		$token = $request->get('token');
 		$username = $request->get('username');
-		$clientModel = Settings_Github_Client_Model::getInstance();
+		$clientModel = \App\Modules\Settings\Github\Models\Client::getInstance();
 		$clientModel->setToken($token);
 		$clientModel->setClientId($clientId);
 		$clientModel->setUsername($username);

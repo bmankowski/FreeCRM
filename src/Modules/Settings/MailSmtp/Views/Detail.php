@@ -35,7 +35,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($record);
+		$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getInstanceById($record);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);

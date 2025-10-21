@@ -135,7 +135,7 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 		foreach ($headerScripts as $headerType => $headerScriptsValue) {
 			foreach ($headerScriptsValue as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
-					$headerScriptInstances[] = Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
+					$headerScriptInstances[] = \App\Runtime\Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
 				}
 			}
 		}
@@ -156,13 +156,13 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 
 		$headerCss = \App\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = \App\Runtime\Vtiger_Theme::getThemeStyle();
-		$cssScriptModel = new Vtiger_CssScript_Model();
+		$cssScriptModel = new \App\Runtime\Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
 		foreach ($headerCss as $headerType => $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($cssLink->linkurl)) {
-					$headerCssInstances[] = Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
+					$headerCssInstances[] = \App\Runtime\Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
 				}
 			}
 		}

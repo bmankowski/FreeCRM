@@ -32,9 +32,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$id = $request->get('id');
 		$type = $request->get('view');
 		if (empty($id)) {
-			$recordModel = new Settings_Inventory_Record_Model();
+			$recordModel = new \App\Modules\Settings\Inventory\Models\Record();
 		} else {
-			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
+			$recordModel = \App\Modules\Settings\Inventory\Models\Record::getInstanceById($id, $type);
 		}
 		$fields = $request->getAll();
 		foreach ($fields as $fieldName => $fieldValue) {
@@ -47,7 +47,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$id = $recordModel->save();
-			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
+			$recordModel = \App\Modules\Settings\Inventory\Models\Record::getInstanceById($id, $type);
 			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => $currentUser->get('rowheight')], $recordModel->getData()));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -63,7 +63,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$name = $request->get('name');
 		$type = $request->get('view');
 
-		$exists = Settings_Inventory_Record_Model::checkDuplicate($name, $id, $type);
+		$exists = \App\Modules\Settings\Inventory\Models\Record::checkDuplicate($name, $id, $type);
 
 		if (!$exists) {
 			$result = array('success' => false);
@@ -84,7 +84,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$id = $params['id'];
 		$type = $params['view'];
 
-		$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
+		$recordModel = \App\Modules\Settings\Inventory\Models\Record::getInstanceById($id, $type);
 		$status = $recordModel->delete();
 
 		if (!$status) {

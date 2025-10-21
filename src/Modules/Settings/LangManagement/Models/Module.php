@@ -441,7 +441,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	public function setAsDefault($lang)
 	{
 
-		\App\Log::trace("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\LangManagement\Models\Module::setAsDefault(" . $lang . ") method ...");
 		$db = \App\Db::getInstance();
 		$prefix = $lang['prefix'];
 		$fileName = 'config/config.inc.php';
@@ -467,7 +467,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$status = true;
 		else
 			$status = false;
-		\App\Log::trace("Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\LangManagement\Models\Module::setAsDefault() method ...");
 		return array('success' => $status, 'prefixOld' => $prefixOld);
 	}
 

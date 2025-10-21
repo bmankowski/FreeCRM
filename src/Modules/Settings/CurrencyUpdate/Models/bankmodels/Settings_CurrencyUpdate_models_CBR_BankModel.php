@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Models;
 /**
  * Class for connection to Central Bank of Russia currency exchange rates
  */
-class Settings_CurrencyUpdate_models_CBR_BankModel extends \Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_models_CBR_BankModel extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 {
 	/*
 	 * Returns bank name
@@ -37,7 +37,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends \Settings_CurrencyUpd
 	public function getSupportedCurrencies()
 	{
 		$supportedCurrencies = [];
-		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
+		$supportedCurrencies[\App\Modules\Settings\CurrencyUpdate\Models\Module::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$source = $this->getSource();
 
 		$client = new \SoapClient($source[0]);
@@ -46,7 +46,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends \Settings_CurrencyUpd
 
 		foreach ($ratesXml->ValuteData[0] as $currency) {
 			$currencyCode = (string) $currency->VchCode;
-			$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
+			$currencyName = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCRMCurrencyName($currencyCode);
 			if ($currencyName) {
 				$supportedCurrencies[$currencyName] = $currencyCode;
 			}
@@ -71,7 +71,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends \Settings_CurrencyUpd
 
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
-		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$selectedBank = $moduleModel->getActiveBankId();
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
 

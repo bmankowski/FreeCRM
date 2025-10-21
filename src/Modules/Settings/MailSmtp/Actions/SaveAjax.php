@@ -40,9 +40,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 			}
 
 			if ($recordId) {
-				$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($recordId);
+				$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getInstanceById($recordId);
 			} else {
-				$recordModel = Settings_MailSmtp_Record_Model::getCleanInstance();
+				$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getCleanInstance();
 			}
 
 			$recordModel->set('mailer_type', $data['mailer_type']);

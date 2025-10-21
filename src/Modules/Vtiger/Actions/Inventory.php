@@ -168,7 +168,7 @@ class Inventory extends \App\Runtime\Vtiger_Action_Controller
 		}
 		$info['autoFields'] = $autoFields;
 		if (!$recordModel->isEmpty('taxes') && strpos($recordModel->get('taxes'), ',') === false) {
-			$taxModel = Settings_Inventory_Record_Model::getInstanceById($recordModel->get('taxes'), 'Taxes');
+			$taxModel = \App\Modules\Settings\Inventory\Models\Record::getInstanceById($recordModel->get('taxes'), 'Taxes');
 			$info['taxes'] = [
 				'type' => 'group',
 				'value' => $taxModel->get('value'),

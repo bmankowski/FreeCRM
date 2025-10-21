@@ -80,12 +80,12 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getSharingRules()
 	{
-		return Settings_SharingAccess_Rule_Model::getAllByModule($this);
+		return \App\Modules\Settings\SharingAccess\Models\Rule::getAllByModule($this);
 	}
 
 	public function getRules()
 	{
-		return Settings_SharingAccess_Rule_Model::getAllByModule($this);
+		return \App\Modules\Settings\SharingAccess\Models\Rule::getAllByModule($this);
 	}
 
 	public function save()
@@ -113,7 +113,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$result = $db->pquery($query, [$value]);
 		if ($db->num_rows($result)) {
 			$row = $db->getRow($result);
-			$instance = new Settings_SharingAccess_Module_Model();
+			$instance = new \App\Modules\Settings\SharingAccess\Models\Module();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
 			$instance->set('editstatus', $row['editstatus']);
@@ -137,7 +137,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$query->orderBy(['vtiger_def_org_share.tabid' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$instance = new Settings_SharingAccess_Module_Model();
+			$instance = new \App\Modules\Settings\SharingAccess\Models\Module();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
 			$instance->set('editstatus', $row['editstatus']);

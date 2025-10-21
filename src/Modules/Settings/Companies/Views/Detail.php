@@ -22,7 +22,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_Companies_Record_Model::getInstance($record);
+		$recordModel = \App\Modules\Settings\Companies\Models\Record::getInstance($record);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COMPANY_COLUMNS', \App\Modules\Settings\Companies\Models\Module::getColumnNames());
