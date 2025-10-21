@@ -50,7 +50,6 @@ require_once ROOT_DIRECTORY . '/config/config.php';
 \App\EntryPoint\WebUI::initialize();
 
 // Load global class aliases for legacy code
-require_once ROOT_DIRECTORY . '/src/GlobalAliases.php';
 
 $webUI = new \App\EntryPoint\WebUI();
 $request = \App\Http\AppRequest::init();

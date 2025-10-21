@@ -72,7 +72,6 @@
 		},
 		"files": [
 			"src/Runtime/Globals.php",
-			"src/GlobalAliases.php",
 			"src/Runtime/TemplateHelpers.php",
 			"vtlib/Vtiger/Deprecated.php"
 		]
