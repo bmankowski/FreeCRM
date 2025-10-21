@@ -42,25 +42,25 @@ function createUserPrivilegesfile($userid)
 		} else {
 			$newbuf .= "\$is_admin=false;\n";
 
-			$globalPermissionArr = getCombinedUserGlobalPermissions($userid);
-			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
-			$actionPermissionArr = getCombinedUserActionPermissions($userid);
+			$globalPermissionArr = \App\Utils\UserInfoUtil::getCombinedUserGlobalPermissions($userid);
+			$tabsPermissionArr = \App\Utils\UserInfoUtil::getCombinedUserTabsPermissions($userid);
+			$actionPermissionArr = \App\Utils\UserInfoUtil::getCombinedUserActionPermissions($userid);
 			$user_role = \App\PrivilegeUtil::getRoleByUsers($userid);
 			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
 			$user_role_parent = $user_role_info['parentrole'];
 			$subRoles = \App\PrivilegeUtil::getRoleSubordinates($user_role);
-			$subRoleAndUsers = getSubordinateRoleAndUsers($user_role);
+			$subRoleAndUsers = \App\Utils\UserInfoUtil::getSubordinateRoleAndUsers($user_role);
 			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
-			$newbuf .= "\$current_user_profiles=" . constructSingleArray(\App\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
-			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
-			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
-			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\Modules\Vtiger\helpers\Util::getGroupsIdsForUsers($userid)) . ";\n";
-			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
-			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
-			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
+			$newbuf .= "\$current_user_profiles=" . \App\Modules\Users\Services\PrivilegeFileManager::constructSingleArray(\App\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
+			$newbuf .= "\$profileGlobalPermission=" . \App\Modules\Users\Services\PrivilegeFileManager::constructArray($globalPermissionArr) . ";\n";
+			$newbuf .= "\$profileTabsPermission=" . \App\Modules\Users\Services\PrivilegeFileManager::constructArray($tabsPermissionArr) . ";\n";
+			$newbuf .= "\$profileActionPermission=" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalArray($actionPermissionArr) . ";\n";
+			$newbuf .= "\$current_user_groups=" . \App\Modules\Users\Services\PrivilegeFileManager::constructSingleArray(\App\Modules\Vtiger\helpers\Util::getGroupsIdsForUsers($userid)) . ";\n";
+			$newbuf .= "\$subordinate_roles=" . \App\Modules\Users\Services\PrivilegeFileManager::constructSingleCharArray($subRoles) . ";\n";
+			$newbuf .= "\$parent_roles=" . \App\Modules\Users\Services\PrivilegeFileManager::constructSingleCharArray($parentRoles) . ";\n";
+			$newbuf .= "\$subordinate_roles_users=" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
 			$newbuf .= "\$user_info=" . \vtlib\Functions::varExportMin($userInfo) . ";\n";
 		}
 		fputs($handle, $newbuf);
@@ -93,11 +93,11 @@ function createUserSharingPrivilegesfile($userid)
 			$sharingPrivileges = [];
 			//Constructig the Default Org Share Array
 			$def_org_share = \App\PrivilegeUtil::getAllDefaultSharingAction();
-			$newbuf .= "\$defaultOrgSharingPermission=" . constructArray($def_org_share) . ";\n";
+			$newbuf .= "\$defaultOrgSharingPermission=" . \App\Modules\Users\Services\PrivilegeFileManager::constructArray($def_org_share) . ";\n";
 			$sharingPrivileges['defOrgShare'] = $def_org_share;
 
 			$relatedModuleShare = \App\PrivilegeUtil::getDatashareRelatedModules();
-			$newbuf .= "\$related_module_share=" . constructTwoDimensionalValueArray($relatedModuleShare) . ";\n";
+			$newbuf .= "\$related_module_share=" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalValueArray($relatedModuleShare) . ";\n";
 			$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
 			//Constructing Account Sharing Rules
 			$account_share_per_array = \App\PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
@@ -107,20 +107,20 @@ function createUserSharingPrivilegesfile($userid)
 			/* echo '<pre>';
 			  print_r($account_share_read_per['GROUP']);
 			  echo '</pre>'; */
-			$newbuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_read_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_read_per['GROUP']) . ");\n";
-			$newbuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_write_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_write_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($account_share_read_per['ROLE']) . ",'GROUP'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalValueArray($account_share_read_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($account_share_write_per['ROLE']) . ",'GROUP'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalValueArray($account_share_write_per['GROUP']) . ");\n";
 			$sharingPrivileges['permission']['Accounts'] = ['read' => $account_share_read_per, 'write' => $account_share_write_per];
 			//Constructing Contact Sharing Rules
-			$newbuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_read_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_read_per['GROUP']) . ");\n";
-			$newbuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_write_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_write_per['GROUP']) . ");\n";
+			$newbuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($account_share_read_per['ROLE']) . ",'GROUP'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalValueArray($account_share_read_per['GROUP']) . ");\n";
+			$newbuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($account_share_write_per['ROLE']) . ",'GROUP'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalValueArray($account_share_write_per['GROUP']) . ");\n";
 			$sharingPrivileges['permission']['Contacts'] = ['read' => $account_share_read_per, 'write' => $account_share_write_per];
 
 			//Constructing the Account Ticket Related Module Sharing Array
-			$acct_related_tkt = getRelatedModuleSharingArray('Accounts', 'HelpDesk', $account_sharingrule_members, $account_share_read_per, $account_share_write_per, $def_org_share);
+			$acct_related_tkt = \App\Modules\Users\Services\PrivilegeFileManager::getRelatedModuleSharingArray('Accounts', 'HelpDesk', $account_sharingrule_members, $account_share_read_per, $account_share_write_per, $def_org_share);
 			$acc_tkt_share_read_per = $acct_related_tkt['read'];
 			$acc_tkt_share_write_per = $acct_related_tkt['write'];
-			$newbuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_read_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($acc_tkt_share_read_per['GROUP']) . ");\n";
-			$newbuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_write_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($acc_tkt_share_write_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_read_per['ROLE']) . ",'GROUP'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalValueArray($acc_tkt_share_read_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_write_per['ROLE']) . ",'GROUP'=>" . \App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalValueArray($acc_tkt_share_write_per['GROUP']) . ");\n";
 			$sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $acc_tkt_share_read_per, 'write' => $acc_tkt_share_write_per];
 
 			$custom_modules = \App\Module::getSharingModuleList(['Accounts', 'Contacts']);
@@ -130,11 +130,11 @@ function createUserSharingPrivilegesfile($userid)
 				$mod_share_read_perm = $mod_share_perm_array['read'];
 				$mod_share_write_perm = $mod_share_perm_array['write'];
 				$newbuf .= '$' . $module_name . "_share_read_permission=['ROLE'=>" .
-					constructTwoDimensionalCharIntSingleValueArray($mod_share_read_perm['ROLE']) . ",'GROUP'=>" .
-					constructTwoDimensionalArray($mod_share_read_perm['GROUP']) . "];\n";
+					\App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($mod_share_read_perm['ROLE']) . ",'GROUP'=>" .
+					\App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalArray($mod_share_read_perm['GROUP']) . "];\n";
 				$newbuf .= '$' . $module_name . "_share_write_permission=['ROLE'=>" .
-					constructTwoDimensionalCharIntSingleValueArray($mod_share_write_perm['ROLE']) . ",'GROUP'=>" .
-					constructTwoDimensionalArray($mod_share_write_perm['GROUP']) . "];\n";
+					\App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalCharIntSingleValueArray($mod_share_write_perm['ROLE']) . ",'GROUP'=>" .
+					\App\Modules\Users\Services\PrivilegeFileManager::constructTwoDimensionalArray($mod_share_write_perm['GROUP']) . "];\n";
 
 				$sharingPrivileges['permission'][$module_name] = ['read' => $mod_share_read_perm, 'write' => $mod_share_write_perm];
 			}
@@ -144,7 +144,7 @@ function createUserSharingPrivilegesfile($userid)
 			fclose($handle);
 
 			//Populating Temp Tables
-			populateSharingtmptables($userid);
+			\App\Modules\Users\Services\PrivilegeFileManager::populateSharingtmptables($userid);
 		}
 	}
 }

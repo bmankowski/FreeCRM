@@ -834,7 +834,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$userIdsList = self::getUsersList($this->getId());
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
-				\App\Modules\Users\createUserPrivilegesfile($userId);
+				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
 			}
 		}
 	}

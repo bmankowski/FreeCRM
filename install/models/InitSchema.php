@@ -93,7 +93,7 @@ class Install_InitSchema_Model
 		$newUser->retrieve_entity_info(1, 'Users');
 		$newUser->change_password('admin', $adminPassword, false);
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile(1);
+		\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile(1);
 	}
 
 	public function _splitQueries($query)

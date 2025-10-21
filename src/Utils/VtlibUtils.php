@@ -71,7 +71,7 @@ class VtlibUtils
 		$userres = $adb->query('SELECT id FROM vtiger_users WHERE deleted = 0');
 		if ($userres && $adb->num_rows($userres)) {
 			while ($userrow = $adb->fetch_array($userres)) {
-				\App\Modules\Users\createUserPrivilegesfile($userrow['id']);
+				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userrow['id']);
 			}
 		}
 	}

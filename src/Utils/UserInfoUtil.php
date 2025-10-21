@@ -1445,8 +1445,8 @@ class UserInfoUtil
 	$num_rows = $adb->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
 		$id = $adb->query_result($result, $i, 'id');
-		\App\Modules\Users\createUserPrivilegesfile($id);
-		\App\Modules\Users\createUserSharingPrivilegesfile($id);
+		\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($id);
+		\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($id);
 	}
 	\App\Log::trace("Exiting RecalculateSharingRules method ...");
 }

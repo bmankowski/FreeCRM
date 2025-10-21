@@ -226,7 +226,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		}
 
 		foreach ($userIdsList as $userId) {
-			\App\Modules\Users\createUserPrivilegesfile($userId);
+			\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
 		}
 	}
 
