@@ -14,6 +14,14 @@ namespace App\Modules\Users\Models;
  use App\Http\App\Http\Vtiger_Session;
 class Record extends \App\Modules\Vtiger\Models\Record
 {
+	/** @var bool Authentication state */
+	protected $authenticated = false;
+	
+	/** @var array User preferences */
+	protected $user_preferences;
+	
+	/** @var string Error message for backward compatibility */
+	public $error_string;
 
 	public function getRealId()
 	{
@@ -307,13 +315,12 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	protected function transformValues($values)
 	{
-		$entityInstance = $this->getModule()->getEntityInstance();
 		$cryptType = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
-			$this->set('confirm_password', $entityInstance->encrypt_password($this->get('confirm_password'), $cryptType));
+			$this->set('confirm_password', $this->encryptPassword((string)$this->get('confirm_password'), $cryptType));
 		}
 		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
-			$this->set('user_password', $entityInstance->encrypt_password($this->get('user_password'), $cryptType));
+			$this->set('user_password', $this->encryptPassword((string)$this->get('user_password'), $cryptType));
 			$values['vtiger_users']['crypt_type'] = $cryptType;
 		}
 		return $values;
@@ -871,5 +878,339 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			}
 		}
 		return $return;
+	}
+
+	// ===== AUTHENTICATION METHODS (moved from Users.php) =====
+
+	/**
+	 * Encrypt password for storage in database
+	 * @param string $password - Password to encrypt
+	 * @param string $cryptType - Encryption type (MD5, BLOWFISH, PHP5.3MD5)
+	 * @return string Encrypted password
+	 */
+	public function encryptPassword($password, $cryptType = '')
+	{
+		$salt = substr((string)$this->get('user_name'), 0, 2);
+		if ($cryptType == '') {
+			$cryptType = $this->getCryptType();
+		}
+		
+		// For more details on salt format look at: http://in.php.net/crypt
+		if ($cryptType == 'MD5') {
+			$salt = '$1$' . $salt . '$';
+		} elseif ($cryptType == 'BLOWFISH') {
+			$salt = '$2$' . $salt . '$';
+		} elseif ($cryptType == 'PHP5.3MD5') {
+			//only change salt for php 5.3 or higher version for backward
+			//compactibility.
+			//crypt API is lot stricter in taking the value for salt.
+			$salt = '$1$' . str_pad($salt, 9, '0');
+		}
+		return crypt($password, $salt);
+	}
+
+	/**
+	 * Get crypt type to use for password for the user.
+	 * Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
+	 * @return string
+	 */
+	public function getCryptType()
+	{
+		$cryptType = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		if ($this->getId()) {
+			// Get the type of crypt used on password before actual comparision
+			$row = (new \App\Db\Query())
+				->select('crypt_type')
+				->from('vtiger_users')
+				->where(['id' => $this->getId()])
+				->one();
+			if ($row && $row['crypt_type']) {
+				$cryptType = $row['crypt_type'];
+			}
+		} elseif ($this->get('user_name')) {
+			$row = (new \App\Db\Query())
+				->select('crypt_type')
+				->from('vtiger_users')
+				->where(['user_name' => $this->get('user_name')])
+				->one();
+			if ($row && $row['crypt_type']) {
+				$cryptType = $row['crypt_type'];
+			}
+		}
+		return $cryptType;
+	}
+
+	/**
+	 * Checks the config.php AUTHCFG value for login type and forks off to the proper module
+	 * @param string $userPassword - The password of the user to authenticate
+	 * @return bool true if the user is authenticated, false otherwise
+	 */
+	public function doLogin($userPassword)
+	{
+		$userName = (string)$this->get('user_name');
+		$userInfo = (new \App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from('vtiger_users')->where(['user_name' => $userName])->one();
+		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
+			\App\Log::error('User not found: ' . $userName);
+			return false;
+		}
+		\App\Log::trace('Start of authentication for user: ' . $userName);
+		if ($userInfo['status'] !== 'Active') {
+			\App\Log::trace("Authentication failed. User: $userName");
+			return false;
+		}
+		$this->setId((int) $userInfo['id']);
+		if (\App\Cache::has('Authorization', 'config')) {
+			$auth = \App\Cache::get('Authorization', 'config');
+		} else {
+			$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
+			$auth = [];
+			while ($row = $dataReader->read()) {
+				$auth[$row['type']][$row['param']] = $row['value'];
+			}
+			\App\Cache::save('Authorization', 'config', $auth);
+		}
+		if ($auth['ldap']['active'] == 'true') {
+			\App\Log::trace('Start LDAP authentication');
+			$users = explode(',', $auth['ldap']['users']);
+			if (in_array($userInfo['id'], $users)) {
+				$bind = false;
+				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
+				$ds = @ldap_connect($auth['ldap']['server'], $port);
+				if (!$ds) {
+					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
+				}
+				ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
+				ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+				ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
+				ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
+				ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
+				if ($port != 636) {
+					//ldap_start_tls($ds);
+				}
+				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
+				if (!$bind) {
+					\App\Log::error('LDAP authentication: LDAP bind failed.');
+				}
+				$this->authenticated = $bind;
+				return $bind;
+			} else {
+				\App\Log::trace($userName . ' user does not belong to the LDAP');
+			}
+			\App\Log::trace('End LDAP authentication');
+		}
+
+		//Default authentication
+		\App\Log::trace('Using integrated/SQL authentication');
+		$encryptedPassword = $this->encryptPassword($userPassword, $userInfo['crypt_type']);
+		if ($encryptedPassword === $userInfo['user_password']) {
+			\App\Log::trace("Authentication OK. User: $userName");
+			$this->authenticated = true;
+			return true;
+		}
+		\App\Log::trace("Authentication failed. User: $userName");
+		$this->authenticated = false;
+		return false;
+	}
+
+	/**
+	 * Function verifies if given password is correct
+	 * @param string $password
+	 * @return boolean
+	 */
+	public function verifyPassword($password)
+	{
+		$row = (new \App\Db\Query())->select(['user_name', 'user_password', 'crypt_type'])->from('vtiger_users')->where(['id' => $this->getId()])->one();
+		$encryptedPassword = $this->encryptPassword($password, $row['crypt_type']);
+		if ($encryptedPassword !== $row['user_password']) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @param string $userPassword - The current password of the user
+	 * @param string $newPassword - The new password of the user
+	 * @return boolean - If passwords pass verification and query succeeds, return true, else return false.
+	 * @desc Verify that the current password is correct and write the new password to the DB.
+	 */
+	public function changePassword($userPassword, $newPassword)
+	{
+		$userName = (string)$this->get('user_name');
+		$currentUser = \App\User::getCurrentUserModel();
+		\App\Log::trace('Starting password change for ' . $userName);
+
+		if (empty($newPassword)) {
+			$this->error_string = \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_2');
+			return false;
+		}
+		if (!$currentUser->isAdmin()) {
+			if (!$this->verifyPassword($userPassword)) {
+				\App\Log::warning('Incorrect old password for ' . $userName);
+				$this->error_string = \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_INCORRECT_OLD');
+				return false;
+			}
+		}
+		//set new password
+		$crypt_type = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$encryptedNewPassword = $this->encryptPassword($newPassword, $crypt_type);
+
+		\App\Db::getInstance()->createCommand()->update('vtiger_users', [
+			'user_password' => $encryptedNewPassword,
+			'confirm_password' => $encryptedNewPassword,
+			'crypt_type' => $crypt_type,
+			], ['id' => $this->getId()])->execute();
+
+		$this->set('user_password', $encryptedNewPassword);
+		$this->set('confirm_password', $encryptedNewPassword);
+
+		\App\Log::trace('Ending password change for ' . $userName);
+		return true;
+	}
+
+	/**
+	 * Check if user is authenticated
+	 * @return bool
+	 */
+	public function isAuthenticated()
+	{
+		return $this->authenticated;
+	}
+
+	/**
+	 * Get user hash for input
+	 * @param string $input
+	 * @return string
+	 */
+	public static function getUserHash($input)
+	{
+		return strtolower(md5($input));
+	}
+
+	// ===== PREFERENCE METHODS (moved from Users.php) =====
+
+	/**
+	 * Function to set the user preferences in the session
+	 * @param string $name - preference name
+	 * @param mixed $value - preference value
+	 */
+	public function setPreference($name, $value)
+	{
+		if (!isset($this->user_preferences)) {
+			if (isset($_SESSION["USER_PREFERENCES"]))
+				$this->user_preferences = $_SESSION["USER_PREFERENCES"];
+			else
+				$this->user_preferences = [];
+		}
+		if (!array_key_exists($name, $this->user_preferences) || $this->user_preferences[$name] != $value) {
+			\App\Log::trace("Saving To Preferences:" . $name . "=" . $value);
+			$this->user_preferences[$name] = $value;
+			$this->savePreferences();
+		}
+		$_SESSION[$name] = $value;
+	}
+
+	/**
+	 * Function to save the user preferences to db
+	 */
+	public function savePreferences()
+	{
+		$data = base64_encode(serialize($this->user_preferences));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_users', ['user_preferences' => $data], ['id' => $this->getId()])
+			->execute();
+		\App\Log::trace("SAVING: PREFERENCES SIZE " . strlen($data));
+		$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
+	}
+
+	/**
+	 * Function to load the user preferences from db
+	 * @param string $value - serialized preferences data
+	 */
+	public function loadPreferences($value)
+	{
+		if (isset($value) && !empty($value)) {
+			\App\Log::trace("LOADING :PREFERENCES SIZE " . strlen($value));
+			$this->user_preferences = unserialize(base64_decode($value));
+			$_SESSION = array_merge($this->user_preferences, $_SESSION);
+			\App\Log::trace("Finished Loading");
+			$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
+		}
+	}
+
+	// ===== STATIC USER QUERY METHODS (moved from \App\User) =====
+
+	/**
+	 * Function checks if user exists
+	 * @param int $id - User ID
+	 * @return boolean
+	 */
+	public static function isExists($id)
+	{
+		if (\App\Cache::has('UserIsExists', $id)) {
+			return \App\Cache::get('UserIsExists', $id);
+		}
+		$isExists = false;
+		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = \App\PrivilegeFile::getUser('id');
+			if (isset($users[$id]) && !$users[$id]['deleted']) {
+				$isExists = true;
+			}
+		} else {
+			$isExists = (new \App\Db\Query())
+				->from('vtiger_users')
+				->where(['status' => 'Active', 'deleted' => 0, 'id' => $id])
+				->exists();
+		}
+		\App\Cache::save('UserIsExists', $id, $isExists);
+		return $isExists;
+	}
+
+	/**
+	 * Function to get the user if of the active admin user.
+	 * @return integer - Active Admin User ID
+	 */
+	public static function getActiveAdminId()
+	{
+		$key = 'id';
+		if (\App\Cache::has(__METHOD__, $key)) {
+			return \App\Cache::get(__METHOD__, $key);
+		} else {
+			$adminId = 1;
+			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$users = \App\PrivilegeFile::getUser('id');
+				foreach ($users as $id => $user) {
+					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {
+						$adminId = $id;
+						break;
+					}
+				}
+			} else {
+				$adminId = (new \App\Db\Query())->select('id')
+						->from('vtiger_users')
+						->where(['is_admin' => 'on', 'status' => 'Active'])
+						->orderBy('id', SORT_ASC)
+						->limit(1)->scalar();
+			}
+			\App\Cache::save(__METHOD__, $key, $adminId, \App\Cache::LONG);
+			return $adminId;
+		}
+	}
+
+	/**
+	 * Function gets user ID by name
+	 * @param string $name
+	 * @return int
+	 */
+	public static function getUserIdByName($name)
+	{
+		if (\App\Cache::has(__METHOD__, $name)) {
+			return \App\Cache::get(__METHOD__, $name);
+		}
+		$userId = (new \App\Db\Query())->select('id')
+				->from('vtiger_users')
+				->where(['user_name' => $name])
+				->limit(1)->scalar();
+		\App\Cache::save(__METHOD__, $name, $userId, \App\Cache::LONG);
+		return $userId;
 	}
 }
