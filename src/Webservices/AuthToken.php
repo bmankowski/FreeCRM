@@ -13,8 +13,9 @@ function vtws_getchallenge($username)
 
 	$adb = \App\Database\PearDatabase::getInstance();
 
-	$user = new \App\Modules\Users\Users();
-	$userid = $user->retrieve_user_id($username);
+	$user = \App\Modules\Users\Models\Record::getUserIdByName($username);
+
+	$userid = $user->getId();
 	$authToken = uniqid();
 
 	$servertime = time();

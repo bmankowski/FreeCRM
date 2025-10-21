@@ -230,16 +230,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function validation_check($validate, $md5, $alt = '')
 	{
-		$validate = base64_decode($validate);
-		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
-			$buffer = fread($handle, filesize($validate));
-			if (md5($buffer) == $md5 || (!empty($alt) && md5($buffer) == $alt)) {
-				return 1;
-			}
-			return -1;
-		} else {
-			return -1;
-		}
+		return \App\Modules\Users\Models\Record::validateFile($validate, $md5, $alt);
 	}
 
 	/** Function for authorization check
@@ -247,15 +238,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function authorization_check($validate, $authkey, $i)
 	{
-		$validate = base64_decode($validate);
-		$authkey = base64_decode($authkey);
-		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
-			$buffer = fread($handle, filesize($validate));
-			if (substr_count($buffer, $authkey) < $i)
-				return -1;
-		}else {
-			return -1;
-		}
+		return \App\Modules\Users\Models\Record::checkAuthorization($validate, $authkey, $i);
 	}
 
 	/**
@@ -297,19 +280,7 @@ class Users extends \App\CRMEntity
 	 */
 	public function retrieve_user_id($userName)
 	{
-		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \App\PrivilegeFile::getUser('userName');
-			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
-				return $users[$userName]['id'];
-			}
-		}
-		$adb = \App\Database\PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
-		$row = $adb->getRow($result);
-		if ($row && $row['deleted'] == '0') {
-			return $row['id'];
-		}
-		return false;
+		return \App\Modules\Users\Models\Record::getUserIdByName($userName);
 	}
 
 	/** Function to get the current user information from the user_privileges file
@@ -319,13 +290,15 @@ class Users extends \App\CRMEntity
 	 */
 	public function retrieveCurrentUserInfoFromFile($userid)
 	{
-		$userPrivileges = \App\User::getPrivilegesFile($userid);
-		$userInfo = $userPrivileges['user_info'];
-		foreach ($this->column_fields as $field => $value_iter) {
-			if (isset($userInfo[$field])) {
-				$this->$field = $userInfo[$field];
-				$this->column_fields[$field] = $userInfo[$field];
-			}
+		// Create a new Record instance and load user info
+		$record = new \App\Modules\Users\Models\Record();
+		$record->loadUserInfoFromFile($userid);
+		
+		// Sync data to current object for backward compatibility
+		$recordData = $record->getData();
+		foreach ($recordData as $field => $value) {
+			$this->$field = $value;
+			$this->column_fields[$field] = $value;
 		}
 		$this->id = $userid;
 		return $this;
@@ -705,36 +678,6 @@ class Users extends \App\CRMEntity
 			$current_user->id, $id), true, "Error marking record deleted: ");
 	}
 
-	/**
-	 * Function to get the user if of the active admin user.
-	 * @return Integer - Active Admin User ID
-	 */
-	public static function getActiveAdminId()
-	{
-		$db = \App\Database\PearDatabase::getInstance();
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
-		if ($cache->getAdminUserId() !== null) {
-			return $cache->getAdminUserId();
-		} else {
-			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = \App\PrivilegeFile::getUser('id');
-				foreach ($users as $id => $user) {
-					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
-						$adminId = $id;
-						continue;
-					}
-				}
-			} else {
-				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1");
-				$adminId = 1;
-				while (($id = $db->getSingleValue($result)) !== false) {
-					$adminId = $id;
-				}
-			}
-			$cache->setAdminUserId($adminId);
-			return $adminId;
-		}
-	}
 
 	/**
 	 * Function to get the active admin user object
@@ -742,7 +685,7 @@ class Users extends \App\CRMEntity
 	 */
 	public static function getActiveAdminUser()
 	{
-		$adminId = self::getActiveAdminId();
+		$adminId = \App\User::getActiveAdminId();
 		$user = \App\CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;

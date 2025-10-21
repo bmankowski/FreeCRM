@@ -11,8 +11,8 @@
 function vtws_login($username, $pwd)
 {
 
-	$user = new \App\Modules\Users\Users();
-	$userId = $user->retrieve_user_id($username);
+	$user = \App\Modules\Users\Models\Record::getUserIdByName($username);
+	$userId = $user->getId();
 
 	$token = vtws_getActiveToken($userId);
 	if ($token === null) {

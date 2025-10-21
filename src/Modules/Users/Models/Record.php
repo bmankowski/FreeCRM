@@ -1213,4 +1213,64 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		\App\Cache::save(__METHOD__, $name, $userId, \App\Cache::LONG);
 		return $userId;
 	}
+
+
+	/**
+	 * Load user info from privilege file (moved from Users.php)
+	 * @param int $userid
+	 * @return $this
+	 */
+	public function loadUserInfoFromFile($userid)
+	{
+		$userPrivileges = \App\User::getPrivilegesFile($userid);
+		$userInfo = $userPrivileges['user_info'];
+		foreach ($this->getData() as $field => $value_iter) {
+			if (isset($userInfo[$field])) {
+				$this->set($field, $userInfo[$field]);
+			}
+		}
+		$this->setId($userid);
+		return $this;
+	}
+
+	/**
+	 * Validation check (moved from Users.php)
+	 * @param string $validate
+	 * @param string $md5
+	 * @param string $alt
+	 * @return int
+	 */
+	public static function validateFile($validate, $md5, $alt = '')
+	{
+		$validate = base64_decode($validate);
+		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
+			$buffer = fread($handle, filesize($validate));
+			if (md5($buffer) == $md5 || (!empty($alt) && md5($buffer) == $alt)) {
+				return 1;
+			}
+			return -1;
+		} else {
+			return -1;
+		}
+	}
+
+	/**
+	 * Authorization check (moved from Users.php)
+	 * @param string $validate
+	 * @param string $authkey
+	 * @param int $i
+	 * @return int
+	 */
+	public static function checkAuthorization($validate, $authkey, $i)
+	{
+		$validate = base64_decode($validate);
+		$authkey = base64_decode($authkey);
+		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
+			$buffer = fread($handle, filesize($validate));
+			if (substr_count($buffer, $authkey) < $i)
+				return -1;
+		}else {
+			return -1;
+		}
+	}
 }
