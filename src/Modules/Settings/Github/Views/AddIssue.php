@@ -26,8 +26,8 @@ class AddIssue extends \App\Modules\Vtiger\Views\BasicModal
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$clientModel = Settings_Github_Client_Model::getInstance();
-		$configuration = Settings_ConfReport_Module_Model::getConfigurationValue();
-		$libraries = Settings_ConfReport_Module_Model::getConfigurationLibrary();
+		$configuration = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue();
+		$libraries = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary();
 		$errorLibraries = [];
 		foreach ($libraries as $key => $value) {
 			if ($value['status'] == 'LBL_NO') {

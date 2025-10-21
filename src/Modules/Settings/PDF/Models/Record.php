@@ -99,7 +99,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		return $pdf;
 	}
 
-	public static function save(\Vtiger_PDF_Model $pdfModel, $step = 1)
+	public static function save(\App\Modules\Vtiger\Models\PDF $pdfModel, $step = 1)
 	{
 		$db = \App\Db::getInstance('admin');
 
@@ -163,7 +163,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		}
 	}
 
-	public static function deleteWatermark(\Vtiger_PDF_Model $pdfModel)
+	public static function deleteWatermark(\App\Modules\Vtiger\Models\PDF $pdfModel)
 	{
 		$db = \App\Db::getInstance('admin');
 		$watermarkImage = $pdfModel->get('watermark_image');
@@ -176,7 +176,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		return false;
 	}
 
-	public static function delete(\Vtiger_PDF_Model $pdfModel)
+	public static function delete(\App\Modules\Vtiger\Models\PDF $pdfModel)
 	{
 		return \App\Db::getInstance('admin')->createCommand()
 				->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
@@ -186,7 +186,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	public static function transformAdvanceFilterToWorkFlowFilter(\Vtiger_PDF_Model &$pdfModel)
+	public static function transformAdvanceFilterToWorkFlowFilter(\App\Modules\Vtiger\Models\PDF &$pdfModel)
 	{
 		$conditions = $pdfModel->get('conditions');
 		$wfCondition = [];

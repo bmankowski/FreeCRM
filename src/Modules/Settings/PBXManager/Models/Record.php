@@ -29,7 +29,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function getModule()
 	{
-		return new Settings_PBXManager_Module_Model;
+		return new \App\Modules\Settings\PBXManager\Models\Module;
 	}
 
 	static function getCleanInstance()

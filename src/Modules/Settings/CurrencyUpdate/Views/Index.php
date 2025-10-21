@@ -77,7 +77,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULENAME', 'CurrencyUpdate');
-		$viewer->assign('DATE', ($request->has('duedate') ? (new \Vtiger_Date_UIType())->getDisplayValue($dateCur) : ''));
+		$viewer->assign('DATE', ($request->has('duedate') ? (new \App\Modules\Vtiger\UiTypes\Date())->getDisplayValue($dateCur) : ''));
 		$viewer->assign('CURRNUM', $curr_num);
 		$viewer->assign('BANK', $bankTab);
 		$viewer->assign('HISTORIA', $history);

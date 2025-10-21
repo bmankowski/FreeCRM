@@ -62,7 +62,7 @@ class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 		}
 		$defaultValue = $request->get('fieldDefaultValue');
 		if ($fieldInstance->getFieldDataType() == 'date') {
-			$dateInstance = new \Vtiger_Date_UIType();
+			$dateInstance = new \App\Modules\Vtiger\UiTypes\Date();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
 		}
 		if ($request->has('fieldMask')) {

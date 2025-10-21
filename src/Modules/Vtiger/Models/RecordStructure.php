@@ -31,7 +31,7 @@ class RecordStructure extends \App\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to set the record Model
 	 * @param <type> $record - record instance
-	 * @return Vtiger_RecordStructure_Model
+	 * @return \App\Modules\Vtiger\Models\RecordStructure
 	 */
 	public function setRecord($record)
 	{
@@ -65,7 +65,7 @@ class RecordStructure extends \App\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to set the module
 	 * @param <type> $module - module model
-	 * @return Vtiger_RecordStructure_Model
+	 * @return \App\Modules\Vtiger\Models\RecordStructure
 	 */
 	public function setModule($module)
 	{
@@ -109,7 +109,7 @@ class RecordStructure extends \App\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to retieve the instance from record model
 	 * @param <\App\Modules\Vtiger\Models\Record> $recordModel - record instance
-	 * @return Vtiger_RecordStructure_Model
+	 * @return \App\Modules\Vtiger\Models\RecordStructure
 	 */
 	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{
@@ -123,7 +123,7 @@ class RecordStructure extends \App\Runtime\Vtiger_Base_Model
 	/**
 	 * Function to retieve the instance from module model
 	 * @param \App\Modules\Vtiger\Models\Module $moduleModel - module instance
-	 * @return Vtiger_RecordStructure_Model
+	 * @return \App\Modules\Vtiger\Models\RecordStructure
 	 */
 	public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{

@@ -120,11 +120,11 @@ class CRM_Viewer extends \Smarty
 		// Register static classes for template use
 		$this->registerClass('AppConfig', '\App\AppConfig');
 		$this->registerClass('AppRequest', '\App\Http\\AppRequest');
-		$this->registerClass('Vtiger_Util_Helper', '\App\Modules\\Vtiger\\helpers\\Util');
+		$this->registerClass('\App\Modules\Vtiger\Util', '\App\Modules\\Vtiger\\helpers\\Util');
 		$this->registerClass('\App\Modules\Vtiger\Models\Menu', '\App\Modules\\Vtiger\Models\\Menu');
 		$this->registerClass('Vtiger_Language_Handler', '\App\\Runtime\\Vtiger_Language_Handler');
-		$this->registerClass('Settings_WidgetsManagement_Module_Model', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
-		$this->registerClass('Settings_Calendar_Module_Model', '\App\Modules\\Settings\\Calendar\Models\\Module');
+		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
+		$this->registerClass('\App\Modules\Settings\Calendar\Models\Module', '\App\Modules\\Settings\\Calendar\Models\\Module');
 		$this->registerClass('\App\\Json', '\App\\Json');
 		$this->registerClass('\App\\Debugger', '\App\\Debugger');
 		$this->registerClass('App\\Company', '\App\\Company');

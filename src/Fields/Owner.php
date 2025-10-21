@@ -129,7 +129,7 @@ class Owner
 		}
 
 		$result = [];
-		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $moduleName);
+		$usersGroups = \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($fieldType, $moduleName);
 		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getId()]) ? $usersGroups[$this->currentUser->getId()] : [];
 		if ($mode == 'users') {
 			$users = $usersGroups ? $usersGroups['users'] : [];

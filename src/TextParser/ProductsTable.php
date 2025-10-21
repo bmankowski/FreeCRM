@@ -35,7 +35,7 @@ class ProductsTable extends Base
 			$countFields0 = count($fields[0]);
 			$countFields1 = count($fields[1]);
 			$countFields2 = count($fields[2]);
-			$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
+			$baseCurrency = \App\Modules\Vtiger\Util::getBaseCurrency();
 		}
 		if (in_array('currency', $columns)) {
 			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {

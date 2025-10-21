@@ -25,7 +25,7 @@ class Watchdog extends \App\Runtime\Vtiger_Base_Model
 	 * @param int $record
 	 * @param int|string $moduleName
 	 * @param int $userId
-	 * @return Vtiger_Watchdog_Model
+	 * @return \App\Modules\Vtiger\Models\Watchdog
 	 */
 	public static function getInstanceById($record, $moduleName = null, $userId = false)
 	{
@@ -38,7 +38,7 @@ class Watchdog extends \App\Runtime\Vtiger_Base_Model
 	 * Function to get the instance by module
 	 * @param int|string $moduleName
 	 * @param int $userId
-	 * @return Vtiger_Watchdog_Model
+	 * @return \App\Modules\Vtiger\Models\Watchdog
 	 */
 	public static function getInstance($moduleName, $userId = false)
 	{

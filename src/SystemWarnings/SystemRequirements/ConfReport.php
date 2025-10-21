@@ -22,12 +22,12 @@ class ConfReport extends \App\SystemWarnings\Template
 	public function process()
 	{
 		$status = 2;
-		$permissionsFiles = Settings_ConfReport_Module_Model::getPermissionsFiles(true);
+		$permissionsFiles = \App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles(true);
 		if (!empty($permissionsFiles)) {
 			$status = 2;
 		}
 		if ($status) {
-			$library = Settings_ConfReport_Module_Model::getConfigurationLibrary();
+			$library = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary();
 			foreach ($library as $key => $value) {
 				if ($value['status'] === 'LBL_NO') {
 					$status = 2;
@@ -35,7 +35,7 @@ class ConfReport extends \App\SystemWarnings\Template
 			}
 		}
 		if ($status) {
-			$directiveValues = Settings_ConfReport_Module_Model::getConfigurationValue();
+			$directiveValues = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue();
 			foreach ($directiveValues as $key => $value) {
 				if (isset($value['status']) && $value['status']) {
 					$status = 2;

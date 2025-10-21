@@ -124,9 +124,9 @@ class FileTarget extends \yii\log\FileTarget
 	protected function getContextMessage()
 	{
 		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
-		$library = \Settings_ConfReport_Module_Model::getConfigurationLibrary();
-		$directiveValues = \Settings_ConfReport_Module_Model::getConfigurationValue(true);
-		$permissionsFiles = \Settings_ConfReport_Module_Model::getPermissionsFiles(true);
+		$library = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary();
+		$directiveValues = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue(true);
+		$permissionsFiles = \App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles(true);
 		foreach ($library as $key => $value) {
 			if ($value['status'] === 'LBL_NO') {
 				$context['Libs'][] = $value['name'];

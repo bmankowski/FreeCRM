@@ -360,7 +360,7 @@ class TextParser
 	{
 		switch ($key) {
 			case 'CurrentDate': return (new \DateTimeField(null))->getDisplayDate();
-			case 'CurrentTime' : return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
+			case 'CurrentTime' : return \App\Modules\Vtiger\Util::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl' : return \App\AppConfig::main('site_URL');
 			case 'PortalUrl' : return \App\AppConfig::main('PORTAL_URL');
 			case 'BaseTimeZone' : return \App\Fields\DateTimeField::getDBTimeZone();

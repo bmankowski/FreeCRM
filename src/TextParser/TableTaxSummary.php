@@ -30,7 +30,7 @@ class TableTaxSummary extends Base
 		$fields = $inventoryField->getFields(true);
 		$columns = $inventoryField->getColumns();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
+		$baseCurrency = \App\Modules\Vtiger\Util::getBaseCurrency();
 		if (in_array('currency', $columns)) {
 			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
 				$currency = $inventoryRows[0]['currency'];
