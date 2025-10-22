@@ -139,11 +139,11 @@ class Inventory {
 	 */
 	public function getAccountTax($moduleName, $record)
 	{
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$accountField = $inventoryField->getReferenceField();
 		$accountTaxs = [];
 		$name = '';
-		$taxField = Vtiger_InventoryField_Model::getTaxField('Accounts');
+		$taxField = \App\Modules\Vtiger\Models\InventoryField::getTaxField('Accounts');
 		if ($accountField != '' && $taxField != false) {
 			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			$relationFieldValue = $recordModel->get($accountField);

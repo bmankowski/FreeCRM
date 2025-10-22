@@ -19,7 +19,7 @@ class PicklistField extends InventoryField
 
 	public function getParams()
 	{
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->get('module'));
+		$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->get('module'));
 		$fields = $inventoryFieldModel->getFields(true);
 		$mainParams = $inventoryFieldModel->getMainParams($fields[1]);
 		return $mainParams['modules'];

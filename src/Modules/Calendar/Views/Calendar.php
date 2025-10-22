@@ -93,7 +93,7 @@ class Calendar  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$calendarFilters = Calendar_CalendarFilters_Model::getCleanInstance();
+		$calendarFilters = \App\Modules\Calendar\Models\CalendarFilters::getCleanInstance();
 		$viewer->assign('CALENDAR_FILTERS', $calendarFilters);
 		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
 		parent::postProcess($request);

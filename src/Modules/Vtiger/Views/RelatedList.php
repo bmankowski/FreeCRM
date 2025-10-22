@@ -95,22 +95,26 @@ class RelatedList  extends \App\Modules\Vtiger\Views\Index
 			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
 		}
 		$viewer->assign('COLOR_LIST', $colorList);
-		$viewer->assign('RELATED_RECORDS', $models);
-		$viewer->assign('PARENT_RECORD', $parentRecordModel);
-		$viewer->assign('RELATED_LIST_LINKS', $links);
-		$viewer->assign('RELATED_HEADERS', $header);
-		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
-		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
-		$viewer->assign('RELATION_FIELD', $relationField);
+	$viewer->assign('RELATED_RECORDS', $models);
+	$viewer->assign('PARENT_RECORD', $parentRecordModel);
+	$viewer->assign('RELATED_LIST_LINKS', $links);
+	$viewer->assign('RELATED_HEADERS', $header);
+	$viewer->assign('RELATED_MODULE', $relatedModuleModel);
+	$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
+	$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
+	$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
-		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
-		}
+	if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		$totalCount = $relationListView->getRelatedEntriesCount();
+	}
+	if (!empty($totalCount)) {
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
+	} else {
+		$viewer->assign('LISTVIEW_COUNT', 0);
+		$viewer->assign('TOTAL_ENTRIES', 0);
+	}
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
@@ -133,12 +137,13 @@ class RelatedList  extends \App\Modules\Vtiger\Views\Index
 			$viewer->assign('FAVORITES', $favorites);
 			$isFavorites = $relationModel->isFavorites();
 		}
-		$viewer->assign('IS_FAVORITES', $isFavorites);
-		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
-		$viewer->assign('SEARCH_DETAILS', $searchParmams);
-		$viewer->assign('VIEW', $request->get('view'));
-		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
+	$viewer->assign('IS_FAVORITES', $isFavorites);
+	$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
+	$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
+	$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+	$viewer->assign('SEARCH_DETAILS', $searchParmams);
+	$viewer->assign('VIEW', $request->get('view'));
+	$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
+	return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}
 }

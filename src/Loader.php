@@ -29,14 +29,16 @@ class Loader
 	 * @param string $componentType Type of component (View, Action, Model, etc.)
 	 * @param string $componentName Name of the component (Detail, Save, Record, etc.)
 	 * @param string $moduleName Module name (can include Settings:SubModule pattern)
-	 * @return string Fully qualified class name
-	 * @throws \Exception When component class is not found
+	 * @param bool $throwException Whether to throw exception if not found (default: true)
+	 * @return string|false Fully qualified class name or false if not found and $throwException is false
+	 * @throws \Exception When component class is not found and $throwException is true
 	 */
 	public static function getComponentClassName(
 		string $componentType,
 		string $componentName,
-		string $moduleName = 'Vtiger'
-	): string {
+		string $moduleName = 'Vtiger',
+		bool $throwException = true
+	) {
 		// Handle Settings:SubModule pattern → Settings\SubModule
 		if (strpos($moduleName, ':') !== false) {
 			$moduleName = str_replace(':', '\\', $moduleName);
@@ -65,7 +67,10 @@ class Loader
 		}
 
 		// Component not found
-		throw new \Exception("Module component not found: {$className}");
+		if ($throwException) {
+			throw new \Exception("Module component not found: {$className}");
+		}
+		return false;
 	}
 
 	/**

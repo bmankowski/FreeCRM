@@ -430,8 +430,9 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		} else {
 			$pagingModel->set('nextPageExists', true);
 		}
+		$currentUser = \App\Modules\Users\Models\User::getCurrentUserModel();
 		if ($type == 'changes') {
-			$newChange = $request->has('newChange') ? $request->get('newChange') : \App\Modules\ModTracker\Models\Record::isNewChange($parentRecordId);
+			$newChange = $request->has('newChange') ? $request->get('newChange') : \App\Modules\ModTracker\Models\Record::isNewChange($parentRecordId, $currentUser->getRealId());
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);

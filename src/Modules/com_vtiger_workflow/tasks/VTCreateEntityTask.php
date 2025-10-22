@@ -172,7 +172,7 @@ class VTCreateEntityTask extends VTTask
 	public function setInventoryDataToRequest($recordModel, $inventoryData = [])
 	{
 		$invDat = [];
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
+		$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		if (empty($inventoryData)) {
 			$inventoryData = $recordModel->getInventoryData();

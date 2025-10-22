@@ -94,7 +94,7 @@ class XmlReader extends FileReader
 				$allValuesEmpty = false;
 		}
 		if ($inventoryFieldMapping && $recordsInventoryData) {
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
+			$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
 			foreach ($recordsInventoryData as $index => $data) {
 				foreach ($data as $key => $fieldValue) {

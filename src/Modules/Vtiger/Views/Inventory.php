@@ -74,7 +74,7 @@ class Inventory  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('TAX_TYPE', $taxType);
-		$viewer->assign('TAX_FIELD', Vtiger_InventoryField_Model::getTaxField($recordModule));
+		$viewer->assign('TAX_FIELD', \App\Modules\Vtiger\Models\InventoryField::getTaxField($recordModule));
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_TAXS', $accountTaxs['taxs']);

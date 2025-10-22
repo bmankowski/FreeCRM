@@ -614,6 +614,9 @@ class Functions
 
 	public static function decimalTimeFormat($decTime)
 	{
+		if ($decTime === null || $decTime === '') {
+			$decTime = 0;
+		}
 		$hour = floor($decTime);
 		$min = round(60 * ($decTime - $hour));
 		return array(

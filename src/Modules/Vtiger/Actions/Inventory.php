@@ -152,7 +152,7 @@ class Inventory extends \App\Runtime\Vtiger_Action_Controller
 			}
 			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 		}
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);
 		$autoFields = [];
 		if ($autoCompleteField) {

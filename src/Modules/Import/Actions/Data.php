@@ -294,7 +294,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 
 	public function transformInventoryForImport($inventoryData)
 	{
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
+		$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->module);
 		$inventoryFields = $inventoryFieldModel->getFields();
 		$maps = $inventoryFieldModel->getAutoCompleteFields();
 
@@ -918,7 +918,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 	public function convertInventoryDataToObject($inventoryData = [])
 	{
 		$inventoryModel = new \App\Modules\Vtiger\Models\Base();
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
+		$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {
 			$i = $index + 1;

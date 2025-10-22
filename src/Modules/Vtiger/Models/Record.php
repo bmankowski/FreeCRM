@@ -821,7 +821,7 @@ class Record extends \App\Runtime\BaseModel
 				}
 			}
 			if ($parentRecordModel->getModule()->isInventory() && $this->getModule()->isInventory()) {
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($parentRecordModel->getModuleName());
+				$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($parentRecordModel->getModuleName());
 				$inventoryFields = $inventoryFieldModel->getFields();
 				$sourceInv = $parentRecordModel->getInventoryData();
 			}
@@ -911,7 +911,7 @@ class Record extends \App\Runtime\BaseModel
 	public static function getInventoryDataById($ID, $moduleName)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$table = $inventoryField->getTableName('data');
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
 		$fields = [];
@@ -930,7 +930,7 @@ class Record extends \App\Runtime\BaseModel
 		\App\Log::trace('Entering ' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventory = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$fields = $inventory->getColumns();
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = $summary = [];
@@ -1017,7 +1017,7 @@ class Record extends \App\Runtime\BaseModel
 	{
 		\App\Log::trace('Start ' . __METHOD__);
 		$db = \App\Db::getInstance();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventory = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
 
 		$inventoryData = $this->getInventoryData();

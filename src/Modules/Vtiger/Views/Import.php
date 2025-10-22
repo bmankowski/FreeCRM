@@ -142,7 +142,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 			$viewer->assign('USER_INPUT', $request);
 
 			if ($moduleModel->isInventory()) {
-				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
+				$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 				$inventoryFields = $inventoryFieldModel->getFields(true);
 				$inventoryFieldsBlock = [];
 				$blocksName = ['LBL_HEADLINE', 'LBL_BASIC_VERSE', 'LBL_ADDITIONAL_VERSE'];

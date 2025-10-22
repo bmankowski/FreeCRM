@@ -510,7 +510,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		if (empty($this->get('groups'))) {
 			if ($this->isAdminUser()) {
-				$userGroupFocus = new GetUserGroups();
+				$userGroupFocus = new \App\Utils\GetUserGroups();
 				$userGroupFocus->getAllUserGroups($this->getId());
 				$userGroups = $userGroupFocus->user_groups;
 			} else {

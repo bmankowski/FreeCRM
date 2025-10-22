@@ -235,7 +235,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		$isInventory = $moduleModel->isInventory();
 		if ($isInventory) {
-			$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($this->getName());
+			$inventoryFieldModel = \\App\Modules\Vtiger\Models\InventoryField::getInstance($this->getName());
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$blockName = 'LBL_ADVANCED_BLOCK';
 			foreach ($inventoryFields as $field) {

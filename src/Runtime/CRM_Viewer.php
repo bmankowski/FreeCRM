@@ -123,11 +123,27 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\Modules\Vtiger\Util', '\App\Modules\\Vtiger\\Helpers\\Util');
 		$this->registerClass('\App\Modules\Vtiger\Models\Menu', '\App\Modules\\Vtiger\Models\\Menu');
 		$this->registerClass('Vtiger_Language_Handler', '\App\\Runtime\\Vtiger_Language_Handler');
+		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
 		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
 		$this->registerClass('\App\Modules\Settings\Calendar\Models\Module', '\App\Modules\\Settings\\Calendar\Models\\Module');
 		$this->registerClass('\App\\Json', '\App\\Json');
 		$this->registerClass('\App\\Debugger', '\App\\Debugger');
 		$this->registerClass('App\\Company', '\App\\Company');
+		// Register UIType and utility classes used in templates
+		$this->registerClass('Vtiger_Datetime_UIType', '\App\\Modules\\Vtiger\\UiTypes\\Datetime');
+		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
+		$this->registerClass('vtlib\\Functions', 'vtlib\\Functions');
+		// Register additional model classes used in templates
+		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');
+		$this->registerClass('\App\\Modules\\Vtiger\\Models\\Module', '\App\\Modules\\Vtiger\\Models\\Module');
+		$this->registerClass('\App\\Modules\\Vtiger\\Helpers\\Util', '\App\\Modules\\Vtiger\\Helpers\\Util');
+		$this->registerClass('\App\\Privilege', '\App\\Privilege');
+		$this->registerClass('App\\Privilege', '\App\\Privilege');
+		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
+		$this->registerClass('\App\\Modules\\Settings\\ModuleManager\\Models\\Library', '\App\\Modules\\Settings\\ModuleManager\\Models\\Library');
+		$this->registerClass('Settings_Mail_Config_Model', '\App\\Modules\\Settings\\Mail\\Models\\Config');
+		$this->registerClass('OSSMail_Autologin_Model', '\App\\Modules\\OSSMail\\Models\\Autologin');
+		$this->registerClass('OSSMail_Module_Model', '\App\\Modules\\OSSMail\\Models\\Module');
 
 		// Register PHP functions that are used in templates
 		$this->registerPlugin('modifier', 'strrpos', 'strrpos');
@@ -140,12 +156,24 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'file_exists', 'file_exists');
 		$this->registerPlugin('modifier', 'intval', 'intval');
 		$this->registerPlugin('modifier', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
+		$this->registerPlugin('modifier', 'trim', 'trim');
+		$this->registerPlugin('modifier', 'array_key_exists', 'array_key_exists');
+		$this->registerPlugin('modifier', 'microtime', 'microtime');
+		$this->registerPlugin('modifier', 'sprintf', 'sprintf');
+		$this->registerPlugin('modifier', 'array_map', 'array_map');
+		$this->registerPlugin('modifier', 'method_exists', 'method_exists');
 		$this->registerPlugin('function', 'explode', 'explode');
 		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
 		$this->registerPlugin('function', 'file_exists', 'file_exists');
 		$this->registerPlugin('function', 'intval', 'intval');
 		$this->registerPlugin('function', 'strtoupper', 'strtoupper');
 		$this->registerPlugin('function', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
+		$this->registerPlugin('function', 'trim', 'trim');
+		$this->registerPlugin('function', 'array_key_exists', 'array_key_exists');
+		$this->registerPlugin('function', 'microtime', 'microtime');
+		$this->registerPlugin('function', 'sprintf', 'sprintf');
+		$this->registerPlugin('function', 'array_map', 'array_map');
+		$this->registerPlugin('function', 'method_exists', 'method_exists');
 
 
 

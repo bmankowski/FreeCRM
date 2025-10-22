@@ -91,33 +91,47 @@ class InRelation  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
-		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
-		}
+	if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		$totalCount = $relationListView->getRelatedEntriesCount();
+	}
+	if (!empty($totalCount)) {
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+		$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
+	} else {
+		$viewer->assign('LISTVIEW_COUNT', 0);
+		$viewer->assign('TOTAL_ENTRIES', 0);
+	}
 
-		$pageCount = $pagingModel->getPageCount();
-		$startPaginFrom = $pagingModel->getStartPagingFrom();
+	$pageCount = $pagingModel->getPageCount();
+	$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
-		$viewer->assign('COLUMN_NAME', $orderBy);
+	$viewer->assign('PAGE_COUNT', $pageCount);
+	$viewer->assign('PAGE_NUMBER', $requestedPage);
+	$viewer->assign('MODULE', $moduleName);
+	$viewer->assign('PAGING_MODEL', $pagingModel);
+	$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+	$viewer->assign('ORDER_BY', $orderBy);
+	$viewer->assign('SORT_ORDER', $sortOrder);
+	$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
+	$viewer->assign('SORT_IMAGE', $sortImage);
+	$viewer->assign('COLUMN_NAME', $orderBy);
 
-		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
-		$viewer->assign('SEARCH_DETAILS', $searchParmams);
-		$viewer->assign('VIEW', $request->get('view'));
-		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
+	$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
+	$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
+	$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+	$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
+	$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+	$viewer->assign('SEARCH_DETAILS', $searchParmams);
+	$viewer->assign('VIEW', $request->get('view'));
+	$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
+	$isFavorites = false;
+	if ($relationModel->isFavorites() && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
+		$favorites = $relationListView->getFavoriteRecords();
+		$viewer->assign('FAVORITES', $favorites);
+		$isFavorites = $relationModel->isFavorites();
+	}
+	$viewer->assign('IS_FAVORITES', $isFavorites);
+	return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}
 }

@@ -92,7 +92,7 @@ class Export extends \App\Runtime\BaseModel
 		$isInventory = $this->moduleInstance->isInventory();
 		if ($isInventory) {
 			//Get inventory headers
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
+			$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {

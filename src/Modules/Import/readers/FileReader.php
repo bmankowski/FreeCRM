@@ -129,7 +129,7 @@ class FileReader {
 
 		if ($this->moduleModel->isInventory()) {
 			$inventoryTableName = \App\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
+			$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->moduleModel->getName());
 			$columns = [
 				'id' => $schema->createColumnSchemaBuilder('integer', 19)
 			];

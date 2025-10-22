@@ -265,7 +265,7 @@ class Basic extends \App\Runtime\BaseModel
 
 	public function getMapDetail($returInstance = false)
 	{
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($this->get('module'));
+		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->get('module'));
 		$fields = $inventoryField->getAutoCompleteFields();
 		$name = $this->getColumnName();
 		if (isset($fields[$name])) {

@@ -50,7 +50,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$name = $param['name'];
 		$id = $param['id'];
 		$edit = false;
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventoryField = \\App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		if (!empty($id)) {
 			$return = $inventoryField->saveField($name, $param);
 			$edit = true;
@@ -72,7 +72,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventoryField = \\App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$status = $inventoryField->saveSequence($param['ids']);
 		if ($status) {
 			$status = true;
@@ -86,7 +86,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($moduleName);
+		$inventoryField = \\App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
 		$status = $inventoryField->delete($param);
 		if ($status) {
 			$status = true;

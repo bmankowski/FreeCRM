@@ -24,9 +24,9 @@
         <div class="relatedHeader ">
             <div class="btn-toolbar row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-						{if {\App\Modules\Users\Models\Privileges::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
-							<div class="btn-group paddingRight10">
+                {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
+					{if $IS_CREATE_PERMITTED}
+						<div class="btn-group paddingRight10">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn btn-default addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"

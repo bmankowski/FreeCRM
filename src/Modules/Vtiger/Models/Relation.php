@@ -473,13 +473,13 @@ class Relation extends \App\Runtime\BaseModel
 		if ($this->has('RelationInventoryFields')) {
 			return $this->get('RelationInventoryFields');
 		}
-		$columns = (new \App\Db\Query())
-			->select(['fieldname'])
-			->from('a_#__relatedlists_inv_fields')
-			->where(['relation_id' => $this->getId()])
-			->orderBy('sequence')
-			->column();
-		$inventoryFields = Vtiger_InventoryField_Model::getInstance($this->get('modulename'))->getFields();
+	$columns = (new \App\Db\Query())
+		->select(['fieldname'])
+		->from('a_#__relatedlists_inv_fields')
+		->where(['relation_id' => $this->getId()])
+		->orderBy('sequence')
+		->column();
+	$inventoryFields = InventoryField::getInstance($this->get('modulename'))->getFields();
 		$fields = [];
 		foreach ($columns as &$column) {
 			if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {

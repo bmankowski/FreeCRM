@@ -173,7 +173,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 				}
 				break;
 			case 'INVENTORY':
-				$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($module->getName());
+				$inventoryFieldModel = \\App\Modules\Vtiger\Models\InventoryField::getInstance($module->getName());
 				$inventoryFields = $inventoryFieldModel->getFields();
 				return self::getInstanceFromInventoryFieldObject($inventoryFields[$value]);
 			default:
