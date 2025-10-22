@@ -66,11 +66,11 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		if ($conditions) {
 			$conditions = \App\Json::decode($conditions);
 		}
-		$criteria = \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($conditions);
-		$viewer->assign('ADVANCE_CRITERIA', \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($conditions));
+		$criteria = \\App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($conditions);
+		$viewer->assign('ADVANCE_CRITERIA', \\App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($conditions));
 
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('DATE_FILTERS', \Vtiger_AdvancedFilter_Helper::getDateFilter($sourceModuleName));
+		$viewer->assign('DATE_FILTERS', \\App\Modules\Vtiger\AdvancedFilter::getDateFilter($sourceModuleName));
 
 		if ($sourceModuleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();

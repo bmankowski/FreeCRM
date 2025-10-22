@@ -5,19 +5,19 @@
 		{assign var=MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance($SOURCE_MODULE)}
 	{/if}
 	{if !$DATE_FILTERS}
-		{assign var=DATE_FILTERS value=Vtiger_AdvancedFilter_Helper::getDateFilter($QUALIFIED_MODULE)}
+		{assign var=DATE_FILTERS value=\App\Modules\Vtiger\AdvancedFilter::getDateFilter($QUALIFIED_MODULE)}
 	{/if}
 	{if !$ADVANCED_FILTER_OPTIONS}
-		{assign var=ADVANCED_FILTER_OPTIONS value=Vtiger_AdvancedFilter_Helper::getAdvancedFilterOptions()}
+		{assign var=ADVANCED_FILTER_OPTIONS value=\App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOptions()}
 	{/if}
 	{if !$ADVANCED_FILTER_OPTIONS_BY_TYPE}
-		{assign var=ADVANCED_FILTER_OPTIONS_BY_TYPE value=Vtiger_AdvancedFilter_Helper::getAdvancedFilterOpsByFieldType()}
+		{assign var=ADVANCED_FILTER_OPTIONS_BY_TYPE value=\App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOpsByFieldType()}
 	{/if}
 	{if !$FIELD_EXPRESSIONS}
-		{assign var=FIELD_EXPRESSIONS value=Vtiger_AdvancedFilter_Helper::getExpressions()}
+		{assign var=FIELD_EXPRESSIONS value=\App\Modules\Vtiger\AdvancedFilter::getExpressions()}
 	{/if}
 	{if !$META_VARIABLES}
-		{assign var=META_VARIABLES value=Vtiger_AdvancedFilter_Helper::getMetaVariables()}
+		{assign var=META_VARIABLES value=\App\Modules\Vtiger\AdvancedFilter::getMetaVariables()}
 	{/if}
 	{assign var=COLUMNNAME_API value='getName'}
 	<div class="padding1per stepBorder">

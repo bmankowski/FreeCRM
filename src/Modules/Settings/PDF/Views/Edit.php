@@ -64,7 +64,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($pdfModel->get('module_name'));
 				$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-				$viewer->assign('ADVANCE_CRITERIA', \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
+				$viewer->assign('ADVANCE_CRITERIA', \\App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
 				$viewer->view('Step6.tpl', $qualifiedModuleName);
 				break;
 

@@ -68,7 +68,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-		$viewer->assign('ADVANCE_CRITERIA', \Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($recordModel->get('conditions')));
+		$viewer->assign('ADVANCE_CRITERIA', \\App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($recordModel->get('conditions')));
 		$viewer->assign('SOURCE_MODULE', $selectedModule);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
