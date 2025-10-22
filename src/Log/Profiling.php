@@ -4,7 +4,7 @@ namespace App\Log;
 use \App\Db;
 use \yii\log\Logger;
 use \yii\log\Target;
-use \yii\helpers\VarDumper;
+use \yii\Helpers\VarDumper;
 
 class Profiling extends Target
 {

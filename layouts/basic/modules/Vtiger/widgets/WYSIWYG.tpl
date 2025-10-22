@@ -8,7 +8,7 @@
 			{assign var=FULL_TEXT value=vtlib\Functions::removeHtmlTags(array('link', 'style', 'img', 'script', 'base'),decode_html($RECORD->get($WIDGET['data']['field_name'])))}
 			<div class="moreContent table-responsive">
 				<span class="teaserContent">
-					{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FULL_TEXT)|substr:0:600}
+					{\App\Modules\Vtiger\Helpers\Util::toVtiger6SafeHTML($FULL_TEXT)|substr:0:600}
 				</span>
 				{if $FULL_TEXT|strlen > 600}
 					<span class="fullContent hide">

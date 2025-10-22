@@ -8,7 +8,7 @@ namespace App\Modules\OSSMailScanner\scanneractions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class BindCampaigns extends \App\Runtime\Vtiger_Base_Model
+class BindCampaigns extends \App\Runtime\BaseModel
 {
 
 	public $moduleName = 'Campaigns';

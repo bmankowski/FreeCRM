@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RelatedCommentModal extends \App\Runtime\Vtiger_Base_Model
+class RelatedCommentModal extends \App\Runtime\BaseModel
 {
 
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)

@@ -11,7 +11,7 @@
 -->*}
 
 <input type='hidden' name='charttype' value="{$CHART_TYPE}" />
-<input type='hidden' name='data' class="widgetData" value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($DATA)}" />
+<input type='hidden' name='data' class="widgetData" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($DATA)}" />
 <input type='hidden' name='clickthrough' value="{$CLICK_THROUGH}" />
 
 <br>

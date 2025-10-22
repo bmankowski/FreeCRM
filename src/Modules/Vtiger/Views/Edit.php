@@ -149,7 +149,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('APIADDRESS', \App\Modules\Settings\ApiAddress\Models\Module::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('APIADDRESS_ACTIVE', \App\Modules\Settings\ApiAddress\Models\Module::isActive());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Vtiger\helpers\Util::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Vtiger\Helpers\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}

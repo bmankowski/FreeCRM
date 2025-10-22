@@ -97,14 +97,14 @@ class FileTarget extends \yii\log\FileTarget
 			if ($text instanceof \Throwable || $text instanceof \Exception) {
 				$text = (string) $text;
 			} else {
-				$text = \yii\helpers\VarDumper::export($text);
+				$text = \yii\Helpers\VarDumper::export($text);
 			}
 		}
 	$traces = '';
 	if (isset($message[4])) {
 		$traces = $message[4];
 		if (is_array($traces)) {
-			$traces = \yii\helpers\VarDumper::export($traces);
+			$traces = \yii\Helpers\VarDumper::export($traces);
 		}
 	}
 	if ($category !== '') {
@@ -123,7 +123,7 @@ class FileTarget extends \yii\log\FileTarget
 	 */
 	protected function getContextMessage()
 	{
-		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
+		$context = \yii\Helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
 		$library = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary();
 		$directiveValues = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue(true);
 		$permissionsFiles = \App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles(true);
@@ -142,7 +142,7 @@ class FileTarget extends \yii\log\FileTarget
 		}
 		$result = '';
 		foreach ($context as $key => $value) {
-			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+			$result .= "\n\${$key} = " . \yii\Helpers\VarDumper::dumpAsString($value);
 		}
 		//$result .= PHP_EOL.
 		return $result . "====================================================================================================================================\n";

@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends \App\Runtime\Vtiger_Base_Model
+class Relation extends \App\Runtime\BaseModel
 {
 
 	protected static $cachedInstances = [];

@@ -30,10 +30,10 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			$value = $recordModel->get($fieldName);
 			if (!is_array($value)) {
-				$fieldValue = \App\Modules\Vtiger\helpers\Util::toSafeHTML($value);
+				$fieldValue = \App\Modules\Vtiger\Helpers\Util::toSafeHTML($value);
 			} else {
 				foreach ($value as $key => $item) {
-					$fieldValue[$key] = \App\Modules\Vtiger\helpers\Util::toSafeHTML($item);
+					$fieldValue[$key] = \App\Modules\Vtiger\Helpers\Util::toSafeHTML($item);
 				}
 			}
 			$result[$fieldName] = array();
@@ -86,7 +86,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			} elseif (is_array($recordModel->get($fieldName)) && $fieldModel->getFieldDataType() === 'sharedOwner') {
-				$recordFieldValue = \App\Modules\Vtiger\helpers\Util::toSafeHTML(implode(',', $recordModel->get($fieldName)));
+				$recordFieldValue = \App\Modules\Vtiger\Helpers\Util::toSafeHTML(implode(',', $recordModel->get($fieldName)));
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			} else if ('time_start' !== $fieldName && 'time_end' !== $fieldName && 'duration_hours' !== $fieldName) {
 				$result[$fieldName]['value'] = $fieldValue;

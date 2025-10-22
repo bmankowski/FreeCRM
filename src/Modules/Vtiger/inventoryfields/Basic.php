@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Basic extends \App\Runtime\Vtiger_Base_Model
+class Basic extends \App\Runtime\BaseModel
 {
 
 	protected $name = '';

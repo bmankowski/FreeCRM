@@ -35,8 +35,8 @@ font-size: 75%;
 				{assign var=DUE_DATE value=$ACTIVITY->get('due_date')}
 				{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
 				<p class="pull-right muted paddingLR10 marginTop5">
-					<small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {"LBL_ACTIVITY_TO"|t} {\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">
-						{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings("$DUE_DATE $DUE_TIME")}
+					<small title="{\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {"LBL_ACTIVITY_TO"|t} {\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">
+						{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings("$DUE_DATE $DUE_TIME")}
 					</small>
 				</p>
 				{assign var=LINK value=$ACTIVITY->get('link')}

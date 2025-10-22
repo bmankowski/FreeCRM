@@ -19,7 +19,7 @@
 			<input type="hidden" class="step" value="1" />
 			<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" id="relatedModules" data-value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($RELATED_MODULES))}" >
+			<input type="hidden" id="relatedModules" data-value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_MODULES))}" >
 			<div class="well contentsBackground">
 				<div class="row padding1per">
 					<div class="col-md-3">{"LBL_REPORT_NAME"|t:$MODULE}<span class="redColor">*</span></div>

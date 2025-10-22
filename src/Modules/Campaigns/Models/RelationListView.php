@@ -11,7 +11,7 @@ namespace App\Modules\Campaigns\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationListView extends \App\Runtime\Vtiger_Base_Model
+class RelationListView extends \App\Runtime\BaseModel
 {
 
 	/**

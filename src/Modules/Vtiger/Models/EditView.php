@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger EditView Model Class
  */
-class EditView extends \App\Runtime\Vtiger_Base_Model
+class EditView extends \App\Runtime\BaseModel
 {
 
 	/**

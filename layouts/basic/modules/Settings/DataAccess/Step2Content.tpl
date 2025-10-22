@@ -36,7 +36,7 @@
 											<optgroup label='{$FIELD_MODULE_NAME|t:$FIELD_MODULE_NAME}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($item['info']))}"
 															>{$item['label']|t:$BASE_MODULE}</option>
 												{/foreach}
 											</optgroup>
@@ -101,7 +101,7 @@
 											<optgroup label='{$FIELD_MODULE_NAME|t:$FIELD_MODULE_NAME}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($item['info']))}"
 															>{$item['label']|t:$BASE_MODULE}</option>
 												{/foreach}
 											</optgroup>

@@ -11,7 +11,7 @@ namespace App\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Server extends \App\Runtime\Vtiger_Base_Model
+class Server extends \App\Runtime\BaseModel
 {
 
 	const tableName = 'vtiger_pbxmanager_gateway';

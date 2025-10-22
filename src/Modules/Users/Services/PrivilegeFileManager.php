@@ -67,7 +67,7 @@ class PrivilegeFileManager
                 $newbuf .= "\$profileGlobalPermission=" . self::constructArray($globalPermissionArr) . ";\n";
                 $newbuf .= "\$profileTabsPermission=" . self::constructArray($tabsPermissionArr) . ";\n";
                 $newbuf .= "\$profileActionPermission=" . self::constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-                $newbuf .= "\$current_user_groups=" . self::constructSingleArray(\App\Modules\Vtiger\helpers\Util::getGroupsIdsForUsers($userId)) . ";\n";
+                $newbuf .= "\$current_user_groups=" . self::constructSingleArray(\App\Modules\Vtiger\Helpers\Util::getGroupsIdsForUsers($userId)) . ";\n";
                 $newbuf .= "\$subordinate_roles=" . self::constructSingleCharArray($subRoles) . ";\n";
                 $newbuf .= "\$parent_roles=" . self::constructSingleCharArray($parentRoles) . ";\n";
                 $newbuf .= "\$subordinate_roles_users=" . self::constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";

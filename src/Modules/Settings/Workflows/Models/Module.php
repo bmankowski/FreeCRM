@@ -115,9 +115,9 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
-					$fieldObjects[$fieldName] = new \App\Runtime\Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
+					$fieldObjects[$fieldName] = new \App\Runtime\BaseModel(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
 				} else {
-					$fieldObjects[$fieldName] = new \App\Runtime\Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
+					$fieldObjects[$fieldName] = new \App\Runtime\BaseModel(array('name' => $fieldName, 'label' => $fieldLabel));
 				}
 			}
 			$this->listFieldModels = $fieldObjects;

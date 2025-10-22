@@ -25,7 +25,7 @@
 				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="mode" value="add" />
 				<input type="hidden" name="picklistName" value="{$SELECTED_PICKLIST_FIELDMODEL->get('name')}" />
-				<input type="hidden" name="pickListValues" value='{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}' />
+				<input type="hidden" name="pickListValues" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<div class="col-md-3 control-label"><span class="redColor">*</span>{"LBL_ITEM_VALUE"|t:$QUALIFIED_MODULE}</div>

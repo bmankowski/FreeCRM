@@ -329,7 +329,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public static function executeAjaxHandlers($module, $param)
 	{
-		$conditions = new \App\Modules\Settings\DataAccess\helpers\DataAccess_Conditions();
+		$conditions = new \App\Modules\Settings\DataAccess\Helpers\DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
 		$output = [];
@@ -409,7 +409,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		if (empty($recordData)) {
 			$recordData = $recordModel->getData();
 		}
-		$conditions = new \App\Modules\Settings\DataAccess\helpers\DataAccess_Conditions();
+		$conditions = new \App\Modules\Settings\DataAccess\Helpers\DataAccess_Conditions();
 		foreach ($colorList as $row) {
 			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData, $recordModel);
 			if ($conditionResult['test'] === true) {

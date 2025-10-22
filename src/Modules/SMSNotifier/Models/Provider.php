@@ -11,7 +11,7 @@ namespace App\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Provider extends \App\Runtime\Vtiger_Base_Model
+class Provider extends \App\Runtime\BaseModel
 {
 
 	/**

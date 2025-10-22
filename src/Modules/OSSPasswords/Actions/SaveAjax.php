@@ -83,7 +83,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = \App\Modules\Vtiger\helpers\Util::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \App\Modules\Vtiger\Helpers\Util::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() !== 'currency' && $fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'time' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}

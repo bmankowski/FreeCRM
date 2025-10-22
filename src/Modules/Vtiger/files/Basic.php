@@ -68,7 +68,7 @@ abstract class Vtiger_Basic_File
 	public function post(Vtiger_Request $request)
 	{
 		$attachIds = [];
-		$files = \App\Modules\Vtiger\helpers\Util::transformUploadedFiles($_FILES, true);
+		$files = \App\Modules\Vtiger\Helpers\Util::transformUploadedFiles($_FILES, true);
 		foreach ($files as $key => $file) {
 			foreach ($file as $key => $fileData) {
 				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());

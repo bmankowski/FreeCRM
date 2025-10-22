@@ -16,7 +16,6 @@
 namespace App\Runtime;
 
 use App\Http\Vtiger_Request;
-use App\Runtime\Vtiger_Controller;
 
 /**
  * Abstract Action Controller Class

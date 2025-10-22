@@ -28,7 +28,7 @@
         {if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>{/if}
         {if $FIELD_MODEL->get('name') eq 'defaulteventstatus' || $FIELD_MODEL->get('name') eq 'defaultactivitytype' }<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>{/if}
         {foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-			{assign var=OPTION_VALUE value=\App\Modules\Vtiger\helpers\Util::toSafeHTML($PICKLIST_NAME)}
+			{assign var=OPTION_VALUE value=\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKLIST_NAME)}
 			{if $PICKLIST_NAME eq ' ' and ($FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator')}
 				{assign var=PICKLIST_VALUE value='LBL_SPACE'|t:'Users'}
 				{assign var=OPTION_VALUE value='&nbsp;'}

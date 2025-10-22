@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class InventoryField extends \App\Runtime\Vtiger_Base_Model
+class InventoryField extends \App\Runtime\BaseModel
 {
 
 	protected $fields = false;

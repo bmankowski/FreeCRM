@@ -109,7 +109,7 @@ class SqlLogTarget extends \yii\log\FileTarget
 			if ($text instanceof \Throwable || $text instanceof \Exception) {
 				$text = (string) $text;
 			} else {
-				$text = \yii\helpers\VarDumper::export($text);
+				$text = \yii\Helpers\VarDumper::export($text);
 			}
 		}
 		$traces = '';

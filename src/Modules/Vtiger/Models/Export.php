@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Export extends \App\Runtime\Vtiger_Base_Model
+class Export extends \App\Runtime\BaseModel
 {
 
 	protected $moduleInstance;
@@ -281,13 +281,13 @@ class Export extends \App\Runtime\Vtiger_Base_Model
 					$value = '';
 				}
 			} elseif ($uitype === 52 || $type === 'owner') {
-				$value = \App\Modules\Vtiger\helpers\Util::getOwnerName($value);
+				$value = \App\Modules\Vtiger\Helpers\Util::getOwnerName($value);
 			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
 				foreach ($owners as $owner) {
-					$values[] = \App\Modules\Vtiger\helpers\Util::getOwnerName($owner);
+					$values[] = \App\Modules\Vtiger\Helpers\Util::getOwnerName($owner);
 				}
 				$value = implode(',', $values);
 			} elseif ($type === 'reference') {

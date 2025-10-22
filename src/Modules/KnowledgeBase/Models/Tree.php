@@ -8,7 +8,7 @@ namespace App\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Tree extends \App\Runtime\Vtiger_Base_Model
+class Tree extends \App\Runtime\BaseModel
 {
 
 	private $lastIdinTree;

@@ -8,7 +8,7 @@ namespace App\Modules\Calendar\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class CalendarFilters extends \App\Runtime\Vtiger_Base_Model
+class CalendarFilters extends \App\Runtime\BaseModel
 {
 
 	protected $filterPath = 'src/Modules/Calendar/calendarfilters';

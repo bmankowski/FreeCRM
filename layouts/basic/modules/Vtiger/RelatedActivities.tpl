@@ -36,10 +36,10 @@
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 				<div class="row">
 					<span class="col-md-6">
-						<strong title='{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$START_DATE $START_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{\App\Modules\Vtiger\helpers\Util::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
+						<strong title='{\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString("$START_DATE $START_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{\App\Modules\Vtiger\Helpers\Util::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
 					</span>
 					<span class="col-md-6 rightText">
-						<strong title='{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString("$END_DATE $END_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{\App\Modules\Vtiger\helpers\Util::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
+						<strong title='{\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString("$END_DATE $END_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{\App\Modules\Vtiger\Helpers\Util::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
 					</span>
 				</div>
 				<div class="summaryViewEntries">

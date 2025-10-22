@@ -69,7 +69,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
-			$fieldValue = $displayValue = \App\Modules\Vtiger\helpers\Util::toSafeHTML($recordModel->get($fieldName));
+			$fieldValue = $displayValue = \App\Modules\Vtiger\Helpers\Util::toSafeHTML($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}

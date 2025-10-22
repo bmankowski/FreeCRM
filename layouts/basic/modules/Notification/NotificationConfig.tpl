@@ -70,7 +70,7 @@
 				</select>
 			</div>
 			<div class="pull-left col-xs-1 paddingLRZero">
-				<a href="#" class="infoPopover pull-left" title="" data-placement="top" data-original-title="{"LBL_RECEIVING_MAIL_NOTIFICATIONS"|t:$MODULE}" data-content="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($POPOVER_CONTENT)}">&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
+				<a href="#" class="infoPopover pull-left" title="" data-placement="top" data-original-title="{"LBL_RECEIVING_MAIL_NOTIFICATIONS"|t:$MODULE}" data-content="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($POPOVER_CONTENT)}">&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
 			</div>
 		{/if}
 		<div class="col-md-6 col-sm-6 pull-right">

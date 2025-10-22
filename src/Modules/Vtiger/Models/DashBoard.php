@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class DashBoard extends \App\Runtime\Vtiger_Base_Model
+class DashBoard extends \App\Runtime\BaseModel
 {
 
 	/**

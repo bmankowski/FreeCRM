@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Notebook extends \App\Runtime\Vtiger_Base_Model
+class Notebook extends \App\Runtime\BaseModel
 {
 
 	public function getContent()

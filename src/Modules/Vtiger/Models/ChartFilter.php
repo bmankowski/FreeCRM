@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class ChartFilter extends \App\Runtime\Vtiger_Base_Model
+class ChartFilter extends \App\Runtime\BaseModel
 {
 
 	private $widgetModel;

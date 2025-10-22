@@ -15,7 +15,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger Widget Model Class
  */
-class Widget extends \App\Runtime\Vtiger_Base_Model
+class Widget extends \App\Runtime\BaseModel
 {
 
 	public function getWidth()

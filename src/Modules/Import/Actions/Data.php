@@ -913,7 +913,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 	/**
 	 * Function creates advanced block data object
 	 * @param array $inventoryData
-	 * @return \App\Runtime\Vtiger_Base_Model
+	 * @return \App\Runtime\BaseModel
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{

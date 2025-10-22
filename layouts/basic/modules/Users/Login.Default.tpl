@@ -41,7 +41,7 @@
 								<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
 									<select class="input-lg form-control" title="{"LBL_CHOOSE_LANGUAGE"|t:$MODULE}" name="loginLanguage">
 										{foreach item=VALUE key=KEY from=Vtiger_Language_Handler::getAllLanguages()}
-											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($KEY)}">{$VALUE}</option>
+											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>	
 								</div>
@@ -51,7 +51,7 @@
 								<div class="form-group">
 									<select class="input-lg form-control" title="{"LBL_SELECT_LAYOUT"|t:$MODULE}" name="layout">
 										{foreach item=VALUE key=KEY from=\App\Runtime\Yeti_Layout::getAllLayouts()}
-											<option value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($KEY)}">{$VALUE}</option>
+											<option value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>	
 								</div>

@@ -14,7 +14,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger Action Model Class
  */
-class Action extends \App\Runtime\Vtiger_Base_Model
+class Action extends \App\Runtime\BaseModel
 {
 
 	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');

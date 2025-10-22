@@ -15,7 +15,7 @@ namespace App\Modules\Vtiger\Models;
 /**
  * Vtiger Entity Record Model Class
  */
-class Record extends \App\Runtime\Vtiger_Base_Model
+class Record extends \App\Runtime\BaseModel
 {
 
 	protected $module = false;
@@ -109,7 +109,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 		if (empty($displayName)) {
 			$displayName = $this->getDisplayName();
 		}
-		return \App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($displayName));
+		return \App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($displayName));
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Record extends \App\Runtime\Vtiger_Base_Model
 	public function getSearchName()
 	{
 		$displayName = $this->get('searchlabel');
-		return \App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($displayName));
+		return \App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($displayName));
 	}
 
 	public function isWatchingRecord()

@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-xs-4">
 						<span title="{$ACCOUNTS_MODEL['createdtime']}">
-							{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($ACCOUNTS_MODEL['createdtime'])}
+							{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($ACCOUNTS_MODEL['createdtime'])}
 						</span>
 					</div>
 				</div>

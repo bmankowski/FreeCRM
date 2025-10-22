@@ -111,7 +111,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function returns list of fields available in list view
-	 * @return \App\Runtime\Vtiger_Base_Model[]
+	 * @return \App\Runtime\BaseModel[]
 	 */
 	public function getListFields()
 	{
@@ -119,7 +119,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			foreach ($fields as $fieldName => $fieldLabel) {
-				$fieldObject = new \App\Runtime\Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
+				$fieldObject = new \App\Runtime\BaseModel(['name' => $fieldName, 'label' => $fieldLabel]);
 				if (!$this->isSortByName($fieldName)) {
 					$fieldObject->set('sort', true);
 				}

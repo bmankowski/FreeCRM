@@ -8,7 +8,7 @@ namespace App\Modules\OSSMailScanner\scanneractions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class BindVendors extends \App\Runtime\Vtiger_Base_Model
+class BindVendors extends \App\Runtime\BaseModel
 {
 
 	public function process(OSSMail_Mail_Model $mail, $moduleName = 'Vendors')

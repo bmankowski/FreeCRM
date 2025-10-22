@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Vtiger/inventoryfields/EditViewReference.tpl -->
 	{assign var="REFERENCE_LIST" value=$FIELD->getReferenceModules()}
 	{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
-	{assign var="FIELD_INFO" value=\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode(['mandatory'=>true]))}
+	{assign var="FIELD_INFO" value=\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode(['mandatory'=>true]))}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
 	<div class="input-group referenceGroup" style="max-width: 250px;">
 		{if $REFERENCE_LIST_COUNT eq 1}
@@ -28,15 +28,15 @@
 				</select>
 			</div>
 		{/if}
-		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-type="inventory" data-displayvalue="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
+		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-type="inventory" data-displayvalue="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
 		{assign var="displayId" value=$ITEM_VALUE}
 		{if $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon clearReferenceSelection cursorPointer">
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="glyphicon glyphicon-remove-sign" title="{"LBL_CLEAR"|t:$MODULE}"></span>
 			</span>
 		{/if}
-		<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text" title="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" class="marginLeftZero form-control autoComplete" {if !empty($ITEM_VALUE)}readonly="true"{/if}
-			   value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-validation-engine="validate[{if $FIELD->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+		<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text" title="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" class="marginLeftZero form-control autoComplete" {if !empty($ITEM_VALUE)}readonly="true"{/if}
+			   value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-validation-engine="validate[{if $FIELD->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo="{$FIELD_INFO}" {if $FIELD->get('displaytype') != 10}placeholder="{"LBL_TYPE_SEARCH"|t:$MODULE}"{/if}
 			   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 		{if $FIELD->get('displaytype') != 10}

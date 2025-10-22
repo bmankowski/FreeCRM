@@ -29,7 +29,7 @@
 							<input type="hidden" id="dragImagePath" value="{vimage_path('drag.png')}" />
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 							{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
-								<tr class="pickListValue" data-key-id="{$PICKLIST_KEY}" data-key="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($PICKLIST_VALUE)}">
+								<tr class="pickListValue" data-key-id="{$PICKLIST_KEY}" data-key="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKLIST_VALUE)}">
 									<td class="textOverflowEllipsis"><img class="alignMiddle" src="{vimage_path('drag.png')}"/>&nbsp;&nbsp;{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}</td>
 								</tr>
 							{/foreach}

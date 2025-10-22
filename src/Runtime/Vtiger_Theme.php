@@ -157,7 +157,7 @@ class Vtiger_Theme extends CRM_Viewer
 	 */
 	public static function getAllSkins()
 	{
-		return \App\Modules\Vtiger\helpers\Util::getAllSkins();
+		return \App\Modules\Vtiger\Helpers\Util::getAllSkins();
 	}
 
 	/**

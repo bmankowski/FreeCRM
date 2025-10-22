@@ -11,7 +11,7 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ScheduleReports extends \App\Runtime\Vtiger_Base_Model
+class ScheduleReports extends \App\Runtime\BaseModel
 {
 
 	public $scheduledFormat = 'CSV';
@@ -77,7 +77,7 @@ class ScheduleReports extends \App\Runtime\Vtiger_Base_Model
 			$date = $this->get('schdate');
 			$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
 			$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-			$currentTime = \App\Modules\Vtiger\helpers\Util::getActiveAdminCurrentDateTime();
+			$currentTime = \App\Modules\Vtiger\Helpers\Util::getActiveAdminCurrentDateTime();
 			if ($nextTriggerTime > $currentTime) {
 				$this->set('next_trigger_time', $nextTriggerTime);
 			} else {
@@ -175,7 +175,7 @@ class ScheduleReports extends \App\Runtime\Vtiger_Base_Model
 		$recipientsEmails = [];
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				if (!\App\Modules\Vtiger\helpers\Util::isUserDeleted($userId)) {
+				if (!\App\Modules\Vtiger\Helpers\Util::isUserDeleted($userId)) {
 					$userName = \App\Fields\Owner::getUserLabel($userId);
 					$userEmail = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {

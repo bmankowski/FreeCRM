@@ -57,7 +57,7 @@
 									</button>
 									<ul class="dropdown-menu pull-right">
 										{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
-											<li id="{$MODULE_NAME}_detailView_moreAction_{\App\Modules\Vtiger\helpers\Util::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
+											<li id="{$MODULE_NAME}_detailView_moreAction_{\App\Modules\Vtiger\Helpers\Util::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
 												<a href={$DETAIL_VIEW_LINK->getUrl()} >{$DETAIL_VIEW_LINK->getLabel()|t:$MODULE_NAME}</a>
 											</li>
 										{/foreach}

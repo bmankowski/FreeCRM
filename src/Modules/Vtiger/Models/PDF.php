@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class PDF extends \App\Runtime\Vtiger_Base_Model
+class PDF extends \App\Runtime\BaseModel
 {
 
 	public static $baseTable = 'a_yf_pdf';
@@ -45,7 +45,7 @@ class PDF extends \App\Runtime\Vtiger_Base_Model
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return \App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($displayName));
+		return \App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($displayName));
 	}
 
 	public function get($key)

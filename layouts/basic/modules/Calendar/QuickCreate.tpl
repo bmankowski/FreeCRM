@@ -41,17 +41,17 @@
 						<div class="clearfix"></div>
 					</div>
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-				<input type="hidden" name="picklistDependency" value='{\App\Modules\Vtiger\helpers\Util::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
+				<input type="hidden" name="picklistDependency" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 			{/if}
 			{if !empty($MAPPING_RELATED_FIELD)}
-				<input type="hidden" name="mappingRelatedField" value='{\App\Modules\Vtiger\helpers\Util::toSafeHTML($MAPPING_RELATED_FIELD)}' />
+				<input type="hidden" name="mappingRelatedField" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($MAPPING_RELATED_FIELD)}' />
 			{/if}
 			<input type="hidden" name="module" value="{$MODULE}">
 			<input type="hidden" name="action" value="SaveAjax">
 			<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 			<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
 			<input type="hidden" name="userChangedEndDateTime" value="0" />
-			<input type="hidden" id="hiddenDays" value="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+			<input type="hidden" id="hiddenDays" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 
 			<!-- Random number is used to make specific tab is opened -->
 			{assign var="RAND_NUMBER" value=rand()}

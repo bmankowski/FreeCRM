@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Base extends \App\Runtime\Vtiger_Base_Model
+class Base extends \App\Runtime\BaseModel
 {
 
 	public function isAjaxEditable()

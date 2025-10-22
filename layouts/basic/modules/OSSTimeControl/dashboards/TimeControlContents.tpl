@@ -104,7 +104,7 @@
 		{"LBL_NO_RECORDS_MATCHED_THIS_CRITERIA"|t}
 	</span>
 {/if}
-<input class="widgetData" type="hidden" value='{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
+<input class="widgetData" type="hidden" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
 <style>
 .summary-text{
 	font-size: 20px;

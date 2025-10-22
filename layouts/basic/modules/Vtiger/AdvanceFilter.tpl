@@ -20,7 +20,7 @@
 		{assign var=ANY_CONDITION_CRITERIA value=array()}
 	{/if}
 <div class="filterContainer">
-	<input type="hidden" name="date_filters" data-value='{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+	<input type="hidden" name="date_filters" data-value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
 	<input type="hidden" name="advanceFilterOpsByFieldType" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}' />
 	{foreach key=ADVANCE_FILTER_OPTION_KEY item=ADVANCE_FILTER_OPTION from=$ADVANCED_FILTER_OPTIONS}
 		{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {$ADVANCE_FILTER_OPTION|t:$MODULE}|escape}

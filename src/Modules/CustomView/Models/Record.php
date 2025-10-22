@@ -707,7 +707,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					}
 					$advfilterval = implode(",", $val);
 				}
-				$criteria['value'] = \App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($advfilterval));
+				$criteria['value'] = \App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$groupId = $relcriteriarow['groupid'];

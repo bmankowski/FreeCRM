@@ -14,7 +14,7 @@
 
 namespace App\Runtime;
 
-class Vtiger_Base_Model
+class BaseModel
 {
 
 	protected $valueMap;
@@ -53,7 +53,7 @@ class Vtiger_Base_Model
 	 * Function to set the value for a given key
 	 * @param $key
 	 * @param $value
-	 * @return Vtiger_Base_Model
+	 * @return BaseModel
 	 */
 	public function set($key, $value)
 	{
@@ -64,7 +64,7 @@ class Vtiger_Base_Model
 	/**
 	 * Function to set all the values for the Object
 	 * @param array (key-value mapping) $values
-	 * @return Vtiger_Base_Model
+	 * @return BaseModel
 	 */
 	public function setData($values)
 	{

@@ -69,7 +69,7 @@ class Inventory extends \App\Runtime\Vtiger_Action_Controller
 			return;
 		}
 
-		$baseCurrency = \App\Modules\Vtiger\helpers\Util::getBaseCurrency();
+		$baseCurrency = \App\Modules\Vtiger\Helpers\Util::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
 			$selectedCurrency = \vtlib\Functions::getCurrencySymbolandRate($currency);

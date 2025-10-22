@@ -81,6 +81,6 @@ class Pagination extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
 	{
-		return \App\Modules\Vtiger\helpers\Util::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
+		return \App\Modules\Vtiger\Helpers\Util::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

@@ -45,7 +45,7 @@
 	<div style="width: 80%; margin: auto; text-align:center; margin-bottom:20px;">
 		{"LBL_TOTAL_TIME"|t}<br/>
 		{"LBL_USER"|t}<br/>
-		<input class="chartData" type="hidden" value='{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
+		<input class="chartData" type="hidden" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
 		<div id="timeEmployees" style="height:400px;width:100%;"></div>
 	</div>
 {else}

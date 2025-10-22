@@ -4,7 +4,7 @@
 
 namespace App\Modules\Vtiger\Models;
 
-class TransferOwnership extends \App\Runtime\Vtiger_Base_Model
+class TransferOwnership extends \App\Runtime\BaseModel
 {
 
 	protected $skipModules = [];

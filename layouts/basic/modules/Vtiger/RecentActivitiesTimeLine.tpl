@@ -33,7 +33,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
+												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
 												&nbsp;{"LBL_CREATED"|t:$MODULE_NAME}
@@ -44,7 +44,7 @@
 															{if $FIELDMODEL->get('postvalue') neq ''}
 																<strong class="moreContent">
 																	<span class="teaserContent">
-																		{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
+																		{\App\Modules\Vtiger\Helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
 																	</span>
 																	{if $FIELDMODEL->has('fullPostValue')}
 																		<span class="fullContent hide">
@@ -67,7 +67,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
+												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {"LBL_UPDATED"|t:$MODULE_NAME}</span>
 											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
@@ -78,7 +78,7 @@
 															&nbsp;{"LBL_FROM"|t}&nbsp;
 															<strong class="moreContent">
 																<span class="teaserContent">
-																	{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}
+																	{\App\Modules\Vtiger\Helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}
 																</span>
 																{if $FIELDMODEL->has('fullPreValue')}
 																	<span class="fullContent hide">
@@ -92,7 +92,7 @@
 															<strong>
 																{"LBL_DELETED"|t}
 															</strong>
-															( <del>{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del> )
+															( <del>{\App\Modules\Vtiger\Helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del> )
 														{else}
 															&nbsp;{"LBL_CHANGED"|t}
 														{/if}
@@ -100,7 +100,7 @@
 															&nbsp;{"LBL_TO"|t}&nbsp;
 															<strong class="moreContent">
 																<span class="teaserContent">
-																	{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
+																	{\App\Modules\Vtiger\Helpers\Util::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
 																</span>
 																{if $FIELDMODEL->has('fullPostValue')}
 																	<span class="fullContent hide">
@@ -124,7 +124,7 @@
 										<div class="timeline-body row no-margin">
 											<div class="pull-right">
 												<span class="time pull-right">
-													<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
+													<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 												</span>
 											</div>
 											<span>
@@ -142,7 +142,7 @@
 												{if \App\Modules\Users\Models\Privileges::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
 													<strong class="moreContent">
 														<span class="teaserContent">
-															{\App\Modules\Vtiger\helpers\Util::toVtiger6SafeHTML($RELATION->getValue())}
+															{\App\Modules\Vtiger\Helpers\Util::toVtiger6SafeHTML($RELATION->getValue())}
 														</span>
 														{if $RELATION->has('fullValue')}
 															<span class="fullContent hide">
@@ -166,7 +166,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
+												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="pull-left">
 												<strong>{"LBL_CONVERTED_FROM_LEAD"|t:$MODULE_NAME}</strong> 
@@ -181,7 +181,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
+												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="pull-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>

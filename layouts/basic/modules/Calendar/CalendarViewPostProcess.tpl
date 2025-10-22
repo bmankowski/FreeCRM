@@ -29,7 +29,7 @@
 								{if $FILTER->type == 'checkbox'}
 									<div class="checkbox margin0px">
 										<label>
-											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}" title="{$FILTER->name}" data-search="{\App\Modules\Vtiger\helpers\Util::toSafeHTML($FILTER->searchParams)}" class="filterField">{$FILTER->name|t:$MODULE}
+											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}" title="{$FILTER->name}" data-search="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($FILTER->searchParams)}" class="filterField">{$FILTER->name|t:$MODULE}
 										</label>
 									</div>
 								{/if}
@@ -51,7 +51,7 @@
 							</button>
 						</div>
 					</div>
-					<div class="widgetContainer panel-collapse" id="{$MODULE}_sideBar_{\App\Modules\Vtiger\helpers\Util::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
+					<div class="widgetContainer panel-collapse" id="{$MODULE}_sideBar_{\App\Modules\Vtiger\Helpers\Util::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
 						<div class="panel-body"></div>
 					</div>
 				</div>

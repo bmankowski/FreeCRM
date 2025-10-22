@@ -4,7 +4,7 @@ namespace App\Modules\Reports\Models;
 
  * *********************************************************************************** */
 
-class Chart extends \App\Runtime\Vtiger_Base_Model
+class Chart extends \App\Runtime\BaseModel
 {
 
     /** @var self|null */

@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Models;
 /**
  * Vtiger Edit View Record Structure Model
  */
-class RecordStructure extends \App\Runtime\Vtiger_Base_Model
+class RecordStructure extends \App\Runtime\BaseModel
 {
 
 	protected $moduleName = false;

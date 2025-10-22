@@ -21,7 +21,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$result = \App\Modules\Vtiger\helpers\Util::transformUploadedFiles($_FILES, true);
+		$result = \App\Modules\Vtiger\Helpers\Util::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
 		//To stop saveing the value of salutation as '--None--'

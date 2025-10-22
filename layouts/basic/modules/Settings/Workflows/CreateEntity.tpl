@@ -35,7 +35,7 @@
 								{$SPECIAL_OPTION = ['LBL_SPECIAL_OPTIONS'|t => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
-							<option value="{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->get('name')} {if $FIELD_MODEL->isMandatory()}{assign var=MANDATORY_FIELD value=true} {else} {assign var=MANDATORY_FIELD value=false} {/if}{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
+							<option value="{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->get('name')} {if $FIELD_MODEL->isMandatory()}{assign var=MANDATORY_FIELD value=true} {else} {assign var=MANDATORY_FIELD value=false} {/if}{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
 								{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_MODEL_NAME}{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 							</option>	
 						{/foreach}
@@ -84,7 +84,7 @@
 									{$SPECIAL_OPTION = ['LBL_SPECIAL_OPTIONS'|t => ['assigned_user_id' => {"LBL_PARENT_OWNER"|t}]]}
 									{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 								{/if}
-								<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" {if $FIELD_MODEL->get('name') eq $MANDATORY_FIELD_MODEL->get('name')} {assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
+								<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" {if $FIELD_MODEL->get('name') eq $MANDATORY_FIELD_MODEL->get('name')} {assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if} data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
 								{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_MODEL->getName()}<span class="redColor">*</span>
 								</option>	
 							{/foreach}
@@ -115,7 +115,7 @@
 				{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{if  $FIELD_MODEL->getFieldDataType() neq 'reference' && ($MAPPING_PANEL || (!$FIELD_MODEL->isMandatory() && !$MAPPING_PANEL))}
-					<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"  data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{\App\Modules\Vtiger\helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
+					<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"  data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
 						{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_MODEL_NAME} 
 					</option>
 					{/if}

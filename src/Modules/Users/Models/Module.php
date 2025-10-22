@@ -316,7 +316,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		}
 		$recordModel->saveToDb();
 		//After adding new user, set the default activity types for new user
-		\App\Modules\Vtiger\helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		\App\Modules\Vtiger\Helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\User::getCurrentUserRealId() === $recordModel->getId()) {
 			\App\Http\Vtiger_Session::set('language', $recordModel->get('language'));
 		}

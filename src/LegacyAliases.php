@@ -50,8 +50,8 @@ if (!class_exists('Vtiger_Controller')) {
     class_alias('Vtiger\Runtime\Controller', 'Vtiger_Controller');
 }
 
-if (!class_exists('Vtiger_Base_Model')) {
-    class_alias('Vtiger\Core\Models\BaseModel', 'Vtiger_Base_Model');
+if (!class_exists('BaseModel')) {
+    class_alias('Vtiger\Core\Models\BaseModel', 'BaseModel');
 }
 
 if (!class_exists('Vtiger_Record_Model')) {

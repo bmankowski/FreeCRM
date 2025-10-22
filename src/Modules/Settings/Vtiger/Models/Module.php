@@ -61,7 +61,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 			$fields = $this->listFields;
 			$fieldObjects = array();
 			foreach ($fields as $fieldName => $fieldLabel) {
-				$fieldObjects[$fieldName] = new \App\Runtime\Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
+				$fieldObjects[$fieldName] = new \App\Runtime\BaseModel(array('name' => $fieldName, 'label' => $fieldLabel));
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
@@ -84,7 +84,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getField($fieldName)
 	{
-		return new \App\Runtime\Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldName));
+		return new \App\Runtime\BaseModel(array('name' => $fieldName, 'label' => $fieldName));
 	}
 
 	public function hasCreatePermissions()

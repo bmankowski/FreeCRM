@@ -44,7 +44,7 @@
 					</div>
 					<div class="inner">
 						<span class="pull-right paddingRight15">
-							<p class="muted"><small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+							<p class="muted"><small title="{\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
 						</span>
 						<div class="clearfix"></div>
 					</div>
@@ -60,7 +60,7 @@
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 							<span class="{if !empty($REASON_TO_EDIT)} col-xs-6{/if}">
 								<span class="pull-right">
-									<p class="muted"><small><em>{"LBL_MODIFIED"|t:$MODULE_NAME}</em></small>&nbsp;<small title="{\App\Modules\Vtiger\helpers\Util::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{\App\Modules\Vtiger\helpers\Util::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
+									<p class="muted"><small><em>{"LBL_MODIFIED"|t:$MODULE_NAME}</em></small>&nbsp;<small title="{\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
 								</span>
 							</span>
 						{/if}

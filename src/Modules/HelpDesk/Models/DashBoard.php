@@ -11,7 +11,7 @@ namespace App\Modules\HelpDesk\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DashBoard extends \App\Runtime\Vtiger_Base_Model
+class DashBoard extends \App\Runtime\BaseModel
 {
 	
 }

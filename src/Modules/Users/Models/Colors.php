@@ -12,7 +12,7 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Colors extends \App\Runtime\Vtiger_Base_Model
+class Colors extends \App\Runtime\BaseModel
 {
 
 	public static function getAllField()

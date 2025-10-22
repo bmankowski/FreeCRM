@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MiniList extends \App\Runtime\Vtiger_Base_Model
+class MiniList extends \App\Runtime\BaseModel
 {
 
 	protected $widgetModel;

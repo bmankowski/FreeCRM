@@ -11,7 +11,7 @@ namespace App\Modules\ModComments\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Model extends \App\Runtime\Vtiger_Base_Model
+class Model extends \App\Runtime\BaseModel
 {
 
 	/**
