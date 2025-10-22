@@ -200,20 +200,22 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$query = (new \App\Db\Query())->from('u_#__featured_filter');
-		if ($currentUser->isAdminUser()) {
-			$userGroups = $currentUser->getUserGroups($currentUser->getId());
-			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
-			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
-		} else {
-			$parentRoles = $currentUser->getParentRoleSequence();
-			$userGroups = $currentUser->get('privileges')->get('groups');
-		}
+	if ($currentUser->isAdminUser()) {
+		$userGroups = $currentUser->getUserGroups($currentUser->getId()) ?? [];
+		$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
+		$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : '';
+	} else {
+		$parentRoles = $currentUser->getParentRoleSequence();
+		$userGroups = $currentUser->get('privileges')->get('groups') ?? [];
+	}
 		$where = ['or', ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
 		foreach ($userGroups as $groupId) {
 			$where [] = ['user' => "Groups:$groupId"];
 		}
-		foreach (explode('::', $parentRoles) as $role) {
-			$where [] = ['user' => "RoleAndSubordinates:$role"];
+		if (!empty($parentRoles)) {
+			foreach (explode('::', $parentRoles) as $role) {
+				$where [] = ['user' => "RoleAndSubordinates:$role"];
+			}
 		}
 		$query->where(['cvid' => $this->getId()]);
 		$query->andWhere($where);

@@ -323,7 +323,7 @@ class Vtiger_Language_Handler
 			}
 
 			return $formattedString;
-		} catch (Exception $exception) {
+		} catch (\Exception $exception) {
 			// Fallback to original key if translation fails
 			return "ERROR:" . $key;
 		}
