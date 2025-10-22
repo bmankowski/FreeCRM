@@ -11,7 +11,7 @@ namespace App\Modules\WSAPP\synclib\models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class BaseModel {
+class WSAPP_BaseModel {
 
 	protected $data;
 

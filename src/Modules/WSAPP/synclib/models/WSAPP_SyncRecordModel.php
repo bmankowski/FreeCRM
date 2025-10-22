@@ -11,7 +11,7 @@ namespace App\Modules\WSAPP\synclib\models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SyncRecordModel extends WSAPP_BaseModel
+class WSAPP_SyncRecordModel extends WSAPP_BaseModel
 {
 
 	const WSAPP_CREATE_MODE = 'create';
