@@ -27,8 +27,8 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$recordModel->save();
 		$recordModel->addRelationOperation($request);
 
-		if ($request->get('reapeat') === 'on') {
-			$recurringEvents = Events_RecuringEvents_Model::getInstanceFromRequest($request);
+	if ($request->get('reapeat') === 'on') {
+		$recurringEvents = \App\Modules\Events\Models\RecuringEvents::getInstanceFromRequest($request);
 			if ($request->isEmpty('record')) {
 				\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
 				$data['followup'] = $recordModel->getId();
@@ -49,10 +49,10 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
-		$recordModel = parent::getRecordModelFromRequest($request);
-		if ((int) $request->get('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
-			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
-		}
+	$recordModel = parent::getRecordModelFromRequest($request);
+	if ((int) $request->get('typeSaving') === \App\Modules\Events\Models\RecuringEvents::UPDATE_THIS_EVENT) {
+		$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
+	}
 		return $recordModel;
 	}
 }

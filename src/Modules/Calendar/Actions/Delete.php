@@ -20,15 +20,15 @@ class Delete extends \App\Runtime\Vtiger_Action_Controller
 		$recordId = $request->get('record');
 		$ajaxDelete = $request->get('ajaxDelete');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
-		$moduleModel = $recordModel->getModule();
-		$recordModel->delete();
+	$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+	$moduleModel = $recordModel->getModule();
+	$recordModel->delete();
 
-		$typeRemove = Events_RecuringEvents_Model::UPDATE_THIS_EVENT;
-		if (!$request->isEmpty('typeRemove')) {
-			$typeRemove = $request->get('typeRemove');
-		}
-		$recurringEvents = Events_RecuringEvents_Model::getInstance();
+	$typeRemove = \App\Modules\Events\Models\RecuringEvents::UPDATE_THIS_EVENT;
+	if (!$request->isEmpty('typeRemove')) {
+		$typeRemove = $request->get('typeRemove');
+	}
+	$recurringEvents = \App\Modules\Events\Models\RecuringEvents::getInstance();
 		$recurringEvents->typeSaving = $typeRemove;
 		$recurringEvents->recordModel = $recordModel;
 		$recurringEvents->templateRecordId = $recordId;

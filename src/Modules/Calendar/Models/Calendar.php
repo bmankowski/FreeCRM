@@ -96,15 +96,17 @@ class Calendar extends \App\Runtime\BaseModel
 					$query->andWhere($conditions);
 				}
 			}
-		}
-		$conditions = [];
-		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
-		$roleInstance = \App\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
+	}
+	$conditions = [];
+	$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+	$roleInstance = \App\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
+	if ($roleInstance) {
 		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
 		if ($calendarAlloRecords === 1) {
 			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => $currentUser->getId()]);
 			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
 		}
+	}
 		$users = $this->get('user');
 		if (!empty($users)) {
 			$conditions[] = ['vtiger_crmentity.smownerid' => $users];

@@ -19,7 +19,7 @@
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
 <input type="hidden" id="defaultDate" value="{$DEFAULTDATE}" />
 <style>
-{foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
+{foreach from=\App\Modules\Settings\Calendar\Models\Module::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ background: {$ITEM.value}!important; }
 {/foreach}
 

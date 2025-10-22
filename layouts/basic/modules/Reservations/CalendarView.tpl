@@ -11,7 +11,7 @@
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <style>
-{foreach from=Settings_Calendar_Module_Model::getUserColors('colors') item=ITEM}
+{foreach from=\App\Modules\Settings\Calendar\Models\Module::getUserColors('colors') item=ITEM}
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important;}
 {/foreach}
 </style>

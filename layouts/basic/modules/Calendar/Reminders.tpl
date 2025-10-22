@@ -2,7 +2,7 @@
 <!-- layouts/basic/modules/Calendar/Reminders.tpl -->
 	<style>
 	{if empty($COLOR_LIST)}	
-		{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
+		{foreach item=ITEM from=\App\Modules\Settings\Calendar\Models\Module::getCalendarConfig('colors')}
 			.borderColor{$ITEM['name']}{
 				border-color: {$ITEM['value']};
 			}

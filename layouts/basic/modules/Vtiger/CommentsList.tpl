@@ -13,6 +13,7 @@
 <!-- layouts/basic/modules/Vtiger/CommentsList.tpl -->
 	{if !empty($PARENT_COMMENTS)}
 		<ul class="liStyleNone">
+			{assign var=CHILDS_ROOT_PARENT_MODEL value=false}
 			{if $CURRENT_COMMENT}
 				{assign var=CHILDS_ROOT_PARENT_MODEL value=$CURRENT_COMMENT}
 				{assign var=CURRENT_COMMENT_PARENT_MODEL value=$CURRENT_COMMENT->getParentCommentModel()}

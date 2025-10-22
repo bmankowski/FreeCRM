@@ -43,7 +43,7 @@ class Calendar extends \App\Runtime\Vtiger_Action_Controller
 
 	public function getEvents(\App\Http\Vtiger_Request $request)
 	{
-		$record = Calendar_Calendar_Model::getCleanInstance();
+		$record = \App\Modules\Calendar\Models\Calendar::getCleanInstance();
 		$record->set('user', $request->get('user'));
 		$record->set('types', $request->get('types'));
 		$record->set('time', $request->get('time'));

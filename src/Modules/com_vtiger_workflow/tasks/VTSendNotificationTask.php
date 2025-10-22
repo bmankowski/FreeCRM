@@ -36,11 +36,11 @@ class VTSendNotificationTask extends VTTask
 			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
 			$result = $db->pquery($sql, array($entityId));
 
-			$moduleModel = $recordModel->getModule();
-			$moduleModel->setEventFieldsForExport();
-			$moduleModel->setTodoFieldsForExport();
-			$exportData = new Calendar_Export_Model();
-			$iCal = $exportData->output('', $result, $moduleModel, '', true);
+		$moduleModel = $recordModel->getModule();
+		$moduleModel->setEventFieldsForExport();
+		$moduleModel->setTodoFieldsForExport();
+		$exportData = new \App\Modules\Calendar\Models\Export();
+		$iCal = $exportData->output('', $result, $moduleModel, '', true);
 			$result_invitees = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid = ?', array($entityId));
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$userModel = \App\Modules\Users\Models\Record::getInstanceById($recordinfo['inviteeid'], 'Users');
