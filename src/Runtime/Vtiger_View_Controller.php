@@ -347,11 +347,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		   $layoutPath = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout();
 		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
+				   $filePath = $cssFile;
 				   if ($preLayoutPath === '' || $preLayoutPath === '0') {
-				   $filePath = str_replace('.', '/', $cssFile) . '.css';
-			   }
+					   $filePath = str_replace('.', '/', $cssFile) . '.css';
+				   }
 
-			   $minFilePath = str_replace('.css', '.min.css', $filePath);
+				   $minFilePath = str_replace('.css', '.min.css', $filePath);
 				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					   $filePath = $minFilePath;
 				   }
@@ -363,11 +364,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		   $layoutPath = 'layouts/' . CRM_Viewer::getDefaultLayoutName();
 		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
+				   $filePath = $cssFile;
 				   if ($preLayoutPath === '' || $preLayoutPath === '0') {
-				   $filePath = str_replace('.', '/', $cssFile) . '.css';
-			   }
+					   $filePath = str_replace('.', '/', $cssFile) . '.css';
+				   }
 
-			   $minFilePath = str_replace('.css', '.min.css', $filePath);
+				   $minFilePath = str_replace('.css', '.min.css', $filePath);
 				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					   $filePath = $minFilePath;
 				   }

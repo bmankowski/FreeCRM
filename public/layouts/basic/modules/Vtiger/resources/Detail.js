@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+Moved /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -1279,6 +1279,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 			}
 			editElement.on('clickoutside', saveHandler);
+			
+			// ESC key handler to cancel editing without saving
+			var escHandler = function(e) {
+				if (e.keyCode === 27 || e.which === 27) { // ESC key
+					e.preventDefault();
+					e.stopPropagation();
+					fieldElement.inputmask('remove');
+					currentTdElement.removeAttr('tabindex');
+					var previousValue = elementTarget.data('prevValue');
+					// Restore previous value
+					fieldElement.val(previousValue);
+					// Hide edit element and show detail view
+					editElement.addClass('hide');
+					detailViewValue.removeClass('hide');
+					actionElement.removeClass('hide');
+					readRecord.prop('disabled', false);
+					// Remove event handlers
+					editElement.off('clickoutside');
+					editElement.off('keydown', escHandler);
+				}
+			};
+			editElement.on('keydown', escHandler);
 		})
 	},
 	triggerDisplayTypeEvent: function () {

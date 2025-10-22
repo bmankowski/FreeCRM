@@ -39,11 +39,20 @@ class Vtiger_Loader
 		// TO handle loading vtiger files
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
 		}
+		
+		// Check public/ for JS/CSS files first
+		if (in_array($fileExtension, ['js', 'css', 'less'])) {
+			$publicFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $file;
+			if (file_exists($publicFile)) {
+				return $publicFile;
+			}
+		}
+		
+		// Fallback to root directory
+		$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
 		return $file;
 	}
 

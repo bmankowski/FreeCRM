@@ -1963,16 +1963,14 @@ jQuery.Class("Vtiger_List_Js", {
 		};
 		AppConnector.request(actionParams).then(function (appData) {
 			var data = appData.result;
-			if (data && typeof data === 'object') {
-				$.each(data, function (id, value) {
-					if (value.a > 0) {
-						listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
-					}
-					if (value.m > 0) {
-						listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
-					}
-				});
-			}
+			$.each(data, function (id, value) {
+				if (value.a > 0) {
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
+				}
+				if (value.m > 0) {
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
+				}
+			});
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},
@@ -1998,8 +1996,7 @@ jQuery.Class("Vtiger_List_Js", {
 		};
 		AppConnector.request(actionParams).then(function (appData) {
 			var data = appData.result;
-			if (data && typeof data === 'object') {
-				$.each(data, function (id, value) {
+			$.each(data, function (id, value) {
 				if (value.type) {
 					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList span').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('hide')
 							.on('click', function (e) {
@@ -2011,7 +2008,6 @@ jQuery.Class("Vtiger_List_Js", {
 							});
 				}
 			});
-			}
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},
