@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 
 
-namespace App\Modules\Settings\DataAccess\helpers;
+namespace App\Modules\Settings\DataAccess\Helpers;
 class DataAccess_Conditions
 {
 

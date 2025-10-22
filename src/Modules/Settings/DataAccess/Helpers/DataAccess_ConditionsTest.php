@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 
 
-namespace App\Modules\Settings\DataAccess\helpers;
+namespace App\Modules\Settings\DataAccess\Helpers;
 class DataAccess_ConditionsTest
 {
 
@@ -30,8 +30,8 @@ class DataAccess_ConditionsTest
 
 		if ('date' == $cndArray['field_type']) {
 			$format = \App\Fields\DateTime::currentUserJSDateFormat();
-			$cndDate = DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
-			$recordDate = DateTime::createFromFormat($format, $val);
+			$cndDate = \DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
+			$recordDate = \DateTime::createFromFormat($format, $val);
 
 			if ($cndDate == $recordDate) {
 				return true;
@@ -76,8 +76,8 @@ class DataAccess_ConditionsTest
 
 		if ('date' == $cndArray['field_type']) {
 			$format = \App\Fields\DateTime::currentUserJSDateFormat();
-			$cndDate = DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
-			$recordDate = DateTime::createFromFormat($format, $val);
+			$cndDate = \DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
+			$recordDate = \DateTime::createFromFormat($format, $val);
 
 			if ($cndDate != $recordDate) {
 				return true;
@@ -261,8 +261,8 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$cndDate = DateTime::createFromFormat('Y-m-d', $cndArray['val']);
-		$recordDate = DateTime::createFromFormat($format, $val);
+		$cndDate = \DateTime::createFromFormat('Y-m-d', $cndArray['val']);
+		$recordDate = \DateTime::createFromFormat($format, $val);
 
 		if ($cndDate < $recordDate) {
 			return true;
@@ -276,8 +276,8 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$cndDate = DateTime::createFromFormat('Y-m-d', $cndArray['val']); // data z warunku
-		$recordDate = DateTime::createFromFormat($format, $val);
+		$cndDate = \DateTime::createFromFormat('Y-m-d', $cndArray['val']); // data z warunku
+		$recordDate = \DateTime::createFromFormat($format, $val);
 
 		if ($cndDate == $recordDate) {
 			return false;
@@ -292,7 +292,7 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$recordDate = DateTime::createFromFormat($format, $val);
+		$recordDate = \DateTime::createFromFormat($format, $val);
 		$cndDate = new \DateTime();
 
 		if ($recordDate == $cndDate) {
@@ -307,7 +307,7 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$recordDate = DateTime::createFromFormat($format, $val);
+		$recordDate = \DateTime::createFromFormat($format, $val);
 		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
@@ -327,7 +327,7 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$recordDate = DateTime::createFromFormat($format, $val);
+		$recordDate = \DateTime::createFromFormat($format, $val);
 		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
@@ -347,7 +347,7 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$recordDate = DateTime::createFromFormat($format, $val);
+		$recordDate = \DateTime::createFromFormat($format, $val);
 		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
@@ -367,7 +367,7 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$recordDate = DateTime::createFromFormat($format, $val);
+		$recordDate = \DateTime::createFromFormat($format, $val);
 		$cndDate = new \DateTime();
 
 		$interval = $cndDate->diff($recordDate);
@@ -389,9 +389,9 @@ class DataAccess_ConditionsTest
 		$dates = explode(',', $cndArray['val']);
 		list($startDate, $endDate) = $dates;
 		$format = \App\Fields\DateTime::currentUserJSDateFormat();
-		$startDate = DateTime::createFromFormat('Y-m-d', $startDate);
-		$endDate = DateTime::createFromFormat('Y-m-d', $endDate);
-		$testDate = DateTime::createFromFormat($format, $val);
+		$startDate = \DateTime::createFromFormat('Y-m-d', $startDate);
+		$endDate = \DateTime::createFromFormat('Y-m-d', $endDate);
+		$testDate = \DateTime::createFromFormat($format, $val);
 
 		if ($testDate >= $startDate && $testDate <= $endDate) {
 			return true;

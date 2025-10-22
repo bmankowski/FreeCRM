@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-namespace App\Modules\Settings\DataAccess\helpers;
+namespace App\Modules\Settings\DataAccess\Helpers;
  
 
 use vtlib\Functions;
