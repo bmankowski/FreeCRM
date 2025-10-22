@@ -157,7 +157,7 @@ class VTWorkflowManager {
 
 	protected function getWorkflowInstance($type = 'basic')
 	{
-		$configReader = new ConfigReader('src/Modules/com_vtiger_workflow/config.inc', 'workflowConfig');
+		$configReader = new \App\Utils\ConfigReader('src/Modules/com_vtiger_workflow/config.inc', 'workflowConfig');
 		$workflowTypeConfig = $configReader->getConfig($type);
 		$workflowClassPath = $workflowTypeConfig['classpath'];
 		$workflowClass = $workflowTypeConfig['class'];

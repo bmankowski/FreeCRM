@@ -100,6 +100,14 @@ class CRM_Viewer extends \Smarty
 			$this->log(sprintf('URI: %s, TYPE: ', $debugViewerURI) . $_SERVER['REQUEST_METHOD']);
 		}
 
+		$this->registerSmartyPlugins();
+	}
+
+	/**
+	 * Register custom Smarty plugins and classes for template use
+	 */
+	private function registerSmartyPlugins()
+	{
 		// Register custom functions for Smarty 4.5 compatibility
 		// Functions in global namespace (from TemplateHelpers.php) can be called directly in templates
 		try {
@@ -157,6 +165,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'intval', 'intval');
 		$this->registerPlugin('modifier', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
 		$this->registerPlugin('modifier', 'trim', 'trim');
+		$this->registerPlugin('modifier', 'html_entity_decode', 'html_entity_decode');
 		$this->registerPlugin('modifier', 'array_key_exists', 'array_key_exists');
 		$this->registerPlugin('modifier', 'microtime', 'microtime');
 		$this->registerPlugin('modifier', 'sprintf', 'sprintf');
@@ -169,6 +178,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('function', 'strtoupper', 'strtoupper');
 		$this->registerPlugin('function', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
 		$this->registerPlugin('function', 'trim', 'trim');
+		$this->registerPlugin('function', 'html_entity_decode', 'html_entity_decode');
 		$this->registerPlugin('function', 'array_key_exists', 'array_key_exists');
 		$this->registerPlugin('function', 'microtime', 'microtime');
 		$this->registerPlugin('function', 'sprintf', 'sprintf');

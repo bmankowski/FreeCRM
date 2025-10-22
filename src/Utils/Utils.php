@@ -690,12 +690,10 @@ class Utils
 	public static function getCurrencyDecimalPlaces()
 	{
 		$current_user = vglobal('current_user');
-		$currency_decimal_places = $current_user->no_of_currency_decimals;
-		if (isset($currency_decimal_places)) {
-			return $currency_decimal_places;
-		} else {
-			return 2;
+		if ($current_user && isset($current_user->no_of_currency_decimals)) {
+			return $current_user->no_of_currency_decimals;
 		}
+		return 2;
 	}
 
 	public static function getInventoryModules()
