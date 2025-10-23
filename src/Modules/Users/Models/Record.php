@@ -11,7 +11,8 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
- use App\Http\App\Http\Vtiger_Session;
+ use App\Http\Vtiger_Session;
+
 class Record extends \App\Modules\Vtiger\Models\Record
 {
 	/** @var bool Authentication state */
@@ -282,23 +283,17 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		switch ($fieldName) {
 			case 'currency_id':
-				return CurrencyField::getDBCurrencyId();
-				break;
+				return \App\Fields\CurrencyField::getDBCurrencyId();
 			case 'accesskey':
 				return vtws_generateRandomAccessKey(16);
-				break;
 			case 'language':
 				return \App\Runtime\Vtiger_Language_Handler::getLanguage();
-				break;
 			case 'time_zone':
 				return \App\Fields\DateTimeField::getDBTimeZone();
-				break;
 			case 'theme':
-				return CRM_Viewer::DEFAULTTHEME;
-				break;
+				return \App\Runtime\CRM_Viewer::DEFAULTTHEME;
 			case 'is_admin':
 				return 'off';
-				break;
 		}
 		return false;
 	}
@@ -569,7 +564,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$profiles = [];
 		if (!empty($userProfiles)) {
 			foreach ($userProfiles as $profile) {
-				$profiles[$profile] = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($profile);
+				$profiles[$profile] = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($profile);
 			}
 		}
 		return $profiles;
@@ -1257,7 +1252,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				$adminId = (new \App\Db\Query())->select('id')
 						->from('vtiger_users')
 						->where(['is_admin' => 'on', 'status' => 'Active'])
-						->orderBy('id', SORT_ASC)
+						->orderBy(['id' => SORT_ASC])
 						->limit(1)->scalar();
 			}
 			\App\Cache::save(__METHOD__, $key, $adminId, \App\Cache::LONG);
@@ -1342,6 +1337,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$buffer = fread($handle, filesize($validate));
 			if (substr_count($buffer, $authkey) < $i)
 				return -1;
+			return 1;
 		}else {
 			return -1;
 		}

@@ -322,7 +322,6 @@ class UserInfoUtil
 		} else {
 			return 'yes';
 		}
-		return 'no';
 	}
 
 	/** Function to check if the currently logged in user has Read Access due to Sharing for the specified record
@@ -390,7 +389,7 @@ class UserInfoUtil
 		$relatedModuleArray = $related_module_share[$tabid];
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
-				$parRecordOwner = App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
+				$parRecordOwner = \App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 				if (sizeof($parRecordOwner) > 0) {
 					$parModName = \App\Module::getModuleName($parModId);
 					$rel_var = $parModName . "_" . $module . "_share_read_permission";
@@ -499,7 +498,7 @@ class UserInfoUtil
 		$relatedModuleArray = $related_module_share[$tabid];
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
-				$parRecordOwner = App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
+				$parRecordOwner = \App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 				if (sizeof($parRecordOwner) > 0) {
 					$parModName = \App\Module::getModuleName($parModId);
 					$rel_var = $parModName . "_" . $module . "_share_write_permission";
@@ -712,7 +711,7 @@ class UserInfoUtil
 
 		\App\Log::trace('Entering getRoleUsers(' . $roleId . ') method ...');
 
-		$roleRelatedUsers = Vtiger_Cache::get('getRoleUsers', $roleId);
+		$roleRelatedUsers = \App\Runtime\Vtiger_Cache::get('getRoleUsers', $roleId);
 		if ($roleRelatedUsers !== false) {
 			return $roleRelatedUsers;
 		}
@@ -726,7 +725,7 @@ class UserInfoUtil
 			$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 		}
 
-		Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
+		\App\Runtime\Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
 		\App\Log::trace('Exiting getRoleUsers method ...');
 		return $roleRelatedUsers;
 	}
@@ -995,7 +994,7 @@ class UserInfoUtil
 		$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
 		$res = $adb->pquery($query2, array($shareid));
 		$typestr = $adb->query_result($res, 0, 'relationtype');
-		$tabname = getDSTableNameForType($typestr);
+		$tabname = \App\Utils\UserInfoUtil::getDSTableNameForType($typestr);
 		$query3 = "delete from $tabname where shareid=?";
 		$adb->pquery($query3, array($shareid));
 		$query4 = "delete from vtiger_datashare_module_rel where shareid=?";
@@ -1405,8 +1404,8 @@ class UserInfoUtil
 
 	/**
 	 * Function to get the permitted module id Array with presence as 0
-	 * @global Users $current_user
-	 * @return Array Array of accessible tabids.
+	 * @global object $current_user
+	 * @return array Array of accessible tabids.
 	 */
 	public static function getPermittedModuleIdList()
 	{
@@ -1462,8 +1461,8 @@ class UserInfoUtil
 	/**
 	 *
 	 * @param string $module - module name for which query needs to be generated.
-	 * @param Users $user - user for which query needs to be generated.
-	 * @return String Access control Query for the user.
+	 * @param object $user - user for which query needs to be generated.
+	 * @return string Access control Query for the user.
 	 */
 	public static function getNonAdminAccessControlQuery($module, $user, $scope = '')
 	{
