@@ -139,7 +139,24 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function isAdminUser()
 	{
 		$adminStatus = $this->get('is_admin');
-		if ($adminStatus === 'on') {
+		
+		// If is_admin is not set in the model, query the database directly
+		if ($adminStatus === null && $this->getId()) {
+			$userId = $this->getId();
+			$db = \App\Db::getInstance();
+			$adminStatus = (new \App\Db\Query())
+				->select('is_admin')
+				->from('vtiger_users')
+				->where(['id' => $userId])
+				->scalar();
+			// Cache it in the model for future calls
+			if ($adminStatus !== false) {
+				$this->set('is_admin', $adminStatus);
+			}
+		}
+		
+		// Check for various possible values: 'on', 1, '1', true
+		if ($adminStatus === 'on' || $adminStatus === 1 || $adminStatus === '1' || $adminStatus === true) {
 			return true;
 		}
 		return false;
