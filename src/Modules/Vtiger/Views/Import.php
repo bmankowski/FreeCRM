@@ -13,7 +13,6 @@ namespace App\Modules\Vtiger\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class Import  extends \App\Modules\Vtiger\Views\Index
 {
 
@@ -232,7 +231,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	public function lastImportedRecords(\App\Http\Vtiger_Request $request)
 	{
-		$importList = new Import_List_View();
+		$importList = new \App\Modules\Import\Views\ListView();
 		$importList->process($request);
 	}
 

@@ -1,7 +1,3 @@
-./src/Modules/Reports/Views/Edit.php	HelpDesk_Update_History
-./src/Modules/Import/Models/Module.php	Import_FileReader_Reader
-./src/Modules/Vtiger/Views/Import.php	Import_List_View
-./src/Modules/Import/Actions/Data.php	Import_Result_Details
 ./src/Modules/Import/Views/Main.php	Import_Saved_Maps
 ./src/Modules/Calendar/Views/Import.php	Import_Utils_Helper
 ./src/Modules/Install/Models/InitSchema.php	Install_InitSchema_Model

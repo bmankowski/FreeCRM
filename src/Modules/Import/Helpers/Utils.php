@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Import\helpers;
+namespace App\Modules\Import\Helpers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -68,7 +68,7 @@ class Utils {
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
 	{
-		$viewer = new CRM_Viewer();
+		$viewer = new \App\Runtime\CRM_Viewer();
 
 		$viewer->assign('ERROR_MESSAGE', $errorMessage);
 		$viewer->assign('ERROR_DETAILS', $errorDetails);

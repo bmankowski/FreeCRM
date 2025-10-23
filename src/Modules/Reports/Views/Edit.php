@@ -176,7 +176,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 				foreach ($blockFields as $key => $value) {
 					if (isset($value)) {
 						foreach ($value as $key1 => $value1) {
-							if ($key1 == 'vtiger_troubletickets:update_log:HelpDesk_Update_History:update_log:V') {
+							if ($key1 == 'vtiger_troubletickets:update_log:HelpDeskUpdateHistory:update_log:V') {
 								unset($primaryModuleFields[$module][$key][$key1]);
 							}
 						}
@@ -191,7 +191,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 					foreach ($blockFields as $key => $value) {
 						if (isset($value)) {
 							foreach ($value as $key1 => $value1) {
-								if ($key1 == 'vtiger_troubletickets:update_log:HelpDesk_Update_History:update_log:V') {
+								if ($key1 == 'vtiger_troubletickets:update_log:HelpDeskUpdateHistory:update_log:V') {
 									unset($secondaryModuleFields[$module][$key][$key1]);
 								}
 							}
