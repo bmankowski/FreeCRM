@@ -21,7 +21,7 @@ class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$recordId = $request->get('record');
 		$module = $request->getModule();
-		$moduleModel = new Portal_Module_Model();
+		$moduleModel = new \App\Modules\Portal\Models\Module();
 		$moduleModel->deleteRecord($recordId);
 
 		$response = new \App\Http\Vtiger_Response();

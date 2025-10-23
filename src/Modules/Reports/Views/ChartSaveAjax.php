@@ -60,7 +60,7 @@ class ChartSaveAjax  extends \App\Modules\Vtiger\Views\Index
 		$reportModel->set('reporttype', 'chart');
 		$reportModel->save();
 
-		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
+		$reportChartModel = \App\Modules\Reports\Models\Chart::getInstanceById($reportModel);
 
 		$data = $reportChartModel->getData();
 		$viewer->assign('CHART_TYPE', $reportChartModel->getChartType());

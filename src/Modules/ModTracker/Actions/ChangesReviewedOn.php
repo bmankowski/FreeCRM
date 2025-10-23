@@ -71,7 +71,7 @@ class ChangesReviewedOn extends \App\Runtime\Vtiger_Action_Controller
 		$sourceModule = $request->get('sourceModule');
 		$request->set('module', $sourceModule);
 		$result = false;
-		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$recordsList = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($request);
 		if (is_array($recordsList) && count($recordsList) > \App\AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
 			$params = $request->get('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params'] : ['selected_ids'];
 			foreach ($params as $variable) {

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Roles\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Popup extends \Vtiger_Footer_View
+class Popup extends \App\Modules\Vtiger\Views\Footer
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

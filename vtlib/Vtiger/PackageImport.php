@@ -1062,7 +1062,7 @@ class PackageImport extends PackageExport
 			return false;
 		$module = (string) $this->moduleInstance->name;
 
-		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
+		$inventoryInstance = \App\Modules\Vtiger\Models\Inventory::getInstance($module);
 		$inventoryInstance->createInventoryTables();
 		$inventoryFieldInstance = \App\Modules\Vtiger\Models\InventoryField::getInstance($module);
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {

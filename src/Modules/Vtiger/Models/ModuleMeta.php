@@ -21,10 +21,10 @@ class ModuleMeta extends \App\Runtime\BaseModel
 	static $_cached_module_meta;
 
 	/**
-	 * creates an instance of Vtiger_ModuleMeta_Model
+	 * creates an instance of \App\Modules\Vtiger\Models\ModuleMeta
 	 * @param string $name - module name
 	 * @param <Object> $user - Users Object
-	 * @return Vtiger_ModuleMeta_Model
+	 * @return \App\Modules\Vtiger\Models\ModuleMeta
 	 */
 	public static function getInstance($name, $user)
 	{

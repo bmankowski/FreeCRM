@@ -15,7 +15,7 @@ class FullScreen  extends \App\Modules\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$previewView = new KnowledgeBase_PreviewContent_View();
+		$previewView = new \App\Modules\KnowledgeBase\Views\PreviewContent();
 		$previewView->process($request, false);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

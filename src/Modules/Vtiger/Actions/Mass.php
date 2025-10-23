@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-abstract class Vtiger_Mass_Action extends \App\Runtime\Vtiger_Action_Controller
+abstract class \App\Modules\Vtiger\Actions\Mass extends \App\Runtime\Vtiger_Action_Controller
 {
 
 	public static function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)

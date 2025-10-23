@@ -44,7 +44,7 @@ class Users_ForgotPassword_Handler {
 					'secret_hash' => $secretHash
 				)
 			);
-			$trackURL = Vtiger_ShortURL_Helper::generateURL($options);
+			$trackURL = \App\Modules\Vtiger\Helpers\ShortURL::generateURL($options);
 			$shortURLID = explode('id=', $trackURL);
 			$viewer->assign('SHORTURL_ID', $shortURLID[1]);
 			$viewer->assign('SECRET_HASH', $secretHash);

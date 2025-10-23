@@ -39,7 +39,7 @@ class MassDelete extends \App\Runtime\Vtiger_Action_Controller
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		if ($request->get('selected_ids') == 'all' && $request->get('mode') == 'FindDuplicates') {
-			$recordIds = Vtiger_FindDuplicate_Model::getMassDeleteRecords($request);
+			$recordIds = \App\Modules\Vtiger\Models\FindDuplicate::getMassDeleteRecords($request);
 		} else {
 			$recordIds = $this->getRecordsListFromRequest($request);
 		}

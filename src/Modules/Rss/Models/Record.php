@@ -128,7 +128,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 * Function to get record instance by using id and moduleName
 	 * @param integer $recordId
 	 * @param string $qualifiedModuleName
-	 * @return Rss_Record_Model RecordModel
+	 * @return \App\Modules\Rss\Models\Record RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName = null)
 	{

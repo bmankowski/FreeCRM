@@ -67,7 +67,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$reportModel->save();
 
 		//Scheduled Reports
-		$scheduleReportModel = new Reports_ScheduleReports_Model();
+		$scheduleReportModel = new \App\Modules\Reports\Models\ScheduleReports();
 		$scheduleReportModel->set('scheduleid', $request->get('schtypeid'));
 		$scheduleReportModel->set('schtime', $request->get('schtime'));
 		$scheduleReportModel->set('schdate', $request->get('schdate'));

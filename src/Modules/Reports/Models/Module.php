@@ -16,7 +16,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function deletes report
-	 * @param Reports_Record_Model $reportModel
+	 * @param \App\Modules\Reports\Models\Record $reportModel
 	 */
 	public function deleteRecord($reportModel)
 	{
@@ -92,7 +92,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function returns the recent created reports
 	 * @param <Number> $limit
-	 * @return <Array of Reports_Record_Model>
+	 * @return <Array of \App\Modules\Reports\Models\Record>
 	 */
 	public function getRecentRecords($limit = 10)
 	{
@@ -111,11 +111,11 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns the report folders
-	 * @return <Array of Reports_Folder_Model>
+	 * @return <Array of \App\Modules\Reports\Models\Folder>
 	 */
 	public function getFolders()
 	{
-		return Reports_Folder_Model::getAll();
+		return \App\Modules\Reports\Models\Folder::getAll();
 	}
 
 	/**

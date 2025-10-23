@@ -39,7 +39,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler {
 					->from('u_#__openstreetmap_record_updater')
 					->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])
 					->exists();
-				$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+				$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 				$address = $coordinatesModel->getUrlParamsToSearching($recordModel, $typeAddress);
 				if (!$isCoordinateExists) {
 					\App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [

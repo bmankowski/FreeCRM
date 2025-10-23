@@ -10,7 +10,7 @@ namespace App\Modules\Settings\Vtiger\Views;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class IconsModal extends \Vtiger_BasicModal_View
+class IconsModal extends \App\Modules\Vtiger\Views\BasicModal
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

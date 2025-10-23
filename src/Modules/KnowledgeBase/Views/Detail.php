@@ -21,7 +21,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Index
 
 	public function showPreview($request)
 	{
-		$previewContent = new KnowledgeBase_PreviewContent_View();
+		$previewContent = new \App\Modules\KnowledgeBase\Views\PreviewContent();
 		$previewContent->process($request);
 	}
 }

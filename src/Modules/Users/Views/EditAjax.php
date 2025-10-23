@@ -12,7 +12,7 @@ namespace App\Modules\Users\Views;
 
 use App\Http\Vtiger_Request;
 
-Class Users_EditAjax_View extends Vtiger_IndexAjax_View
+Class \App\Modules\Users\Views\EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

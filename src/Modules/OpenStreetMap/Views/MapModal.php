@@ -22,7 +22,7 @@ class MapModal  extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		if (!$request->isEmpty('srcModule')) {
 			$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->get('srcModule'));
 			$fields = $srcModuleModel->getFields();

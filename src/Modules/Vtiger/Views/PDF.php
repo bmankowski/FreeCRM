@@ -29,7 +29,7 @@ class PDF  extends \App\Modules\Vtiger\Views\Index
 		$allRecords = [];
 		$recordId = $request->get('record');
 		$view = $request->get('fromview');
-		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$allRecords = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($request);
 
 		$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();

@@ -50,7 +50,7 @@ class MassSave extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$recordIds = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($request);
 		$recordModels = [];
 
 		foreach ($recordIds as &$recordId) {

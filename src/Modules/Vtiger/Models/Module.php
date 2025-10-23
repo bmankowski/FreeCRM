@@ -304,7 +304,7 @@ class Module extends \vtlib\Module
 			if (empty($userModel)) {
 				$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			}
-			$this->moduleMeta = Vtiger_ModuleMeta_Model::getInstance($this->get('name'), $userModel);
+			$this->moduleMeta = \App\Modules\Vtiger\Models\ModuleMeta::getInstance($this->get('name'), $userModel);
 		}
 		return $this->moduleMeta;
 	}

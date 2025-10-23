@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Reports_ChartEdit_View extends \App\Modules\Vtiger\Views\Edit
+Class \App\Modules\Reports\Views\ChartEdit extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function __construct()
@@ -214,7 +214,7 @@ Class Reports_ChartEdit_View extends \App\Modules\Vtiger\Views\Edit
 			$secondaryModules = array();
 		}
 
-		$chartModel = Reports_Chart_Model::getInstanceById($reportModel);
+		$chartModel = \App\Modules\Reports\Models\Chart::getInstanceById($reportModel);
 		$viewer->assign('CHART_MODEL', $chartModel);
 
 		$viewer->assign('ADVANCED_FILTERS', $request->get('advanced_filter'));

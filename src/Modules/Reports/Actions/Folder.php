@@ -46,7 +46,7 @@ class Folder extends \App\Runtime\Vtiger_Action_Controller
 	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$folderModel = Reports_Folder_Model::getInstance();
+		$folderModel = \App\Modules\Reports\Models\Folder::getInstance();
 		$folderId = $request->get('folderid');
 
 		if (!empty($folderId)) {
@@ -78,7 +78,7 @@ class Folder extends \App\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 
 		if ($folderId) {
-			$folderModel = Reports_Folder_Model::getInstanceById($folderId);
+			$folderModel = \App\Modules\Reports\Models\Folder::getInstanceById($folderId);
 
 			if ($folderModel->isDefault()) {
 				$message = \App\Runtime\Vtiger_Language_Handler::translate('LBL_FOLDER_CAN_NOT_BE_DELETED', $moduleName);

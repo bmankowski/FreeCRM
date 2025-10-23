@@ -52,7 +52,7 @@ class SaveConvertLead extends \App\Runtime\Vtiger_View_Controller
 		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
 		$entityValues['assignedTo'] = $assignId;
 		$entityValues['leadId'] = $recordId;
-		$createAlways = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'create_always');
+		$createAlways = \App\Modules\Vtiger\Models\Processes::getConfig('marketing', 'conversion', 'create_always');
 
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $request->getModule());
 		$convertLeadFields = $recordModel->getConvertLeadFields();

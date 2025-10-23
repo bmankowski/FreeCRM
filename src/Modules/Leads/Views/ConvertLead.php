@@ -47,7 +47,7 @@ class ConvertLead  extends \App\Modules\Vtiger\Views\Index
 
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$moduleModel = $recordModel->getModule();
-		$marketingProcessConfig = Vtiger_Processes_Model::getConfig('marketing', 'conversion');
+		$marketingProcessConfig = \App\Modules\Vtiger\Models\Processes::getConfig('marketing', 'conversion');
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('CURRENT_USER_PRIVILEGE', $currentUserPriviligeModel);

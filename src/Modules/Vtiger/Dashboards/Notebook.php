@@ -28,7 +28,7 @@ class Notebook  extends \App\Modules\Vtiger\Views\Index
 			$widgetId = $request->get('widgetid');
 		}
 
-		$widget = Vtiger_Notebook_Model::getUserInstance($widgetId);
+		$widget = \App\Modules\Vtiger\Models\Notebook::getUserInstance($widgetId);
 
 		$mode = $request->get('mode');
 		if ($mode == 'save') {

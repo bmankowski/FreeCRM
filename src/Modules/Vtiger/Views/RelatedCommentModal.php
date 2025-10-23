@@ -30,7 +30,7 @@ class RelatedCommentModal  extends \App\Modules\Vtiger\Views\Index
 		$relatedRecord = $request->get('relid');
 		$relatedModuleName = $request->get('relmodule');
 
-		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
+		$rcmModel = \App\Modules\Vtiger\Models\RelatedCommentModal::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
 			throw new \Exception\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}

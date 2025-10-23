@@ -40,7 +40,7 @@ class Pagination  extends \App\Modules\Vtiger\Views\Index
 		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$listViewModel = new Portal_ListView_Model();
+		$listViewModel = new \App\Modules\Portal\Models\ListView();
 
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);

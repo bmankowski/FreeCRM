@@ -98,7 +98,7 @@ class Block extends \App\Modules\Vtiger\Models\Block
 	/**
 	 * Function to retrieve block instances for a module
 	 * @param <type> $moduleModel - module instance
-	 * @return <array> - list of \Vtiger_Block_Model
+	 * @return <array> - list of \App\Modules\Vtiger\Models\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{

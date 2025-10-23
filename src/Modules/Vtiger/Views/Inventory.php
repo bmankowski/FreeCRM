@@ -29,7 +29,7 @@ class Inventory  extends \App\Modules\Vtiger\Views\Index
 		$isIndividual = $request->get('isIndividual');
 		$totalPrice = $request->get('totalPrice');
 
-		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
+		$inventoryModel = \App\Modules\Vtiger\Models\Inventory::getInstance($moduleName);
 		$config = $inventoryModel->getDiscountsConfig();
 		$groupDiscount = $inventoryModel->getAccountDiscount($relatedRecord);
 
@@ -61,7 +61,7 @@ class Inventory  extends \App\Modules\Vtiger\Views\Index
 		$taxType = $request->get('taxType');
 		$totalPrice = $request->get('totalPrice');
 
-		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
+		$inventoryModel = \App\Modules\Vtiger\Models\Inventory::getInstance($moduleName);
 		$accountTaxs = $inventoryModel->getAccountTax($moduleName, $sourceRecord);
 
 		$config = $inventoryModel->getTaxesConfig();
@@ -69,7 +69,7 @@ class Inventory  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODULE', $recordModule);
-		$viewer->assign('GLOBAL_TAXES', Vtiger_Inventory_Model::getGlobalTaxes());
+		$viewer->assign('GLOBAL_TAXES', \App\Modules\Vtiger\Models\Inventory::getGlobalTaxes());
 		$viewer->assign('CURRENCY_SYMBOL', \vtlib\Functions::getCurrencySymbolandRate($currency)['symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);

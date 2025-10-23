@@ -39,7 +39,7 @@ class GenerateRecords extends \App\Runtime\Vtiger_Action_Controller
 		$method = $request->get('method');
 		$success = [];
 		if (!empty($template)) {
-			$templateRecord = Vtiger_MappedFields_Model::getInstanceById($template);
+			$templateRecord = \App\Modules\Vtiger\Models\MappedFields::getInstanceById($template);
 			foreach ($records as $recordId) {
 				if ($templateRecord->checkFiltersForRecord(intval($recordId))) {
 					if ($method == 0) {

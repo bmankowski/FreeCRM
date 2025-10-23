@@ -12,7 +12,6 @@ namespace App\Modules\Campaigns\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class Detail  extends \App\Modules\Vtiger\Views\Index
 {
 
@@ -31,7 +30,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Index
 		foreach ($relatedModules as $tabId) {
 			$relatedModulesNames[$tabId] = \vtlib\Functions::getModuleName($tabId);
 		}
-		$countRecords = Vtiger_CountRecords_Widget::getCountRecords($relatedModulesNames, $recordId);
+		$countRecords = \App\Modules\Vtiger\Widgets\CountRecords::getCountRecords($relatedModulesNames, $recordId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('COUNT_RECORDS', $countRecords);

@@ -386,7 +386,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		if ($selectedIds == 'all') {
 			return $this->readAllCoordinatesFromCustomeView();
 		} else if (!empty($selectedIds)) {
-			$records = Vtiger_Mass_Action::getRecordsListFromRequest($this->get('request'));
+			$records = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($this->get('request'));
 			return $this->readCoordinatesByRecords($records);
 		}
 		return [];

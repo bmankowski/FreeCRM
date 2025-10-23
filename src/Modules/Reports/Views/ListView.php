@@ -38,7 +38,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
-		$listViewModel = new Reports_ListView_Model();
+		$listViewModel = new \App\Modules\Reports\Models\ListView();
 		$listViewModel->set('module', $moduleModel);
 
 		$folderId = $request->get('viewname');
@@ -124,7 +124,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 			$sortImage = "glyphicon glyphicon-chevron-up";
 		}
 
-		$listViewModel = new Reports_ListView_Model();
+		$listViewModel = new \App\Modules\Reports\Models\ListView();
 		$listViewModel->set('module', $moduleModel);
 		$listViewModel->set('folderid', $folderId);
 
@@ -246,7 +246,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 		if (empty($folderId)) {
 			$folderId = 'All';
 		}
-		$listViewModel = new Reports_ListView_Model();
+		$listViewModel = new \App\Modules\Reports\Models\ListView();
 		$listViewModel->set('folderid', $folderId);
 		$count = $listViewModel->getListViewCount();
 

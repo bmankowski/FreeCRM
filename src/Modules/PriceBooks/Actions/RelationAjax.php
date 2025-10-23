@@ -84,7 +84,7 @@ class RelationAjax extends \App\Runtime\Vtiger_Action_Controller
 
 		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-		$relationModel = PriceBooks_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$relationModel = \App\Modules\PriceBooks\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 		}

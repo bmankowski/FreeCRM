@@ -24,7 +24,7 @@ class ForgotPassword {
 		$confirmPassword = $request->get('confirmPassword');
 		$shortURLID = $request->get('shorturl_id');
 		$secretHash = $request->get('secret_hash');
-		$shortURLModel = Vtiger_ShortURL_Helper::getInstance($shortURLID);
+		$shortURLModel = \App\Modules\Vtiger\Helpers\ShortURL::getInstance($shortURLID);
 		$secretToken = $shortURLModel->handler_data['secret_token'];
 
 		$validateData = array('username' => $userName,
@@ -75,7 +75,7 @@ class ForgotPassword {
 						'recordId' => $userId,
 						'to' => $email,
 						'priority' => 9,
-						'trackURL' => Vtiger_ShortURL_Helper::generateURL($options)
+						'trackURL' => \App\Modules\Vtiger\Helpers\ShortURL::generateURL($options)
 				]);
 			}
 			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';
@@ -104,4 +104,4 @@ class ForgotPassword {
 	}
 }
 
-Users_ForgotPassword_Action::run(\App\Http\AppRequest::init());
+\App\Modules\Users\Actions\ForgotPassword::run(\App\Http\AppRequest::init());

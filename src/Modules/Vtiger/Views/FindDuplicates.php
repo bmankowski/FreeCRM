@@ -86,7 +86,7 @@ class FindDuplicates  extends \App\Modules\Vtiger\Views\Index
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$duplicateSearchFields = $request->get('fields');
-		$dataModelInstance = Vtiger_FindDuplicate_Model::getInstance($module);
+		$dataModelInstance = \App\Modules\Vtiger\Models\FindDuplicate::getInstance($module);
 		$dataModelInstance->set('fields', $duplicateSearchFields);
 
 		$ignoreEmpty = $request->get('ignoreEmpty');
@@ -147,7 +147,7 @@ class FindDuplicates  extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$duplicateSearchFields = $request->get('fields');
-		$dataModelInstance = Vtiger_FindDuplicate_Model::getInstance($moduleName);
+		$dataModelInstance = \App\Modules\Vtiger\Models\FindDuplicate::getInstance($moduleName);
 
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;

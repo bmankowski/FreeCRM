@@ -16,7 +16,7 @@ class Content  extends \App\Modules\Vtiger\Views\Index
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$previewContent = new KnowledgeBase_PreviewContent_View();
+			$previewContent = new \App\Modules\KnowledgeBase\Views\PreviewContent();
 			$previewContent->process($request);
 		} else {
 			$moduleName = $request->getModule();

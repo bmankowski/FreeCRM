@@ -41,7 +41,7 @@ class RightPanel  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$viewer->assign('ALL_ACTIVETYPES_LIST', Reservations_Calendar_Model::getCalendarTypes());
+		$viewer->assign('ALL_ACTIVETYPES_LIST', \App\Modules\Reservations\Models\Calendar::getCalendarTypes());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->view('RightPanel.tpl', $moduleName);

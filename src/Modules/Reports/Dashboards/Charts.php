@@ -27,7 +27,7 @@ class Charts  extends \App\Modules\Vtiger\Views\Index
 		$reportId = $reportId['reportId'];
 		if (!empty($reportId)) {
 			$reportModel = \App\Modules\Reports\Models\Record::getInstanceById($reportId);
-			$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
+			$reportChartModel = \App\Modules\Reports\Models\Chart::getInstanceById($reportModel);
 			$typeChart = $reportChartModel->getChartType();
 			$data = $reportChartModel->getData();
 		}

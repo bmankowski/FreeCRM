@@ -11,7 +11,7 @@ $dataReader = (new \App\Db\Query())->from('u_#__openstreetmap_record_updater')
 while ($row = $dataReader->read()) {
 	$typeAddress = $row['type'];
 	$recordId = $row['crmid'];
-	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+	$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 	$coordinates = $coordinatesModel->getCoordinates(\App\Json::decode($row['address']));
 	if ($coordinates === false)
 		break;

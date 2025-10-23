@@ -198,7 +198,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		if ($recordModel) {
 			$params = [];
 			$db = \App\Database\PearDatabase::getInstance();
-			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
+			$mappingFields = \App\Modules\Vtiger\Models\Processes::getConfig('marketing', 'conversion', 'mapping');
 			$mappingFields = \App\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "
 				. "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_account.accountid "

@@ -43,7 +43,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Index
 		$recordId = $request->get('record');
 		$page = $request->get('page');
 
-		$detailViewModel = Reports_DetailView_Model::getInstance($moduleName, $recordId);
+		$detailViewModel = \App\Modules\Reports\Models\DetailView::getInstance($moduleName, $recordId);
 		$reportModel = $detailViewModel->getRecord();
 		$reportModel->setModule('Reports');
 

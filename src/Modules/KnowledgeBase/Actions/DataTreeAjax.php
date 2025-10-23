@@ -25,7 +25,7 @@ class DataTreeAjax extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$treeModel = KnowledgeBase_Tree_Model::getInstance($moduleModel);
+		$treeModel = \App\Modules\KnowledgeBase\Models\Tree::getInstance($moduleModel);
 		$allFolders = $treeModel->getFolders();
 		$documents = $treeModel->getDocuments();
 		if (!is_array($documents)) {

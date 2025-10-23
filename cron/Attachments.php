@@ -5,4 +5,4 @@
  * @license licenses/License.html
  * @author Michał Lorencik <m.lorencik.com>
  */
-Vtiger_Files_Model::getRidOfTrash(false, AppConfig::performance('CRON_MAX_ATACHMENTS_DELETE'));
+\App\Modules\Vtiger\Models\Files::getRidOfTrash(false, AppConfig::performance('CRON_MAX_ATACHMENTS_DELETE'));

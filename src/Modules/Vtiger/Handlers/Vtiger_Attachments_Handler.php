@@ -26,7 +26,7 @@ class Vtiger_Attachments_Handler {
 			foreach ($fields as $fieldName => $fieldModel) {
 				$previousValue = $recordModel->getPreviousValue($fieldName);
 				if ($previousValue !== false || (!empty($recordModel->get($fieldName)) && $recordModel->isNew())) {
-					\Vtiger_Files_Model::updateStatus($previousValue, $recordModel->get($fieldName), $recordModel->getId(), $fieldModel->getId());
+					\App\Modules\Vtiger\Models\Files::updateStatus($previousValue, $recordModel->get($fieldName), $recordModel->getId(), $fieldModel->getId());
 				}
 			}
 		}

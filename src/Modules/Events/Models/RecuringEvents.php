@@ -23,7 +23,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get empty instance
-	 * @return Events_RecuringEvents_Model
+	 * @return \App\Modules\Events\Models\RecuringEvents
 	 */
 	public static function getInstance()
 	{
@@ -54,7 +54,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 	/**
 	 * Function to get instance of class
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return Events_RecuringEvents_Model
+	 * @return \App\Modules\Events\Models\RecuringEvents
 	 */
 	public static function getInstanceFromRequest(Vtiger_Request $request)
 	{

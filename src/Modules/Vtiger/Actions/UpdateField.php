@@ -33,7 +33,7 @@ class UpdateField extends \App\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$fieldName = $request->get('fieldName');
 		$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, \App\Modules\Vtiger\Models\Module::getInstance($moduleName));
-		$updateField = Vtiger_UpdaterField_Helper::getInstance();
+		$updateField = \App\Modules\Vtiger\Helpers\UpdaterField::getInstance();
 		$updateField->setFieldModel($fieldModel);
 		$value = $updateField->getValue();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'), $moduleName);

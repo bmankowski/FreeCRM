@@ -33,7 +33,7 @@ class ExportData extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$exportModel = Vtiger_Export_Model::getInstanceFromRequest($request);
+		$exportModel = \App\Modules\Vtiger\Models\Export::getInstanceFromRequest($request);
 		if ($request->getMode() === 'ExportSelectedRecords') {
 			$exportModel->setRecordList($this->getRecordsListFromRequest($request));
 		}

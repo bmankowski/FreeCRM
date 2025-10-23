@@ -87,7 +87,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 				break;
 			}
 		}
-		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
+		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
@@ -177,7 +177,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
+		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
 
 		$listViewCount = $listViewModel->getListViewCount($request);
 		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
@@ -203,7 +203,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
+		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
 
 		$count = $listViewModel->getListViewCount();
 

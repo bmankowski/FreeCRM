@@ -17,8 +17,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get Instance of Faq Record Model using TroubleTicket RecordModel
-	 * @param  HelpDesk_Record_Model
-	 * @return Faq_Record_Model
+	 * @param  \App\Modules\HelpDesk\Models\Record
+	 * @return \App\Modules\Faq\Models\Record
 	 */
 	public static function getInstanceFromHelpDesk($parentRecordModel)
 	{

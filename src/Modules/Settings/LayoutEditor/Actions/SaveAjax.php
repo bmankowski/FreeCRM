@@ -27,7 +27,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$param = $request->get('param');
 		$moduleName = $param['module'];
 		$status = false;
-		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($moduleName);
+		$inventoryInstance = \App\Modules\Vtiger\Models\Inventory::getInstance($moduleName);
 		$status = $inventoryInstance->setMode($param['status']);
 		if ($status) {
 			$status = true;

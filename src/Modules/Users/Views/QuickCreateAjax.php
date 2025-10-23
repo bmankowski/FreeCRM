@@ -42,7 +42,7 @@ class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 			}
 		}
 
-		$recordStructureInstance = Users_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Users_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+		$recordStructureInstance = \App\Modules\Users\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Users\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));

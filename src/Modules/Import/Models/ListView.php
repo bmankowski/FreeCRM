@@ -111,7 +111,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 		$user = \App\User::getCurrentUserId();
 		$userDBTableName = \App\Modules\Import\Models\Module::getDbTableName($user);
 		$query->innerJoin($userDBTableName, $moduleModel->basetable . '.' . $moduleModel->basetableid . " = $userDBTableName.recordid");
-		$query->where(['and', ['not', [$userDBTableName . '.temp_status' => [Import_Data_Action::IMPORT_RECORD_FAILED, Import_Data_Action::IMPORT_RECORD_SKIPPED]]], ['not', [$userDBTableName . '.recordid' => null]]]);
+		$query->where(['and', ['not', [$userDBTableName . '.temp_status' => [\App\Modules\Import\Actions\Data::IMPORT_RECORD_FAILED, \App\Modules\Import\Actions\Data::IMPORT_RECORD_SKIPPED]]], ['not', [$userDBTableName . '.recordid' => null]]]);
 		return $query;
 	}
 }

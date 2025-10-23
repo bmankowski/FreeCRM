@@ -380,7 +380,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the list of recently visisted records
 	 * @param <Number> $limit
-	 * @return <Array> - List of Calendar_Record_Model
+	 * @return <Array> - List of \App\Modules\Calendar\Models\Record
 	 */
 	public function getRecentRecords($limit = 10)
 	{
@@ -410,7 +410,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns Calendar Reminder record models
-	 * @return \Calendar_Record_Model[]
+	 * @return \App\Modules\Calendar\Models\Record[]
 	 */
 	public static function getCalendarReminder($allReminder = false)
 	{

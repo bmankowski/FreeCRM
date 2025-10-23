@@ -167,7 +167,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$instance = new self();
-		$instance->record = \Vtiger_MappedFields_Model::getInstanceById($recordId, $moduleName);
+		$instance->record = \App\Modules\Vtiger\Models\MappedFields::getInstanceById($recordId, $moduleName);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $instance;
 	}

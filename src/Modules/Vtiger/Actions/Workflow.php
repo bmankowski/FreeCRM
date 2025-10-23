@@ -48,7 +48,7 @@ class Workflow extends \App\Runtime\Vtiger_Action_Controller
 		$record = $request->get('record');
 		$ids = $request->get('ids');
 		$user = $request->get('user');
-		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids, $user);
+		\App\Modules\Vtiger\Models\WorkflowTrigger::execute($moduleName, $record, $ids, $user);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

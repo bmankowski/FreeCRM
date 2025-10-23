@@ -176,7 +176,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public static function updateOrderAndSort($params)
 	{
-		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
+		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
 		$curretView = \App\CustomView::getCurrentView($moduleName);
 		if ($curretView == $params['cvid']) {

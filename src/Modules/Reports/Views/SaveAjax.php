@@ -47,7 +47,7 @@ class SaveAjax  extends \App\Modules\Vtiger\Views\Index
 		$page = $request->get('page');
 		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
 		$pagingModel->set('page', $page);
-		$pagingModel->set('limit', Reports_Detail_View::REPORT_LIMIT);
+		$pagingModel->set('limit', \App\Modules\Reports\Views\Detail::REPORT_LIMIT);
 
 		if ($mode === 'save') {
 			$reportModel->saveAdvancedFilters();

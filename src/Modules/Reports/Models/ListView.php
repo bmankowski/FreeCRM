@@ -123,7 +123,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	 */
 	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
 	{
-		$reportFolderModel = Reports_Folder_Model::getInstance();
+		$reportFolderModel = \App\Modules\Reports\Models\Folder::getInstance();
 		$reportFolderModel->set('folderid', $this->get('folderid'));
 
 		$orderBy = $this->get('orderby');
@@ -149,7 +149,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	 */
 	public function getListViewCount()
 	{
-		$reportFolderModel = Reports_Folder_Model::getInstance();
+		$reportFolderModel = \App\Modules\Reports\Models\Folder::getInstance();
 		$reportFolderModel->set('folderid', $this->get('folderid'));
 		return $reportFolderModel->getReportsCount();
 	}

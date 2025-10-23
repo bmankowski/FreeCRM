@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Services_Edit_View extends Products_Edit_View
+Class \App\Modules\Services\Views\Edit extends \App\Modules\Products\Views\Edit
 {
 
 	/**

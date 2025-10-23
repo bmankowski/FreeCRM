@@ -254,7 +254,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	{
 		$tableName = self::getDbTableName($user);
 		if (\vtlib\Utils::CheckTable($tableName)) {
-			return (new \App\Db\Query())->from($tableName)->where(['temp_status' => Import_Data_Action::IMPORT_RECORD_NONE])->exists();
+			return (new \App\Db\Query())->from($tableName)->where(['temp_status' => \App\Modules\Import\Actions\Data::IMPORT_RECORD_NONE])->exists();
 		}
 		return false;
 	}
@@ -272,7 +272,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 				$db->createCommand()->dropTable($table)->execute();
 			}
 		}
-		Import_Lock_Action::unLock($user);
-		Import_Queue_Action::removeForUser($user);
+		\App\Modules\Import\Actions\Lock::unLock($user);
+		\App\Modules\Import\Actions\Queue::removeForUser($user);
 	}
 }

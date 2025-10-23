@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Events_Edit_View extends Calendar_Edit_View
+Class \App\Modules\Events\Views\Edit extends \App\Modules\Calendar\Views\Edit
 {
 
 	/**

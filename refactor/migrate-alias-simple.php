@@ -15,11 +15,11 @@ $aliasName = $argv[1    ];
 // Map of aliases to their full namespace paths
 $aliasMap = [
     // Batch 1 (completed)
-    'Vtiger_Link_Model' => 'App\Modules\Vtiger\Models\Link',
+    '\App\Modules\Vtiger\Models\Link' => 'App\Modules\Vtiger\Models\Link',
     'Vtiger_ListView_Model' => 'App\Modules\Vtiger\Models\ListView',
-    'Users_Module_Model' => 'App\Modules\Users\Models\Module',
+    '\App\Modules\Users\Models\Module' => 'App\Modules\Users\Models\Module',
     'Vtiger_Action_Model' => 'App\Modules\Vtiger\Models\Action',
-    'Vtiger_Block_Model' => 'App\Modules\Vtiger\Models\Block',
+    '\App\Modules\Vtiger\Models\Block' => 'App\Modules\Vtiger\Models\Block',
     'Vtiger_Relation_Model' => 'App\Modules\Vtiger\Models\Relation',
     // Batch 2 (recommended)
     'Settings_Vtiger_Module_Model' => 'App\Modules\Settings\Vtiger\Models\Module',

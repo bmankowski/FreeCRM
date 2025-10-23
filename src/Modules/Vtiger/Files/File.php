@@ -74,7 +74,7 @@ abstract class File
 		$files = \App\Modules\Vtiger\Helpers\Util::transformUploadedFiles($_FILES, true);
 		foreach ($files as $key => $file) {
 			foreach ($file as $key => $fileData) {
-				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
+				$result = \App\Modules\Vtiger\Models\Files::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
 				if ($result) {
 					$attach[] = ['id' => $result, 'name' => $fileData['name']];
 				}

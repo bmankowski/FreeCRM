@@ -155,7 +155,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 			$importModule = \App\Modules\Vtiger\Models\Module::getInstance('Import')->setImportModule($moduleName);
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
-			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
+			$viewer->assign('SAVED_MAPS', \App\Modules\Import\Models\Map::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));
 			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->get('type'), ['xml', 'zip']));
@@ -168,7 +168,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 	public function import(\App\Http\Vtiger_Request $request)
 	{
 		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		Import_Main_View::import($request, $user);
+		\App\Modules\Import\Views\Main::import($request, $user);
 	}
 
 	/**
@@ -214,7 +214,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 		$dbTableName = \App\Modules\Import\Models\Module::getDbTableName($user);
 		$dataReader = (new \App\Db\Query())->select(['recordid'])
 				->from($dbTableName)
-				->where(['and', ['temp_status' => Import_Data_Action::IMPORT_RECORD_CREATED], ['not', ['recordid' => null]]])
+				->where(['and', ['temp_status' => \App\Modules\Import\Actions\Data::IMPORT_RECORD_CREATED], ['not', ['recordid' => null]]])
 				->createCommand()->query();
 		$noOfRecords = $noOfRecordsDeleted = 0;
 		while ($recordId = $dataReader->readColumn(0)) {
@@ -238,7 +238,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	public function deleteMap(\App\Http\Vtiger_Request $request)
 	{
-		Import_Main_View::deleteMap($request);
+		\App\Modules\Import\Views\Main::deleteMap($request);
 	}
 
 	public function clearCorruptedData(\App\Http\Vtiger_Request $request)
@@ -253,14 +253,14 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 		$importId = $request->get('import_id');
 		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
-		$importInfo = Import_Queue_Action::getImportInfoById($importId);
+		$importInfo = \App\Modules\Import\Actions\Queue::getImportInfoById($importId);
 		if ($importInfo != null) {
 			if ($importInfo['user_id'] == $user->id || $user->isAdminUser()) {
 				$importUser = \App\Modules\Users\Models\Record::getInstanceById($importInfo['user_id'], 'Users');
-				$importDataController = new Import_Data_Action($importInfo, $importUser);
+				$importDataController = new \App\Modules\Import\Actions\Data($importInfo, $importUser);
 				$importStatusCount = $importDataController->getImportStatusCount();
 				$importDataController->finishImport();
-				Import_Main_View::showResult($importInfo, $importStatusCount);
+				\App\Modules\Import\Views\Main::showResult($importInfo, $importStatusCount);
 			}
 		}
 	}
@@ -272,7 +272,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 		$mode = $request->getMode();
 
 		// Check if import on the module is locked
-		$lockInfo = Import_Lock_Action::isLockedForModule($moduleName);
+		$lockInfo = \App\Modules\Import\Actions\Lock::isLockedForModule($moduleName);
 		if ($lockInfo != null) {
 			$lockedBy = $lockInfo['userid'];
 			if ($user->id != $lockedBy && !$user->isAdminUser()) {
@@ -280,24 +280,24 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			} else {
 				if ($mode == 'continueImport' && $user->id == $lockedBy) {
-					$importController = new Import_Main_View($request, $user);
+					$importController = new \App\Modules\Import\Views\Main($request, $user);
 					$importController->triggerImport(true);
 				} else {
-					$importInfo = Import_Queue_Action::getImportInfoById($lockInfo['importid']);
+					$importInfo = \App\Modules\Import\Actions\Queue::getImportInfoById($lockInfo['importid']);
 					$lockOwner = $user;
 					if ($user->id != $lockedBy) {
 						$lockOwner = \App\Modules\Users\Models\Record::getInstanceById($lockInfo['userid'], 'Users');
 					}
-					Import_Main_View::showImportStatus($importInfo, $lockOwner);
+					\App\Modules\Import\Views\Main::showImportStatus($importInfo, $lockOwner);
 				}
 				return;
 			}
 		}
 
 		if (\App\Modules\Import\Models\Module::isUserImportBlocked($user)) {
-			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
+			$importInfo = \App\Modules\Import\Actions\Queue::getUserCurrentImportInfo($user);
 			if ($importInfo != null) {
-				Import_Main_View::showImportStatus($importInfo, $user);
+				\App\Modules\Import\Views\Main::showImportStatus($importInfo, $user);
 				return;
 			} else {
 				Import_Utils_Helper::showImportTableBlockedError($moduleName, $user);

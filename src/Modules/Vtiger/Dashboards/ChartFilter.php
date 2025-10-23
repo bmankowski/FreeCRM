@@ -27,7 +27,7 @@ class ChartFilter  extends \App\Modules\Vtiger\Views\Index
 		}
 
 		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
-		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
+		$chartFilterWidgetModel = \App\Modules\Vtiger\Models\ChartFilter::getInstance();
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$data = $chartFilterWidgetModel->getChartData();
 		$viewer->assign('WIDGET', $widget);

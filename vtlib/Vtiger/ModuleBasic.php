@@ -226,7 +226,7 @@ class ModuleBasic
 		}
 		$this->deleteIcons();
 		$this->unsetAllRelatedList($moduleInstance);
-		\ModComments_Module_Model::deleteForModule($moduleInstance);
+		\App\Modules\ModComments\Models\Module::deleteForModule($moduleInstance);
 		Language::deleteForModule($moduleInstance);
 		Access::deleteSharing($moduleInstance);
 		$this->deleteFromModentityNum();

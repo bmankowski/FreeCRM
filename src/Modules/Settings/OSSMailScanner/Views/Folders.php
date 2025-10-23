@@ -10,7 +10,7 @@ namespace App\Modules\Settings\OSSMailScanner\Views;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Folders extends \Vtiger_BasicModal_View
+class Folders extends \App\Modules\Vtiger\Views\BasicModal
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

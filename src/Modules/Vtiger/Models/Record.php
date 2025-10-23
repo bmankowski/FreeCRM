@@ -802,7 +802,7 @@ class Record extends \App\Runtime\BaseModel
 	public function setRecordFieldValues($parentRecordModel)
 	{
 		$newInvData = [];
-		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
+		$mfInstance = \App\Modules\Vtiger\Models\MappedFields::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
 		if ($mfInstance) {
 			$moduleFields = $this->getModule()->getFields();
 			$fieldsList = array_keys($moduleFields);

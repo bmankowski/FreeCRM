@@ -81,7 +81,7 @@ class Taxes extends Base
 	 */
 	public static function getTaxes()
 	{
-		return Vtiger_Inventory_Model::getGlobalTaxes();
+		return \App\Modules\Vtiger\Models\Inventory::getGlobalTaxes();
 	}
 
 	/**

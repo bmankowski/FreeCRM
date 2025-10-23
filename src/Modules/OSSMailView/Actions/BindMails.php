@@ -23,7 +23,7 @@ class BindMails extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
-		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$recordsList = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($request);
 		$recordModel->bindSelectedRecords($recordsList);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(\App\Runtime\Vtiger_Language_Handler::translate('LBL_BindMailsOK', $moduleName));

@@ -139,7 +139,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 * Function returns the Reports Model instance
 	 * @param <Number> $recordId
 	 * @param string $module
-	 * @return <Reports_Record_Model>
+	 * @return <\App\Modules\Reports\Models\Record>
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
@@ -157,14 +157,14 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	}
 
 	/**
-	 * Function creates Reports_Record_Model
+	 * Function creates \App\Modules\Reports\Models\Record
 	 * @param <Number> $recordId
-	 * @return <Reports_Record_Model>
+	 * @return <\App\Modules\Reports\Models\Record>
 	 */
 	public static function getCleanInstance($recordId = null)
 	{
 		if (empty($recordId)) {
-			$self = new Reports_Record_Model();
+			$self = new \App\Modules\Reports\Models\Record();
 		} else {
 			$self = self::getInstanceById($recordId);
 		}
@@ -1098,7 +1098,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getScheduledReport()
 	{
-		return Reports_ScheduleReports_Model::getInstanceById($this->getId());
+		return \App\Modules\Reports\Models\ScheduleReports::getInstanceById($this->getId());
 	}
 
 	public static function getRecordsListFromRequest(Vtiger_Request $request)
@@ -1114,7 +1114,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			}
 		}
 
-		$reportFolderModel = Reports_Folder_Model::getInstance();
+		$reportFolderModel = \App\Modules\Reports\Models\Folder::getInstance();
 		$reportFolderModel->set('folderid', $folderId);
 		if ($reportFolderModel) {
 			return $reportFolderModel->getRecordIds($excludedIds, $module);

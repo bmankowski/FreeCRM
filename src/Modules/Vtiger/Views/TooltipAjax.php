@@ -32,7 +32,7 @@ class TooltipAjax  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $this->getModule($request);
 
 		$recordId = $request->get('record');
-		$tooltipViewModel = Vtiger_TooltipView_Model::getInstance($moduleName, $recordId);
+		$tooltipViewModel = \App\Modules\Vtiger\Models\TooltipView::getInstance($moduleName, $recordId);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $tooltipViewModel->getRecord()->getModule());

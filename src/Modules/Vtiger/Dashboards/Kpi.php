@@ -25,7 +25,7 @@ class Kpi  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 
-		$kpiHelper = new Vtiger_Kpi_Helper($request);
+		$kpiHelper = new \App\Modules\Vtiger\Helpers\Kpi($request);
 		$data = $kpiHelper->getData($request);
 		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$viewer->assign('KPILIST', $kpiHelper->getKpiList());

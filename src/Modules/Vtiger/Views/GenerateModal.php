@@ -29,7 +29,7 @@ class GenerateModal  extends \App\Modules\Vtiger\Views\Index
 		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mfModel = new $handlerClass();
 		if ($view == 'List') {
-			$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+			$allRecords = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($request);
 			$templates = $mfModel->getActiveTemplatesForModule($moduleName, $view);
 			$viewer->assign('ALL_RECORDS', $allRecords);
 		} else {

@@ -7,4 +7,4 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-Import_Data_Action::runScheduledImport();
+\App\Modules\Import\Actions\Data::runScheduledImport();

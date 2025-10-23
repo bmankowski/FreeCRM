@@ -38,7 +38,7 @@ class Widget  extends \App\Modules\Vtiger\Views\Index
 		$fromModule = $request->get('fromModule');
 		$mod = $request->get('mod');
 		$viewer = $this->getViewer($request);
-		$moduleModel = Products_SummaryWidget_Model::getCleanInstance();
+		$moduleModel = \App\Modules\Products\Models\SummaryWidget::getCleanInstance();
 		$moduleModel->getProductsServices($request, $viewer);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORDID', $request->get('record'));

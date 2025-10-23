@@ -255,7 +255,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 	public function transferOwnership(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$transferModel = Vtiger_TransferOwnership_Model::getInstance($module);
+		$transferModel = \App\Modules\Vtiger\Models\TransferOwnership::getInstance($module);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);

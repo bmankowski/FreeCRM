@@ -888,7 +888,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$coordinateModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinateModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinates = $coordinateModel->readCoordinates($recordId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COORRDINATES', $coordinates);

@@ -15,7 +15,7 @@ namespace vtlib;
  * @package vtlib
  */
 
-use App\Modules\Users\Models\Module as Users_Module_Model;
+use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
 
 use App\Modules\Vtiger\Models\Relation as Vtiger_Relation_Model;
 class Module extends ModuleBasic

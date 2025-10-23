@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Project_Record_Model extends \App\Modules\Vtiger\Models\Record
+Class \App\Modules\Project\Models\Record extends \App\Modules\Vtiger\Models\Record
 {
 	
 }

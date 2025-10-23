@@ -33,9 +33,9 @@ class EditFolder  extends \App\Modules\Vtiger\Views\Index
 		$folderId = $request->get('folderid');
 
 		if ($folderId) {
-			$folderModel = Reports_Folder_Model::getInstanceById($folderId);
+			$folderModel = \App\Modules\Reports\Models\Folder::getInstanceById($folderId);
 		} else {
-			$folderModel = Reports_Folder_Model::getInstance();
+			$folderModel = \App\Modules\Reports\Models\Folder::getInstance();
 		}
 
 		$viewer->assign('FOLDER_MODEL', $folderModel);

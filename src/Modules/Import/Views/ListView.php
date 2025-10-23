@@ -73,7 +73,7 @@ class ListView extends Popup
 		}
 
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$listViewModel = Import_ListView_Model::getInstance($moduleName, $cvId);
+		$listViewModel = \App\Modules\Import\Models\ListView::getInstance($moduleName, $cvId);
 		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
@@ -117,7 +117,7 @@ class ListView extends Popup
 		$moduleName = $request->getModule();
 		$forModule = $request->get('forModule');
 		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$importRecords = Import_Data_Action::getImportDetails($user, $forModule);
+		$importRecords = \App\Modules\Import\Actions\Data::getImportDetails($user, $forModule);
 		$viewer->assign('IMPORT_RECORDS', $importRecords);
 		$viewer->assign('TYPE', $request->get('type'));
 		$viewer->assign('MODULE', $moduleName);

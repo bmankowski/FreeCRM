@@ -77,7 +77,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 		$startSequence = ($page - 1) * $pageLimit + 1;
 		$endSequence = $startSequence + count($record) - 1;
-		$recordCount = Portal_ListView_Model::getRecordCount();
+		$recordCount = \App\Modules\Portal\Models\ListView::getRecordCount();
 
 		$pageCount = intval($recordCount / $pageLimit);
 		if (($recordCount % $pageLimit) != 0)

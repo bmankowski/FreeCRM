@@ -42,7 +42,7 @@ class Map extends \App\Runtime\BaseModel
 				$map[$key] = $value;
 			}
 		}
-		return new Import_Map_Model($map, $user);
+		return new \App\Modules\Import\Models\Map($map, $user);
 	}
 
 	public static function markAsDeleted($mapId)
@@ -111,7 +111,7 @@ class Map extends \App\Runtime\BaseModel
 				->createCommand()->query();
 		$savedMaps = [];
 		while ($row = $dataReader->read()) {
-			$importMap = Import_Map_Model::getInstanceFromDb($row, $current_user);
+			$importMap = \App\Modules\Import\Models\Map::getInstanceFromDb($row, $current_user);
 			$savedMaps[$importMap->getId()] = $importMap;
 		}
 		return $savedMaps;

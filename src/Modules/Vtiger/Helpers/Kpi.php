@@ -19,7 +19,7 @@ class Kpi {
 	public $service = false;
 	public $type = false;
 
-	public function Vtiger_Kpi_Helper($request)
+	public function \App\Modules\Vtiger\Helpers\Kpi($request)
 	{
 		$this->time = $request->get('time');
 		$this->service = $request->get('service');
@@ -55,7 +55,7 @@ class Kpi {
 	public function getData()
 	{
 		$type = 'get_' . $this->type;
-		if ($this->type == '' || !method_exists('Vtiger_Kpi_Helper', $type)) {
+		if ($this->type == '' || !method_exists('\App\Modules\Vtiger\Helpers\Kpi', $type)) {
 			return;
 		}
 		return $this->$type();

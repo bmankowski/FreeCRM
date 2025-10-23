@@ -34,7 +34,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$this->record = $detailViewModel = Reports_DetailView_Model::getInstance($moduleName, $recordId);
+		$this->record = $detailViewModel = \App\Modules\Reports\Models\DetailView::getInstance($moduleName, $recordId);
 
 		parent::preProcess($request);
 
@@ -74,7 +74,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
-		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
+		$reportChartModel = \App\Modules\Reports\Models\Chart::getInstanceById($reportModel);
 		$viewer->assign('PRIMARY_MODULE_FIELDS', $reportModel->getPrimaryModuleFieldsForAdvancedReporting());
 		$viewer->assign('SECONDARY_MODULE_FIELDS', $reportModel->getSecondaryModuleFieldsForAdvancedReporting());
 		$viewer->assign('CALCULATION_FIELDS', $reportModel->getModuleCalculationFieldsForReport());
@@ -105,7 +105,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		$record = $request->get('record');
 
 		$reportModel = \App\Modules\Reports\Models\Record::getInstanceById($record);
-		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
+		$reportChartModel = \App\Modules\Reports\Models\Chart::getInstanceById($reportModel);
 		$secondaryModules = $reportModel->getSecondaryModules();
 		if (empty($secondaryModules)) {
 			$viewer->assign('CLICK_THROUGH', true);

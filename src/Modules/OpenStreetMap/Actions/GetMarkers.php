@@ -16,7 +16,7 @@ class GetMarkers extends \App\Runtime\Vtiger_Action_Controller
 		$data = [];
 		$sourceModule = $request->get('srcModule');
 		$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinatesModel->set('srcModuleModel', $srcModuleModel);
 		$coordinatesModel->set('radius', (int) $request->get('radius'));
 		$coordinatesModel->set('selectedIds', $request->get('selected_ids'));
@@ -43,7 +43,7 @@ class GetMarkers extends \App\Runtime\Vtiger_Action_Controller
 		}
 		if ($request->has('groupBy')) {
 			$legend = [];
-			foreach (OpenStreetMap_Coordinate_Model::$colors as $key => $value) {
+			foreach (\App\Modules\OpenStreetMap\Models\Coordinate::$colors as $key => $value) {
 				$legend [] = [
 					'value' => \App\Runtime\Vtiger_Language_Handler::translate($key, $sourceModule),
 					'color' => $value

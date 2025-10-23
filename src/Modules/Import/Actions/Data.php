@@ -125,7 +125,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 
 	public function initializeImport()
 	{
-		$lockInfo = Import_Lock_Action::isLockedForModule($this->module);
+		$lockInfo = \App\Modules\Import\Actions\Lock::isLockedForModule($this->module);
 		if ($lockInfo != null) {
 			if ($lockInfo['userid'] != $this->user->id) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
@@ -134,15 +134,15 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 				return true;
 			}
 		} else {
-			Import_Lock_Action::lock($this->id, $this->module, $this->user);
+			\App\Modules\Import\Actions\Lock::lock($this->id, $this->module, $this->user);
 			return true;
 		}
 	}
 
 	public function finishImport()
 	{
-		Import_Lock_Action::unLock($this->user, $this->module);
-		Import_Queue_Action::remove($this->id);
+		\App\Modules\Import\Actions\Lock::unLock($this->user, $this->module);
+		\App\Modules\Import\Actions\Queue::remove($this->id);
 	}
 
 	public function updateModuleSequenceNumber()
@@ -787,14 +787,14 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 	{
 
 		$scheduledImports = array();
-		$importQueue = Import_Queue_Action::getAll(Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
+		$importQueue = \App\Modules\Import\Actions\Queue::getAll(\App\Modules\Import\Actions\Queue::$IMPORT_STATUS_SCHEDULED);
 		foreach ($importQueue as $importId => $importInfo) {
 			$userId = $importInfo['user_id'];
 			$user = new \App\Modules\Users\Users();
 			$user->id = $userId;
 			$user->retrieve_entity_info($userId, 'Users');
 
-			$scheduledImports[$importId] = new Import_Data_Action($importInfo, $user);
+			$scheduledImports[$importId] = new \App\Modules\Import\Actions\Data($importInfo, $user);
 		}
 		return $scheduledImports;
 	}

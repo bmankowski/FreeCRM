@@ -58,7 +58,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns all the blocks for the module
-	 * @return <Array of \Vtiger_Block_Model> - list of block models
+	 * @return <Array of \App\Modules\Vtiger\Models\Block> - list of block models
 	 */
 	public function getBlocks()
 	{

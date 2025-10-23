@@ -104,7 +104,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	public function isActiveField($row)
 	{
 		if (in_array($row['invtype'], ['Discount', 'DiscountMode'])) {
-			$discountsConfig = Vtiger_Inventory_Model::getDiscountsConfig();
+			$discountsConfig = \App\Modules\Vtiger\Models\Inventory::getDiscountsConfig();
 			if (empty($discountsConfig['active'])) {
 				return false;
 			}

@@ -303,7 +303,7 @@ class DetailView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the detail view widgets
-	 * @return <Array> - List of widgets , where each widget is an Vtiger_Link_Model
+	 * @return <Array> - List of widgets , where each widget is an \App\Modules\Vtiger\Models\Link
 	 */
 	public function getWidgets()
 	{

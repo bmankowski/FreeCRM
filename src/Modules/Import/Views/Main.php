@@ -34,7 +34,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 
 	public static function import($request, $user)
 	{
-		$importController = new Import_Main_View($request, $user);
+		$importController = new \App\Modules\Import\Views\Main($request, $user);
 
 		$importController->saveMap();
 		$fileReadStatus = $importController->copyFromFileToDB();
@@ -45,7 +45,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 		$isImportScheduled = $importController->request->get('is_scheduled');
 
 		if ($isImportScheduled) {
-			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($importController->user);
+			$importInfo = \App\Modules\Import\Actions\Queue::getUserCurrentImportInfo($importController->user);
 			self::showScheduledStatus($importInfo);
 		} else {
 			$importController->triggerImport();
@@ -54,8 +54,8 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 
 	public function triggerImport($batchImport = false)
 	{
-		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
-		$importDataController = new Import_Data_Action($importInfo, $this->user);
+		$importInfo = \App\Modules\Import\Actions\Queue::getImportInfo($this->request->get('module'), $this->user);
+		$importDataController = new \App\Modules\Import\Actions\Data($importInfo, $this->user);
 
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
@@ -65,8 +65,8 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 		}
 
 		$importDataController->importData();
-		Import_Queue_Action::updateStatus($importInfo['id'], Import_Queue_Action::$IMPORT_STATUS_HALTED);
-		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
+		\App\Modules\Import\Actions\Queue::updateStatus($importInfo['id'], \App\Modules\Import\Actions\Queue::$IMPORT_STATUS_HALTED);
+		$importInfo = \App\Modules\Import\Actions\Queue::getImportInfo($this->request->get('module'), $this->user);
 
 		self::showImportStatus($importInfo, $this->user);
 	}
@@ -83,9 +83,9 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 			Import_Utils_Helper::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
 			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
 		}
-		$importDataController = new Import_Data_Action($importInfo, $user);
-		if ($importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_HALTED ||
-			$importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_NONE) {
+		$importDataController = new \App\Modules\Import\Actions\Data($importInfo, $user);
+		if ($importInfo['temp_status'] === \App\Modules\Import\Actions\Queue::$IMPORT_STATUS_HALTED ||
+			$importInfo['temp_status'] === \App\Modules\Import\Actions\Queue::$IMPORT_STATUS_NONE) {
 			$continueImport = true;
 		} else {
 			$continueImport = false;
@@ -178,7 +178,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 			$map['module'] = $this->request->get('module');
 			$map['has_header'] = ($hasHeader) ? 1 : 0;
 			$map['assigned_user_id'] = $this->user->id;
-			(new Import_Map_Model($map, $this->user))->save();
+			(new \App\Modules\Import\Models\Map($map, $this->user))->save();
 		}
 	}
 
@@ -205,7 +205,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 		if ($numberOfRecordsToImport > $immediateImportRecordLimit) {
 			$this->request->set('is_scheduled', true);
 		}
-		Import_Queue_Action::add($this->request, $this->user);
+		\App\Modules\Import\Actions\Queue::add($this->request, $this->user);
 	}
 
 	public static function deleteMap($request)
@@ -213,13 +213,13 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 		$moduleName = $request->getModule();
 		$mapId = $request->get('mapid');
 		if (!empty($mapId)) {
-			Import_Map_Model::markAsDeleted($mapId);
+			\App\Modules\Import\Models\Map::markAsDeleted($mapId);
 		}
 
 		$viewer = new CRM_Viewer();
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
-		$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
+		$viewer->assign('SAVED_MAPS', \App\Modules\Import\Models\Map::getAllByModule($moduleName));
 		$viewer->view('Import_Saved_Maps.tpl', 'Import');
 	}
 }

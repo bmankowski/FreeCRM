@@ -8,7 +8,7 @@
  */
 use App\Http\Vtiger_Request;
 
-Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
+Class OSSMailView_MailsPreview_View extends \App\Modules\Vtiger\Views\IndexAjax
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

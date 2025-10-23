@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
+Class Vtiger_OverdueActivities_Dashboard extends \App\Modules\Vtiger\Views\IndexAjax
 {
 
 	/**

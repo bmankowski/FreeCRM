@@ -32,7 +32,7 @@ class Pagination  extends \App\Modules\Vtiger\Views\Index
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
-		$listViewModel = new Reports_ListView_Model();
+		$listViewModel = new \App\Modules\Reports\Models\ListView();
 		$listViewModel->set('module', $moduleModel);
 
 		$folderId = $request->get('viewname');

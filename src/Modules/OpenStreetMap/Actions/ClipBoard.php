@@ -31,7 +31,7 @@ class ClipBoard extends \App\Runtime\Vtiger_Action_Controller
 
 	public function addAllRecords(\App\Http\Vtiger_Request $request)
 	{
-		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
 		$count = $coordinatesModel->saveAllRecordsToCache();
 		$response = new \App\Http\Vtiger_Response();
@@ -41,7 +41,7 @@ class ClipBoard extends \App\Runtime\Vtiger_Action_Controller
 
 	public function delete(\App\Http\Vtiger_Request $request)
 	{
-		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
 		$coordinatesModel->deleteCache();
 		$response = new \App\Http\Vtiger_Response();
@@ -52,7 +52,7 @@ class ClipBoard extends \App\Runtime\Vtiger_Action_Controller
 	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$records = $request->get('recordIds');
-		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
 		$coordinatesModel->deleteCache();
 		$coordinatesModel->saveCache($records);
@@ -65,7 +65,7 @@ class ClipBoard extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$record = $request->get('record');
 		$srcModuleName = $request->get('srcModuleName');
-		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinatesModel->set('moduleName', $srcModuleName);
 		$coordinatesModel->addCache($record);
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($srcModuleName);

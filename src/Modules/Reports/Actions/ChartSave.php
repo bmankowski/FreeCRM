@@ -19,7 +19,7 @@ class ChartSave extends \App\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 
 		$record = $request->get('record');
-		$reportModel = new Reports_Record_Model();
+		$reportModel = new \App\Modules\Reports\Models\Record();
 		$reportModel->setModule('Reports');
 		if (!empty($record) && !$request->get('isDuplicate')) {
 			$reportModel->setId($record);

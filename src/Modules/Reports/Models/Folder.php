@@ -43,7 +43,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the instance of Folder model
-	 * @return <Reports_Folder_Model>
+	 * @return <\App\Modules\Reports\Models\Folder>
 	 */
 	public static function getInstance()
 	{
@@ -81,7 +81,7 @@ class Folder extends \App\Runtime\BaseModel
 	/**
 	 * Function returns Report Models for the folder
 	 * @param <\App\Modules\Vtiger\Models\Paging> $pagingModel
-	 * @return <Reports_Record_Model>
+	 * @return <\App\Modules\Reports\Models\Record>
 	 */
 	public function getReports($pagingModel)
 	{
@@ -133,7 +133,7 @@ class Folder extends \App\Runtime\BaseModel
 			$reportModels = array();
 			$countReportsList = count($reportsList);
 			for ($i = 0; $i < $countReportsList; $i++) {
-				$reportModel = new Reports_Record_Model();
+				$reportModel = new \App\Modules\Reports\Models\Record();
 
 				$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
 				$reportModels[] = $reportModel;
@@ -173,14 +173,14 @@ class Folder extends \App\Runtime\BaseModel
 	/**
 	 * Function returns the instance of Folder model
 	 * @param FolderId
-	 * @return <Reports_Folder_Model>
+	 * @return <\App\Modules\Reports\Models\Folder>
 	 */
 	public static function getInstanceById($folderId)
 	{
 		$folderModel = \App\Runtime\Vtiger_Cache::get('reportsFolder', $folderId);
 		if (!$folderModel) {
 			$db = \App\Database\PearDatabase::getInstance();
-			$folderModel = Reports_Folder_Model::getInstance();
+			$folderModel = \App\Modules\Reports\Models\Folder::getInstance();
 
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", array($folderId));
 
@@ -195,7 +195,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the instance of Folder model
-	 * @return <Reports_Folder_Model>
+	 * @return <\App\Modules\Reports\Models\Folder>
 	 */
 	public static function getAll()
 	{
@@ -207,7 +207,7 @@ class Folder extends \App\Runtime\BaseModel
 			$noOfFolders = $db->num_rows($result);
 			if ($noOfFolders > 0) {
 				for ($i = 0; $i < $noOfFolders; $i++) {
-					$folderModel = Reports_Folder_Model::getInstance();
+					$folderModel = \App\Modules\Reports\Models\Folder::getInstance();
 					$values = $db->query_result_rowdata($result, $i);
 					$folders[$values['folderid']] = $folderModel->setData($values);
 					\App\Runtime\Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
@@ -384,7 +384,7 @@ class Folder extends \App\Runtime\BaseModel
 		foreach ($allReportsList as $key => $reportsList) {
 			$countReportsList = count($reportsList);
 			for ($i = 0; $i < $countReportsList; $i++) {
-				$reportModel = new Reports_Record_Model();
+				$reportModel = new \App\Modules\Reports\Models\Record();
 				$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
 				$reportModel->set('foldername', $folders[$key]->getName());
 				$allReportModels[] = $reportModel;
@@ -421,7 +421,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns Report Models for the folder
-	 * @return <Reports_Record_Model>
+	 * @return <\App\Modules\Reports\Models\Record>
 	 */
 	public function getListViewQuery($folderId)
 	{

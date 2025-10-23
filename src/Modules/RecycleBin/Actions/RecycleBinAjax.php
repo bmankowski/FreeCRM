@@ -65,7 +65,7 @@ class RecycleBinAjax extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$sourceModule = $request->get('sourceModule');
 		$recordIds = $this->getRecordsListFromRequest($request);
-		$recycleBinModule = new RecycleBin_Module_Model();
+		$recycleBinModule = new \App\Modules\RecycleBin\Models\Module();
 
 		$response = new \App\Http\Vtiger_Response();
 		if ($recordIds) {
@@ -81,7 +81,7 @@ class RecycleBinAjax extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function emptyRecycleBin(\App\Http\Vtiger_Request $request)
 	{
-		$recycleBinModule = new RecycleBin_Module_Model();
+		$recycleBinModule = new \App\Modules\RecycleBin\Models\Module();
 
 		$status = $recycleBinModule->emptyRecycleBin();
 
@@ -99,7 +99,7 @@ class RecycleBinAjax extends \App\Runtime\Vtiger_Action_Controller
 	public function deleteRecords(\App\Http\Vtiger_Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);
-		$recycleBinModule = new RecycleBin_Module_Model();
+		$recycleBinModule = new \App\Modules\RecycleBin\Models\Module();
 
 		$response = new \App\Http\Vtiger_Response();
 		if ($recordIds) {

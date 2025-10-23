@@ -9,4 +9,4 @@
  *************************************************************************************/
 
 require_once ROOT_DIRECTORY . '/modules/Reports/models/ScheduleReports.php';
-Reports_ScheduleReports_Model::runScheduledReports();
+\App\Modules\Reports\Models\ScheduleReports::runScheduledReports();
