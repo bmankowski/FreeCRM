@@ -76,7 +76,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
-		$viewer->assign('INVENTORY_MODEL', \\App\Modules\Vtiger\Models\InventoryField::getInstance($sourceModule));
+		$viewer->assign('INVENTORY_MODEL', \App\Modules\Vtiger\Models\InventoryField::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 

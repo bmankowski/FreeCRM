@@ -58,7 +58,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 	public function step2(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($request->get('record'));
-		$conditions = \\App\Modules\Vtiger\AdvancedFilter::transformToSave($request->get('conditions'));
+		$conditions = \App\Modules\Vtiger\AdvancedFilter::transformToSave($request->get('conditions'));
 		$recordModel->set('conditions', $conditions);
 		$recordModel->save();
 

@@ -65,7 +65,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 				$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('SOURCE_MODULE', $moduleSourceName);
-				$viewer->assign('ADVANCE_CRITERIA', \\App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
+				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 			case 'step2':

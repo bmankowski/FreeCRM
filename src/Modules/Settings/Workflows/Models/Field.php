@@ -22,7 +22,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 */
 	public static function getAdvancedFilterOptions()
 	{
-		return \\App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOptions();
+		return \App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOptions();
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return \\App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOpsByFieldType();
+		return \App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOpsByFieldType();
 	}
 
 	/**

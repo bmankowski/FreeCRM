@@ -179,6 +179,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'sprintf', 'sprintf');
 		$this->registerPlugin('modifier', 'array_map', 'array_map');
 		$this->registerPlugin('modifier', 'method_exists', 'method_exists');
+		$this->registerPlugin('modifier', 'get_class', 'get_class');
 		$this->registerPlugin('function', 'strpos', 'strpos');
 		$this->registerPlugin('function', 'explode', 'explode');
 		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
@@ -193,6 +194,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('function', 'sprintf', 'sprintf');
 		$this->registerPlugin('function', 'array_map', 'array_map');
 		$this->registerPlugin('function', 'method_exists', 'method_exists');
+		$this->registerPlugin('function', 'get_class', 'get_class');
 
 
 

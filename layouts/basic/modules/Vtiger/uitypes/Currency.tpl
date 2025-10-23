@@ -14,7 +14,7 @@
 	{assign var="FIELD_INFO" value=\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
-	{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
+	{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->get('currency_symbol_placement')}
 
 	{if $FIELD_MODEL->get('uitype') eq '71'}
 		<div class="input-group">

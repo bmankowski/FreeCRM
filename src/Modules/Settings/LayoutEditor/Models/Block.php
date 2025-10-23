@@ -85,7 +85,7 @@ class Block extends \App\Modules\Vtiger\Models\Block
 	 * @param vtlib\Block $blockObject - vtlib block object
 	 * @return \App\Modules\Vtiger\Models\Block
 	 */
-	public static function getInstanceFromBlockObject(vtlib\Block $blockObject)
+	public static function getInstanceFromBlockObject(\vtlib\Block $blockObject)
 	{
 		$objectProperties = get_object_vars($blockObject);
 		$blockModel = new self();
