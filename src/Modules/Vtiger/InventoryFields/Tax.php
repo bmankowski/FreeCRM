@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
  * Inventory Tax Field Class

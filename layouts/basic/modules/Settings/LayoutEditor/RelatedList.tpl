@@ -51,7 +51,7 @@
 							{assign var=RECORD_STRUCTURE_INSTANCE value=\App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($RELATED_MODULE_MODEL)}
 							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
 							{if $RELATED_MODULE_MODEL->isInventory()}
-								{assign var=INVENTORY_FIELD_MODEL value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)}
+								{assign var=INVENTORY_FIELD_MODEL value=\App\Modules\Vtiger\Models\InventoryField::getInstance($RELATED_MODULE_NAME)}
 								{assign var=SELECTED_INVENTORY_FIELDS value=$MODULE_MODEL->getRelationInventoryFields()}
 							{/if}
 							{if $MODULE_MODEL->isActive()}

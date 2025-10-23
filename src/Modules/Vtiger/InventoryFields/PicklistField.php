@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
  * Inventory Picklist from Field Class
@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class PicklistField extends InventoryField
+class PicklistField extends Basic
 {
 
 	protected $name = 'PicklistField';

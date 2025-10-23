@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
- * Inventory UnitPrice Field Class
+ * Inventory Discount Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class UnitPrice extends InventoryField
+class Discount extends Basic
 {
 
-	protected $name = 'UnitPrice';
-	protected $defaultLabel = 'LBL_UNIT_PRICE';
+	protected $name = 'Discount';
+	protected $defaultLabel = 'LBL_DISCOUNT';
 	protected $defaultValue = 0;
-	protected $columnName = 'price';
+	protected $columnName = 'discount';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
+	protected $customColumn = [
+		'discountparam' => 'string'
+	];
 	protected $summationValue = true;
 
 	/**

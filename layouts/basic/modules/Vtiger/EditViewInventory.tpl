@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Vtiger/EditViewInventory.tpl -->
-	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE)}
+	{assign var="INVENTORY_FIELD" value=\App\Modules\Vtiger\Models\InventoryField::getInstance($MODULE)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
 	{if count($FIELDS) neq 0}
 		{assign var="DISCOUNTS_CONFIG" value=\App\Modules\Vtiger\Models\Inventory::getDiscountsConfig()}

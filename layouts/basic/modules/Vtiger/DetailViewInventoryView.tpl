@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Vtiger/DetailViewInventoryView.tpl -->
-	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE_NAME)}
+	{assign var="INVENTORY_FIELD" value=\App\Modules\Vtiger\Models\InventoryField::getInstance($MODULE_NAME)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true, [], 'Detail')}
 
 	{if count($FIELDS) neq 0}

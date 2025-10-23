@@ -175,9 +175,9 @@ class InventoryField extends \App\Runtime\BaseModel
 			return $instance;
 		}
 
-		$fieldPaths = ['src/Modules/Vtiger/inventoryfields/'];
+		$fieldPaths = ['src/Modules/Vtiger/InventoryFields/'];
 		if ($moduleName) {
-			$fieldPaths[] = "src/Modules/$moduleName/inventoryfields/";
+			$fieldPaths[] = "src/Modules/$moduleName/InventoryFields/";
 		} else {
 			$moduleName = 'Vtiger';
 		}

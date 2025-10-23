@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
  * Inventory Margin Field Class
@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Margin extends InventoryField
+class Margin extends Basic
 {
 
 	protected $name = 'Margin';

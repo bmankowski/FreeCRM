@@ -19,11 +19,13 @@
                 <input type="hidden" name="picklistDependency" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
             {/if}
 
-			{foreach from=$APIADDRESS item=item key=key}
-				{if !empty($item['nominatim'])}
-					<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-length="{$APIADDRESS['global']['min_length']}"/>
-				{/if}
-			{/foreach}
+			{if !empty($APIADDRESS)}
+				{foreach from=$APIADDRESS item=item key=key}
+					{if !empty($item['nominatim'])}
+						<input type="hidden" name="apiAddress" value='{$key}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-length="{$APIADDRESS['global']['min_length']}"/>
+					{/if}
+				{/foreach}
+			{/if}
 
             {if !empty($MAPPING_RELATED_FIELD)}
                 <input type="hidden" name="mappingRelatedField" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($MAPPING_RELATED_FIELD)}' />
@@ -38,7 +40,9 @@
                 <input type="hidden" name="module" value="{$MODULE}" />
             {/if}
             <input type="hidden" name="action" value="Save" />
-            <input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
+            {if !empty($RECORD_ID)}
+                <input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
+            {/if}
             <input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
             <input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
             {if $IS_RELATION_OPERATION }
@@ -60,12 +64,14 @@
 							<button class="btn btn-success" type="submit"><strong>{'LBL_SAVE'|t:$QUALIFIED_MODULE_NAME}</strong></button>&nbsp;&nbsp;
 							<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{'LBL_CANCEL'|t:$QUALIFIED_MODULE_NAME}</strong></button>
 						</span>
-						<span class="pull-right">
+					<span class="pull-right">
+						{if isset($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
 							{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
 								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='editViewHeader'}
 								&nbsp;&nbsp;
 							{/foreach}
-						</span>
+						{/if}
+					</span>
 						<div class="clearfix"></div>
 					</div>
 				</div>
@@ -78,7 +84,7 @@
 			{if $BLOCKS_HIDE}
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">					
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-						{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
+						{if !empty($APIADDRESS_ACTIVE) && $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 							{assign var=APIADDRESFIELD value=TRUE}
 						{else}
 							{assign var=APIADDRESFIELD value=FALSE}

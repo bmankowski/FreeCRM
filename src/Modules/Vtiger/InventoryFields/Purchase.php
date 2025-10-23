@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
- * Inventory TotalPrice Field Class
+ * Inventory Purchase Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TotalPrice extends InventoryField
+class Purchase extends Basic
 {
 
-	protected $name = 'TotalPrice';
-	protected $defaultLabel = 'LBL_TOTAL_PRICE';
+	protected $name = 'Purchase';
+	protected $defaultLabel = 'LBL_PURCHASE';
 	protected $defaultValue = 0;
-	protected $columnName = 'total';
+	protected $columnName = 'purchase';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
 	protected $summationValue = true;
 

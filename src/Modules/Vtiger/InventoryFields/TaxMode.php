@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
- * Inventory DiscountMode Field Class
+ * Inventory TaxMode Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class DiscountMode extends InventoryField
+class TaxMode extends Basic
 {
 
-	protected $name = 'DiscountMode';
-	protected $defaultLabel = 'LBL_DISCOUNT_MODE';
+	protected $name = 'TaxMode';
+	protected $defaultLabel = 'LBL_TAX_MODE';
 	protected $defaultValue = '0';
-	protected $columnName = 'discountmode';
+	protected $columnName = 'taxmode';
 	protected $dbType = 'smallint(1) DEFAULT 0';
 	protected $values = [0 => 'group', 1 => 'individual'];
 	protected $blocks = [0];

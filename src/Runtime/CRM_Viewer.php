@@ -149,6 +149,8 @@ class CRM_Viewer extends \Smarty
 		// Register additional model classes used in templates
 		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');
 		$this->registerClass('\App\\Modules\\Vtiger\\Models\\Module', '\App\\Modules\\Vtiger\\Models\\Module');
+		$this->registerClass('\App\\Modules\\Vtiger\\Models\\InventoryField', '\App\\Modules\\Vtiger\\Models\\InventoryField');
+		$this->registerClass('Vtiger_InventoryField_Model', '\App\\Modules\\Vtiger\\Models\\InventoryField');
 		$this->registerClass('\App\\Modules\\Vtiger\\Helpers\\Util', '\App\\Modules\\Vtiger\\Helpers\\Util');
 		$this->registerClass('\App\\Privilege', '\App\\Privilege');
 		$this->registerClass('App\\Privilege', '\App\\Privilege');
@@ -159,6 +161,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('OSSMail_Module_Model', '\App\\Modules\\OSSMail\\Models\\Module');
 
 		// Register PHP functions that are used in templates
+		$this->registerPlugin('modifier', 'strpos', 'strpos');
 		$this->registerPlugin('modifier', 'strrpos', 'strrpos');
 		$this->registerPlugin('modifier', 'stripos', 'stripos');
 		$this->registerPlugin('modifier', 'strtoupper', 'strtoupper');
@@ -176,6 +179,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'sprintf', 'sprintf');
 		$this->registerPlugin('modifier', 'array_map', 'array_map');
 		$this->registerPlugin('modifier', 'method_exists', 'method_exists');
+		$this->registerPlugin('function', 'strpos', 'strpos');
 		$this->registerPlugin('function', 'explode', 'explode');
 		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
 		$this->registerPlugin('function', 'file_exists', 'file_exists');
@@ -287,7 +291,7 @@ class CRM_Viewer extends \Smarty
 			$templateFound = Cache::get('ViewerTemplateExists', $templatePath);
 		} else {
 			$templateFound = $this->templateExists($templatePath);
-			Cache::get('ViewerTemplateExists', $templatePath, $templateFound, Cache::LONG);
+			Cache::save('ViewerTemplateExists', $templatePath, $templateFound, Cache::LONG);
 		}
 
 		// Logging
@@ -338,7 +342,7 @@ class CRM_Viewer extends \Smarty
 	 */
 	public static function getInstance($media = '')
 	{
-		if (self::$instance) {
+		if (self::$instance instanceof self) {
 			return self::$instance;
 		}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
  * Inventory Currency Field Class
@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Currency extends InventoryField
+class Currency extends Basic
 {
 
 	protected $name = 'Currency';

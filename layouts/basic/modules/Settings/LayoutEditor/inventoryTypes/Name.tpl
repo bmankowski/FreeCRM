@@ -33,7 +33,7 @@
 			<div class="form-group paramsJson">
 				<label class="col-md-4 control-label">{'LBL_PARAMS_'|cat:strtoupper($ITEM)|t:$QUALIFIED_MODULE}
 					{if $ITEM eq 'limit'}
-						{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
+						{assign var="GROSS_PRICE" value=\App\Modules\Vtiger\Models\InventoryField::getFieldInstance($MODULE, 'GrossPrice')}
 						<a href="#" class="HelpInfoPopover" data-placement="top" data-content="{"LBL_PARAMS_LIMIT_CONDITIONS"|t:$QUALIFIED_MODULE}: {$GROSS_PRICE->getDefaultLabel()|t:$QUALIFIED_MODULE}">
 							<span class="glyphicon glyphicon-info-sign"></span>
 						</a>

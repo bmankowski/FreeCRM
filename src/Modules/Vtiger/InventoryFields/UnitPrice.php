@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
- * Inventory GrossPrice Field Class
+ * Inventory UnitPrice Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class GrossPrice extends InventoryField
+class UnitPrice extends Basic
 {
 
-	protected $name = 'GrossPrice';
-	protected $defaultLabel = 'LBL_GROSS_PRICE';
+	protected $name = 'UnitPrice';
+	protected $defaultLabel = 'LBL_UNIT_PRICE';
 	protected $defaultValue = 0;
-	protected $columnName = 'gross';
+	protected $columnName = 'price';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
 	protected $summationValue = true;
 

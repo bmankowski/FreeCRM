@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\InventoryFields;
 
 /**
- * Inventory Purchase Field Class
+ * Inventory NetPrice Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Purchase extends InventoryField
+class NetPrice extends Basic
 {
 
-	protected $name = 'Purchase';
-	protected $defaultLabel = 'LBL_PURCHASE';
+	protected $name = 'NetPrice';
+	protected $defaultLabel = 'LBL_DISCOUNT_PRICE';
 	protected $defaultValue = 0;
-	protected $columnName = 'purchase';
+	protected $columnName = 'net';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
 	protected $summationValue = true;
 
