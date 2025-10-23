@@ -9,7 +9,10 @@
 /**
  * Basic class to handle files
  */
-abstract class Vtiger_Basic_File
+
+namespace App\Modules\Vtiger\Files;
+
+abstract class File  
 {
 
 	/**

@@ -60,7 +60,7 @@ class TimeLineModal  extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$request->set('limit', \App\AppConfig::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
-		$request->set('type', Vtiger_HistoryRelation_Widget::getActions());
+		$request->set('type', \App\Modules\Vtiger\Widgets\HistoryRelation::getActions());
 		$request->set('noMore', true);
 
 		$viewClassName = \App\Loader::getComponentClassName('View', 'Detail', $moduleName);

@@ -2,7 +2,6 @@
 
 namespace App\Modules\Reports\Models;
 
- * *********************************************************************************** */
 
 class Chart extends \App\Runtime\BaseModel
 {

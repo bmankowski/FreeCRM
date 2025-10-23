@@ -871,7 +871,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
 		$config = \App\Modules\OSSMail\Models\Module::getComposeParameters();
-		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
+		$histories = \App\Modules\Vtiger\Widgets\HistoryRelation::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD_ID', $request->get('record'));

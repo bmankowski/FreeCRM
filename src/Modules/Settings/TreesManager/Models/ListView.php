@@ -13,7 +13,7 @@ namespace App\Modules\Settings\TreesManager\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \Settings_Vtiger_ListView_Model
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	/**

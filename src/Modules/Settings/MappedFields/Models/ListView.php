@@ -11,8 +11,7 @@ namespace App\Modules\Settings\MappedFields\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
-class ListView extends \Settings_Vtiger_ListView_Model
+class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 {
 
 	/**

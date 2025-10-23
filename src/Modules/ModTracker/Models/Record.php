@@ -377,7 +377,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();
-		$query = Vtiger_HistoryRelation_Widget::getQuery($sourceId, $sourceModule, Vtiger_HistoryRelation_Widget::getActions());
+		$query = \App\Modules\Vtiger\Widgets\HistoryRelation::getQuery($sourceId, $sourceModule, \App\Modules\Vtiger\Widgets\HistoryRelation::getActions());
 		if (!$query) {
 			return false;
 		}
@@ -404,7 +404,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getLastRelation($sourceIds, $sourceModule)
 	{
-		$colors = Vtiger_HistoryRelation_Widget::$colors;
+		$colors = \App\Modules\Vtiger\Widgets\HistoryRelation::$colors;
 		if (!is_array($sourceIds)) {
 			$sourceIds = [$sourceIds];
 		}
