@@ -14,6 +14,8 @@ namespace App\Modules\ModTracker\Models;
 
 class Relation extends \App\Modules\Vtiger\Models\Relation
 {
+	/** @var mixed Parent object */
+	protected $parent;
 
 	public function getValue()
 	{

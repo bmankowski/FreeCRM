@@ -28,32 +28,32 @@ abstract class Vtiger_Action_Controller extends \App\Runtime\Vtiger_Controller
 		parent::__construct();
 	}
 
-	public function getViewer(Vtiger_Request $vtigerRequest)
+	public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		throw new \Exception('Action - implement getViewer - JSONViewer');
 	}
 
-	public function validateRequest(Vtiger_Request $vtigerRequest)
+	public function validateRequest(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		return $vtigerRequest->validateReadAccess();
 	}
 
-	public function preProcess(Vtiger_Request $vtigerRequest)
+	public function preProcess(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		return true;
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $vtigerRequest)
+	protected function preProcessDisplay(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		
 	}
 
-	protected function preProcessTplName(Vtiger_Request $vtigerRequest)
+	protected function preProcessTplName(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		return false;
 	}
 
-	public function postProcess(Vtiger_Request $vtigerRequest)
+	public function postProcess(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		return true;
 	}

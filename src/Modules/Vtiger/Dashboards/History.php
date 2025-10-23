@@ -16,7 +16,7 @@ use App\Http\Vtiger_Request;
 class History  extends \App\Modules\Vtiger\Views\Index
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$data = $request->getAll();

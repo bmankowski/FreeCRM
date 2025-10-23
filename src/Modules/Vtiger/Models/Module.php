@@ -1541,7 +1541,7 @@ class Module extends \vtlib\Module
 		return true;
 	}
 
-	public function getValuesFromSource(Vtiger_Request $request, $moduleName = false)
+	public function getValuesFromSource(\App\Http\Vtiger_Request $request, $moduleName = false)
 	{
 		$data = [];
 		if (!$moduleName) {

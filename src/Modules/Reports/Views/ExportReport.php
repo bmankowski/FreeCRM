@@ -52,7 +52,7 @@ class ExportReport extends \App\Runtime\Vtiger_View_Controller
 		return false;
 	}
 
-	public function process(Vtiger_request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {

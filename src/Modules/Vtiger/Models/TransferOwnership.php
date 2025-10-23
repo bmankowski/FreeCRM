@@ -14,7 +14,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 		return $this->skipModules;
 	}
 
-	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [], $relModData)
+	public function getRelatedModuleRecordIds(\App\Http\Vtiger_Request $request, $recordIds = [], $relModData)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$basicModule = $request->getModule();

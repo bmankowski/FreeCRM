@@ -60,7 +60,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		return $url;
 	}
 
-	public static function getComposeParam(Vtiger_Request $request)
+	public static function getComposeParam(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('crmModule');
 		$record = $request->get('crmRecord');

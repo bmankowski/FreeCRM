@@ -26,7 +26,7 @@ abstract class Vtiger_Controller
 		self::setHeaders();
 	}
 
-	public function checkPermission(Vtiger_Request $vtigerRequest)
+	public function checkPermission(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 	}
 
@@ -35,26 +35,26 @@ abstract class Vtiger_Controller
 		return true;
 	}
 
-	abstract public function getViewer(Vtiger_Request $vtigerRequest);
+	abstract public function getViewer(\App\Http\Vtiger_Request $vtigerRequest);
 
-	abstract public function process(Vtiger_Request $vtigerRequest);
+	abstract public function process(\App\Http\Vtiger_Request $vtigerRequest);
 
-	public function validateRequest(Vtiger_Request $vtigerRequest)
+	public function validateRequest(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		
 	}
 
-	public function preProcessAjax(Vtiger_Request $vtigerRequest)
+	public function preProcessAjax(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		
 	}
 
-	public function preProcess(Vtiger_Request $vtigerRequest)
+	public function preProcess(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		
 	}
 
-	public function postProcess(Vtiger_Request $vtigerRequest)
+	public function postProcess(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		
 	}

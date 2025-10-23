@@ -21,7 +21,7 @@ use App\Http\Vtiger_Request;
 class List extends \App\Modules\Vtiger\Views\List
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		parent::preProcess($request, false);

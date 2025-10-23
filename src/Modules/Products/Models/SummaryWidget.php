@@ -23,7 +23,7 @@ class SummaryWidget {
 		return $instance;
 	}
 
-	public function getProductsServices(Vtiger_Request $request, CRM_Viewer $viewer)
+	public function getProductsServices(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');

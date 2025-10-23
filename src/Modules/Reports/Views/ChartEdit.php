@@ -188,7 +188,7 @@ class ChartEdit extends \App\Modules\Vtiger\Views\Edit
 		$viewer->view('ChartEditStep2.tpl', $moduleName);
 	}
 
-	public function step3(Vtiger_request $request)
+	public function step3(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

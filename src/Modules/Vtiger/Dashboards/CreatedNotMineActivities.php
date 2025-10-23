@@ -4,7 +4,7 @@
 class Vtiger_CreatedNotMineActivities_Dashboard extends \App\Modules\Vtiger\Views\IndexAjax
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 

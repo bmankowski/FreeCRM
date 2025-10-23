@@ -44,7 +44,7 @@
 									<span class="pull-right">
 										<span class="btn-group" role="group">
 											<button class="btn btn-default" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
-											<button class="btn btn-default dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
+											<button class="btn btn-default dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if isset($PAGE_COUNT) && $PAGE_COUNT eq 1} disabled {/if}>
 												<span class="vtGlyph vticon-pageJump" title="{'LBL_LISTVIEW_PAGE_JUMP'|t:$moduleName}"></span>
 											</button>
 											<ul class="listViewBasicAction dropdown-menu" id="listViewPageJumpDropDown">
@@ -52,16 +52,16 @@
 													<div>
 														<div class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{'LBL_PAGE'|t:$moduleName}</span></div>
 														<div class="col-md-3 recentComments">
-															<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{"LBL_LISTVIEW_PAGE_JUMP"|t}" value="{$PAGE_NUMBER}"/>
+															<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{"LBL_LISTVIEW_PAGE_JUMP"|t}" value="{$PAGE_NUMBER|default:1}"/>
 														</div>
 														<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
 															{'LBL_OF'|t:$moduleName}
 														</div>
-														<div class="col-md-2 recentComments pushUpandDown2per textAlignCenter" id="totalPageCount">{$PAGE_COUNT}</div>
+														<div class="col-md-2 recentComments pushUpandDown2per textAlignCenter" id="totalPageCount">{$PAGE_COUNT|default:1}</div>
 													</div>
 												</li>
 											</ul>
-											<button class="btn btn-default" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+											<button class="btn btn-default" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or (isset($PAGE_COUNT) && $PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 										</span>
 									</span>	
 								</div>

@@ -33,7 +33,7 @@ class Image extends File
 	 * @return string|boolean
 	 * @throws \Exception\NoPermitted
 	 */
-	public function get(Vtiger_Request $request)
+	public function get(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('attachment');
 		if (empty($record)) {

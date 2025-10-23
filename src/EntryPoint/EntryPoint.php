@@ -52,5 +52,5 @@ abstract class EntryPoint
 		return (bool) $this->getLogin();
 	}
 
-	abstract public function process(Vtiger_Request $vtigerRequest);
+	abstract public function process(\App\Http\Vtiger_Request $request);
 }

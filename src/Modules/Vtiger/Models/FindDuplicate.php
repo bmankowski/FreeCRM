@@ -219,7 +219,7 @@ class FindDuplicate extends \App\Runtime\BaseModel
 		return $rows;
 	}
 
-	public function getMassDeleteRecords(Vtiger_Request $request)
+	public function getMassDeleteRecords(\App\Http\Vtiger_Request $request)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$module = $request->getModule();

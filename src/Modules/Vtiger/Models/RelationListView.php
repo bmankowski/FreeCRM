@@ -519,6 +519,7 @@ class RelationListView extends \App\Runtime\BaseModel
 				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkqcs' => false,
 			];
 		}
 		foreach ($addLinkList as &$addLink) {

@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 
 
-namespace App\fields;
+namespace App\Fields;
 
 use App\Db\Query;
 

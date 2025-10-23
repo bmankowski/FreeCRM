@@ -17,7 +17,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 
 	private $prefixesForModules = ['Project', 'HelpDesk', 'SSalesProcesses', 'Campaigns'];
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$mailModuleActive = \vtlib\Functions::getModuleId('OSSMail');

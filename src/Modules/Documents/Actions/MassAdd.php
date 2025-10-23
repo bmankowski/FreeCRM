@@ -31,6 +31,10 @@ class MassAdd extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$nameFiles = $request->get('nameFile');
+		$createMode = $request->get('createmode');
+		$returnModule = $request->get('return_module');
+		$returnId = $request->get('return_id');
+		
 		foreach ($_FILES as $file) {
 			$countFiles = count($file['name']);
 			for ($i = 0; $i < $countFiles; $i++) {
@@ -48,6 +52,18 @@ class MassAdd extends \App\Runtime\Vtiger_Action_Controller
 				$recordeModel->set('filelocationtype', 'I');
 				$recordeModel->set('filestatus', true);
 				$recordeModel->save();
+				
+				// Link the document to parent record if createmode is 'link'
+				if ($createMode === 'link' && !empty($returnModule) && !empty($returnId)) {
+					$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($returnModule);
+					$relatedModule = $recordeModel->getModule();
+					$relatedRecordId = $recordeModel->getId();
+					
+					$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+					if ($relationModel) {
+						$relationModel->addRelation($returnId, $relatedRecordId);
+					}
+				}
 			}
 		}
 		$response = new \App\Http\Vtiger_Response();

@@ -20,7 +20,7 @@ class SummationByMonths  extends \App\Modules\Vtiger\Views\Index
 	 * Process
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$linkId = $request->get('linkid');
 

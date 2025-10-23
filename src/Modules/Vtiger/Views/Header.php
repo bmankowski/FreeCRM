@@ -128,7 +128,7 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$headerScripts = \App\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
@@ -147,7 +147,7 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Vtiger\Models\CssScript instances
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$baseStyleCssPath = \App\Runtime\Vtiger_Theme::getBaseStylePath();

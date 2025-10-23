@@ -123,7 +123,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 * Add relation
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function addRelationOperation(Vtiger_Request $request)
+	public function addRelationOperation(\App\Http\Vtiger_Request $request)
 	{
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');

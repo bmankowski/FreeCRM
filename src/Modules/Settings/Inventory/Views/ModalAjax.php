@@ -15,7 +15,7 @@ use App\Modules\Settings\InventoryViews\CreditLimits;
 class ModalAjax extends \App\Modules\Settings\Inventory\Views\CreditLimits
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -23,7 +23,7 @@ class TreePopup  extends \App\Modules\Vtiger\Views\Index
 	 * @param Vtiger_request $request
 	 * @return string
 	 */
-	public function getModule(Vtiger_request $request)
+	public function getModule(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		return $moduleName;

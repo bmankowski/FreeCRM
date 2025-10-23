@@ -26,7 +26,7 @@ abstract class File
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean
 	 */
-	public function getCheckPermission(Vtiger_Request $request)
+	public function getCheckPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -46,7 +46,7 @@ abstract class File
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return boolean
 	 */
-	public function postCheckPermission(Vtiger_Request $request)
+	public function postCheckPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -68,7 +68,7 @@ abstract class File
 	 * Get and save files
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function post(Vtiger_Request $request)
+	public function post(\App\Http\Vtiger_Request $request)
 	{
 		$attachIds = [];
 		$files = \App\Modules\Vtiger\Helpers\Util::transformUploadedFiles($_FILES, true);

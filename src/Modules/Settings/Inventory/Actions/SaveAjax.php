@@ -21,7 +21,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$this->exposeMethod('saveConfig');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
@@ -55,7 +55,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function checkDuplicateName(Vtiger_Request $request)
+	public function checkDuplicateName(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -76,7 +76,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function deleteInventory(Vtiger_Request $request)
+	public function deleteInventory(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -98,7 +98,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function saveConfig(Vtiger_Request $request)
+	public function saveConfig(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -119,7 +119,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -25,7 +25,7 @@ class Export extends \App\Runtime\BaseModel
     protected $moduleFieldInstances;
 
 
-	public static function getInstanceFromRequest(Vtiger_Request $request)
+	public static function getInstanceFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		if (empty($moduleName)) {
@@ -41,7 +41,7 @@ class Export extends \App\Runtime\BaseModel
 		return $exportModel;
 	}
 
-	public function initialize(Vtiger_Request $request)
+	public function initialize(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		if (!empty($moduleName)) {
@@ -56,7 +56,7 @@ class Export extends \App\Runtime\BaseModel
 	 * Function exports the data based on the mode
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function exportData(Vtiger_Request $request)
+	public function exportData(\App\Http\Vtiger_Request $request)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
@@ -132,7 +132,7 @@ class Export extends \App\Runtime\BaseModel
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return string export query
 	 */
-	public function getExportQuery(Vtiger_Request $request)
+	public function getExportQuery(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		$cvId = $request->get('viewname');
@@ -194,7 +194,7 @@ class Export extends \App\Runtime\BaseModel
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return string
 	 */
-	public function getExportContentType(Vtiger_Request $request)
+	public function getExportContentType(\App\Http\Vtiger_Request $request)
 	{
 		$type = $request->get('export_type');
 		if (empty($type)) {

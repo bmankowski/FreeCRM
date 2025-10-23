@@ -31,7 +31,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   parent::__construct();
    }
 
-   public function getViewer(Vtiger_Request $vtigerRequest)
+   public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   if ($this->viewer === null) {
 		   $viewer = CRM_Viewer::getInstance();
@@ -51,7 +51,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   return $this->viewer;
    }
 
-   public function getPageTitle(Vtiger_Request $vtigerRequest)
+   public function getPageTitle(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   $moduleName = $vtigerRequest->getModule(false);
 	   $moduleNameArray = explode(':', $moduleName);
@@ -65,7 +65,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   return $title;
    }
 
-   public function getBreadcrumbTitle(Vtiger_Request $vtigerRequest)
+   public function getBreadcrumbTitle(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   if (!empty($this->pageTitle)) {
 		   return $this->pageTitle;
@@ -74,7 +74,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   return 0;
    }
 
-   public function preProcess(Vtiger_Request $vtigerRequest, $display = true)
+   public function preProcess(\App\Http\Vtiger_Request $vtigerRequest, $display = true)
    {
 	   $moduleName = $vtigerRequest->getModule();
 	   $viewer = $this->getViewer($vtigerRequest);
@@ -107,7 +107,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   }
    }
 
-   protected function preProcessTplName(Vtiger_Request $vtigerRequest)
+   protected function preProcessTplName(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   return 'Header.tpl';
    }
@@ -117,7 +117,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   return true;
    }
 
-   protected function preProcessDisplay(Vtiger_Request $vtigerRequest)
+   protected function preProcessDisplay(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   $viewer = $this->getViewer($vtigerRequest);
 	   $viewer->view($this->preProcessTplName($vtigerRequest), $vtigerRequest->getModule());
@@ -126,7 +126,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
    /**
 	* Post process
 	*/
-   public function postProcess(Vtiger_Request $vtigerRequest)
+   public function postProcess(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   $viewer = $this->getViewer($vtigerRequest);
 	   $currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
@@ -138,10 +138,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
    /**
 	* Retrieves css styles that need to loaded in the page
-	* @param \App\Http\Vtiger_Request $vtigerRequest - request model
+	* @param, \App\Http\Vtiger_Request $vtigerRequest - request model
 	* @return <array> - array of Vtiger_CssScript_Model
 	*/
-   public function getHeaderCss(Vtiger_Request $vtigerRequest)
+   public function getHeaderCss(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   $cssFileNames = [
 		   '~libraries/bootstrap3/css/bootstrap.css',
@@ -169,10 +169,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
    /**
 	* Retrieves headers scripts that need to loaded in the page
-	* @param \App\Http\Vtiger_Request $vtigerRequest - request model
+	* @param, \App\Http\Vtiger_Request $vtigerRequest - request model
 	* @return <array> - array of Vtiger_JsScript_Model
 	*/
-   public function getHeaderScripts(Vtiger_Request $vtigerRequest)
+   public function getHeaderScripts(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   $headerScriptInstances = [
 		   'libraries.jquery.jquery',
@@ -181,7 +181,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   return $this->checkAndConvertJsScripts($headerScriptInstances);
    }
 
-   public function getFooterScripts(Vtiger_Request $vtigerRequest)
+   public function getFooterScripts(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   $jsFileNames = [
 		   '~libraries/jquery/jquery.blockUI.js',
@@ -385,7 +385,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
    /**
 	* Function returns the Client side language string
 	*/
-   public function getJSLanguageStrings(Vtiger_Request $vtigerRequest)
+   public function getJSLanguageStrings(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   $moduleName = $vtigerRequest->getModule(false);
 	   if ($moduleName === 'Settings:Users') {

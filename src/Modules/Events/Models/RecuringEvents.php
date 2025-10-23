@@ -56,7 +56,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\Events\Models\RecuringEvents
 	 */
-	public static function getInstanceFromRequest(Vtiger_Request $request)
+	public static function getInstanceFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$instance = new self();
 		$moduleName = $request->getModule();

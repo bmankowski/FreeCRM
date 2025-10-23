@@ -17,7 +17,7 @@ use App\Http\Vtiger_Request;
 class Calendar  extends \App\Modules\Vtiger\Views\Index
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

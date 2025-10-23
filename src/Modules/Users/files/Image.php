@@ -14,12 +14,12 @@ namespace App\Modules\Users\files;
  */
 class Image {
 
-	public function getCheckPermission(Vtiger_Request $request)
+	public function getCheckPermission(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function get(Vtiger_Request $request)
+	public function get(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		if (empty($record)) {
@@ -34,7 +34,7 @@ class Image {
 		readfile($path);
 	}
 
-	public function postCheckPermission(Vtiger_Request $request)
+	public function postCheckPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -57,7 +57,7 @@ class Image {
 		}
 	}
 
-	public function post(Vtiger_Request $request)
+	public function post(\App\Http\Vtiger_Request $request)
 	{
 
 	}

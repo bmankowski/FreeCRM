@@ -68,7 +68,7 @@ class HistoryRelation extends \App\Modules\Vtiger\Widgets\Basic
 	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
 	 * @return array - List of records
 	 */
-	public static function getHistory(Vtiger_Request $request, \App\Modules\Vtiger\Models\Paging $pagingModel)
+	public static function getHistory(\App\Http\Vtiger_Request $request, \App\Modules\Vtiger\Models\Paging $pagingModel)
 	{
 		$db = \App\Db::getInstance();
 		$recordId = $request->get('record');

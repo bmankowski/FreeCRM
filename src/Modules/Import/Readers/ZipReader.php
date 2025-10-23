@@ -17,7 +17,7 @@ class ZipReader extends FileReader
 	protected $importFolderLocation;
 	protected $filelist = [];
 
-	public function __construct(Vtiger_Request $request, $user)
+	public function __construct(\App\Http\Vtiger_Request $request, $user)
 	{
 		$instance = \App\Runtime\Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
 		if (!empty($instance)) {

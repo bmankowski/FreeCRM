@@ -70,7 +70,7 @@ class NotificationsByRecipient  extends \App\Modules\Vtiger\Views\Index
 		return $data;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

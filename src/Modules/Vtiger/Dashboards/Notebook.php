@@ -16,7 +16,7 @@ use App\Http\Vtiger_Request;
 class Notebook  extends \App\Modules\Vtiger\Views\Index
 {
 
-	public function process(Vtiger_Request $request, $widget = NULL)
+	public function process(\App\Http\Vtiger_Request $request, $widget = NULL)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -29,7 +29,7 @@ class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		$this->exposeMethod('deleteRule');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -38,7 +38,7 @@ class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		}
 	}
 
-	public function saveRule(Vtiger_Request $request)
+	public function saveRule(\App\Http\Vtiger_Request $request)
 	{
 		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
 		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
@@ -73,7 +73,7 @@ class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		$response->emit();
 	}
 
-	public function deleteRule(Vtiger_Request $request)
+	public function deleteRule(\App\Http\Vtiger_Request $request)
 	{
 		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
 		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('delete');
@@ -94,7 +94,7 @@ class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
 	}

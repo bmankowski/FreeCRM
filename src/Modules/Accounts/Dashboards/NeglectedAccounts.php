@@ -49,7 +49,7 @@ class NeglectedAccounts  extends \App\Modules\Vtiger\Views\Index
 		return $accounts;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $request->getModule();

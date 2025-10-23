@@ -141,7 +141,7 @@ class WebUI extends EntryPoint
 	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception\AppException When login is required but not present
 	 */
-	protected function checkLogin(Vtiger_Request $request)
+	protected function checkLogin(\App\Http\Vtiger_Request $request)
 	{
 		if (!$this->hasLogin()) {
 			$this->handleLoginRedirect();
@@ -285,7 +285,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->enforceSecurityPolicies($request);
 		$this->initializeSession($request);
@@ -310,7 +310,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	private function enforceSecurityPolicies(Vtiger_Request $request)
+	private function enforceSecurityPolicies(\App\Http\Vtiger_Request $request)
 	{
 		$this->enforceSSL();
 		$this->checkInstallation();
@@ -385,7 +385,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	private function initializeSession(Vtiger_Request $request)
+	private function initializeSession(\App\Http\Vtiger_Request $request)
 	{
 		\App\Http\Vtiger_Session::init();
 
@@ -402,7 +402,7 @@ class WebUI extends EntryPoint
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool
 	 */
-	private function shouldEnableCsrfProtection(Vtiger_Request $request)
+	private function shouldEnableCsrfProtection(\App\Http\Vtiger_Request $request)
 	{
 		return \App\AppConfig::main('csrfProtection')
 			&& $request->get('mode') !== 'reset'
@@ -416,7 +416,7 @@ class WebUI extends EntryPoint
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return \Users|false Current user or false
 	 */
-	private function initializeGlobals(Vtiger_Request $request)
+	private function initializeGlobals(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
@@ -437,7 +437,7 @@ class WebUI extends EntryPoint
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $currentLanguage
 	 */
-	private function loadLanguageStrings(Vtiger_Request $request, $currentLanguage)
+	private function loadLanguageStrings(\App\Http\Vtiger_Request $request, $currentLanguage)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -484,7 +484,7 @@ class WebUI extends EntryPoint
 	 * @param \Users|false $currentUser
 	 * @return mixed Response object or false
 	 */
-	private function handleRequest(Vtiger_Request $request, $currentUser)
+	private function handleRequest(\App\Http\Vtiger_Request $request, $currentUser)
 	{
 		$this->resolveModuleAndView($request);
 
@@ -508,7 +508,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	private function resolveModuleAndView(Vtiger_Request $request)
+	private function resolveModuleAndView(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('module');
 
@@ -522,7 +522,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	private function setDefaultModuleAndView(Vtiger_Request $request)
+	private function setDefaultModuleAndView(\App\Http\Vtiger_Request $request)
 	{
 		if ($this->hasLogin()) {
 			$this->setDefaultModuleForLoggedInUser($request);
@@ -536,7 +536,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	private function setDefaultModuleForLoggedInUser(Vtiger_Request $request)
+	private function setDefaultModuleForLoggedInUser(\App\Http\Vtiger_Request $request)
 	{
 		$defaultModule = \App\AppConfig::main('default_module');
 
@@ -559,7 +559,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	private function setLoginModule(Vtiger_Request $request)
+	private function setLoginModule(\App\Http\Vtiger_Request $request)
 	{
 		$request->set('module', self::USERS_MODULE);
 		$request->set('view', self::LOGIN_VIEW);
@@ -589,7 +589,7 @@ class WebUI extends EntryPoint
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return array [componentType, componentName]
 	 */
-	private function resolveComponent(Vtiger_Request $request)
+	private function resolveComponent(\App\Http\Vtiger_Request $request)
 	{
 		$action = $request->get('action');
 
@@ -790,7 +790,7 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	private function logRequestForTesting(Vtiger_Request $request)
+	private function logRequestForTesting(\App\Http\Vtiger_Request $request)
 	{
 		file_put_contents(
 			'cache/logs/request.log',

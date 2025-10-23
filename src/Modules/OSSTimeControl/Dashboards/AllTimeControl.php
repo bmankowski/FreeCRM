@@ -112,7 +112,7 @@ class AllTimeControl  extends \App\Modules\Vtiger\Views\Index
 		return $response;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$loggedUserId = $currentUser->get('id');

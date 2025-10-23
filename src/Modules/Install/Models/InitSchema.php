@@ -294,7 +294,7 @@ class InitSchema_Model
 	 * Set company details
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function setCompanyDetails(Vtiger_Request $request)
+	public function setCompanyDetails(\App\Http\Vtiger_Request $request)
 	{
 		$details = [];
 		foreach ($request->getAll() as $key => $value) {

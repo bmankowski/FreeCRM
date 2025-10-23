@@ -136,7 +136,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 		$viewer->view('Step1.tpl', $moduleName);
 	}
 
-	public function step2(Vtiger_request $request)
+	public function step2(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

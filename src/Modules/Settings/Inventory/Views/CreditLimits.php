@@ -19,7 +19,7 @@ class CreditLimits extends \App\Modules\Settings\Vtiger\Views\Index
 		return 'CreditLimits';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -41,7 +41,7 @@ class CreditLimits extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getPageLabels(Vtiger_Request $request)
+	public function getPageLabels(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if ($request->get('type')) {

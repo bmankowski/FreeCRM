@@ -12,7 +12,7 @@ class Export extends \App\Runtime\BaseModel
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return string export query
 	 */
-	public function getExportQuery(Vtiger_Request $request)
+	public function getExportQuery(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		$cvId = $request->get('viewname');
@@ -60,7 +60,7 @@ class Export extends \App\Runtime\BaseModel
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return string
 	 */
-	public function getExportContentType(Vtiger_Request $request)
+	public function getExportContentType(\App\Http\Vtiger_Request $request)
 	{
 		return 'text/calendar';
 	}
@@ -69,7 +69,7 @@ class Export extends \App\Runtime\BaseModel
 	 * Function exports the data based on the mode
 	 * @param \App\Http\Vtiger_Request $request
 	 */
-	public function exportData(Vtiger_Request $request)
+	public function exportData(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);

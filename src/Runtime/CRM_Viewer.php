@@ -140,6 +140,11 @@ class CRM_Viewer extends \Smarty
 		// Register UIType and utility classes used in templates
 		$this->registerClass('Vtiger_Datetime_UIType', '\App\\Modules\\Vtiger\\UiTypes\\Datetime');
 		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
+		$this->registerClass('\App\\Fields\\DateTimeField', '\App\\Fields\\DateTimeField');
+		$this->registerClass('\App\\Fields\\DateTime', '\App\\Fields\\DateTime');
+		$this->registerClass('\App\\Fields\\Picklist', '\App\\Fields\\Picklist');
+		$this->registerClass('\App\\Fields\\RecordNumber', '\App\\Fields\\RecordNumber');
+		$this->registerClass('CurrencyField', '\App\\Fields\\CurrencyField');
 		$this->registerClass('vtlib\\Functions', 'vtlib\\Functions');
 		// Register additional model classes used in templates
 		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');

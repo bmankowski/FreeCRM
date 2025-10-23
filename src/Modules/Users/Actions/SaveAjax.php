@@ -179,7 +179,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 	}
 	/*
 	 * To restore a user
-	 * @param \App\Http\Vtiger_Request Object
+	 * @param, \App\Http\Vtiger_Request Object
 	 */
 
 	public function restoreUser(\App\Http\Vtiger_Request $request)

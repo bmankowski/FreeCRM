@@ -13,7 +13,7 @@ use App\Http\Vtiger_Request;
 class Rss  extends \App\Modules\Vtiger\Views\Index
 {
 
-	public function process(Vtiger_Request $request, $widget = NULL)
+	public function process(\App\Http\Vtiger_Request $request, $widget = NULL)
 	{
 		require_once 'libraries/RSSFeeds/Feed.php';
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();

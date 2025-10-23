@@ -88,7 +88,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		return $record;
 	}
 
-	public function deleteRecords(Vtiger_Request $request)
+	public function deleteRecords(\App\Http\Vtiger_Request $request)
 	{
 		$searchValue = $request->get('search_value');
 		$selectedIds = $request->get('selected_ids');

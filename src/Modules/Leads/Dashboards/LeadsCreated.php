@@ -21,7 +21,7 @@ class LeadsCreated  extends \App\Modules\Vtiger\Views\Index
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 
 		$jsFileNames = array(
@@ -36,7 +36,7 @@ class LeadsCreated  extends \App\Modules\Vtiger\Views\Index
 		return $headerScriptInstances;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

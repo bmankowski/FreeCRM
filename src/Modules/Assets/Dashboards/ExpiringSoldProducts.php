@@ -18,7 +18,7 @@ use App\Http\Vtiger_Request;
 class ExpiringSoldProducts  extends \App\Modules\Vtiger\Views\Index
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -37,7 +37,7 @@ class ExpiringSoldProducts  extends \App\Modules\Vtiger\Views\Index
 		}
 	}
 
-	public static function getData(Vtiger_Request $request, $widget)
+	public static function getData(\App\Http\Vtiger_Request $request, $widget)
 	{
 		$fields = ['id', 'assetname', 'dateinservice', 'parent_id'];
 		$limit = 10;

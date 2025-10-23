@@ -1101,7 +1101,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		return \App\Modules\Reports\Models\ScheduleReports::getInstanceById($this->getId());
 	}
 
-	public static function getRecordsListFromRequest(Vtiger_Request $request)
+	public static function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$folderId = $request->get('viewname');
 		$module = $request->get('module');
