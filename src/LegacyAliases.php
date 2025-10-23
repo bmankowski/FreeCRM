@@ -27,7 +27,7 @@ if (!class_exists('Vtiger_Response')) {
 }
 
 if (!class_exists('Vtiger_Loader')) {
-    class_alias('Vtiger\Core\Loader', 'Vtiger_Loader');
+    class_alias('App\Loader', 'Vtiger_Loader');
 }
 
 if (!class_exists('Vtiger_Language_Handler')) {

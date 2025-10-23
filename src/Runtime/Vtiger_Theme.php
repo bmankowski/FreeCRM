@@ -11,7 +11,7 @@
 
 namespace App\Runtime;
 
-use App\Vtiger_Loader;
+use App\Loader;
 
 class Vtiger_Theme extends CRM_Viewer
 {
@@ -23,7 +23,7 @@ class Vtiger_Theme extends CRM_Viewer
 	public static function getThemeStyle()
 	{
 		$filePath = self::getThemePath() . '/' . 'style.css';
-		$completeFilePath = \App\Vtiger_Loader::resolveNameToPath('~' . $filePath);
+		$completeFilePath = \App\Loader::resolveNameToPath('~' . $filePath);
 
 		if (file_exists($completeFilePath)) {
 			return $filePath;
@@ -43,8 +43,8 @@ class Vtiger_Theme extends CRM_Viewer
 	{
 		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
 		$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName;
-		$completeImageFilePath = \App\Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
-		$completeFallBackThemePath = \App\Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+		$completeImageFilePath = \App\Loader::resolveNameToPath('~' . $imageFilePath);
+		$completeFallBackThemePath = \App\Loader::resolveNameToPath('~' . $fallbackPath);
         if (file_exists($completeImageFilePath)) {
             return $imageFilePath;
         }
@@ -69,9 +69,9 @@ class Vtiger_Theme extends CRM_Viewer
 		$allowedImgTypes = ['.gif', '.jpg', '.png'];
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
-			$completeImageFilePath = \App\Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$completeImageFilePath = \App\Loader::resolveNameToPath('~' . $imageFilePath);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
-			$completeFallBackThemePath = \App\Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			$completeFallBackThemePath = \App\Loader::resolveNameToPath('~' . $fallbackPath);
             if (file_exists($completeImageFilePath)) {
                 return $imageFilePath;
             }
@@ -83,9 +83,9 @@ class Vtiger_Theme extends CRM_Viewer
 
 		foreach ($allowedImgTypes as $allowedImgType) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $allowedImgType;
-			$completeImageFilePath = \App\Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$completeImageFilePath = \App\Loader::resolveNameToPath('~' . $imageFilePath);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $allowedImgType;
-			$completeFallBackThemePath = \App\Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			$completeFallBackThemePath = \App\Loader::resolveNameToPath('~' . $fallbackPath);
             if (file_exists($completeImageFilePath)) {
                 return $imageFilePath;
             }
@@ -128,8 +128,8 @@ class Vtiger_Theme extends CRM_Viewer
 		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
 		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
 
-		$completeSelectedThemePath = \App\Vtiger_Loader::resolveNameToPath('~' . $selectedThemePath);
-		$completeFallBackThemePath = \App\Vtiger_Loader::resolveNameToPath('~' . $fallBackThemePath);
+		$completeSelectedThemePath = \App\Loader::resolveNameToPath('~' . $selectedThemePath);
+		$completeFallBackThemePath = \App\Loader::resolveNameToPath('~' . $fallBackThemePath);
         if (file_exists($completeSelectedThemePath)) {
             return $selectedThemePath;
         }

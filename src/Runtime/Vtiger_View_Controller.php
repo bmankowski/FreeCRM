@@ -18,7 +18,7 @@ use App\Runtime\CRM_Viewer;
 
 use App\Runtime\Vtiger_Theme;
 use App\Runtime\Vtiger_Language_Handler;
-use App\Vtiger_Loader;
+use App\Loader;
 use App\Runtime\Vtiger_CssScript_Model;
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
@@ -240,7 +240,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   continue;
 		   }
 
-		   $completeFilePath = \App\Vtiger_Loader::resolveNameToPath($jFileName, $fileExtension);
+		   $completeFilePath = \App\Loader::resolveNameToPath($jFileName, $fileExtension);
 		   if (is_file($completeFilePath)) {
 			   if (strpos($jFileName, '~') === 0) {
 				   $filePath = ltrim(ltrim($jFileName, '~'), '/');
@@ -249,7 +249,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 
 			   $minFilePath = str_replace('.js', '.min.js', $filePath);
-			   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+			   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 				   $filePath = $minFilePath;
 			   }
 
@@ -265,7 +265,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 		   // Checking if file exists in selected layout
 		   $layoutPath = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout();
-		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+		   $fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $jsFile;
 			   if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -273,7 +273,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 
 				   $minFilePath = str_replace('.js', '.min.js', $filePath);
-				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					   $filePath = $minFilePath;
 				   }
 
@@ -282,7 +282,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 		   // Checking if file exists in default layout
 		   $layoutPath = 'layouts/' . CRM_Viewer::getDefaultLayoutName();
-		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+		   $fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $jsFile;
 			   if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -290,7 +290,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 
 				   $minFilePath = str_replace('.js', '.min.js', $filePath);
-				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					   $filePath = $minFilePath;
 				   }
 
@@ -320,7 +320,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   continue;
 		   }
 
-		   $completeFilePath = \App\Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
+		   $completeFilePath = \App\Loader::resolveNameToPath($cssFileName, $fileExtension);
 		   if (file_exists($completeFilePath)) {
 			   if (strpos($cssFileName, '~') === 0) {
 				   $filePath = ltrim(ltrim($cssFileName, '~'), '/');
@@ -329,7 +329,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 
 			   $minFilePath = str_replace('.css', '.min.css', $filePath);
-			   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+			   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 				   $filePath = $minFilePath;
 			   }
 
@@ -345,7 +345,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 		   // Checking if file exists in selected layout
 		   $layoutPath = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout();
-		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+		   $fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $cssFile;
 				   if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -353,7 +353,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				   }
 
 				   $minFilePath = str_replace('.css', '.min.css', $filePath);
-				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					   $filePath = $minFilePath;
 				   }
 
@@ -362,7 +362,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			   }
 		   // Checking if file exists in default layout
 		   $layoutPath = 'layouts/' . CRM_Viewer::getDefaultLayoutName();
-		   $fallBackFilePath = \App\Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+		   $fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $cssFile;
 				   if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -370,7 +370,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				   }
 
 				   $minFilePath = str_replace('.css', '.min.css', $filePath);
-				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				   if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					   $filePath = $minFilePath;
 				   }
 

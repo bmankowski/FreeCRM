@@ -158,7 +158,7 @@ class Vtiger_Language_Handler
 		$module = str_replace(':', '.', $module);
 		if (!isset(self::$languageContainer[$language][$module])) {
 			$qualifiedName = 'languages.' . $language . '.' . $module;
-			$file = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
+			$file = \App\Loader::resolveNameToPath($qualifiedName);
 			$languageStrings = [];
 			$jsLanguageStrings = [];
 			if (file_exists($file)) {
@@ -171,7 +171,7 @@ class Vtiger_Language_Handler
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
 			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				$qualifiedName = 'custom.languages.' . $language . '.' . $module;
-				$file = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
+				$file = \App\Loader::resolveNameToPath($qualifiedName);
 				if (file_exists($file)) {
 					require $file;
 					foreach ($languageStrings as $key => $val) {

@@ -12,7 +12,7 @@ define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer PSR-4 autoloader
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require_once ROOT_DIRECTORY . '/include/Loader.php';
-Vtiger_Loader::register();
+Loader::register();
 
 // Initialize WebUI services (cache, debugger, error handlers)
 \App\EntryPoint\WebUI::initialize();

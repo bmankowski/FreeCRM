@@ -85,8 +85,8 @@ class Base extends \App\Runtime\BaseModel
 		// Old path fallback
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
-		$moduleSpecificOldFilePath = \App\Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeOldFilePath = \App\Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
+		$moduleSpecificOldFilePath = \App\Loader::resolveNameToPath($moduleSpecificFileName);
+		$completeOldFilePath = \App\Loader::resolveNameToPath($uiTypeClassFileName);
 
 		if (file_exists($moduleSpecificFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
 			$instance = new $moduleSpecificUiTypeClassName();

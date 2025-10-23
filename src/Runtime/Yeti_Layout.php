@@ -13,7 +13,7 @@ namespace App\Runtime;
 
 use App\Http\App\Http\Vtiger_Session;
 use App\AppConfig;
-use App\Vtiger_Loader;
+use App\Loader;
 use App\Database\PearDatabase;
 
 class Yeti_Layout
@@ -32,7 +32,7 @@ class Yeti_Layout
 	public static function getLayoutFile(string $name)
 	{
 		$basePath = 'layouts/' . \App\AppConfig::main('defaultLayout') . '/';
-		$filePath = \App\Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
+		$filePath = \App\Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			return $basePath . $name;
 		}

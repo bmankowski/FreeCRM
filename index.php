@@ -44,7 +44,7 @@ require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require_once ROOT_DIRECTORY . '/config/api.php';
 require_once ROOT_DIRECTORY . '/config/config.php';
 \App\AppConfig::init($API_CONFIG);
-\App\Vtiger_Loader::register();  // For Settings modules in old_modules
+\App\Loader::register();  // For Settings modules in old_modules
 
 // Initialize WebUI services (cache, debugger, error handlers)
 \App\EntryPoint\WebUI::initialize();

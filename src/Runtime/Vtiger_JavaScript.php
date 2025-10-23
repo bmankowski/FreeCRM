@@ -29,7 +29,7 @@ class Vtiger_JavaScript extends JsScript
 		}
 
 		$filePath = self::getBaseJavaScriptPath() . '/' . $fileName;
-		$completeFilePath = \App\Vtiger_Loader::resolveNameToPath('~' . $filePath);
+		$completeFilePath = \App\Loader::resolveNameToPath('~' . $filePath);
 
 		if (file_exists($completeFilePath)) {
 			return $filePath;

@@ -137,5 +137,152 @@ class Loader
 		
 		return "src/Modules/{$modulePath}/{$typeDir}/{$componentName}.php";
 	}
+
+	/**
+	 * Resolve qualified name to absolute file path
+	 * 
+	 * Handles asset loading (JS, CSS, LESS) and PHP files with special prefixes:
+	 * - Prefix ~ means literal path from root
+	 * - No prefix means convert dots to directory separators
+	 * - Checks public/ directory first for assets
+	 * 
+	 * @param string $qualifiedName Qualified resource name (e.g., 'libraries.jquery.jquery' or '~layouts/basic/style.css')
+	 * @param string $fileExtension File extension (php, js, css, less)
+	 * @return string Absolute file path
+	 */
+	public static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
+	{
+		$allowedExtensions = ['php', 'js', 'css', 'less'];
+		if (!in_array($fileExtension, $allowedExtensions)) {
+			return '';
+		}
+
+		// Handle ~ prefix (literal path from root)
+		if (strpos($qualifiedName, '~') === 0) {
+			$file = str_replace('~', '', $qualifiedName);
+		} else {
+			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
+		}
+		
+		// Check public/ for JS/CSS files first
+		if (in_array($fileExtension, ['js', 'css', 'less'])) {
+			$publicFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $file;
+			if (file_exists($publicFile)) {
+				return $publicFile;
+			}
+		}
+		
+		// Fallback to root directory
+		$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
+		return $file;
+	}
+
+	/**
+	 * Include a PHP file once with caching
+	 * 
+	 * @param string $qualifiedName Qualified file name
+	 * @param bool $suppressWarning Whether to suppress inclusion warnings
+	 * @return bool True if included successfully, false otherwise
+	 */
+	public static function includeOnce($qualifiedName, $suppressWarning = false)
+	{
+		if (isset(self::$includeCache[$qualifiedName])) {
+			return true;
+		}
+
+		$file = self::resolveNameToPath($qualifiedName);
+
+		if (!file_exists($file)) {
+			return false;
+		}
+
+		// Check file inclusion before including it
+		\vtlib\Deprecated::checkFileAccessForInclusion($file);
+
+		$status = -1;
+		if ($suppressWarning) {
+			$status = @include_once $file;
+		} else {
+			$status = include_once $file;
+		}
+
+		$success = ($status === 0) ? false : true;
+
+		if ($success) {
+			self::$includeCache[$qualifiedName] = $file;
+		}
+
+		return $success;
+	}
+
+	/**
+	 * Add path to PHP include path
+	 * 
+	 * @param string $qualifiedName Qualified path name
+	 * @return bool Always returns true
+	 */
+	public static function includePath($qualifiedName)
+	{
+		// Already included?
+		if (isset(self::$includePathCache[$qualifiedName])) {
+			return true;
+		}
+
+		$path = realpath(self::resolveNameToPath($qualifiedName));
+		self::$includePathCache[$qualifiedName] = $path;
+
+		set_include_path($path . PATH_SEPARATOR . get_include_path());
+		return true;
+	}
+
+	/**
+	 * Auto-load legacy class files
+	 * 
+	 * Handles legacy Module_Component_Type pattern (e.g., Settings_Vtiger_Module_Model)
+	 * Searches in multiple directories with fallback support
+	 * 
+	 * @param string $className Legacy class name
+	 * @return bool True if loaded successfully, false otherwise
+	 */
+	public static function autoLoad($className)
+	{
+		$parts = explode('_', $className);
+		$noOfParts = count($parts);
+		if ($noOfParts > 2) {
+			foreach (self::$loaderDirs as $filePath) {
+				// Append modules and sub modules names to the path
+				for ($i = 0; $i < ($noOfParts - 2); ++$i) {
+					$filePath .= $parts[$i] . '.';
+				}
+
+				$fileName = $parts[$noOfParts - 2];
+				$fileComponentName = strtolower($parts[$noOfParts - 1]) . 's';
+				
+				// For PSR-4 locations (src.Modules.*), use capitalized component names (Views, Actions, Models)
+				if (strpos($filePath, 'src.Modules.') === 0) {
+					$fileComponentNameCapitalized = ucfirst($fileComponentName);
+					$filePath .= $fileComponentNameCapitalized . '.' . $fileName;
+				} else {
+					$filePath .= $fileComponentName . '.' . $fileName;
+				}
+
+				if (file_exists(self::resolveNameToPath($filePath))) {
+					return self::includeOnce($filePath);
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Register the legacy autoloader
+	 * 
+	 * Should be called during application bootstrap to support
+	 * legacy Module_Component_Type class naming
+	 */
+	public static function register()
+	{
+		spl_autoload_register([__CLASS__, 'autoLoad']);
+	}
 }
 

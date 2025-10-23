@@ -46,7 +46,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			} else {
 				$qualifiedName = "languages.$lang.$mod";
 			}
-			$fileName = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
+			$fileName = \App\Loader::resolveNameToPath($qualifiedName);
 			if (file_exists($fileName)) {
 				$fileContent = file($fileName);
 				foreach ($fileContent as $key => $file_row) {
@@ -99,7 +99,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
+		$fileName = \App\Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require $fileName;
@@ -160,7 +160,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = \App\Vtiger_Loader::resolveNameToPath($qualifiedName);
+		$fileName = \App\Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require($fileName);
