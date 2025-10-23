@@ -38,7 +38,7 @@ grep -E "^[A-Z][a-zA-Z_]+_[a-zA-Z_]+$" /home/bmankowski/projects/FreeCRM/missing
     new_class=$(echo "$result" | cut -f1)
     file_path=$(echo "$result" | cut -f2)
     
-    [ -f "/home/bmankowski/projects/FreeCRM/$file_path" ] && status="MISSING" || status="FOUND"
+    [ -f "/home/bmankowski/projects/FreeCRM/$file_path" ] && status="FOUND" || status="MISSING"
     
     printf '%s\t%s\t%s\t%s\n' "$old_class" "$new_class" "$file_path" "$status"
 done
