@@ -33,7 +33,7 @@ suggest_new_class() {
     fi
 }
 
-grep -E "^[A-Z][a-zA-Z_]+_[a-zA-Z_]+$" /home/bmankowski/projects/FreeCRM/missing_aliases.txt | while read old_class; do
+cut -f2 /home/bmankowski/projects/FreeCRM/aliases_waiting_to_be_changed.txt | grep -E "^[A-Z][a-zA-Z_]+_[a-zA-Z_]+$" | while read old_class; do
     result=$(suggest_new_class "$old_class")
     new_class=$(echo "$result" | cut -f1)
     file_path=$(echo "$result" | cut -f2)

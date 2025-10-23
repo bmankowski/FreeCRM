@@ -1,3 +1,5 @@
+#!/bin/bash
+
 grep -r -oP '\b[A-Z][a-z]+[A-Za-z0-9]*_[A-Z][a-z]+[A-Za-z0-9]*_[A-Z][A-Za-z0-9_]*\b' --include="*.php" . --exclude-dir=vendor | tr ':' '\t' | sort -t$'\t' -k2 -u > aliases_waiting_to_be_changed.txt
 sed -i '/GlobalAliases/d' aliases_waiting_to_be_changed.txt
 sed -i '/Base2.php/d' aliases_waiting_to_be_changed.txt
@@ -15,5 +17,33 @@ sed -i '/Vtiger_JavaScript/d' aliases_waiting_to_be_changed.txt
 sed -i '/Vtiger_Detail_Js/d' aliases_waiting_to_be_changed.txt
 sed -i '/_Js/d' aliases_waiting_to_be_changed.txt
 
-cat aliases_waiting_to_be_changed.txt | cut -f2 aliases_waiting_to_be_changed.txt 
+echo "Checking which aliases are proper class names..."
+echo "================================================"
 
+found=0
+missing=0
+
+while IFS=$'\t' read -r filepath classname; do
+    # Skip empty lines
+    [ -z "$classname" ] && continue
+    
+    # Search for "class ClassName" in the codebase
+    if grep -r "^class $classname" --include="*.php" . > /dev/null 2>&1; then
+        ((found++))
+        echo "FOUND (removing): $classname"
+        # Delete this line from the file using sed
+        sed -i "/\t$classname$/d" aliases_waiting_to_be_changed.txt
+    else
+        echo "MISSING (keeping): $classname"
+        ((missing++))
+    fi
+done < aliases_waiting_to_be_changed.txt
+
+echo ""
+echo "================================================"
+echo "Summary:"
+echo "  Proper classes found and removed: $found"
+echo "  Missing classes kept in file: $missing"
+echo "  Total: $((found + missing))"
+echo ""
+echo "Remaining aliases saved to: aliases_waiting_to_be_changed.txt"

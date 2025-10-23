@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PBXManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SaveAjax extends \Vtiger_SaveAjax_Action
+class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
