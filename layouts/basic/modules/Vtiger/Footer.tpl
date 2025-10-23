@@ -50,7 +50,7 @@
 			</button>
 		</div>
 		{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
-		{if $USER_MODEL->is_admin == 'on'}
+		{if $USER_MODEL->isAdminUser()}
 			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}

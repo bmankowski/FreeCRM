@@ -739,7 +739,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCurrentUserActivityReminderInSeconds()
 	{
-		$activityReminder = $this->reminder_interval;
+		$activityReminder = $this->get('reminder_interval');
 		$activityReminderInSeconds = '';
 		if ($activityReminder != 'None') {
 			preg_match('/([0-9]+)[\s]([a-zA-Z]+)/', $activityReminder, $matches);

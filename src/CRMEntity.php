@@ -631,6 +631,7 @@ class CRMEntity
 				$this->saveRelatedM2M($module, $crmid, $withModule, $withCrmid);
 				break;
 			case 'getDependentsList':
+				$this->saveRelatedToDB($module, $crmid, $withModule, $withCrmid);
 				break;
 			default:
 				$this->saveRelatedToDB($module, $crmid, $withModule, $withCrmid);

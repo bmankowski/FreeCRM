@@ -35,7 +35,7 @@
 											{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
 											data-url="{$RELATED_LINK->getUrl()}"
 										{/if}
-										{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
+										{if $IS_SELECT_BUTTON neq true name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
 							</div>
 						{/if}
 					{/foreach}
