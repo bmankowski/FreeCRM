@@ -243,7 +243,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Returns child comments models for a comment
-	 * @return ModComment_Record_Model(s)
+	 * @return \App\Modules\ModComments\Models\Record[]
 	 */
 	public function getChildComments()
 	{

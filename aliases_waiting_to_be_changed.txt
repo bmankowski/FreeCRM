@@ -1,6 +1,4 @@
-./src/Modules/Calendar/Views/Import.php	Import_Utils_Helper
-./src/Modules/Install/Models/InitSchema.php	Install_InitSchema_Model
-./src/Modules/ModComments/Models/Record.php	ModComment_Record_Model
+./tests/phpunit/00_Install.php	Install_InitSchema_Model
 ./src/Modules/Notification/Actions/Notification.php	Notification_NoticeEntries_Model
 ./src/Modules/Reports/ReportUtils.php	Products_Unit_Price
 ./src/Modules/Reports/ReportRun.php	Quotes_Inventory_Manager

@@ -11,7 +11,7 @@
 namespace App\Install;
 
 
-//class Install_InitSchema_Model
+//class \App\Install\InitSchema_Model
 
 
 class InitSchema_Model

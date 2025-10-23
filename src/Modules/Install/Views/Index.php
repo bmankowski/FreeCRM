@@ -8,6 +8,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
+namespace App\Modules\Install\Views;
+
+use App\Http\Vtiger_Request;
+
 
 class Index extends \App\Modules\Vtiger\Views\Index
 {
@@ -227,7 +231,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 
 	public function mStep0(Vtiger_Request $request)
 	{
-		$initSchema = new Install_InitSchema_Model();
+		$initSchema = new \App\Install\InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
 		$rootDirectory = getcwd();
 		if (substr($rootDirectory, -1) != '/') {
@@ -240,7 +244,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 
 	public function mStep1(Vtiger_Request $request)
 	{
-		$initSchema = new Install_InitSchema_Model();
+		$initSchema = new \App\Install\InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
 		$rootDirectory = getcwd();
 		if (substr($rootDirectory, -1) != '/') {
@@ -253,7 +257,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 
 	public function mStep2(Vtiger_Request $request)
 	{
-		$initSchema = new Install_InitSchema_Model();
+		$initSchema = new \App\Install\InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
 		$rootDirectory = getcwd();
 		if (substr($rootDirectory, -1) != '/') {
@@ -274,7 +278,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 		$loginStatus = false;
 
 		$migrationURL = 'Install.php?mode=execute&ajax=true&system=' . $system . '&user=' . $username;
-		$initSchema = new Install_InitSchema_Model();
+		$initSchema = new \App\Install\InitSchema_Model();
 		$createConfig = $initSchema->createConfig($source_directory, $username, $password, $system);
 		if ($createConfig['result']) {
 			include('config/config.inc.php');
