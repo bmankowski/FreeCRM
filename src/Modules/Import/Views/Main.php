@@ -59,7 +59,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
-				Import_Utils_Helper::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				\App\Modules\Import\Helpers\Utils::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 				throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 			}
 		}
@@ -80,7 +80,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 	public static function showImportStatus($importInfo, $user)
 	{
 		if (empty($importInfo)) {
-			Import_Utils_Helper::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			\App\Modules\Import\Helpers\Utils::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
 			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
 		}
 		$importDataController = new \App\Modules\Import\Actions\Data($importInfo, $user);
@@ -191,7 +191,7 @@ class Main extends \App\Runtime\Vtiger_View_Controller
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
 			return true;
 		} else {
-			Import_Utils_Helper::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
+			\App\Modules\Import\Helpers\Utils::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
 				\App\Runtime\Vtiger_Language_Handler::translate($fileReader->getErrorMessage(), 'Import'));
 			return false;
 		}

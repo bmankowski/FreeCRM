@@ -1,4 +1,3 @@
-./src/Modules/Import/Views/Main.php	Import_Saved_Maps
 ./src/Modules/Calendar/Views/Import.php	Import_Utils_Helper
 ./src/Modules/Install/Models/InitSchema.php	Install_InitSchema_Model
 ./src/Modules/ModComments/Models/Record.php	ModComment_Record_Model

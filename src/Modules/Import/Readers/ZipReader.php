@@ -42,7 +42,7 @@ class ZipReader extends FileReader
 
 	public function initialize($request, $user)
 	{
-		$zipfile = Import_Utils_Helper::getImportFilePath($user);
+		$zipfile = \App\Modules\Import\Helpers\Utils::getImportFilePath($user);
 		$this->importFolderLocation = $zipfile . '_' . $user->id;
 		// clean old data
 		if ($request->getMode() == 'uploadAndParse') {

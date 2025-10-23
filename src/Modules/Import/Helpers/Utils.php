@@ -20,7 +20,7 @@ class Utils {
 	static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
 	static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
 
-	public function getSupportedFileExtensions($moduleName = null)
+	public static function getSupportedFileExtensions($moduleName = null)
 	{
 		if (!$moduleName) {
 			return self::$supportedFileExtensions;
@@ -36,7 +36,7 @@ class Utils {
 		}
 	}
 
-	public function getSupportedFileExtensionsDescription($moduleName)
+	public static function getSupportedFileExtensionsDescription($moduleName)
 	{
 		$supportedFileTypes = self::getSupportedFileExtensions($moduleName);
 		$description = [];

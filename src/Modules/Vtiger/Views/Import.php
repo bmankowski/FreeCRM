@@ -109,7 +109,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 	 */
 	public function uploadAndParse(\App\Http\Vtiger_Request $request)
 	{
-		if (Import_Utils_Helper::validateFileUpload($request)) {
+		if (\App\Modules\Import\Helpers\Utils::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
 			$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$fileReader = \App\Modules\Import\Models\Module::getFileReader($request, $user);
@@ -155,8 +155,8 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', \App\Modules\Import\Models\Map::getAllByModule($moduleName));
-			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
-			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));
+			$viewer->assign('USERS_LIST', \App\Modules\Import\Helpers\Utils::getAssignedToUserList($moduleName));
+			$viewer->assign('GROUPS_LIST', \App\Modules\Import\Helpers\Utils::getAssignedToGroupList($moduleName));
 			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->get('type'), ['xml', 'zip']));
 			return $viewer->view('ImportAdvanced.tpl', 'Import');
 		} else {
@@ -275,7 +275,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 		if ($lockInfo != null) {
 			$lockedBy = $lockInfo['userid'];
 			if ($user->id != $lockedBy && !$user->isAdminUser()) {
-				Import_Utils_Helper::showImportLockedError($lockInfo);
+				\App\Modules\Import\Helpers\Utils::showImportLockedError($lockInfo);
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			} else {
 				if ($mode == 'continueImport' && $user->id == $lockedBy) {
@@ -299,7 +299,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 				\App\Modules\Import\Views\Main::showImportStatus($importInfo, $user);
 				return;
 			} else {
-				Import_Utils_Helper::showImportTableBlockedError($moduleName, $user);
+				\App\Modules\Import\Helpers\Utils::showImportTableBlockedError($moduleName, $user);
 				return;
 			}
 		}

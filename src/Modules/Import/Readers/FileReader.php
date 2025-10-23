@@ -58,7 +58,7 @@ class FileReader {
 
 	public function getFilePath()
 	{
-		// return Import_Utils_Helper::getImportFilePath($this->user);
+		// return \App\Modules\Import\Helpers\Utils::getImportFilePath($this->user);
 		return \App\Modules\Import\Helpers\Utils::getImportFilePath($this->user);
 	}
 

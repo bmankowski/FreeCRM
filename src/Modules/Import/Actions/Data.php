@@ -128,7 +128,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 		$lockInfo = \App\Modules\Import\Actions\Lock::isLockedForModule($this->module);
 		if ($lockInfo != null) {
 			if ($lockInfo['userid'] != $this->user->id) {
-				Import_Utils_Helper::showImportLockedError($lockInfo);
+				\App\Modules\Import\Helpers\Utils::showImportLockedError($lockInfo);
 				return false;
 			} else {
 				return true;

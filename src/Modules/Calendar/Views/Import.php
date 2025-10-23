@@ -59,8 +59,8 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SUPPORTED_FILE_TYPES', Import_Utils_Helper::getSupportedFileExtensions($moduleName));
-		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', Import_Utils_Helper::getSupportedFileExtensionsDescription($moduleName));
+		$viewer->assign('SUPPORTED_FILE_TYPES', \App\Modules\Import\Helpers\Utils::getSupportedFileExtensions($moduleName));
+		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', \App\Modules\Import\Helpers\Utils::getSupportedFileExtensionsDescription($moduleName));
 		$viewer->view('Import.tpl', $moduleName);
 	}
 
@@ -76,7 +76,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$request->set('type', 'ics');
 
-		if (Import_Utils_Helper::validateFileUpload($request)) {
+		if (\App\Modules\Import\Helpers\Utils::validateFileUpload($request)) {
 			$lastImport = new iCalLastImport();
 			$lastImport->clearRecords($userId);
 
