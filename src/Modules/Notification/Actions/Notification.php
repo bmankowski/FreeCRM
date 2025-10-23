@@ -16,7 +16,7 @@ class Notification extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$id = $request->get('id');
 		if (!empty($id)) {
-			$notice = Notification_NoticeEntries_Model::getInstanceById($id);
+			$notice = \App\Modules\Notification\Models\Record::getInstanceById($id);
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');

@@ -52,6 +52,15 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	}
 
 	/**
+	 * Function to get user id
+	 * @return int
+	 */
+	public function getUserId()
+	{
+		return $this->get('assigned_user_id');
+	}
+
+	/**
 	 * Return name type notification
 	 * @return string
 	 */
