@@ -289,10 +289,10 @@ class Module extends ModuleBasic
 		$eventType = false;
 		if ($enableDisable === true) {
 			$enableDisable = 0;
-			$eventType = Module::EVENT_MODULE_ENABLED;
+			$eventType = self::EVENT_MODULE_ENABLED;
 		} else if ($enableDisable === false) {
 			$enableDisable = 1;
-			$eventType = Module::EVENT_MODULE_DISABLED;
+			$eventType = self::EVENT_MODULE_DISABLED;
 		}
 		$fire = self::fireEvent($moduleName, $eventType);
 		if ($fire) {
