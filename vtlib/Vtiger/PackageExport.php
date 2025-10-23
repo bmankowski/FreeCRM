@@ -813,7 +813,7 @@ class PackageExport
 	public function exportInventory()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
+		$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->moduleInstance->name);
 		$tableName = $inventoryFieldModel->getTableName('fields');
 
 		$result = $db->query(sprintf('SELECT * FROM %s', $tableName));

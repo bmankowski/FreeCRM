@@ -1064,7 +1064,7 @@ class PackageImport extends PackageExport
 
 		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
 		$inventoryInstance->createInventoryTables();
-		$inventoryFieldInstance = \Vtiger_InventoryField_Model::getInstance($module);
+		$inventoryFieldInstance = \App\Modules\Vtiger\Models\InventoryField::getInstance($module);
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$this->importInventoryField($inventoryFieldInstance, $fieldNode);
 		}
@@ -1072,7 +1072,7 @@ class PackageImport extends PackageExport
 
 	public function importInventoryField($inventoryFieldInstance, $fieldNode)
 	{
-		$instance = \Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
+		$instance = \App\Modules\Vtiger\Models\InventoryField::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
 		$table = $inventoryFieldInstance->getTableName();
 
 		if ($instance->isColumnType()) {

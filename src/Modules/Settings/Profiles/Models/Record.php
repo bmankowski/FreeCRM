@@ -159,7 +159,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function hasModuleActionPermission($module, $action)
 	{
 		$actionId = false;
-		if (is_object($action) && is_a($action, '\Vtiger_Action_Model')) {
+		if (is_object($action) && is_a($action, '\App\Modules\Vtiger\Models\Action')) {
 			$actionId = $action->getId();
 		} else {
 			$action = \App\Modules\Vtiger\Models\Action::getInstance($action);
