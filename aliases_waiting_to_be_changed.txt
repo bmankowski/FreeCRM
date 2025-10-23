@@ -1,17 +1,5 @@
-./tests/phpunit/00_Install.php	Install_InitSchema_Model
-./src/Modules/Notification/Actions/Notification.php	Notification_NoticeEntries_Model
-./src/Modules/Reports/ReportUtils.php	Products_Unit_Price
-./src/Modules/Reports/ReportRun.php	Quotes_Inventory_Manager
-./src/Modules/Reports/Models/ScheduleReports.php	Reports_ScehduleReports_Model
-./src/Modules/Users/Actions/Login.php	Settings_BruteForce_Module_Model
-./src/Modules/Settings/Groups/Models/Record.php	Settings_Groups_Reord_Model
-./src/Modules/Settings/LayoutEditor/Models/Field.php	Settings_LayoutEditor_Field_Model
 ./src/Modules/Vtiger/Views/MassActionAjax.php	Settings_MailMerge_Record_Model
-./src/Modules/Settings/MappedFields/Models/Field.php	Settings_MappedFields_Field_Model
-./src/Modules/Settings/Menu/Models/Module.php	Settings_Menu_Module_Model
-./api/webservice/Portal/BaseModule/Privileges.php	Settings_Profiles_Module_Model
 ./src/Modules/Settings/Vtiger/Actions/TaxAjax.php	Settings_Vtiger_TaxRecord_Model
-./src/Modules/Settings/HideBlocks/Models/Module.php	Settings_Webforms_Block_Model
 ./src/Modules/Users/Models/Privileges.php	Users_Privilege_Model
 ./src/Modules/Vtiger/pdfs/AbstractPDF.php	Vtiger_AbstractPDF_Pdf
 ./src/Modules/Reports/Models/ScheduleReports.php	Vtiger_CompanyDetails_Model

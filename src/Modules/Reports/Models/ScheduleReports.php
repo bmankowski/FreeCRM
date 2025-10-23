@@ -29,7 +29,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	/**
 	 * Function returns the Scheduled Reports Model instance
 	 * @param <Number> $recordId
-	 * @return <Reports_ScehduleReports_Model>
+	 * @return \App\Modules\Reports\Models\ScheduleReports
 	 */
 	public static function getInstanceById($recordId)
 	{
@@ -338,7 +338,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	{
 		$site_URL = vglobal('site_URL');
 		$currentModule = vglobal('currentModule');
-		$logo = $site_URL . '/storage/Logo/' . Vtiger_CompanyDetails_Model::getInstanceById()->get('logoname');
+		$logo = \App\Company::getInstanceById()->getLogo()->getImagePath();
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>

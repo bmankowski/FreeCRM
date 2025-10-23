@@ -225,6 +225,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 		$cvId = $request->get('viewname');
 		$module = $request->getModule();
 		$templates = Settings_MailMerge_Record_Model::getByModule($module);
+		
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TEMPLATES', $templates);

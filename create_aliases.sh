@@ -20,6 +20,13 @@ sed -i '/Vtiger_View_Controller/d' aliases_waiting_to_be_changed.txt
 sed -i '/Import_Result_Details/d' aliases_waiting_to_be_changed.txt
 sed -i '/Import_Finish_Buttons/d' aliases_waiting_to_be_changed.txt
 sed -i '/Import_Saved_Maps/d' aliases_waiting_to_be_changed.txt
+sed -i '/Products_Unit_Price/d' aliases_waiting_to_be_changed.txt
+sed -i '/Quotes_Inventory_Manager/d' aliases_waiting_to_be_changed.txt
+sed -i '/Install_InitSchema_Model/d' aliases_waiting_to_be_changed.txt
+
+sed -i '/Settings_Webforms_Block_Model/d' aliases_waiting_to_be_changed.txt
+
+
 
 echo "Checking which aliases are proper class names..."
 echo "================================================"

@@ -31,7 +31,7 @@ class Module
 	/**
 	 * Function to get instance
 	 * @param boolean true/false
-	 * @return <Settings_Menu_Module_Model>
+	 * @return \App\Modules\Settings\Menu\Models\Module
 	 */
 	public static function getInstance()
 	{

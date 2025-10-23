@@ -834,7 +834,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get all the accessible Custom Views, for a given module if specified
 	 * @param string $moduleName
-	 * @return <Array> - Array of Vtiger_CustomView_Record models
+	 * @return \App\Modules\CustomView\Models\Record[]
 	 */
 	public static function getAll($moduleName = '')
 	{
@@ -920,7 +920,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get all the custom views, of a given module if specified, grouped by their status
 	 * @param string $moduleName
-	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
+	 * @return \App\Modules\CustomView\Models\Record[] grouped by status
 	 */
 	public static function getAllByGroup($moduleName = '', $menuId = false)
 	{

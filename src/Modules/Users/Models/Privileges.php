@@ -116,7 +116,7 @@ class Privileges extends \App\Runtime\BaseModel
 	/**
 	 * Static Function to get the instance of the User Privileges model from the given list of key-value array
 	 * @param <Array> $valueMap
-	 * @return Users_Privilege_Model object
+	 * @return \App\Modules\Users\Models\Privileges
 	 */
 	public static function getInstance($valueMap)
 	{
@@ -170,7 +170,7 @@ class Privileges extends \App\Runtime\BaseModel
 	/**
 	 * Static Function to get the instance of the User Privileges model, given the User id
 	 * @param <Number> $userId
-	 * @return Users_Privilege_Model object
+	 * @return \App\Modules\Users\Models\Privileges object
 	 */
 	public static function getInstanceById($userId, $module = null)
 	{
@@ -195,7 +195,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	/**
 	 * Static function to get the User Privileges Model for the current user
-	 * @return Users_Privilege_Model object
+	 * @return \App\Modules\Users\Models\Privileges object
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{

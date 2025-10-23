@@ -12,11 +12,7 @@ namespace App\Modules\Users\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Runtime\Vtiger_Action_Controller;
-use App\Http\Vtiger_Request;
-use App\CRMEntity;
-use App\AppConfig;
-use App\Http\App\Http\Vtiger_Session;
+
 
 
 class Login extends \App\Runtime\Vtiger_Action_Controller
@@ -41,7 +37,7 @@ class Login extends \App\Runtime\Vtiger_Action_Controller
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
 		$moduleModel = \App\Modules\Users\Models\Module::getInstance('Users');
-		$bfInstance = class_exists('Settings_BruteForce_Module_Model') ? \App\Modules\Settings\BruteForce\Models\Module::getCleanInstance() : null;
+		$bfInstance = class_exists('\App\Modules\Settings\BruteForce\Models\Module') ? \App\Modules\Settings\BruteForce\Models\Module::getCleanInstance() : null;
 		if ($bfInstance && $bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			if ($moduleModel) {

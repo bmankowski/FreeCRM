@@ -218,7 +218,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 * Function to get instance
 	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
-	 * @return <Settings_LayoutEditor_Field_Model>
+	 * @return \App\Modules\Settings\LayoutEditor\Models\Field
 	 */
 	public static function getInstance($value, $module = false)
 	{
@@ -235,7 +235,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 * Function to get all fields list for all blocks
 	 * @param array List of block ids
 	 * @param \App\Modules\Vtiger\Models\Module $moduleInstance
-	 * @return array List of Field models \Settings_LayoutEditor_Field_Model
+	 * @return array<\App\Modules\Settings\LayoutEditor\Models\Field> List of Field models 
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)
 	{

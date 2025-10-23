@@ -68,7 +68,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get clean instance
-	 * @return <Settings_MappedFields_Field_Model>
+	 * @return \App\Modules\Settings\MappedFields\Models\Field
 	 */
 	public static function getCleanInstance()
 	{
@@ -77,7 +77,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get Field instance from array
-	 * @return <Settings_MappedFields_Field_Model>
+	 * @return \App\Modules\Settings\MappedFields\Models\Field
 	 */
 	public static function fromArray($row = [])
 	{
@@ -90,7 +90,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get field instance from WebserviceFieldObject
-	 * @return <Settings_MappedFields_Field_Model>
+	 * @return \App\Modules\Settings\MappedFields\Models\Field
 	 */
 	public static function getInstanceFromWebserviceFieldObject($webserviceField)
 	{
@@ -137,7 +137,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get field instance from InventoryFieldObject
-	 * @return <Settings_MappedFields_Field_Model>
+	 * @return \App\Modules\Settings\MappedFields\Models\Field
 	 */
 	public static function getInstanceFromInventoryFieldObject($inventoryField)
 	{
@@ -160,7 +160,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 * @param <String/Integer> $value
 	 * @param string $module
 	 * @param string $type
-	 * @return <Settings_MappedFields_Field_Model> field model
+	 * @return \App\Modules\Settings\MappedFields\Models\Field field model
 	 */
 	public static function getInstance($value, $module = false, $type = '')
 	{

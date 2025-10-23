@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Tax extends InventoryField
+class Tax extends Basic
 {
 
 	protected $name = 'Tax';
@@ -28,7 +28,7 @@ class Tax extends InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		return CurrencyField::convertToUserFormat($value, null, true);
+		return \App\Fields\CurrencyField::convertToUserFormat($value, null, true);
 	}
 
 	public function getClassName($data)

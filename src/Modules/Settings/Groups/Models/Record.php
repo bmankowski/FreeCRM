@@ -32,7 +32,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to set the Id
 	 * @param <Number> Group Id
-	 * @return <Settings_Groups_Reord_Model> instance
+	 * @return \App\Modules\Settings\Groups\Models\Record instance
 	 */
 	public function setId($id)
 	{
