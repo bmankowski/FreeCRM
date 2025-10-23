@@ -205,7 +205,7 @@ class UserInfoUtil
 			$recOwnId = $id;
 		}
 		if (\App\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
-			$shownerids = Vtiger_SharedOwner_UIType::getSharedOwners($record_id, $module);
+			$shownerids = \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($record_id, $module);
 			if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 				vglobal('isPermittedLog', 'SEC_RECORD_SHARED_OWNER');
 				\App\Log::trace('Exiting isPermitted method ... - Shared Owner');
@@ -254,7 +254,7 @@ class UserInfoUtil
 								$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
 								break;
 							case 1:
-								$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
+								$relatedPermission = in_array($current_user->id, \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($parentRecord, $recordMetaData['setype']));
 								break;
 							case 2:
 								if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {

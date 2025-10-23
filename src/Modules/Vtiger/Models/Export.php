@@ -283,7 +283,7 @@ class Export extends \App\Runtime\BaseModel
 			} elseif ($uitype === 52 || $type === 'owner') {
 				$value = \App\Modules\Vtiger\Helpers\Util::getOwnerName($value);
 			} elseif ($uitype === 120) {
-				$uitypeInstance = new Vtiger_SharedOwner_UIType;
+				$uitypeInstance = new \App\Modules\Vtiger\UiTypes\SharedOwner;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
 				foreach ($owners as $owner) {

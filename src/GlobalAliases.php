@@ -35,7 +35,7 @@ spl_autoload_register(function ($class) {
 		'Settings_Inventory_Module_Model' => 'FreeCRM\Modules\Settings\Inventory\Models\Module',
 		'Settings_LayoutEditor_Module_Model' => 'FreeCRM\Modules\Settings\LayoutEditor\Models\Module',
 		'Settings_MailSmtp_Module_Model' => 'FreeCRM\Modules\Settings\MailSmtp\Models\Module',
-		'Settings_Mail_Config_Model' => 'FreeCRM\Modules\Settings\Mail\Models\Config',
+		'App\Modules\Settings\Mail\Models\Config' => 'App\Modules\Settings\Mail\Models\Config',
 		'Settings_ModuleManager_Library_Model' => 'FreeCRM\Modules\Settings\ModuleManager\Models\Library',
 		'Settings_ModuleManager_Module_Model' => 'FreeCRM\Modules\Settings\ModuleManager\Models\Module',
 		'Settings_PBXManager_Module_Model' => 'FreeCRM\Modules\Settings\PBXManager\Models\Module',

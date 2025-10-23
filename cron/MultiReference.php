@@ -6,6 +6,9 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use Sabre\HTTP\Auth\AWS;
+
 $db = \App\Db::getInstance();
 $executed = [];
 $limit = 1000;
@@ -18,7 +21,7 @@ foreach ($rows as &$multireference) {
 		$queryGenerator->addCondition('id', $multireference['lastid'], 'a');
 		$queryGenerator->setOrder('id', 'ASC');
 
-		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
+		$fields = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 		$dataReader = $queryGenerator->createQuery()->limit($limit)->createCommand()->query();
 		unset($queryGenerator);
 		$queryGenerator = new \App\QueryGenerator($multireference['source_module']);
@@ -53,7 +56,7 @@ foreach ($rows as &$multireference) {
 			if (in_array($multireference['lastid'], $executed)) {
 				continue;
 			}
-			$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
+			$fields = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 			foreach ($fields as $field) {
 				$fieldModel = new \App\Modules\Vtiger\Models\Field();
 				$fieldModel->initialize($field);

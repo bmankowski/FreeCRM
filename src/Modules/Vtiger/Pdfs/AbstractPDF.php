@@ -7,7 +7,9 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-abstract class Vtiger_AbstractPDF_Pdf
+
+namespace App\Modules\Vtiger\Pdfs;
+abstract class AbstractPDF
 {
 
 	protected $pdf;

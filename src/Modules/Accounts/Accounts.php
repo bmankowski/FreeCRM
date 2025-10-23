@@ -342,7 +342,7 @@ class Accounts extends \App\CRMEntity
 				if ($fieldName == 'assigned_user_id') {
 					$parent_account_info[$fieldName] = $row['user_name'];
 				} elseif ($fieldName == 'shownerid') {
-					$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($row['accountid']);
+					$sharedOwners = \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($row['accountid']);
 					if (!empty($sharedOwners)) {
 						$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
@@ -398,7 +398,7 @@ class Accounts extends \App\CRMEntity
 					if ($fieldName == 'assigned_user_id') {
 						$child_account_info[$fieldName] = $row['user_name'];
 					} elseif ($fieldName == 'shownerid') {
-						$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($child_acc_id);
+						$sharedOwners = \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($child_acc_id);
 						if (!empty($sharedOwners)) {
 							$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;

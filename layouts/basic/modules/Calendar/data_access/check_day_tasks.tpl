@@ -32,7 +32,7 @@
 	<div class="form-group marginLeftZero marginRightZero statusContainer{if $STATUS_TYPE} hide{/if}">
 		<label for="status" class="">{"LBL_SELECT_STATUS"|t:"DataAccess"}:</label>
 		<select multiple id="status" name="status" class="form-control select2">
-			{foreach item=ITEM from=Calendar_Module_Model::getComponentActivityStateLabel()}
+			{foreach item=ITEM from=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel()}
 				<option value="{$ITEM}" {if in_array($ITEM, $STATUS)}selected {/if}>{$ITEM|t:"Calendar"}</option>
 			{/foreach}
 		</select>

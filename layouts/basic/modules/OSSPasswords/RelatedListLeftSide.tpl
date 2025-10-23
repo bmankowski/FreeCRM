@@ -25,7 +25,7 @@
 				</a>&nbsp;
 			{/if}
 			{if $RELATED_MODULE_NAME eq 'Calendar'}
-				{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
+				{assign var=CURRENT_ACTIVITY_LABELS value=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')}
 				{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
 					<a class="showModal" data-url="{$RELATED_RECORD->getActivityStateModalUrl()}">
 						<span title="{"LBL_SET_RECORD_STATUS"|t:$MODULE}" class="glyphicon glyphicon-ok alignMiddle"></span>

@@ -420,7 +420,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
 								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
@@ -457,7 +457,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
 								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);

@@ -36,4 +36,3 @@ ini_set('xdebug.enable', 'On');
 Vtiger_Session::init();
 
 define('INSTALLATION_MODE_DEBUG', true);
-vglobal('Vtiger_Utils_Log', true);

@@ -38,7 +38,7 @@
 				<div class="input-group input-group-sm">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3"></span></span>
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{"LBL_CUSTOM_FILTER"|t}">
-						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
+						{assign var=CUSTOM_VIEWS value=\App\Modules\CustomView\Models\Record::getAllByGroup('Calendar')}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							<optgroup label='{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}' >
 								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
@@ -50,8 +50,8 @@
 				</div>
 			{/if}
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
-				{assign var=CURRENT_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
-				{assign var=HISTORY_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('history')}
+				{assign var=CURRENT_STATUS value=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')}
+				{assign var=HISTORY_STATUS value=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')}
 				<input class="switchBtn" type="checkbox" checked data-size="small" data-handle-width="90" data-label-width="5" data-on-text="{"LBL_TO_REALIZE"|t}" data-off-text="{"History"|t}"></span>
 				<input type="hidden" value="current" data-current="{implode(',',$CURRENT_STATUS)}" data-history="{implode(',',$HISTORY_STATUS)}" class="widgetFilterSwitch">
 			{/if}

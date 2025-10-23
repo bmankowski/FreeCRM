@@ -180,7 +180,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function initialize()
 	{
 		$reportId = $this->getId();
-		$this->report = Vtiger_Report_Model::getInstance($reportId);
+		$this->report = \App\Modules\Reports\Models\Report::getInstance($reportId);
 	}
 
 	/**
@@ -614,9 +614,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					if ($fieldType == 'currency') {
 						if ($field->getUIType() == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
+							$advFilterValue = \App\Modules\Vtiger\UiTypes\Currency::convertToDBFormat($advFilterValue, null, true);
 						} else {
-							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue);
+							$advFilterValue = \App\Modules\Vtiger\UiTypes\Currency::convertToDBFormat($advFilterValue);
 						}
 					}
 

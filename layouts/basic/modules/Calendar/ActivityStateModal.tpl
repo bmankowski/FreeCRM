@@ -40,7 +40,7 @@
 			{assign var=ACTIVITYPOSTPONED value=\App\Utils\UserInfoUtil::isPermitted('Calendar', 'ActivityPostponed', $ID)}
 			{assign var=ACTIVITYCANCEL value=\App\Utils\UserInfoUtil::isPermitted('Calendar', 'ActivityCancel', $ID)}
 			{assign var=ACTIVITYCOMPLETE value=\App\Utils\UserInfoUtil::isPermitted('Calendar', 'ActivityComplete', $ID)}
-			{assign var=ACTIVITY_STATE_LABEL value=Calendar_Module_Model::getComponentActivityStateLabel()}
+			{assign var=ACTIVITY_STATE_LABEL value=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel()}
 			{assign var=ACTIVITY_STATE value=$RECORD->get('activitystatus')}
 			{assign var=EMPTY value=!in_array($ACTIVITY_STATE, [$ACTIVITY_STATE_LABEL.cancelled,$ACTIVITY_STATE_LABEL.completed])}
 			<div class="modal-body">

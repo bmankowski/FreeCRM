@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Vtiger;
+namespace App\Modules\Vtiger\Pdfs;
 
 /**
  * Class using mPDF as a PDF creator
@@ -10,9 +10,9 @@ namespace App\Modules\Vtiger;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once '/libraries/mPDF/mpdf.php';
+require_once ROOT_DIRECTORY . '/libraries/mPDF/mpdf.php';
 
-class mPDF extends Pdf
+class mPDF extends AbstractPDF
 {
 
 	const WATERMARK_TYPE_TEXT = 0;

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-grep -r -oP '\b[A-Z][a-z]+[A-Za-z0-9]*_[A-Z][a-z]+[A-Za-z0-9]*_[A-Z][A-Za-z0-9_]*\b' --include="*.php" . --exclude-dir=vendor | tr ':' '\t' | sort -t$'\t' -k2 -u > aliases_waiting_to_be_changed.txt
+grep -r -oP '\b[A-Z][a-z]+[A-Za-z0-9]*_[A-Z][a-z]+[A-Za-z0-9]*_[A-Z][A-Za-z0-9_]*\b' --include="*.php" --include="*.tpl" . --exclude-dir=vendor | tr ':' '\t' | sort -t$'\t' -k2 -u > aliases_waiting_to_be_changed.txt
 sed -i '/GlobalAliases/d' aliases_waiting_to_be_changed.txt
 sed -i '/Base2.php/d' aliases_waiting_to_be_changed.txt
 sed -i '/Vtiger_Language_Handler/d' aliases_waiting_to_be_changed.txt
@@ -23,8 +23,12 @@ sed -i '/Import_Saved_Maps/d' aliases_waiting_to_be_changed.txt
 sed -i '/Products_Unit_Price/d' aliases_waiting_to_be_changed.txt
 sed -i '/Quotes_Inventory_Manager/d' aliases_waiting_to_be_changed.txt
 sed -i '/Install_InitSchema_Model/d' aliases_waiting_to_be_changed.txt
-
+sed -i '/Import_Advanced_Buttons/d' aliases_waiting_to_be_changed.txt
+sed -i '/Import_Basic_Buttons/d' aliases_waiting_to_be_changed.txt
 sed -i '/Settings_Webforms_Block_Model/d' aliases_waiting_to_be_changed.txt
+sed -i '/Import_Default_Values_Widget/d' aliases_waiting_to_be_changed.txt
+sed -i '/Import_Done_Buttons/d' aliases_waiting_to_be_changed.txt
+
 
 
 

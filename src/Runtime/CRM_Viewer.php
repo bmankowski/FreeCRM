@@ -149,7 +149,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('App\\Privilege', '\App\\Privilege');
 		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
 		$this->registerClass('\App\\Modules\\Settings\\ModuleManager\\Models\\Library', '\App\\Modules\\Settings\\ModuleManager\\Models\\Library');
-		$this->registerClass('Settings_Mail_Config_Model', '\App\\Modules\\Settings\\Mail\\Models\\Config');
+		$this->registerClass('App\Modules\Settings\Mail\Models\Config', '\App\\Modules\\Settings\\Mail\\Models\\Config');
 		$this->registerClass('OSSMail_Autologin_Model', '\App\\Modules\\OSSMail\\Models\\Autologin');
 		$this->registerClass('OSSMail_Module_Model', '\App\\Modules\\OSSMail\\Models\\Module');
 

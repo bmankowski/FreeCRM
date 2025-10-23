@@ -92,7 +92,7 @@
 			</li>
 		</ul>
 	{/if}
-	{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
+	{assign var=CONFIG value=App\Modules\Settings\Mail\Models\Config::getConfig('mailIcon')}
 	{if $CONFIG['showMailIcon']=='true' && }
 		{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 		{if count($AUTOLOGINUSERS) > 0}
