@@ -4,16 +4,15 @@
 ./src/Modules/Import/Actions/Data.php	Import_Result_Details
 ./src/Modules/Import/Views/Main.php	Import_Saved_Maps
 ./src/Modules/Calendar/Views/Import.php	Import_Utils_Helper
-./install/views/Index.php	Install_InitSchema_Model
-./src/Modules/Reports/Models/Base_Chart.php	Leads_Lead_Source
+./src/Modules/Install/Models/InitSchema.php	Install_InitSchema_Model
 ./src/Modules/ModComments/Models/Record.php	ModComment_Record_Model
 ./src/Modules/Notification/Actions/Notification.php	Notification_NoticeEntries_Model
+./src/Modules/Reports/ReportUtils.php	Products_Unit_Price
 ./src/Modules/Reports/ReportRun.php	Quotes_Inventory_Manager
 ./src/Modules/Reports/Models/ScheduleReports.php	Reports_ScehduleReports_Model
 ./src/Modules/Services/Views/ListView.php	Services_List_View
 ./src/Modules/Settings/AdvancedPermission/Views/Detail.php	Settings_AdvancedPermission_Detail_View
 ./src/Modules/Users/Actions/Login.php	Settings_BruteForce_Module_Model
-./install/views/Index.php	Settings_ConfReport_Module_Model
 ./src/Modules/Settings/DataAccess/Views/ActionConfig.php	Settings_DataAccess_ActionConfig_View
 ./src/Modules/Settings/DataAccess/Views/AddAction.php	Settings_DataAccess_AddAction_View
 ./src/Modules/Settings/DataAccess/Views/Index.php	Settings_DataAccess_Index_View
@@ -50,7 +49,6 @@
 ./src/Modules/Users/Models/Privileges.php	Users_Privilege_Model
 ./src/Modules/Vtiger/pdfs/AbstractPDF.php	Vtiger_AbstractPDF_Pdf
 ./src/Modules/Reports/Models/ScheduleReports.php	Vtiger_CompanyDetails_Model
-./src/Modules/Campaigns/Views/Detail.php	Vtiger_CountRecords_Widget
 ./src/Modules/Vtiger/Dashboards/CreatedNotMineActivities.php	Vtiger_CreatedNotMineActivities_Dashboard
 ./src/Modules/Reports/Models/Record.php	Vtiger_Currency_UIType
 ./src/Modules/CustomView/Models/Record.php	Vtiger_CustomView_Record
@@ -59,7 +57,6 @@
 ./src/Modules/Vtiger/Dashboards/OverdueActivities.php	Vtiger_OverdueActivities_Dashboard
 ./src/Modules/Reports/Models/Record.php	Vtiger_Report_Model
 ./src/Utils/UserInfoUtil.php	Vtiger_SharedOwner_UIType
-./src/Modules/Vtiger/Models/Inventory.php	Vtiger_Taxes_UIType
 ./src/Fields/DateTimeField.php	Vtiger_Time_UIType
 ./src/Modules/Settings/DataAccess/Helpers/Oss_Tool.php	Vtiger_Utils_Log
-./install/views/Index.php	Vtiger_View_Controller
+./src/Modules/SSalesProcesses/Views/Hierarchy.php	Vtiger_View_Controller

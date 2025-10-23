@@ -42,8 +42,6 @@ done < aliases_waiting_to_be_changed.txt
 echo ""
 echo "================================================"
 echo "Summary:"
-echo "  Proper classes found and removed: $found"
 echo "  Missing classes kept in file: $missing"
-echo "  Total: $((found + missing))"
 echo ""
 echo "Remaining aliases saved to: aliases_waiting_to_be_changed.txt"

@@ -149,7 +149,7 @@ class Inventory {
 			$relationFieldValue = $recordModel->get($accountField);
 			if ($relationFieldValue != 0) {
 				$accountRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relationFieldValue, 'Accounts');
-				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField));
+				$accountTaxs = \App\Modules\Vtiger\UiTypes\Taxes::getValues($accountRecordModel->get($taxField));
 				$name = $accountRecordModel->getName();
 			}
 		}

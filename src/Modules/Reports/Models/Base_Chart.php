@@ -230,7 +230,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns translated label for the field from report label
-	 * Report label format MODULE_FIELD_LABEL eg:Leads_Lead_Source
+	 * Report label format MODULE_FIELD_LABEL 
 	 * @param string $column
 	 */
 	public function getTranslatedLabelFromReportLabel($column)

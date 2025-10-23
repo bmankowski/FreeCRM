@@ -9,8 +9,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
-class Install_Index_view extends Vtiger_View_Controller
+class Index extends \App\Modules\Vtiger\Views\Index
 {
 
 	protected $debug = false;
@@ -134,7 +133,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function Step3(Vtiger_Request $request)
 	{
-		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
+		$this->viewer->assign('FAILED_FILE_PERMISSIONS', \App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles(true));
 		$this->viewer->assign('MODULE', 'Settings::ConfReport');
 		echo $this->viewer->fetch('Step3.tpl');
 	}
@@ -215,7 +214,7 @@ class Install_Index_view extends Vtiger_View_Controller
 				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 			// Initialize and set up tables
-			$initSchema = new Install_InitSchema_Model();
+			$initSchema = new \App\Modules\Install\Models\InitSchema();
 			$initSchema->initialize();
 			$initSchema->setCompanyDetails($request);
 

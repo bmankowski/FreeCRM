@@ -15,9 +15,6 @@ namespace vtlib;
  * @package vtlib
  */
 
-use App\Modules\Users\Models\Module as \App\Modules\Users\Models\Module;
-
-use App\Modules\Vtiger\Models\Relation as Vtiger_Relation_Model;
 class Module extends ModuleBasic
 {
 
@@ -63,7 +60,7 @@ class Module extends ModuleBasic
 			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
 			->exists();
 		if ($isExists) {
-			self::log("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists");
+			self::log("Setting relation with $moduleInstance->name [useactions_text] ... Error, the related module already exists");
 			return;
 		}
 
@@ -301,7 +298,7 @@ class Module extends ModuleBasic
 		if ($fire) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
 			Deprecated::createModuleMetaFile();
-			vtlib_RecreateUserPrivilegeFiles();
+			\App\Utils\VtlibUtils::recreateUserPrivilegeFiles();
 			$menuRecordModel = new \App\Modules\Settings\Menu\Models\Record();
 			$menuRecordModel->refreshMenuFiles();
 		}
