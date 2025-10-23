@@ -4,8 +4,8 @@
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
 	{if count($FIELDS) neq 0}
-		{assign var="DISCOUNTS_CONFIG" value=Vtiger_Inventory_Model::getDiscountsConfig()}
-		{assign var="TAXS_CONFIG" value=Vtiger_Inventory_Model::getTaxesConfig()}
+		{assign var="DISCOUNTS_CONFIG" value=\App\Modules\Vtiger\Models\Inventory::getDiscountsConfig()}
+		{assign var="TAXS_CONFIG" value=\App\Modules\Vtiger\Models\Inventory::getTaxesConfig()}
 		{assign var="BASE_CURRENCY" value=\App\Modules\Vtiger\Helpers\Util::getBaseCurrency()}
 
 		{assign var="COLUMNS" value=$INVENTORY_FIELD->getColumns()}

@@ -45,7 +45,7 @@
 								</div>
 								<div class="col-md-3">
 									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select form-control" name="comparator">
-										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
+										{assign var=CONDITION_LIST value=\App\Modules\Settings\DataAccess\Models\Module::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
 												{$item|t:$QUALIFIED_MODULE}
@@ -110,7 +110,7 @@
 								</span>
 								<span class="col-md-3">
 									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select form-control" name="comparator">
-										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
+										{assign var=CONDITION_LIST value=\App\Modules\Settings\DataAccess\Models\Module::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
 												{$item|t:$QUALIFIED_MODULE}

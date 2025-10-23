@@ -26,7 +26,7 @@
 						<div class="btn-group">
 							{if isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action'])}
 								{assign var=VRM value=\App\Modules\Vtiger\Models\Record::getInstanceById($RECORD->getId(), $MODULE_NAME)}
-								{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
+								{assign var=VRMM value=\App\Modules\Vtiger\Models\RelationListView::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 								{if $WIDGET['data']['actionSelect'] eq 1}
 									{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}

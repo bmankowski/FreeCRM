@@ -46,7 +46,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
+									{foreach from=\App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary() key=key item=item}
 										<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
 											<td>{$key|t:"Settings::ConfReport"}</td>
 											<td>{$item.status|t:"Settings::ConfReport"}</td>
@@ -71,7 +71,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue(true) key=key item=item}
+									{foreach from=\App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue(true) key=key item=item}
 										{if $item.status}
 											<tr class="danger">
 												<td><label>{$key}</label></td>

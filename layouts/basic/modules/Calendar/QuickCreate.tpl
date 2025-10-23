@@ -118,41 +118,41 @@
 														<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
 													</th>
 													<th class="text-center taskPrevThreeDaysAgo">
-														{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSAGO)}
+														{\App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($THREEDAYSAGO)}
 													</th>
 												</tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="twoDaysAgo">
 											<table class="table">
-												<tr><th class="text-center taskPrevTwoDaysAgo">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYSAGO)}</th></tr>
+												<tr><th class="text-center taskPrevTwoDaysAgo">{\App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($TWODAYSAGO)}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="oneDaysAgo">
 											<table class="table">
-												<tr><th class="text-center taskPrevOneDayAgo">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYAGO)}</th></tr>
+												<tr><th class="text-center taskPrevOneDayAgo">{\App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($ONEDAYAGO)}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="cur_events">
 											 <table class="table">
-												<tr><th class="text-center taskCur">{Vtiger_Date_UIType::getDisplayDateValue($CURRENTDATE)}</th></tr>
+												<tr><th class="text-center taskCur">{\App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($CURRENTDATE)}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="oneDaysLater">
 											<table class="table">
-												<tr><th class="text-center taskNextOneDayLater">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYLATER)}</th></tr>
+												<tr><th class="text-center taskNextOneDayLater">{\App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($ONEDAYLATER)}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="twoDaysLater">
 											<table class="table">
-												<tr><th class="text-center taskNextTwoDaysLater">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYLATER)}</th></tr>
+												<tr><th class="text-center taskNextTwoDaysLater">{\App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($TWODAYLATER)}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="threeDaysLater">
 											<table class="table">
 												<tr>
 													<th class="text-center taskNextThreeDaysLater">
-														{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSLATER)}
+														{\App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($THREEDAYSLATER)}
 													</th>
 													<th class="padding5">
 														<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>

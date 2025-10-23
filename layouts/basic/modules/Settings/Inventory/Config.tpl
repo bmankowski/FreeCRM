@@ -27,7 +27,7 @@
 			<label class="col-md-3 control-label form-control-static">{"LBL_SUMMATION_TYPE"|t:$QUALIFIED_MODULE}</label>
 			<div class="col-md-6">
 				<select class="select2" name="aggregation">
-					{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues('aggregation')}
+					{foreach  item=LABEL key=KEY from=\App\Modules\Settings\Inventory\Models\Module::getPicklistValues('aggregation')}
 						<option value="{$KEY}" {if $KEY eq $CONFIG.aggregation} selected {/if}>{$LABEL|t:$QUALIFIED_MODULE}</option>
 					{/foreach}
 				</select>
@@ -43,7 +43,7 @@
 			<label class="col-md-3 control-label form-control-static">{'LBL_AVAILABLE_'|cat:strtoupper($FIELD)|t:$QUALIFIED_MODULE}</label>
 			<div class="col-md-6">
 				<select class="select2" multiple name="{$FIELD}">
-					{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues($FIELD)}
+					{foreach  item=LABEL key=KEY from=\App\Modules\Settings\Inventory\Models\Module::getPicklistValues($FIELD)}
 						<option value="{$KEY}" {if in_array($KEY, $FIELD_VALUE)} selected {/if}>{$LABEL|t:$QUALIFIED_MODULE}</option>
 					{/foreach}
 				</select>

@@ -26,7 +26,7 @@
 						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CANCEL"|t:$MODULE}</strong></button>
 					</div>
 					<div class="row">
-						{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
+						{assign var=ROLE_RECORD_MODEL value=\App\Modules\Settings\Roles\Models\Record::getInstanceById($USER_MODEL->get('roleid'))}
 						<div class="col-md-5">
 							<select class="select2 form-control" title="{"LBL_USER"|t:$MODULE}" name="user" {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
 								{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 

@@ -9,7 +9,7 @@
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
 	{assign var="PARAMS" value=$FIELD_MODEL->getUITypeModel()->get('field')->getFieldParams()}
-	{assign var="RELATED_FIELD_MODEL" value=Vtiger_Field_Model::getInstanceFromFieldId($PARAMS['field'])}
+	{assign var="RELATED_FIELD_MODEL" value=\App\Modules\Vtiger\Models\Field::getInstanceFromFieldId($PARAMS['field'])}
 	<div class="picklistSearchField">
 		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{$FIELD_MODEL->get('label')|t:$MODULE}" multiple data-fieldinfo="{$FIELD_INFO|escape}">
 			{foreach item=VALUE from=$PICKLIST_VALUES}

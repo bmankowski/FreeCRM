@@ -42,7 +42,7 @@
 						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 					</td>
 					{assign var="FILTER_FIELDS" value=$MODULE_MODEL->getFilterFields()}
-					{assign var="SMTP_NAMES" value=Settings_MailSmtp_Module_Model::getSmtpNames()}
+					{assign var="SMTP_NAMES" value=\App\Modules\Settings\MailSmtp\Models\Module::getSmtpNames()}
 					{assign var="STATUSES" value=App\Mailer::$statuses}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						{assign var="HEADER_NAME" value=$LISTVIEW_HEADER->get('name')}

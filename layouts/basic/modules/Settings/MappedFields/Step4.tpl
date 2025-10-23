@@ -24,7 +24,7 @@
 							<div class="col-md-8">
 								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{"LBL_ADD_USERS_ROLES"|t:"Settings:Groups"}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}
-									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
+									{foreach from=\App\Modules\Settings\Groups\Models\Member::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{$GROUP_LABEL|t:$QUALIFIED_MODULE}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{$MEMBER->get('name')|t:$QUALIFIED_MODULE}</option>

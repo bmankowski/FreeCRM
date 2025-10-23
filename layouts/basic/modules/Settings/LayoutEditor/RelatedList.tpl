@@ -48,7 +48,7 @@
 							{assign var=INVENTORY_FIELD_MODEL value=false}
 							{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
 							{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
-							{assign var=RECORD_STRUCTURE_INSTANCE value=Vtiger_RecordStructure_Model::getInstanceForModule($RELATED_MODULE_MODEL)}
+							{assign var=RECORD_STRUCTURE_INSTANCE value=\App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($RELATED_MODULE_MODEL)}
 							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
 							{if $RELATED_MODULE_MODEL->isInventory()}
 								{assign var=INVENTORY_FIELD_MODEL value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)}
@@ -59,7 +59,7 @@
 							{else}
 								{assign var=STATUS value='0'}
 							{/if}
-							{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
+							{assign var=SELECTED_FIELDS value=\App\Modules\Settings\LayoutEditor\Models\Module::getRelationFields($MODULE_MODEL->getId())}
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
@@ -153,7 +153,7 @@
 									<label class="col-md-4 control-label">{"LBL_RELATION_TYPE"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7">
 										<select name="type" class="form-control">
-											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
+											{foreach from=\App\Modules\Settings\LayoutEditor\Models\Module::getRelationsTypes() item=ITEM key=KEY}
 												<option value="{$KEY}">{$ITEM|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>
@@ -163,7 +163,7 @@
 									<label class="col-md-4 control-label">{"LBL_RELATION_ACTIONS"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7 marginTop">
 										<select multiple name="actions" class="form-control">
-											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsActions() item=ITEM key=KEY}
+											{foreach from=\App\Modules\Settings\LayoutEditor\Models\Module::getRelationsActions() item=ITEM key=KEY}
 												<option value="{$KEY}">{$ITEM|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>

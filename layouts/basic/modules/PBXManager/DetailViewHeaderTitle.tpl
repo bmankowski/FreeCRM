@@ -61,7 +61,7 @@
 							{assign var=CALLER_INFO value=PBXManager_Record_Model::lookUpRelatedWithNumber($RECORD->get('customernumber'))}
 							{if $CALLER_INFO.id}
 								{assign var=MODULEMODEL value=\App\Modules\Vtiger\Models\Module::getInstance($RECORD->get('customertype'))}
-								{assign var=FIELDMODEL value=Vtiger_Field_Model::getInstance($CALLER_INFO.fieldname,$MODULEMODEL)}
+								{assign var=FIELDMODEL value=\App\Modules\Vtiger\Models\Field::getInstance($CALLER_INFO.fieldname,$MODULEMODEL)}
 								{assign var=FIELD_NAME value=$FIELDMODEL->get('label')}
 							{/if}
 

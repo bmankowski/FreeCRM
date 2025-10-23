@@ -7,7 +7,7 @@
 		</div>
 		<hr>
 		<div class="row">
-			Settings_Vtiger_Policy_View
+			\App\Modules\Settings\Vtiger\Views\Policy
 		</div>
 	</div>
 <!--/layouts/basic/modules/Settings/Vtiger/Policy.tpl -->

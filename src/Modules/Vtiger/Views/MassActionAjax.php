@@ -224,8 +224,9 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 		$excludedIds = $request->get('excluded_ids');
 		$cvId = $request->get('viewname');
 		$module = $request->getModule();
-		$templates = Settings_MailMerge_Record_Model::getByModule($module);
-		
+		// TODO: Settings_MailMerge_Record_Model class doesn't exist - needs implementation
+		// $templates = Settings_MailMerge_Record_Model::getByModule($module);
+		$templates = [];
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TEMPLATES', $templates);

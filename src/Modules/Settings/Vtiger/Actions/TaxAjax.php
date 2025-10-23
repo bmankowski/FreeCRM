@@ -30,6 +30,13 @@ class TaxAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 			return;
 		}
 
+		// TODO: Settings_Vtiger_TaxRecord_Model class doesn't exist - needs implementation
+		$response = new \App\Http\Vtiger_Response();
+		$response->setError('NOT_IMPLEMENTED', 'Tax Record Model is not implemented yet');
+		$response->emit();
+		return;
+
+		/* Commented out until Settings_Vtiger_TaxRecord_Model is implemented
 		$taxId = $request->get('taxid');
 		$type = $request->get('type');
 		if (empty($taxId)) {
@@ -56,6 +63,7 @@ class TaxAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
+		*/
 	}
 
 	public function checkDuplicateName(\App\Http\Vtiger_Request $request)
@@ -66,7 +74,9 @@ class TaxAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$taxLabel = $request->get('taxlabel');
 		$type = $request->get('type');
 
-		$exists = Settings_Vtiger_TaxRecord_Model::checkDuplicate($taxLabel, $taxId, $type);
+		// TODO: Settings_Vtiger_TaxRecord_Model class doesn't exist - needs implementation
+		// $exists = Settings_Vtiger_TaxRecord_Model::checkDuplicate($taxLabel, $taxId, $type);
+		$exists = false;
 
 		if (!$exists) {
 			$result = array('success' => false);

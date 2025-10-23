@@ -17,7 +17,7 @@
 				<input type="checkbox" checked disabled>
 			</span>
 			<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
-				{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
+				{foreach from=\App\Modules\Settings\Companies\Models\Module::getIndustryList() item=ITEM}
 					<option value="{$ITEM}" {if $COMPANY->get('industry') eq $ITEM}selected{/if}>{$ITEM|t}</option>
 				{/foreach}
 			</select>

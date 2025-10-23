@@ -26,7 +26,7 @@
 				{"LBL_CREATION_DESC"|t:$QUALIFIED_MODULE}<br>
 				<select name="actions_list" class="chzn-select form-control col-md-12" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
 					{foreach key=key item=item from=$ACTIONS_LIST}
-						<option value="{$item}">{Settings_DataAccess_Module_Model::getActionName($item,true)}</option>
+						<option value="{$item}">{\App\Modules\Settings\DataAccess\Models\Module::getActionName($item,true)}</option>
 					{/foreach}
 				</select>
 				<br><br>
@@ -41,10 +41,10 @@
 						{foreach from=$ACTIONS_LIST item=item key=key}
 							<tr class="listViewEntries">
 								<td>
-									{Settings_DataAccess_Module_Model::getActionName($item,true)}
+									{\App\Modules\Settings\DataAccess\Models\Module::getActionName($item,true)}
 								</td>
 								<td>
-									{Settings_DataAccess_Module_Model::getActionName($item,false)}
+									{\App\Modules\Settings\DataAccess\Models\Module::getActionName($item,false)}
 								</td>
 							<tr>
 						{/foreach}	

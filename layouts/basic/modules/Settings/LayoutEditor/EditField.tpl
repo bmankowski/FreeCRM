@@ -168,7 +168,7 @@
 				{if AppConfig::developer('CHANGE_VISIBILITY')}
 					<label class="checkbox">
 						{'LBL_DISPLAY_TYPE'|t:$QUALIFIED_MODULE}
-						{assign var=DISPLAY_TYPE value=Vtiger_Field_Model::showDisplayTypeList()}
+						{assign var=DISPLAY_TYPE value=\App\Modules\Vtiger\Models\Field::showDisplayTypeList()}
 					</label>
 					<div class="marginLeft20 defaultValueUi">
 						<select name="displaytype" class="form-control select2">

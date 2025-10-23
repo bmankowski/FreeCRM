@@ -4,7 +4,7 @@
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
-	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
+	{assign var=BASIC_FIELD_MODEL value=\App\Modules\Vtiger\Models\Field::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<div class="modal-header">
 		<div class="col-xs-10">

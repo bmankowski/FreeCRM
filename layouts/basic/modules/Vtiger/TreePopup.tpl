@@ -10,7 +10,7 @@
 	<input type="hidden" name="tree" id="treePopupValues" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($TREE)}" />
 	<input type="hidden" name="isMultiple" id="isMultiple" value="{$IS_MULTIPLE}" />
 	{assign var="MODULE_INSTANCE" value=\App\Modules\Vtiger\Models\Module::getInstance($MODULE)}
-	{assign var="FIELD_INSTANCE" value=Vtiger_Field_Model::getInstance($SRC_FIELD,$MODULE_INSTANCE)}
+	{assign var="FIELD_INSTANCE" value=\App\Modules\Vtiger\Models\Field::getInstance($SRC_FIELD,$MODULE_INSTANCE)}
 	<div class="panel panel-default marginTop10">
 		<div class="panel-heading">
 			<h3 class="no-margin">{"LBL_SELECT_TREE_ITEM"|t:$MODULE} {$FIELD_INSTANCE->get('label')|t:$MODULE}</h3>

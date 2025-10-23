@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/CustomView/FilterPermissions.tpl -->
-	{assign 'MEMBERS' Settings_Groups_Member_Model::getAll()}
+	{assign 'MEMBERS' \App\Modules\Settings\Groups\Models\Member::getAll()}
 	{assign 'MEMBERS_DEFAULT' $MODULE_MODEL->getFilterPermissionsView($CVID, $TYPE)}
 	<input type="hidden" id="cvid" value="{$CVID}" />
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />

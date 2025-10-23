@@ -11,22 +11,22 @@
 		<div>
 			<select class="form-control" id="iconsList" name="type">
 				<option value="">-</option>
-				{foreach from=Settings_Vtiger_Icons_Model::getGlyphicon() key=NAME item=CLASS}
+				{foreach from=\App\Modules\Settings\Vtiger\Models\Icons::getGlyphicon() key=NAME item=CLASS}
 					<option value="glyphicon {$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=Settings_Vtiger_Icons_Model::getUserIcon() key=NAME item=CLASS}
+				{foreach from=\App\Modules\Settings\Vtiger\Models\Icons::getUserIcon() key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=Settings_Vtiger_Icons_Model::getAdminIcon() key=NAME item=CLASS}
+				{foreach from=\App\Modules\Settings\Vtiger\Models\Icons::getAdminIcon() key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=Settings_Vtiger_Icons_Model::getAdditionalIcon() key=NAME item=CLASS}
+				{foreach from=\App\Modules\Settings\Vtiger\Models\Icons::getAdditionalIcon() key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=Settings_Vtiger_Icons_Model::getFontAwesomeIcon() key=NAME item=CLASS}
+				{foreach from=\App\Modules\Settings\Vtiger\Models\Icons::getFontAwesomeIcon() key=NAME item=CLASS}
 					<option value="fa {$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=Settings_Vtiger_Icons_Model::getImageIcon() key=NAME item=URL}
+				{foreach from=\App\Modules\Settings\Vtiger\Models\Icons::getImageIcon() key=NAME item=URL}
 					<option value="{$URL}" data-type="image" title="{$NAME}">{$NAME}</option>
 				{/foreach}
 			</select>

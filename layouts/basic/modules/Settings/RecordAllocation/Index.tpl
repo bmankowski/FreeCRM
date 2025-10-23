@@ -19,7 +19,7 @@
 		{foreach from=$ALL_MODULE_LIST key=MODULE_ID item=MODULE_MODEL name=modules}
 			{assign 'INDEX' $smarty.foreach.modules.iteration}
 			{assign 'MODULE_NAME' $MODULE_MODEL->getName()}
-			{assign var=DATA value=Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($TYPE, $MODULE_NAME)}
+			{assign var=DATA value=\App\Modules\Settings\ConfReport\Models\Module::getRecordAllocationByModule($TYPE, $MODULE_NAME)}
 			{if $DATA}
 				{include file='AddPanel.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 			{/if}

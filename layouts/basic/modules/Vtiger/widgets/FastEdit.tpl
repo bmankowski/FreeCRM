@@ -12,7 +12,7 @@
 			{"LBL_RECORDS_NO_FOUND"|t:$MODULE_NAME}
 		{else}
 			{foreach item=item key=key from=$WIDGET['data']['FastEdit']}
-				{assign var=FIELD value=Vtiger_Field_Model::getInstance($item,$MODULEINSTANCE)}
+				{assign var=FIELD value=\App\Modules\Vtiger\Models\Field::getInstance($item,$MODULEINSTANCE)}
 				{assign var=FIELD_MODEL value=$FIELD->getWithDefaultValue()}
 				<div class="row marginBottom10px editField" data-prevvalue="{$FIELD_MODEL->get('fieldvalue')}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
 					<div class="col-md-5 margin0px">

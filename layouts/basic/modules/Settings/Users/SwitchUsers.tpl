@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Settings/Users/SwitchUsers.tpl -->
 	<input type="hidden" id="suCount" value="{count($SWITCH_USERS)}" />
 	{assign var="USERS" value=\App\Modules\Users\Models\Record::getAll()}
-	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
+	{assign var="ROLES" value=\App\Modules\Settings\Roles\Models\Record::getAll()}
 	<div class="widget_header row">
 		<div class="col-md-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}

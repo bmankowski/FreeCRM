@@ -14,7 +14,7 @@
 	<span class="col-md-4">
         <select data-num="{$NUM}" class="chzn-select form-control marginBottom5px comparator-select" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
             {foreach key=MODULE_NAME item=FIELD from=$FIELD_LIST}
-				{$CONDITION_LIST = Settings_DataAccess_Module_Model::getConditionByType($FIELD[0]['info']['type'])}
+				{$CONDITION_LIST = \App\Modules\Settings\DataAccess\Models\Module::getConditionByType($FIELD[0]['info']['type'])}
                 <optgroup label='{$MODULE_NAME|t:$MODULE_NAME}'>
                     {foreach from=$FIELD key=key item=item}
                         <option data-module="{$MODULE_NAME}" value="{$item['name']}" data-uitype="{$item['uitype']}" 
