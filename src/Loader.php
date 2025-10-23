@@ -27,6 +27,9 @@ class Loader
 	/** @var array Cache for included paths */
 	protected static $includePathCache = [];
 	
+	/** @var array Cache for resolved component class names (PERFORMANCE) */
+	protected static $componentClassCache = [];
+	
 	/** @var array Directories to search for legacy modules */
 	protected static $loaderDirs = [
 		'src.Modules.',        // PSR-4 migrated modules (new location, first priority)
@@ -53,6 +56,12 @@ class Loader
 		string $moduleName = 'Vtiger',
 		bool $throwException = true
 	) {
+		// PERFORMANCE: Check cache first
+		$cacheKey = "{$moduleName}_{$componentType}_{$componentName}";
+		if (isset(self::$componentClassCache[$cacheKey])) {
+			return self::$componentClassCache[$cacheKey];
+		}
+		
 		// Store original module name for legacy fallback
 		$originalModuleName = $moduleName;
 		
@@ -69,18 +78,23 @@ class Loader
 		// Convert type to plural directory name: View → Views, Action → Actions, Model → Models
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
 
-		// Build fully qualified PSR-4 class name
+		// Build fully qualified PSR-4 class name and file path
 		$className = "App\\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
-
-		// Check if module-specific class exists
-		if (class_exists($className)) {
+		$filePath = "src/Modules/" . str_replace('\\', '/', $moduleName) . "/{$typeDir}/{$componentName}.php";
+		
+		// PERFORMANCE: Check file exists before class_exists to avoid slow autoloader attempts
+		if (file_exists(ROOT_DIRECTORY . '/' . $filePath) && class_exists($className)) {
+			self::$componentClassCache[$cacheKey] = $className;
 			return $className;
 		}
 
 		// For Settings modules, try Settings\Vtiger fallback
 		if (strpos($originalModuleName, 'Settings:') === 0) {
 			$settingsVtigerFallback = "App\\Modules\\Settings\\Vtiger\\{$typeDir}\\{$componentName}";
-			if (class_exists($settingsVtigerFallback)) {
+			$settingsFilePath = "src/Modules/Settings/Vtiger/{$typeDir}/{$componentName}.php";
+			
+			if (file_exists(ROOT_DIRECTORY . '/' . $settingsFilePath) && class_exists($settingsVtigerFallback)) {
+				self::$componentClassCache[$cacheKey] = $settingsVtigerFallback;
 				return $settingsVtigerFallback;
 			}
 			
@@ -89,7 +103,10 @@ class Loader
 			if (count($parts) > 1) {
 				$subModule = $parts[1];
 				$subModuleFallback = "App\\Modules\\{$subModule}\\{$typeDir}\\{$componentName}";
-				if (class_exists($subModuleFallback)) {
+				$subModuleFilePath = "src/Modules/{$subModule}/{$typeDir}/{$componentName}.php";
+				
+				if (file_exists(ROOT_DIRECTORY . '/' . $subModuleFilePath) && class_exists($subModuleFallback)) {
+					self::$componentClassCache[$cacheKey] = $subModuleFallback;
 					return $subModuleFallback;
 				}
 			}
@@ -97,7 +114,10 @@ class Loader
 
 		// Fallback to Vtiger base class (inheritance pattern)
 		$fallbackClass = "App\\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
-		if (class_exists($fallbackClass)) {
+		$vtigerFilePath = "src/Modules/Vtiger/{$typeDir}/{$componentName}.php";
+		
+		if (file_exists(ROOT_DIRECTORY . '/' . $vtigerFilePath) && class_exists($fallbackClass)) {
+			self::$componentClassCache[$cacheKey] = $fallbackClass;
 			return $fallbackClass;
 		}
 
@@ -105,6 +125,7 @@ class Loader
 		// Convert Settings:PDF → Settings_PDF_ComponentName_Type
 		$legacyClassName = str_replace([':', '\\'], '_', $originalModuleName) . '_' . $componentName . '_' . $componentType;
 		if (class_exists($legacyClassName)) {
+			self::$componentClassCache[$cacheKey] = $legacyClassName;
 			return $legacyClassName;
 		}
 
