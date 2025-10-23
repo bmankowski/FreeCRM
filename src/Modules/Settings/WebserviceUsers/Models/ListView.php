@@ -21,7 +21,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 	 */
 	public function setModule($name)
 	{
-		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
 		$this->module->typeApi = \App\Http\AppRequest::get('typeApi');
 		return $this;

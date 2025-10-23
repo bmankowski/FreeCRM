@@ -48,7 +48,7 @@ class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 		$taskObject = $taskModel->getTaskObject();
 		$taskType = get_class($taskObject);
 		if ($taskType === 'VTCreateEntityTask') {
-			$handlerClass = \App\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
+			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
 			if ($taskObject->entity_type && $taskObject->field_value_mapping) {

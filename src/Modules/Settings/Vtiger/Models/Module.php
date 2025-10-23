@@ -129,7 +129,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 		if ($name === 'Settings:Vtiger') {
 			return new self();
 		}
-		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $name);
 		// Ensure class name is resolved from global namespace
 		if ($modelClassName[0] !== '\\') {
 			$modelClassName = '\\' . $modelClassName;

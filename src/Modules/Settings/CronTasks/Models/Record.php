@@ -203,7 +203,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			->where(['id' => $recordId])
 			->one();
 		if ($row) {
-			$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($row)->setModule($moduleModel);

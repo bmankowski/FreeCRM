@@ -88,7 +88,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
-		$handlerClass = \App\Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$data = [];
 		$fields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep();

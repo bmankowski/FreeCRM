@@ -26,7 +26,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $module->getName();
 		}
-		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
 		$listFields [] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)

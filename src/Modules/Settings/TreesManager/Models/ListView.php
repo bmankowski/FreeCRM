@@ -30,7 +30,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listQuery = $this->getBasicListQuery();
 
 		$startIndex = $pagingModel->getStartIndex();

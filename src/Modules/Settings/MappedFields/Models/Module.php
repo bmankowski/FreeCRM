@@ -117,7 +117,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$handlerClass = \App\Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$data = [];
 		$fields = self::getFieldsByStep();

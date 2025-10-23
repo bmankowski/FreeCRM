@@ -14,12 +14,26 @@ namespace App;
 /**
  * Modern PSR-4 Module Loader
  * 
- * Replaces legacy Vtiger_Loader for PSR-4 namespaced modules in src/Modules/
+ * Unified loader combining PSR-4 component loading and legacy asset resolution
+ * Replaces legacy Vtiger_Loader
  * 
  * @package App
  */
 class Loader
 {
+	/** @var array Cache for included files */
+	protected static $includeCache = [];
+	
+	/** @var array Cache for included paths */
+	protected static $includePathCache = [];
+	
+	/** @var array Directories to search for legacy modules */
+	protected static $loaderDirs = [
+		'src.Modules.',        // PSR-4 migrated modules (new location, first priority)
+		'custom.modules.',     // Custom module overrides
+		'old_modules.',        // Settings subsystem only (unmigrated)
+		'admin.modules.',      // Admin modules
+	];
 	/**
 	 * Get PSR-4 component class name
 	 * 
@@ -39,12 +53,15 @@ class Loader
 		string $moduleName = 'Vtiger',
 		bool $throwException = true
 	) {
+		// Store original module name for legacy fallback
+		$originalModuleName = $moduleName;
+		
 		// Handle Settings:SubModule pattern → Settings\SubModule
 		if (strpos($moduleName, ':') !== false) {
 			$moduleName = str_replace(':', '\\', $moduleName);
 		}
 
-		// Handle special case: view=List maps to ListView class (reserved keyword workaround)
+		// Handle special case: view=List maps to ListView class (PHP reserved keyword workaround)
 		if ($componentType === 'View' && $componentName === 'List') {
 			$componentName = 'ListView';
 		}
@@ -53,22 +70,48 @@ class Loader
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
 
 		// Build fully qualified PSR-4 class name
-		$className = "App\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
+		$className = "App\\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
 
 		// Check if module-specific class exists
 		if (class_exists($className)) {
 			return $className;
 		}
 
+		// For Settings modules, try Settings\Vtiger fallback
+		if (strpos($originalModuleName, 'Settings:') === 0) {
+			$settingsVtigerFallback = "App\\Modules\\Settings\\Vtiger\\{$typeDir}\\{$componentName}";
+			if (class_exists($settingsVtigerFallback)) {
+				return $settingsVtigerFallback;
+			}
+			
+			// Try base submodule without Settings prefix
+			$parts = explode(':', $originalModuleName);
+			if (count($parts) > 1) {
+				$subModule = $parts[1];
+				$subModuleFallback = "App\\Modules\\{$subModule}\\{$typeDir}\\{$componentName}";
+				if (class_exists($subModuleFallback)) {
+					return $subModuleFallback;
+				}
+			}
+		}
+
 		// Fallback to Vtiger base class (inheritance pattern)
-		$fallbackClass = "App\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
+		$fallbackClass = "App\\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
 		if (class_exists($fallbackClass)) {
 			return $fallbackClass;
 		}
 
+		// Legacy fallback: check if old-style class name exists
+		// Convert Settings:PDF → Settings_PDF_ComponentName_Type
+		$legacyClassName = str_replace([':', '\\'], '_', $originalModuleName) . '_' . $componentName . '_' . $componentType;
+		if (class_exists($legacyClassName)) {
+			return $legacyClassName;
+		}
+
 		// Component not found
 		if ($throwException) {
-			throw new \Exception("Module component not found: {$className}");
+			\App\Log::error("Loader::getComponentClassName($componentType, $componentName, $originalModuleName): Handler not found");
+			throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		return false;
 	}

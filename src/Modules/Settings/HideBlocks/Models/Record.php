@@ -159,7 +159,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$rowData = [];
 		if (!empty($recordId)) {
-			$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$rowData = (new \App\Db\Query())
 				->from('vtiger_blocks_hide')
@@ -175,7 +175,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	static public function getCleanInstance($qualifiedModuleName)
 	{
-		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$recordModel = new $recordModelClass();
 		return $recordModel;
 	}

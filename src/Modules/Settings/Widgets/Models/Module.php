@@ -67,7 +67,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$action = str_replace('.php', "", $ff);
 			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
 				$folderFiles[$action] = $action;
-				$modelClassName = \App\Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
+				$modelClassName = \App\Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
 				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
 					unset($folderFiles[$action]);

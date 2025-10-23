@@ -29,9 +29,9 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 */
 	public static function init($module = 'Vtiger', $data = [])
 	{
-		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $module);
 		$moduleInstance = new $modelClassName();
-		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Field', $module);
 		$instance = new $modelClassName();
 		$instance->setModule($moduleInstance);
 		foreach ($data as $key => $value) {

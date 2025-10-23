@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Vtiger\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ListAjax extends \App\Modules\Settings\Vtiger\Views\List
+class ListAjax extends \App\Modules\Settings\Vtiger\Views\ListView
 {
 
 	public function __construct()

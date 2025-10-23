@@ -31,7 +31,7 @@ class ListView extends \App\Modules\Vtiger\Models\Record
 
 	public function setModule($name)
 	{
-		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
 		return $this;
 	}
@@ -72,7 +72,7 @@ class ListView extends \App\Modules\Vtiger\Models\Record
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \App\Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listQuery = $this->getBasicListQuery();
 
 		$startIndex = $pagingModel->getStartIndex();
@@ -159,7 +159,7 @@ class ListView extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
-		$modelClassName = \App\Vtiger_Loader::getComponentClassName('Model', 'ListView', $name);
+		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $name);
 		$instance = new $modelClassName();
 		return $instance->setModule($name);
 	}
