@@ -109,8 +109,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function saveToDb()
 	{
 		//Time should changed to 24hrs format
-		\App\Http\AppRequest::set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(\App\Http\AppRequest::get('time_start')));
-		\App\Http\AppRequest::set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(\App\Http\AppRequest::get('time_end')));
+		\App\Http\AppRequest::set('time_start', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds(\App\Http\AppRequest::get('time_start')));
+		\App\Http\AppRequest::set('time_end', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds(\App\Http\AppRequest::get('time_end')));
 		parent::saveToDb();
 		$this->updateActivityReminder();
 		$this->insertIntoInviteTable();

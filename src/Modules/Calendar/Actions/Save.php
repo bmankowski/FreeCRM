@@ -65,10 +65,10 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		//Start Date and Time values
-		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
+		$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start'));
 		$startDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
 		if ($startTime) {
-			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($startTime);
+			$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($startTime);
 			$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . ' ' . $startTime);
 			list($startDate, $startTime) = explode(' ', $startDateTime);
 		}
@@ -78,7 +78,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$endTime = $request->get('time_end');
 		$endDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('due_date'));
 		if ($endTime) {
-			$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
+			$endTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($endTime);
 			$endDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}

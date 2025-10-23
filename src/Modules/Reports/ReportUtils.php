@@ -157,7 +157,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		} else {
 			$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 			if ($userModel->get('hour_format') == '12') {
-				$value = Vtiger_Time_UIType::getTimeValueInAMorPM($value);
+				$value = \App\Modules\Vtiger\UiTypes\Time::getTimeValueInAMorPM($value);
 			}
 			$fieldvalue = $value;
 		}

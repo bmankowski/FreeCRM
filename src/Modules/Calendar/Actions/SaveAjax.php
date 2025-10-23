@@ -67,7 +67,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 
 				if ($user->get('hour_format') === '12') {
-					$dateTimeComponents[1] = Vtiger_Time_UIType::getTimeValueInAMorPM($dateTimeComponents[1]);
+					$dateTimeComponents[1] = \App\Modules\Vtiger\UiTypes\Time::getTimeValueInAMorPM($dateTimeComponents[1]);
 				}
 
 				$result[$fieldName]['value'] = $fieldValue;
@@ -80,7 +80,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 
 				if ($user->get('hour_format') === '12') {
-					$dateTimeComponents[1] = Vtiger_Time_UIType::getTimeValueInAMorPM($dateTimeComponents[1]);
+					$dateTimeComponents[1] = \App\Modules\Vtiger\UiTypes\Time::getTimeValueInAMorPM($dateTimeComponents[1]);
 				}
 
 				$result[$fieldName]['value'] = $fieldValue;
@@ -117,7 +117,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 		$startDate = $request->get('date_start');
 		if (!empty($startDate)) {
 			//Start Date and Time values
-			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
+			$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start'));
 			$startDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
 			if ($startTime) {
 				$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . " " . $startTime);
@@ -132,7 +132,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 			$endTime = $request->get('time_end');
 			$endDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('due_date'));
 			if ($endTime) {
-				$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
+				$endTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($endTime);
 				$endDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 				list($endDate, $endTime) = explode(' ', $endDateTime);
 			}

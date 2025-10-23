@@ -962,7 +962,7 @@ class QueryGenerator
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
 				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
 				}
 				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
 					$dateValues = explode(',', $fieldValue);

@@ -59,4 +59,3 @@
 ./src/Utils/UserInfoUtil.php	Vtiger_SharedOwner_UIType
 ./src/Fields/DateTimeField.php	Vtiger_Time_UIType
 ./src/Modules/Settings/DataAccess/Helpers/Oss_Tool.php	Vtiger_Utils_Log
-./src/Modules/SSalesProcesses/Views/Hierarchy.php	Vtiger_View_Controller

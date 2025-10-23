@@ -76,7 +76,7 @@ class MassSave extends \App\Runtime\Vtiger_Action_Controller
 				$fieldValue = $request->get($fieldName, null);
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
 				}
 				if (isset($fieldValue) && $fieldValue != null) {
 					if (!is_array($fieldValue)) {

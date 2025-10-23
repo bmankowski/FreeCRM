@@ -16,6 +16,7 @@ sed -i '/Vtiger_CssScript_Model/d' aliases_waiting_to_be_changed.txt
 sed -i '/Vtiger_JavaScript/d' aliases_waiting_to_be_changed.txt
 sed -i '/Vtiger_Detail_Js/d' aliases_waiting_to_be_changed.txt
 sed -i '/_Js/d' aliases_waiting_to_be_changed.txt
+sed -i '/Vtiger_View_Controller/d' aliases_waiting_to_be_changed.txt
 
 echo "Checking which aliases are proper class names..."
 echo "================================================"

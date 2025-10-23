@@ -103,7 +103,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 			}
 
 			if ($moduleName == 'Calendar' && empty($record) && $fieldName == 'date_start' && !empty($fieldValue)) {
-				$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
+				$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($requestFieldList['time_start']);
 				$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
 				list($startDate, $startTime) = explode(' ', $startDateTime);
 				$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);

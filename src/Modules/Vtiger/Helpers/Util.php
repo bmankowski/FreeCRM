@@ -148,7 +148,7 @@ class Util {
 
 		$displayTime = $hours . ':' . $minutes;
 		if ($currentUser->get('hour_format') === '12') {
-			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
+			$displayTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueInAMorPM($displayTime);
 		}
 
 		$today = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d H:i:s'));
@@ -331,7 +331,7 @@ class Util {
 		}
 
 		if ($userModel->get('hour_format') == '12') {
-			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
+			$time = \App\Modules\Vtiger\UiTypes\Time::getTimeValueInAMorPM($time);
 		}
 
 		return $time;
@@ -379,7 +379,7 @@ class Util {
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
 				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
 				}
 				if ($field->getFieldDataType() === 'currency') {
 					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);

@@ -76,12 +76,12 @@ Class \App\Modules\Calendar\Views\Edit extends \App\Modules\Vtiger\Views\Edit
 			}
 			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) {
 				if ($fieldName == 'date_start') {
-					$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
+					$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($requestFieldList['time_start']);
 					$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
 					list($startDate, $startTime) = explode(' ', $startDateTime);
 					$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
 				} else {
-					$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_end']);
+					$endTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($requestFieldList['time_end']);
 					$endDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $endTime);
 					list($endDate, $endTime) = explode(' ', $endDateTime);
 					$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($endDate);
