@@ -139,8 +139,8 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	public function searchRecord(\App\Modules\Vtiger\Models\Record $recordModel, $role = '')
 	{
 		$key = $recordModel->getModuleName() . $role;
-		if (\App\Cache::has(__METHOD__, $key)) {
-			$data = \App\Cache::get(__METHOD__, $key);
+		if (\App\Cache\Cache::has(__METHOD__, $key)) {
+			$data = \App\Cache\Cache::get(__METHOD__, $key);
 		} else {
 			$query = (new \App\Db\Query())
 				->select(['field', 'value', 'id'])
@@ -150,7 +150,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 				$query->andWhere(['roleid' => $role]);
 			}
 			$data = $query->all();
-			\App\Cache::save(__METHOD__, $key, $data, \App\Cache::LONG);
+			\App\Cache\Cache::save(__METHOD__, $key, $data, \App\Cache\Cache::LONG);
 		}
 		foreach ($data as $row) {
 			if (!$recordModel->has($row['field'])) {
@@ -177,7 +177,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		if (!empty($param) && isset($param['tabid']) && isset($param['roleid'])) {
 			$tabId = \App\Module::getModuleName($param['tabid']);
 			$cacheKey = $tabId . $param['roleid'];
-			\App\Cache::delete(get_class() . '::searchRecord', $cacheKey);
+			\App\Cache\Cache::delete(get_class() . '::searchRecord', $cacheKey);
 		}
 	}
 

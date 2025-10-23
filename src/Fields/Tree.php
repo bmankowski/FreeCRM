@@ -11,13 +11,13 @@ class Tree
 	 */
 	public static function getValuesById($templateId)
 	{
-		if (\App\Cache::has('TreeValuesById', $templateId)) {
-			return \App\Cache::get('TreeValuesById', $templateId);
+		if (\App\Cache\Cache::has('TreeValuesById', $templateId)) {
+			return \App\Cache\Cache::get('TreeValuesById', $templateId);
 		}
 		$rows = (new \App\Db\Query())
 				->from('vtiger_trees_templates_data')
 				->where(['templateid' => $templateId])->indexBy('tree')->all();
-		\App\Cache::save('TreeValuesById', $templateId, $rows, \App\Cache::SHORT);
+		\App\Cache\Cache::save('TreeValuesById', $templateId, $rows, \App\Cache\Cache::SHORT);
 		return $rows;
 	}
 

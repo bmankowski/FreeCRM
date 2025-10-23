@@ -177,7 +177,7 @@ class Folder extends \App\Runtime\BaseModel
 	 */
 	public static function getInstanceById($folderId)
 	{
-		$folderModel = \App\Runtime\Vtiger_Cache::get('reportsFolder', $folderId);
+		$folderModel = \App\Cache\Cache::get('reportsFolder', $folderId);
 		if (!$folderModel) {
 			$db = \App\Database\PearDatabase::getInstance();
 			$folderModel = \App\Modules\Reports\Models\Folder::getInstance();
@@ -188,7 +188,7 @@ class Folder extends \App\Runtime\BaseModel
 				$values = $db->query_result_rowdata($result, 0);
 				$folderModel->setData($values);
 			}
-			\App\Runtime\Vtiger_Cache::set('reportsFolder', $folderId, $folderModel);
+			\App\Cache\Cache::save('reportsFolder', $folderId, $folderModel);
 		}
 		return $folderModel;
 	}
@@ -200,7 +200,7 @@ class Folder extends \App\Runtime\BaseModel
 	public static function getAll()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$folders = \App\Runtime\Vtiger_Cache::get('reports', 'folders');
+		$folders = \App\Cache\Cache::get('reports', 'folders');
 		if (!$folders) {
 			$folders = array();
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder ORDER BY foldername ASC", array());
@@ -210,10 +210,10 @@ class Folder extends \App\Runtime\BaseModel
 					$folderModel = \App\Modules\Reports\Models\Folder::getInstance();
 					$values = $db->query_result_rowdata($result, $i);
 					$folders[$values['folderid']] = $folderModel->setData($values);
-					\App\Runtime\Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
+					\App\Cache\Cache::save('reportsFolder', $values['folderid'], $folderModel);
 				}
 			}
-			\App\Runtime\Vtiger_Cache::set('reports', 'folders', $folders);
+			\App\Cache\Cache::save('reports', 'folders', $folders);
 		}
 		return $folders;
 	}

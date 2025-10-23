@@ -1023,15 +1023,15 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			return false;
 		}
 		$this->setId((int) $userInfo['id']);
-		if (\App\Cache::has('Authorization', 'config')) {
-			$auth = \App\Cache::get('Authorization', 'config');
+		if (\App\Cache\Cache::has('Authorization', 'config')) {
+			$auth = \App\Cache\Cache::get('Authorization', 'config');
 		} else {
 			$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
 			$auth = [];
 			while ($row = $dataReader->read()) {
 				$auth[$row['type']][$row['param']] = $row['value'];
 			}
-			\App\Cache::save('Authorization', 'config', $auth);
+			\App\Cache\Cache::save('Authorization', 'config', $auth);
 		}
 		if ($auth['ldap']['active'] == 'true') {
 			\App\Log::trace('Start LDAP authentication');
@@ -1210,8 +1210,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function isExists($id)
 	{
-		if (\App\Cache::has('UserIsExists', $id)) {
-			return \App\Cache::get('UserIsExists', $id);
+		if (\App\Cache\Cache::has('UserIsExists', $id)) {
+			return \App\Cache\Cache::get('UserIsExists', $id);
 		}
 		$isExists = false;
 		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
@@ -1225,7 +1225,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				->where(['status' => 'Active', 'deleted' => 0, 'id' => $id])
 				->exists();
 		}
-		\App\Cache::save('UserIsExists', $id, $isExists);
+		\App\Cache\Cache::save('UserIsExists', $id, $isExists);
 		return $isExists;
 	}
 
@@ -1236,8 +1236,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public static function getActiveAdminId()
 	{
 		$key = 'id';
-		if (\App\Cache::has(__METHOD__, $key)) {
-			return \App\Cache::get(__METHOD__, $key);
+		if (\App\Cache\Cache::has(__METHOD__, $key)) {
+			return \App\Cache\Cache::get(__METHOD__, $key);
 		} else {
 			$adminId = 1;
 			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
@@ -1255,7 +1255,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 						->orderBy(['id' => SORT_ASC])
 						->limit(1)->scalar();
 			}
-			\App\Cache::save(__METHOD__, $key, $adminId, \App\Cache::LONG);
+			\App\Cache\Cache::save(__METHOD__, $key, $adminId, \App\Cache\Cache::LONG);
 			return $adminId;
 		}
 	}
@@ -1267,14 +1267,14 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getUserIdByName($name)
 	{
-		if (\App\Cache::has(__METHOD__, $name)) {
-			return \App\Cache::get(__METHOD__, $name);
+		if (\App\Cache\Cache::has(__METHOD__, $name)) {
+			return \App\Cache\Cache::get(__METHOD__, $name);
 		}
 		$userId = (new \App\Db\Query())->select('id')
 				->from('vtiger_users')
 				->where(['user_name' => $name])
 				->limit(1)->scalar();
-		\App\Cache::save(__METHOD__, $name, $userId, \App\Cache::LONG);
+		\App\Cache\Cache::save(__METHOD__, $name, $userId, \App\Cache\Cache::LONG);
 		return $userId;
 	}
 

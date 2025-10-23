@@ -122,14 +122,14 @@ class VTWorkflowManager {
 
 	public function getWorkflowsForModule($moduleName, $executionCondition = false)
 	{
-		if (\App\Cache::has('WorkflowsForModule', $moduleName)) {
-			$rows = \App\Cache::get('WorkflowsForModule', $moduleName);
+		if (\App\Cache\Cache::has('WorkflowsForModule', $moduleName)) {
+			$rows = \App\Cache\Cache::get('WorkflowsForModule', $moduleName);
 		} else {
 			$rows = (new \App\Db\Query())
 					->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
 					->from('com_vtiger_workflows')
 					->where(['module_name' => $moduleName])->all();
-			\App\Cache::save('WorkflowsForModule', $moduleName, $rows);
+			\App\Cache\Cache::save('WorkflowsForModule', $moduleName, $rows);
 		}
 		if ($executionCondition) {
 			foreach ($rows as $key => &$row) {
@@ -276,8 +276,8 @@ class VTWorkflowManager {
 	 */
 	public function getWorkflowsForModuleSupportingComments($moduleName)
 	{
-		if (\App\Cache::staticHas('WorkflowsForModuleSupportingComments', $moduleName)) {
-			return \App\Cache::staticGet('WorkflowsForModuleSupportingComments', $moduleName);
+		if (\App\Cache\Cache::has('WorkflowsForModuleSupportingComments', $moduleName)) {
+			return \App\Cache\Cache::get('WorkflowsForModuleSupportingComments', $moduleName);
 		}
 		$query = (new \App\Db\Query())
 			->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
@@ -299,7 +299,7 @@ class VTWorkflowManager {
 				}
 			}
 		}
-		\App\Cache::staticSave('WorkflowsForModuleSupportingComments', $moduleName, $commentSupportedWorkflowModels);
+		\App\Cache\Cache::save('WorkflowsForModuleSupportingComments', $moduleName, $commentSupportedWorkflowModels);
 		return $commentSupportedWorkflowModels;
 	}
 }

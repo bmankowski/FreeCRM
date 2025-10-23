@@ -82,8 +82,8 @@ class Block extends \vtlib\Block
 	public function isHideBlock($record, $view)
 	{
 		$key = $this->get('id') . '_' . $record->getId() . '_' . $view;
-		if (\App\Cache::staticHas(__METHOD__, $key)) {
-			return \App\Cache::staticGet(__METHOD__, $key);
+		if (\App\Cache\Cache::has(__METHOD__, $key)) {
+			return \App\Cache\Cache::get(__METHOD__, $key);
 		}
 		$showBlock = false;
 		$query = (new \App\Db\Query())->from('vtiger_blocks_hide')->where(['enabled' => 1, 'blockid' => $this->get('id')])->andWhere(['like', 'view', $view]);
@@ -98,7 +98,7 @@ class Block extends \vtlib\Block
 				$showBlock = $conditionStrategy->evaluate($hideBlock['conditions'], $record);
 			}
 		}
-		\App\Cache::staticSave(__METHOD__, $key, !$showBlock);
+		\App\Cache\Cache::save(__METHOD__, $key, !$showBlock);
 		return !$showBlock;
 	}
 
@@ -144,11 +144,11 @@ class Block extends \vtlib\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{
-		$blockObjects = \App\Runtime\Vtiger_Cache::get('ModuleBlock', $moduleModel->getName());
+		$blockObjects = \App\Cache\Cache::get('ModuleBlock', $moduleModel->getName());
 
 		if (!$blockObjects) {
 			$blockObjects = parent::getAllForModule($moduleModel);
-			\App\Runtime\Vtiger_Cache::set('ModuleBlock', $moduleModel->getName(), $blockObjects);
+			\App\Cache\Cache::save('ModuleBlock', $moduleModel->getName(), $blockObjects);
 		}
 		$blockModelList = [];
 

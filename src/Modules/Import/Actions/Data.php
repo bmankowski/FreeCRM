@@ -68,8 +68,8 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 	public function getDefaultFieldValues()
 	{
 		$key = $this->module . '_' . $this->user->id;
-		if (\App\Cache::staticHas('DefaultFieldValues', $key)) {
-			return \App\Cache::staticGet('DefaultFieldValues', $key);
+		if (\App\Cache\Cache::has('DefaultFieldValues', $key)) {
+			return \App\Cache\Cache::get('DefaultFieldValues', $key);
 		}
 
 		$defaultValues = [];
@@ -102,7 +102,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 				}
 			}
 		}
-		\App\Cache::staticSave('DefaultFieldValues', $key, $defaultValues);
+		\App\Cache\Cache::save('DefaultFieldValues', $key, $defaultValues);
 		return $defaultValues;
 	}
 
@@ -563,7 +563,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 				$fieldObject = \vtlib\Field::getInstance($fieldName, $moduleObject);
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
-				\App\Cache::delete('getPickListValues', $fieldName);
+				\App\Cache\Cache::delete('getPickListValues', $fieldName);
 			}
 		} else {
 			$fieldValue = $picklistDetails[$picklistValueInLowerCase];

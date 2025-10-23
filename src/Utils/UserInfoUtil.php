@@ -711,7 +711,7 @@ class UserInfoUtil
 
 		\App\Log::trace('Entering getRoleUsers(' . $roleId . ') method ...');
 
-		$roleRelatedUsers = \App\Runtime\Vtiger_Cache::get('getRoleUsers', $roleId);
+		$roleRelatedUsers = \App\Cache\Cache::get('getRoleUsers', $roleId);
 		if ($roleRelatedUsers !== false) {
 			return $roleRelatedUsers;
 		}
@@ -725,7 +725,7 @@ class UserInfoUtil
 			$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 		}
 
-		\App\Runtime\Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
+		\App\Cache\Cache::save('getRoleUsers', $roleId, $roleRelatedUsers);
 		\App\Log::trace('Exiting getRoleUsers method ...');
 		return $roleRelatedUsers;
 	}

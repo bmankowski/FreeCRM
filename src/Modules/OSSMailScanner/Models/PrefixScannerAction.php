@@ -45,8 +45,8 @@ abstract class PrefixScannerAction
 	{
 		$returnIds = [];
 		$crmId = false;
-		if (\App\Cache::has('getRecordByPrefix', $this->prefix)) {
-			$crmId = \App\Cache::get('getRecordByPrefix', $this->prefix);
+		if (\App\Cache\Cache::has('getRecordByPrefix', $this->prefix)) {
+			$crmId = \App\Cache\Cache::get('getRecordByPrefix', $this->prefix);
 		} else {
 			$moduleObject = \App\CRMEntity::getInstance($this->moduleName);
 			$tableIndex = $moduleObject->tab_name_index[$this->tableName];
@@ -57,7 +57,7 @@ abstract class PrefixScannerAction
 				->where(['vtiger_crmentity.deleted' => 0, $this->tableName . '.' . $this->tableColumn => $this->prefix])
 				->scalar();
 			if ($crmId) {
-				\App\Cache::save('getRecordByPrefix', $this->prefix, $crmId, \App\Cache::LONG);
+				\App\Cache\Cache::save('getRecordByPrefix', $this->prefix, $crmId, \App\Cache\Cache::LONG);
 			}
 		}
 		if ($crmId) {

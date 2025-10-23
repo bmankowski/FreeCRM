@@ -251,7 +251,7 @@ class Util {
 	 */
 	public static function getOwnerName($ownerId)
 	{
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Cache\Cache::getInstance();
 		if ($cache->hasOwnerDbName($ownerId)) {
 			return $cache->getOwnerDbName($ownerId);
 		}

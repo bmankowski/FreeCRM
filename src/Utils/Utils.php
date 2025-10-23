@@ -136,7 +136,7 @@ class Utils
 
 		\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
 		\App\Log::trace("in getUserId_Ol " . $username);
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Cache\Cache::getInstance();
 		if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
 			return $cache->getUserId($username);
 		} else {
@@ -169,7 +169,7 @@ class Utils
 		if (empty($action)) {
 			return null;
 		}
-		$actionid = \App\Runtime\Vtiger_Cache::get('getActionid', $action);
+		$actionid = \App\Cache\Cache::get('getActionid', $action);
 		if ($actionid) {
 			\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 			return $actionid;
@@ -184,7 +184,7 @@ class Utils
 			$result = $db->pquery($query, [$action]);
 			$actionid = $db->getSingleValue($result);
 		}
-		\App\Runtime\Vtiger_Cache::set('getActionid', $action, $actionid);
+		\App\Cache\Cache::save('getActionid', $action, $actionid);
 		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
 	}
@@ -199,7 +199,7 @@ class Utils
 		\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$actionName = \App\Runtime\Vtiger_Cache::get('getActionName', $actionid);
+		$actionName = \App\Cache\Cache::get('getActionName', $actionid);
 		if ($actionName) {
 			\App\Log::trace('Exiting getActionname method ...');
 			return $actionName;
@@ -212,7 +212,7 @@ class Utils
 			$result = $adb->pquery($query, array($actionid));
 			$actionName = $adb->getSingleValue($result);
 		}
-		\App\Runtime\Vtiger_Cache::set('getActionName', $actionid, $actionName);
+		\App\Cache\Cache::save('getActionName', $actionid, $actionName);
 		\App\Log::trace('Exiting getActionname method ...');
 		return $actionName;
 	}

@@ -159,15 +159,15 @@ class Link
 	static function getAllByType($tabid, $type = false, $parameters = false)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		if (\App\Cache::has('AllLinks', 'ByType')) {
-			$rows = \App\Cache::get('AllLinks', 'ByType');
+		if (\App\Cache\Cache::has('AllLinks', 'ByType')) {
+			$rows = \App\Cache\Cache::get('AllLinks', 'ByType');
 		} else {
 			$linksFromDb = (new \App\Db\Query())->from('vtiger_links')->all();
 			$rows = [];
 			foreach ($linksFromDb as $row) {
 				$rows [$row['tabid']] [$row['linktype']] [] = $row;
 			}
-			\App\Cache::save('AllLinks', 'ByType', $rows);
+			\App\Cache\Cache::save('AllLinks', 'ByType', $rows);
 		}
 
 		$multitype = false;

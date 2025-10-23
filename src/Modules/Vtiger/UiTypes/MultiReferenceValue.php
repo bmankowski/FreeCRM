@@ -60,15 +60,15 @@ class MultiReferenceValue extends Base
 	public static function getFieldsByModules($sourceModule, $destinationModule)
 	{
 		$cacheKey = "$sourceModule,$destinationModule";
-		if (\App\Cache::has('mrvfbm', $cacheKey)) {
-			return \App\Cache::get('mrvfbm', $cacheKey);
+		if (\App\Cache\Cache::has('mrvfbm', $cacheKey)) {
+			return \App\Cache\Cache::get('mrvfbm', $cacheKey);
 		}
 		$fields = (new \App\Db\Query())
 				->from('vtiger_field')
 				->where(['tabid' => \App\Module::getModuleId($sourceModule), 'uitype' => 305])
 				->andWhere(['<>', 'presence', 1])
 				->andWhere(['like', 'fieldparams', '{"module":"' . $destinationModule . '"%', false])->all();
-		\App\Cache::get('mrvfbm', $cacheKey, $fields, \App\Cache::LONG);
+		\App\Cache\Cache::get('mrvfbm', $cacheKey, $fields, \App\Cache\Cache::LONG);
 		return $fields;
 	}
 
@@ -79,12 +79,12 @@ class MultiReferenceValue extends Base
 	 */
 	public static function getMultiReferenceModules($moduelName)
 	{
-		if (\App\Cache::has('getMultiReferenceModules', $moduelName)) {
-			return \App\Cache::get('getMultiReferenceModules', $moduelName);
+		if (\App\Cache\Cache::has('getMultiReferenceModules', $moduelName)) {
+			return \App\Cache\Cache::get('getMultiReferenceModules', $moduelName);
 		}
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_field')->where(['uitype' => 305])->andWhere(['<>', 'presence', 1])
 				->andWhere(['like', 'fieldparams', '{"module":"' . $moduelName . '"%', false])->distinct()->column();
-		\App\Cache::get('getMultiReferenceModules', $moduelName, $moduleIds, \App\Cache::LONG);
+		\App\Cache\Cache::get('getMultiReferenceModules', $moduelName, $moduleIds, \App\Cache\Cache::LONG);
 		return $moduleIds;
 	}
 

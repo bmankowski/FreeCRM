@@ -267,8 +267,8 @@ class WebserviceField
 	public function getReferenceList()
 	{
 		if ($this->referenceList === null) {
-			if (\App\Cache::has('getReferenceList', $this->getFieldId())) {
-				return \App\Cache::get('getReferenceList', $this->getFieldId());
+			if (\App\Cache\Cache::has('getReferenceList', $this->getFieldId())) {
+				return \App\Cache\Cache::get('getReferenceList', $this->getFieldId());
 			}
 			if (!isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
 				$this->getFieldTypeFromUIType();
@@ -316,7 +316,7 @@ class WebserviceField
 				$referenceTypesSorted[$keySort] = $reference;
 			}
 			ksort($referenceTypesSorted);
-			\App\Cache::save('getReferenceList', $this->getFieldId(), $referenceTypesSorted);
+			\App\Cache\Cache::save('getReferenceList', $this->getFieldId(), $referenceTypesSorted);
 			$this->referenceList = $referenceTypesSorted;
 			return $referenceTypesSorted;
 		}
@@ -377,7 +377,7 @@ class WebserviceField
 
 	public function getPicklistDetails()
 	{
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Cache\Cache::getInstance();
 		if ($cache->getPicklistDetails($this->getTabId(), $this->getFieldName())) {
 			return $cache->getPicklistDetails($this->getTabId(), $this->getFieldName());
 		} else {

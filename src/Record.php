@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use App\Cache\Cache;
+
 use vtlib\Functions;
 
 /**
@@ -64,8 +66,8 @@ class Record
 	public static function getCrmIdByLabel($moduleName, $label, $userId = false)
 	{
 		$key = $moduleName . $label . '_' . $userId;
-		if (\App\Cache::staticHas(__METHOD__, $key)) {
-			return \App\Cache::staticGet(__METHOD__, $key);
+		if (\App\Cache\Cache::has(__METHOD__, $key)) {
+			return \App\Cache\Cache::get(__METHOD__, $key);
 		}
 		$query = (new \App\Db\Query())
 			->select(['cl.crmid'])
@@ -77,7 +79,7 @@ class Record
 			$query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 		}
 		$crmId = $query->limit(1)->scalar();
-		\App\Cache::staticSave(__METHOD__, $key, $crmId);
+		\App\Cache\Cache::save(__METHOD__, $key, $crmId);
 		return $crmId;
 	}
 
@@ -100,7 +102,7 @@ class Record
 		}
 		$entityDisplay = [];
 		$cacheName = 'computeLabelsQuery';
-		if (!\App\Cache::staticHas($cacheName, $moduleName)) {
+		if (!\App\Cache\Cache::has($cacheName, $moduleName)) {
 			$metainfo = \App\Module::getEntityInfo($moduleName);
 			if (empty($metainfo)) {
 				return $entityDisplay;
@@ -130,9 +132,9 @@ class Record
 			}
 			$paramsCol['id'] = $idColumn;
 			$query->select($paramsCol)->from($table);
-			\App\Cache::staticSave($cacheName, $moduleName, clone $query);
+			\App\Cache\Cache::save($cacheName, $moduleName, clone $query);
 		} else {
-			$query = \App\Cache::staticGet($cacheName, $moduleName);
+			$query = \App\Cache\Cache::get($cacheName, $moduleName);
 			$metainfo = \App\Module::getEntityInfo($moduleName);
 			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
 			if (empty($moduleInfoExtend) || empty($metainfo)) {

@@ -609,8 +609,8 @@ class Relation extends \App\Runtime\BaseModel
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$cacheName = $parentModuleModel->getId() . $selected . $onlyActive;
-		if (\App\Cache::has('getAllRelations', $cacheName)) {
-			$relationList = \App\Cache::get('getAllRelations', $cacheName);
+		if (\App\Cache\Cache::has('getAllRelations', $cacheName)) {
+			$relationList = \App\Cache\Cache::get('getAllRelations', $cacheName);
 		} else {
 			$query = new \App\Db\Query();
 			$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename, vtiger_tab.tabid as moduleid')
@@ -624,7 +624,7 @@ class Relation extends \App\Runtime\BaseModel
 				$query->andWhere(['<>', 'vtiger_tab.presence', 1]);
 			}
 			$relationList = $query->orderBy('sequence')->all();
-			\App\Cache::save('getAllRelations', $cacheName, $relationList);
+			\App\Cache\Cache::save('getAllRelations', $cacheName, $relationList);
 		}
 		$relationModels = [];
 		$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
@@ -771,7 +771,7 @@ class Relation extends \App\Runtime\BaseModel
 				])->execute();
 			}
 		}
-		\App\Cache::delete('getFieldsFromRelation', $relationId);
+		\App\Cache\Cache::delete('getFieldsFromRelation', $relationId);
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)

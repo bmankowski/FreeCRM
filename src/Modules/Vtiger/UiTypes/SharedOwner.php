@@ -153,7 +153,7 @@ class SharedOwner extends Base
 	 */
 	public static function getSharedOwners($record, $moduleName = false)
 	{
-		$shownerid = \App\Runtime\Vtiger_Cache::get('SharedOwner', $record);
+		$shownerid = \App\Cache\Cache::get('SharedOwner', $record);
 		if ($shownerid !== false) {
 			return $shownerid;
 		}
@@ -162,7 +162,7 @@ class SharedOwner extends Base
 		$values = $query->column();
 		if (empty($values))
 			$values = [];
-		\App\Runtime\Vtiger_Cache::set('SharedOwner', $record, $values);
+		\App\Cache\Cache::save('SharedOwner', $record, $values);
 		return $values;
 	}
 

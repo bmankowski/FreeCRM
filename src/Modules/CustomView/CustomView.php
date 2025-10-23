@@ -258,7 +258,7 @@ class CustomView extends \App\CRMEntity
 	 */
 	public function getStdFilterByCvid($cvid)
 	{
-		$stdFilter = \App\Runtime\Vtiger_Cache::get('getStdFilterByCvid', $cvid);
+		$stdFilter = \App\Cache\Cache::get('getStdFilterByCvid', $cvid);
 		if ($stdFilter !== false) {
 			return $stdFilter;
 		}
@@ -280,7 +280,7 @@ class CustomView extends \App\CRMEntity
 			}
 		}
 		$stdFilter = \App\CustomView::resolveDateFilterValue($stdfilterrow);
-		\App\Runtime\Vtiger_Cache::set('getStdFilterByCvid', $cvid, $stdFilter);
+		\App\Cache\Cache::save('getStdFilterByCvid', $cvid, $stdFilter);
 		return $stdFilter;
 	}
 

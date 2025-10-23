@@ -51,8 +51,8 @@ class Watchdog extends \App\Runtime\BaseModel
 			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		$cacheName = $moduleName . $userId;
-		if (\App\Cache::staticHas('WatchdogModel', $cacheName)) {
-			return \App\Cache::staticGet('WatchdogModel', $cacheName);
+		if (\App\Cache\Cache::has('WatchdogModel', $cacheName)) {
+			return \App\Cache\Cache::get('WatchdogModel', $cacheName);
 		}
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
@@ -65,7 +65,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		if (\App\AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->isActive = false;
 		}
-		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);
+		\App\Cache\Cache::save('WatchdogModel', $cacheName, $instance);
 		return $instance;
 	}
 
@@ -128,8 +128,8 @@ class Watchdog extends \App\Runtime\BaseModel
 		}
 		$userId = $this->get('userId');
 		$cacheName = $userId . '_' . $this->get('record');
-		if (\App\Cache::staticHas('isWatchingRecord', $cacheName)) {
-			return (bool) \App\Cache::staticGet('isWatchingRecord', $cacheName);
+		if (\App\Cache\Cache::has('isWatchingRecord', $cacheName)) {
+			return (bool) \App\Cache\Cache::get('isWatchingRecord', $cacheName);
 		}
 		$return = $this->isWatchingModule($userId);
 
@@ -140,7 +140,7 @@ class Watchdog extends \App\Runtime\BaseModel
 			$return = $state;
 		}
 		$return = intval($return);
-		\App\Cache::staticSave('isWatchingRecord', $cacheName, $return);
+		\App\Cache\Cache::save('isWatchingRecord', $cacheName, $return);
 		return $return;
 	}
 
@@ -154,8 +154,8 @@ class Watchdog extends \App\Runtime\BaseModel
 		if ($userId === false) {
 			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
-		if (\App\Cache::staticHas('getWatchingModules', $userId)) {
-			return \App\Cache::staticGet('getWatchingModules', $userId);
+		if (\App\Cache\Cache::has('getWatchingModules', $userId)) {
+			return \App\Cache\Cache::get('getWatchingModules', $userId);
 		}
 		$modules = [];
 		if (static::$cache === false) {
@@ -166,7 +166,7 @@ class Watchdog extends \App\Runtime\BaseModel
 				$modules[] = $moduleId;
 			}
 		}
-		\App\Cache::staticSave('getWatchingModules', $userId, $modules);
+		\App\Cache\Cache::save('getWatchingModules', $userId, $modules);
 		return $modules;
 	}
 
@@ -181,8 +181,8 @@ class Watchdog extends \App\Runtime\BaseModel
 			$ownerId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		$cacheName = $ownerId . '_' . intval($isName);
-		if (\App\Cache::staticHas('getWatchingModulesSchedule', $cacheName)) {
-			return \App\Cache::staticGet('getWatchingModulesSchedule', $cacheName);
+		if (\App\Cache\Cache::has('getWatchingModulesSchedule', $cacheName)) {
+			return \App\Cache\Cache::get('getWatchingModulesSchedule', $cacheName);
 		}
 		$data = (new \App\Db\Query())
 			->from('u_#__watchdog_schedule')
@@ -194,7 +194,7 @@ class Watchdog extends \App\Runtime\BaseModel
 				$moduleId = \App\Module::getModuleName($moduleId);
 			}
 		}
-		\App\Cache::staticSave('getWatchingModulesSchedule', $cacheName, $data);
+		\App\Cache\Cache::save('getWatchingModulesSchedule', $cacheName, $data);
 		return $data;
 	}
 

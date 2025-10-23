@@ -174,7 +174,7 @@ class PDF extends \App\Runtime\BaseModel
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		$pdf = \App\Runtime\Vtiger_Cache::get('PDFModel', $recordId);
+		$pdf = \App\Cache\Cache::get('PDFModel', $recordId);
 		if ($pdf) {
 			return $pdf;
 		}
@@ -189,7 +189,7 @@ class PDF extends \App\Runtime\BaseModel
 		$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
-		\App\Runtime\Vtiger_Cache::set('PDFModel', $recordId, $pdf);
+		\App\Cache\Cache::save('PDFModel', $recordId, $pdf);
 		return $pdf;
 	}
 
@@ -236,14 +236,14 @@ class PDF extends \App\Runtime\BaseModel
 	public function checkFiltersForRecord($recordId)
 	{
 		$key = $this->getId() . '_' . $recordId;
-		if (\App\Cache::staticHas(__METHOD__, $key)) {
-			return \App\Cache::staticGet(__METHOD__, $key);
+		if (\App\Cache\Cache::has(__METHOD__, $key)) {
+			return \App\Cache\Cache::get(__METHOD__, $key);
 		}
 		$conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
 		$test = $conditionStrategy->evaluate($conditions, $recordModel);
-		\App\Cache::staticSave(__METHOD__, $key, $test);
+		\App\Cache\Cache::save(__METHOD__, $key, $test);
 		return $test;
 	}
 

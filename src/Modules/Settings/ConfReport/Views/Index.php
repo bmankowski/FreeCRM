@@ -18,7 +18,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('CCURL', 'index.php?module=OSSMail&view=CheckConfig');

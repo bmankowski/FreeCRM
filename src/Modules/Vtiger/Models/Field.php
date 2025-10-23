@@ -229,8 +229,8 @@ class Field extends \vtlib\Field
 			} else {
 				$cacheName = $uiType . '-' . $this->get('typeofdata');
 			}
-			if (\App\Cache::has('FieldDataType', $cacheName)) {
-				$fieldDataType = \App\Cache::get('FieldDataType', $cacheName);
+			if (\App\Cache\Cache::has('FieldDataType', $cacheName)) {
+				$fieldDataType = \App\Cache\Cache::get('FieldDataType', $cacheName);
 			} else {
 				switch ($uiType) {
 					case 4: $fieldDataType = 'recordNumber';
@@ -289,7 +289,7 @@ class Field extends \vtlib\Field
 						$fieldDataType = $webserviceField->getFieldDataType();
 						break;
 				}
-				\App\Cache::save('FieldDataType', $cacheName, $fieldDataType);
+				\App\Cache\Cache::save('FieldDataType', $cacheName, $fieldDataType);
 			}
 			$this->fieldDataType = $fieldDataType;
 		}
@@ -302,8 +302,8 @@ class Field extends \vtlib\Field
 	 */
 	public function getReferenceList()
 	{
-		if (\App\Cache::has('getReferenceList', $this->getId())) {
-			return \App\Cache::get('getReferenceList', $this->getId());
+		if (\App\Cache\Cache::has('getReferenceList', $this->getId())) {
+			return \App\Cache\Cache::get('getReferenceList', $this->getId());
 		}
 		if (method_exists($this->getUITypeModel(), 'getReferenceList')) {
 			$list = $this->getUITypeModel()->getReferenceList();
@@ -330,7 +330,7 @@ class Field extends \vtlib\Field
 				}
 			}
 		}
-		\App\Cache::save('getReferenceList', $this->getId(), $list);
+		\App\Cache\Cache::save('getReferenceList', $this->getId(), $list);
 		return $list;
 	}
 
@@ -852,7 +852,7 @@ class Field extends \vtlib\Field
 	 */
 	public static function getAllForModule($moduleModel)
 	{
-		$fieldModelList = \App\Runtime\Vtiger_Cache::get('ModuleFields', $moduleModel->id);
+		$fieldModelList = \App\Cache\Cache::get('ModuleFields', $moduleModel->id);
 		if (!$fieldModelList) {
 			$fieldObjects = parent::getAllForModule($moduleModel);
 
@@ -866,11 +866,11 @@ class Field extends \vtlib\Field
 				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
 				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
 				$fieldModelList[$block][] = $fieldModelObject;
-				\App\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-				\App\Runtime\Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+				\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
+				\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
 			}
 
-			\App\Runtime\Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
+			\App\Cache\Cache::save('ModuleFields', $moduleModel->id, $fieldModelList);
 		}
 		return $fieldModelList;
 	}
@@ -885,12 +885,12 @@ class Field extends \vtlib\Field
 	{
 		$fieldObject = null;
 		if ($module) {
-			$fieldObject = \App\Runtime\Vtiger_Cache::get('field-' . $module->getId(), $value);
+			$fieldObject = \App\Cache\Cache::get('field-' . $module->getId(), $value);
 		}
 		if (!$fieldObject) {
 			$fieldObject = parent::getInstance($value, $module);
 			if ($module) {
-				\App\Runtime\Vtiger_Cache::set('field-' . $module->getId(), $value, $fieldObject);
+				\App\Cache\Cache::save('field-' . $module->getId(), $value, $fieldObject);
 			}
 		}
 
@@ -1034,15 +1034,15 @@ class Field extends \vtlib\Field
 	 */
 	public function getCurrencyList()
 	{
-		if (\App\Cache::has('Currency', 'List')) {
-			return \App\Cache::get('Currency', 'List');
+		if (\App\Cache\Cache::has('Currency', 'List')) {
+			return \App\Cache\Cache::get('Currency', 'List');
 		}
 		$currencies = (new \App\Db\Query())->select('id, currency_name')
 				->from('vtiger_currency_info')
 				->where(['currency_status' => 'Active', 'deleted' => 0])
 				->createCommand()->queryAllByGroup();
 		asort($currencies);
-		\App\Cache::save('Currency', 'List', $currencies, \App\Cache::LONG);
+		\App\Cache\Cache::save('Currency', 'List', $currencies, \App\Cache\Cache::LONG);
 		return $currencies;
 	}
 
@@ -1169,7 +1169,7 @@ class Field extends \vtlib\Field
 	 */
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$fieldModel = \App\Runtime\Vtiger_Cache::get('FieldModel', $fieldId);
+		$fieldModel = \App\Cache\Cache::get('FieldModel', $fieldId);
 		if ($fieldModel) {
 			return $fieldModel;
 		}
@@ -1177,7 +1177,7 @@ class Field extends \vtlib\Field
 		$className = \App\Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field);
-		\App\Runtime\Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
+		\App\Cache\Cache::save('FieldModel', $fieldId, $fieldModel);
 		return $fieldModel;
 	}
 

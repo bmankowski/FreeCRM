@@ -42,12 +42,12 @@ class InventoryLimit extends Base
 	 */
 	public static function getLimits()
 	{
-		if (\App\Cache::has('Inventory', 'CreditLimits')) {
-			return \App\Cache::get('Inventory', 'CreditLimits');
+		if (\App\Cache\Cache::has('Inventory', 'CreditLimits')) {
+			return \App\Cache\Cache::get('Inventory', 'CreditLimits');
 		}
 		$limits = (new \App\Db\Query())->from('a_#__inventory_limits')->where(['status' => 0])
 				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
-		\App\Cache::save('Inventory', 'CreditLimits', $limits, \App\Cache::LONG);
+		\App\Cache\Cache::save('Inventory', 'CreditLimits', $limits, \App\Cache\Cache::LONG);
 		return $limits;
 	}
 

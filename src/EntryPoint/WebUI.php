@@ -22,9 +22,8 @@ namespace App\EntryPoint;
 
 
 use App\Debugger;
-use App\Http\Vtiger_Request;
 use App\Runtime\Vtiger_Controller;
-use App\Cache;
+use App\Cache\Cache;
 use App\Db;
 use App\Log;
 use App\RequestUtil;
@@ -568,7 +567,7 @@ class WebUI extends EntryPoint
 	 * Check if user has access to settings pages
 	 * 
 	 * @param string|null $qualifiedModuleName
-	 * @param \Users|false $currentUser
+	 * @param User|false $currentUser
 	 */
 	private function checkSettingsAccess($qualifiedModuleName, $currentUser)
 	{

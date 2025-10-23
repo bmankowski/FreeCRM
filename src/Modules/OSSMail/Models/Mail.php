@@ -175,7 +175,7 @@ class Mail extends \App\Runtime\BaseModel
 							continue;
 						}
 						$name = 'MSFindEmail_' . $moduleName . '_' . $row[1];
-						$cache = \App\Runtime\Vtiger_Cache::get($name, $email);
+						$cache = \App\Cache\Cache::get($name, $email);
 						if ($cache !== false) {
 							if ($cache != 0) {
 								$return = array_merge($return, $cache);
@@ -190,7 +190,7 @@ class Mail extends \App\Runtime\BaseModel
 							if (empty($ids)) {
 								$ids = 0;
 							}
-							\App\Runtime\Vtiger_Cache::set($name, $email, $ids);
+							\App\Cache\Cache::save($name, $email, $ids);
 						}
 					}
 				}

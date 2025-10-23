@@ -96,8 +96,8 @@ class VTTaskManager {
 	 */
 	public function getTasksForWorkflow($workflowId)
 	{
-		if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
-			return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
+		if (\App\Cache\Cache::has('getTasksForWorkflow', $workflowId)) {
+			return \App\Cache\Cache::get('getTasksForWorkflow', $workflowId);
 		}
 		$rows = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->column();
 		$tasks = [];
@@ -105,7 +105,7 @@ class VTTaskManager {
 			$this->requireTask(self::taskName($task));
 			$tasks[] = unserialize($task);
 		}
-		\App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
+		\App\Cache\Cache::get('getTasksForWorkflow', $workflowId, $tasks);
 		return $tasks;
 	}
 

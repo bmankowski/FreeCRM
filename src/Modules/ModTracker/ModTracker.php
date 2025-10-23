@@ -79,10 +79,10 @@ class ModTracker {
 		$rows = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->all();
 		foreach ($rows as &$row) {
 			if ($row['visible'] === 1) {
-				\App\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, \App\Cache::LONG);
+				\App\Cache\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, \App\Cache\Cache::LONG);
 				$modules[] = \App\Module::getModuleName($row['tabid']);
 			} else {
-				\App\Cache::save('isTrackingEnabledForModule', $row['tabid'], false, \App\Cache::LONG);
+				\App\Cache\Cache::save('isTrackingEnabledForModule', $row['tabid'], false, \App\Cache\Cache::LONG);
 			}
 		}
 		return $modules;
@@ -107,7 +107,7 @@ class ModTracker {
 		$db->createCommand()
 			->update('vtiger_field', ['presence' => 1], ['tabid' => $tabid, 'fieldname' => 'was_read'])
 			->execute();
-		\App\Cache::save('isTrackingEnabledForModule', $tabid, false, \App\Cache::LONG);
+		\App\Cache\Cache::save('isTrackingEnabledForModule', $tabid, false, \App\Cache\Cache::LONG);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class ModTracker {
 			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'src/Modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 		}
-		\App\Cache::save('isTrackingEnabledForModule', $tabid, true, \App\Cache::LONG);
+		\App\Cache\Cache::save('isTrackingEnabledForModule', $tabid, true, \App\Cache\Cache::LONG);
 	}
 
 	/**
@@ -136,13 +136,13 @@ class ModTracker {
 	public static function isTrackingEnabledForModule($moduleName)
 	{
 		$tabId = \App\Module::getModuleId($moduleName);
-		if (\App\Cache::has('isTrackingEnabledForModule', $tabId)) {
-			return \App\Cache::get('isTrackingEnabledForModule', $tabId);
+		if (\App\Cache\Cache::has('isTrackingEnabledForModule', $tabId)) {
+			return \App\Cache\Cache::get('isTrackingEnabledForModule', $tabId);
 		}
 		$isExists = (new \App\Db\Query())->from('vtiger_modtracker_tabs')
 			->where(['vtiger_modtracker_tabs.visible' => 1, 'vtiger_modtracker_tabs.tabid' => $tabId])
 			->exists();
-		\App\Cache::save('isTrackingEnabledForModule', $tabId, $isExists, \App\Cache::LONG);
+		\App\Cache\Cache::save('isTrackingEnabledForModule', $tabId, $isExists, \App\Cache\Cache::LONG);
 		return $isExists;
 	}
 
@@ -152,10 +152,10 @@ class ModTracker {
 	 */
 	public static function isModulePresent($tabId)
 	{
-		if (!\App\Cache::has('isTrackingEnabledForModule', $tabId)) {
+		if (!\App\Cache\Cache::has('isTrackingEnabledForModule', $tabId)) {
 			$row = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->where(['tabid' => $tabId])->one();
 			if ($row) {
-				\App\Cache::save('isTrackingEnabledForModule', $tabId, (bool) $row['visible'], \App\Cache::LONG);
+				\App\Cache\Cache::save('isTrackingEnabledForModule', $tabId, (bool) $row['visible'], \App\Cache\Cache::LONG);
 				return true;
 			} else {
 				return false;

@@ -169,7 +169,7 @@ class InventoryField extends \App\Runtime\BaseModel
 
 		\App\Log::trace('Entering ' . __METHOD__ . '| ' . $moduleName);
 
-		$instance = \App\Runtime\Vtiger_Cache::get('InventoryFields', $moduleName);
+		$instance = \App\Cache\Cache::get('InventoryFields', $moduleName);
 		if ($instance) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 			return $instance;
@@ -194,7 +194,7 @@ class InventoryField extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		\App\Runtime\Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
+		\App\Cache\Cache::save('InventoryFields', $moduleName, $fields);
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $fields;
 	}
@@ -231,12 +231,12 @@ class InventoryField extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance($moduleName)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('inventoryField', $moduleName);
+		$instance = \App\Cache\Cache::get('inventoryField', $moduleName);
 		if (!$instance) {
 			$modelClassName = \App\Loader::getComponentClassName('Model', 'InventoryField', $moduleName);
 			$instance = new $modelClassName();
 			$instance->set('module', $moduleName);
-			\App\Runtime\Vtiger_Cache::set('inventoryField', $moduleName, $instance);
+			\App\Cache\Cache::save('inventoryField', $moduleName, $instance);
 		}
 		return $instance;
 	}
@@ -248,12 +248,12 @@ class InventoryField extends \App\Runtime\BaseModel
 	 */
 	public static function getFieldInstance($moduleName, $type)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('inventoryFieldType', $moduleName . $type);
+		$instance = \App\Cache\Cache::get('inventoryFieldType', $moduleName . $type);
 		if (!$instance) {
 			$inventoryClassName = \App\Loader::getComponentClassName('InventoryField', $type, $moduleName);
 			$instance = new $inventoryClassName();
 			$instance->set('module', $moduleName);
-			\App\Runtime\Vtiger_Cache::set('inventoryFieldType', $moduleName . $type, $instance);
+			\App\Cache\Cache::save('inventoryFieldType', $moduleName . $type, $instance);
 		}
 		return $instance;
 	}
@@ -335,7 +335,7 @@ class InventoryField extends \App\Runtime\BaseModel
 		if (!$moduleName) {
 			return false;
 		}
-		$cache = \App\Runtime\Vtiger_Cache::get('InventoryIsWysiwygType', $moduleName);
+		$cache = \App\Cache\Cache::get('InventoryIsWysiwygType', $moduleName);
 		if ($cache) {
 			return $cache;
 		}
@@ -345,7 +345,7 @@ class InventoryField extends \App\Runtime\BaseModel
 		if ($fieldModel && $fieldModel->get('uitype') == '300') {
 			$return = 1;
 		}
-		\App\Runtime\Vtiger_Cache::set('InventoryIsWysiwygType', $moduleName, $return);
+		\App\Cache\Cache::save('InventoryIsWysiwygType', $moduleName, $return);
 		return $return;
 	}
 
@@ -356,7 +356,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	 */
 	public static function getTaxField($moduleName)
 	{
-		$cache = \App\Runtime\Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
+		$cache = \App\Cache\Cache::get('InventoryIsGetTaxField', $moduleName);
 		if ($cache) {
 			return $cache;
 		}
@@ -372,7 +372,7 @@ class InventoryField extends \App\Runtime\BaseModel
 			}
 		}
 
-		\App\Runtime\Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
+		\App\Cache\Cache::save('InventoryIsGetTaxField', $moduleName, $return);
 		return $return;
 	}
 
@@ -547,7 +547,7 @@ class InventoryField extends \App\Runtime\BaseModel
 
 	public function getAutoCompleteFields()
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
+		$instance = \App\Cache\Cache::get('AutoCompleteFields', $this->get('module'));
 		if ($instance) {
 			return $instance;
 		}
@@ -559,7 +559,7 @@ class InventoryField extends \App\Runtime\BaseModel
 		while ($row = $db->getRow($result)) {
 			$fields[$row['tofield']] = $row;
 		}
-		\App\Runtime\Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
+		\App\Cache\Cache::save('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
 

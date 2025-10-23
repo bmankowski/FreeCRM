@@ -47,11 +47,11 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function getBruteForceSettings()
 	{
-		if (\App\Cache::has('BruteForce', 'Settings')) {
-			return \App\Cache::get('BruteForce', 'Settings');
+		if (\App\Cache\Cache::has('BruteForce', 'Settings')) {
+			return \App\Cache\Cache::get('BruteForce', 'Settings');
 		}
 		$row = (new \App\Db\Query())->from('a_#__bruteforce')->one();
-		\App\Cache::save('BruteForce', 'Settings', $row, \App\Cache::LONG);
+		\App\Cache\Cache::save('BruteForce', 'Settings', $row, \App\Cache\Cache::LONG);
 		return $row;
 	}
 

@@ -363,10 +363,10 @@ class Link extends \vtlib\Link
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$links = \App\Runtime\Vtiger_Cache::get('links-' . $tabid, $type);
+		$links = \App\Cache\Cache::get('links-' . $tabid, $type);
 		if (!$links) {
 			$links = parent::getAllByType($tabid, $type, $parameters);
-			\App\Runtime\Vtiger_Cache::set('links-' . $tabid, $type, $links);
+			\App\Cache\Cache::save('links-' . $tabid, $type, $links);
 		}
 
 		$linkModels = [];

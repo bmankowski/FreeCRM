@@ -38,8 +38,8 @@ class Library
 	 */
 	public static function checkLibrary($name)
 	{
-		if (\App\Cache::has('LIBRARY', $name)) {
-			return \App\Cache::get('LIBRARY', $name);
+		if (\App\Cache\Cache::has('LIBRARY', $name)) {
+			return \App\Cache\Cache::get('LIBRARY', $name);
 		}
 		$status = true;
 		if (static::$libraries[$name]) {
@@ -51,7 +51,7 @@ class Library
 				}
 			}
 		}
-		\App\Cache::save('LIBRARY', $name, $status, \App\Cache::LONG);
+		\App\Cache\Cache::save('LIBRARY', $name, $status, \App\Cache\Cache::LONG);
 		return $status;
 	}
 

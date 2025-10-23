@@ -361,7 +361,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)->execute();
 		}
 		$profileIds = $this->get('profileIds');
-		$oldRole = \App\Runtime\Vtiger_Cache::get('RolesArray', $roleId);
+		$oldRole = \App\Cache\Cache::get('RolesArray', $roleId);
 		if ($oldRole !== false) {
 			$oldProfileIds = array_keys($this->getProfiles());
 			if ($profileIds === false || !empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))) ||
@@ -508,7 +508,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getInstanceById($roleId)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('\App\Modules\Settings\Roles\Models\Record', $roleId);
+		$instance = \App\Cache\Cache::get('\App\Modules\Settings\Roles\Models\Record', $roleId);
 		if ($instance !== false) {
 			return $instance;
 		}
@@ -516,8 +516,8 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
-			\App\Runtime\Vtiger_Cache::set('\App\Modules\Settings\Roles\Models\Record', $roleId, $instance);
-			\App\Runtime\Vtiger_Cache::set('RolesArray', $roleId, $row);
+			\App\Cache\Cache::save('\App\Modules\Settings\Roles\Models\Record', $roleId, $instance);
+			\App\Cache\Cache::save('RolesArray', $roleId, $row);
 			return $instance;
 		}
 		return $instance;

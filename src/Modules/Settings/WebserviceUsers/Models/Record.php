@@ -133,8 +133,8 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public static function getInstanceById($id, $type)
 	{
 		$cacheName = get_class();
-		if (\App\Cache::staticHas($cacheName, $id)) {
-			return \App\Cache::staticGet($cacheName, $id);
+		if (\App\Cache\Cache::has($cacheName, $id)) {
+			return \App\Cache\Cache::get($cacheName, $id);
 		}
 		$instance = self::getCleanInstance($type);
 		$data = (new \App\Db\Query())
@@ -142,7 +142,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			->where([$instance->getModule()->getTableIndex() => $id])
 			->one(\App\Db::getInstance('webservice'));
 		$instance->setData($data);
-		\App\Cache::staticSave($cacheName, $id, $instance);
+		\App\Cache\Cache::save($cacheName, $id, $instance);
 		return $instance;
 	}
 

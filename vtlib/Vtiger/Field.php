@@ -214,7 +214,7 @@ class Field extends FieldBasic
 	public static function getAllForBlock($blockInstance, \App\Modules\Vtiger\Models\Module $moduleInstance)
 	{
 		/** @var \App\Runtime\Vtiger_Cache $cache */
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Cache\Cache::getInstance();
 		if ($cache->getBlockFields($blockInstance->id, $moduleInstance->id)) {
 			return $cache->getBlockFields($blockInstance->id, $moduleInstance->id);
 		} else {
@@ -244,14 +244,14 @@ class Field extends FieldBasic
 	public static function getAllForModule($moduleInstance)
 	{
 		$moduleId = $moduleInstance->id;
-		if (\App\Cache::has('AllFieldForModule', $moduleId)) {
-			$rows = \App\Cache::get('AllFieldForModule', $moduleId);
+		if (\App\Cache\Cache::has('AllFieldForModule', $moduleId)) {
+			$rows = \App\Cache\Cache::get('AllFieldForModule', $moduleId);
 		} else {
 			$rows = (new \App\Db\Query())->select(['vtiger_field.*'])->from('vtiger_field')
 				->leftJoin('vtiger_blocks', 'vtiger_field.block = vtiger_blocks.blockid')
 				->where(['vtiger_field.tabid' => $moduleId])->orderBy(['vtiger_blocks.sequence' => SORT_ASC, 'vtiger_field.sequence' => SORT_ASC])
 				->all();
-			\App\Cache::save('AllFieldForModule', $moduleId, $rows);
+			\App\Cache\Cache::save('AllFieldForModule', $moduleId, $rows);
 		}
 		$instances = []; // PHP 8.2+: Initialize as array instead of false to avoid deprecation warning
 		foreach ($rows as $row) {

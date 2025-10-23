@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use App\Cache\Cache;
+
 /**
  * Event Handler main class
  * @package YetiForce.App

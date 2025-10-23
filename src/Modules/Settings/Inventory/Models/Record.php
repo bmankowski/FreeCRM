@@ -73,7 +73,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function clearCache()
 	{
-		\App\Cache::delete('Inventory', $this->getType());
+		\App\Cache\Cache::delete('Inventory', $this->getType());
 	}
 
 	public function save()

@@ -99,13 +99,13 @@ class MappedFields extends \App\Runtime\BaseModel
 	public static function getTemplatesByModule($moduleName)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		if (\App\Cache::has('MappedFieldsTemplatesByModule', $moduleName)) {
-			$rows = \App\Cache::get('MappedFieldsTemplatesByModule', $moduleName);
+		if (\App\Cache\Cache::has('MappedFieldsTemplatesByModule', $moduleName)) {
+			$rows = \App\Cache\Cache::get('MappedFieldsTemplatesByModule', $moduleName);
 		} else {
 			$rows = (new \App\Db\Query())->from(self::$baseTable)
 				->where(['tabid' => \App\Module::getModuleId($moduleName), 'status' => 1])
 				->all();
-			\App\Cache::save('MappedFieldsTemplatesByModule', $moduleName, $rows);
+			\App\Cache\Cache::save('MappedFieldsTemplatesByModule', $moduleName, $rows);
 		}
 		$templates = [];
 		foreach ($rows as $row) {
@@ -153,7 +153,7 @@ class MappedFields extends \App\Runtime\BaseModel
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
-		$mf = \App\Runtime\Vtiger_Cache::get('MappedFieldsModel', $recordId);
+		$mf = \App\Cache\Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return $mf;
@@ -168,7 +168,7 @@ class MappedFields extends \App\Runtime\BaseModel
 		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$mf->setData($row);
-		\App\Runtime\Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
+		\App\Cache\Cache::save('MappedFieldsModel', $recordId, $mf);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $mf;
 	}
@@ -244,13 +244,13 @@ class MappedFields extends \App\Runtime\BaseModel
 	public function checkFiltersForRecord($recordId)
 	{
 		$key = $this->getId() . '_' . $recordId;
-		if (\App\Cache::staticHas(__METHOD__, $key)) {
-			return \App\Cache::staticGet(__METHOD__, $key);
+		if (\App\Cache\Cache::has(__METHOD__, $key)) {
+			return \App\Cache\Cache::get(__METHOD__, $key);
 		}
 		$conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $recordModel);
-		\App\Cache::staticSave(__METHOD__, $key, $test);
+		\App\Cache\Cache::save(__METHOD__, $key, $test);
 		return $test;
 	}
 

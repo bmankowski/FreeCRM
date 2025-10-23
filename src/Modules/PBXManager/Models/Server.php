@@ -44,7 +44,7 @@ class Server extends \App\Runtime\BaseModel
 
 	public static function checkPermissionForOutgoingCall()
 	{
-		$permission = \App\Runtime\Vtiger_Cache::get('outgoingCall', 'PBXManager');
+		$permission = \App\Cache\Cache::get('outgoingCall', 'PBXManager');
 		if ($permission !== false) {
 			return $permission ? true : false;
 		}
@@ -55,10 +55,10 @@ class Server extends \App\Runtime\BaseModel
 		$gateway = $serverModel->get('gateway');
 
 		if ($permission && $gateway) {
-			\App\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
+			\App\Cache\Cache::save('outgoingCall', 'PBXManager', 1);
 			return true;
 		} else {
-			\App\Runtime\Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
+			\App\Cache\Cache::save('outgoingCall', 'PBXManager', 0);
 			return false;
 		}
 	}

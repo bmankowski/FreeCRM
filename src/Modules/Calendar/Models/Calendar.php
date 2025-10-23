@@ -288,10 +288,10 @@ class Calendar extends \App\Runtime\BaseModel
 	 */
 	public static function getCleanInstance()
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('calendarModels', 'Calendar');
+		$instance = \App\Cache\Cache::get('calendarModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			\App\Runtime\Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
+			\App\Cache\Cache::save('calendarModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;

@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use App\Cache\Cache;
+
 /**
  * Field basic class
  * @package YetiForce.App

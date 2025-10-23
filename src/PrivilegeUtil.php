@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use App\Cache\Cache;
+
 /**
  * Privilege Util basic class
  * @package YetiForce.App
@@ -226,7 +228,7 @@ class PrivilegeUtil
 	 */
 	public static function getProfilesByRole($roleId)
 	{
-		$profiles = Cache::staticGet('getProfilesByRole', $roleId);
+		$profiles = Cache::get('getProfilesByRole', $roleId);
 		if ($profiles) {
 			return $profiles;
 		}
@@ -235,7 +237,7 @@ class PrivilegeUtil
 			->from('vtiger_role2profile')
 			->where(['roleid' => $roleId])
 			->column();
-		Cache::staticSave('getProfilesByRole', $roleId, $profiles);
+		Cache::save('getProfilesByRole', $roleId, $profiles);
 		return $profiles;
 	}
 
@@ -435,8 +437,8 @@ class PrivilegeUtil
 	 */
 	public static function getRoleSubordinates($roleId)
 	{
-		if (\App\Cache::has('getRoleSubordinates', $roleId)) {
-			return \App\Cache::get('getRoleSubordinates', $roleId);
+		if (\App\Cache\Cache::has('getRoleSubordinates', $roleId)) {
+			return \App\Cache\Cache::get('getRoleSubordinates', $roleId);
 		}
 		$roleDetails = static::getRoleDetail($roleId);
 		$roleSubordinates = (new \App\Db\Query())
@@ -445,7 +447,7 @@ class PrivilegeUtil
 			->where(['like', 'parentrole', $roleDetails['parentrole'] . '::%', false])
 			->column();
 
-		\App\Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, \App\Cache::LONG);
+		\App\Cache\Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, \App\Cache\Cache::LONG);
 		return $roleSubordinates;
 	}
 
@@ -477,8 +479,8 @@ class PrivilegeUtil
 	public static function getDatashare($type, $tabId, $data)
 	{
 		$cacheKey = "$type|$tabId|" . (is_array($data) ? implode(',', $data) : $data);
-		if (\App\Cache::staticHas('getDatashare', $cacheKey)) {
-			return \App\Cache::staticGet('getDatashare', $cacheKey);
+		if (\App\Cache\Cache::has('getDatashare', $cacheKey)) {
+			return \App\Cache\Cache::get('getDatashare', $cacheKey);
 		}
 		$structure = self::$dataShareStructure[$type];
 		$query = (new \App\Db\Query())->select([$structure[0] . '.*'])->from($structure[0])
@@ -488,7 +490,7 @@ class PrivilegeUtil
 			$query->andWhere([$structure[1] => $data]);
 		}
 		$rows = $query->all();
-		\App\Cache::staticSave('getDatashare', $cacheKey, $rows);
+		\App\Cache\Cache::save('getDatashare', $cacheKey, $rows);
 		return $rows;
 	}
 

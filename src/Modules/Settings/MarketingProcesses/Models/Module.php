@@ -26,7 +26,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
-		$cache = \App\Runtime\Vtiger_Cache::get('MarketingProcesses', $type);
+		$cache = \App\Cache\Cache::get('MarketingProcesses', $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
@@ -47,7 +47,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 				$config[$param] = $value;
 			}
 		}
-		\App\Runtime\Vtiger_Cache::set('MarketingProcesses', $type, $config);
+		\App\Cache\Cache::save('MarketingProcesses', $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

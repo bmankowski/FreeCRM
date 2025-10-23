@@ -33,7 +33,7 @@ class Tree extends Base
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$template = $this->get('field')->getFieldParams();
-		$name = \App\Runtime\Vtiger_Cache::get('TreeData' . $template, $tree);
+		$name = \App\Cache\Cache::get('TreeData' . $template, $tree);
 		if ($name) {
 			return $name;
 		}
@@ -60,7 +60,7 @@ class Tree extends Base
 			}
 			$name = $parentName . \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $module);
 		}
-		\App\Runtime\Vtiger_Cache::set('TreeData' . $template, $tree, $name);
+		\App\Cache\Cache::save('TreeData' . $template, $tree, $name);
 		return $name;
 	}
 

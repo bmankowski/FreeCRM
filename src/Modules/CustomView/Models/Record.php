@@ -345,7 +345,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$this->setDefaultFilter();
 		}
 		$db->completeTransaction();
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 	}
 
 	/**
@@ -363,7 +363,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 		// To Delete the mini list widget associated with the filter 
 		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 	}
 
 	/**
@@ -842,8 +842,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		\App\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$cacheName = $moduleName . $currentUser->getId();
-		if (\App\Cache::has('getAllFilters', $cacheName)) {
-			return \App\Cache::get('getAllFilters', $cacheName);
+		if (\App\Cache\Cache::has('getAllFilters', $cacheName)) {
+			return \App\Cache\Cache::get('getAllFilters', $cacheName);
 		}
 		$db = \App\Database\PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_customview';
@@ -891,7 +891,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				}
 			}
 		}
-		\App\Cache::save('getAllFilters', $cacheName, $customViews, \App\Cache::LONG);
+		\App\Cache\Cache::save('getAllFilters', $cacheName, $customViews, \App\Cache\Cache::LONG);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
@@ -904,11 +904,11 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstanceById($cvId, $module = null)
 	{
-		if (\App\Cache::has('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId)) {
-			$row = \App\Cache::get('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
+		if (\App\Cache\Cache::has('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId)) {
+			$row = \App\Cache\Cache::get('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
 		} else {
 			$row = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId])->one();
-			\App\Cache::save('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId, $row, \App\Cache::LONG);
+			\App\Cache\Cache::save('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId, $row, \App\Cache\Cache::LONG);
 		}
 		if ($row) {
 			$customView = new self();

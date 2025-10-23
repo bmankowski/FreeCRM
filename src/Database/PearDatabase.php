@@ -649,7 +649,7 @@ class PearDatabase
 
 	public function checkExistTable($tableName, $cache = true)
 	{
-		$tablePresent = \App\Runtime\Vtiger_Cache::get('checkExistTable', $tableName);
+		$tablePresent = \App\Cache\Cache::get('checkExistTable', $tableName);
 		if ($tablePresent !== false && $cache) {
 			return $tablePresent;
 		}
@@ -664,7 +664,7 @@ class PearDatabase
 			$tablePresent = 0;
 		}
 		$this->dieOnError = $dieOnError;
-		\App\Runtime\Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
+		\App\Cache\Cache::save('checkExistTable', $tableName, $tablePresent);
 		return $tablePresent;
 	}
 

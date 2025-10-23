@@ -20,12 +20,12 @@ class Inventory {
 	 */
 	public static function getInstance($moduleName)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('Inventory', $moduleName);
+		$instance = \App\Cache\Cache::get('Inventory', $moduleName);
 		if (!$instance) {
 			$modelClassName = \App\Loader::getComponentClassName('Model', 'Inventory', $moduleName);
 			$instance = new $modelClassName();
 			$instance->initialize($moduleName);
-			\App\Runtime\Vtiger_Cache::set('Inventory', $moduleName, $instance);
+			\App\Cache\Cache::save('Inventory', $moduleName, $instance);
 		}
 		return $instance;
 	}
@@ -44,8 +44,8 @@ class Inventory {
 	 */
 	public static function getDiscountsConfig()
 	{
-		if (\App\Cache::has('Inventory', 'DiscountConfiguration')) {
-			return \App\Cache::get('Inventory', 'DiscountConfiguration');
+		if (\App\Cache\Cache::has('Inventory', 'DiscountConfiguration')) {
+			return \App\Cache\Cache::get('Inventory', 'DiscountConfiguration');
 		}
 		$config = [];
 		$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db::getInstance('admin'))->query();
@@ -56,7 +56,7 @@ class Inventory {
 			}
 			$config[$row['param']] = $value;
 		}
-		\App\Cache::save('Inventory', 'DiscountConfiguration', $config, \App\Cache::LONG);
+		\App\Cache\Cache::save('Inventory', 'DiscountConfiguration', $config, \App\Cache\Cache::LONG);
 		return $config;
 	}
 
@@ -66,12 +66,12 @@ class Inventory {
 	 */
 	public function getGlobalDiscounts()
 	{
-		if (\App\Cache::has('Inventory', 'Discounts')) {
-			return \App\Cache::get('Inventory', 'Discounts');
+		if (\App\Cache\Cache::has('Inventory', 'Discounts')) {
+			return \App\Cache\Cache::get('Inventory', 'Discounts');
 		}
 		$discounts = (new \App\Db\Query())->from('a_#__discounts_global')->where(['status' => 0])
 				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
-		\App\Cache::save('Inventory', 'Discounts', $discounts, \App\Cache::LONG);
+		\App\Cache\Cache::save('Inventory', 'Discounts', $discounts, \App\Cache\Cache::LONG);
 		return $discounts;
 	}
 
@@ -81,8 +81,8 @@ class Inventory {
 	 */
 	public static function getTaxesConfig()
 	{
-		if (\App\Cache::has('Inventory', 'TaxConfiguration')) {
-			return \App\Cache::get('Inventory', 'TaxConfiguration');
+		if (\App\Cache\Cache::has('Inventory', 'TaxConfiguration')) {
+			return \App\Cache\Cache::get('Inventory', 'TaxConfiguration');
 		}
 		$config = [];
 		$dataReader = (new \App\Db\Query())->from('a_#__taxes_config')->createCommand(\App\Db::getInstance('admin'))->query();
@@ -93,7 +93,7 @@ class Inventory {
 			}
 			$config[$row['param']] = $value;
 		}
-		\App\Cache::save('Inventory', 'TaxConfiguration', $config, \App\Cache::LONG);
+		\App\Cache\Cache::save('Inventory', 'TaxConfiguration', $config, \App\Cache\Cache::LONG);
 		return $config;
 	}
 
@@ -103,12 +103,12 @@ class Inventory {
 	 */
 	public static function getGlobalTaxes()
 	{
-		if (\App\Cache::has('Inventory', 'Taxes')) {
-			return \App\Cache::get('Inventory', 'Taxes');
+		if (\App\Cache\Cache::has('Inventory', 'Taxes')) {
+			return \App\Cache\Cache::get('Inventory', 'Taxes');
 		}
 		$taxes = (new \App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
 				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
-		\App\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache::LONG);
+		\App\Cache\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache\Cache::LONG);
 		return $taxes;
 	}
 

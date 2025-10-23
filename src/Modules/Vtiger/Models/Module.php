@@ -148,8 +148,8 @@ class Module extends \vtlib\Module
 		$moduleName = $this->getName();
 		$commentsModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
-			if (\App\Cache::has('isModuleCommentEnabled', $moduleName)) {
-				return \App\Cache::get('isModuleCommentEnabled', $moduleName);
+			if (\App\Cache\Cache::has('isModuleCommentEnabled', $moduleName)) {
+				return \App\Cache\Cache::get('isModuleCommentEnabled', $moduleName);
 			}
 			$query = new \App\Db\Query();
 			$fieldId = $query->select(['fieldid'])
@@ -161,7 +161,7 @@ class Module extends \vtlib\Module
 					->where(['fieldid' => $fieldId, 'relmodule' => $moduleName])
 					->exists();
 			}
-			\App\Cache::save('isModuleCommentEnabled', $moduleName, $enabled);
+			\App\Cache\Cache::save('isModuleCommentEnabled', $moduleName, $enabled);
 		} else {
 			$enabled = false;
 		}
@@ -175,14 +175,14 @@ class Module extends \vtlib\Module
 	 */
 	public static function getInstance($mixed)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('module', $mixed);
+		$instance = \App\Cache\Cache::get('module', $mixed);
 		if (!$instance) {
 			$instance = false;
 			$moduleObject = parent::getInstance($mixed);
 			if ($moduleObject) {
 				$instance = self::getInstanceFromModuleObject($moduleObject);
-				\App\Runtime\Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				\App\Runtime\Vtiger_Cache::set('module', $moduleObject->name, $instance);
+				\App\Cache\Cache::save('module', $moduleObject->id, $instance);
+				\App\Cache\Cache::save('module', $moduleObject->name, $instance);
 			}
 		}
 		return $instance;
@@ -880,7 +880,7 @@ class Module extends \vtlib\Module
 
 	public static function getEntityModules()
 	{
-		$moduleModels = \App\Runtime\Vtiger_Cache::get('vtiger', 'EntityModules');
+		$moduleModels = \App\Cache\Cache::get('vtiger', 'EntityModules');
 		if (!$moduleModels) {
 			$presence = array(0, 2);
 			$moduleModels = self::getAll($presence);
@@ -890,7 +890,7 @@ class Module extends \vtlib\Module
 					unset($moduleModels[$key]);
 				}
 			}
-			\App\Runtime\Vtiger_Cache::set('vtiger', 'EntityModules', $moduleModels);
+			\App\Cache\Cache::save('vtiger', 'EntityModules', $moduleModels);
 		}
 		return $moduleModels;
 	}
@@ -901,7 +901,7 @@ class Module extends \vtlib\Module
 	 */
 	public static function getQuickCreateModules($restrictList = false)
 	{
-		$quickCreateModules = \App\Runtime\Vtiger_Cache::get('getQuickCreateModules', $restrictList ? 1 : 0);
+		$quickCreateModules = \App\Cache\Cache::get('getQuickCreateModules', $restrictList ? 1 : 0);
 		if ($quickCreateModules !== false) {
 			return $quickCreateModules;
 		}
@@ -925,7 +925,7 @@ class Module extends \vtlib\Module
 				$quickCreateModules[$row['name']] = $moduleModel;
 			}
 		}
-		\App\Runtime\Vtiger_Cache::set('getQuickCreateModules', $restrictList ? 1 : 0, $quickCreateModules);
+		\App\Cache\Cache::save('getQuickCreateModules', $restrictList ? 1 : 0, $quickCreateModules);
 		return $quickCreateModules;
 	}
 
@@ -1497,8 +1497,8 @@ class Module extends \vtlib\Module
 	 */
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
-		if (\App\Cache::staticHas('PopupViewFieldsList', $this->getName())) {
-			return \App\Cache::staticGet('PopupViewFieldsList', $this->getName());
+		if (\App\Cache\Cache::has('PopupViewFieldsList', $this->getName())) {
+			return \App\Cache\Cache::get('PopupViewFieldsList', $this->getName());
 		}
 		$parentRecordModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		if (!empty($sourceModule) && $parentRecordModel) {
@@ -1515,7 +1515,7 @@ class Module extends \vtlib\Module
 				$popupFields[$fieldName] = $fieldName;
 			}
 		}
-		\App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
+		\App\Cache\Cache::save('PopupViewFieldsList', $this->getName(), $popupFields);
 		return $popupFields;
 	}
 

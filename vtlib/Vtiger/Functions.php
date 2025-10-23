@@ -53,8 +53,8 @@ class Functions
 
 	protected static function getCurrencyInfo($currencyid)
 	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
+		if (\App\Cache\Cache::has('AllCurrency', 'All')) {
+			$currencyInfo = \App\Cache\Cache::get('AllCurrency', 'All');
 		} else {
 			$currencyInfo = self::getAllCurrency();
 		}
@@ -63,11 +63,11 @@ class Functions
 
 	public static function getAllCurrency($onlyActive = false)
 	{
-		if (\App\Cache::has('AllCurrency', 'All')) {
-			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
+		if (\App\Cache\Cache::has('AllCurrency', 'All')) {
+			$currencyInfo = \App\Cache\Cache::get('AllCurrency', 'All');
 		} else {
 			$currencyInfo = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
-			\App\Cache::save('AllCurrency', 'All', $currencyInfo);
+			\App\Cache\Cache::save('AllCurrency', 'All', $currencyInfo);
 		}
 		if ($onlyActive) {
 			$currencies = [];
@@ -103,21 +103,21 @@ class Functions
 
 	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false, $ownedby = false)
 	{
-		if (\App\Cache::has('moduleTabs', 'all')) {
-			$moduleList = \App\Cache::get('moduleTabs', 'all');
+		if (\App\Cache\Cache::has('moduleTabs', 'all')) {
+			$moduleList = \App\Cache\Cache::get('moduleTabs', 'all');
 		} else {
 			$moduleList = [];
 			$rows = (new \App\Db\Query())->from('vtiger_tab')->all();
 			foreach ($rows as $row) {
-				if (!\App\Cache::has('moduleTabById', $row['tabid'])) {
-					\App\Cache::save('moduleTabById', $row['tabid'], $row);
+				if (!\App\Cache\Cache::has('moduleTabById', $row['tabid'])) {
+					\App\Cache\Cache::save('moduleTabById', $row['tabid'], $row);
 				}
-				if (!\App\Cache::has('moduleTabByName', $row['name'])) {
-					\App\Cache::save('moduleTabByName', $row['name'], $row);
+				if (!\App\Cache\Cache::has('moduleTabByName', $row['name'])) {
+					\App\Cache\Cache::save('moduleTabByName', $row['name'], $row);
 				}
 				$moduleList[$row['tabid']] = $row;
 			}
-			\App\Cache::save('moduleTabs', 'all', $moduleList);
+			\App\Cache\Cache::save('moduleTabs', 'all', $moduleList);
 		}
 		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
 		foreach ($moduleList as $id => &$module) {
@@ -149,27 +149,27 @@ class Functions
 		$id = $name = NULL;
 		if (is_numeric($mixed)) {
 			$id = $mixed;
-			if (\App\Cache::has('moduleTabById', $mixed)) {
-				return \App\Cache::get('moduleTabById', $mixed);
+			if (\App\Cache\Cache::has('moduleTabById', $mixed)) {
+				return \App\Cache\Cache::get('moduleTabById', $mixed);
 			}
 		} else {
 			$name = (string) $mixed;
-			if (\App\Cache::has('moduleTabByName', $name)) {
-				return \App\Cache::get('moduleTabByName', $name);
+			if (\App\Cache\Cache::has('moduleTabByName', $name)) {
+				return \App\Cache\Cache::get('moduleTabByName', $name);
 			}
 		}
 		$moduleList = [];
 		$rows = (new \App\Db\Query())->from('vtiger_tab')->all();
 		foreach ($rows as $row) {
-			\App\Cache::save('moduleTabById', $row['tabid'], $row);
-			\App\Cache::save('moduleTabByName', $row['name'], $row);
+			\App\Cache\Cache::save('moduleTabById', $row['tabid'], $row);
+			\App\Cache\Cache::save('moduleTabByName', $row['name'], $row);
 			$moduleList[$row['tabid']] = $row;
 		}
-		\App\Cache::save('moduleTabs', 'all', $moduleList);
-		if ($name && \App\Cache::has('moduleTabByName', $name)) {
-			return \App\Cache::get('moduleTabByName', $name);
+		\App\Cache\Cache::save('moduleTabs', 'all', $moduleList);
+		if ($name && \App\Cache\Cache::has('moduleTabByName', $name)) {
+			return \App\Cache\Cache::get('moduleTabByName', $name);
 		}
-		return $id ? \App\Cache::get('moduleTabById', $id) : NULL;
+		return $id ? \App\Cache\Cache::get('moduleTabById', $id) : NULL;
 	}
 
 	public static function getModuleId($name)
@@ -300,7 +300,7 @@ class Functions
 			$module = \App\Module::getModuleName($module);
 		}
 		$cacheName = 'getModuleFieldInfosByName';
-		if (!\App\Cache::has($cacheName, $module)) {
+		if (!\App\Cache\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
 					->from('vtiger_field')
 					->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
@@ -310,13 +310,13 @@ class Functions
 				$fieldInfoByName[$row['fieldname']] = $row;
 				$fieldInfoByColumn[$row['columnname']] = $row;
 			}
-			\App\Cache::save($cacheName, $module, $fieldInfoByName);
-			\App\Cache::save('getModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
+			\App\Cache\Cache::save($cacheName, $module, $fieldInfoByName);
+			\App\Cache\Cache::save('getModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
 		}
 		if ($returnByColumn) {
-			return \App\Cache::get('getModuleFieldInfosByColumn', $module);
+			return \App\Cache\Cache::get('getModuleFieldInfosByColumn', $module);
 		}
-		return \App\Cache::get($cacheName, $module);
+		return \App\Cache\Cache::get($cacheName, $module);
 	}
 
 	/**

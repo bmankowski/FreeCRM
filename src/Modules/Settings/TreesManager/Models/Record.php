@@ -340,6 +340,6 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function clearCache()
 	{
-		\App\Cache::delete('TreeData', $this->getId());
+		\App\Cache\Cache::delete('TreeData', $this->getId());
 	}
 }

@@ -24,7 +24,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
-			\App\Cache::delete('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
+			\App\Cache\Cache::delete('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
 			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
 		} else {
 			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));

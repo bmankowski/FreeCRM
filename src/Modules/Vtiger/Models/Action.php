@@ -109,11 +109,11 @@ class Action extends \App\Runtime\BaseModel
 
 	public static function getAll($configurable = false)
 	{
-		if (\App\Cache::has('Actions', 'all')) {
-			$rows = \App\Cache::get('Actions', 'all');
+		if (\App\Cache\Cache::has('Actions', 'all')) {
+			$rows = \App\Cache\Cache::get('Actions', 'all');
 		} else {
 			$rows = (new \App\Db\Query())->from('vtiger_actionmapping')->all();
-			\App\Cache::save('Actions', 'all', $rows);
+			\App\Cache\Cache::save('Actions', 'all', $rows);
 		}
 		if ($configurable) {
 			foreach ($rows as $key => &$row) {

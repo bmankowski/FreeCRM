@@ -102,12 +102,12 @@ class TransferOwnership extends \App\Runtime\BaseModel
 
 	public static function getInstance($module)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('transferOwnership', $module);
+		$instance = \App\Cache\Cache::get('transferOwnership', $module);
 		if (!$instance) {
 			$modelClassName = \App\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 			$instance = new $modelClassName();
 			$instance->set('module', $module);
-			\App\Runtime\Vtiger_Cache::set('transferOwnership', $module, $instance);
+			\App\Cache\Cache::save('transferOwnership', $module, $instance);
 		}
 		return $instance;
 	}

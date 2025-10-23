@@ -17,7 +17,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public static function getNameByReference($refModuleName)
 	{
-		$fieldName = \App\Runtime\Vtiger_Cache::get('NameRelatedField', $refModuleName . '-Calendar');
+		$fieldName = \App\Cache\Cache::get('NameRelatedField', $refModuleName . '-Calendar');
 		if (!empty($fieldName)) {
 			return $fieldName;
 		}
@@ -26,7 +26,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 		if ($relationModel && $relationModel->getRelationField()) {
 			$fieldName = $relationModel->getRelationField()->getFieldName();
-			\App\Runtime\Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
+			\App\Cache\Cache::save('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
 		}
 		return $fieldName;
 	}

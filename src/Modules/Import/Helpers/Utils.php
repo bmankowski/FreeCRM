@@ -100,7 +100,7 @@ class Utils {
 
 	public static function getAssignedToUserList($module)
 	{
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Cache\Cache::getInstance();
 		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($cache->getUserList($module, $current_user->id)) {
 			return $cache->getUserList($module, $current_user->id);
@@ -113,7 +113,7 @@ class Utils {
 
 	public static function getAssignedToGroupList($module)
 	{
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Cache\Cache::getInstance();
 		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($cache->getGroupList($module, $current_user->id)) {
 			return $cache->getGroupList($module, $current_user->id);

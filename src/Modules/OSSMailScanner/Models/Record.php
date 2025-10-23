@@ -317,7 +317,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public static function getEmailSearchList()
 	{
-		$cache = \App\Runtime\Vtiger_Cache::get('Mail', 'EmailSearchList');
+		$cache = \App\Cache\Cache::get('Mail', 'EmailSearchList');
 		if ($cache !== false) {
 			return $cache;
 		}
@@ -328,7 +328,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		if (!empty($value)) {
 			$return = explode(',', $value);
 		}
-		\App\Runtime\Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
+		\App\Cache\Cache::save('Mail', 'EmailSearchList', $return);
 		return $return;
 	}
 

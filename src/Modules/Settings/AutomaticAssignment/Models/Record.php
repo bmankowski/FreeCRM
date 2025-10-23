@@ -401,8 +401,8 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public static function getInstanceById($id)
 	{
 		$cacheName = get_class();
-		if (\App\Cache::staticHas($cacheName, $id)) {
-			return \App\Cache::staticGet($cacheName, $id);
+		if (\App\Cache\Cache::has($cacheName, $id)) {
+			return \App\Cache\Cache::get($cacheName, $id);
 		}
 		$instance = self::getCleanInstance();
 		$data = (new \App\Db\Query())
@@ -411,7 +411,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			->one(\App\Db::getInstance('admin'));
 		$instance->setData($data);
 		$instance->rawData = $data;
-		\App\Cache::staticSave($cacheName, $id, $instance);
+		\App\Cache\Cache::save($cacheName, $id, $instance);
 		return $instance;
 	}
 
@@ -423,13 +423,13 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$cacheName = get_class();
 		$key = 'Clean';
-		if (\App\Cache::staticHas($cacheName, $key)) {
-			return \App\Cache::staticGet($cacheName, $key);
+		if (\App\Cache\Cache::has($cacheName, $key)) {
+			return \App\Cache\Cache::get($cacheName, $key);
 		}
 		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$instance = new self();
 		$instance->module = $moduleInstance;
-		\App\Cache::staticSave($cacheName, $key, $instance);
+		\App\Cache\Cache::save($cacheName, $key, $instance);
 		return $instance;
 	}
 

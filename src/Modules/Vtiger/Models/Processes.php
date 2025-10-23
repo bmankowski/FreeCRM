@@ -23,7 +23,7 @@ class Processes {
 			'marketing' => 'yetiforce_proc_marketing',
 			'sales' => 'yetiforce_proc_sales',
 		];
-		$cache = \App\Runtime\Vtiger_Cache::get('ProcessesModel', $process . $type);
+		$cache = \App\Cache\Cache::get('ProcessesModel', $process . $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
@@ -44,12 +44,12 @@ class Processes {
 				$config[$param] = $value;
 			}
 			if ($procesParam != false && $param == $procesParam) {
-				\App\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
+				\App\Cache\Cache::save('ProcessesModel', $process . $type . $procesParam, $value);
 				\App\Log::trace('End ' . __METHOD__);
 				return $value;
 			}
 		}
-		\App\Runtime\Vtiger_Cache::set('ProcessesModel', $process . $type, $config);
+		\App\Cache\Cache::save('ProcessesModel', $process . $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

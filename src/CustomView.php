@@ -1,5 +1,7 @@
 <?php
 namespace App;
+
+use App\Cache\Cache;
 use App\AppConfig;
 use App\Http\AppRequest;
 
@@ -246,13 +248,13 @@ class CustomView
 		$user = \App\Modules\Users\Models\Record::getInstanceById($user, 'Users');
 	}
 	$cacheName = $moduleName . '.' . $user->getId();
-		if (\App\Cache::staticHas('AppCustomView', $cacheName)) {
-			return \App\Cache::staticGet('AppCustomView', $cacheName);
+		if (\App\Cache\Cache::has('AppCustomView', $cacheName)) {
+			return \App\Cache\Cache::get('AppCustomView', $cacheName);
 		}
 		$instance = new self();
 		$instance->moduleName = $moduleName;
 		$instance->user = $user;
-		\App\Cache::staticGet('AppCustomView', $cacheName, $instance);
+		\App\Cache\Cache::get('AppCustomView', $cacheName, $instance);
 		return $instance;
 	}
 
@@ -269,14 +271,14 @@ class CustomView
 	 */
 	public function getCustomViewFromFile($cvId)
 	{
-		if (Cache::staticHas('getCustomViewFile', $cvId)) {
-			return Cache::staticGet('getCustomViewFile', $cvId);
+		if (Cache::has('getCustomViewFile', $cvId)) {
+			return Cache::get('getCustomViewFile', $cvId);
 		}
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
 		if (file_exists($filterDir)) {
 			$handlerClass = \App\Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
 			$filter = new $handlerClass();
-			Cache::staticSave('getCustomViewFile', $cvId, $filter);
+			Cache::save('getCustomViewFile', $cvId, $filter);
 			return $filter;
 		}
 		\App\Log::error(\LanguageTranslator::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");

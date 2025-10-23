@@ -21,8 +21,8 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		if ($module && !is_numeric($module)) {
 			$module = \App\Module::getModuleId($module);
 		}
-		if (\App\Cache::has('ModuleWidgets', $module)) {
-			return \App\Cache::get('ModuleWidgets', $module);
+		if (\App\Cache\Cache::has('ModuleWidgets', $module)) {
+			return \App\Cache\Cache::get('ModuleWidgets', $module);
 		}
 		$query = (new \App\Db\Query())->from('vtiger_widgets');
 		if ($module) {
@@ -35,7 +35,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$row['data'] = \App\Json::decode($row['data']);
 			$widgets[$row['wcol']][$row['id']] = $row;
 		}
-		\App\Cache::save('ModuleWidgets', $module, $widgets);
+		\App\Cache\Cache::save('ModuleWidgets', $module, $widgets);
 		return $widgets;
 	}
 

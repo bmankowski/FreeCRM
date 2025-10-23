@@ -25,7 +25,7 @@ class Picklist
 	public static function getRoleBasedPicklistValues($fieldName, $roleId)
 	{
 		$cacheKey = $fieldName . $roleId;
-		$cache = \App\Cache::get('getRoleBasedPicklistValues', $cacheKey);
+		$cache = \App\Cache\Cache::get('getRoleBasedPicklistValues', $cacheKey);
 		if ($cache) {
 			return $cache;
 		}
@@ -40,7 +40,7 @@ class Picklist
 		while (($val = $dataReader->readColumn(0)) !== false) {
 			$fldVal[] = \App\Utils\ListViewUtils::decodeHtml($val);
 		}
-		\App\Cache::save('getRoleBasedPicklistValues', $cacheKey, $fldVal);
+		\App\Cache\Cache::save('getRoleBasedPicklistValues', $cacheKey, $fldVal);
 		return $fldVal;
 	}
 
@@ -51,7 +51,7 @@ class Picklist
 	 */
 	public static function getPickListValues($fieldName)
 	{
-		$cache = \App\Cache::get('getPickListValues', $fieldName);
+		$cache = \App\Cache\Cache::get('getPickListValues', $fieldName);
 		if ($cache) {
 			return $cache;
 		}
@@ -64,7 +64,7 @@ class Picklist
 		while ($row = $dataReader->read()) {
 			$values[$row[$primaryKey]] = \App\Utils\ListViewUtils::decodeHtml(\App\Utils\ListViewUtils::decodeHtml($row[$fieldName]));
 		}
-		\App\Cache::save('getPickListValues', $fieldName, $values);
+		\App\Cache\Cache::save('getPickListValues', $fieldName, $values);
 		return $values;
 	}
 
@@ -92,7 +92,7 @@ class Picklist
 	 */
 	public static function getNonEditablePicklistValues($fieldName)
 	{
-		$cache = \App\Cache::get('getNonEditablePicklistValues', $fieldName);
+		$cache = \App\Cache\Cache::get('getNonEditablePicklistValues', $fieldName);
 		if ($cache) {
 			return $cache;
 		}
@@ -105,7 +105,7 @@ class Picklist
 		while ($row = $dataReader->read()) {
 			$values[$row[$primaryKey]] = \App\Utils\ListViewUtils::decodeHtml(\App\Utils\ListViewUtils::decodeHtml($row[$fieldName]));
 		}
-		\App\Cache::save('getNonEditablePicklistValues', $fieldName, $values);
+		\App\Cache\Cache::save('getNonEditablePicklistValues', $fieldName, $values);
 		return $values;
 	}
 

@@ -366,8 +366,8 @@ class Privileges extends \App\Runtime\BaseModel
 	public static function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
 	{
 		$cacheKey = "$record,$moduleName,$type,$actionid";
-		if (\App\Cache::staticHas('PrivilegesParentRecord', $cacheKey)) {
-			return \App\Cache::staticGet('PrivilegesParentRecord', $cacheKey);
+		if (\App\Cache\Cache::has('PrivilegesParentRecord', $cacheKey)) {
+			return \App\Cache\Cache::get('PrivilegesParentRecord', $cacheKey);
 		}
 		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$currentUserId = $userModel->getId();
@@ -477,7 +477,7 @@ class Privileges extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		\App\Cache::staticSave('PrivilegesParentRecord', $cacheKey, $parentRecord);
+		\App\Cache\Cache::save('PrivilegesParentRecord', $cacheKey, $parentRecord);
 		return $parentRecord;
 	}
 

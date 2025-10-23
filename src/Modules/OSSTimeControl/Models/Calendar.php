@@ -91,10 +91,10 @@ class Calendar extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance()
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
+		$instance = \App\Cache\Cache::get('ossTimeControlModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			\App\Runtime\Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
+			\App\Cache\Cache::save('ossTimeControlModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;

@@ -26,7 +26,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 	{
 
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
-		$cache = \App\Runtime\Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
+		$cache = \App\Cache\Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 				$config[$db->query_result_raw($result, $i, 'type')][$param] = $value;
 			}
 		}
-		\App\Runtime\Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
+		\App\Cache\Cache::save('SalesProcesses', $type === false ? 'all' : $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}

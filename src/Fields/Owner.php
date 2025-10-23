@@ -34,12 +34,12 @@ class Owner
 	}
 
 		$cacheKey = $moduleName . $currentUser->getId();
-		$instance = \App\Runtime\Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
+		$instance = \App\Cache\Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
 			$instance->moduleName = $moduleName != false ? $moduleName : \App\Http\AppRequest::get('module');
 			$instance->currentUser = $currentUser;
-		\App\Runtime\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
+		\App\Cache\Cache::save('App\Fields\Owner', $cacheKey, $instance);
 		}
 		return $instance;
 	}
@@ -56,7 +56,7 @@ class Owner
 	public function getAccessibleGroups($private = '', $fieldType = false, $translate = false)
 	{
 		$cacheKey = $private . $this->moduleName . $fieldType;
-		$accessibleGroups = \App\Runtime\Vtiger_Cache::get('getAccessibleGroups', $cacheKey);
+		$accessibleGroups = \App\Cache\Cache::get('getAccessibleGroups', $cacheKey);
 		if ($accessibleGroups === false) {
 			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
@@ -64,7 +64,7 @@ class Owner
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
 			}
-		\App\Runtime\Vtiger_Cache::set('getAccessibleGroups', $cacheKey, $accessibleGroups);
+		\App\Cache\Cache::save('getAccessibleGroups', $cacheKey, $accessibleGroups);
 		}
 		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
@@ -89,7 +89,7 @@ class Owner
 	public function getAccessibleUsers($private = '', $fieldType = false)
 	{
 		$cacheKey = $private . $this->moduleName . $fieldType . $fieldType;
-		$accessibleUser = \App\Runtime\Vtiger_Cache::get('getAccessibleUsers', $cacheKey);
+		$accessibleUser = \App\Cache\Cache::get('getAccessibleUsers', $cacheKey);
 		if ($accessibleUser === false) {
 			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
@@ -109,7 +109,7 @@ class Owner
 			} else {
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			}
-		\App\Runtime\Vtiger_Cache::set('getAccessibleUsers', $cacheKey, $accessibleUser);
+		\App\Cache\Cache::save('getAccessibleUsers', $cacheKey, $accessibleUser);
 		}
 		return $accessibleUser;
 	}
@@ -164,7 +164,7 @@ class Owner
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
 		$cacheKeyRole = is_array($roles) ? md5(json_encode($roles)) : $roles;
 		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private . $cacheKeyRole;
-		if (!\App\Cache::has('getUsers', $cacheKey)) {
+		if (!\App\Cache\Cache::has('getUsers', $cacheKey)) {
 			$entityData = \App\Module::getEntityInfo('Users');
 			$query = $this->getQueryInitUsers($private, $status, $roles);
 			if (!empty($assignedUser)) {
@@ -181,9 +181,9 @@ class Owner
 				$row['fullName'] = trim($fullName);
 				$tempResult[$row['id']] = $row;
 			}
-			\App\Cache::save('getUsers', $cacheKey, $tempResult);
+			\App\Cache\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
-		$tmp = \App\Cache::get('getUsers', $cacheKey);
+		$tmp = \App\Cache\Cache::get('getUsers', $cacheKey);
 		return $tmp;
 	}
 
@@ -288,8 +288,8 @@ class Owner
 			$tabid = \App\Module::getModuleId($moduleName);
 		}
 		$cacheKey = $addBlank . $private . $moduleName;
-		if (\App\Cache::has('OwnerGroups', $cacheKey)) {
-			return \App\Cache::get('OwnerGroups', $cacheKey);
+		if (\App\Cache\Cache::has('OwnerGroups', $cacheKey)) {
+			return \App\Cache\Cache::get('OwnerGroups', $cacheKey);
 		}
 		$db = \App\Database\PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
@@ -345,7 +345,7 @@ class Owner
 		while ($row = $db->getRow($result)) {
 			$tempResult[$row['groupid']] = \App\Utils\ListViewUtils::decodeHtml($row['groupname']);
 		}
-		\App\Cache::save('OwnerGroups', $cacheKey, $tempResult);
+		\App\Cache\Cache::save('OwnerGroups', $cacheKey, $tempResult);
 		\App\Log::trace('Exiting getGroups method ...');
 		return $tempResult;
 	}

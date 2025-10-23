@@ -19,7 +19,7 @@ class ZipReader extends FileReader
 
 	public function __construct(\App\Http\Vtiger_Request $request, $user)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
+		$instance = \App\Cache\Cache::get('ZipReader', $request->get('module') . $user->id);
 		if (!empty($instance)) {
 			$this->setInstanceProperties($instance);
 			$this->request = $request;
@@ -29,7 +29,7 @@ class ZipReader extends FileReader
 		$this->extension = $request->get('extension');
 		parent::__construct($request, $user);
 		$this->initialize($request, $user);
-		\App\Runtime\Vtiger_Cache::set('ZipReader', $this->moduleName . $user->id, $this);
+		\App\Cache\Cache::save('ZipReader', $this->moduleName . $user->id, $this);
 	}
 
 	public function setInstanceProperties($instance)

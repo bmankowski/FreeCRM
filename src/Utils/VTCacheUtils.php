@@ -14,7 +14,7 @@
 
 namespace App\Utils;
 
-use App\Runtime\Vtiger_Cache;
+use App\Cache\Cache;
 
 class VTCacheUtils
 {
@@ -93,19 +93,19 @@ class VTCacheUtils
 			'typeofdata' => $typeofdata,
 			'presence' => $presence,
 		);
-		\App\Runtime\Vtiger_Cache::set('fieldInfo', $tabid, self::$_fieldinfo_cache[$tabid]);
+		\App\Cache\Cache::save('fieldInfo', $tabid, self::$_fieldinfo_cache[$tabid]);
 	}
 
 	static function lookupFieldInfo($tabid, $fieldname)
 	{
-		$fieldInfo = \App\Runtime\Vtiger_Cache::get('fieldInfo', $tabid);
+		$fieldInfo = \App\Cache\Cache::get('fieldInfo', $tabid);
 		if ($fieldInfo && isset($fieldInfo[$fieldname])) {
 			return $fieldInfo[$fieldname];
 		} else if (isset(self::$_fieldinfo_cache[$tabid]) && isset(self::$_fieldinfo_cache[$tabid][$fieldname])) {
 			return self::$_fieldinfo_cache[$tabid][$fieldname];
 		}
 
-		$field = \App\Runtime\Vtiger_Cache::get('field-' . $tabid, $fieldname);
+		$field = \App\Cache\Cache::get('field-' . $tabid, $fieldname);
 		if ($field) {
 			$cacheField = array(
 				'tabid' => $tabid,
@@ -127,7 +127,7 @@ class VTCacheUtils
 	{
 		$tabid = \App\Module::getModuleId($module);
 		$modulefields = false;
-		$fieldInfo = \App\Runtime\Vtiger_Cache::get('fieldInfo', $tabid);
+		$fieldInfo = \App\Cache\Cache::get('fieldInfo', $tabid);
 		if (isset($fldcache) && $fldcache) {
 			$fldcache = $fieldInfo;
 		} else if (isset(self::$_fieldinfo_cache[$tabid])) {
@@ -144,7 +144,7 @@ class VTCacheUtils
 			}
 		}
 
-		$fieldInfo = \App\Runtime\Vtiger_Cache::get('ModuleFields', $tabid);
+		$fieldInfo = \App\Cache\Cache::get('ModuleFields', $tabid);
 		if ($fieldInfo) {
 			foreach ($fieldInfo as $block => $blockFields) {
 				foreach ($blockFields as $field) {
@@ -179,7 +179,7 @@ class VTCacheUtils
 			}
 		}
 
-		$fieldInfo = \App\Runtime\Vtiger_Cache::get('ModuleFields', $tabid);
+		$fieldInfo = \App\Cache\Cache::get('ModuleFields', $tabid);
 		if ($fieldInfo) {
 			foreach ($fieldInfo as $block => $blockFields) {
 				foreach ($blockFields as $field) {
@@ -209,12 +209,12 @@ class VTCacheUtils
 	static function updateEntityNameInfo($module, $data)
 	{
 		self::$_module_entityname_cache[$module] = $data;
-		\App\Runtime\Vtiger_Cache::set('EntityInfo', $module, self::$_module_entityname_cache[$module]);
+		\App\Cache\Cache::save('EntityInfo', $module, self::$_module_entityname_cache[$module]);
 	}
 
 	static function lookupEntityNameInfo($module)
 	{
-		$entityNames = \App\Runtime\Vtiger_Cache::get('EntityInfo', $module);
+		$entityNames = \App\Cache\Cache::get('EntityInfo', $module);
 		if ($entityNames) {
 			return $entityNames;
 		} else if (isset(self::$_module_entityname_cache[$module])) {

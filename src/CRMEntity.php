@@ -23,7 +23,7 @@
 namespace App;
 
 use App\Utils\VTCacheUtils;
-use App\Cache;
+use App\Cache\Cache;
 use App\Log;
 use App\Module;
 use App\Db;
@@ -74,8 +74,8 @@ class CRMEntity
 			$module = 'Calendar';
 			$modName = 'Activity';
 		}
-		if (Cache::staticHas('CRMEntity', $module)) {
-			return clone Cache::staticGet('CRMEntity', $module);
+		if (Cache::has('CRMEntity', $module)) {
+			return clone Cache::get('CRMEntity', $module);
 		}
 
 		// Build namespaced class name for PSR-4 migrated modules
@@ -99,7 +99,7 @@ class CRMEntity
 			$focus = new $modName();
 		}
 		$focus->moduleName = $module;
-		Cache::staticSave('CRMEntity', $module, clone $focus);
+		Cache::save('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
 

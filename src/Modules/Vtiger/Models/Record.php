@@ -387,9 +387,9 @@ class Record extends \App\Runtime\BaseModel
 		$db->completeTransaction();
 
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+			\App\Cache\Cache::save('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 		}
-		\App\Cache::delete('recordLabel', $this->getId());
+		\App\Cache\Cache::delete('recordLabel', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
@@ -492,8 +492,8 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public static function getCleanInstance($moduleName)
 	{
-		if (\App\Cache::staticHas('RecordModelCleanInstance', $moduleName)) {
-			return clone \App\Cache::staticGet('RecordModelCleanInstance', $moduleName);
+		if (\App\Cache\Cache::has('RecordModelCleanInstance', $moduleName)) {
+			return clone \App\Cache\Cache::get('RecordModelCleanInstance', $moduleName);
 		}
 		$focus = \App\CRMEntity::getInstance($moduleName);
 		$module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
@@ -502,7 +502,7 @@ class Record extends \App\Runtime\BaseModel
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
 		$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
-		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
+		\App\Cache\Cache::save('RecordModelCleanInstance', $moduleName, clone $instance);
 		return $instance;
 	}
 
@@ -524,8 +524,8 @@ class Record extends \App\Runtime\BaseModel
 			$module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		}
 		$cacheName = "$recordId:$moduleName";
-		if (\App\Cache::staticHas('RecordModel', $cacheName)) {
-			return \App\Cache::staticGet('RecordModel', $cacheName);
+		if (\App\Cache\Cache::has('RecordModel', $cacheName)) {
+			return \App\Cache\Cache::get('RecordModel', $cacheName);
 		}
 
 		$focus = \App\CRMEntity::getInstance($moduleName);
@@ -536,7 +536,7 @@ class Record extends \App\Runtime\BaseModel
 		$instance->setEntity($focus)->setData($focus->column_fields)->setModuleFromInstance($module);
 		$instance->setId($recordId);
 		$instance->isNew = false;
-		\App\Cache::staticSave('RecordModel', $cacheName, $instance);
+		\App\Cache\Cache::save('RecordModel', $cacheName, $instance);
 		return $instance;
 	}
 

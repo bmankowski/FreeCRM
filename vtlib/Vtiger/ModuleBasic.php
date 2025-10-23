@@ -243,7 +243,7 @@ class ModuleBasic
 		$this->deleteDir($moduleInstance);
 		$this->__delete();
 		self::syncfile();
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 	}
 
 	/**

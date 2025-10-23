@@ -14,7 +14,7 @@
 namespace App\Runtime;
 
 use App\AppConfig;
-use App\Cache;
+use App\Cache\Cache;
 use App\Log;
 use Exception;
 
@@ -237,8 +237,8 @@ class CRM_Viewer extends \Smarty
 		$moduleName = str_replace(':', '/', $moduleName);
 		$cacheKey = $templateName . $moduleName;
 		// TODO: BMN repair Ten cache tutaj zwaraca połączone wartości, nie wiem skąd to się bierze
-		// if (\App\Cache::has('ViewerTemplatePath', $cacheKey)) {
-		// 	return \App\Cache::get('ViewerTemplatePath', $cacheKey);
+		// if (\App\Cache\Cache::has('ViewerTemplatePath', $cacheKey)) {
+		// 	return \App\Cache\Cache::get('ViewerTemplatePath', $cacheKey);
 		// }
 		$possibleTemplateDirs = $this->getTemplateDir();
 		foreach ($possibleTemplateDirs as $possibleTemplateDir) {

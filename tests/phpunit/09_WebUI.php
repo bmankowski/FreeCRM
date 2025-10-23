@@ -16,7 +16,7 @@ class WebUI extends TestCase
 
 	public function testListView()
 	{
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 		foreach (\vtlib\Functions::getAllModules() as $id => $module) {
 			if ($module['name'] === 'Events') {
 				continue;

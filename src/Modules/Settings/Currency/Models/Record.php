@@ -101,7 +101,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function clearCache()
 	{
-		\App\Cache::delete('Currency', 'List');
+		\App\Cache\Cache::delete('Currency', 'List');
 	}
 
 	public static function getInstance($id)

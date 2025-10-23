@@ -51,8 +51,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public static function getDataAccessList($module = NULL)
 	{
-		if (\App\Cache::has('DataAccessListInModule', $module)) {
-			return \App\Cache::get('DataAccessListInModule', $module);
+		if (\App\Cache\Cache::has('DataAccessListInModule', $module)) {
+			return \App\Cache\Cache::get('DataAccessListInModule', $module);
 		}
 		$output = [];
 		if (empty($module) || array_key_exists($module, self::getSupportedModules())) {
@@ -72,7 +72,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 				];
 			}
 		}
-		\App\Cache::save('DataAccessListInModule', $module, $output);
+		\App\Cache\Cache::save('DataAccessListInModule', $module, $output);
 		return $output;
 	}
 
@@ -394,15 +394,15 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			return self::$colorListCache[$record];
 		}
 
-		if (\App\Cache::has('DataAccess:colorList', $moduleName)) {
-			$colorList = \App\Cache::get('DataAccess:colorList', $moduleName);
+		if (\App\Cache\Cache::has('DataAccess:colorList', $moduleName)) {
+			$colorList = \App\Cache\Cache::get('DataAccess:colorList', $moduleName);
 		} else {
 			$colorList = (new \App\Db\Query())->select(['dataaccessid', 'data'])
 				->from('vtiger_dataaccess')
 				->where(['module_name' => $moduleName])
 				->andWhere(['like', 'data', 'colorList'])
 				->all();
-			\App\Cache::save('DataAccess:colorList', $moduleName, $colorList);
+			\App\Cache\Cache::save('DataAccess:colorList', $moduleName, $colorList);
 		}
 		$return = [];
 		$recordData = $recordModel->getRawData();

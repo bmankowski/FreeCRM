@@ -106,10 +106,10 @@ class Calendar extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance()
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('reservationsModels', 'Calendar');
+		$instance = \App\Cache\Cache::get('reservationsModels', 'Calendar');
 		if ($instance === false) {
 			$instance = new self();
-			\App\Runtime\Vtiger_Cache::set('reservationsModels', 'Calendar', clone $instance);
+			\App\Cache\Cache::save('reservationsModels', 'Calendar', clone $instance);
 			return $instance;
 		} else {
 			return clone $instance;

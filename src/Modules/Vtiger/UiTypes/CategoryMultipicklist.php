@@ -32,8 +32,8 @@ class CategoryMultipicklist extends Base
 		}
 		$names = [];
 		$trees = array_filter(explode(',', $tree));
-		if (\App\Cache::has('TreeData', $template)) {
-			$treeData = \App\Cache::get('TreeData', $template);
+		if (\App\Cache\Cache::has('TreeData', $template)) {
+			$treeData = \App\Cache\Cache::get('TreeData', $template);
 		} else {
 			$treeData = (new \App\Db\Query())
 				->select(['tree', 'name', 'parenttrre', 'depth', 'label'])
@@ -41,7 +41,7 @@ class CategoryMultipicklist extends Base
 				->where(['templateid' => $template])
 				->createCommand()
 				->queryAllByGroup(1);
-			\App\Cache::save('TreeData', $template, $treeData, \App\Cache::LONG);
+			\App\Cache\Cache::save('TreeData', $template, $treeData, \App\Cache\Cache::LONG);
 		}
 
 		foreach ($trees as $treeId) {

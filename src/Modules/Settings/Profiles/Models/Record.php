@@ -764,7 +764,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getInstanceById($profileId)
 	{
-		$instance = \App\Runtime\Vtiger_Cache::get('ProfilesRecordModelById', $profileId);
+		$instance = \App\Cache\Cache::get('ProfilesRecordModelById', $profileId);
 		if ($instance) {
 			return $instance;
 		}
@@ -777,7 +777,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$profile = new self();
 			$profile->setData($row);
 		}
-		\App\Runtime\Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $profile);
+		\App\Cache\Cache::save('ProfilesRecordModelById', $profileId, $profile);
 		return $profile;
 	}
 

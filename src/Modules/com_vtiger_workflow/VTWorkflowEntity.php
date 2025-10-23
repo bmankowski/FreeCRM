@@ -65,7 +65,7 @@ class VTWorkflowEntity {
 	 */
 	function getModuleName()
 	{
-		$cache = \App\Runtime\Vtiger_Cache::getInstance();
+		$cache = \App\Cache\Cache::getInstance();
 
 		if ($this->moduleName == null) {
 			$adb = \App\Database\PearDatabase::getInstance();

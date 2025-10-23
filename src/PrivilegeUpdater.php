@@ -1,5 +1,7 @@
 <?php
 namespace App;
+
+use App\Cache\Cache;
 use App\AppConfig;
 
 /**
@@ -202,7 +204,7 @@ class PrivilegeUpdater
 		if (\App\AppConfig::module('ModTracker', 'WATCHDOG')) {
 			\App\Modules\Vtiger\Models\Watchdog::reloadCache();
 		}
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 	}
 
 	/**

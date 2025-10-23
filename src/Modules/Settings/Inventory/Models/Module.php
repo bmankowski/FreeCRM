@@ -65,7 +65,7 @@ class Module extends \App\Modules\Vtiger\Models\Record
 		\App\Db::getInstance()->createCommand()
 			->update($tableName, ['value' => $param['value']], ['param' => $param['param']])
 			->execute();
-		\App\Cache::delete('Inventory', $type);
+		\App\Cache\Cache::delete('Inventory', $type);
 		\App\Log::trace('End ' . __METHOD__);
 		return true;
 	}

@@ -94,7 +94,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			$db->createCommand()->insert('s_#__companies', $params)->execute();
 			$this->set('id', $db->getLastInsertID('s_#__companies_id_seq'));
 		}
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$db->createCommand()
 			->delete('s_#__companies', ['id' => $this->getId()])
 			->execute();
-		\App\Cache::clear();
+		\App\Cache\Cache::clear();
 	}
 
 	/**

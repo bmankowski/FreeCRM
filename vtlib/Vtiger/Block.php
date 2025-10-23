@@ -166,8 +166,8 @@ class Block
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		if (\App\Cache::has('BlockInstance', $value)) {
-			$data = \App\Cache::get('BlockInstance', $value);
+		if (\App\Cache\Cache::has('BlockInstance', $value)) {
+			$data = \App\Cache\Cache::get('BlockInstance', $value);
 		} else {
 			$query = (new \App\Db\Query())->from(self::$baseTable);
 			if (Utils::isNumber($value)) {
@@ -176,7 +176,7 @@ class Block
 				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
 			}
 			$data = $query->one();
-			\App\Cache::save('BlockInstance', $value, $data);
+			\App\Cache\Cache::save('BlockInstance', $value, $data);
 		}
 		$instance = false;
 		if ($data) {
@@ -192,14 +192,14 @@ class Block
 	 */
 	public static function getAllForModule($moduleInstance)
 	{
-		if (\App\Cache::has('BlocksForModule', $moduleInstance->id)) {
-			$blocks = \App\Cache::get('BlocksForModule', $moduleInstance->id);
+		if (\App\Cache\Cache::has('BlocksForModule', $moduleInstance->id)) {
+			$blocks = \App\Cache\Cache::get('BlocksForModule', $moduleInstance->id);
 		} else {
 			$blocks = (new \App\Db\Query())->from(self::$baseTable)
 				->where(['tabid' => $moduleInstance->id])
 				->orderBy(['sequence' => SORT_ASC])
 				->all();
-			\App\Cache::save('BlocksForModule', $moduleInstance->id, $blocks);
+			\App\Cache\Cache::save('BlocksForModule', $moduleInstance->id, $blocks);
 		}
 		$instances = false;
 		foreach ($blocks as $row) {

@@ -36,8 +36,8 @@ class ListView extends \App\Runtime\BaseModel
 	public static function getInstance($moduleName, $viewId = 0)
 	{
 		$cacheName = $viewId . ':' . $moduleName;
-		if (\App\Cache::staticHas('ListView_Model', $cacheName)) {
-			return \App\Cache::staticGet('ListView_Model', $cacheName);
+		if (\App\Cache\Cache::has('ListView_Model', $cacheName)) {
+			return \App\Cache\Cache::get('ListView_Model', $cacheName);
 		}
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
@@ -51,7 +51,7 @@ class ListView extends \App\Runtime\BaseModel
 			}
 		}
 		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
-		\App\Cache::staticGet('ListView_Model', $cacheName, $instance);
+		\App\Cache\Cache::get('ListView_Model', $cacheName, $instance);
 		return $instance;
 	}
 
