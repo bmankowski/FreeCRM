@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Import\readers;
+namespace App\Modules\Import\Readers;
 
-use App\Modules\Import\readers\FileReader;
+use App\Modules\Import\Readers\FileReader;
 
 /**
  * XmlReader Class

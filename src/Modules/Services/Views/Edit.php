@@ -7,8 +7,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
+namespace App\Modules\Services\Views;
 
-class \App\Modules\Services\Views\Edit extends \App\Modules\Products\Views\Edit
+class Edit extends \App\Modules\Vtiger\Views\Edit
 {
 
 	/**

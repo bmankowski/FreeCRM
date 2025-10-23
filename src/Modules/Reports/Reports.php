@@ -32,7 +32,7 @@ class Reports extends \App\CRMEntity
 {
 
 	/**
-	 * This class has the informations for Reports and inherits class \App\CRMEntity and
+	 * This class has the informations for Reports and inherits  \App\CRMEntity and
 	 * has the variables required to generate,save,restore vtiger_reports
 	 * and also the required functions for the same
 	 * Contributor(s): ______________________________________..

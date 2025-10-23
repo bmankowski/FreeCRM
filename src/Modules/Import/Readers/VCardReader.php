@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Import\readers;
+namespace App\Modules\Import\Readers;
 
-use App\Modules\Import\readers\FileReader;
+use App\Modules\Import\Readers\FileReader;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

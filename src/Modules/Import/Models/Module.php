@@ -150,9 +150,9 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 * Get file reader
 	 * @param type $request
 	 * @param type $user
-	 * @return \Import_FileReader_Reader
+	 * @return \App\Modules\Import\Readers\FileReader
 	 */
-	public static function getFileReader($request, $user)
+	public static function getFileReader($request, $user): ?\App\Modules\Import\Readers\FileReader
 	{
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {

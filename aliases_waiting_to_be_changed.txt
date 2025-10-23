@@ -11,8 +11,6 @@
 ./src/Modules/Reports/ReportRun.php	Quotes_Inventory_Manager
 ./src/Modules/Reports/Models/ScheduleReports.php	Reports_ScehduleReports_Model
 ./src/Modules/Users/Actions/Login.php	Settings_BruteForce_Module_Model
-./src/Modules/Settings/DataAccess/Views/Settings_DataAccess_Step2_View.php	Settings_DataAccess_Step2_View
-./src/Modules/Settings/DataAccess/Views/Settings_DataAccess_Step3_View.php	Settings_DataAccess_Step3_View
 ./src/Modules/Settings/Groups/Models/Record.php	Settings_Groups_Reord_Model
 ./src/Modules/Settings/LayoutEditor/Models/Field.php	Settings_LayoutEditor_Field_Model
 ./src/Modules/Vtiger/Views/MassActionAjax.php	Settings_MailMerge_Record_Model
