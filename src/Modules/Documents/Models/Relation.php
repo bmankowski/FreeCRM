@@ -46,7 +46,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 			}
 		} else {
 			if ($destinationModuleName == 'ModComments') {
-				ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
+				 \App\Modules\ModTracker\ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 				return true;
 			}
 			$relationFieldModel = $this->getRelationField();
@@ -55,7 +55,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 			}
 			$destinationModuleFocus = \App\CRMEntity::getInstance($destinationModuleName);
 			\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
-			ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
+			 \App\Modules\ModTracker\ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 			return true;
 		}
 	}

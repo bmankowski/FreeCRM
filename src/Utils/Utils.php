@@ -549,7 +549,7 @@ class Utils
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeLink');
 			$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
-			CRMEntity::trackLinkedInfo($sourceRecordId);
+			\App\CRMEntity::trackLinkedInfo($sourceRecordId);
 			$eventHandler->trigger('EntityAfterLink');
 		}
 		\App\Log::trace("Exiting relateEntities method ...");

@@ -2,6 +2,8 @@
 
 namespace App\Modules\Events\UiTypes;
 
+use App\Modules\Vtiger\UiTypes\Base;
+
 /**
  * UIType Picklist Field Class
  * @package YetiForce.Fields

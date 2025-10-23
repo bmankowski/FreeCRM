@@ -13,7 +13,11 @@
 <!-- layouts/basic/modules/Calendar/uitypes/ActivityPicklistFieldSearchView.tpl -->
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-    {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+    {if isset($SEARCH_INFO['searchValue']) && $SEARCH_INFO['searchValue'] neq ''}
+        {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+    {else}
+        {assign var=SEARCH_VALUES value=[]}
+    {/if}
 	<div class="picklistSearchField">
     <select class="select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{$FIELD_MODEL->get('label')|t:$MODULE}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
         {foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}

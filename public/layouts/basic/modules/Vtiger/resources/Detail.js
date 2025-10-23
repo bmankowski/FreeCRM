@@ -2148,7 +2148,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var closestAddCommentBlock = currentTarget.closest('.addCommentBlock');
 		var commentTextAreaElement = closestAddCommentBlock.find('.commentcontent');
 		var commentInfoBlock = currentTarget.closest('.singleComment');
-		commentTextAreaElement.val('');
+			commentTextAreaElement.val('');
 		if (mode == "add") {
 			var commentId = data['result']['id'];
 			var commentHtml = thisInstance.getCommentUI(commentId);
@@ -2174,7 +2174,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 						jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').appendTo(commentBlock);
 					}
 				} else {
-					jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
+					// Try to find .contents first, then fall back to .commentContainer
+					var targetContainer = closestAddCommentBlock.closest('.contents');
+					if (targetContainer.length === 0) {
+						targetContainer = closestAddCommentBlock.closest('.commentContainer');
+					}
+					jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(targetContainer.find('.commentsList'));
 				}
 				commentInfoBlock.find('.commentActionsContainer').show();
 			});

@@ -221,11 +221,11 @@ class ModTracker {
 			$record['crmid'] = $adb->query_result($result, $i, 'crmid');
 			$record['assigneduserid'] = $adb->query_result($result, $i, 'smownerid');
 
-			if ($status == ModTracker::$DELETED) {
+			if ($status == \App\Modules\ModTracker\ModTracker::$DELETED) {
 				$deletedRecords[] = $record;
-			} elseif ($status == ModTracker::$CREATED) {
+			} elseif ($status == \App\Modules\ModTracker\ModTracker::$CREATED) {
 				$createdRecords[] = $record;
-			} elseif ($status == ModTracker::$UPDATED) {
+			} elseif ($status == \App\Modules\ModTracker\ModTracker::$UPDATED) {
 				$updatedRecords[] = $record;
 			}
 

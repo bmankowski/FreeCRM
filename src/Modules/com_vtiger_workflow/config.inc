@@ -9,5 +9,5 @@
  * ********************************************************************************** */
 
 $workflowConfig = array(
-	'basic' => array('classpath' => 'src/Modules/com_vtiger_workflow/Workflow.php', 'class' => 'Workflow'),
+	'basic' => array('classpath' => 'src/Modules/com_vtiger_workflow/Workflow.php', 'class' => '\\App\\Modules\\com_vtiger_workflow\\Workflow'),
 );

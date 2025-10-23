@@ -48,7 +48,7 @@
 						</td>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{\App\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue($RELATED_RECORD->get('rel_created_time'))}</td>
+						<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{assign var="_datetime" value=\App\Fields\DateTimeField::getInstance($RELATED_RECORD->get('rel_created_time'))}{$_datetime->getDisplayDateTimeValue()}</td>
 						<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 					{/if}
 					{if $SHOW_COMMENT}

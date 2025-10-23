@@ -569,8 +569,7 @@ class Relation extends \App\Runtime\BaseModel
 			}
 		} else {
 			if ($destinationModuleName === 'ModComments') {
-				include_once('src/Modules/ModTracker/ModTracker.php');
-				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
+				\App\Modules\ModTracker\ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
 				return true;
 			}
 			$relationFieldModel = $this->getRelationField();

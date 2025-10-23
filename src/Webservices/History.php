@@ -88,17 +88,17 @@ function vtws_history($element, $user)
 		$status = $row['status'];
 		$statuslabel = '';
 		switch ($status) {
-			case ModTracker::$UPDATED: $statuslabel = 'updated';
+			case \App\Modules\ModTracker\ModTracker::$UPDATED: $statuslabel = 'updated';
 				break;
-			case ModTracker::$DELETED: $statuslabel = 'deleted';
+			case \App\Modules\ModTracker\ModTracker::$DELETED: $statuslabel = 'deleted';
 				break;
-			case ModTracker::$CREATED: $statuslabel = 'created';
+			case \App\Modules\ModTracker\ModTracker::$CREATED: $statuslabel = 'created';
 				break;
-			case ModTracker::$RESTORED: $statuslabel = 'restored';
+			case \App\Modules\ModTracker\ModTracker::$RESTORED: $statuslabel = 'restored';
 				break;
-			case ModTracker::$LINK: $statuslabel = 'link';
+			case \App\Modules\ModTracker\ModTracker::$LINK: $statuslabel = 'link';
 				break;
-			case ModTracker::$UNLINK: $statuslabel = 'unlink';
+			case \App\Modules\ModTracker\ModTracker::$UNLINK: $statuslabel = 'unlink';
 				break;
 		}
 		$item['modifieduser'] = $whodid;

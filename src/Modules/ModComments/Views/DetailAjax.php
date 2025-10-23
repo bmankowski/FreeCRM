@@ -14,7 +14,7 @@ namespace App\Modules\ModComments\Views;
 
 
 use App\Http\Vtiger_Request;
-class View extends \App\Modules\Vtiger\Views\Index
+class DetailAjax extends \App\Modules\Vtiger\Views\Index
 {
 
 	/**

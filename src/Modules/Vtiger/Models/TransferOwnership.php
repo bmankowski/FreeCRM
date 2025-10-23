@@ -80,7 +80,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			], ['crmid' => $relatedModuleRecordIds]
 		)->execute();
-		$flag = ModTracker::isTrackingEnabledForModule($module);
+		$flag = \App\Modules\ModTracker\ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {
 				$db->createCommand()->insert('vtiger_modtracker_basic', [

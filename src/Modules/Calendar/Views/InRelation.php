@@ -103,6 +103,9 @@ class InRelation  extends \App\Modules\Vtiger\Views\Index
 			$pagingModel->set('totalCount', (int) $totalCount);
 			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
 			$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
+		} else {
+			$viewer->assign('TOTAL_ENTRIES', 0);
+			$viewer->assign('LISTVIEW_COUNT', 0);
 		}
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
@@ -112,6 +115,7 @@ class InRelation  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
+		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 		$viewer->assign('TIME', $time);
@@ -141,6 +145,7 @@ class InRelation  extends \App\Modules\Vtiger\Views\Index
 		}
 		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
 		return $viewer->view('RelatedList.tpl', $relatedModuleName, 'true');
 	}
 

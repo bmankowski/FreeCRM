@@ -66,12 +66,12 @@
 						{/if}
 					</div>
 				</div>
-				<div class="commentActionsDiv">
-					{assign var=COMMENTS_MODULE_MODEL value = \App\Modules\Vtiger\Models\Module::getInstance('ModComments')}
-					<div class="pull-right commentActions">
-						{if $CHILDS_ROOT_PARENT_MODEL}
-							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
-						{/if}
+			<div class="commentActionsDiv">
+				{assign var=COMMENTS_MODULE_MODEL value = \App\Modules\Vtiger\Models\Module::getInstance('ModComments')}
+				<div class="pull-right commentActions">
+					{if isset($CHILDS_ROOT_PARENT_MODEL) && $CHILDS_ROOT_PARENT_MODEL}
+						{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
+					{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-xs btn-success replyComment">
 								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>

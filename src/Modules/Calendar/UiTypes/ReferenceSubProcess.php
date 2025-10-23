@@ -2,6 +2,8 @@
 
 namespace App\Modules\Calendar\UiTypes;
 
+use App\Modules\Vtiger\UiTypes\Base;
+
 /**
  * UIType ReferenceSubProcess Field Class
  * @package YetiForce.Fields
