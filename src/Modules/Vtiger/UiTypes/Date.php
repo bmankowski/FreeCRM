@@ -78,7 +78,7 @@ class Date extends Base
 	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if (empty($value) || $value === ' ') {
-			$value = trim($value);
+			$value = $value ? trim($value) : '';
 			$fieldInstance = $this->get('field')->getWebserviceFieldObject();
 			$moduleName = $this->get('field')->getModule()->getName();
 			$fieldName = $fieldInstance->getFieldName();
