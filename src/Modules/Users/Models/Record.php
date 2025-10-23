@@ -23,6 +23,15 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/** @var string Error message for backward compatibility */
 	public $error_string;
 
+	/** @var int Current user ID from session */
+	protected static $currentUserId;
+
+	/** @var int Real user ID (handles admin impersonation) */
+	protected static $currentUserRealId = false;
+
+	/** @var \App\Modules\Users\Models\Record Cached current user model */
+	protected static $currentUserCache = false;
+
 	public function getRealId()
 	{
 		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
@@ -231,7 +240,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			'vtiger_users' => [
 				'date_modified' => date('Y-m-d H:i:s'),
 				'reminder_next_time' => date('Y-m-d H:i'),
-				'modified_user_id' => \App\User::getCurrentUserRealId(),
+				'modified_user_id' => \App\Modules\Users\Models\Record::getCurrentUserRealId(),
 			]
 		];
 		$moduleModel = $this->getModule();
@@ -358,29 +367,72 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 * Static Function to get the instance of the User Record model for the current user
 	 * @return \App\Modules\Users\Models\Record instance
 	 */
-	protected static $currentUserModels = [];
-
 	public static function getCurrentUserModel()
 	{
-		$currentUser = vglobal('current_user');
-		if (!empty($currentUser)) {
-
-			// Optimization to avoid object creation every-time
-			// Caching is per-id as current_user can get swapped at runtime (ex. workflow)
-			$currentUserModel = NULL;
-			if (isset(self::$currentUserModels[$currentUser->id])) {
-				$currentUserModel = self::$currentUserModels[$currentUser->id];
-				if (isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] !== $currentUserModel->get('modifiedtime')) {
-					$currentUserModel = NULL;
-				}
-			}
-			if (!$currentUserModel) {
-				$currentUserModel = self::getInstanceFromUserObject($currentUser);
-				self::$currentUserModels[$currentUser->id] = $currentUserModel;
-			}
-			return $currentUserModel;
+		if (static::$currentUserCache) {
+			return static::$currentUserCache;
 		}
-		return new self();
+		if (!static::$currentUserId) {
+			static::$currentUserId = (int) \App\Http\Vtiger_Session::get('authenticated_user_id');
+		}
+		return static::$currentUserCache = self::getInstanceById(
+			static::$currentUserId,
+			'Users'
+		);
+	}
+
+	/**
+	 * Get current user Id
+	 * @return int
+	 */
+	public static function getCurrentUserId()
+	{
+		return static::$currentUserId;
+	}
+
+	/**
+	 * Set current user Id
+	 * @param int $userId
+	 */
+	public static function setCurrentUserId($userId)
+	{
+		static::$currentUserId = $userId;
+		static::$currentUserCache = false; // Invalidate cache
+	}
+
+	/**
+	 * Get real current user Id (handles user switching/impersonation)
+	 * @return int
+	 */
+	public static function getCurrentUserRealId()
+	{
+		if (static::$currentUserRealId) {
+			return static::$currentUserRealId;
+		}
+		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId')) {
+			$id = \App\Http\Vtiger_Session::get('baseUserId');
+		} else {
+			$id = static::getCurrentUserId();
+		}
+		static::$currentUserRealId = $id;
+		return $id;
+	}
+
+	/**
+	 * Clear user cache
+	 * @param int|boolean $userId
+	 */
+	public static function clearCache($userId = false)
+	{
+		if ($userId) {
+			\App\Modules\Users\Models\Privileges::clearCache($userId);
+			if (static::$currentUserId === $userId) {
+				static::$currentUserCache = false;
+			}
+		} else {
+			static::$currentUserCache = false;
+			\App\Modules\Users\Models\Privileges::clearCache();
+		}
 	}
 
 	/**
@@ -815,7 +867,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		//update comments details in vtiger_modcomments
 		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
 		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
-		deleteUserRelatedSharingRules($userId);
+		\App\Utils\UserInfoUtil::deleteUserRelatedSharingRules($userId);
 		$fileName = "user_privileges/sharing_privileges_{$userId}.php";
 		if (file_exists($fileName)) {
 			unlink($fileName);
@@ -1053,7 +1105,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function changePassword($userPassword, $newPassword)
 	{
 		$userName = (string)$this->get('user_name');
-		$currentUser = \App\User::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		\App\Log::trace('Starting password change for ' . $userName);
 
 		if (empty($newPassword)) {

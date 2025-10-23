@@ -147,7 +147,7 @@ class Vtiger_Theme extends CRM_Viewer
 	 */
 	public static function getDefaultThemeName()
 	{
-		$theme = \App\User::getCurrentUserModel()->get('theme');
+		$theme = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('theme');
 		return empty($theme) ? self::DEFAULTTHEME : $theme;
 	}
 

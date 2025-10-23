@@ -63,7 +63,7 @@ class SharedOwnerField extends BaseField
 		$baseTable = $focus->table_name;
 		$baseTableIndex = $focus->table_index;
 		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-		return ['u_#__crmentity_showners.userid' => \App\User::getCurrentUserId()];
+		return ['u_#__crmentity_showners.userid' => \App\Modules\Users\Models\Record::getCurrentUserId()];
 	}
 
 	/**

@@ -56,7 +56,7 @@ class ConvertLead  extends \App\Modules\Vtiger\Views\Index
 
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
 		if ($marketingProcessConfig['change_owner'] === 'true') {
-			$assignedToFieldModel->set('fieldvalue', \App\User::getCurrentUserId());
+			$assignedToFieldModel->set('fieldvalue', \App\Modules\Users\Models\Record::getCurrentUserId());
 		} else {
 			$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
 		}

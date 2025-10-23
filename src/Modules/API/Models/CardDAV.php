@@ -52,8 +52,8 @@ class CardDAV {
 		while ($record = $db->getRow($result)) {
 			foreach ($this->davUsers as $key => $user) {
 				$this->addressBookId = $user->get('addressbooksid');
-				$orgUserId = \App\User::getCurrentUserId();
-				\App\User::setCurrentUserId($user->get('id'));
+				$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+				\App\Modules\Users\Models\Record::setCurrentUserId($user->get('id'));
 				$currentUser = vglobal('current_user');
 				vglobal('current_user', $user);
 
@@ -70,7 +70,7 @@ class CardDAV {
 					}
 				}
 				vglobal('current_user', $currentUser);
-				\App\User::setCurrentUserId($orgUserId);
+				\App\Modules\Users\Models\Record::setCurrentUserId($orgUserId);
 			}
 			$this->markComplete($moduleName, $record['crmid']);
 		}

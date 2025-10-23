@@ -116,7 +116,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__);
-		$currentUser = \App\User::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$user = '';
 
 		if ($moduleName) {

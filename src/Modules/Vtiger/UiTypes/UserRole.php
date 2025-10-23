@@ -26,7 +26,7 @@ class UserRole extends Base
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
 		$displayValue = \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
-		$currentUserModel = \App\User::getCurrentUserModel();
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		if ($currentUserModel->isAdmin() && $rawText === false) {
 			$roleRecordModel = new \App\Modules\Settings\Roles\Models\Record();
 			$roleRecordModel->set('roleid', $value);

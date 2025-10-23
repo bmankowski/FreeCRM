@@ -14,7 +14,7 @@ class PrivilegeQuery
 	public static function getAccessConditions($moduleName, $userId = false, $relatedRecord = false)
 	{
 		if (!$userId) {
-			$userId = \App\User::getCurrentUserId();
+			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 		if ($relatedRecord !== false && \App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
@@ -76,7 +76,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 	} elseif ($user && is_numeric($user)) {
 		$userId = $user;
 	} else {
-		$userId = \App\User::getCurrentUserId();
+		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 	}
 	$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 		if ($relatedRecord !== false && \App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {

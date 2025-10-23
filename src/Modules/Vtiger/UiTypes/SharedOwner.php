@@ -106,7 +106,7 @@ class SharedOwner extends Base
 		}
 		$display = $shownerData = [];
 		$maxLengthText = $this->get('field')->get('maxlengthtext');
-		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
+		$isAdmin = \App\Modules\Users\Models\Record::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
 				$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($shownerid);

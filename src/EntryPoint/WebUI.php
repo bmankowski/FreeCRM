@@ -28,7 +28,6 @@ use App\Cache;
 use App\Db;
 use App\Log;
 use App\RequestUtil;
-use App\User;
 
 
 
@@ -196,7 +195,7 @@ class WebUI extends EntryPoint
 			return false;
 		}
 
-		User::getCurrentUserModel();
+		\App\Modules\Users\Models\Record::getCurrentUserModel();
 		$user = \App\CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($userid);
 		$this->setLogin($user);

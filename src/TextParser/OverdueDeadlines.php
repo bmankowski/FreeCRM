@@ -31,7 +31,7 @@ class OverdueDeadlines extends Base
 		$moduleName = 'Calendar';
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 	$fields = $moduleModel->getFields();
-	$currentUserModel = \App\User::getCurrentUserModel();
+	$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 	$adminUser = !$currentUserModel->isAdmin() ? \App\Modules\Users\Models\Record::getActiveAdminId() : $currentUserModel->getId();
 
 	$queryGenerator = new \App\QueryGenerator($moduleName, $adminUser);

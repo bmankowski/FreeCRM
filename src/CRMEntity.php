@@ -27,7 +27,6 @@ use App\Cache;
 use App\Log;
 use App\Module;
 use App\Db;
-use App\User;
 use App\Privilege;
 use App\Http\Request as AppRequest;
 
@@ -478,7 +477,7 @@ class CRMEntity
 				'vtiger_crmentity', [
 				'deleted' => 0,
 				'modifiedtime' => date('Y-m-d H:i:s'),
-				'modifiedby' => User::getCurrentUserRealId(),
+				'modifiedby' => \App\Modules\Users\Models\Record::getCurrentUserRealId(),
 				'users' => null,
 				], ['crmid' => $id]
 			)->execute();
@@ -680,7 +679,7 @@ class CRMEntity
 					'module' => $module,
 					'relcrmid' => $relcrmid,
 					'relmodule' => $withModule,
-					'rel_created_user' => User::getCurrentUserId(),
+					'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
 			}

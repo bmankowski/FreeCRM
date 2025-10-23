@@ -106,7 +106,7 @@ class QueryGenerator
 		$this->moduleName = $moduleName;
 	$this->moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 	$this->entityModel = \App\CRMEntity::getInstance($moduleName);
-	$this->user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : User::getCurrentUserId(), 'Users');
+	$this->user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : \App\Modules\Users\Models\Record::getCurrentUserId(), 'Users');
 }
 
 	/**

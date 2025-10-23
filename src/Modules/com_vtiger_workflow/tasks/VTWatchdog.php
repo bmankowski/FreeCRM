@@ -48,7 +48,7 @@ class VTWatchdog extends VTTask
 		if (empty($users)) {
 			return false;
 		}
-		if (!empty($this->skipCurrentUser) && ($key = array_search(\App\User::getCurrentUserId(), $users)) !== false) {
+		if (!empty($this->skipCurrentUser) && ($key = array_search(\App\Modules\Users\Models\Record::getCurrentUserId(), $users)) !== false) {
 			unset($users[$key]);
 		}
 		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);

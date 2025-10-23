@@ -199,7 +199,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
-		return self::getInstanceById(\App\User::getCurrentUserId());
+		return self::getInstanceById(\App\Modules\Users\Models\Record::getCurrentUserId());
 	}
 
 	/**
@@ -369,7 +369,7 @@ class Privileges extends \App\Runtime\BaseModel
 		if (\App\Cache::staticHas('PrivilegesParentRecord', $cacheKey)) {
 			return \App\Cache::staticGet('PrivilegesParentRecord', $cacheKey);
 		}
-		$userModel = \App\User::getCurrentUserModel();
+		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$currentUserId = $userModel->getId();
 		$currentUserGroups = $userModel->get('groups');
 		settype($currentUserGroups, 'array');

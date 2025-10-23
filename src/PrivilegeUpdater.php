@@ -22,7 +22,7 @@ class PrivilegeUpdater
 	public static function checkGlobalSearchPermissions($moduleName, $userId = false)
 	{
 		if (!$userId) {
-			$userId = User::getCurrentUserId();
+			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		if (!isset(static::$globalSearchPermissionsCache[$userId][$moduleName])) {
 			$users = static::getGlobalSearchUsers();

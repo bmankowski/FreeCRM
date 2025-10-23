@@ -558,7 +558,7 @@ class RelationListView extends \App\Runtime\BaseModel
 					'module' => $this->getParentRecordModel()->getModuleName(),
 					'relmodule' => $this->getRelatedModuleModel()->getName(),
 					'crmid' => $this->getParentRecordModel()->getId(),
-					'userid' => \App\User::getCurrentUserId()])
+					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])
 				->column();
 	}
 }

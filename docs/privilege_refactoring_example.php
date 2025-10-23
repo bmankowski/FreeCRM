@@ -14,8 +14,8 @@ namespace App\Services\Privilege;
 
 /*
 // Static methods everywhere - hard to test, tightly coupled
-$userId = \App\User::getCurrentUserId();
-$privileges = \App\User::getPrivilegesFile($userId);  // Loads from file
+$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+$privileges = \App\Modules\Users\Models\Record ::getPrivilegesFile($userId);  // Loads from file
 $allowed = \App\Privilege::isPermitted('Leads', 'DetailView', 123);
 
 Problems:
@@ -350,7 +350,7 @@ class FilePrivilegeRepository implements PrivilegeRepository
     
     public function invalidate(int $userId): void
     {
-        \App\User::clearCache($userId);
+        \App\Modules\Users\Models\Record::clearCache($userId);
     }
 }
 
@@ -550,7 +550,7 @@ class PrivilegeFacade
         $userId = false
     ): bool {
         if (!$userId) {
-            $userId = \App\User::getCurrentUserId();
+            $userId = \App\Modules\Users\Models\Record::getCurrentUserId();
         }
         
         if (self::$useNewSystem && self::$service !== null) {

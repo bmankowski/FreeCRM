@@ -89,7 +89,7 @@ class TeamsEstimatedSales  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$time = $request->get('time');
 		$compare = $request->get('compare') === 'true';
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
 		if (empty($time)) {
 			$time = ['start' => ''];
 			$date = new \DateTime();

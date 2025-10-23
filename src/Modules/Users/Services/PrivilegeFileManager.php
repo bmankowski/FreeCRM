@@ -10,7 +10,6 @@ use App\PrivilegeUtil;
 use App\Utils\GetGroupUsers;
 use App\Utils\UserInfoUtil;
 use App\Modules\Users\Models\Privileges;
-use App\User;
 use vtlib\Functions;
 
 /**

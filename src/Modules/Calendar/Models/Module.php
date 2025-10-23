@@ -193,7 +193,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 				->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
 				->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid')
-				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => \App\User::getCurrentUserId()]);
+				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => \App\Modules\Users\Models\Record::getCurrentUserId()]);
 	}
 
 	/**

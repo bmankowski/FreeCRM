@@ -47,7 +47,7 @@ class MassAdd extends \App\Runtime\Vtiger_Action_Controller
 				];
 				$recordeModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 				$recordeModel->set('notes_title', $nameFiles[$i]);
-				$recordeModel->set('assigned_user_id', \App\User::getCurrentUserId());
+				$recordeModel->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserId());
 				$recordeModel->file = $originalFile;
 				$recordeModel->set('filelocationtype', 'I');
 				$recordeModel->set('filestatus', true);

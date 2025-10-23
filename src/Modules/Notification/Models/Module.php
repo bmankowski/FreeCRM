@@ -36,7 +36,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getName());
 		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
-		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
+		$queryGenerator->addNativeCondition(['smownerid' => \App\Modules\Users\Models\Record::getCurrentUserId()]);
 		if (!empty($conditions)) {
 			$queryGenerator->addNativeCondition($conditions);
 		}

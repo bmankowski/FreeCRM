@@ -54,7 +54,7 @@ class Login extends \Api\Core\BaseAction
 				], ['id' => $row['id']])
 			->execute();
 		$row = $this->updateSession($row);
-		$userModel = \App\User::getUserModel($row['user_id']);
+		$userModel = \App\Modules\Users\Models\Record::getUserModel($row['user_id']);
 		return [
 			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),

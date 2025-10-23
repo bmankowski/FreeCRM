@@ -132,6 +132,6 @@ class Owner extends Base
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return empty($value) ? \App\User::getCurrentUserId() : (int) $value;
+		return empty($value) ? \App\Modules\Users\Models\Record::getCurrentUserId() : (int) $value;
 	}
 }

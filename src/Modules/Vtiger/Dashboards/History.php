@@ -24,7 +24,7 @@ class History  extends \App\Modules\Vtiger\Views\Index
 		$type = $request->get('type');
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
 		$limit = (int) $widget->get('limit');
 
 		if (empty($limit)) {

@@ -40,7 +40,7 @@
 						</thead>
 						<tbody>
 							{foreach from=$USERS key=USER_ID item=VALUE}
-								{assign var=USER_MODEL value=\App\User::getUserModel($USER_ID)}
+								{assign var=USER_MODEL value=\App\Modules\Users\Models\Record::getUserModel($USER_ID)}
 								<tr>
 									<td>
 										<strong>{$USER_MODEL->getName()}</strong>

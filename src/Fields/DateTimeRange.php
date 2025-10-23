@@ -3,7 +3,6 @@
 
 namespace App\Fields;
 
-use App\User;
 use DateTime;
 use DateTimeZone;
 
@@ -17,7 +16,7 @@ class DateTimeRange
 	 */
 	public static function getDateRangeByType($type, $dateObject = null)
 	{
-		$currentUser = User::getCurrentUserModel();
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$weekStartDay = $currentUser->getDetail('dayoftheweek');
 
 		if (!$dateObject) {

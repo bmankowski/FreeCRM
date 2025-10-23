@@ -127,7 +127,7 @@ class Mailer
 			$params['smtp_id'] = Mail::getDefaultSmtp();
 		}
 		if (empty($params['owner'])) {
-			$owner = User::getCurrentUserRealId();
+			$owner = \App\Modules\Users\Models\Record::getCurrentUserRealId();
 			$params['owner'] = $owner ? $owner : 0;
 		}
 		$params['date'] = date('Y-m-d H:i:s');

@@ -31,7 +31,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 
 	$cronStart = microtime(true);
 	//set global current user permissions
-	App\User::setCurrentUserId(\App\Modules\Users\Users::getActiveAdminId());
+	\App\Modules\Users\Models\Record::setCurrentUserId(\App\Modules\Users\Users::getActiveAdminId());
 	$current_user = \App\Modules\Users\Users::getActiveAdminUser();
 	vglobal('current_user', $current_user);
 	if ($user) {

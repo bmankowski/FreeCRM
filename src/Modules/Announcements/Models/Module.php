@@ -32,7 +32,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		while ($row = $dataReader->read()) {
 			$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $row['id'], 'userid' => \App\User::getCurrentUserId()]);
+				->where(['announcementid' => $row['id'], 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
 				$query->andWhere(['status' => 0]);
@@ -60,12 +60,12 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$db = \App\Db::getInstance();
 		$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])->limit(1);
+				->where(['announcementid' => $record, 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])->limit(1);
 		if ($query->scalar() === false) {
 			$db->createCommand()
 				->insert('u_#__announcement_mark', [
 					'announcementid' => $record,
-					'userid' => \App\User::getCurrentUserId(),
+					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 					'date' => date('Y-m-d H:i:s'),
 					'status' => $state
 				])->execute();
@@ -74,7 +74,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 				->update('u_#__announcement_mark', [
 					'date' => date('Y-m-d H:i:s'),
 					'status' => $state
-					], ['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])
+					], ['announcementid' => $record, 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])
 				->execute();
 		}
 		$this->checkStatus($record);

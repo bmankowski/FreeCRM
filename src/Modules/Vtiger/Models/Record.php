@@ -457,18 +457,18 @@ class Record extends \App\Runtime\BaseModel
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
-			$row['smcreatorid'] = \App\User::getCurrentUserRealId();
+			$row['smcreatorid'] = \App\Modules\Users\Models\Record::getCurrentUserRealId();
 			$row['createdtime'] = $time;
-			$row['users'] = ',' . \App\User::getCurrentUserId() . ',';
+			$row['users'] = ',' . \App\Modules\Users\Models\Record::getCurrentUserId() . ',';
 			$this->set('createdtime', $time);
 		}
 		if ($this->getPreviousValue('modifiedtime')) {
 			$time = $this->get('modifiedtime');
 		}
 		$row['modifiedtime'] = $time;
-		$row['modifiedby'] = \App\User::getCurrentUserRealId();
+		$row['modifiedby'] = \App\Modules\Users\Models\Record::getCurrentUserRealId();
 		$this->set('modifiedtime', $time);
-		$this->set('modifiedby', \App\User::getCurrentUserRealId());
+		$this->set('modifiedby', \App\Modules\Users\Models\Record::getCurrentUserRealId());
 		return ['vtiger_crmentity' => $row];
 	}
 
@@ -1053,7 +1053,7 @@ class Record extends \App\Runtime\BaseModel
 		$module = \App\Http\AppRequest::get('module');
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
 		$db = \App\Db::getInstance();
-		$userId = \App\User::getCurrentUserId();
+		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$date = date('Y-m-d H:i:s');
 
 		//to get the owner id
@@ -1267,7 +1267,7 @@ class Record extends \App\Runtime\BaseModel
 	public function isCanAssignToHimself()
 	{
 		return \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
-			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
+			array_key_exists(\App\Modules\Users\Models\Record::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
 	/**
@@ -1277,7 +1277,7 @@ class Record extends \App\Runtime\BaseModel
 	public function autoAssignRecord()
 	{
 		if (\App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
-			$userModel = \App\User::getCurrentUserModel();
+			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
 				$autoAssignModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');

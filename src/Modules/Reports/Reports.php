@@ -385,7 +385,7 @@ class Reports extends \App\CRMEntity
 	{
 	$srptdetails = "";
 	$adb = \App\Database\PearDatabase::getInstance();
-	$currentUser = \App\User::getCurrentUserModel();
+	$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 	$mod_strings = vglobal('mod_strings');
 	$returndata = [];

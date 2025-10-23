@@ -45,7 +45,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 			$user = new\App\Modules\Users\Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
-			\App\User::setCurrentUserId($baseUserId);
+			\App\Modules\Users\Models\Record::setCurrentUserId($baseUserId);
 		}
 	}
 
@@ -57,7 +57,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 			$user = new\App\Modules\Users\Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
-			\App\User::setCurrentUserId($baseUserId);
+			\App\Modules\Users\Models\Record::setCurrentUserId($baseUserId);
 		}
 	}
 
@@ -94,7 +94,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 			$user = new\App\Modules\Users\Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 			vglobal('current_user', $currentUser);
-			\App\User::setCurrentUserId($userId);
+			\App\Modules\Users\Models\Record::setCurrentUserId($userId);
 		}
 		$handlerClass = \App\Loader::getComponentClassName('View', 'Detail', $request->getModule());
 		$handler = new $handlerClass();

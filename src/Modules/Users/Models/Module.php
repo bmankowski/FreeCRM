@@ -267,7 +267,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public static function getSwitchUsers($showRole = false)
 	{
 		require('user_privileges/switchUsers.php');
-		$baseUserId = \App\User::getCurrentUserRealId();
+		$baseUserId = \App\Modules\Users\Models\Record::getCurrentUserRealId();
 		$users = $userIds = [];
 		if (isset($switchUsers[$baseUserId])) {
 			foreach ($switchUsers[$baseUserId] as $userId => &$userName) {
@@ -317,7 +317,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$recordModel->saveToDb();
 		//After adding new user, set the default activity types for new user
 		\App\Modules\Vtiger\Helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
-		if ($recordModel->getPreviousValue('language') !== false && \App\User::getCurrentUserRealId() === $recordModel->getId()) {
+		if ($recordModel->getPreviousValue('language') !== false && \App\Modules\Users\Models\Record::getCurrentUserRealId() === $recordModel->getId()) {
 			\App\Http\Vtiger_Session::set('language', $recordModel->get('language'));
 		}
 

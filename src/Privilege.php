@@ -48,7 +48,7 @@ class Privilege
 	
 	// Step 1: Initialize user ID and load privileges
 	if (!$userId) {
-		$userId = \App\User::getCurrentUserId();
+		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 	}
 	
 	$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($userId);

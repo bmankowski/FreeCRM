@@ -325,7 +325,7 @@ class TextParser
 	 */
 	protected function employee($fieldName)
 	{
-		$userId = User::getCurrentUserId();
+		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		if (Cache::has('TextParserEmployeeDetail', $userId . $fieldName)) {
 			return Cache::get('TextParserEmployeeDetail', $userId . $fieldName);
 		}

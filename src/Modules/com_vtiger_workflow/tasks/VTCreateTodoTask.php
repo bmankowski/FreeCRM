@@ -81,7 +81,7 @@ class VTCreateTodoTask extends VTTask
 		}
 
 		if ($this->assigned_user_id === 'currentUser') {
-			$userId = \App\User::getCurrentUserId();
+			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		} else if ($this->assigned_user_id === 'triggerUser') {
 			$userId = $recordModel->executeUser;
 		} else if ($this->assigned_user_id === 'copyParentOwner') {

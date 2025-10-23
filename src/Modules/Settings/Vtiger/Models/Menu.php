@@ -91,7 +91,7 @@ class Menu extends \App\Modules\Vtiger\Models\Record
 		if (self::$casheMenu) {
 			return self::$casheMenu;
 		}
-		$dataReader = (new \App\Db\Query())->from(self::$menusTable)->where(['or', ['like', 'admin_access', ',' . \App\User::getCurrentUserId() . ','], ['admin_access' => null]])
+		$dataReader = (new \App\Db\Query())->from(self::$menusTable)->where(['or', ['like', 'admin_access', ',' . \App\Modules\Users\Models\Record::getCurrentUserId() . ','], ['admin_access' => null]])
 				->orderBy(['sequence' => SORT_ASC])
 				->createCommand()->query();
 		$menuModels = [];

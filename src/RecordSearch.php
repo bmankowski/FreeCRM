@@ -33,7 +33,7 @@ class RecordSearch
 			$limit = 20;
 		}
 		$this->limit = $limit;
-		$this->userId = \App\User::getCurrentUserId();
+		$this->userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 	}
 
 	/**

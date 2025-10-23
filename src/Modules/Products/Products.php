@@ -322,7 +322,7 @@ class Products extends \App\CRMEntity
 						'crmid' => $withCrmId,
 						'productid' => $crmid,
 						'setype' => $withModule,
-						'rel_created_user' => \App\User::getCurrentUserId(),
+						'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
 					])->execute();
 				}

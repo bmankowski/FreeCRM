@@ -112,7 +112,7 @@ class MiniList extends \App\Runtime\BaseModel
 	{
 		$this->initListViewController();
 		if (!$user) {
-			$user = \App\User::getCurrentUserId();
+			$user = \App\Modules\Users\Models\Record::getCurrentUserId();
 		} else if ($user === 'all') {
 			$user = '';
 		}
@@ -145,7 +145,7 @@ class MiniList extends \App\Runtime\BaseModel
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
-			$user = \App\User::getCurrentUserId();
+			$user = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
 	}
@@ -154,7 +154,7 @@ class MiniList extends \App\Runtime\BaseModel
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
-			$user = \App\User::getCurrentUserId();
+			$user = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
 	}

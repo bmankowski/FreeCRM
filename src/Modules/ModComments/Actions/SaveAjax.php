@@ -29,7 +29,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\SaveAjax
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$request->set('assigned_user_id', \App\User::getCurrentUserId());
+		$request->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];

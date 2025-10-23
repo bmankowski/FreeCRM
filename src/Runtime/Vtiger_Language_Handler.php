@@ -18,7 +18,6 @@ use App\Http\App\Http\Vtiger_Session;
 use App\Purifier;
 use App\Log;
 use App\Module;
-use App\User;
 
 class Vtiger_Language_Handler
 {
@@ -210,7 +209,7 @@ class Vtiger_Language_Handler
 	} elseif (\App\Http\Vtiger_Session::get('language') != '') {
 		$language = \App\Http\Vtiger_Session::get('language');
 	} else {
-		$language = User::getCurrentUserModel()->get('language');
+		$language = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('language');
 	}
 
 		$language = empty($language) ? vglobal('default_language') : strtolower($language);

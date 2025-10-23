@@ -26,7 +26,7 @@ class Owner
 		if ($currentUser && $currentUser instanceof \App\Modules\Users\Users) {
 			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id, 'Users');
 		} elseif ($currentUser === false) {
-			$currentUser = \App\User::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		} elseif (is_numeric($currentUser)) {
 			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser, 'Users');
 	} elseif (is_object($currentUser) && get_class($currentUser) === '\App\Modules\Users\Models\Record') {

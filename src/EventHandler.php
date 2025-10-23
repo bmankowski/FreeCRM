@@ -346,7 +346,7 @@ class EventHandler
 				->insert('s_#__handler_updater', [
 					'tabid' => Module::getModuleId($this->getModuleName()),
 					'crmid' => $this->getRecordModel()->getId(),
-					'userid' => User::getCurrentUserId(),
+					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 					'handler_name' => $name,
 					'class' => $class,
 					'params' => Json::encode($params)

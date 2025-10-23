@@ -12,7 +12,6 @@
 namespace App\Fields;
 
 use App\Log;
-use App\User;
 use \App\Modules\Users\Models\Privileges;
 use DateTime;
 use DateTimeZone;
@@ -387,7 +386,7 @@ class DateTimeField
 		$time = $date->format("H:i");
 
 		//Convert time to user preferred value
-		if (User::getCurrentUserModel()->get('hour_format') === '12') {
+		if (\App\Modules\Users\Models\Record::getCurrentUserModel()->get('hour_format') === '12') {
 			$time = \App\Modules\Vtiger\UiTypes\Time::getTimeValueInAMorPM($time);
 		}
 		Log::trace('End ' . __METHOD__);

@@ -385,7 +385,7 @@ class Users extends \App\CRMEntity
 	public function uploadAndSaveFile($id, $module, $fileDetails)
 	{
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
-		$currentUserId = \App\User::getCurrentUserId();
+		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$dateVar = date('Y-m-d H:i:s');
 		$db = \App\Db::getInstance();
 		//to get the owner id
@@ -649,7 +649,7 @@ class Users extends \App\CRMEntity
 				'status' => 'Inactive',
 				'deleted' => 1,
 				'date_modified' => date('Y-m-d H:i:s'),
-				'modified_user_id' => \App\User::getCurrentUserRealId()
+				'modified_user_id' => \App\Modules\Users\Models\Record::getCurrentUserRealId()
 				], ['id' => $userId])->execute();
 
 		$eventHandler->trigger('UsersAfterDelete');

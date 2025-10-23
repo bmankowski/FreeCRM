@@ -512,7 +512,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function supports custom user conditions
-	 * @param \App\User $userModel
+	 * @param \App\Modules\Users\Models\Record $userModel
 	 * @return boolean
 	 */
 	private function getCustomConditions($userModel)

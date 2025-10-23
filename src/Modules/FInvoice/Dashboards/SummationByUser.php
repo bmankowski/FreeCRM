@@ -67,7 +67,7 @@ class SummationByUser  extends \App\Modules\Vtiger\Views\Index
 	public function getWidgetData($moduleName, $widgetParam, $time)
 	{
 		$rawData = $response = $ticks = [];
-		$currentUserId = \App\User::getCurrentUserId();
+		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$param = $time['start'] . ',' . $time['end'];
 
 		$s = new \yii\db\Expression('sum(sum_gross)');

@@ -580,7 +580,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function runRestartCron()
 	{
 		$db = \App\Db::getInstance();
-		$userName = \App\User::getCurrentUserModel()->get('user_name');
+		$userName = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 		$db->createCommand()->update('vtiger_cron_task', ['status' => 1], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 		$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => $userName, 'end_time' => date('Y-m-d H:i:s')], ['status' => 1])->execute();
 	}

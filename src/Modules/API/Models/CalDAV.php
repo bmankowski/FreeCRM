@@ -58,8 +58,8 @@ class CalDAV {
 					}
 				}
 				if ($sync) {
-					$orgUserId = \App\User::getCurrentUserId();
-					\App\User::setCurrentUserId($user->get('id'));
+					$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+					\App\Modules\Users\Models\Record::setCurrentUserId($user->get('id'));
 					$currentUser = vglobal('current_user');
 					vglobal('current_user', $user);
 
@@ -71,7 +71,7 @@ class CalDAV {
 						$this->davUpdate($vcalendar);
 					}
 					vglobal('current_user', $currentUser);
-					\App\User::setCurrentUserId($orgUserId);
+					\App\Modules\Users\Models\Record::setCurrentUserId($orgUserId);
 				}
 			}
 		}
@@ -448,7 +448,7 @@ class CalDAV {
 		}
 		if (!$startHasTime && !$endHasTime) {
 			$allday = 1;
-			$currentUser = \App\User::getCurrentUserModel();
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$timeStart = $currentUser->getDetail('start_hour');
 			$timeEnd = $currentUser->getDetail('end_hour');
 		}

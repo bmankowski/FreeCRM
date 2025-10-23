@@ -28,6 +28,6 @@ class UserCreator extends Base
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\User::getCurrentUserId();
+		return \App\Modules\Users\Models\Record::getCurrentUserId();
 	}
 }

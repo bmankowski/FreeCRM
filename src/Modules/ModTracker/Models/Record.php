@@ -360,10 +360,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			'whodid' => $current_user,
 			'changedon' => date('Y-m-d H:i:s'),
 			'status' => 6,
-			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
+			'last_reviewed_users' => '#' . \App\Modules\Users\Models\Record::getCurrentUserRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-		self::unsetReviewed($sourceId, \App\User::getCurrentUserRealId(), $id);
+		self::unsetReviewed($sourceId, \App\Modules\Users\Models\Record::getCurrentUserRealId(), $id);
 	}
 
 	/**
@@ -376,7 +376,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public static function setLastRelation($sourceId, $sourceModule, $byUser = false)
 	{
 		$db = \App\Db::getInstance();
-		$userId = \App\User::getCurrentUserId();
+		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$query = \App\Modules\Vtiger\Widgets\HistoryRelation::getQuery($sourceId, $sourceModule, \App\Modules\Vtiger\Widgets\HistoryRelation::getActions());
 		if (!$query) {
 			return false;
@@ -408,7 +408,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		if (!is_array($sourceIds)) {
 			$sourceIds = [$sourceIds];
 		}
-		$data = (new \App\Db\Query())->from('u_#__timeline')->where(['crmid' => $sourceIds, 'userid' => \App\User::getCurrentUserId()])->createCommand()->queryAllByGroup(1);
+		$data = (new \App\Db\Query())->from('u_#__timeline')->where(['crmid' => $sourceIds, 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])->createCommand()->queryAllByGroup(1);
 		if (count($data) !== count($sourceIds)) {
 			$reSearch = array_diff_key(array_flip($sourceIds), $data);
 			foreach (array_keys($reSearch) as $id) {

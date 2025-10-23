@@ -578,7 +578,7 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 				'crmid' => $relatedId,
 				'productid' => $productId,
 				'setype' => $setype,
-				'rel_created_user' => \App\User::getCurrentUserId(),
+				'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 				'rel_created_time' => date('Y-m-d H:i:s')
 			])->execute();
 		if ($resultNew === 0) {

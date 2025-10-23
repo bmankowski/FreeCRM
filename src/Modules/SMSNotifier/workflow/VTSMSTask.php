@@ -41,7 +41,7 @@ class VTSMSTask extends VTTask
 					$tonumbers[] = $tonumber;
 				}
 			}
-			SMSNotifier::sendsms($content, $tonumbers, \App\User::getCurrentUserId(), $recordModel->getId(), $recordModel->getModuleName());
+			SMSNotifier::sendsms($content, $tonumbers, \App\Modules\Users\Models\Record::getCurrentUserId(), $recordModel->getId(), $recordModel->getModuleName());
 		}
 	}
 }

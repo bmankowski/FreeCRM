@@ -15,7 +15,6 @@ use App\Database\PearDatabase;
 use App\AppConfig;
 use App\Module;
 use App\Field;
-use App\User;
 use App\Record;
 use \App\Modules\Users\Models\Privileges;
 
