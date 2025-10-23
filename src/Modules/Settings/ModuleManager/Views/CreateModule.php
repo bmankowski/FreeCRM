@@ -13,7 +13,7 @@ namespace App\Modules\Settings\ModuleManager\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_ModuleManager_CreateModule_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_ModuleManager_CreateModule_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

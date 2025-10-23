@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class OSSMailView_summary_View extends \App\Modules\Vtiger\Views\Edit
+class OSSMailView_summary_View extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

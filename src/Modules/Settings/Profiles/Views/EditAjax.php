@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Profiles\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Profiles_EditAjax_View extends \Settings_Profiles_Edit_View
+class Settings_Profiles_EditAjax_View extends \Settings_Profiles_Edit_View
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

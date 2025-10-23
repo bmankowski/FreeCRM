@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class \App\Modules\ModComments\Views\Edit extends \App\Modules\Vtiger\Views\Edit
+class \App\Modules\ModComments\Views\Edit extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

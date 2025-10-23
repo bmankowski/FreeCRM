@@ -10,7 +10,7 @@
   Type: 1 - show quick create mondal
  */
 
-Class DataAccess_show_quick_create
+class DataAccess_show_quick_create
 {
 
 	public $config = true;

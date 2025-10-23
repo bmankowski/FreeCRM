@@ -12,7 +12,7 @@ namespace App\Modules\Settings\ModuleManager\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_ModuleManager_List_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_ModuleManager_List_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

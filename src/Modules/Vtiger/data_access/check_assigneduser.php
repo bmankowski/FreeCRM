@@ -9,7 +9,7 @@
   Type: 1 - show quick create mondal
  */
 
-Class DataAccess_check_assigneduser
+class DataAccess_check_assigneduser
 {
 
 	public $config = true;

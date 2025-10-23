@@ -9,7 +9,7 @@
   Type: 1 - show quick create mondal
  */
 
-Class DataAccess_check_taskstatus
+class DataAccess_check_taskstatus
 {
 
 	public $config = true;

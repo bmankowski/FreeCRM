@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Services_List_View extends \App\Modules\Vtiger\Views\ListView
+class Services_List_View extends \App\Modules\Vtiger\Views\ListView
 {
 
 	/**

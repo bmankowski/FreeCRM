@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class \App\Modules\Reports\Views\Edit extends \App\Modules\Vtiger\Views\Edit
+class \App\Modules\Reports\Views\Edit extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function __construct()

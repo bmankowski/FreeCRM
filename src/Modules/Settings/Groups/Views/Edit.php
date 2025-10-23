@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Groups\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Groups_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_Groups_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

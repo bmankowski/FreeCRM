@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-Class Vtiger_CreatedNotMineActivities_Dashboard extends \App\Modules\Vtiger\Views\IndexAjax
+class Vtiger_CreatedNotMineActivities_Dashboard extends \App\Modules\Vtiger\Views\IndexAjax
 {
 
 	public function process(Vtiger_Request $request)

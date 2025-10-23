@@ -13,7 +13,7 @@ namespace App\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class \Settings_DataAccess_Step2_View extends \App\Modules\Settings\Vtiger\Views\Index
+class \Settings_DataAccess_Step2_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

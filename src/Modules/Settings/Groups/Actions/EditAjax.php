@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Groups\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Groups_EditAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Basic
+class Settings_Groups_EditAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Basic
 {
 
 	public function __construct()

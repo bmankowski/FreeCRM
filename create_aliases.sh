@@ -45,4 +45,6 @@ echo "================================================"
 echo "Summary:"
 echo "  Missing classes kept in file: $missing"
 echo ""
-echo "Remaining aliases saved to: aliases_waiting_to_be_changed.txt"
+
+cat aliases_waiting_to_be_changed.txt
+cat aliases_waiting_to_be_changed.txt | wc -l

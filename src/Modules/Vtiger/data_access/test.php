@@ -9,7 +9,7 @@
   Type: 1 - show quick create mondal
  */
 
-Class DataAccess_test
+class DataAccess_test
 {
 
 	public $config = true;

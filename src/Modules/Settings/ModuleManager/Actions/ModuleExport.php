@@ -12,7 +12,7 @@ namespace App\Modules\Settings\ModuleManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_ModuleManager_ModuleExport_Action extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Settings_ModuleManager_ModuleExport_Action extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()

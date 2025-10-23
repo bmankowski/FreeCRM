@@ -10,7 +10,7 @@ namespace App\Modules\WSAPP\Handlers;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class OutlookHandler extends SyncHandler
+class OutlookHandler extends SyncHandler
 {
 
 	public function __construct($appkey)

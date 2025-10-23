@@ -14,7 +14,7 @@ use App\Modules\Settings\SharingAccessModels\Action;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_SharingAccess_Index_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_SharingAccess_Index_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

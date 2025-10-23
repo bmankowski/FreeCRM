@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class \App\Modules\Products\Views\Edit extends \App\Modules\Vtiger\Views\Edit
+class \App\Modules\Products\Views\Edit extends \App\Modules\Vtiger\Views\Edit
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -13,7 +13,7 @@ use App\Modules\Settings\RolesViews\IndexAjax;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Roles_EditAjax_View extends \App\Modules\Settings\Roles\Views\IndexAjax
+class Settings_Roles_EditAjax_View extends \App\Modules\Settings\Roles\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

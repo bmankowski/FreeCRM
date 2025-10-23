@@ -14,7 +14,7 @@ use App\Modules\Settings\SharingAccessModels\RuleMember;
  * *********************************************************************************** */
 
 
-Class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 {
 
 	public function __construct()

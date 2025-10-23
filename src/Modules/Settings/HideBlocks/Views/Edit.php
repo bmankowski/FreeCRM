@@ -13,7 +13,7 @@ namespace App\Modules\Settings\HideBlocks\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

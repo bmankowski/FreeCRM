@@ -11,7 +11,7 @@
   Type: 3 - modal window
  */
 
-Class DataAccess_unique_account
+class DataAccess_unique_account
 {
 
 	public $config = false;

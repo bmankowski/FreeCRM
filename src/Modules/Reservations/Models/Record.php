@@ -10,7 +10,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-Class \App\Modules\Reservations\Models\Record extends \App\Modules\Vtiger\Models\Record
+class \App\Modules\Reservations\Models\Record extends \App\Modules\Vtiger\Models\Record
 {
 
 	const recalculateStatus = 'Accepted';
