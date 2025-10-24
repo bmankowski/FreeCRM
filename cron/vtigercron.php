@@ -8,11 +8,12 @@
  * All Rights Reserved.
  * ****************************************************************************** */
 
-// Change to project root directory
-chdir(dirname(__FILE__) . '/../');
+// Determine project root directory
+$rootDirectory = dirname(__DIR__);
+chdir($rootDirectory);
 
 // Bootstrap the cron environment
-require_once getcwd() . '/vendor/autoload.php';
+require_once $rootDirectory . '/vendor/autoload.php';
 \App\Modules\Cron\Bootstrap::init();
 
 // Determine execution mode and run cron
