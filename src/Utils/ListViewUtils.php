@@ -17,9 +17,9 @@ class ListViewUtils
 	{
 		\App\Log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
-		$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+		$currentUser = \App\User\CurrentUser::get();
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 		$tab_id = \App\Module::getModuleId($module);
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 				'vtiger_users.last_name'), 'Users');
@@ -172,7 +172,7 @@ class ListViewUtils
 			LEFT JOIN vtiger_groups vtiger_groups2
 				ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
-				$query .= \App\PrivilegeQuery::getAccessConditions($module, $current_user->id);
+				$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->id);
 				$query .= ' ' . $where;
 				break;
 			Case "Faq":

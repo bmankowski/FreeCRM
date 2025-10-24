@@ -25,7 +25,7 @@ class Functions
 
 	public static function currentUserDisplayDateNew()
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$date = new \App\Fields\DateTimeField(null);
 		return $date->getDisplayDate($current_user);
 	}

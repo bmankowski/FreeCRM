@@ -216,7 +216,7 @@ function vtws_getConvertLeadFieldInfo($module, $fieldname)
 {
 	$adb = \App\Database\PearDatabase::getInstance();
 
-	$describe = vtws_describe($module, vglobal('current_user'));
+	$describe = vtws_describe($module, \App\User\CurrentUser::get());
 	foreach ($describe['fields'] as $index => $fieldInfo) {
 		if ($fieldInfo['name'] == $fieldname) {
 			return $fieldInfo;

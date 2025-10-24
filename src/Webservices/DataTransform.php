@@ -240,7 +240,7 @@ class DataTransform
 
 	public static function sanitizeDateFieldsForInsert($row, $meta)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$moduleFields = $meta->getModuleFields();
 		foreach ($moduleFields as $fieldName => $fieldObj) {
 			if ($fieldObj->getFieldDataType() == "date") {
@@ -255,7 +255,7 @@ class DataTransform
 
 	public static function sanitizeCurrencyFieldsForInsert($row, $meta)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$moduleFields = $meta->getModuleFields();
 		foreach ($moduleFields as $fieldName => $fieldObj) {
 			if ($fieldObj->getFieldDataType() == "currency" && !empty($row[$fieldName])) {

@@ -48,7 +48,7 @@ class VTWSEntityType
 
 	function usingGlobalCurrentUser($entityTypeName)
 	{
-		$current_user = \vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get('current_user');
 		return new VTWSEntityType($entityTypeName, $current_user);
 	}
 

@@ -689,9 +689,9 @@ class Utils
 	//Get the User selected NumberOfCurrencyDecimals
 	public static function getCurrencyDecimalPlaces()
 	{
-		$current_user = vglobal('current_user');
-		if ($current_user && isset($current_user->no_of_currency_decimals)) {
-			return $current_user->no_of_currency_decimals;
+		$currentUser = \App\User\CurrentUser::get();
+		if ($current_user && isset($currentUser->no_of_currency_decimals)) {
+			return $currentUser->no_of_currency_decimals;
 		}
 		return 2;
 	}

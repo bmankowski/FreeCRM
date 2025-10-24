@@ -274,7 +274,7 @@ class WebserviceField
 				$this->getFieldTypeFromUIType();
 			}
 			$fieldTypeData = WebserviceField::$fieldTypeMapping[$this->getUIType()];
-			$current_user = vglobal('current_user');
+			$currentUser = \App\User\CurrentUser::get();
 			$types = vtws_listtypes(null, $current_user);
 
 			$accessibleTypes = $types['types'];

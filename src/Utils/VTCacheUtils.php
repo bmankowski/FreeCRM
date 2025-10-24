@@ -244,10 +244,10 @@ class VTCacheUtils
 
 	static function lookupUserCurrenyId($userid)
 	{
-		$current_user = vglobal('current_user');
-		if (isset($current_user) && $current_user->id == $userid) {
+		$currentUser = \App\User\CurrentUser::get();
+		if (isset($current_user) && $currentUser->id == $userid) {
 			return array(
-				'currencyid' => $current_user->column_fields['currency_id']
+				'currencyid' => $currentUser->column_fields['currency_id']
 			);
 		}
 
