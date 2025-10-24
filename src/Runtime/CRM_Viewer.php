@@ -149,6 +149,7 @@ class CRM_Viewer extends \Smarty
 		// Register additional model classes used in templates
 		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');
 		$this->registerClass('\App\\Modules\\Vtiger\\Models\\Module', '\App\\Modules\\Vtiger\\Models\\Module');
+		$this->registerClass('\App\\Modules\\Vtiger\\Models\\Field', '\App\\Modules\\Vtiger\\Models\\Field');
 		$this->registerClass('\App\\Modules\\Vtiger\\Models\\InventoryField', '\App\\Modules\\Vtiger\\Models\\InventoryField');
 		$this->registerClass('Vtiger_InventoryField_Model', '\App\\Modules\\Vtiger\\Models\\InventoryField');
 		$this->registerClass('\App\\Modules\\Vtiger\\Helpers\\Util', '\App\\Modules\\Vtiger\\Helpers\\Util');
