@@ -60,7 +60,7 @@ class Login extends \App\Runtime\Vtiger_Action_Controller
 			\App\Http\Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 			
 			// NEW: Attach user to request
-			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 			$request->setUser($userModel);
 			
 			// DEPRECATED: Keep vglobal for backward compatibility

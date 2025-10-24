@@ -50,7 +50,7 @@ class File
 		if (\App\Http\Vtiger_Session::has('authenticated_user_id')) {
 			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
 			if ($userid && \App\AppConfig::main('application_unique_key') === \App\Http\Vtiger_Session::get('app_unique_key')) {
-				$userModel = \App\Modules\Users\Models\Record::getInstanceById($userid);
+				$userModel = \App\Modules\Users\Models\Record::getInstanceById($userid, 'Users');
 				
 				// NEW: Attach to request if available
 				$request = \App\Http\AppRequest::init();

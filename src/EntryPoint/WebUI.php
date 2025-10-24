@@ -421,7 +421,7 @@ class WebUI extends EntryPoint
 		
 		// NEW: Attach user to request if authenticated
 		if ($currentUser && $currentUser->id) {
-			$userModel = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id, 'Users');
 			$request->setUser($userModel);
 		}
 		

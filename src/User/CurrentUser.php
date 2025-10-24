@@ -28,7 +28,7 @@ class CurrentUser
 		// Fallback to session hydration
 		$userId = \App\Http\Vtiger_Session::getAuthenticatedUserId();
 		if ($userId) {
-			return \App\Modules\Users\Models\Record::getInstanceById($userId);
+			return \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 		}
 		
 		return null;
