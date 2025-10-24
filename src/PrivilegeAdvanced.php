@@ -1,10 +1,6 @@
 <?php
 namespace App;
 
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTJsonCondition.php';
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityCache.php';
-require_once ROOT_DIRECTORY . '/include/Webservices/Retrieve.php';
-
 /**
  * Advanced privilege class
  * @package YetiForce.App

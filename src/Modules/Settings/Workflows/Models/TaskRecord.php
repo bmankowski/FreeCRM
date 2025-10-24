@@ -17,8 +17,8 @@ use App\Modules\Settings\WorkflowsModels\TaskType;
  * Workflow Task Record Model Class
  */
 
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
+require_once ROOT_DIRECTORY . '/Modules/com_vtiger_workflow/include.php';
+require_once ROOT_DIRECTORY . '/Modules/com_vtiger_workflow/VTTaskManager.php';
 
 class TaskRecord extends \App\Modules\Settings\Vtiger\Models\Record
 {

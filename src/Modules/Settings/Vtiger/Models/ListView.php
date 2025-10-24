@@ -17,12 +17,15 @@ namespace App\Modules\Settings\Vtiger\Models;
  * Settings List View Model Class
  */
 
-class ListView extends \App\Modules\Vtiger\Models\Record
+class ListView extends \App\Runtime\BaseModel
 {
+
+
+	protected \App\Modules\Vtiger\Models\Module $module;
 
 	/**
 	 * Function to get the Module Model
-	 * @return \App\Modules\Vtiger\Models\Module instance
+	 * @return \App\Modules\Vtiger\Models\Module 
 	 */
 	public function getModule()
 	{

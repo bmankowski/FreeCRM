@@ -12,7 +12,6 @@ namespace App\Modules\Users\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Http\Vtiger_Request;
 
 class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 {
@@ -77,7 +76,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 			$status = 'Active';
 
 		if (!$this->listViewModel) {
-			$this->listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+			$this->listViewModel = \App\Modules\Users\Models\ListView::getInstance($moduleName, $cvId);
 		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
@@ -205,7 +204,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 		$result['count'] = $count;
 
 		$response = new \App\Http\Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -226,7 +225,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 		$searchValue = $request->get('search_value');
 		$searchParmams = $request->get('search_params');
 		$operator = $request->get('operator');
-		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+		$listViewModel = \App\Modules\Users\Models\ListView::getInstance($moduleName, $cvId);
 
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
@@ -246,7 +245,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 
 	/**
 	 * Function to get the page count for list
-	 * @return total number of pages
+	 * @return 
 	 */
 	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{

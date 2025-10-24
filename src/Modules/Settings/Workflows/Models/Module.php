@@ -12,8 +12,8 @@ namespace App\Modules\Settings\Workflows\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/include.php';
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
+require_once ROOT_DIRECTORY . '/Modules/com_vtiger_workflow/include.php';
+require_once ROOT_DIRECTORY . '/Modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
@@ -213,7 +213,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$num = $db->getSingleValue($result);
 
 		if ($num == 0) {
-			require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTEntityMethodManager.php';
+			require_once ROOT_DIRECTORY . '/Modules/com_vtiger_workflow/VTEntityMethodManager.php';
 			$emm = new VTEntityMethodManager();
 			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
 		}

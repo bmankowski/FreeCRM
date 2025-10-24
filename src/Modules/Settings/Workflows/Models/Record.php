@@ -235,8 +235,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 
 		$db = \App\Database\PearDatabase::getInstance();
-		require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
-		$taskManager = new VTTaskManager($db);
+		$taskManager = new \App\Modules\com_vtiger_workflow\VTTaskManager($db);
 		$taskList = $taskManager->getTasks();
 
 		$examinedIdList = array();

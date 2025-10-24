@@ -15,7 +15,7 @@ namespace App\Modules\Settings\Workflows\Models;
 /*
  * Workflow Task Type Model Class
  */
-require_once ROOT_DIRECTORY . '/modules/com_vtiger_workflow/VTTaskManager.php';
+require_once ROOT_DIRECTORY . '/Modules/com_vtiger_workflow/VTTaskManager.php';
 
 class TaskType extends \App\Modules\Vtiger\Models\Record
 {

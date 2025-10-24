@@ -16,11 +16,11 @@ namespace App\Modules\Settings\Vtiger\Views;
 class ListView extends \App\Modules\Settings\Vtiger\Views\Index
 {
 
-	protected $listViewEntries = false;
-	protected $listViewHeaders = false;
-	protected $listViewModel = false;
-	protected $listViewLinks = false;
-	protected $listViewCount = false;
+	protected $listViewEntries = null;
+	protected $listViewHeaders = null;
+	protected $listViewModel = null;
+	protected $listViewLinks = null;
+	protected $listViewCount = null;
 
 	public function __construct()
 	{
