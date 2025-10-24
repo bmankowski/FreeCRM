@@ -68,8 +68,8 @@ class Block extends \App\Modules\Vtiger\Models\Block
 		}
 		$caseBlock .= ' END';
 		$db->createCommand()->update('vtiger_field', [
-			'sequence' => new yii\db\Expression($caseSequence),
-			'block' => new yii\db\Expression($caseBlock)
+			'sequence' => new \yii\db\Expression($caseSequence),
+			'block' => new \yii\db\Expression($caseBlock)
 		], ['fieldid' => $fieldIdList])->execute();
 	}
 

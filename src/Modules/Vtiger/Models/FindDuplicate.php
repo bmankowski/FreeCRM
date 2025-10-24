@@ -74,7 +74,7 @@ class FindDuplicate extends \App\Runtime\BaseModel
 		}
 		$subQuery = $queryGenerator->createQuery();
 		$query = clone $subQuery;
-		$subQuery->groupBy($fields)->andHaving((new yii\db\Expression('COUNT(*) > 1')));
+		$subQuery->groupBy($fields)->andHaving((new \yii\db\Expression('COUNT(*) > 1')));
 
 		foreach ($fieldsModels as $fieldModel) {
 			$duplicateCheckClause .= $fieldModel->get('table') . '.' . $fieldModel->get('column') . ' = duplicates.' . $fieldModel->get('column') . ' AND ';

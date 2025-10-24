@@ -81,7 +81,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		foreach ($qtyInStock as $ID => $value) {
 			if (array_key_exists($ID, $relData)) {
 				$adb->createCommand()->update($referenceInfo['table'], [
-					'qtyinstock' => new yii\db\Expression('qtyinstock ' . $operator . ' ' . $value)
+					'qtyinstock' => new \yii\db\Expression('qtyinstock ' . $operator . ' ' . $value)
 					], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $ID])->execute();
 			} else {
 				$adb->createCommand()->insert($referenceInfo['table'], [

@@ -43,7 +43,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		}
 		$caseSequence .= ' END';
 		$db->createCommand()
-			->update('vtiger_cron_task', ['sequence' => new yii\db\Expression($caseSequence)])
+			->update('vtiger_cron_task', ['sequence' => new \yii\db\Expression($caseSequence)])
 			->execute();
 	}
 

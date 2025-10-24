@@ -10,7 +10,7 @@ namespace App\Modules\Reservations\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Index
+class Detail  extends \App\Modules\Vtiger\Views\Detail
 {
 
 	public function __construct()

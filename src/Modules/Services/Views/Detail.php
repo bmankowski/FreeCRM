@@ -13,7 +13,7 @@ namespace App\Modules\Services\Views;
 
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Index
+class Detail  extends \App\Modules\Vtiger\Views\Detail
 {
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

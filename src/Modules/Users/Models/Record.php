@@ -11,8 +11,6 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
- use App\Http\Vtiger_Session;
-
 class Record extends \App\Modules\Vtiger\Models\Record
 {
 	/** @var bool Authentication state */

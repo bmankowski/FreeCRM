@@ -12,7 +12,7 @@ namespace App\Modules\Campaigns\Views;
  * *********************************************************************************** */
 
 
-class Detail extends \App\Modules\Vtiger\Views\Index
+class Detail extends \App\Modules\Vtiger\Views\Detail
 {
 
 	public function __construct()

@@ -24,11 +24,11 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	public function getAmountData()
 	{
 		return [
-			'calendar' => (new \App\Db\Query())->select(['calendarid', 'num' => new yii\db\Expression('COUNT(id)')])
+			'calendar' => (new \App\Db\Query())->select(['calendarid', 'num' => new \yii\db\Expression('COUNT(id)')])
 				->from('dav_calendarobjects')
 				->groupBy('calendarid')
 				->createCommand()->queryAllByGroup(),
-			'addressbook' => (new \App\Db\Query())->select(['addressbookid', 'num' => new yii\db\Expression('COUNT(id)')])
+			'addressbook' => (new \App\Db\Query())->select(['addressbookid', 'num' => new \yii\db\Expression('COUNT(id)')])
 				->from('dav_cards')
 				->groupBy('addressbookid')
 				->createCommand()->queryAllByGroup()

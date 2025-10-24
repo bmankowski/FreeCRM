@@ -132,7 +132,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid') . ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
 		}
 		$caseSequence .= ' END';
-		return $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
+		return $db->createCommand()->update('vtiger_customview', ['sequence' => new \yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
 	}
 
 	public function GetUrlToEdit($module, $record)
