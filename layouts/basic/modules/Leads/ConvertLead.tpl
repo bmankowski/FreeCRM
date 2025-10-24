@@ -35,9 +35,9 @@
 										<div data-parent="#leadAccordion" data-toggle="collapse" class="panel-heading paddingTBZero accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
 											<div class="form-control-static checkbox">
 												<label>
-													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{|$MODULE_NAME|t:$MODULE_NAME}" value="{$MODULE_NAME}" type="checkbox" checked="" />
+													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{$MODULE_NAME|t:$MODULE_NAME}" value="{$MODULE_NAME}" type="checkbox" checked="" />
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
-													<span class="panel-title">&nbsp;{'LBL_CREATING_NEW'|t:$MODULE_NAME}&nbsp;{|$SINGLE_MODULE_NAME|t:$MODULE_NAME}</span>
+													<span class="panel-title">&nbsp;{'LBL_CREATING_NEW'|t:$MODULE_NAME}&nbsp;{$SINGLE_MODULE_NAME|t:$MODULE_NAME}</span>
 												</label>
 												<span class="pull-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} glyphicon glyphicon-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
 											</div>	

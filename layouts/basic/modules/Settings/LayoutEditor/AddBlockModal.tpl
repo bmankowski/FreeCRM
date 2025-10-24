@@ -36,7 +36,7 @@
 							<div class="col-md-8 controls">
 								<select class="form-control" name="beforeBlockId">
 									{foreach key=BLOCK_ID item=BLOCK_LABEL from=$ALL_BLOCK_LABELS}
-										<option value="{$BLOCK_ID}" data-label="{$BLOCK_LABEL}">{|$BLOCK_LABEL|t:$SELECTED_MODULE_NAME}</option>
+										<option value="{$BLOCK_ID}" data-label="{$BLOCK_LABEL}">{$BLOCK_LABEL|t:$SELECTED_MODULE_NAME}</option>
 									{/foreach}
 								</select>
 							</div>

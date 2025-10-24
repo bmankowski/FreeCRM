@@ -64,7 +64,7 @@
 											<option {if !empty($SEARCH_PARAMS) && isset($SEARCH_PARAMS[$HEADER_NAME]) && in_array($STATUS_KEY, $SEARCH_PARAMS[$HEADER_NAME]['value'])}
 												selected
 												{/if}  value="{$STATUS_KEY}">
-												{|$STATUS|t:$QUALIFIED_MODULE}</option>
+												{$STATUS|t:$QUALIFIED_MODULE}</option>
 										{/foreach}
 									</select>
 								</td>

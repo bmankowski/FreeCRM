@@ -24,7 +24,7 @@
 				<div class="form-group pull-right col-md-6">
 					<select class="select2 form-control" name="layoutEditorModules">
 						{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-							<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{|$MODULE_NAME|t:$MODULE_NAME}</option>
+							<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{$MODULE_NAME|t:$MODULE_NAME}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -71,7 +71,7 @@
                                         {if $IS_BLOCK_SORTABLE}
 											<img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
 										{/if}
-                                        <strong>{|$BLOCK_LABEL_KEY|t:$SELECTED_MODULE_NAME}</strong>
+                                        <strong>{$BLOCK_LABEL_KEY|t:$SELECTED_MODULE_NAME}</strong>
                                     </div>
                                     <div class="col-md-6 col-sm-6 marginLeftZero">
 										<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">

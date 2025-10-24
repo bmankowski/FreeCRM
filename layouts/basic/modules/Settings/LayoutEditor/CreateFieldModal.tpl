@@ -31,7 +31,7 @@
 												{foreach key=TYPE_INFO item=TYPE_INFO_VALUE from=$FIELD_TYPE_INFO[$FIELD_TYPE]}
 													data-{$TYPE_INFO}="{$TYPE_INFO_VALUE}"
 												{/foreach}>
-											{|$FIELD_TYPE|t:$QUALIFIED_MODULE}
+											{$FIELD_TYPE|t:$QUALIFIED_MODULE}
 										</option>
 									{/foreach}
 								</select>
@@ -106,7 +106,7 @@
 							<div class="col-md-8 controls">
 								<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="referenceModule form-control" name="referenceModule">
 									{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-										<option value="{$MODULE_NAME}">{|$MODULE_NAME|t:$MODULE_NAME}</option>
+										<option value="{$MODULE_NAME}">{$MODULE_NAME|t:$MODULE_NAME}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -189,7 +189,7 @@
 							<div class="col-md-8 controls">
 								<select class="TreeList form-control" name="tree">
 									{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
-										<option value="{$key}">{|$item|t:$SELECTED_MODULE_NAME}</option>
+										<option value="{$key}">{$item|t:$SELECTED_MODULE_NAME}</option>
 									{foreachelse}
 										<option value="-">{'LBL_NONE'|t}</option>
 									{/foreach}
