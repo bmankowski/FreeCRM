@@ -171,9 +171,8 @@ class CurrencyField
 	 */
 	public function getDisplayValue($user = null, $skipConversion = false, $skipFormatting = false)
 	{
-		$current_user = vglobal('current_user');
 		if (empty($user)) {
-			$user = $current_user;
+			$user = \App\User\CurrentUser::get();
 		}
 		$this->initialize($user);
 
@@ -212,9 +211,9 @@ class CurrencyField
 	 */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement = '')
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		if (empty($currencySymbolPlacement)) {
-			$currencySymbolPlacement = $current_user->currency_symbol_placement;
+			$currencySymbolPlacement = $currentUser ? $currentUser->get('currency_symbol_placement') : '$1.0';
 		}
 
 		switch ($currencySymbolPlacement) {
@@ -388,9 +387,8 @@ class CurrencyField
 	 */
 	public function getDBInsertedValue($user = null, $skipConversion = false)
 	{
-		$current_user = vglobal('current_user');
 		if (empty($user)) {
-			$user = $current_user;
+			$user = \App\User\CurrentUser::get();
 		}
 
 		$this->initialize($user);
@@ -465,9 +463,8 @@ class CurrencyField
 
 	public function currencyDecimalFormat($value, $user = null)
 	{
-		$current_user = vglobal('current_user');
 		if (!$user) {
-			$user = $current_user;
+			$user = \App\User\CurrentUser::get();
 		}
 		if ($user->truncate_trailing_zeros === true) {
 			if (strpos($value, $user->currency_decimal_separator) != 0) {

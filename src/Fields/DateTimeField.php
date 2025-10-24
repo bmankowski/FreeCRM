@@ -203,9 +203,9 @@ class DateTimeField
 	public static function convertToUserFormat($date, $user = null)
 	{
 		if (empty($user)) {
-			$user = vglobal('current_user');
+			$user = \App\User\CurrentUser::get();
 		}
-		$format = $user->date_format;
+		$format = $user ? $user->get('date_format') : 'yyyy-mm-dd';
 		if (empty($format)) {
 			$format = 'yyyy-mm-dd';
 		}
@@ -328,8 +328,8 @@ class DateTimeField
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 		if ($time == '24:00')
 			$time = '00:00';
-		$current_user = vglobal('current_user');
-		$format = $current_user->date_format;
+		$currentUser = \App\User\CurrentUser::get();
+		$format = $currentUser ? $currentUser->get('date_format') : 'yyyy-mm-dd';
 		if (empty($format)) {
 			$format = 'yyyy-mm-dd';
 		}
@@ -417,9 +417,8 @@ class DateTimeField
 
 	static function getPHPDateFormat($user = null)
 	{
-		$current_user = vglobal('current_user');
 		if (empty($user)) {
-			$user = $current_user;
+			$user = \App\User\CurrentUser::get();
 		}
 		$dateFormat = empty($user->date_format) ? 'Y-m-d' : $user->date_format;
 		return str_replace(array('yyyy', 'mm', 'dd'), array('Y', 'm', 'd'), $dateFormat);
@@ -427,9 +426,8 @@ class DateTimeField
 
 	private static function sanitizeDate($value, $user)
 	{
-		$current_user = vglobal('current_user');
 		if (empty($user)) {
-			$user = $current_user;
+			$user = \App\User\CurrentUser::get();
 		}
 		if (strlen($value) < 8) {
 			return $value;

@@ -313,10 +313,11 @@ class CRMEntity
 	 */
 	public function mark_deleted($id)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
+		$userId = $currentUser ? $currentUser->getId() : 1;
 		$date_var = date("Y-m-d H:i:s");
 		$query = "UPDATE vtiger_crmentity set deleted=1,modifiedtime=?,modifiedby=? where crmid=?";
-		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $current_user->id, $id), true, "Error marking record deleted: ");
+		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $userId, $id), true, "Error marking record deleted: ");
 	}
 
 	/**
@@ -1019,12 +1020,12 @@ class CRMEntity
 	public function getListViewSecurityParameter($module)
 	{
 	$tabid = Module::getModuleId($module);
-	$current_user = vglobal('current_user');
-	if ($current_user) {
-		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($current_user->id);
-		$sharingPrivileges = \App\Privilege::getSharingFile($current_user->id);
+	$currentUser = \App\User\CurrentUser::get();
+	if ($currentUser) {
+		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($currentUser->getId());
+		$sharingPrivileges = \App\Privilege::getSharingFile($currentUser->getId());
 		if ($privileges === null || $sharingPrivileges === null) {
-			\App\Log::error("User privileges or sharing file not found for user: " . $current_user->id);
+			\App\Log::error("User privileges or sharing file not found for user: " . $currentUser->getId());
 				return '';
 			}
 		} else {
@@ -1088,8 +1089,8 @@ class CRMEntity
 				"$this->table_name.$columnname";
 		}
 
-		$current_user = vglobal('current_user');
-		$query .= sprintf('%s WHERE vtiger_crmentity.deleted = 0 %s', $this->getNonAdminAccessControlQuery($module, $current_user), $where);
+		$currentUser = \App\User\CurrentUser::get();
+		$query .= sprintf('%s WHERE vtiger_crmentity.deleted = 0 %s', $this->getNonAdminAccessControlQuery($module, $currentUser), $where);
 		return $query;
 	}
 
@@ -1216,7 +1217,7 @@ class CRMEntity
 	public function add_related_to($module, $fieldname)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$related_to = $this->column_fields[$fieldname];
 
 		if (empty($related_to)) {
@@ -1569,9 +1570,10 @@ class CRMEntity
 	 */
 	public static function trackLinkedInfo($crmId)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
+		$userId = $currentUser ? $currentUser->getId() : 1;
 		$currentTime = date('Y-m-d H:i:s');
-		Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
+		Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $userId], ['crmid' => $crmId])->execute();
 	}
 
 	/**
@@ -1620,9 +1622,10 @@ class CRMEntity
 	 */
 	public function trackUnLinkedInfo($module, $crmId, $with_module, $with_crmid)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
+		$userId = $currentUser ? $currentUser->getId() : 1;
 		$currentTime = date('Y-m-d H:i:s');
-		Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
+		Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $userId], ['crmid' => $crmId])->execute();
 	}
 
 	/**
