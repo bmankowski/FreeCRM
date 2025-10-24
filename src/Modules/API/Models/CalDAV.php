@@ -60,7 +60,7 @@ class CalDAV {
 				if ($sync) {
 					$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 					\App\Modules\Users\Models\Record::setCurrentUserId($user->get('id'));
-					$currentUser = vglobal('current_user');
+					$currentUser = \App\User\CurrentUser::get();
 					vglobal('current_user', $user);
 
 					$vcalendar = $this->getDavDetail();
@@ -257,7 +257,7 @@ class CalDAV {
 		foreach ($this->davUsers as $key => $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
-			$current_user = vglobal('current_user');
+			$currentUser = \App\User\CurrentUser::get();
 			$current_user = $user;
 			$this->recordSync();
 		}

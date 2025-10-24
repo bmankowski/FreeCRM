@@ -125,7 +125,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 	public function savePassword(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$userModel = vglobal('current_user');
+		$userModel = $request->getUser();
 		$newPassword = $request->get('new_password');
 		$oldPassword = $request->get('old_password');
 		$checkPassword = \App\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
@@ -152,7 +152,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 	public function editPasswords(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$userModel = vglobal('current_user');
+		$userModel = $request->getUser();
 		$newPassword = $request->get('new_password');
 		$oldPassword = $request->get('old_password');
 		$userIds = $request->get('userids');

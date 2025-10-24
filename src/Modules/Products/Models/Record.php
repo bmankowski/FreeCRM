@@ -349,9 +349,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			}
 		} else {
 			if ($available == 'available') { // Create View
-				$current_user = vglobal('current_user');
+				$currentUser = \App\User\CurrentUser::get();
 
-				$user_currency_id = \vtlib\Functions::userCurrencyId($current_user->id);
+				$user_currency_id = \vtlib\Functions::userCurrencyId($currentUser->id);
 
 				$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -409,7 +409,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		if ($mode == 'edit') {
 			if ($module == 'Services') {
 				$sql = 'select conversion_rate from vtiger_service inner join vtiger_currency_info
@@ -421,7 +421,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$params = array($productid);
 		} else {
 			$sql = 'select conversion_rate from vtiger_currency_info where id=?';
-			$params = array(\vtlib\Functions::userCurrencyId($current_user->id));
+			$params = array(\vtlib\Functions::userCurrencyId($currentUser->id));
 		}
 
 		$res = $adb->pquery($sql, $params);

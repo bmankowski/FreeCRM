@@ -80,7 +80,7 @@ class ReportRun extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		global $modules;
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$ssql = 'select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid';
 		$ssql .= ' left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid';
 		$ssql .= ' where vtiger_report.reportid = ?';
@@ -95,7 +95,7 @@ class ReportRun extends \App\CRMEntity
 			list($module, $field) = explode('__', $module_field, 2);
 			$inventory_fields = array('serviceid');
 			$inventory_modules = \App\Utils\Utils::getInventoryModules();
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
+			require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 			if (sizeof($permitted_fields[$module]) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 				$permitted_fields[$module] = $this->getaccesfield($module);
 			}
@@ -1512,7 +1512,7 @@ class ReportRun extends \App\CRMEntity
 	public function getRelatedModulesQuery($module, $secmodule)
 	{
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$query = '';
 		if ($secmodule != '') {
 			$secondarymodule = explode(':', $secmodule);
@@ -1599,7 +1599,7 @@ class ReportRun extends \App\CRMEntity
 	public function getReportsQuery($module, $type = '')
 	{
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$secondary_module = "'";
 		$secondary_module .= str_replace(":", "','", $this->secondarymodule);
 		$secondary_module .= "'";
@@ -1783,7 +1783,7 @@ class ReportRun extends \App\CRMEntity
 						FROM vtiger_products
 						LEFT JOIN vtiger_currency_info ON vtiger_products.currency_id = vtiger_currency_info.id
 						LEFT JOIN vtiger_productcurrencyrel ON vtiger_products.productid = vtiger_productcurrencyrel.productid
-						AND vtiger_productcurrencyrel.currencyid = ' . $current_user->currency_id . '
+						AND vtiger_productcurrencyrel.currencyid = ' . $currentUser->currency_id . '
 				) AS innerProduct ON innerProduct.productid = vtiger_products.productid';
 			}
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
@@ -2146,7 +2146,7 @@ class ReportRun extends \App\CRMEntity
 		$current_user = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		global $modules;
 		global $mod_strings;
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 		$modules_selected = array();
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
@@ -2485,7 +2485,7 @@ class ReportRun extends \App\CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $currentUser->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2596,7 +2596,7 @@ class ReportRun extends \App\CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $currentUser->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2801,7 +2801,7 @@ class ReportRun extends \App\CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $currentUser->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3088,7 +3088,7 @@ class ReportRun extends \App\CRMEntity
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
 		$fieldInfo = getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
-			$curr_symb = " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+			$curr_symb = " (" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_IN') . " " . $currentUser->currency_symbol . ")";
 		}
 		$rep_header .= $curr_symb;
 
@@ -3101,14 +3101,14 @@ class ReportRun extends \App\CRMEntity
 	public function getAccessPickListValues()
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$id = array(\App\Module::getModuleId($this->primarymodule));
 		if ($this->secondarymodule != '')
 			array_push($id, \App\Module::getModuleId($this->secondarymodule));
 
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', \App\Utils\Utils::generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
-		$roleid = $current_user->roleid;
+		$roleid = $currentUser->roleid;
 		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
 		if (count($subrole) > 0) {
 			$roleids = $subrole;

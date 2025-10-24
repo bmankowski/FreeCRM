@@ -118,7 +118,7 @@ class Services extends \App\CRMEntity
 						ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 					LEFT JOIN vtiger_users
 						ON vtiger_users.id = vtiger_crmentity.smownerid ";
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
 		$query .= sprintf('WHERE vtiger_crmentity.deleted = 0 %s', $where);
 		return $query;
@@ -129,16 +129,16 @@ class Services extends \App\CRMEntity
 	 */
 	public function getListViewSecurityParameter($module)
 	{
-		$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+		$currentUser = \App\User\CurrentUser::get();
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 
 		$sec_query = '';
 		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($currentUser->id) || vtiger_crmentity.smownerid IN
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -148,7 +148,7 @@ class Services extends \App\CRMEntity
 					OR vtiger_crmentity.smownerid IN
 					(
 						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
+						WHERE userid=" . $currentUser->id . " && tabid=" . $tabid . "
 					)
 					OR
 						(";
@@ -161,7 +161,7 @@ class Services extends \App\CRMEntity
 						(
 							SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid
 							FROM vtiger_tmp_read_group_sharing_per
-							WHERE userid=' . $current_user->id . ' and tabid=' . $tabid . '
+							WHERE userid=' . $currentUser->id . ' and tabid=' . $tabid . '
 						)';
 			$sec_query .= ')
 				)';
@@ -174,7 +174,7 @@ class Services extends \App\CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		include('include/utils/ExportUtils.php');
 
@@ -306,7 +306,7 @@ class Services extends \App\CRMEntity
 
 	public function generateReportsQuery($module, $queryPlanner)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_seproductsrel', array('vtiger_crmentityRelServices', 'vtiger_accountRelServices', 'vtiger_leaddetailsRelServices', 'vtiger_servicecf'));
@@ -351,7 +351,7 @@ class Services extends \App\CRMEntity
 					FROM vtiger_service
 					LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
 					LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-					AND vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . "
+					AND vtiger_productcurrencyrel.currencyid = " . $currentUser->currency_id . "
 				) AS innerService ON innerService.serviceid = vtiger_service.serviceid";
 		}
 		return $query;
@@ -365,7 +365,7 @@ class Services extends \App\CRMEntity
 
 	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_service', array('actual_unit_price', 'vtiger_currency_info', 'vtiger_productcurrencyrel', 'vtiger_servicecf', 'vtiger_crmentityServices'));
 		$matrix->setDependency('vtiger_crmentityServices', array('vtiger_usersServices', 'vtiger_groupsServices', 'vtiger_lastModifiedByServices'));
@@ -376,13 +376,13 @@ class Services extends \App\CRMEntity
 		if ($queryPlanner->requireTable("innerService")) {
 			$query .= " LEFT JOIN (
 			SELECT vtiger_service.serviceid,
-			(CASE WHEN (vtiger_service.currency_id = " . $current_user->currency_id . " ) THEN vtiger_service.unit_price
+			(CASE WHEN (vtiger_service.currency_id = " . $currentUser->currency_id . " ) THEN vtiger_service.unit_price
 			WHEN (vtiger_productcurrencyrel.actual_price IS NOT NULL) THEN vtiger_productcurrencyrel.actual_price
-			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * " . $current_user->conv_rate . " END
+			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * " . $currentUser->conv_rate . " END
 			) AS actual_unit_price FROM vtiger_service
             LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
             LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-			AND vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . ")
+			AND vtiger_productcurrencyrel.currencyid = " . $currentUser->currency_id . ")
             AS innerService ON innerService.serviceid = vtiger_service.serviceid";
 		}
 		if ($queryPlanner->requireTable("vtiger_crmentityServices", $matrix)) {

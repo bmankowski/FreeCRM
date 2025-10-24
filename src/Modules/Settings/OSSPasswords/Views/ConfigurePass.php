@@ -46,7 +46,7 @@ class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		// config
 		// check if password encode config exists

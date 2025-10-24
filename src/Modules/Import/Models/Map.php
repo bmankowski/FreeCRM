@@ -105,7 +105,7 @@ class Map extends \App\Runtime\BaseModel
 
 	public static function getAllByModule($moduleName)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$dataReader = (new \App\Db\Query())->from(self::$tableName)
 				->where(['deleted' => 0, 'module' => $moduleName])
 				->createCommand()->query();

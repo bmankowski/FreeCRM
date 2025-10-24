@@ -108,11 +108,11 @@ class OSSEmployees extends \App\CRMEntity
 	public function getEmployeeHierarchy($id)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 
 		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$listview_header = Array();
 		$listview_entries = array();

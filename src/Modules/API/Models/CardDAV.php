@@ -54,7 +54,7 @@ class CardDAV {
 				$this->addressBookId = $user->get('addressbooksid');
 				$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 				\App\Modules\Users\Models\Record::setCurrentUserId($user->get('id'));
-				$currentUser = vglobal('current_user');
+				$currentUser = \App\User\CurrentUser::get();
 				vglobal('current_user', $user);
 
 				if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
@@ -83,7 +83,7 @@ class CardDAV {
 		foreach ($this->davUsers as $key => $user) {
 			$this->addressBookId = $user->get('addressbooksid');
 			$this->user = $user;
-			$current_user = vglobal('current_user');
+			$currentUser = \App\User\CurrentUser::get();
 			$current_user = $user;
 			$this->syncAddressBooks();
 		}

@@ -33,7 +33,7 @@ class VTCreateTodoTask extends VTTask
 	function getAdmin()
 	{
 		$user = \App\Modules\Users\Users::getActiveAdminUser();
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$this->originalUser = $currentUser;
 		$currentUser = $user;
 		return $user;
@@ -48,7 +48,7 @@ class VTCreateTodoTask extends VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$adminUser = $this->getAdmin();
@@ -186,7 +186,7 @@ class VTCreateTodoTask extends VTTask
 				'task_id' => $this->id,
 			])->execute();
 		}
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$currentUser = $this->originalUser;
 		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}

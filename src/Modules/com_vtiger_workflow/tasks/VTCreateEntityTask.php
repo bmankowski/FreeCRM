@@ -29,7 +29,7 @@ class VTCreateEntityTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
 		$entityType = $this->entity_type;

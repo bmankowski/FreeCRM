@@ -62,7 +62,7 @@ class FindDuplicates  extends \App\Modules\Vtiger\Views\Index
 
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
 	{
-		$currentUser = vglobal('current_user');
+		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$module = $request->getModule();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);

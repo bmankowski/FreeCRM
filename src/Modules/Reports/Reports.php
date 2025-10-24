@@ -74,7 +74,7 @@ class Reports extends \App\CRMEntity
 		$this->initListOfModules();
 		if ($reportid != "") {
 			// Lookup information in cache first
-			$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
+			$cachedInfo = VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
 			$subordinate_users = VTCacheUtils::lookupReport_SubordinateUsers($reportid);
 
 			if ($cachedInfo === false) {
@@ -83,9 +83,9 @@ class Reports extends \App\CRMEntity
 				$params = array($reportid);
 
 				require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
-				require('user_privileges/user_privileges_' . $current_user->id . '.php');
+				require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 				$userGroups = new GetUserGroups();
-				$userGroups->getAllUserGroups($current_user->id);
+				$userGroups->getAllUserGroups($currentUser->id);
 				$user_groups = $userGroups->user_groups;
 				if (!empty($user_groups) && $is_admin === false) {
 					$user_group_query = " (shareid IN (" . \App\Utils\Utils::generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
@@ -95,8 +95,8 @@ class Reports extends \App\CRMEntity
 				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 				if ($is_admin === false) {
 					$ssql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
-					array_push($params, $current_user->id);
-					array_push($params, $current_user->id);
+					array_push($params, $currentUser->id);
+					array_push($params, $currentUser->id);
 				}
 				$query = $adb->pquery('select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?', ["$current_user_parent_role_seq::%"]);
 				$subordinate_users = [];
@@ -113,12 +113,12 @@ class Reports extends \App\CRMEntity
 
 					// Update information in cache now
 					VTCacheUtils::updateReport_Info(
-						$current_user->id, $reportid, $reportmodulesrow["primarymodule"], $reportmodulesrow["secondarymodules"], $reportmodulesrow["reporttype"], $reportmodulesrow["reportname"], $reportmodulesrow["description"], $reportmodulesrow["folderid"], $reportmodulesrow["owner"]
+						$currentUser->id, $reportid, $reportmodulesrow["primarymodule"], $reportmodulesrow["secondarymodules"], $reportmodulesrow["reporttype"], $reportmodulesrow["reportname"], $reportmodulesrow["description"], $reportmodulesrow["folderid"], $reportmodulesrow["owner"]
 					);
 				}
 
 				// Re-look at cache to maintain code-consistency below
-				$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
+				$cachedInfo = VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
 			}
 
 			if ($cachedInfo) {
@@ -128,7 +128,7 @@ class Reports extends \App\CRMEntity
 				$this->reportname = \App\Utils\ListViewUtils::decodeHtml($cachedInfo["reportname"]);
 				$this->reportdescription = \App\Utils\ListViewUtils::decodeHtml($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
-				if ($is_admin === true || in_array($cachedInfo["owner"], $subordinate_users) || $cachedInfo["owner"] == $current_user->id)
+				if ($is_admin === true || in_array($cachedInfo["owner"], $subordinate_users) || $cachedInfo["owner"] == $currentUser->id)
 					$this->is_editable = 'true';
 				else
 					$this->is_editable = 'false';
@@ -795,7 +795,7 @@ class Reports extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
@@ -821,7 +821,7 @@ class Reports extends \App\CRMEntity
 			}
 			if ($selmod_field_disabled === false) {
 				list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
-				require('user_privileges/user_privileges_' . $current_user->id . '.php');
+				require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 				list($module, $field) = explode('__', $module_field);
 				if (sizeof($permitted_fields) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 					$permitted_fields = $this->getaccesfield($module);
@@ -854,7 +854,7 @@ class Reports extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		global $modules;
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		$advft_criteria = array();
 

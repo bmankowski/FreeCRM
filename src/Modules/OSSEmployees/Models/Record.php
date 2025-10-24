@@ -147,8 +147,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function getWorkTime()
 	{
-		$current_user = vglobal('current_user');
-		$employeeID = self::checkUser($current_user->id, true);
+		$currentUser = \App\User\CurrentUser::get();
+		$employeeID = self::checkUser($currentUser->id, true);
 		if (!$employeeID) {
 			return '';
 		}
@@ -158,7 +158,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? ";
 		$sql .= "AND (vtiger_osstimecontrol.date_start = DATE(NOW()) || vtiger_osstimecontrol.due_date = DATE(NOW()))";
-		$result = $adb->pquery($sql, array('OSSTimeControl', $current_user->id), true);
+		$result = $adb->pquery($sql, array('OSSTimeControl', $currentUser->id), true);
 		$today = date('Y-m-d');
 		$countResult = $adb->num_rows($result);
 		for ($i = 0; $i < $countResult; $i++) {
@@ -177,7 +177,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		}
 
 		if ($sum_time != 0 && $sum_time != '') {
-			$text = \App\Runtime\Vtiger_Language_Handler::translate('LBL_DAYWORKSUM', 'OSSEmployees') . ': ' . number_format($sum_time, 2, $current_user->column_fields['currency_decimal_separator'], $current_user->column_fields['currency_grouping_separator']);
+			$text = \App\Runtime\Vtiger_Language_Handler::translate('LBL_DAYWORKSUM', 'OSSEmployees') . ': ' . number_format($sum_time, 2, $currentUser->column_fields['currency_decimal_separator'], $currentUser->column_fields['currency_grouping_separator']);
 			if ($moduleModel->get('dayworktime') != '') {
 				$text .= ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_FROM') . ' ' . $moduleModel->get('dayworktime');
 			}

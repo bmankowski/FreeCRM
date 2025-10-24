@@ -662,11 +662,11 @@ class Users extends \App\CRMEntity
 	public function mark_deleted($id)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
 		$adb->pquery($query, array('Inactive', $adb->formatDate($date_var, true),
-			$current_user->id, $id), true, "Error marking record deleted: ");
+			$currentUser->id, $id), true, "Error marking record deleted: ");
 	}
 
 

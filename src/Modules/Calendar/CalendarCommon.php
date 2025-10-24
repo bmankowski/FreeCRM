@@ -78,7 +78,7 @@ function getaddEventPopupTime($starttime, $endtime, $format)
 function getActivityDetails($description, $user_id, $from = '')
 {
 	
-	$currentUser = vglobal('current_user');
+	$currentUser = \App\User\CurrentUser::get();
 	$adb = \App\Database\PearDatabase::getInstance();
 	$current_language = vglobal('current_language');
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');

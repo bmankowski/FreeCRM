@@ -746,7 +746,7 @@ class Data extends \App\Runtime\Vtiger_Action_Controller
 
 	public static function runScheduledImport()
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = $request->getUser();
 		$scheduledImports = self::getScheduledImport();
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$current_user = $importDataController->user;

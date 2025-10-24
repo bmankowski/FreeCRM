@@ -226,7 +226,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getNonAdminAccessControlQuery($module)
 	{
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		return \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($module, $currentUser);
 	}
 

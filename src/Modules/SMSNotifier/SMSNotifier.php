@@ -31,7 +31,7 @@ class SMSNotifier extends SMSNotifierBase
 
 		if ($ownerid === false) {
 			if (isset($current_user) && !empty($current_user)) {
-				$ownerid = $current_user->id;
+				$ownerid = $currentUser->id;
 			} else {
 				$ownerid = 1;
 			}
@@ -71,7 +71,7 @@ class SMSNotifier extends SMSNotifierBase
 	{
 
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		// Pick the distinct modulenames based on related records.
 		$result = $adb->pquery("SELECT distinct setype FROM vtiger_crmentity WHERE crmid in (
@@ -82,7 +82,7 @@ class SMSNotifier extends SMSNotifierBase
 
 		// Calculate the related module access (similar to getRelatedList API in DetailViewUtils.php)
 		if ($result && $adb->num_rows($result)) {
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
+			require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 			while ($resultrow = $adb->fetch_array($result)) {
 				$accessCheck = false;
 				$relatedTabId = \App\Module::getModuleId($resultrow['setype']);

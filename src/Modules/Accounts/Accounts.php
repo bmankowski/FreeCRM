@@ -85,7 +85,7 @@ class Accounts extends \App\CRMEntity
 	public function create_export_query($where)
 	{
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -199,7 +199,7 @@ class Accounts extends \App\CRMEntity
 	public function getAccountHierarchy($id, $listColumns = false)
 	{
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		\App\Log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
 
 		$listview_header = [];
@@ -251,7 +251,7 @@ class Accounts extends \App\CRMEntity
 	{
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (\App\Utils\UserInfoUtil::isPermitted('Accounts', 'DetailView', $accountId) == 'yes');

@@ -44,7 +44,7 @@ class VTCreateEventTask extends \App\Modules\com_vtiger_workflow\VTTask
 	function getAdmin()
 	{
 		$user = \App\Modules\Users\Users::getActiveAdminUser();
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$this->originalUser = $currentUser;
 		$currentUser = $user;
 		return $user;
@@ -59,7 +59,7 @@ class VTCreateEventTask extends \App\Modules\com_vtiger_workflow\VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$userId = $recordModel->get('assigned_user_id');
 		$adminUser = $this->getAdmin();
 		if ($userId === null) {
@@ -116,7 +116,7 @@ class VTCreateEventTask extends \App\Modules\com_vtiger_workflow\VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 		\App\Utils\Utils::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$currentUser = $this->originalUser;
 	}
 

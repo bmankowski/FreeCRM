@@ -41,7 +41,7 @@ class VTExpressionsManager {
 	/** END * */
 	function fields($moduleName)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$result = vtws_describe($moduleName, $current_user);
 		$fields = $result['fields'];
 		$arr = array();

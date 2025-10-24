@@ -109,7 +109,7 @@ class IStorages extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
 
 		$listviewHeader = [];
@@ -156,7 +156,7 @@ class IStorages extends \App\CRMEntity
 	{
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (\App\Utils\UserInfoUtil::isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');

@@ -23,7 +23,7 @@ class VTWorkflowUtils {
 
 	public function __construct()
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		if (empty(self::$userStack)) {
 			self::$userStack = array();
 		}
@@ -49,7 +49,7 @@ class VTWorkflowUtils {
 	public function adminUser()
 	{
 		$user = \App\Modules\Users\Users::getActiveAdminUser();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		if (empty(self::$userStack) || count(self::$userStack) == 0) {
 			self::$loggedInUser = $current_user;
 		}
@@ -65,7 +65,7 @@ class VTWorkflowUtils {
 	public function loggedInUser()
 	{
 		$user = self::$loggedInUser;
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		array_push(self::$userStack, $current_user);
 		$current_user = $user;
 		return $user;
@@ -76,7 +76,7 @@ class VTWorkflowUtils {
 	 */
 	public function revertUser()
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		if (count(self::$userStack) != 0) {
 			$current_user = array_pop(self::$userStack);
 		} else {
@@ -90,7 +90,7 @@ class VTWorkflowUtils {
 	 */
 	public function currentUser()
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		return $current_user;
 	}
 
@@ -130,8 +130,8 @@ class VTWorkflowUtils {
 	 */
 	public function checkAdminAccess()
 	{
-		$current_user = vglobal('current_user');
-		return strtolower($current_user->is_admin) === 'on';
+		$currentUser = \App\User\CurrentUser::get();
+		return strtolower($currentUser->is_admin) === 'on';
 	}
 	/* function to check if the module has workflow
 	 * @params :: $modulename - name of the module

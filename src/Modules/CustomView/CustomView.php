@@ -59,7 +59,7 @@ class CustomView extends \App\CRMEntity
 		$this->customviewmodule = $module;
 		$this->escapemodule[] = $module . '_';
 		$this->escapemodule[] = '_';
-		$this->smownerid = $current_user->id;
+		$this->smownerid = $currentUser->id;
 		$this->moduleMetaInfo = [];
 		if ($module != '' && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
@@ -92,10 +92,10 @@ class CustomView extends \App\CRMEntity
 	public function getCustomViewByCvid($cvid)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$ssql = "select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype";
 		$ssql .= " where vtiger_customview.cvid=?";
@@ -103,11 +103,11 @@ class CustomView extends \App\CRMEntity
 
 		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
-			array_push($sparams, $current_user->id);
+			array_push($sparams, $currentUser->id);
 		}
 		$result = $adb->pquery($ssql, $sparams);
 
-		$usercv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?", array($current_user->id, $tabid));
+		$usercv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?", array($currentUser->id, $tabid));
 		$def_cvid = $adb->query_result($usercv_result, 0, 'default_cvid');
 
 		while ($cvrow = $adb->fetch_array($result)) {
@@ -132,10 +132,10 @@ class CustomView extends \App\CRMEntity
 	public function getCustomViewCombo($viewid = '', $markselected = true)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$shtml_user = '';
 		$shtml_pending = '';
@@ -153,7 +153,7 @@ class CustomView extends \App\CRMEntity
 
 		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
-			array_push($sparams, $current_user->id);
+			array_push($sparams, $currentUser->id);
 		}
 		$ssql .= " ORDER BY viewname";
 		$result = $adb->pquery($ssql, $sparams);
@@ -164,7 +164,7 @@ class CustomView extends \App\CRMEntity
 
 			$option = '';
 			$viewname = $cvrow['viewname'];
-			if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
+			if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $currentUser->id) {
 				$disp_viewname = $viewname;
 			} else {
 				$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $cvrow);
@@ -184,7 +184,7 @@ class CustomView extends \App\CRMEntity
 
 			// Add the option to combo box at appropriate section
 			if ($option != '') {
-				if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
+				if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $currentUser->id) {
 					$shtml_user .= $option;
 				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
@@ -571,7 +571,7 @@ class CustomView extends \App\CRMEntity
 	// Not modified as of now, as this function is not used for now (Instead Query Generator is used for better performance).
 	public function getCVAdvFilterSQL($cvid)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		$advfilter = $this->getAdvFilterByCvid($cvid);
 
@@ -661,7 +661,7 @@ class CustomView extends \App\CRMEntity
 	{
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
 		$adb = \App\Database\PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$currentModule = vglobal('currentModule');
 		$mod_strings = vglobal('mod_strings');
 		//Added for proper check of contact name in advance filter
@@ -956,7 +956,7 @@ class CustomView extends \App\CRMEntity
 	public function isPermittedChangeStatus($status)
 	{
 		$currentLanguage = vglobal('current_language');
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, "CustomView");
 
 		\App\Log::trace("Entering isPermittedChangeStatus($status) method..............");

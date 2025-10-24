@@ -216,7 +216,7 @@ class Connector {
 	 */
 	public function handleStartupCall($details, $userInfo, $customerInfo)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$params = $this->prepareParameters($details, self::RINGING_TYPE);
 		$direction = $details->get('Direction');
 
@@ -251,7 +251,7 @@ class Connector {
 	 */
 	public function respondToIncomingCall($details)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		self::$NUMBERS = \App\Modules\PBXManager\Models\Record::getUserNumbers();
 
 		header("Content-type: text/xml; charset=utf-8");

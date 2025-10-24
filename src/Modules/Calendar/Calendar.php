@@ -53,7 +53,7 @@ class Calendar {
 	 */
 	public function constructLayout()
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		switch ($this->view) {
 			case 'day':
 				for ($i = -1; $i <= 23; $i++) {

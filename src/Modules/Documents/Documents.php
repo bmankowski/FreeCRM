@@ -148,7 +148,7 @@ class Documents extends \App\CRMEntity
 	public function create_export_query($where)
 	{
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		\App\Log::trace('Entering create_export_query(' . $where . ') method ...');
 
 		include('include/utils/ExportUtils.php');

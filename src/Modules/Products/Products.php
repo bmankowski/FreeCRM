@@ -93,7 +93,7 @@ class Products extends \App\CRMEntity
 	public function create_export_query($where)
 	{
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -196,7 +196,7 @@ class Products extends \App\CRMEntity
 
 	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$matrix = $queryplanner->newDependencyMatrix();
 
 		$matrix->setDependency("vtiger_crmentityProducts", array("vtiger_groupsProducts", "vtiger_usersProducts", "vtiger_lastModifiedByProducts"));
@@ -215,7 +215,7 @@ class Products extends \App\CRMEntity
 				    FROM vtiger_products
 				    LEFT JOIN vtiger_currency_info ON vtiger_products.currency_id = vtiger_currency_info.id
 				    LEFT JOIN vtiger_productcurrencyrel ON vtiger_products.productid = vtiger_productcurrencyrel.productid
-				    && vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . "
+				    && vtiger_productcurrencyrel.currencyid = " . $currentUser->currency_id . "
 			    ) AS innerProduct ON innerProduct.productid = vtiger_products.productid";
 		}
 		if ($queryplanner->requireTable("vtiger_crmentityProducts")) {

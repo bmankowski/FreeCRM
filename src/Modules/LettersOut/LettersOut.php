@@ -146,7 +146,7 @@ class LettersOut extends \App\CRMEntity
 			}
 		}
 
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
 		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s', $usewhere);
 		return $query;
@@ -157,16 +157,16 @@ class LettersOut extends \App\CRMEntity
 	 */
 	public function getListViewSecurityParameter($module)
 	{
-		$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+		$currentUser = \App\User\CurrentUser::get();
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 
 		$sec_query = '';
 		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($currentUser->id) || vtiger_crmentity.smownerid IN
                     (
                         SELECT vtiger_user2role.userid FROM vtiger_user2role
                         INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -176,7 +176,7 @@ class LettersOut extends \App\CRMEntity
                     || vtiger_crmentity.smownerid IN
                     (
                         SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-                        WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
+                        WHERE userid=" . $currentUser->id . " && tabid=" . $tabid . "
                     )
                     OR
                         (";
@@ -189,7 +189,7 @@ class LettersOut extends \App\CRMEntity
                         (
                             SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid
                             FROM vtiger_tmp_read_group_sharing_per
-                            WHERE userid=" . $current_user->id . " and tabid=" . $tabid . "
+                            WHERE userid=" . $currentUser->id . " and tabid=" . $tabid . "
                         )";
 			$sec_query .= ")
                 )";
@@ -202,7 +202,7 @@ class LettersOut extends \App\CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User\CurrentUser::get();
 
 		include("include/utils/ExportUtils.php");
 

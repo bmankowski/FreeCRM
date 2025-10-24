@@ -102,11 +102,11 @@ class Utils {
 	{
 		$cache = \App\Cache\Cache::getInstance();
 		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		if ($cache->getUserList($module, $current_user->id)) {
-			return $cache->getUserList($module, $current_user->id);
+		if ($cache->getUserList($module, $currentUser->id)) {
+			return $cache->getUserList($module, $currentUser->id);
 		} else {
-			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', $current_user->id);
-			$cache->setUserList($module, $userList, $current_user->id);
+			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', $currentUser->id);
+			$cache->setUserList($module, $userList, $currentUser->id);
 			return $userList;
 		}
 	}
@@ -115,11 +115,11 @@ class Utils {
 	{
 		$cache = \App\Cache\Cache::getInstance();
 		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		if ($cache->getGroupList($module, $current_user->id)) {
-			return $cache->getGroupList($module, $current_user->id);
+		if ($cache->getGroupList($module, $currentUser->id)) {
+			return $cache->getGroupList($module, $currentUser->id);
 		} else {
 			$groupList = \App\Fields\Owner::getInstance()->getGroups(false);
-			$cache->setGroupList($module, $groupList, $current_user->id);
+			$cache->setGroupList($module, $groupList, $currentUser->id);
 			return $groupList;
 		}
 	}
