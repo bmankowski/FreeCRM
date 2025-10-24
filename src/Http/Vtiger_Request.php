@@ -35,7 +35,8 @@ class Vtiger_Request
 	public function __construct($values, $rawvalues = [], $stripifgpc = true)
 	{
 		$this->rawValueMap = $values;
-		if ($stripifgpc && !empty($this->rawValueMap) && function_exists('get_magic_quotes_gpc') && \get_magic_quotes_gpc()) {
+		// if ($stripifgpc && !empty($this->rawValueMap) && function_exists('get_magic_quotes_gpc') && \get_magic_quotes_gpc()) { //FUNCTION DOES NOT EXIST IN PHP 8.2+ BMN REMOVED it
+		if ($stripifgpc && !empty($this->rawValueMap)) {
 			$this->rawValueMap = $this->stripslashes_recursive($this->rawValueMap);
 		}
 	}
@@ -68,8 +69,8 @@ class Vtiger_Request
 
 		$isJSON = false;
 		// NOTE: Zend_Json or json_decode gets confused with big-integers (when passed as string)
-        // and convert them to ugly exponential format - to overcome this we are performin a pre-check
-        if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
+		// and convert them to ugly exponential format - to overcome this we are performin a pre-check
+		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 			$isJSON = true;
 		}
 
@@ -121,8 +122,8 @@ class Vtiger_Request
 
 		$isJSON = false;
 		// NOTE: Zend_Json or json_decode gets confused with big-integers (when passed as string)
-        // and convert them to ugly exponential format - to overcome this we are performin a pre-check
-        if (is_string($value) && (strpos($value, "[") === 0 || strpos($value, "{") === 0)) {
+		// and convert them to ugly exponential format - to overcome this we are performin a pre-check
+		if (is_string($value) && (strpos($value, "[") === 0 || strpos($value, "{") === 0)) {
 			$isJSON = true;
 		}
 
@@ -135,8 +136,8 @@ class Vtiger_Request
 
 		//Handled for null because Purifier::purifyHtml returns empty string
 		if (!empty($value)) {
-            return Purifier::purifyHtml($value);
-        }
+			return Purifier::purifyHtml($value);
+		}
 
 		return $value;
 	}
@@ -289,10 +290,10 @@ class Vtiger_Request
 		$method = $_SERVER['REQUEST_METHOD'];
 		if ($method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
 			if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
-                $method = 'DELETE';
-            } elseif ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT') {
-                $method = 'PUT';
-            } else {
+				$method = 'DELETE';
+			} elseif ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT') {
+				$method = 'PUT';
+			} else {
 				throw new Exception('Unexpected Header');
 			}
 		}
@@ -316,10 +317,10 @@ class Vtiger_Request
 	public function isAjax()
 	{
 		if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
-            return true;
-        }
+			return true;
+		}
 
-        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
+		return !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
 	}
 
 	/**
@@ -346,8 +347,9 @@ class Vtiger_Request
 	{
 		$user = vglobal('current_user');
 		// Referer check if present - to over come 
-        //Check for user post authentication.
-        if (isset($_SERVER['HTTP_REFERER']) && $user && (stripos($_SERVER['HTTP_REFERER'], \App\AppConfig::main('site_URL')) !== 0 && $this->get('module') != 'Install')) {throw new \Exception\Csrf('Illegal request');
+		//Check for user post authentication.
+		if (isset($_SERVER['HTTP_REFERER']) && $user && (stripos($_SERVER['HTTP_REFERER'], \App\AppConfig::main('site_URL')) !== 0 && $this->get('module') != 'Install')) {
+			throw new \Exception\Csrf('Illegal request');
 		}
 
 		return true;
