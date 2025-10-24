@@ -94,4 +94,53 @@ class Vtiger_Session
 	{
 		unset($_SESSION[$name]);
 	}
+
+	/**
+	 * Set authenticated user ID in session
+	 * @param int $userId
+	 */
+	public static function setAuthenticatedUserId(int $userId): void
+	{
+		self::set('authenticated_user_id', $userId);
+		self::set('app_unique_key', \App\AppConfig::main('application_unique_key'));
+	}
+
+	/**
+	 * Get authenticated user ID from session
+	 * @return int|null
+	 */
+	public static function getAuthenticatedUserId(): ?int
+	{
+		if (!self::has('authenticated_user_id')) {
+			return null;
+		}
+		
+		$userId = self::get('authenticated_user_id');
+		$appKey = self::get('app_unique_key');
+		
+		if (\App\AppConfig::main('application_unique_key') !== $appKey) {
+			return null;
+		}
+		
+		return (int) $userId;
+	}
+
+	/**
+	 * Check if user is authenticated
+	 * @return bool
+	 */
+	public static function isAuthenticated(): bool
+	{
+		return self::getAuthenticatedUserId() !== null;
+	}
+
+	/**
+	 * Clear authentication data
+	 */
+	public static function clearAuthentication(): void
+	{
+		self::remove('authenticated_user_id');
+		self::remove('app_unique_key');
+		self::remove('baseUserId');
+	}
 }

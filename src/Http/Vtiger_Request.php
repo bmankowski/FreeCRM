@@ -29,6 +29,9 @@ class Vtiger_Request
 
 	protected $headers = [];
 
+	/** @var \App\Modules\Users\Models\Record|null Authenticated user */
+	protected $authenticatedUser = null;
+
 	/**
 	 * Default constructor
 	 */
@@ -345,14 +348,69 @@ class Vtiger_Request
 
 	protected function validateReferer()
 	{
-		$user = vglobal('current_user');
+		// Use request's user instead of global
+		if (!$this->hasUser()) {
+			return true;
+		}
+		
 		// Referer check if present - to over come 
 		//Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && $user && (stripos($_SERVER['HTTP_REFERER'], \App\AppConfig::main('site_URL')) !== 0 && $this->get('module') != 'Install')) {
+		if (isset($_SERVER['HTTP_REFERER']) && (stripos($_SERVER['HTTP_REFERER'], \App\AppConfig::main('site_URL')) !== 0 && $this->get('module') != 'Install')) {
 			throw new \Exception\Csrf('Illegal request');
 		}
 
 		return true;
+	}
+
+	/**
+	 * Set authenticated user for this request
+	 * @param \App\Modules\Users\Models\Record $user
+	 * @return self
+	 */
+	public function setUser(\App\Modules\Users\Models\Record $user): self
+	{
+		$this->authenticatedUser = $user;
+		return $this;
+	}
+
+	/**
+	 * Get authenticated user
+	 * @return \App\Modules\Users\Models\Record
+	 * @throws \RuntimeException if not authenticated
+	 */
+	public function getUser(): \App\Modules\Users\Models\Record
+	{
+		if ($this->authenticatedUser === null) {
+			throw new \RuntimeException('User not authenticated for this request');
+		}
+		return $this->authenticatedUser;
+	}
+
+	/**
+	 * Check if user is authenticated on request
+	 * @return bool
+	 */
+	public function hasUser(): bool
+	{
+		return $this->authenticatedUser !== null;
+	}
+
+	/**
+	 * Get user ID (convenience method)
+	 * @return int
+	 */
+	public function getUserId(): int
+	{
+		return $this->getUser()->getId();
+	}
+
+	/**
+	 * Check if current user is admin
+	 * @return bool
+	 */
+	public function isUserAdmin(): bool
+	{
+		return $this->hasUser() && $this->getUser()->isAdminUser();
 	}
 
 	protected function validateCSRF()
