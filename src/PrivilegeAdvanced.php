@@ -75,7 +75,7 @@ class PrivilegeAdvanced
 			}
 			static::$webservice = false;
 			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
-			$test = (new \App\Modules\com_vtiger_workflow\VTJsonCondition())->evaluate($privilege['conditions'], $recordModel);
+			$test = (new \App\Modules\Workflow\VTJsonCondition())->evaluate($privilege['conditions'], $recordModel);
 			static::$webservice = true;
 			if ($test) {
 				Log::trace("Check advanced permissions test OK,action: {$privilege['action']},id: $id");

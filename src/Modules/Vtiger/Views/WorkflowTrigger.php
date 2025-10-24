@@ -29,7 +29,7 @@ class WorkflowTrigger extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\Database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$TRIGGER);
+		$workflows = (new \App\Modules\Workflow\VTWorkflowManager(\App\Database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\Workflow\VTWorkflowManager::$TRIGGER);
 		foreach ($workflows as $id => $workflow) {
 			if (!$workflow->evaluate(\App\Modules\Vtiger\Models\Record::getInstanceById($record))) {
 				unset($workflows[$id]);

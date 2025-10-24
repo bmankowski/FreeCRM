@@ -79,8 +79,8 @@ class DetailView extends \App\Runtime\BaseModel
 
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
 			$adb = \App\Database\PearDatabase::getInstance();
-			$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($adb);
-			$workflows = $wfs->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$TRIGGER);
+			$wfs = new \App\Modules\Workflow\VTWorkflowManager($adb);
+			$workflows = $wfs->getWorkflowsForModule($moduleName, \App\Modules\Workflow\VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',

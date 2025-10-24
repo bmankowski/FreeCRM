@@ -806,7 +806,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 		$taskComponents = explode(':', $task);
 		$classNameWithDoubleQuotes = $taskComponents[2];
 		$className = str_replace('"', '', $classNameWithDoubleQuotes);
-		require_once("src/Modules/com_vtiger_workflow/VTTaskManager.php");
+		require_once("src/Modules/Workflow/VTTaskManager.php");
 		$unserializeTask = unserialize($task);
 		if (array_key_exists('field_value_mapping', $unserializeTask)) {
 			$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);

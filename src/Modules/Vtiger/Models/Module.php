@@ -281,7 +281,7 @@ class Module extends \vtlib\Module
 			$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
-		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\Database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$ON_DELETE);
+		$workflows = (new \App\Modules\Workflow\VTWorkflowManager(\App\Database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\Workflow\VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {

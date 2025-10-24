@@ -247,7 +247,7 @@ class MappedFields extends \App\Runtime\BaseModel
 		if (\App\Cache\Cache::has(__METHOD__, $key)) {
 			return \App\Cache\Cache::get(__METHOD__, $key);
 		}
-		$conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
+		$conditionStrategy = new \App\Modules\Workflow\VTJsonCondition();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $recordModel);
 		\App\Cache\Cache::save(__METHOD__, $key, $test);

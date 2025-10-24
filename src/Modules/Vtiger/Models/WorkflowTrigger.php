@@ -27,7 +27,7 @@ class WorkflowTrigger {
 		if ($userId) {
 			$recordModel->executeUser = $userId;
 		}
-		$wfs = new \App\Modules\com_vtiger_workflow\VTWorkflowManager();
+		$wfs = new \App\Modules\Workflow\VTWorkflowManager();
 		foreach ($ids as $id) {
 			$workflow = $wfs->retrieve($id);
 			if ($workflow->evaluate($recordModel)) {

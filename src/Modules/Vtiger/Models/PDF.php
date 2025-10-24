@@ -239,7 +239,7 @@ class PDF extends \App\Runtime\BaseModel
 		if (\App\Cache\Cache::has(__METHOD__, $key)) {
 			return \App\Cache\Cache::get(__METHOD__, $key);
 		}
-		$conditionStrategy = new \App\Modules\com_vtiger_workflow\VTJsonCondition();
+		$conditionStrategy = new \App\Modules\Workflow\VTJsonCondition();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
 		$test = $conditionStrategy->evaluate($conditions, $recordModel);

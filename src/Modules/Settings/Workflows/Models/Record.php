@@ -97,7 +97,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function save()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
+		$wm = new \App\Modules\Workflow\VTWorkflowManager($db);
 
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
@@ -121,7 +121,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function delete()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
+		$wm = new \App\Modules\Workflow\VTWorkflowManager($db);
 		$wm->delete($this->getId());
 	}
 
@@ -189,7 +189,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public static function getInstance($workflowId)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
+		$wm = new \App\Modules\Workflow\VTWorkflowManager($db);
 		$wf = $wm->retrieve($workflowId);
 		return self::getInstanceFromWorkflowObject($wf);
 	}
@@ -197,7 +197,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public static function getCleanInstance($moduleName)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
+		$wm = new \App\Modules\Workflow\VTWorkflowManager($db);
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
 		return self::getInstanceFromWorkflowObject($wf);
@@ -235,7 +235,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 
 		$db = \App\Database\PearDatabase::getInstance();
-		$taskManager = new \App\Modules\com_vtiger_workflow\VTTaskManager($db);
+		$taskManager = new \App\Modules\Workflow\VTTaskManager($db);
 		$taskList = $taskManager->getTasks();
 
 		$examinedIdList = array();
@@ -418,7 +418,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function updateNextTriggerTime()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$wm = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
+		$wm = new \App\Modules\Workflow\VTWorkflowManager($db);
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
 	}

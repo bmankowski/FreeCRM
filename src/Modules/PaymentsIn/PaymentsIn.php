@@ -151,7 +151,7 @@ class PaymentsIn extends \App\CRMEntity
 		$emm = new VTEntityMethodManager();
 		$emm->addEntityMethod($moduleName, $functionName, "src/Modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);
 
-		$workflowManager = new \App\Modules\com_vtiger_workflow\VTWorkflowManager($db);
+		$workflowManager = new \App\Modules\Workflow\VTWorkflowManager($db);
 		$taskManager = new VTTaskManager($db);
 
 		$newWorkflow = $workflowManager->newWorkFlow($moduleName);

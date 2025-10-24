@@ -243,7 +243,7 @@ class Privileges extends \App\Runtime\BaseModel
 			self::$lockEditCache[$moduleName . $recordId] = $return;
 			return $return;
 		}
-		$workflows = (new \App\Modules\com_vtiger_workflow\VTWorkflowManager(\App\Database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\com_vtiger_workflow\VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new \App\Modules\Workflow\VTWorkflowManager(\App\Database\PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, \App\Modules\Workflow\VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
