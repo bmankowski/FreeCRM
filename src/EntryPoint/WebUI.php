@@ -410,7 +410,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Initialize global variables and language
-	 * UPDATED: Attach user to request, maintain vglobal for backward compatibility
+	 * UPDATED: Attach user to request and session
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return \Users|false Current user or false
@@ -419,14 +419,11 @@ class WebUI extends EntryPoint
 	{
 		$currentUser = $this->getLogin();
 		
-		// NEW: Attach user to request if authenticated
+		// Attach user to request if authenticated
 		if ($currentUser && $currentUser->id) {
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id, 'Users');
 			$request->setUser($userModel);
 		}
-		
-		// DEPRECATED: Maintain for 3-6 months backward compatibility
-		vglobal('current_user', $currentUser);
 
 		$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 		vglobal('current_language', $currentLanguage);

@@ -60,8 +60,6 @@ class CalDAV {
 				if ($sync) {
 					$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 					\App\Modules\Users\Models\Record::setCurrentUserId($user->get('id'));
-					$currentUser = \App\User\CurrentUser::get();
-					vglobal('current_user', $user);
 
 					$vcalendar = $this->getDavDetail();
 					if ($vcalendar === false) {// Creating
@@ -70,7 +68,6 @@ class CalDAV {
 					} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 						$this->davUpdate($vcalendar);
 					}
-					vglobal('current_user', $currentUser);
 					\App\Modules\Users\Models\Record::setCurrentUserId($orgUserId);
 				}
 			}

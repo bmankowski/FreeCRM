@@ -42,10 +42,9 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		parent::preProcess($request);
 		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
 			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
-			$user = new\App\Modules\Users\Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-			vglobal('current_user', $currentUser);
 			\App\Modules\Users\Models\Record::setCurrentUserId($baseUserId);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($baseUserId, 'Users');
+			$request->setUser($userModel);
 		}
 	}
 
@@ -54,10 +53,9 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		parent::preProcessAjax($request);
 		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
 			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
-			$user = new\App\Modules\Users\Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
-			vglobal('current_user', $currentUser);
 			\App\Modules\Users\Models\Record::setCurrentUserId($baseUserId);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($baseUserId, 'Users');
+			$request->setUser($userModel);
 		}
 	}
 
@@ -91,10 +89,9 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 		$request->delete('action');
 		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
 			$userId = \App\Http\Vtiger_Session::get('authenticated_user_id');
-			$user = new\App\Modules\Users\Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-			vglobal('current_user', $currentUser);
 			\App\Modules\Users\Models\Record::setCurrentUserId($userId);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+			$request->setUser($userModel);
 		}
 		$handlerClass = \App\Loader::getComponentClassName('View', 'Detail', $request->getModule());
 		$handler = new $handlerClass();

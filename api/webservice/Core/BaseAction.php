@@ -69,9 +69,13 @@ class BaseAction
 		}
 		$this->session = new \App\Base();
 		$this->session->setData($row);
-		\App\Modules\Users\Models\Record::setCurrentUserId($this->session->get('user_id'));
-		$currentUser = (new \App\Modules\Users\Users())->retrieveCurrentUserInfoFromFile($this->session->get('user_id'));
-		vglobal('current_user', $currentUser);
+		$userId = $this->session->get('user_id');
+		\App\Modules\Users\Models\Record::setCurrentUserId($userId);
+		
+		// Attach user to request for modern access pattern
+		$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+		$this->controller->request->setUser($userModel);
+		
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();
@@ -84,7 +88,7 @@ class BaseAction
 	{
 		$language = $this->getLanguage();
 		if ($language) {
-			\Vtiger_Language_Handler::$language = $language;
+			\App\LanguageHandler::$language = $language;
 		}
 	}
 

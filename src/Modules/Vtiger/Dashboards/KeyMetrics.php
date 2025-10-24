@@ -45,8 +45,7 @@ class KeyMetrics  extends \App\Modules\Vtiger\Views\Index
 	// NOTE: Move this function to appropriate model.
 	protected function getKeyMetricsWithCount()
 	{
-		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		vglobal('current_user', $current_user);
+		// Current user is already available via getCurrentUserModel()
 		$metriclists = getMetricList();
 		foreach ($metriclists as $key => &$metriclist) {
 			$queryGenerator = new \App\QueryGenerator($metriclist['module']);

@@ -19,7 +19,7 @@ Loader::register();
 
 try {
 	$webUI = new \App\Main\File();
-	$webUI->process(AppRequest::init());
+	$webUI->process(\App\Http\AppRequest::init());
 } catch (Exception $e) {
 	\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 	//var_dump($e->getMessage());

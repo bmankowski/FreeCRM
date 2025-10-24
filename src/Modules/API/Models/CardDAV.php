@@ -54,8 +54,6 @@ class CardDAV {
 				$this->addressBookId = $user->get('addressbooksid');
 				$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 				\App\Modules\Users\Models\Record::setCurrentUserId($user->get('id'));
-				$currentUser = \App\User\CurrentUser::get();
-				vglobal('current_user', $user);
 
 				if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
 					$card = $this->getCardDetail($record['crmid']);
@@ -69,7 +67,6 @@ class CardDAV {
 						$updates++;
 					}
 				}
-				vglobal('current_user', $currentUser);
 				\App\Modules\Users\Models\Record::setCurrentUserId($orgUserId);
 			}
 			$this->markComplete($moduleName, $record['crmid']);

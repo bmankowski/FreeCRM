@@ -30,10 +30,9 @@ class CronRunner
 
 		$cronStart = microtime(true);
 		
-		// Set global current user permissions
-		\App\Modules\Users\Models\Record::setCurrentUserId(\App\Modules\Users\Models\Record::getActiveAdminId());
-		$current_user = \App\Modules\Users\Users::getActiveAdminUser();
-		vglobal('current_user', $current_user);
+		// Set current user permissions for cron context
+		$adminId = \App\Modules\Users\Models\Record::getActiveAdminId();
+		\App\Modules\Users\Models\Record::setCurrentUserId($adminId);
 		
 		if (PHP_SAPI !== 'cli') {
 			echo '<pre>';

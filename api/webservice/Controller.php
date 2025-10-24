@@ -22,7 +22,7 @@ class Controller
 	/** @var Core\BaseAction */
 	private static $action;
 
-	/** @var \Api\Core\Request */
+	/** @var \App\Http\Vtiger_Request */
 	public $request;
 	public $response;
 	public $method;
