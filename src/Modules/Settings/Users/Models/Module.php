@@ -16,6 +16,7 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
 
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {
+	public $name = 'Users';
 
 	public static function getInstance($name = 'Settings:Vtiger')
 	{

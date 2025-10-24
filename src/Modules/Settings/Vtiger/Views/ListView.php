@@ -18,6 +18,9 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\Index
 
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
+	protected $listViewModel = false;
+	protected $listViewLinks = false;
+	protected $listViewCount = false;
 
 	public function __construct()
 	{
@@ -45,7 +48,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\Index
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

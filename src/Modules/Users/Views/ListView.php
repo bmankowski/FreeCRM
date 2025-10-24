@@ -47,7 +47,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -82,6 +82,10 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
+		// Ensure LISTVIEWMASSACTION is always an array to prevent template errors
+		if (!isset($linkModels['LISTVIEWMASSACTION'])) {
+			$linkModels['LISTVIEWMASSACTION'] = [];
+		}
 		$this->listViewModel->set('status', $status);
 
 		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
@@ -139,6 +143,16 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 		if (!isset($this->listViewLinks)) {
 			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
 		}
+		// Ensure LISTVIEW_LINKS is always an array with required keys to prevent template errors
+		if (!is_array($this->listViewLinks)) {
+			$this->listViewLinks = [];
+		}
+		if (!isset($this->listViewLinks['LISTVIEW'])) {
+			$this->listViewLinks['LISTVIEW'] = [];
+		}
+		if (!isset($this->listViewLinks['LISTVIEWBASIC'])) {
+			$this->listViewLinks['LISTVIEWBASIC'] = [];
+		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -159,6 +173,9 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 			}
 			$pagingModel->set('totalCount', (int) $this->listViewCount);
 			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
+		} else {
+			// Assign default to prevent template warnings
+			$viewer->assign('LISTVIEW_COUNT', $noOfEntries);
 		}
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
