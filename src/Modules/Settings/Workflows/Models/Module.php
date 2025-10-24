@@ -2,6 +2,8 @@
 
 namespace App\Modules\Settings\Workflows\Models;
 
+use App\Modules\Workflow\ExpressionEngine\VTExpressionsManager;
+use App\Modules\Workflow\VTEntityMethodManager;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -11,9 +13,6 @@ namespace App\Modules\Settings\Workflows\Models;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-
-require_once ROOT_DIRECTORY . '/Modules/Workflow/include.php';
-require_once ROOT_DIRECTORY . '/Modules/Workflow/ExpressionEngine/VTExpressionsManager.php';
 
 class Module extends \App\Modules\Settings\Vtiger\Models\Module
 {

@@ -81,8 +81,6 @@ class Workflow
 	 */
 	public function performTasks($recordModel)
 	{
-		require_once('src/Modules/Workflow/VTTaskManager.php');
-		require_once('src/Modules/Workflow/VTTaskQueue.php');
 
 		$tm = new VTTaskManager();
 		$taskQueue = new VTTaskQueue();

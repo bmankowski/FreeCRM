@@ -11,6 +11,7 @@
 use App\Modules\Workflow\WorkFlowScheduler;
 use App\Modules\Workflow\VTTaskQueue;
 use App\Modules\Workflow\VTTaskManager;
+use App\Db;
 
 // Initialize webservices (required for workflow operations)
 require_once("include/Webservices/State.php");
@@ -21,7 +22,7 @@ require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 
-$adb = PearDatabase::getInstance();
+$adb = Db::getInstance();
 $workflowScheduler = new WorkFlowScheduler($adb);
 $workflowScheduler->queueScheduledWorkflowTasks();
 $readyTasks = (new VTTaskQueue($adb))->getReadyTasks();

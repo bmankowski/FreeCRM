@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Modules\Workflow\Tasks;
-\nuse App\Modules\Workflow\VTTask;
+
+use App\Modules\Workflow\VTTask;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,14 +13,7 @@ namespace App\Modules\Workflow\Tasks;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/Webservices/Utils.php');
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObject.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/VtigerCRMObjectMeta.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/DataTransform.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/WebServiceError.php");
-require_once(ROOT_DIRECTORY . '/src/Webservices/Create.php');
 
-require_once("src/Modules/Users/Users.php");
 
 class VTCreateTodoTask extends VTTask
 {

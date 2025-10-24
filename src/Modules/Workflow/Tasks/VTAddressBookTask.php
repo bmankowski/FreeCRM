@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Modules\Workflow\Tasks;
-\nuse App\Modules\Workflow\VTTask;
+
+use App\Modules\Workflow\VTTask;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -12,7 +13,6 @@ namespace App\Modules\Workflow\Tasks;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-require_once('src/Modules/Users/Users.php');
 
 class VTAddressBookTask extends VTTask
 {

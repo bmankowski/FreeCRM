@@ -7,4 +7,3 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('src/Modules/SMSNotifier/workflow/VTSMSTask.php');

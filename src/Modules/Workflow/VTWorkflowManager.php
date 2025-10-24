@@ -159,10 +159,9 @@ class VTWorkflowManager {
 	{
 		$configReader = new \App\Utils\ConfigReader('src/Modules/Workflow/config.inc', 'workflowConfig');
 		$workflowTypeConfig = $configReader->getConfig($type);
-		$workflowClassPath = $workflowTypeConfig['classpath'];
 		$workflowClass = $workflowTypeConfig['class'];
 
-		require_once $workflowClassPath;
+		// No need for require_once - PSR-4 autoloading handles it
 		$workflow = new $workflowClass();
 		return $workflow;
 	}

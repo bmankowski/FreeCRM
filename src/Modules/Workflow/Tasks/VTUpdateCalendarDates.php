@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Modules\Workflow\Tasks;
-\nuse App\Modules\Workflow\VTTask;
+
+use App\Modules\Workflow\VTTask;
 
 /**
  * Update the dates of created events automatically

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Settings\Workflows\Models;
 
+use App\Modules\Workflow\VTTaskType;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,10 +13,9 @@ namespace App\Modules\Settings\Workflows\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-/*
+/**
  * Workflow Task Type Model Class
  */
-require_once ROOT_DIRECTORY . '/Modules/Workflow/VTTaskManager.php';
 
 class TaskType extends \App\Modules\Vtiger\Models\Record
 {

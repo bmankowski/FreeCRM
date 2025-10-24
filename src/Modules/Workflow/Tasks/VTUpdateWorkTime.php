@@ -3,7 +3,8 @@
 
 
 namespace App\Modules\Workflow\Tasks;
-\nuse App\Modules\Workflow\VTTask;
+
+use App\Modules\Workflow\VTTask;
 
 class VTUpdateWorkTime extends VTTask
 {

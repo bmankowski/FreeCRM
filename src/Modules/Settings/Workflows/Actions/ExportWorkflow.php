@@ -63,7 +63,6 @@ class ExportWorkflow extends \App\Modules\Settings\Vtiger\Actions\Index
 			$xmlTask->appendChild($xmlColumn);
 
 			if (strpos($task['task'], 'VTEntityMethodTask') !== false) {
-				require_once ROOT_DIRECTORY . '/Modules/Workflow/Tasks/VTEntityMethodTask.php';
 				$taskObject = unserialize(html_entity_decode($task['task']));
 				$method = \App\Modules\Settings\Workflows\Models\Module::exportTaskMethod($taskObject->methodName);
 

@@ -19,7 +19,8 @@
             </div>
             <div class="col-md-6">
                 <b class="pull-right paddingTop10">
-                {if $CRON_RECORD_MODEL->isDisabled() }{"LBL_DISABLED"|t:$QUALIFIED_MODULE}{/if}
+                {if $CRON_RECORD_MODEL}
+                    {if $CRON_RECORD_MODEL->isDisabled() }{"LBL_DISABLED"|t:$QUALIFIED_MODULE}{/if}
                     {if $CRON_RECORD_MODEL->isRunning() }{"LBL_RUNNING"|t:$QUALIFIED_MODULE}{/if}
                     {if $CRON_RECORD_MODEL->isEnabled()}
                         {if $CRON_RECORD_MODEL->hadTimedout}
@@ -31,9 +32,8 @@
                             {"LBL_TIME_TAKEN"|t:$QUALIFIED_MODULE}:&nbsp;
                             {$CRON_RECORD_MODEL->getTimeDiff()}&nbsp; 
                             {"LBL_SHORT_SECONDS"|t:$QUALIFIED_MODULE}
-                        {else}
-
                         {/if}
+                    {/if}
                 {/if}
                 </b>
             </div>

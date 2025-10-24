@@ -19,13 +19,14 @@ namespace App\Modules\Settings\Vtiger\Models;
 
 class ListView extends \App\Runtime\BaseModel
 {
-
-
-	protected \App\Modules\Vtiger\Models\Module $module;
+	/**
+	 * @var \App\Modules\Settings\Vtiger\Models\Module|\App\Modules\Vtiger\Models\Module
+	 */
+	protected $module;
 
 	/**
 	 * Function to get the Module Model
-	 * @return \App\Modules\Vtiger\Models\Module 
+	 * @return \App\Modules\Settings\Vtiger\Models\Module|\App\Modules\Vtiger\Models\Module 
 	 */
 	public function getModule()
 	{
