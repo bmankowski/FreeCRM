@@ -103,21 +103,29 @@ class CurrencyField
 			$user = $current_user;
 		}
 
-		if (!empty($user->currency_grouping_pattern)) {
-			$this->currencyFormat = html_entity_decode($user->currency_grouping_pattern, ENT_QUOTES, $default_charset);
-			$this->currencySeparator = str_replace("\xC2\xA0", ' ', html_entity_decode($user->currency_grouping_separator, ENT_QUOTES, $default_charset));
-			$this->decimalSeparator = str_replace("\xC2\xA0", ' ', html_entity_decode($user->currency_decimal_separator, ENT_QUOTES, $default_charset));
+		// Handle both Record model (with get()) and legacy entity (with properties)
+		$getCurrencyField = function($user, $field, $default = null) {
+			if (method_exists($user, 'get')) {
+				return $user->get($field) ?: $default;
+			}
+			return $user->$field ?? $default;
+		};
+		
+		if (!empty($getCurrencyField($user, 'currency_grouping_pattern'))) {
+			$this->currencyFormat = html_entity_decode($getCurrencyField($user, 'currency_grouping_pattern'), ENT_QUOTES, $default_charset);
+			$this->currencySeparator = str_replace("\xC2\xA0", ' ', html_entity_decode($getCurrencyField($user, 'currency_grouping_separator'), ENT_QUOTES, $default_charset));
+			$this->decimalSeparator = str_replace("\xC2\xA0", ' ', html_entity_decode($getCurrencyField($user, 'currency_decimal_separator'), ENT_QUOTES, $default_charset));
 		}
 
-		if (!empty($user->currency_id)) {
-			$this->currencyId = $user->currency_id;
+		if (!empty($getCurrencyField($user, 'currency_id'))) {
+			$this->currencyId = $getCurrencyField($user, 'currency_id');
 		} else {
 			$this->currencyId = self::getDBCurrencyId();
 		}
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($this->currencyId);
 		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
 		$this->conversionRate = $currencyRateAndSymbol['rate'];
-		$this->currencySymbolPlacement = $user->currency_symbol_placement;
+		$this->currencySymbolPlacement = $getCurrencyField($user, 'currency_symbol_placement', '$1.0');
 		$this->numberOfDecimal = \App\Utils\Utils::getCurrencyDecimalPlaces();
 	}
 
@@ -466,18 +474,26 @@ class CurrencyField
 		if (!$user) {
 			$user = \App\User\CurrentUser::get();
 		}
-		if ($user->truncate_trailing_zeros === true) {
-			if (strpos($value, $user->currency_decimal_separator) != 0) {
+		// Handle both Record model and legacy entity
+		if (method_exists($user, 'get')) {
+			$truncateZeros = $user->get('truncate_trailing_zeros');
+			$decimalSep = $user->get('currency_decimal_separator') ?: '.';
+		} else {
+			$truncateZeros = $user->truncate_trailing_zeros ?? false;
+			$decimalSep = $user->currency_decimal_separator ?? '.';
+		}
+		if ($truncateZeros === true) {
+			if (strpos($value, $decimalSep) != 0) {
 				/**
 				 * We should trim extra zero's if only the value had decimal separator(Ex :- 1600.00)
 				 * else it'll change orginal value
 				 */
-				$value = rtrim($value, '0');
-			}
-			if ($user->currency_decimal_separator == '&nbsp;')
-				$decimalSeparator = ' ';
-			else
-				$decimalSeparator = $user->currency_decimal_separator;
+			$value = rtrim($value, '0');
+		}
+		if ($decimalSep == '&nbsp;')
+			$decimalSeparator = ' ';
+		else
+			$decimalSeparator = $decimalSep;
 
 			$fieldValue = explode(\App\Utils\ListViewUtils::decodeHtml($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {

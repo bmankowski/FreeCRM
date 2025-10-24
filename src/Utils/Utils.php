@@ -690,7 +690,7 @@ class Utils
 	public static function getCurrencyDecimalPlaces()
 	{
 		$currentUser = \App\User\CurrentUser::get();
-		if ($current_user && isset($currentUser->no_of_currency_decimals)) {
+		if ($currentUser && isset($currentUser->no_of_currency_decimals)) {
 			return $currentUser->no_of_currency_decimals;
 		}
 		return 2;
