@@ -50,7 +50,15 @@ class File
 		if (\App\Http\Vtiger_Session::has('authenticated_user_id')) {
 			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
 			if ($userid && \App\AppConfig::main('application_unique_key') === \App\Http\Vtiger_Session::get('app_unique_key')) {
-				\App\Modules\Users\Models\Record::getCurrentUserModel();
+				$userModel = \App\Modules\Users\Models\Record::getInstanceById($userid);
+				
+				// NEW: Attach to request if available
+				$request = \App\Http\AppRequest::init();
+				if ($request instanceof \App\Http\Vtiger_Request) {
+					$request->setUser($userModel);
+				}
+				
+				// Legacy entity for backward compatibility
 				$user = \App\CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				return $user;

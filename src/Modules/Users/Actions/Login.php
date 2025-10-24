@@ -53,10 +53,18 @@ class Login extends \App\Runtime\Vtiger_Action_Controller
 				\App\Http\Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 			}
 			$userId = $user->column_fields['id'];
-			\App\Http\Vtiger_Session::set('authenticated_user_id', $userId);
-			\App\Http\Vtiger_Session::set('app_unique_key', \App\AppConfig::main('application_unique_key'));
+			
+			// NEW: Use new session method for user ID
+			\App\Http\Vtiger_Session::setAuthenticatedUserId($userId);
 			\App\Http\Vtiger_Session::set('user_name', $username);
 			\App\Http\Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
+			
+			// NEW: Attach user to request
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId);
+			$request->setUser($userModel);
+			
+			// DEPRECATED: Keep vglobal for backward compatibility
+			vglobal('current_user', $user);
 
 			if ($request->has('loginLanguage') && \App\AppConfig::main('langInLoginView')) {
 				\App\Http\Vtiger_Session::set('language', $request->get('loginLanguage'));
