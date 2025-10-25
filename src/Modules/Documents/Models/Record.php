@@ -134,8 +134,11 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to save record
 	 */
-	public function saveToDb($relationParams = null)
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		parent::saveToDb();
 		$db = \App\Db::getInstance();
 		$fileNameByField = 'filename';
@@ -200,10 +203,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				$file = $this->file;
 			}
 			if ($file['name'] != '' && $file['size'] > 0) {
-				$file['original_name'] = \App\Http\AppRequest::get('0_hidden');
-				$module = \App\Http\AppRequest::get('module');
-				$mode = \App\Http\AppRequest::get('mode');
-				$fileId = \App\Http\AppRequest::get('fileid');
+				$file['original_name'] = $request->get('0_hidden');
+				$module = $request->get('module');
+				$mode = $request->get('mode');
+				$fileId = $request->get('fileid');
 				$this->uploadAndSaveFile($file, 'Attachment', $module, $mode, $fileId);
 			}
 		} else {

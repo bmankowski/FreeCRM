@@ -106,14 +106,17 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		return 'index.php?module=Calendar&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
 	}
 
-	public function saveToDb($relationParams = null)
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		//Time should changed to 24hrs format
-		\App\Http\AppRequest::set('time_start', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds(\App\Http\AppRequest::get('time_start')));
-		\App\Http\AppRequest::set('time_end', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds(\App\Http\AppRequest::get('time_end')));
+		$request->set('time_start', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start')));
+		$request->set('time_end', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_end')));
 		parent::saveToDb();
 		$this->updateActivityReminder();
-		$this->insertIntoInviteTable();
+		$this->insertIntoInviteTable($request);
 		$this->insertIntoActivityReminderPopup();
 	}
 
@@ -169,15 +172,18 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array
 	 */
-	public function insertIntoInviteTable()
+	public function insertIntoInviteTable(\App\Http\Vtiger_Request $request = null)
 	{
-		if (!\App\Http\AppRequest::has('inviteesid')) {
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
+		if (!$request->has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
-		$inviteesRequest = \App\Http\AppRequest::get('inviteesid');
+		$inviteesRequest = $request->get('inviteesid');
 		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $this->getId()])->createCommand()->query();
 		$invities = [];
 		while ($row = $dataReader->read()) {

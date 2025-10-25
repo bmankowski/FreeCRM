@@ -197,13 +197,16 @@ class CustomView
 	 * @param string $moduleName
 	 * @param string $defaultSortOrderBy
 	 */
-	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
+	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [], \App\Http\Vtiger_Request $request = null)
 	{
-		if (\App\Http\AppRequest::has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = \App\Http\AppRequest::get('orderby');
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
 		}
-		if (\App\Http\AppRequest::has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = \App\Http\AppRequest::get('sortorder');
+		if ($request->has('orderby')) {
+			$_SESSION['lvs'][$moduleName]['sortby'] = $request->get('orderby');
+		}
+		if ($request->has('sortorder')) {
+			$_SESSION['lvs'][$moduleName]['sorder'] = $request->get('sortorder');
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
@@ -217,14 +220,18 @@ class CustomView
 	 * Has view changed
 	 * @param string $moduleName
 	 * @param int|string $viewId
+	 * @param \App\Http\Vtiger_Request|null $request
 	 * @return boolean
 	 */
-	public static function hasViewChanged($moduleName, $viewId = false)
+	public static function hasViewChanged($moduleName, $viewId = false, \App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
-		if (!\App\Http\AppRequest::isEmpty('viewname') && (\App\Http\AppRequest::get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+		if (!$request->isEmpty('viewname') && ($request->get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
 		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
@@ -452,26 +459,31 @@ class CustomView
 
 	/**
 	 * To get the customViewId of the specified module
+	 * @param bool $noCache
+	 * @param \App\Http\Vtiger_Request|null $request
 	 * @return int|string
 	 */
-	public function getViewId($noCache = false)
+	public function getViewId($noCache = false, \App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		\App\Log::trace(__METHOD__);
 		if (isset($this->defaultViewId)) {
 			return $this->defaultViewId;
 		}
-		if ($noCache || \App\Http\AppRequest::isEmpty('viewname')) {
+		if ($noCache || $request->isEmpty('viewname')) {
 
 			if (!$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
 			} else {
 				$viewId = $this->getDefaultCvId();
 			}
-			if (empty($viewId) || !$this->isPermittedCustomView($viewId)) {
+			if (empty($viewId) || !$this->isPermittedCustomView($viewId, $request)) {
 				$viewId = $this->getMandatoryFilter();
 			}
 		} else {
-			$viewId = \App\Http\AppRequest::get('viewname');
+			$viewId = $request->get('viewname');
 			if (!is_numeric($viewId)) {
 				if ($viewId === 'All') {
 					$viewId = $this->getMandatoryFilter();
@@ -536,10 +548,14 @@ class CustomView
 	/**
 	 * Function to check if the current user is able to see the customView
 	 * @param int|string $viewId
+	 * @param \App\Http\Vtiger_Request|null $request
 	 * @return boolean
 	 */
-	public function isPermittedCustomView($viewId)
+	public function isPermittedCustomView($viewId, \App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		Log::trace(__METHOD__);
 		$permission = true;
 		if (!empty($viewId)) {
@@ -549,7 +565,7 @@ class CustomView
 				$userId = $statusUseridInfo['userid'];
 			if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
 				$permission = true;
-			} elseif (\App\Http\AppRequest::get('view') !== 'ChangeStatus') {
+			} elseif ($request->get('view') !== 'ChangeStatus') {
 					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getId()) {
 						$permission = true;
 					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {

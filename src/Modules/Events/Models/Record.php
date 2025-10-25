@@ -64,8 +64,11 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		return $status !== false ? $statuses[$status] : $statuses;
 	}
 
-	public function getInviteUserMailData()
+	public function getInviteUserMailData(\App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		$adb = \App\Database\PearDatabase::getInstance();
 		return []; // To do
 		$return_id = $this->getId();
@@ -107,12 +110,12 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$mail_data['group_name'] = \App\Fields\Owner::getGroupName($this->get('assigned_user_id'));
 		$mail_data['mode'] = $this->get('mode');
 
-		$value = getaddEventPopupTime(\App\Http\AppRequest::get('time_start'), \App\Http\AppRequest::get('time_end'), '24');
+		$value = getaddEventPopupTime($request->get('time_start'), $request->get('time_end'), '24');
 		$start_hour = $value['starthour'] . ':' . $value['startmin'] . '' . $value['startfmt'];
-		if (\App\Http\AppRequest::get('activity_mode') != 'Task')
+		if ($request->get('activity_mode') != 'Task')
 			$end_hour = $value['endhour'] . ':' . $value['endmin'] . '' . $value['endfmt'];
-		$startDate = new \App\Fields\DateTimeField(\App\Http\AppRequest::get('date_start') . ' ' . $start_hour);
-		$endDate = new \App\Fields\DateTimeField(\App\Http\AppRequest::get('due_date') . ' ' . $end_hour);
+		$startDate = new \App\Fields\DateTimeField($request->get('date_start') . ' ' . $start_hour);
+		$endDate = new \App\Fields\DateTimeField($request->get('due_date') . ' ' . $end_hour);
 		$mail_data['st_date_time'] = $startDate->getDBInsertDateTimeValue();
 		$mail_data['end_date_time'] = $endDate->getDBInsertDateTimeValue();
 		$mail_data['location'] = $this->get('location');

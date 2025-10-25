@@ -114,19 +114,25 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to save data to database
 	 */
-	public function saveToDb($relationParams = null)
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		parent::saveToDb();
-		$this->insertAttachment();
+		$this->insertAttachment($request);
 	}
 
 	/**
 	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
 	 */
-	public function insertAttachment()
+	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
 	{
-		$module = \App\Http\AppRequest::get('module');
-		$mode = \App\Http\AppRequest::get('mode');
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
+		$module = $request->get('module');
+		$mode = $request->get('mode');
 		$id = $this->getId();
 		$db = \App\Db::getInstance();
 		$fileSaved = false;
@@ -141,8 +147,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				}
 				$fileInstance = \App\Fields\File::loadFromRequest($files);
 				if ($fileInstance->validate('image')) {
-					$files['original_name'] = \App\Http\AppRequest::get($fileindex . '_hidden');
-					$fileId = \App\Http\AppRequest::get('fileid');
+					$files['original_name'] = $request->get($fileindex . '_hidden');
+					$fileId = $request->get('fileid');
 					$fileSaved = $this->uploadAndSaveFile($files, 'Attachment', $module, $mode, $fileId);
 				}
 			}

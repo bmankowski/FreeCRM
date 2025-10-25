@@ -442,18 +442,21 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Custom Save for Module
 	 */
-	public function saveToDb($relationParams = null)
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if (\App\Http\AppRequest::get('ajxaction') != 'DETAILVIEW' && \App\Http\AppRequest::get('action') != 'MassSave' && \App\Http\AppRequest::get('action') != 'ProcessDuplicates') {
-			$this->insertPriceInformation();
+		if ($request->get('ajxaction') != 'DETAILVIEW' && $request->get('action') != 'MassSave' && $request->get('action') != 'ProcessDuplicates') {
+			$this->insertPriceInformation($request);
 		}
 		// Update unit price value in vtiger_productcurrencyrel
 		$this->updateUnitPrice();
 		//Inserting into attachments
-		if (\App\Http\AppRequest::get('module') === 'Products') {
-			$this->insertAttachment();
+		if ($request->get('module') === 'Products') {
+			$this->insertAttachment($request);
 		}
 	}
 
@@ -472,8 +475,11 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to save the product price information in vtiger_productcurrencyrel table
 	 */
-	public function insertPriceInformation()
+	public function insertPriceInformation(\App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
 		$productBaseConvRate = \App\Utils\InventoryUtils::getBaseConversionRateForProduct($this->getId(), $this->mode);
@@ -486,9 +492,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$curName = $currency['currency_name'];
 			$curCheckName = 'cur_' . $curid . '_check';
 			$curValue = 'curname' . $curid;
-			if (\App\Http\AppRequest::get($curCheckName) === 'on' || \App\Http\AppRequest::get($curCheckName) === 1) {
-				$requestPrice = \App\Fields\CurrencyField::convertToDBFormat(\App\Http\AppRequest::get('unit_price'), null, true);
-				$actualPrice = \App\Fields\CurrencyField::convertToDBFormat(\App\Http\AppRequest::get($curValue), null, true);
+			if ($request->get($curCheckName) === 'on' || $request->get($curCheckName) === 1) {
+				$requestPrice = \App\Fields\CurrencyField::convertToDBFormat($request->get('unit_price'), null, true);
+				$actualPrice = \App\Fields\CurrencyField::convertToDBFormat($request->get($curValue), null, true);
 				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
 				$convertedPrice = $actualConversionRate * $requestPrice;
 				\App\Log::trace("Going to save the Product - $curName currency relationship");
@@ -498,7 +504,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					'converted_price' => $convertedPrice,
 					'actual_price' => $actualPrice
 				])->execute();
-				if (\App\Http\AppRequest::get('base_currency') === $curValue) {
+				if ($request->get('base_currency') === $curValue) {
 					$currencySet = true;
 					$db->createCommand()
 						->update($this->getEntity()->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->getEntity()->table_index => $this->getId()])
@@ -519,12 +525,15 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
 	 */
-	public function insertAttachment()
+	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
 	{
+		if ($request === null) {
+			$request = \App\Http\AppRequest::init();
+		}
 		$db = \App\Db::getInstance();
 		$id = $this->getId();
-		$module = \App\Http\AppRequest::get('module');
-		$mode = \App\Http\AppRequest::get('mode');
+		$module = $request->get('module');
+		$mode = $request->get('mode');
 		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 		foreach ($_FILES as $fileindex => $files) {
 			if (empty($files['tmp_name'])) {
@@ -532,12 +541,12 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			}
 			$fileInstance = \App\Fields\File::loadFromRequest($files);
 			if ($fileInstance->validate('image')) {
-				if (\App\Http\AppRequest::get($fileindex . '_hidden') != '')
-					$files['original_name'] = \App\Http\AppRequest::get($fileindex . '_hidden');
+				if ($request->get($fileindex . '_hidden') != '')
+					$files['original_name'] = $request->get($fileindex . '_hidden');
 				else
 					$files['original_name'] = stripslashes($files['name']);
 				$files['original_name'] = str_replace('"', '', $files['original_name']);
-				$fileId = \App\Http\AppRequest::get('fileid');
+				$fileId = $request->get('fileid');
 				$this->uploadAndSaveFile($files, 'Attachment', $module, $mode, $fileId);
 			}
 		}
@@ -554,8 +563,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();
 		//Remove the deleted vtiger_attachments from db - Products
-		if ($module === 'Products' && \App\Http\AppRequest::get('del_file_list') != '') {
-			$deleteFileList = explode("###", trim(\App\Http\AppRequest::get('del_file_list'), "###"));
+		if ($module === 'Products' && $request->get('del_file_list') != '') {
+			$deleteFileList = explode("###", trim($request->get('del_file_list'), "###"));
 			foreach ($deleteFileList as $fileName) {
 				$attachmentId = (new \App\Db\Query())->select(['vtiger_attachments.attachmentsid'])
 					->from('vtiger_attachments')
