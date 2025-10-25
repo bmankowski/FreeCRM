@@ -21,7 +21,7 @@ class License extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userLang = $currentUser->get('language');
 		$viewer->assign('USERLANG', $userLang);
 		$viewer->view('License.tpl', $qualifiedModuleName);

@@ -32,7 +32,7 @@ class ImportICS extends \App\Runtime\Vtiger_Action_Controller
 		$ics = $request->get('ics') . '.ics';
 		$icsUrl = 'cache/import/' . $ics;
 		if (file_exists($icsUrl)) {
-			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUserModel = $request->getUser();
 			$userId = $currentUserModel->getId();
 
 			$lastImport = new iCalLastImport();

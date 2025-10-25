@@ -72,7 +72,7 @@ class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('passLengthMin', $passwordConfig['pass_length_min']);
 		$viewer->assign('passLengthMax', $passwordConfig['pass_length_max']);
 		$viewer->assign('allowChars', $passwordConfig['pass_allow_chars']);

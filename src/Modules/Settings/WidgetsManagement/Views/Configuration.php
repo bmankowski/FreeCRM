@@ -20,7 +20,7 @@ class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$sourceModule = $request->get('sourceModule');
 		$widgetsManagementModel = new \App\Modules\Settings\WidgetsManagement\Models\Module();
 		$dashboardModules = $widgetsManagementModel->getSelectableDashboard();

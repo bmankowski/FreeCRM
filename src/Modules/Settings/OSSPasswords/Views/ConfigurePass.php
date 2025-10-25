@@ -18,7 +18,7 @@ class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}

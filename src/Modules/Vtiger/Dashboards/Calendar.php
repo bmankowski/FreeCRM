@@ -19,7 +19,7 @@ class Calendar  extends \App\Modules\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
@@ -52,7 +52,7 @@ class Calendar  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('VIEW', $request->get('view'));
 
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 
 		$content = $request->get('content');

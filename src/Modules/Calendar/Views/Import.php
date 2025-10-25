@@ -70,7 +70,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 	 */
 	public function importResult(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$userId = $currentUserModel->getId();
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -174,7 +174,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 	 */
 	public function undoImport(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$moduleName = $request->getModule();
 
 		$lastImport = new iCalLastImport();

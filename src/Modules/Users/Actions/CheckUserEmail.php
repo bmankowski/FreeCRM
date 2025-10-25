@@ -7,7 +7,7 @@ class CheckUserEmail extends \App\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if (!$currentUser->isAdminUser() && $currentUser->getId() != $request->get('cUser')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}

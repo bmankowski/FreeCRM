@@ -146,7 +146,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('APIADDRESS', \App\Modules\Settings\ApiAddress\Models\Module::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('APIADDRESS_ACTIVE', \App\Modules\Settings\ApiAddress\Models\Module::isActive());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Vtiger\Helpers\Util::getMaxUploadSize());

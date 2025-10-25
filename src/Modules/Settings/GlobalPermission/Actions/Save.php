@@ -26,7 +26,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}

@@ -49,7 +49,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 				}
 				return;
 			}
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = $request->getUser();
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 			if (!$permission) {

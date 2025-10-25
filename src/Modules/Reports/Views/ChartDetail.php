@@ -44,7 +44,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		$primaryModule = $reportModel->getPrimaryModule();
 		$secondaryModules = $reportModel->getSecondaryModules();
 
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 		$permission = $userPrivilegesModel->hasModulePermission($primaryModule);
 

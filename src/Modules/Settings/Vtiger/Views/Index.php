@@ -35,7 +35,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}

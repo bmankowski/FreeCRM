@@ -87,7 +87,7 @@ class LeadsByStatus  extends \App\Modules\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 

@@ -19,7 +19,7 @@ class ChangePassword  extends \App\Modules\Vtiger\Views\Index
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
@@ -30,7 +30,7 @@ class ChangePassword  extends \App\Modules\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);

@@ -16,7 +16,7 @@ class BasicAjax extends \App\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if (!$currentUser->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}

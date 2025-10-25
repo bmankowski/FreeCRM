@@ -108,7 +108,7 @@ class ListView extends Popup
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', $request->getUser());
 	}
 
 	public function getImportDetails(\App\Http\Vtiger_Request $request)
@@ -116,7 +116,7 @@ class ListView extends Popup
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$forModule = $request->get('forModule');
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$importRecords = \App\Modules\Import\Actions\Data::getImportDetails($user, $forModule);
 		$viewer->assign('IMPORT_RECORDS', $importRecords);
 		$viewer->assign('TYPE', $request->get('type'));

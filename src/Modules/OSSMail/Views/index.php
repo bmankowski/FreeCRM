@@ -41,7 +41,7 @@ class index  extends \App\Modules\Vtiger\Views\Index
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
 				$db = \App\Database\PearDatabase::getInstance();
-				$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUserModel = $request->getUser();
 				$userId = $currentUserModel->getId();
 				$params = ['language' => \App\Runtime\Vtiger_Language_Handler::getLanguage()];
 				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);

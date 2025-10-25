@@ -25,7 +25,7 @@ class RemoveWidgetFromList  extends \App\Modules\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if ($request->has('id')) {
 			$id = $request->get('id');
 			$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($id, $currentUser->getId());

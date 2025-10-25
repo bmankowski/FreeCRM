@@ -39,7 +39,7 @@ class WorkflowTrigger extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('WORKFLOWS', $workflows);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('WorkflowTrigger.tpl', $moduleName);
 	}
 }

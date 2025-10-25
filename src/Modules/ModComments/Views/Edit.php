@@ -13,7 +13,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		if (!empty($record) || !\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView')) {

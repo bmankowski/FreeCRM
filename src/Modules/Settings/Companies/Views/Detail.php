@@ -28,7 +28,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('COMPANY_COLUMNS', \App\Modules\Settings\Companies\Models\Module::getColumnNames());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 }

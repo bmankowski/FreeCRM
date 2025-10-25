@@ -24,7 +24,7 @@ class SummationByMonths  extends \App\Modules\Vtiger\Views\Index
 	{
 		$linkId = $request->get('linkid');
 
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userId = $currentUser->getId();
 
 		$viewer = $this->getViewer($request);

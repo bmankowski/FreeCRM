@@ -138,7 +138,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		if (!empty($nextRecordId)) {
 			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
 		}
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$selectedTabLabel = $request->get('tab_label');
 		$requestMode = $request->get('requestMode');
 		$mode = $request->getMode();
@@ -223,7 +223,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		}
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode == 'showDetailViewByMode') {
-			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUserModel = $request->getUser();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
@@ -317,7 +317,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
@@ -339,7 +339,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
@@ -372,7 +372,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW', $request->get('view'));
@@ -430,7 +430,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		} else {
 			$pagingModel->set('nextPageExists', true);
 		}
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if ($type == 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : \App\Modules\ModTracker\Models\Record::isNewChange($parentRecordId, $currentUser->getRealId());
 		}
@@ -480,7 +480,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 
 		$recentComments = \App\Modules\ModComments\Models\Record::getRecentComments($parentId, $pagingModel);
 		$pagingModel->calculatePageRange(count($recentComments));
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);
@@ -528,7 +528,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$parentCommentId = $request->get('commentid');
 		$parentCommentModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);
@@ -550,7 +550,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
 		$moduleName = $request->getModule();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$parentCommentModels = \App\Modules\ModComments\Models\Record::getAllParentComments($parentRecordId);
 		$currentCommentModel = \App\Modules\Vtiger\Models\Record::getInstanceById($commentRecordId);
 
@@ -576,7 +576,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 			$hierarchy = explode(',', $request->get('hierarchy'));
 		}
 		$moduleName = $request->getModule();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 		$parentCommentModels = \App\Modules\ModComments\Models\Record::getAllParentComments($parentRecordId, $hierarchy);
 		$currentCommentModel = [];
@@ -755,7 +755,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
@@ -810,7 +810,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('SHOW_CREATOR_DETAIL', (bool) $relationModel->get('creator_detail'));
 		$viewer->assign('SHOW_COMMENT', (bool) $relationModel->get('relation_comment'));
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, true);
 	}
@@ -833,7 +833,7 @@ class Detail extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RECORD', $recordModel);
 
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 'no_limit');

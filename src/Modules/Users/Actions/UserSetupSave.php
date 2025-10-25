@@ -19,7 +19,7 @@ class UserSetupSave extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$userModuleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);
-		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userRecordModel = $request->getUser();
 
 		//Handling the user preferences 
 		$userRecordModel->set('language', $request->get('lang_name'));

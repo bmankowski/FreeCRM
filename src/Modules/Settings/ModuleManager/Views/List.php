@@ -26,7 +26,7 @@ class Settings_ModuleManager_List_View extends \App\Modules\Settings\Vtiger\View
 		$viewer->assign('IMPORT_MODULE_URL', \App\Modules\Settings\ModuleManager\Models\Module::getNewModuleImportUrl());
 		$viewer->assign('IMPORT_USER_MODULE_URL', \App\Modules\Settings\ModuleManager\Models\Module::getUserModuleImportUrl());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
 	}

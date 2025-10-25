@@ -106,7 +106,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}

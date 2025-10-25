@@ -17,7 +17,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$allDay = $request->get('allday');
 		if ('on' === $allDay) {
 			$request->set('time_start', $user->get('start_hour'));

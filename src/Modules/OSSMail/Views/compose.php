@@ -20,7 +20,7 @@ class compose  extends \App\Modules\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if (strpos($this->mainUrl, '?') !== false) {
 			$this->mainUrl .= '&';
 		} else {

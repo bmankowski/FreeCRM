@@ -15,7 +15,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$mode = $request->get('mode');
 		if ($mode == 'delete' && !$currentUserModel->isAdminUser()) {
 			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));

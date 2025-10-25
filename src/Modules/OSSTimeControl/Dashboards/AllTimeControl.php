@@ -34,7 +34,7 @@ class AllTimeControl  extends \App\Modules\Vtiger\Views\Index
 		}
 		$timeDatabase['start'] = \App\Fields\DateTimeField::convertToDBFormat($time['start']);
 		$timeDatabase['end'] = \App\Fields\DateTimeField::convertToDBFormat($time['end']);
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if ($user == 'all') {
 			$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 			$user = array_keys($accessibleUsers);
@@ -114,7 +114,7 @@ class AllTimeControl  extends \App\Modules\Vtiger\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -28,7 +28,7 @@ class RightPanel  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers());
 		$viewer->assign('ALL_ACTIVEGROUP_LIST', \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups());
@@ -40,7 +40,7 @@ class RightPanel  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$viewer->assign('ALL_ACTIVETYPES_LIST', \App\Modules\Reservations\Models\Calendar::getCalendarTypes());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $currentUser);

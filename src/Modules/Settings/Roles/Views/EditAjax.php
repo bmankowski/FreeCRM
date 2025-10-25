@@ -38,7 +38,7 @@ class Settings_Roles_EditAjax_View extends \App\Modules\Settings\Roles\Views\Ind
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}

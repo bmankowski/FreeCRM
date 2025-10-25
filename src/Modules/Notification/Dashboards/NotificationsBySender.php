@@ -76,7 +76,7 @@ class NotificationsBySender  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), \App\Modules\Users\Models\Record::getCurrentUserModel()->getId());
+		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $request->getUser()->getId());
 		$time = $request->get('time');
 		if (empty($time)) {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);

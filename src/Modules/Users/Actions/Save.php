@@ -19,7 +19,7 @@ class Save extends \App\Modules\Vtiger\Actions\Save
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 
 		// Check for operation access.
 		$allowed = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record);
@@ -82,7 +82,7 @@ class Save extends \App\Modules\Vtiger\Actions\Save
 
 			$sharedIds = $request->get('sharedusers');
 			$sharedType = $request->get('calendarsharedtype');
-			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUserModel = $request->getUser();
 			$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
 			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 

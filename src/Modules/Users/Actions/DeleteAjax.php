@@ -17,7 +17,7 @@ class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -34,7 +34,7 @@ class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
 			$userId = vtws_getWebserviceEntityId($moduleName, $ownerId);
 			$transformUserId = vtws_getWebserviceEntityId($moduleName, $newOwnerId);
 
-			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userModel = $request->getUser();
 
 			vtws_deleteUser($userId, $transformUserId, $userModel);
 

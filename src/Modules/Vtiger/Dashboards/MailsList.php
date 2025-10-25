@@ -22,7 +22,7 @@ class MailsList  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$user = $request->get('user');
 		$linkId = $request->get('linkid');
 		$data = $request->getAll();

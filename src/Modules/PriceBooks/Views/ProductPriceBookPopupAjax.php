@@ -23,7 +23,7 @@ class ProductPriceBookPopupAjax  extends \App\Modules\Vtiger\Views\Index
 		$this->initializeListViewContents($request, $viewer);
 
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		echo $viewer->view('ProductPriceBookPopupContents.tpl', 'PriceBooks', true);
 	}

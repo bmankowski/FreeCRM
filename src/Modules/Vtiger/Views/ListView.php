@@ -121,7 +121,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 				}
 			}
 			$this->initializeListViewContents($request, $viewer);
-			$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+			$viewer->assign('USER_MODEL', $request->getUser());
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->assign('MODULE_MODEL', \App\Modules\Vtiger\Models\Module::getInstance($moduleName));
 			$viewer->assign('VIEWID', $this->viewName);
@@ -216,7 +216,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 		if (!empty($searchResult)) {
 			$this->listViewModel->set('searchResult', $searchResult);
 		}
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$pagingModel = new \App\Modules\Vtiger\Models\Paging();

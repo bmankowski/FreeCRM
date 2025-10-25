@@ -27,7 +27,7 @@ class Settings_Groups_Detail_View extends \App\Modules\Settings\Vtiger\Views\Ind
 
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}

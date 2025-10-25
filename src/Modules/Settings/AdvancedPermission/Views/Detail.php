@@ -23,7 +23,7 @@ class Settings_AdvancedPermission_Detail_View extends \App\Modules\Settings\Vtig
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 }

@@ -31,7 +31,7 @@ class NoteBook extends \App\Runtime\Vtiger_Action_Controller
 
 	public function noteBookCreate(\App\Http\Vtiger_Request $request)
 	{
-		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = $request->getUser();
 		$dataValue['contents'] = $request->get('notePadContent');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 

@@ -21,7 +21,7 @@ class SummationByUser  extends \App\Modules\Vtiger\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$linkId = $request->get('linkid');
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userId = $currentUser->getId();
 		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
 		if ($request->has('time')) {

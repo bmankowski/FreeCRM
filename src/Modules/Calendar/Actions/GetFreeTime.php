@@ -23,7 +23,7 @@ class GetFreeTime extends \App\Runtime\Vtiger_Action_Controller
 
 	public function getFreeTimeInDay($day)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$durationEvent = $currentUser->get('othereventduration');
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
@@ -99,7 +99,7 @@ class GetFreeTime extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$dateStart = $request->get('dateStart');
 		$dateStart = \App\Fields\DateTimeField::convertToDBFormat($dateStart);
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
 		if (\vtlib\Functions::getDateTimeMinutesDiff($startWorkHour, $endWorkHour) > 0) {

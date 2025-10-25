@@ -59,7 +59,7 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 	 */
 	public function getMenuHeaderLinks(\App\Http\Vtiger_Request $request)
 	{
-		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = $request->getUser();
 		$headerLinks = [];
 		if (\App\Modules\Users\Models\Module::getSwitchUsers()) {
 			$headerLinks[] = [

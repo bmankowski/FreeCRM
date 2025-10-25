@@ -111,7 +111,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 	{
 		if (\App\Modules\Import\Helpers\Utils::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
-			$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$user = $request->getUser();
 			$fileReader = \App\Modules\Import\Models\Module::getFileReader($request, $user);
 			if ($fileReader === null) {
 				$this->importBasicStep($request);
@@ -166,7 +166,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	public function import(\App\Http\Vtiger_Request $request)
 	{
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		\App\Modules\Import\Views\Main::import($request, $user);
 	}
 
@@ -186,7 +186,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('foruser');
 		$type = $request->get('type');
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 
 		if (!$user->isAdminUser() && $user->id != $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
@@ -209,7 +209,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	public function undoRecords($type, $moduleName)
 	{
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$dbTableName = \App\Modules\Import\Models\Module::getDbTableName($user);
 		$dataReader = (new \App\Db\Query())->select(['recordid'])
 				->from($dbTableName)
@@ -242,7 +242,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 	public function clearCorruptedData(\App\Http\Vtiger_Request $request)
 	{
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		\App\Modules\Import\Models\Module::clearUserImportInfo($user);
 		$this->importBasicStep($request);
 	}
@@ -250,7 +250,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 	public function cancelImport(\App\Http\Vtiger_Request $request)
 	{
 		$importId = $request->get('import_id');
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 
 		$importInfo = \App\Modules\Import\Actions\Queue::getImportInfoById($importId);
 		if ($importInfo != null) {
@@ -267,7 +267,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 	public function checkImportStatus(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$mode = $request->getMode();
 
 		// Check if import on the module is locked

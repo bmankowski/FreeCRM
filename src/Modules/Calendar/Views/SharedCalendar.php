@@ -24,7 +24,7 @@ class SharedCalendar  extends \App\Modules\Vtiger\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->view('SharedCalendarView.tpl', $request->getModule());

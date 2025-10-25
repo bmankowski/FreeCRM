@@ -118,7 +118,7 @@ class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Settings\Workflows\Models\Module::getExpressions());
-		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = $request->getUser();
 		$viewer->assign('dateFormat', $userModel->get('date_format'));
 		$viewer->assign('timeFormat', $userModel->get('hour_format'));
 		$viewer->assign('MODULE', $moduleName);

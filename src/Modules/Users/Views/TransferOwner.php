@@ -18,7 +18,7 @@ class TransferOwner  extends \App\Modules\Vtiger\Views\Index
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -30,7 +30,7 @@ class TransferOwner  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$userid = $request->get('record');
 
-		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userRecordModel = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$usersList = $userRecordModel->getActiveAdminUsers(true);
 

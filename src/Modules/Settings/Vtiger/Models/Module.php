@@ -94,11 +94,15 @@ class Module extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get all the Settings menus
+	 * @param \App\Http\Vtiger_Request $request Optional request for user context and caching
 	 * @return <Array> - List of \App\Modules\Settings\Vtiger\Models\Menu instances
 	 */
-	public function getMenus()
+	public function getMenus($request = null)
 	{
-		return \App\Modules\Settings\Vtiger\Models\Menu::getAll();
+		return \App\Modules\Settings\Vtiger\Models\Menu::getAllForUser(
+			$request && $request->hasUser() ? $request->getUserId() : null,
+			$request
+		);
 	}
 
 	/**

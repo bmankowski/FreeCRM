@@ -39,7 +39,7 @@ class ListPriceUpdate  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('PRICEBOOK_ID', $priceBookId);
 		$viewer->assign('REL_ID', $relId);
 		$viewer->assign('CURRENT_PRICE', $currentPrice);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('ListPriceUpdate.tpl', $moduleName);
 		parent::postProcess($request);
 	}

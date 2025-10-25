@@ -46,7 +46,7 @@ class SaveConvertLead extends \App\Runtime\Vtiger_View_Controller
 		$recordId = $request->get('record');
 		$modules = $request->get('modules');
 		$assignId = $request->get('assigned_user_id');
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 
 		$entityValues = [];
 		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
@@ -111,7 +111,7 @@ class SaveConvertLead extends \App\Runtime\Vtiger_View_Controller
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 
 		if ($exception != false) {
 			$viewer->assign('EXCEPTION', \App\Runtime\Vtiger_Language_Handler::translate($exception->getMessage(), $moduleName));

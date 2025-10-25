@@ -42,6 +42,7 @@ class Login extends \App\Runtime\Vtiger_View_Controller
 		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
+		// On login page, use backward compatibility method since no user is authenticated
 		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		if ($display) {
 			$this->preProcessDisplay($request);

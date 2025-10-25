@@ -56,7 +56,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('SD', $ShowDifferences);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', $request->getUser());
 		if ($tpl == 'editLang') {
 			$viewer->view('Edit.tpl', $qualifiedModuleName);
 		} else {

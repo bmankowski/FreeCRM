@@ -60,7 +60,7 @@ class TreePopup  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('IS_MULTIPLE', $request->get('multiple'));
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 

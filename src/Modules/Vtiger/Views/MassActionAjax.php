@@ -69,7 +69,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MASS_EDIT_FIELD_DETAILS', $fieldInfo);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$searchKey = $request->get('search_key');
@@ -106,7 +106,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('CVID', $cvId);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
@@ -138,7 +138,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 		$excludedIds = $request->get('excluded_ids');
 		$cvId = $request->get('viewname');
 
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 		$phoneFields = $moduleModel->getFieldsByType('phone');
 		$viewer = $this->getViewer($request);
@@ -264,7 +264,7 @@ class MassActionAjax extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('REL_BY_FIELDS', $transferModel->getRelationsByFields());
 		$viewer->assign('REL_BY_RELATEDLIST', $transferModel->getRelationsByRelatedList());
 		$viewer->assign('SKIP_MODULES', $transferModel->getSkipModules());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('TransferRecordOwnership.tpl', $module);
 	}
 }

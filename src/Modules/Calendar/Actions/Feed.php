@@ -47,7 +47,7 @@ class Feed extends \App\Runtime\Vtiger_Action_Controller
 
 	public function queryForRecords($query, $onlymine = true)
 	{
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		if ($onlymine) {
 			$groupIds = $this->getGroupsIdsForUsers($user->getId());
 			$groupWsIds = array();

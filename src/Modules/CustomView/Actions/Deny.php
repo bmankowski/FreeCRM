@@ -16,7 +16,7 @@ class Deny extends \App\Runtime\Vtiger_Action_Controller
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($request->get('record'));
 		$moduleModel = $customViewModel->getModule();
 		if ($currentUser->isAdminUser()) {

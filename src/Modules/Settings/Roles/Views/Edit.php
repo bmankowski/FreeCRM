@@ -47,7 +47,7 @@ class Settings_Roles_Edit_View extends \App\Modules\Settings\Roles\Views\Index
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('TYPE', $request->get('type'));
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

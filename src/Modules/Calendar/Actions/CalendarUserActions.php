@@ -48,7 +48,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function deleteUserCalendar(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userId = $currentUser->getId();
 		$sharedUserId = $request->get('userid');
 
@@ -73,7 +73,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function addUserCalendar(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userId = $currentUser->getId();
 		$sharedUserId = $request->get('selectedUser');
 		$color = $request->get('selectedColor');
@@ -100,7 +100,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function deleteCalendarView(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userId = $currentUser->getId();
 		$viewmodule = $request->get('viewmodule');
 		$viewfieldname = $request->get('viewfieldname');
@@ -124,7 +124,7 @@ class CalendarUserActions extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function addCalendarView(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$userId = $currentUser->getId();
 		$viewmodule = $request->get('viewmodule');
 		$viewfieldname = $request->get('viewfieldname');

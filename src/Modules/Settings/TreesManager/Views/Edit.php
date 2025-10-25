@@ -43,7 +43,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('ACCESS', $access);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleId);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 

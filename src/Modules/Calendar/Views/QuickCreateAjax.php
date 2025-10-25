@@ -83,7 +83,7 @@ class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('THREEDAYSLATER', date('Y-n-j', strtotime('+3 day')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('QuickCreate.tpl', $moduleName);
 	}

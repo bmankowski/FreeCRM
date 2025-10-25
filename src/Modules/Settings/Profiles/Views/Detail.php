@@ -42,7 +42,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ALL_BASIC_ACTIONS', \App\Modules\Vtiger\Models\Action::getAllBasic(true));
 		$viewer->assign('ALL_UTILITY_ACTIONS', \App\Modules\Vtiger\Models\Action::getAllUtility(true));
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}

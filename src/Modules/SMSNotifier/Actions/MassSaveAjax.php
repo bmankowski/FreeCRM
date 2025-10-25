@@ -31,7 +31,7 @@ class MassSaveAjax extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$phoneFieldList = $request->get('fields');
 		$message = $request->get('message');

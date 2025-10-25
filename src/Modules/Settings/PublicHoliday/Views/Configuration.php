@@ -22,7 +22,7 @@ class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		
 		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$date = $request->get('date');
 		if (!$date) {

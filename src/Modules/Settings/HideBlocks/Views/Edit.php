@@ -42,7 +42,7 @@ class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Vtiger\Views\I
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCKS', $moduleModel->getAllBlock());
 		$viewer->assign('VIEWS', $moduleModel->getViews());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

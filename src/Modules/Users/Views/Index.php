@@ -18,7 +18,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if ($currentUserModel->isAdminUser()) {
 			$settingsIndexView = new \App\Modules\Settings\Vtiger\Views\Index();
 			$settingsIndexView->preProcessSettings($request);
@@ -27,7 +27,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if ($currentUserModel->isAdminUser()) {
 			$settingsIndexView = new \App\Modules\Settings\Vtiger\Views\Index();
 			$settingsIndexView->postProcessSettings($request);

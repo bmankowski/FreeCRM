@@ -66,7 +66,7 @@ class Settings_Profiles_Edit_View extends \App\Modules\Settings\Vtiger\Views\Ind
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 	}
 
 	/**

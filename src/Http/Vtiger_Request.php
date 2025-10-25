@@ -32,6 +32,12 @@ class Vtiger_Request
 	/** @var \App\Modules\Users\Models\Record|null Authenticated user */
 	protected $authenticatedUser = null;
 
+	/** @var array Service container for dependency injection */
+	protected $services = [];
+
+	/** @var array Request-scoped cache */
+	protected $cache = [];
+
 	/**
 	 * Default constructor
 	 */
@@ -418,5 +424,99 @@ class Vtiger_Request
 		if (!\CSRF::check(false)) {
 			throw new \Exception\Csrf('Unsupported request');
 		}
+	}
+
+	// ===== SERVICE CONTAINER METHODS =====
+
+	/**
+	 * Get service from container
+	 * @param string $serviceName
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function getService($serviceName)
+	{
+		if (!isset($this->services[$serviceName])) {
+			$this->services[$serviceName] = $this->createService($serviceName);
+		}
+		return $this->services[$serviceName];
+	}
+
+	/**
+	 * Create service instance
+	 * @param string $serviceName
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	protected function createService($serviceName)
+	{
+		switch ($serviceName) {
+			case 'SettingsModule':
+				return new \App\Modules\Settings\Vtiger\Models\Module();
+			default:
+				throw new \Exception("Unknown service: {$serviceName}");
+		}
+	}
+
+	/**
+	 * Get module model (convenience method)
+	 * @param string $moduleName
+	 * @return \App\Modules\Vtiger\Models\Module
+	 */
+	public function getModuleModel($moduleName)
+	{
+		$cacheKey = "module_model_{$moduleName}";
+		return $this->getCachedOrCompute($cacheKey, function() use ($moduleName) {
+			return \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		});
+	}
+
+	// ===== REQUEST-SCOPED CACHE METHODS =====
+
+	/**
+	 * Get cached value
+	 * @param string $key
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function getCached($key, $default = null)
+	{
+		return $this->cache[$key] ?? $default;
+	}
+
+	/**
+	 * Set cached value
+	 * @param string $key
+	 * @param mixed $value
+	 * @return self
+	 */
+	public function setCached($key, $value)
+	{
+		$this->cache[$key] = $value;
+		return $this;
+	}
+
+	/**
+	 * Check if key exists in cache
+	 * @param string $key
+	 * @return bool
+	 */
+	public function hasCached($key)
+	{
+		return isset($this->cache[$key]);
+	}
+
+	/**
+	 * Get cached value or compute and cache it
+	 * @param string $key
+	 * @param callable $callback
+	 * @return mixed
+	 */
+	public function getCachedOrCompute($key, callable $callback)
+	{
+		if (!$this->hasCached($key)) {
+			$this->setCached($key, $callback());
+		}
+		return $this->getCached($key);
 	}
 }

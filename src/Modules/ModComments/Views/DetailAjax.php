@@ -26,7 +26,7 @@ class DetailAjax extends \App\Modules\Vtiger\Views\Index
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record);
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);

@@ -27,7 +27,7 @@ class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$calendarViews = \App\Modules\Calendar\Models\Module::getCalendarViewTypes($currentUser->id);
 
 		$viewer->assign('MODULE', $moduleName);
@@ -42,7 +42,7 @@ class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 	public function getSharedUsersList(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 
 
 		$moduleName = $request->getModule();

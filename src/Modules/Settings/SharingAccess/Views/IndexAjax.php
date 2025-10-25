@@ -49,7 +49,7 @@ class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FOR_MODULE', $forModule);
 		$viewer->assign('RULE_MODEL_LIST', $ruleModelList);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		echo $viewer->view('ListRules.tpl', $qualifiedModuleName, true);
 	}
@@ -77,7 +77,7 @@ class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger
 		$viewer->assign('RULE_MODEL', $ruleModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		echo $viewer->view('EditRule.tpl', $qualifiedModuleName, true);
 	}

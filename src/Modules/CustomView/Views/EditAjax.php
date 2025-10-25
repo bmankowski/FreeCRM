@@ -74,7 +74,7 @@ class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 		}
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SOURCE_MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		if ($customViewModel->get('viewname') == 'All') {
 			$viewer->assign('CV_PRIVATE_VALUE', \App\CustomView::CV_STATUS_DEFAULT);
 		} else {

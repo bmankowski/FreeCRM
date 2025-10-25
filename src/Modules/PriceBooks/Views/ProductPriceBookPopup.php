@@ -24,7 +24,7 @@ class ProductPriceBookPopup  extends \App\Modules\Vtiger\Views\Index
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->view('ProductPriceBookPopup.tpl', 'PriceBooks');
 	}

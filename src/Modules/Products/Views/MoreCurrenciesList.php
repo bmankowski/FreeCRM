@@ -68,7 +68,7 @@ class MoreCurrenciesList  extends \App\Modules\Vtiger\Views\Index
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PRICE_DETAILS', $priceDetails);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->view('MoreCurrenciesList.tpl', 'Products');
 	}

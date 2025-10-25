@@ -64,7 +64,7 @@ class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$recordModel = \App\Modules\PBXManager\Models\Record::getCleanInstance($request->getModule());
 		$response = new \App\Http\Vtiger_Response();
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 
 		$recordModels = $recordModel->searchIncomingCall();
 		// To check whether user have permission on caller record
@@ -105,7 +105,7 @@ class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 
 	public function createRecord(\App\Http\Vtiger_Request $request)
 	{
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$moduleName = $request->get('modulename');
 		$name = explode("@", $request->get('email'));
 		$element['lastname'] = $name[0];
@@ -163,7 +163,7 @@ class IncomingCallPoll extends \App\Runtime\Vtiger_Action_Controller
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");
 
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$userNumber = $user->phone_crm_extension;
 
 		$result = false;

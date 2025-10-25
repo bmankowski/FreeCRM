@@ -24,7 +24,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;

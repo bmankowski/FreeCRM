@@ -140,7 +140,7 @@ class RelatedList  extends \App\Modules\Vtiger\Views\Index
 	$viewer->assign('IS_FAVORITES', $isFavorites);
 	$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 	$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-	$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+	$viewer->assign('USER_MODEL', $request->getUser());
 	$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	$viewer->assign('VIEW', $request->get('view'));
 	$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));

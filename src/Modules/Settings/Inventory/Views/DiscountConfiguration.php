@@ -25,7 +25,7 @@ class DiscountConfiguration extends \App\Modules\Settings\Vtiger\Views\Index
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
 		$config = \App\Modules\Settings\Inventory\Models\Module::getConfig($view);
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGE_LABELS', $this->getPageLabels($request));

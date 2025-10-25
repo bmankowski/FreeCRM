@@ -81,6 +81,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   
 	   // Load menu structure
 	   $userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+	   
+	   // If no user is logged in (e.g., on Login page), return empty breadcrumbs
+	   if (!$userPrivModel) {
+		   return $breadcrumbs;
+	   }
+	   
 	   $roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 	   if (file_exists($roleMenu)) {
 		   require($roleMenu);

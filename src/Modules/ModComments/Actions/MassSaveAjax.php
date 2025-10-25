@@ -45,7 +45,7 @@ class MassSaveAjax extends \App\Runtime\Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$recordModels = [];
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		foreach ($recordIds as &$recordId) {
 			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			$recordModel->set('commentcontent', $request->get('commentcontent'));

@@ -22,7 +22,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdmin() || empty($request->get('record'))) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
@@ -44,7 +44,7 @@ class Detail extends \App\Modules\Settings\Vtiger\Views\Index
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 

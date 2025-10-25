@@ -83,24 +83,67 @@ class Menu extends \App\Modules\Vtiger\Models\Record
 	}
 
 	/**
+	 * Get all menus for specified user
+	 * @param int $userId User ID (if null, tries to get from current session)
+	 * @param \App\Http\Vtiger_Request $request Optional request for caching
+	 * @return array Menu models
+	 */
+	public static function getAllForUser($userId = null, $request = null)
+	{
+		// Backward compatibility: get user ID from session if not provided
+		if ($userId === null) {
+			if ($request && $request->hasUser()) {
+				$userId = $request->getUserId();
+			} else {
+				$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			}
+		}
+		
+		$cacheKey = "menu_all_user_{$userId}";
+		
+		// Try request cache first
+		if ($request && $request->hasCached($cacheKey)) {
+			return $request->getCached($cacheKey);
+		}
+		
+		// Try static cache (for backward compatibility during transition)
+		if (is_array(self::$casheMenu) && isset(self::$casheMenu[$userId])) {
+			return self::$casheMenu[$userId];
+		}
+		
+		$dataReader = (new \App\Db\Query())->from(self::$menusTable)
+			->where(['or', 
+				['like', 'admin_access', ',' . $userId . ','], 
+				['admin_access' => null]])
+			->orderBy(['sequence' => SORT_ASC])
+			->createCommand()->query();
+		
+		$menuModels = [];
+		while ($row = $dataReader->read()) {
+			$blockId = $row[self::$menuId];
+			$menuModels[$blockId] = self::getInstanceFromArray($row);
+		}
+		
+		// Cache results
+		if (!is_array(self::$casheMenu)) {
+			self::$casheMenu = [];
+		}
+		self::$casheMenu[$userId] = $menuModels;
+		if ($request) {
+			$request->setCached($cacheKey, $menuModels);
+		}
+		
+		return $menuModels;
+	}
+
+	/**
 	 * Static function to get the list of all the Settings Menus
+	 * @deprecated Use getAllForUser() instead
 	 * @return array - List of \App\Modules\Settings\Vtiger\Models\Menu instances
 	 */
 	public static function getAll()
 	{
-		if (self::$casheMenu) {
-			return self::$casheMenu;
-		}
-		$dataReader = (new \App\Db\Query())->from(self::$menusTable)->where(['or', ['like', 'admin_access', ',' . \App\Modules\Users\Models\Record::getCurrentUserId() . ','], ['admin_access' => null]])
-				->orderBy(['sequence' => SORT_ASC])
-				->createCommand()->query();
-		$menuModels = [];
-		while ($row = $dataReader->read()) {
-			$blockId = $row[self::$menuId];
-			$menuModels[$blockId] = \App\Modules\Settings\Vtiger\Models\Menu::getInstanceFromArray($row);
-		}
-		self::$casheMenu = $menuModels;
-		return $menuModels;
+		return self::getAllForUser();
 	}
 
 	/**

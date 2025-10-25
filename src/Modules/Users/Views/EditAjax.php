@@ -17,7 +17,7 @@ class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
@@ -50,7 +50,7 @@ class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USERID', $userId);
-		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', $request->getUser());
 		$viewer->view('ChangePassword.tpl', $moduleName);
 	}
 
@@ -62,7 +62,7 @@ class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USERIDS', json_encode($userIds));
-		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', $request->getUser());
 		$viewer->view('EditPasswords.tpl', $moduleName);
 	}
 }

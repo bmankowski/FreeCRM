@@ -121,7 +121,7 @@ class InRelation  extends \App\Modules\Vtiger\Views\Index
 	$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 	$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 	$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
-	$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+	$viewer->assign('USER_MODEL', $request->getUser());
 	$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	$viewer->assign('VIEW', $request->get('view'));
 	$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));

@@ -20,7 +20,7 @@ class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 	{
 		$userId = $request->get('id');
 		require('user_privileges/switchUsers.php');
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$baseUserId = $currentUserModel->getRealId();
 		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
 			$db = \App\Db::getInstance('log');
@@ -44,7 +44,7 @@ class SwitchUsers extends \App\Runtime\Vtiger_Action_Controller
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$baseUserId = $currentUserModel->getId();
 		$userId = $request->get('id');
 		$user = new \App\Modules\Users\Users();

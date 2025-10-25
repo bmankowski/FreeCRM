@@ -16,7 +16,7 @@ class Rss  extends \App\Modules\Vtiger\Views\Index
 	public function process(\App\Http\Vtiger_Request $request, $widget = NULL)
 	{
 		require_once 'libraries/RSSFeeds/Feed.php';
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if ($widget && !$request->has('widgetid')) {

@@ -97,7 +97,7 @@ class BasicAjax  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('SOURCE_MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SAVE_FILTER_PERMITTED', $saveFilterPermitted);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		echo $viewer->view('AdvanceSearch.tpl', $moduleName, true);
 	}
 

@@ -47,7 +47,7 @@ class ChartEdit extends \App\Modules\Vtiger\Views\Edit
 		$primaryModule = $reportModel->getPrimaryModule();
 		$primaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($primaryModule);
 		if ($primaryModuleModel) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = $request->getUser();
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($primaryModuleModel->getId());
 

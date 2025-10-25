@@ -6,7 +6,7 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends \App\Modules\Vtiger\View
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = $request->getUser();
 
 		$moduleName = $request->getModule();
 		$page = $request->get('page');

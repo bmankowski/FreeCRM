@@ -67,7 +67,7 @@ class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Vtiger\V
 		$viewer->assign('BLOCKID', $blockId);
 		$viewer->assign('ENABLED', $request->get('enabled'));
 		$viewer->assign('VIEWS', $views);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('Conditions.tpl', $qualifiedModuleName);
 	}
 

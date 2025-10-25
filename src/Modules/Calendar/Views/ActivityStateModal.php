@@ -25,7 +25,7 @@ class ActivityStateModal  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordInstance);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
 		$viewer->view('ActivityStateModal.tpl', $moduleName);
 	}

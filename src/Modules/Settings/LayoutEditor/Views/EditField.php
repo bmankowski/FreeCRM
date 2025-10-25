@@ -22,7 +22,7 @@ class EditField extends \App\Modules\Settings\Vtiger\Views\BasicModal
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser() && !\App\Modules\Settings\LayoutEditor\Models\Field::getInstance($request->get('fieldId')->isEditable())) {
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}

@@ -30,7 +30,7 @@ class OutgoingCall extends \App\Runtime\Vtiger_Action_Controller
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");
 		$response = new \App\Http\Vtiger_Response();
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = $request->getUser();
 		$userNumber = $user->phone_crm_extension;
 
 		if ($gateway && $userNumber) {

@@ -50,7 +50,7 @@ class SendMailModal  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('RECORDS', $this->getRecordsListFromRequest($request));
 		$viewer->assign('FIELDS', $this->fields);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('SendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}

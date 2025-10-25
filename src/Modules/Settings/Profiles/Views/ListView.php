@@ -30,7 +30,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ALL_RECORDS', \App\Modules\Settings\Profiles\Models\Record::getAll());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->view('ListView.tpl', $qualifiedModuleName);
 	}

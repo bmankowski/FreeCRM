@@ -17,7 +17,7 @@ class PreferenceEdit extends \App\Modules\Vtiger\Views\Edit
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
 		if (!\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
@@ -43,7 +43,7 @@ class PreferenceEdit extends \App\Modules\Vtiger\Views\Edit
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		if ($this->checkPermission($request)) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = $request->getUser();
 			$viewer = $this->getViewer($request);
 			if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
 				$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
@@ -107,7 +107,7 @@ class PreferenceEdit extends \App\Modules\Vtiger\Views\Edit
 		$viewer = $this->getViewer($request);
 		$viewer->assign("DAY_STARTS", \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 
 		parent::process($request);
 	}

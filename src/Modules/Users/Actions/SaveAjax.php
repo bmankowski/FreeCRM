@@ -35,7 +35,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$userId = $request->get('userid');
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
@@ -100,7 +100,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		$fieldName = $request->get('field');
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		if ($fieldName === 'is_admin' && (!$currentUserModel->isAdminUser() || !$request->get('value'))) {
 			$recordModel->set($fieldName, 'off');
 			$recordModel->set('is_owner', 0);

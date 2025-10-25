@@ -17,7 +17,7 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \App\AppConfig::security('SHOW_MY_PREFERENCES'))) {
 			return true;
@@ -43,8 +43,8 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
-		$settingsModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance();
-		$menuModels = $settingsModel->getMenus();
+		$settingsModel = new \App\Modules\Settings\Vtiger\Models\Module();
+		$menuModels = $settingsModel->getMenus($request);
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 		$viewer->assign('MENUS', $menu);
 		$viewer->assign('MODULE', $moduleName);
@@ -69,7 +69,7 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 	{
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('CURRENT_USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('CURRENT_USER_MODEL', $request->getUser());
 		$viewer->view('UserViewHeader.tpl', $request->getModule());
 		parent::process($request);
 	}

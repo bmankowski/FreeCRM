@@ -20,7 +20,7 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
 
 		if (!\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
@@ -60,7 +60,7 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 				$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 			}
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = $request->getUser();
 			$selectedModule = $request->getModule();
 			$currentDate = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
 			$viewer->assign('CURRENTDATE', $currentDate);
