@@ -374,14 +374,15 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to save the current Record Model
+	 * @param \App\Http\Vtiger_Request $request Optional request object for inventory data
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
 		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
-			$this->initInventoryData();
+			$this->initInventoryData($request);
 		}
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
@@ -923,8 +924,9 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Save the inventory data
+	 * @param \App\Http\Vtiger_Request $request Optional request object containing inventory data
 	 */
-	public function initInventoryData()
+	public function initInventoryData($request = null)
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__);
@@ -934,11 +936,16 @@ class Record extends \App\Runtime\BaseModel
 		$fields = $inventory->getColumns();
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = $summary = [];
-		if (isset($this->inventoryRawData)) {
+		
+		// Priority: passed $request → $this->inventoryRawData → AppRequest::init() (fallback)
+		if ($request !== null) {
+			// Request passed explicitly
+		} elseif (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
 			$request = \App\Http\AppRequest::init();
 		}
+		
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');
 			for ($i = 1; $i <= $numRow; $i++) {
@@ -1045,12 +1052,16 @@ class Record extends \App\Runtime\BaseModel
 	/**
 	 * This function is used to upload the attachment in the server and save that attachment information in db.
 	 * @param array $fileDetails  - array which contains the file information(name, type, size, tmp_name and error)
+	 * @param string $attachmentType - type of attachment
+	 * @param string $moduleName - module name (optional, defaults to record's module)
+	 * @param string $mode - mode (edit/new) for determining file replacement behavior
+	 * @param int $fileId - existing file ID to replace (used in edit mode)
 	 * @return boolean
 	 */
-	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment')
+	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment', $moduleName = null, $mode = null, $fileId = null)
 	{
 		$id = $this->getId();
-		$module = \App\Http\AppRequest::get('module');
+		$module = $moduleName !== null ? $moduleName : $this->getModuleName();
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
 		$db = \App\Db::getInstance();
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
@@ -1106,9 +1117,9 @@ class Record extends \App\Runtime\BaseModel
 				'path' => $uploadFilePath
 			])->execute();
 
-			if (\App\Http\AppRequest::get('mode') === 'edit') {
-				if (!empty($id) && !empty(\App\Http\AppRequest::get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Http\AppRequest::get('fileid')])->execute();
+			if ($mode === 'edit') {
+				if (!empty($id) && !empty($fileId)) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $fileId])->execute();
 				}
 			}
 			if ($module === 'Documents') {

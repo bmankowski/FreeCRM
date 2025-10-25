@@ -210,7 +210,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function to save the tree
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Db::getInstance();
 		$templateId = $this->getId();

@@ -195,9 +195,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to save the user record model
+	 * @param \App\Http\Vtiger_Request $request Optional request object for inventory data
 	 * @throws \Exception
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$entityInstance->column_fields['user_name'] = $this->get('user_name');

@@ -126,6 +126,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function insertAttachment()
 	{
 		$module = \App\Http\AppRequest::get('module');
+		$mode = \App\Http\AppRequest::get('mode');
 		$id = $this->getId();
 		$db = \App\Db::getInstance();
 		$fileSaved = false;
@@ -141,7 +142,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				$fileInstance = \App\Fields\File::loadFromRequest($files);
 				if ($fileInstance->validate('image')) {
 					$files['original_name'] = \App\Http\AppRequest::get($fileindex . '_hidden');
-					$fileSaved = $this->uploadAndSaveFile($files);
+					$fileId = \App\Http\AppRequest::get('fileid');
+					$fileSaved = $this->uploadAndSaveFile($files, 'Attachment', $module, $mode, $fileId);
 				}
 			}
 		}

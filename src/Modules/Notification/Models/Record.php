@@ -130,7 +130,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 * Function to save record
 	 */
 
-	public function save()
+	public function save($request = null)
 	{
 		$relatedRecord = $this->getRelatedRecord();
 		if ($relatedRecord !== false) {

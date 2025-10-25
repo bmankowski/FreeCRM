@@ -75,7 +75,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$this->setData($data);
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Db::getInstance();
 		$settingsModel = \App\Modules\Settings\Menu\Models\Module::getInstance();

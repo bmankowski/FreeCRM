@@ -429,7 +429,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		vtlib\Access::syncSharingAccess();
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$adb = \App\Db::getInstance();
 		$db = \App\Database\PearDatabase::getInstance();

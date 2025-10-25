@@ -88,7 +88,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		return \App\Modules\Settings\SharingAccess\Models\Rule::getAllByModule($this);
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';

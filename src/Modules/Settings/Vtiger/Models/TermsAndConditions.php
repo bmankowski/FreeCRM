@@ -33,7 +33,7 @@ class TermsAndConditions extends \App\Modules\Vtiger\Models\Record
 		return 'Inventory';
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$isExists = (new \App\Db\Query())->from(self::tableName)->exists();
 		if ($isExists) {

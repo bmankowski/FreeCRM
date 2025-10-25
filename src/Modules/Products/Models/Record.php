@@ -524,6 +524,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$db = \App\Db::getInstance();
 		$id = $this->getId();
 		$module = \App\Http\AppRequest::get('module');
+		$mode = \App\Http\AppRequest::get('mode');
 		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 		foreach ($_FILES as $fileindex => $files) {
 			if (empty($files['tmp_name'])) {
@@ -536,7 +537,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				else
 					$files['original_name'] = stripslashes($files['name']);
 				$files['original_name'] = str_replace('"', '', $files['original_name']);
-				$this->uploadAndSaveFile($files);
+				$fileId = \App\Http\AppRequest::get('fileid');
+				$this->uploadAndSaveFile($files, 'Attachment', $module, $mode, $fileId);
 			}
 		}
 		//Updating image information in main table of products

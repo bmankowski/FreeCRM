@@ -169,7 +169,6 @@ $module = $request->get('module');
 
 **Files:** 2 files using Pattern 5 (Request Initialization)
 
-1. ✅ **Vtiger/Models/Menu.php** - Pass $request to `getBreadcrumbs()`
 2. ✅ **Vtiger/Models/Record.php** - Already has fallback for `inventoryRawData`, enhance it
 
 **Approach:** Add $request parameter to methods
@@ -207,39 +206,6 @@ $module = $request->get('module');
 **Approach:** Use RequestContext bridge temporarily, refactor later
 
 **Long-term fix:** Models should get data from their own properties (`$this->data`), not from request
-
----
-
-## 🔧 Implementation Details
-
-### Example 1: Easy Win - Menu.php
-
-**BEFORE:**
-```php
-public static function getBreadcrumbs($pageTitle = false)
-{
-    $breadcrumbs = [];
-    $request = \App\Http\AppRequest::init();  // ❌
-    $module = $request->get('module');
-    // ...
-}
-```
-
-**AFTER:**
-```php
-public static function getBreadcrumbs(\App\Http\Vtiger_Request $request, $pageTitle = false)
-{
-    $breadcrumbs = [];
-    $module = $request->get('module');  // ✅
-    // ...
-}
-```
-
-**Caller Update:**
-```php
-// In controller
-$breadcrumbs = Vtiger_Menu_Model::getBreadcrumbs($request);
-```
 
 ---
 

@@ -83,7 +83,7 @@ class Map extends \App\Runtime\BaseModel
 		return $stringifiedContent;
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 

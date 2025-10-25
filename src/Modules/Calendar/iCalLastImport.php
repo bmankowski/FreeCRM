@@ -35,7 +35,7 @@ class iCalLastImport {
 		}
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 

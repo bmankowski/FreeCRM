@@ -302,7 +302,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to save the custom view record
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();

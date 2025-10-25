@@ -143,7 +143,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 	/**
 	 * Save records
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		if (!$this->isNew) {
 			switch ($this->typeSaving) {

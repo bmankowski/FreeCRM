@@ -94,7 +94,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		return false;
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$wm = new \App\Modules\Workflow\VTWorkflowManager($db);

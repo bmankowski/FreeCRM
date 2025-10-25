@@ -28,7 +28,7 @@ class Systems extends \App\Modules\Vtiger\Models\Record
 		return ($smtp_auth_value == 'on' || $smtp_auth_value == 1 || $smtp_auth_value == 'true') ? true : false;
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 

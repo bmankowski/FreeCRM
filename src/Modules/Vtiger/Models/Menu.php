@@ -15,7 +15,6 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * *********************************************************************************************************************************** */
 
 
-use App\Runtime\Vtiger_Language_Handler;
 class Menu {
 
 	/**
@@ -38,19 +37,6 @@ class Menu {
 			require('user_privileges/menu_0.php');
 		}
 		return $menus;
-	}
-
-	/**
-	 * Get breadcrumbs
-	 * @deprecated This method is deprecated. Breadcrumbs are now built in controllers via buildBreadcrumbs()
-	 * @param mixed $pageTitle
-	 * @return array
-	 */
-	public static function getBreadcrumbs($pageTitle = false)
-	{
-		// This method is deprecated - breadcrumbs should be built in controllers
-		// Kept for backward compatibility only
-		return [];
 	}
 
 	public static function getParentMenu($parentList, $parent, $module, $return = [])

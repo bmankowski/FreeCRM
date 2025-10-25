@@ -113,7 +113,7 @@ class Save extends \App\Runtime\Vtiger_Action_Controller
 	public function saveRecord(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
-		$recordModel->save();
+		$recordModel->save($request);
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($parentModuleName);

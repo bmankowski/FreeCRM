@@ -201,7 +201,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			}
 			if ($file['name'] != '' && $file['size'] > 0) {
 				$file['original_name'] = \App\Http\AppRequest::get('0_hidden');
-				$this->uploadAndSaveFile($file);
+				$module = \App\Http\AppRequest::get('module');
+				$mode = \App\Http\AppRequest::get('mode');
+				$fileId = \App\Http\AppRequest::get('fileid');
+				$this->uploadAndSaveFile($file, 'Attachment', $module, $mode, $fileId);
 			}
 		} else {
 			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();

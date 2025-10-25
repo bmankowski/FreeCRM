@@ -351,7 +351,7 @@ class Rule extends \App\Modules\Vtiger\Models\Record
 		return $links;
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$ruleId = $this->getId();
 		$db = \App\Db::getInstance();

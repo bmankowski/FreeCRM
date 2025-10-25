@@ -53,7 +53,7 @@ class Folder extends \App\Runtime\BaseModel
 	/**
 	 * Function saves the folder
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 

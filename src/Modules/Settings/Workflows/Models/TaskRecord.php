@@ -153,7 +153,7 @@ class TaskRecord extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function saves workflow task
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$taskObject = $this->getTaskObject();
 		$this->task_manager->saveTask($taskObject);

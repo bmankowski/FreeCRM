@@ -64,7 +64,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		return 0;
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Db::getInstance();
 		$id = $this->getId();

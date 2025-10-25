@@ -76,7 +76,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		\App\Cache\Cache::delete('Inventory', $this->getType());
 	}
 
-	public function save()
+	public function save($request = null)
 	{
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();

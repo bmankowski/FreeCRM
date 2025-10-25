@@ -154,7 +154,7 @@ class ConfigModule extends \App\Modules\Settings\Vtiger\Models\Module
 	/**
 	 * Function to save the data
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$fileContent = $this->completeData;
 		$updatedFields = $this->get('updatedFields');

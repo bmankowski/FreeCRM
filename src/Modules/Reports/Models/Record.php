@@ -410,7 +410,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function saves a Report
 	 */
-	public function save()
+	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
