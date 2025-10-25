@@ -104,4 +104,5 @@ class ForgotPassword {
 	}
 }
 
-\App\Modules\Users\Actions\ForgotPassword::run(\App\Http\AppRequest::init());
+$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
+\App\Modules\Users\Actions\ForgotPassword::run($request);

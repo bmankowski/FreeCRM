@@ -49,9 +49,10 @@ require_once ROOT_DIRECTORY . '/config/config.php';
 // Initialize WebUI services (cache, debugger, error handlers)
 \App\EntryPoint\WebUI::initialize();
 
-// Load global class aliases for legacy code
 
 $webUI = new \App\EntryPoint\WebUI();
+
+// AppRequest is a static facade for Vtiger_Request
 $request = \App\Http\AppRequest::init();
 if ($request instanceof \App\Http\Vtiger_Request) {
 	$webUI->process($request);
