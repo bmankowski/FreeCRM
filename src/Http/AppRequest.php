@@ -14,7 +14,7 @@ namespace App\Http;
 class AppRequest
 {
 
-	private static $request = false;
+	private static $request = null;
 
 	public static function init()
 	{
