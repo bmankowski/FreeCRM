@@ -122,12 +122,12 @@ class Activity extends \App\CRMEntity
 	 * Function to get sort order
 	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
 	 */
-	public function getSortOrder()
+	public function getSortOrder($request = null)
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		if (\App\Http\AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
+		if ($request !== null && $request->has('sorder'))
+			$sorder = $this->db->sql_escape_string($request->get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder method ...');
@@ -138,7 +138,7 @@ class Activity extends \App\CRMEntity
 	 * Function to get order by
 	 * return string  $order_by    - fieldname(eg: 'subject')
 	 */
-	public function getOrderBy()
+	public function getOrderBy($request = null)
 	{
 
 		\App\Log::trace("Entering getOrderBy() method ...");
@@ -148,8 +148,8 @@ class Activity extends \App\CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (\App\Http\AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
+		if ($request !== null && $request->has('order_by'))
+			$order_by = $this->db->sql_escape_string($request->get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -189,7 +189,7 @@ class Activity extends \App\CRMEntity
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
 			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
-			if (\App\Http\AppRequest::get('set_reminder') == 'Yes') {
+			if ($request->get('set_reminder') == 'Yes') {
 				$this->db->insert($this->reminder_table, [
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,

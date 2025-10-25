@@ -953,13 +953,13 @@ class Record extends \App\Runtime\BaseModel
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = $summary = [];
 		
-		// Priority: passed $request → $this->inventoryRawData → AppRequest::init() (fallback)
+		// Request should be passed as parameter
 		if ($request !== null) {
 			// Request passed explicitly
 		} elseif (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		
 		if ($request->has('inventoryItemsNo')) {

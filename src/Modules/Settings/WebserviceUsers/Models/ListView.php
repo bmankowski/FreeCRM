@@ -17,13 +17,14 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 	/**
 	 * Function sets module instance
 	 * @param string $name
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return $this
 	 */
-	public function setModule($name)
+	public function setModule($name, $request = null)
 	{
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
-		$this->module->typeApi = \App\Http\AppRequest::get('typeApi');
+		$this->module->typeApi = $request !== null ? $request->get('typeApi') : null;
 		return $this;
 	}
 

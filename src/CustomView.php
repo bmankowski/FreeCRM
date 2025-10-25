@@ -3,7 +3,6 @@ namespace App;
 
 use App\Cache\Cache;
 use App\AppConfig;
-use App\Http\AppRequest;
 
 use \App\Db;
 
@@ -200,7 +199,7 @@ class CustomView
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [], \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			$request = null /* Request should be passed as parameter */;
 		}
 		if ($request->has('orderby')) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $request->get('orderby');
@@ -226,7 +225,7 @@ class CustomView
 	public static function hasViewChanged($moduleName, $viewId = false, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			$request = null /* Request should be passed as parameter */;
 		}
 		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
@@ -466,7 +465,7 @@ class CustomView
 	public function getViewId($noCache = false, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			$request = null /* Request should be passed as parameter */;
 		}
 		\App\Log::trace(__METHOD__);
 		if (isset($this->defaultViewId)) {
@@ -554,7 +553,7 @@ class CustomView
 	public function isPermittedCustomView($viewId, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			$request = null /* Request should be passed as parameter */;
 		}
 		Log::trace(__METHOD__);
 		$permission = true;

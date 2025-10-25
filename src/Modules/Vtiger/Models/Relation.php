@@ -422,7 +422,7 @@ class Relation extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		switch (\App\Http\AppRequest::get('time')) {
+		switch ($request !== null ? $request->get('time') : null) {
 			case 'current':
 				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 				break;

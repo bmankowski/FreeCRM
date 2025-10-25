@@ -258,11 +258,12 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get the field details
+	 * @param array $context
 	 * @return <Array> - array of field values
 	 */
-	public function getFieldInfo()
+	public function getFieldInfo($context = [])
 	{
-		$fieldInfo = parent::getFieldInfo();
+		$fieldInfo = parent::getFieldInfo($context);
 		$fieldInfo['isQuickCreateDisabled'] = $this->isQuickCreateOptionDisabled();
 		$fieldInfo['isSummaryField'] = $this->isSummaryField();
 		$fieldInfo['isSummaryFieldDisabled'] = $this->isSummaryFieldOptionDisabled();

@@ -109,7 +109,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		//Time should changed to 24hrs format
 		$request->set('time_start', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start')));
@@ -175,7 +175,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function insertIntoInviteTable(\App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		if (!$request->has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');

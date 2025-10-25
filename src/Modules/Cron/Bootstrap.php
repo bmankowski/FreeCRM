@@ -101,7 +101,7 @@ class Bootstrap
 		}
 		
 		// Check app_key parameter
-		if ($expectedKey === \App\Http\AppRequest::get('app_key')) {
+		if ($expectedKey === \App\Http\$request->get('app_key')) {
 			return true;
 		}
 		

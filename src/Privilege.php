@@ -117,20 +117,25 @@ class Privilege
 	
 	/**
 	 * Check if module has no security restrictions (Users, Home, uploads)
+	 * @param string $moduleName
+	 * @param \App\Http\Vtiger_Request|null $request
 	 */
-	private static function checkModulesWithoutSecurity($moduleName)
+	private static function checkModulesWithoutSecurity($moduleName, $request = null)
 	{
 		return in_array($moduleName, ['Users', 'Home', 'uploads']) 
-			&& \App\Http\AppRequest::get('parenttab') != 'Settings';
+			&& ($request === null || $request->get('parenttab') != 'Settings');
 	}
 	
 	/**
 	 * Check access to Settings/Administration modules
+	 * @param string $moduleName
+	 * @param array $userPrivileges
+	 * @param \App\Http\Vtiger_Request|null $request
 	 */
-	private static function checkSettingsModuleAccess($moduleName, $userPrivileges)
+	private static function checkSettingsModuleAccess($moduleName, $userPrivileges, $request = null)
 	{
 		$settingsModules = ['Settings', 'Administration', 'System'];
-		if (in_array($moduleName, $settingsModules) || \App\Http\AppRequest::get('parenttab') == 'Settings') {
+		if (in_array($moduleName, $settingsModules) || ($request !== null && $request->get('parenttab') == 'Settings')) {
 			$permission = $userPrivileges['is_admin'];
 			$level = 'SEC_ADMINISTRATION_MODULE_' . ($permission ? 'YES' : 'NO');
 			return static::returnPermissionResult($permission, $level);

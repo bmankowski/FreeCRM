@@ -14,7 +14,7 @@ class NoPermittedToRecord extends NoPermitted
 		parent::__construct($message, $code, $previous);
 		\App\Http\Vtiger_Session::init();
 
-		$request = \App\Http\AppRequest::init();
+		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		$record = $request->get('record');
 		if(empty($record))
 			$record = 0;

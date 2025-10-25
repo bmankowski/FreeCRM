@@ -365,17 +365,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getCurrentUserModel()
 	{
-		// Try to get from current request context first
-		try {
-			$request = \App\Http\AppRequest::init();
-			if ($request && method_exists($request, 'hasUser') && $request->hasUser()) {
-				return $request->getUser();
-			}
-		} catch (\Exception $e) {
-			// Request not available, fall through to legacy
-		}
-		
-		// Legacy implementation
+		// Legacy implementation - get from session
 		if (static::$currentUserCache) {
 			return static::$currentUserCache;
 		}
@@ -395,17 +385,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getCurrentUserId()
 	{
-		// Try to get from current request context first
-		try {
-			$request = \App\Http\AppRequest::init();
-			if ($request && method_exists($request, 'hasUser') && $request->hasUser()) {
-				return $request->getUserId();
-			}
-		} catch (\Exception $e) {
-			// Request not available, fall through to legacy
-		}
-		
-		// Legacy implementation
+		// Legacy implementation - get from session
 		if (!static::$currentUserId) {
 			static::$currentUserId = (int) \App\Http\Vtiger_Session::get('authenticated_user_id');
 		}

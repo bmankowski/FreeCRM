@@ -36,4 +36,4 @@ class Callbacks {
 }
 
 $pbxmanager = new PBXManager_PBXManager_Callbacks();
-$pbxmanager->process(\App\Http\AppRequest::init());
+$pbxmanager->process(new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST));

@@ -19,9 +19,10 @@ class Owner
 	 * Function to get the instance
 	 * @param string $moduleName
 	 * @param mixed $currentUser
+	 * @param \App\Http\Vtiger_Request $request
 	 * @return \self
 	 */
-	public static function getInstance($moduleName = false, $currentUser = false)
+	public static function getInstance($moduleName = false, $currentUser = false, $request = null)
 	{
 		if ($currentUser && $currentUser instanceof \App\Modules\Users\Users) {
 			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id, 'Users');
@@ -37,7 +38,7 @@ class Owner
 		$instance = \App\Cache\Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
-			$instance->moduleName = $moduleName != false ? $moduleName : \App\Http\AppRequest::get('module');
+			$instance->moduleName = $moduleName != false ? $moduleName : ($request !== null ? $request->get('module') : false);
 			$instance->currentUser = $currentUser;
 		\App\Cache\Cache::save('App\Fields\Owner', $cacheKey, $instance);
 		}
@@ -122,9 +123,9 @@ class Owner
 		];
 	}
 
-	public function getAllocation($mode, $private = '', $fieldType)
+	public function getAllocation($mode, $private = '', $fieldType, $request = null)
 	{
-		if (\App\Http\AppRequest::get('parent') != 'Settings') {
+		if ($request === null || $request->get('parent') != 'Settings') {
 			$moduleName = $this->moduleName;
 		}
 
@@ -279,11 +280,11 @@ class Owner
 		return $users;
 	}
 
-	public function getGroups($addBlank = true, $private = '')
+	public function getGroups($addBlank = true, $private = '', $request = null)
 	{
 		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
 		$moduleName = '';
-		if (\App\Http\AppRequest::get('parent') != 'Settings' && $this->moduleName) {
+		if (($request === null || $request->get('parent') != 'Settings') && $this->moduleName) {
 			$moduleName = $this->moduleName;
 			$tabid = \App\Module::getModuleId($moduleName);
 		}

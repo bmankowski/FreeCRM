@@ -395,13 +395,13 @@ class Project extends \App\CRMEntity
 	 *
 	 * @see data/CRMEntity#delete_related_module($module, $crmid, $with_module, $with_crmid)
 	 */
-	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	public function delete_related_module($module, $crmid, $with_module, $with_crmid, $request = null)
 	{
 		if (!in_array($with_module, array('ProjectMilestone', 'ProjectTask'))) {
 			parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
 			return;
 		}
-		$destinationModule = \App\Http\AppRequest::get('destination_module');
+		$destinationModule = $request !== null ? $request->get('destination_module') : null;
 		if (empty($destinationModule))
 			$destinationModule = $with_module;
 		if (!is_array($with_crmid))

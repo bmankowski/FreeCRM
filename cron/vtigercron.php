@@ -47,7 +47,8 @@ function runCronWeb(): void
 {
 	if (\App\Modules\Cron\Bootstrap::isWebUserAuthenticated()) {
 		$runner = new \App\Modules\Cron\Runner\CronRunner();
-		$serviceName = \App\Http\AppRequest::has('service') ? \App\Http\AppRequest::get('service') : null;
+		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
+		$serviceName = $request->has('service') ? $request->get('service') : null;
 		$runner->run($serviceName);
 	} else {
 		echo 'Access denied!';

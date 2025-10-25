@@ -21,10 +21,10 @@ class Tracker
 		'delete' => 3,
 	];
 
-	static function addBasic($type)
+	static function addBasic($type, $request = null)
 	{
 		$db = \App\Db::getInstance('log');
-		if ($type == 'view' && \App\Http\AppRequest::isAjax()) {
+		if ($type == 'view' && $request !== null && $request->isAjax()) {
 			self::lockTracking();
 		}
 		if (self::$id != false || self::$lockTrack) {
@@ -33,7 +33,7 @@ class Tracker
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
 				'user_id' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 				'type' => self::$types[$type],
-				'module_name' => \App\Http\AppRequest::get('module'),
+				'module_name' => ($request !== null ? $request->get('module') : ''),
 				'record_id' => self::$recordId ? self::$recordId : 0,
 				'date' => date('Y-m-d H:i:s'),
 				'action' => _PROCESS_NAME

@@ -1618,7 +1618,7 @@ class Module extends \vtlib\Module
 					}
 				}
 			}
-			if ($relationField && ($moduleName != $sourceModule || \App\Http\AppRequest::get('addRelation'))) {
+			if ($relationField && ($moduleName != $sourceModule || ($request !== null && $request->get('addRelation')))) {
 				$data[$relationField] = $sourceRecord;
 			}
 		}

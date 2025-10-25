@@ -102,16 +102,16 @@ class VTUpdateFieldsTask extends VTTask
 	 * Product Unit Price value converted with based product currency
 	 * @param type $fieldValue
 	 */
-	public function calculateProductUnitPrice($fieldValue)
+	public function calculateProductUnitPrice($fieldValue, $request = null)
 	{
 		$currency_details = \App\Utils\InventoryUtils::getAllCurrencies('all');
 		for ($i = 0; $i < count($currency_details); $i++) {
 			$curid = $currency_details[$i]['curid'];
 			$cur_checkname = 'cur_' . $curid . '_check';
 			$cur_valuename = 'curname' . $curid;
-			if ($cur_valuename == \App\Http\AppRequest::get('base_currency') && (\App\Http\AppRequest::get($cur_checkname) == 'on' || \App\Http\AppRequest::get($cur_checkname) == 1)) {
+			if ($request !== null && $cur_valuename == $request->get('base_currency') && ($request->get($cur_checkname) == 'on' || $request->get($cur_checkname) == 1)) {
 				$fieldValue = $fieldValue * $currency_details[$i]['conversionrate'];
-				\App\Http\AppRequest::set($cur_valuename, $fieldValue);
+				$request->set($cur_valuename, $fieldValue);
 			}
 		}
 		return $fieldValue;

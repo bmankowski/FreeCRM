@@ -52,8 +52,8 @@ require_once ROOT_DIRECTORY . '/config/config.php';
 
 $webUI = new \App\EntryPoint\WebUI();
 
-// AppRequest is a static facade for Vtiger_Request
-$request = \App\Http\AppRequest::init();
+// Create request instance for this web request
+$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 if ($request instanceof \App\Http\Vtiger_Request) {
 	$webUI->process($request);
 }

@@ -19,7 +19,8 @@ Loader::register();
 
 try {
 	$webUI = new \App\Main\File();
-	$webUI->process(\App\Http\AppRequest::init());
+	$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
+	$webUI->process($request);
 } catch (Exception $e) {
 	\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 	//var_dump($e->getMessage());

@@ -11,4 +11,5 @@
 require_once ROOT_DIRECTORY . '/src/RequirementsValidation.php';
 require_once ROOT_DIRECTORY . '/src/main/WebUI.php';
 
-\App\Modules\Vtiger\Helpers\ShortURL::handle(AppRequest::get('id'));
+$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
+\App\Modules\Vtiger\Helpers\ShortURL::handle($request->get('id'));

@@ -137,7 +137,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		parent::saveToDb();
 		$db = \App\Db::getInstance();

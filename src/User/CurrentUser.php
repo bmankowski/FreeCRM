@@ -20,7 +20,7 @@ class CurrentUser
 		self::logDeprecation();
 		
 		// Try request first
-		$request = \App\Http\AppRequest::init();
+		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		if ($request->hasUser()) {
 			return $request->getUser();
 		}

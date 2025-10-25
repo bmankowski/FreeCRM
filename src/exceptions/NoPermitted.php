@@ -14,7 +14,7 @@ class NoPermitted extends \Exception
 		parent::__construct($message, $code, $previous);
 		\App\Http\Vtiger_Session::init();
 
-		$request = \App\Http\AppRequest::init();
+		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
 		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,

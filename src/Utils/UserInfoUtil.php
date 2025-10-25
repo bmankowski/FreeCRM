@@ -61,10 +61,11 @@ class UserInfoUtil
 	 * @param $module -- Module Name:: Type varchar
 	 * @param $actionname -- Action Name:: Type varchar
 	 * @param $recordid -- Record Id:: Type integer
+	 * @param $request -- Request instance:: Type \App\Http\Vtiger_Request
 	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
 	 *
 	 */
-	public static function isPermitted($module, $actionname, $record_id = '')
+	public static function isPermitted($module, $actionname, $record_id = '', $request = null)
 	{
 
 		\App\Log::trace("Entering isPermitted($module,$actionname,$record_id) method ...");
@@ -79,7 +80,7 @@ class UserInfoUtil
 		}
 
 		$permission = 'no';
-		if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && \App\Http\AppRequest::get('parenttab') != 'Settings') {
+		if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && ($request === null || $request->get('parenttab') != 'Settings')) {
 			//These modules dont have security right now
 			vglobal('isPermittedLog', 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT');
 			\App\Log::trace('Exiting isPermitted method ...');
@@ -87,7 +88,7 @@ class UserInfoUtil
 		}
 
 		//Checking the Access for the Settings Module
-		if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || \App\Http\AppRequest::get('parenttab') == 'Settings') {
+		if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || ($request !== null && $request->get('parenttab') == 'Settings')) {
 			if (!$userPrivileges['is_admin']) {
 				$permission = 'no';
 			} else {

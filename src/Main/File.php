@@ -53,7 +53,7 @@ class File
 				$userModel = \App\Modules\Users\Models\Record::getInstanceById($userid, 'Users');
 				
 				// NEW: Attach to request if available
-				$request = \App\Http\AppRequest::init();
+				$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 				if ($request instanceof \App\Http\Vtiger_Request) {
 					$request->setUser($userModel);
 				}

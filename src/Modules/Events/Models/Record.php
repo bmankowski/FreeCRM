@@ -67,7 +67,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function getInviteUserMailData(\App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		$adb = \App\Database\PearDatabase::getInstance();
 		return []; // To do

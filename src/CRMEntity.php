@@ -28,7 +28,6 @@ use App\Log;
 use App\Module;
 use App\Db;
 use App\Privilege;
-use App\Http\Request as AppRequest;
 
 class CRMEntity
 {
@@ -1578,15 +1577,16 @@ class CRMEntity
 
 	/**
 	 * Function to get sort order
+	 * @param \App\Http\Vtiger_Request $request Request instance
 	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
 	 */
-	public function getSortOrder()
+	public function getSortOrder($request = null)
 	{
 
 	$currentModule = vglobal('currentModule');
 	Log::trace("Entering getSortOrder() method ...");
-	if (\App\Http\AppRequest::has('sorder'))
-		$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::getForSql('sorder'));
+	if ($request !== null && $request->has('sorder'))
+		$sorder = $this->db->sql_escape_string($request->getForSql('sorder'));
 	else
 		$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
 	Log::trace("Exiting getSortOrder() method ...");
@@ -1595,9 +1595,10 @@ class CRMEntity
 
 	/**
 	 * Function to get order by
+	 * @param \App\Http\Vtiger_Request $request Request instance
 	 * return string  $order_by    - fieldname(eg: 'accountname')
 	 */
-	public function getOrderBy()
+	public function getOrderBy($request = null)
 	{
 		$currentModule = vglobal('currentModule');
 
@@ -1608,8 +1609,8 @@ class CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-	if (\App\Http\AppRequest::has('order_by'))
-		$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::getForSql('order_by'));
+	if ($request !== null && $request->has('order_by'))
+		$order_by = $this->db->sql_escape_string($request->getForSql('order_by'));
 	else
 		$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
 		Log::trace("Exiting getOrderBy method ...");

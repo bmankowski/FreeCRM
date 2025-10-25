@@ -89,24 +89,24 @@ class SMSNotifierBase extends \App\CRMEntity
 		$this->db = \App\Database\PearDatabase::getInstance();
 	}
 
-	public function getSortOrder()
+	public function getSortOrder($request = null)
 	{
 		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
-		if (!\App\Http\AppRequest::isEmpty('sorder'))
-			$sortorder = \App\Http\AppRequest::get('sorder');
+		if (!$request !== null && $request->isEmpty('sorder'))
+			$sortorder = $request->get('sorder');
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
 		return $sortorder;
 	}
 
-	public function getOrderBy()
+	public function getOrderBy($request = null)
 	{
 		$orderby = $this->default_order_by;
-		if (!\App\Http\AppRequest::isEmpty('order_by'))
-			$sortorder = \App\Http\AppRequest::get('order_by');
+		if (!$request !== null && $request->isEmpty('order_by'))
+			$sortorder = $request->get('order_by');
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
@@ -212,7 +212,7 @@ class SMSNotifierBase extends \App\CRMEntity
 	public function create_export_query($where)
 	{
 		$currentUser = \App\User\CurrentUser::get();
-		$thismodule = \App\Http\AppRequest::get('module');
+		$thismodule = $request->get('module');
 
 		include('include/utils/ExportUtils.php');
 

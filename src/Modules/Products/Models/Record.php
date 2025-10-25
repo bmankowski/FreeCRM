@@ -445,7 +445,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		parent::saveToDb();
 		//Inserting into product_taxrel table
@@ -478,7 +478,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function insertPriceInformation(\App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
@@ -528,7 +528,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		$db = \App\Db::getInstance();
 		$id = $this->getId();

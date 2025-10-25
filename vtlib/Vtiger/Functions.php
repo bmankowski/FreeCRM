@@ -10,7 +10,6 @@
  * ********************************************************************************** */
 namespace vtlib;
 
-use App\Http\AppRequest;
 use App\Http\Vtiger_Response;
 use App\AppConfig;
 use App\Runtime\CRM_Viewer;
@@ -714,7 +713,7 @@ class Functions
 		if (defined('REQUEST_MODE') && REQUEST_MODE === 'API') {
 			throw new \Exception\APIException($message, 401);
 		}
-		$request = AppRequest::init();
+		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		if ($request->isAjax()) {
 			$response = new \App\Http\Vtiger_Response();
 			$response->setEmitType(Vtiger_Response::$EMIT_JSON);

@@ -150,7 +150,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 		//Change the default search operator
 		if ($this->get('name') == 'date_start') {
 			// Check context first, fallback to AppRequest for backward compatibility
-			$searchParams = isset($context['search_params']) ? $context['search_params'] : \App\Http\AppRequest::get('search_params');
+			$searchParams = isset($context['search_params']) ? $context['search_params'] : null;
 			if (!empty($searchParams)) {
 				foreach ($searchParams[0] as $value) {
 					if ($value[0] == 'date_start') {

@@ -87,20 +87,20 @@ class ModCommentsCore extends \App\CRMEntity
 		$this->db = \App\Database\PearDatabase::getInstance();
 	}
 
-	public function getSortOrder()
+	public function getSortOrder($request = null)
 	{
 		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
-		if (!\App\Http\AppRequest::isEmpty('sorder'))
-			$sortorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
+		if (!$request !== null && $request->isEmpty('sorder'))
+			$sortorder = $this->db->sql_escape_string($request->get('sorder'));
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
 		return $sortorder;
 	}
 
-	public function getOrderBy()
+	public function getOrderBy($request = null)
 	{
 		$currentModule = vglobal('currentModule');
 
@@ -110,8 +110,8 @@ class ModCommentsCore extends \App\CRMEntity
 		}
 
 		$orderby = $use_default_order_by;
-		if (!\App\Http\AppRequest::isEmpty('order_by'))
-			$orderby = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
+		if (!$request !== null && $request->isEmpty('order_by'))
+			$orderby = $this->db->sql_escape_string($request->get('order_by'));
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;

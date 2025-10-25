@@ -56,10 +56,11 @@ function writeOutput($operationManager, $data)
 	$output = $operationManager->encode($state);
 	echo $output;
 }
-$operation = AppRequest::get('operation');
+$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
+$operation = $request->get('operation');
 $operation = strtolower($operation);
-$format = AppRequest::get('format', 'json');
-$sessionId = AppRequest::get('sessionName');
+$format = $request->get('format', 'json');
+$sessionId = $request->get('sessionName');
 
 try {
 	$sessionManager = new SessionManager();
@@ -78,8 +79,8 @@ try {
 	if (strcasecmp($operation, "extendsession") === 0) {
 		if (isset($input['operation'])) {
 			// Workaround fix for PHP 5.3.x: $_REQUEST doesn't have PHPSESSID
-			if (AppRequest::has('PHPSESSID')) {
-				$sessionId = AppRequest::get('PHPSESSID');
+			if ($request->has('PHPSESSID')) {
+				$sessionId = $request->get('PHPSESSID');
 			} else {
 				// NOTE: Need to evaluate for possible security issues
 				$sessionId = vtws_getParameter($_COOKIE, 'PHPSESSID');

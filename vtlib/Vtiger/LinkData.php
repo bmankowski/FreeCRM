@@ -38,7 +38,7 @@ class LinkData
 			return $this->input[$name];
 		}
 		// Fallback during migration - will be removed once all callers updated
-		return \App\Http\AppRequest::get($name);
+		return \App\Http\$request->get($name);
 	}
 
 	/**

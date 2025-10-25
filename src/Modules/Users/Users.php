@@ -172,14 +172,15 @@ class Users extends \App\CRMEntity
 	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
 	/**
 	 * Function to get sort order
+	 * @param \App\Http\Vtiger_Request $request Request instance
 	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
 	 */
-	public function getSortOrder()
+	public function getSortOrder($request = null)
 	{
 
 		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\App\Http\AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
+		if ($request !== null && $request->has('sorder'))
+			$sorder = $this->db->sql_escape_string($request->get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder method ...");
@@ -188,9 +189,10 @@ class Users extends \App\CRMEntity
 
 	/**
 	 * Function to get order by
+	 * @param \App\Http\Vtiger_Request $request Request instance
 	 * return string  $order_by    - fieldname(eg: 'subject')
 	 */
-	public function getOrderBy()
+	public function getOrderBy($request = null)
 	{
 
 		\App\Log::trace("Entering getOrderBy() method ...");
@@ -200,8 +202,8 @@ class Users extends \App\CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (\App\Http\AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
+		if ($request !== null && $request->has('order_by'))
+			$order_by = $this->db->sql_escape_string($request->get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -307,7 +309,7 @@ class Users extends \App\CRMEntity
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = \App\Http\AppRequest::get($fileindex . '_hidden');
+				$files['original_name'] = $request->get($fileindex . '_hidden');
 				$this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -480,7 +482,7 @@ class Users extends \App\CRMEntity
 	{
 		$homeModComptVisibility = 1;
 		if ($inVal == 'postinstall') {
-			if (\App\Http\AppRequest::get($home_string) != '') {
+			if ($request->get($home_string) != '') {
 				$homeModComptVisibility = 0;
 			} else if (in_array($home_string, $this->default_widgets)) {
 				$homeModComptVisibility = 0;
@@ -579,7 +581,7 @@ class Users extends \App\CRMEntity
 		if ($this->mode == 'edit') {
 			$countHomeorderArray = count($this->homeorder_array);
 			for ($i = 0; $i < $countHomeorderArray; $i++) {
-				if (\App\Http\AppRequest::get($this->homeorder_array[$i]) != '') {
+				if ($request->get($this->homeorder_array[$i]) != '') {
 					$save_array[] = $this->homeorder_array[$i];
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);

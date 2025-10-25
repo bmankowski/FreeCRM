@@ -117,7 +117,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		parent::saveToDb();
 		$this->insertAttachment($request);
@@ -129,7 +129,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = \App\Http\AppRequest::init();
+			// Request should be passed as parameter
 		}
 		$module = $request->get('module');
 		$mode = $request->get('mode');

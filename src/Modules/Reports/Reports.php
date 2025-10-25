@@ -1087,7 +1087,7 @@ class Reports extends \App\CRMEntity
 							$selectedcolumn1[$selectedcolumnarray[4]] = $this->columnssummary[$i];
 						}
 					}
-					if (!\App\Http\AppRequest::isEmpty('record')) {
+					if (!$request !== null && $request->isEmpty('record')) {
 						$options['label'][] = \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . \App\Runtime\Vtiger_Language_Handler::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					}
 

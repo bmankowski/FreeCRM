@@ -142,12 +142,12 @@ function twoDigit($no)
  * @param string|null $onlyForUserParam Optional user ID parameter
  * return String -  Id of the user that the current user has selected 
  */
-function calendarview_getSelectedUserId($onlyForUserParam = null)
+function calendarview_getSelectedUserId($onlyForUserParam = null, $request = null)
 {
 	$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
-	// Check parameter first, fallback to AppRequest for backward compatibility
-	if ($onlyForUserParam === null) {
-		$onlyForUserParam = \App\Http\AppRequest::getForSql('onlyforuser');
+	// Check parameter first
+	if ($onlyForUserParam === null && $request !== null) {
+		$onlyForUserParam = $request->getForSql('onlyforuser');
 	}
 	$onlyForUser = htmlspecialchars(strip_tags($onlyForUserParam), ENT_QUOTES, \App\AppConfig::main('default_charset'));
 	if ($onlyForUser == '')

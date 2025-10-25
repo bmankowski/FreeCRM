@@ -69,15 +69,16 @@ class Documents extends \App\CRMEntity
 
 	/**    Function used to get the sort order for Documents listview
 	 *      @param string|null $sortOrder Optional sort order parameter
+	 *      @param \App\Http\Vtiger_Request|null $request Optional request instance
 	 *      @return string  $sorder - first check the $sortOrder parameter, then $_SESSION, then default
 	 */
-	public function getSortOrder($sortOrder = null)
+	public function getSortOrder($sortOrder = null, $request = null)
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		// Check parameter first, fallback to AppRequest for backward compatibility
-		if ($sortOrder === null && \App\Http\AppRequest::has('sorder')) {
-			$sortOrder = \App\Http\AppRequest::get('sorder');
+		// Check parameter first, fallback to request for backward compatibility
+		if ($sortOrder === null && $request !== null && $request->has('sorder')) {
+			$sortOrder = $request->get('sorder');
 		}
 		
 		if ($sortOrder !== null) {
@@ -91,9 +92,10 @@ class Documents extends \App\CRMEntity
 
 	/**     Function used to get the order by value for Documents listview
 	 *       @param string|null $orderBy Optional order by parameter
+	 *       @param \App\Http\Vtiger_Request|null $request Optional request instance
 	 *       @return string  $order_by  - first check the $orderBy parameter, then $_SESSION, then default
 	 */
-	public function getOrderBy($orderBy = null)
+	public function getOrderBy($orderBy = null, $request = null)
 	{
 
 		\App\Log::trace('Entering getOrderBy() method ...');
@@ -103,9 +105,9 @@ class Documents extends \App\CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		// Check parameter first, fallback to AppRequest for backward compatibility
-		if ($orderBy === null && \App\Http\AppRequest::has('order_by')) {
-			$orderBy = \App\Http\AppRequest::get('order_by');
+		// Check parameter first, fallback to request for backward compatibility
+		if ($orderBy === null && $request !== null && $request->has('order_by')) {
+			$orderBy = $request->get('order_by');
 		}
 		
 		if ($orderBy !== null) {
@@ -122,14 +124,15 @@ class Documents extends \App\CRMEntity
 	 * @param int $folderId Folder ID
 	 * @param string|null $sortOrder Optional sort order parameter
 	 * @param int|null $requestFolderId Optional folder ID from request
+	 * @param \App\Http\Vtiger_Request|null $request Optional request instance
 	 * @return String $sorder - sort order for a given folder.
 	 */
-	public function getSortOrderForFolder($folderId, $sortOrder = null, $requestFolderId = null)
+	public function getSortOrderForFolder($folderId, $sortOrder = null, $requestFolderId = null, $request = null)
 	{
-		// Check parameters first, fallback to AppRequest for backward compatibility
-		if ($sortOrder === null && \App\Http\AppRequest::has('sorder')) {
-			$sortOrder = \App\Http\AppRequest::get('sorder');
-			$requestFolderId = \App\Http\AppRequest::get('folderid');
+		// Check parameters first, fallback to request for backward compatibility
+		if ($sortOrder === null && $request !== null && $request->has('sorder')) {
+			$sortOrder = $request->get('sorder');
+			$requestFolderId = $request->get('folderid');
 		}
 		
 		if ($sortOrder !== null && $requestFolderId == $folderId) {
@@ -148,19 +151,20 @@ class Documents extends \App\CRMEntity
 	 * @param int $folderId Folder ID
 	 * @param string|null $orderBy Optional order by parameter
 	 * @param int|null $requestFolderId Optional folder ID from request
+	 * @param \App\Http\Vtiger_Request|null $request Optional request instance
 	 * @return String order by column for a given folder.
 	 */
-	public function getOrderByForFolder($folderId, $orderBy = null, $requestFolderId = null)
+	public function getOrderByForFolder($folderId, $orderBy = null, $requestFolderId = null, $request = null)
 	{
 		$use_default_order_by = '';
 		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 		
-		// Check parameters first, fallback to AppRequest for backward compatibility
-		if ($orderBy === null && \App\Http\AppRequest::has('order_by')) {
-			$orderBy = \App\Http\AppRequest::get('order_by');
-			$requestFolderId = \App\Http\AppRequest::get('folderid');
+		// Check parameters first, fallback to request for backward compatibility
+		if ($orderBy === null && $request !== null && $request->has('order_by')) {
+			$orderBy = $request->get('order_by');
+			$requestFolderId = $request->get('folderid');
 		}
 		
 		if ($orderBy !== null && $requestFolderId == $folderId) {
