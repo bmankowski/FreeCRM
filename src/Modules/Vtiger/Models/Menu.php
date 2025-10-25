@@ -40,116 +40,17 @@ class Menu {
 		return $menus;
 	}
 
+	/**
+	 * Get breadcrumbs
+	 * @deprecated This method is deprecated. Breadcrumbs are now built in controllers via buildBreadcrumbs()
+	 * @param mixed $pageTitle
+	 * @return array
+	 */
 	public static function getBreadcrumbs($pageTitle = false)
 	{
-		$breadcrumbs = [];
-		$request = \App\Http\AppRequest::init();
-		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
-		if (file_exists($roleMenu)) {
-			require($roleMenu);
-		} else {
-			require('user_privileges/menu_0.php');
-		}
-		if (count($menus) == 0) {
-			require('user_privileges/menu_0.php');
-		}
-		$moduleName = $request->getModule();
-		$view = $request->get('view');
-		$parent = $request->get('parent');
-		if ($parent !== 'Settings') {
-			if (empty($parent)) {
-				foreach ($parentList as &$parentItem) {
-					if ($moduleName == $parentItem['mod']) {
-						$parent = $parentItem['parent'];
-						break;
-					}
-				}
-			}
-			$parentMenu = self::getParentMenu($parentList, $parent, $moduleName);
-			if (count($parentMenu) > 0) {
-				$breadcrumbs = array_reverse($parentMenu);
-			}
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-			if ($moduleModel && $moduleModel->getDefaultUrl()) {
-				$breadcrumbs[] = [
-					'name' => \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName),
-					'url' => $moduleModel->getDefaultUrl()
-				];
-			} else {
-				$breadcrumbs[] = [
-					'name' => \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName)
-				];
-			}
-
-			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
-			} elseif ($view == 'Edit' && $request->get('record') == '') {
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $moduleName)];
-			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
-			} elseif ($view == '') {
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOME', $moduleName)];
-			}
-			if ($request->get('record') != '') {
-				$recordLabel = \vtlib\Functions::getCRMRecordLabel($request->get('record'));
-				if ($recordLabel != '') {
-					$breadcrumbs[] = ['name' => $recordLabel];
-				}
-			}
-		} elseif ($parent === 'Settings') {
-			$qualifiedModuleName = $request->getModule(false);
-			$breadcrumbs[] = [
-				'name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
-				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
-			];
-			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
-				$fieldId = $request->get('fieldid');
-				$menu = \App\Modules\Settings\Vtiger\Models\MenuItem::getAll();
-				foreach ($menu as &$menuModel) {
-					if (empty($fieldId)) {
-						if ($menuModel->getModule() == $moduleName) {
-							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
-								'url' => $menuModel->getUrl()
-							];
-							break;
-						}
-					} else {
-						if ($fieldId == $menuModel->getId()) {
-							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
-								'url' => $menuModel->getUrl()
-							];
-							break;
-						}
-					}
-				}
-
-				if (is_array($pageTitle)) {
-					foreach ($pageTitle as $title) {
-						$breadcrumbs[] = $title;
-					}
-				} else {
-					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
-					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-					} elseif ($view != '' && $view != 'List') {
-						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
-					}
-					if ($request->get('record') != '' && $moduleName == 'Users') {
-						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
-						if ($recordLabel != '') {
-							$breadcrumbs[] = ['name' => $recordLabel];
-						}
-					}
-				}
-			}
-		}
-		return $breadcrumbs;
+		// This method is deprecated - breadcrumbs should be built in controllers
+		// Kept for backward compatibility only
+		return [];
 	}
 
 	public static function getParentMenu($parentList, $parent, $module, $return = [])

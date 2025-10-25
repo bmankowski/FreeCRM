@@ -13,13 +13,8 @@
 
 namespace App\Runtime;
 
-use App\Http\Vtiger_Request;
 use App\Runtime\CRM_Viewer;
 
-use App\Runtime\Vtiger_Theme;
-use App\Runtime\Vtiger_Language_Handler;
-use App\Loader;
-use App\Runtime\Vtiger_CssScript_Model;
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
 
@@ -74,12 +69,85 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	   return 0;
    }
 
+   /**
+	* Build breadcrumbs array for the current page
+	* @param \App\Http\Vtiger_Request $request
+	* @return array
+	*/
+   protected function buildBreadcrumbs(\App\Http\Vtiger_Request $request)
+   {
+	   $breadcrumbs = [];
+	   $pageTitle = $this->getBreadcrumbTitle($request);
+	   
+	   // Load menu structure
+	   $userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+	   $roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
+	   if (file_exists($roleMenu)) {
+		   require($roleMenu);
+	   } else {
+		   require('user_privileges/menu_0.php');
+	   }
+	   if (count($menus) == 0) {
+		   require('user_privileges/menu_0.php');
+	   }
+	   
+	   $moduleName = $request->getModule();
+	   $view = $request->get('view');
+	   $parent = $request->get('parent');
+	   
+	   // Regular module breadcrumbs (not Settings)
+	   if ($parent !== 'Settings') {
+		   if (empty($parent)) {
+			   foreach ($parentList as &$parentItem) {
+				   if ($moduleName == $parentItem['mod']) {
+					   $parent = $parentItem['parent'];
+					   break;
+				   }
+			   }
+		   }
+		   $parentMenu = \App\Modules\Vtiger\Models\Menu::getParentMenu($parentList, $parent, $moduleName);
+		   if (count($parentMenu) > 0) {
+			   $breadcrumbs = array_reverse($parentMenu);
+		   }
+		   $moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		   if ($moduleModel && $moduleModel->getDefaultUrl()) {
+			   $breadcrumbs[] = [
+				   'name' => \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName),
+				   'url' => $moduleModel->getDefaultUrl()
+			   ];
+		   } else {
+			   $breadcrumbs[] = [
+				   'name' => \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName)
+			   ];
+		   }
+		   
+		   if ($pageTitle) {
+			   $breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
+		   } elseif ($view == 'Edit' && $request->get('record') == '') {
+			   $breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $moduleName)];
+		   } elseif ($view != '' && $view != 'index' && $view != 'Index') {
+			   $breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+		   } elseif ($view == '') {
+			   $breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOME', $moduleName)];
+		   }
+		   if ($request->get('record') != '') {
+			   $recordLabel = \vtlib\Functions::getCRMRecordLabel($request->get('record'));
+			   if ($recordLabel != '') {
+				   $breadcrumbs[] = ['name' => $recordLabel];
+			   }
+		   }
+	   }
+	   
+	   return $breadcrumbs;
+   }
+
    public function preProcess(\App\Http\Vtiger_Request $vtigerRequest, $display = true)
    {
 	   $moduleName = $vtigerRequest->getModule();
 	   $viewer = $this->getViewer($vtigerRequest);
 	   $viewer->assign('PAGETITLE', $this->getPageTitle($vtigerRequest));
 	   $viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($vtigerRequest));
+	   $viewer->assign('BREADCRUMBS', $this->buildBreadcrumbs($vtigerRequest));
 	   $viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($vtigerRequest));
 	   $viewer->assign('STYLES', $this->getHeaderCss($vtigerRequest));
 	   $viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());

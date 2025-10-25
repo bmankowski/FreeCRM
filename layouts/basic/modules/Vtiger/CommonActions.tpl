@@ -87,19 +87,6 @@
 			{/if}
 		</div>
 	</div>	
-	{*{assign var="BREADCRUMBS" value=\App\Modules\Vtiger\Models\Menu::getBreadcrumbs()}
-	{if $BREADCRUMBS}
-		<div class="breadcrumbsContainer col-md-12" style="display: none;">
-			<div class="breadcrumbsLinks">
-				{foreach key=key item=item from=$BREADCRUMBS}
-					{if $key != 0}
-						<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
-					{/if}
-					<span>{$item['name']}</span>
-				{/foreach}
-			</div>
-		</div>
-	{/if}*}
 	{assign var="MENUSCOLOR" value=\App\Modules\Users\Models\Colors::getModulesColors(true)}
 	{if $MENUSCOLOR}
 		<div class="menusColorContainer" style="display: none;">
