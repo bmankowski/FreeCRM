@@ -11,7 +11,7 @@ namespace App\Modules\FInvoice\Models;
 class Record extends \App\Modules\Vtiger\Models\Record
 {
 
-	public function saveToDb()
+	public function saveToDb($relationParams = null)
 	{
 		parent::saveToDb();
 

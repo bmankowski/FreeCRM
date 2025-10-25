@@ -283,15 +283,11 @@ class Privileges extends \App\Runtime\BaseModel
 	 * Function to set Shared Owner
 	 * @param int|array|string $userIds
 	 * @param int $record
+	 * @param bool $saveFull Whether to save full permissions (default: true)
 	 */
-	public static function setSharedOwner($userIds, $record)
+	public static function setSharedOwner($userIds, $record, $saveFull = true)
 	{
-		$saveFull = true;
-
 		$db = \App\Db::getInstance();
-		if (\App\Http\AppRequest::get('action') == 'SaveAjax' && \App\Http\AppRequest::has('field') && \App\Http\AppRequest::get('field') != 'shownerid') {
-			$saveFull = false;
-		}
 		if ($saveFull) {
 			$db->createCommand()->delete('u_#__crmentity_showners', ['crmid' => $record])->execute();
 			if (empty($userIds)) {

@@ -384,7 +384,22 @@ class Record extends \App\Runtime\BaseModel
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData($request);
 		}
-		$this->getModule()->saveRecord($this);
+		
+		// Extract relation and action parameters from request
+		$relationParams = null;
+		if ($request) {
+			$relationParams = [
+				'createmode' => $request->get('createmode'),
+				'return_module' => $request->get('return_module'),
+				'return_id' => $request->get('return_id'),
+				'return_action' => $request->get('return_action'),
+				'action' => $request->get('action'),
+				'field' => $request->get('field'),
+				'current_module' => $request->getModule()
+			];
+		}
+		
+		$this->getModule()->saveRecord($this, $relationParams);
 		$db->completeTransaction();
 
 		if ($this->isNew()) {
@@ -396,8 +411,9 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Save data to the database
+	 * @param array $relationParams Optional relation parameters
 	 */
-	public function saveToDb()
+	public function saveToDb($relationParams = null)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();

@@ -442,7 +442,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Custom Save for Module
 	 */
-	public function saveToDb()
+	public function saveToDb($relationParams = null)
 	{
 		parent::saveToDb();
 		//Inserting into product_taxrel table

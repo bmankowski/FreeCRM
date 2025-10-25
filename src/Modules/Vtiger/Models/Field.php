@@ -717,9 +717,10 @@ class Field extends \vtlib\Field
 
 	/**
 	 * Function to get the field details
+	 * @param array $context Optional context information (module, mode, etc.)
 	 * @return <Array> - array of field values
 	 */
-	public function getFieldInfo()
+	public function getFieldInfo($context = [])
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$fieldDataType = $this->getFieldDataType();
@@ -765,25 +766,28 @@ class Field extends \vtlib\Field
 				$this->fieldInfo['decimal_separator'] = $currentUser->get('currency_decimal_separator');
 				$this->fieldInfo['group_separator'] = $currentUser->get('currency_grouping_separator');
 				break;
-			case 'owner':
-			case 'userCreator':
-			case 'sharedOwner':
-				if (!\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Http\AppRequest::get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || \App\Http\AppRequest::get('mode') === 'showAdvancedSearch') {
-					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
-					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
-					$pickListValues = [];
-					$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_USERS', $this->getModuleName())] = $userList;
-					$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
-					$this->fieldInfo['picklistvalues'] = $pickListValues;
-					if (\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
-						$this->fieldInfo['searchOperator'] = 'e';
-					}
-				} else {
-					if ($fieldDataType == 'owner') {
-						$this->fieldInfo['searchOperator'] = 'e';
-					}
+		case 'owner':
+		case 'userCreator':
+		case 'sharedOwner':
+			$module = $context['module'] ?? null;
+			$mode = $context['mode'] ?? null;
+			
+			if (!\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array($module, ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || $mode === 'showAdvancedSearch') {
+				$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+				$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
+				$pickListValues = [];
+				$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_USERS', $this->getModuleName())] = $userList;
+				$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+				$this->fieldInfo['picklistvalues'] = $pickListValues;
+				if (\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+					$this->fieldInfo['searchOperator'] = 'e';
 				}
-				break;
+			} else {
+				if ($fieldDataType == 'owner') {
+					$this->fieldInfo['searchOperator'] = 'e';
+				}
+			}
+			break;
 			case 'modules':
 				foreach ($this->getModulesListValues() as $moduleId => $module) {
 					$modulesList[$module['name']] = $module['label'];

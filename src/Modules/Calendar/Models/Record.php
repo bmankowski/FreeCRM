@@ -106,7 +106,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		return 'index.php?module=Calendar&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
 	}
 
-	public function saveToDb()
+	public function saveToDb($relationParams = null)
 	{
 		//Time should changed to 24hrs format
 		\App\Http\AppRequest::set('time_start', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds(\App\Http\AppRequest::get('time_start')));

@@ -28,10 +28,16 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		parent::__construct();
 	}
 
-	public function get($key)
+	/**
+	 * Get field value
+	 * @param string $key Field name
+	 * @param string $view Current view name (optional)
+	 * @return mixed
+	 */
+	public function get($key, $view = null)
 	{
 		$value = parent::get($key);
-		if ($key === 'content' && \App\Http\AppRequest::get('view') == 'Detail') {
+		if ($key === 'content' && $view === 'Detail') {
 			return \vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \vtlib\Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {

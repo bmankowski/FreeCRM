@@ -134,7 +134,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to save record
 	 */
-	public function saveToDb()
+	public function saveToDb($relationParams = null)
 	{
 		parent::saveToDb();
 		$db = \App\Db::getInstance();

@@ -220,8 +220,9 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to save a given record model of the current module
 	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param array $relationParams Optional relation parameters for linking records
 	 */
-	public function saveRecord(\App\Modules\Vtiger\Models\Record $recordModel)
+	public function saveRecord(\App\Modules\Vtiger\Models\Record $recordModel, $relationParams = null)
 	{
 		$moduleName = $this->get('name');
 		$eventHandler = new \App\EventHandler();
@@ -235,18 +236,28 @@ class Module extends \vtlib\Module
 		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
 			\App\Log::info('ERR_NO_DATA');
 		} else {
-			$recordModel->saveToDb();
+			$recordModel->saveToDb($relationParams);
 		}
 
 		$recordId = $recordModel->getId();
-		\App\Modules\Users\Models\Privileges::setSharedOwner($recordModel->get('shownerid'), $recordId);
+		
+		// Determine if it's a partial save (SaveAjax for non-shownerid field)
+		$saveFull = true;
+		if ($relationParams && isset($relationParams['action']) && 
+			$relationParams['action'] === 'SaveAjax' && 
+			isset($relationParams['field']) && 
+			$relationParams['field'] !== 'shownerid') {
+			$saveFull = false;
+		}
+		
+		\App\Modules\Users\Models\Privileges::setSharedOwner($recordModel->get('shownerid'), $recordId, $saveFull);
 		if ($this->isInventory()) {
 			$recordModel->saveInventoryData($moduleName);
 		}
 		// vtlib customization: Hook provide to enable generic module relation.
-		if (\App\Http\AppRequest::get('createmode') === 'link') {
-			$forModule = \App\Http\AppRequest::get('return_module');
-			$forCrmid = \App\Http\AppRequest::get('return_id');
+		if ($relationParams && isset($relationParams['createmode']) && $relationParams['createmode'] === 'link') {
+			$forModule = $relationParams['return_module'] ?? null;
+			$forCrmid = $relationParams['return_id'] ?? null;
 			if ($forModule && $forCrmid) {
 				$focus = \App\CRMEntity::getInstance($forModule);
 				\App\Utils\Utils::relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);

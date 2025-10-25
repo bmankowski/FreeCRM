@@ -300,7 +300,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 * @param \App\Modules\Vtiger\Models\Record $recordModel
 	 * @copyright Modyfikowane przez PWC
 	 */
-	public function saveRecord(\App\Modules\Vtiger\Models\Record $recordModel)
+	public function saveRecord(\App\Modules\Vtiger\Models\Record $recordModel, $relationParams = null)
 	{
 		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
@@ -314,7 +314,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		if ($recordModel->getHandlerExceptions()) {
 			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
 		}
-		$recordModel->saveToDb();
+		$recordModel->saveToDb($relationParams);
 		//After adding new user, set the default activity types for new user
 		\App\Modules\Vtiger\Helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\Modules\Users\Models\Record::getCurrentUserRealId() === $recordModel->getId()) {

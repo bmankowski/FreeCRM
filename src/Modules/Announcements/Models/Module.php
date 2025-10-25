@@ -13,9 +13,14 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	protected $announcements = [];
 
-	public function checkActive()
+	/**
+	 * Check if announcements should be displayed
+	 * @param string $view Current view name
+	 * @return bool
+	 */
+	public function checkActive($view = null)
 	{
-		if (\App\Http\AppRequest::get('view') == 'Login' || !$this->isActive()) {
+		if ($view === 'Login' || !$this->isActive()) {
 			return false;
 		}
 		$this->loadAnnouncements();

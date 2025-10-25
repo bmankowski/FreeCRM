@@ -215,8 +215,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Save data to the database
+	 * @param array $relationParams Optional relation parameters
 	 */
-	public function saveToDb()
+	public function saveToDb($relationParams = null)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();

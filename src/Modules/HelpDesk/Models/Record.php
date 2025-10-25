@@ -78,14 +78,25 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to save record
+	 * @param array $relationParams Optional relation parameters
 	 */
-	public function saveToDb()
+	public function saveToDb($relationParams = null)
 	{
-		parent::saveToDb();
-		$forModule = \App\Http\AppRequest::get('return_module');
-		$forCrmid = \App\Http\AppRequest::get('return_id');
-		if (\App\Http\AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
-			\App\CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \App\Http\AppRequest::get('module'), $this->getId());
+		parent::saveToDb($relationParams);
+		
+		if ($relationParams && !empty($relationParams['return_action'])) {
+			$forModule = $relationParams['return_module'] ?? null;
+			$forCrmid = $relationParams['return_id'] ?? null;
+			$currentModule = $relationParams['current_module'] ?? null;
+			
+			if ($forModule && $forCrmid && $forModule === 'ServiceContracts') {
+				\App\CRMEntity::getInstance($forModule)->save_related_module(
+					$forModule, 
+					$forCrmid, 
+					$currentModule, 
+					$this->getId()
+				);
+			}
 		}
 	}
 }
