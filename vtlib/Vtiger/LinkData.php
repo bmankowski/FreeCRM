@@ -27,11 +27,17 @@ class LinkData
 	{
 		$this->link = $link;
 		$this->user = $user;
+		$this->input = $input ?? [];
 		$this->module = vglobal('currentModule');
 	}
 
 	public function getInputParameter($name)
 	{
+		// Use stored input if available, fallback to AppRequest for backward compatibility
+		if (isset($this->input[$name])) {
+			return $this->input[$name];
+		}
+		// Fallback during migration - will be removed once all callers updated
 		return \App\Http\AppRequest::get($name);
 	}
 

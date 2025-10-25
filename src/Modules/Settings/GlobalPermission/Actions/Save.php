@@ -20,7 +20,6 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 
 	public function __construct()
 	{
-		\App\Modules\Settings\Vtiger\Models\Tracker::setRecordId(\App\Http\AppRequest::get('profileID'));
 		parent::__construct();
 	}
 
@@ -34,6 +33,8 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
+		// Initialize tracker with request parameter instead of AppRequest
+		\App\Modules\Settings\Vtiger\Models\Tracker::setRecordId($request->get('profileID'));
 		$profileID = $request->get('profileID');
 		$checked = $request->get('checked');
 		$globalactionid = $request->get('globalactionid');

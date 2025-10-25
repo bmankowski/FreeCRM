@@ -16,8 +16,14 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Basic
 
 	public function __construct()
 	{
-		\App\Modules\Settings\Vtiger\Models\Tracker::setRecordId(\App\Http\AppRequest::get('record'));
-		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
 		parent::__construct();
+	}
+	
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		// Initialize tracker with request parameter instead of AppRequest
+		\App\Modules\Settings\Vtiger\Models\Tracker::setRecordId($request->get('record'));
+		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
+		parent::process($request);
 	}
 }

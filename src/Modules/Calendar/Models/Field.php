@@ -141,14 +141,16 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get the field details
+	 * @param array $context Optional context array that may contain search_params
 	 * @return <Array> - array of field values
 	 */
-	public function getFieldInfo()
+	public function getFieldInfo($context = [])
 	{
-		parent::getFieldInfo();
+		parent::getFieldInfo($context);
 		//Change the default search operator
 		if ($this->get('name') == 'date_start') {
-			$searchParams = \App\Http\AppRequest::get('search_params');
+			// Check context first, fallback to AppRequest for backward compatibility
+			$searchParams = isset($context['search_params']) ? $context['search_params'] : \App\Http\AppRequest::get('search_params');
 			if (!empty($searchParams)) {
 				foreach ($searchParams[0] as $value) {
 					if ($value[0] == 'date_start') {

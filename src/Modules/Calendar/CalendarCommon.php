@@ -139,12 +139,17 @@ function twoDigit($no)
 // User Select Customization
 /**
  * Function returns the id of the User selected by current user in the picklist of the ListView or Calendar view of Current User
+ * @param string|null $onlyForUserParam Optional user ID parameter
  * return String -  Id of the user that the current user has selected 
  */
-function calendarview_getSelectedUserId()
+function calendarview_getSelectedUserId($onlyForUserParam = null)
 {
 	$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
-	$onlyForUser = htmlspecialchars(strip_tags(\App\Http\AppRequest::getForSql('onlyforuser')), ENT_QUOTES, \App\AppConfig::main('default_charset'));
+	// Check parameter first, fallback to AppRequest for backward compatibility
+	if ($onlyForUserParam === null) {
+		$onlyForUserParam = \App\Http\AppRequest::getForSql('onlyforuser');
+	}
+	$onlyForUser = htmlspecialchars(strip_tags($onlyForUserParam), ENT_QUOTES, \App\AppConfig::main('default_charset'));
 	if ($onlyForUser == '')
 		$onlyForUser = $currentUser->id;
 	return $onlyForUser;

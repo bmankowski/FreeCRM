@@ -250,7 +250,8 @@ class Link
 			if (!empty($row['handler_path']) && \vtlib\Deprecated::isFileAccessible($row['handler_path'])) {
 				\vtlib\Deprecated::checkFileAccessForInclusion($row['handler_path']);
 				require_once $row['handler_path'];
-				$linkData = new LinkData($instance, \App\User\CurrentUser::get());
+				// Pass $_REQUEST as input so handlers can access request parameters
+				$linkData = new LinkData($instance, \App\User\CurrentUser::get(), $_REQUEST);
 				$ignore = call_user_func(array($row['handler_class'], $row['handler']), $linkData);
 				if (!$ignore) {
 					self::log('Ignoring Link ... ' . var_export($row, true));

@@ -68,24 +68,32 @@ class Documents extends \App\CRMEntity
 	public $default_sort_order = 'DESC';
 
 	/**    Function used to get the sort order for Documents listview
-	 *      @return string  $sorder - first check the $_REQUEST['sorder'] if request value is empty then check in the $_SESSION['NOTES_SORT_ORDER'] if this session value is empty then default sort order will be returned.
+	 *      @param string|null $sortOrder Optional sort order parameter
+	 *      @return string  $sorder - first check the $sortOrder parameter, then $_SESSION, then default
 	 */
-	public function getSortOrder()
+	public function getSortOrder($sortOrder = null)
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		if (\App\Http\AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
-		else
+		// Check parameter first, fallback to AppRequest for backward compatibility
+		if ($sortOrder === null && \App\Http\AppRequest::has('sorder')) {
+			$sortOrder = \App\Http\AppRequest::get('sorder');
+		}
+		
+		if ($sortOrder !== null) {
+			$sorder = $this->db->sql_escape_string($sortOrder);
+		} else {
 			$sorder = (($_SESSION['NOTES_SORT_ORDER'] != '') ? ($_SESSION['NOTES_SORT_ORDER']) : ($this->default_sort_order));
+		}
 		\App\Log::trace('Exiting getSortOrder() method ...');
 		return $sorder;
 	}
 
 	/**     Function used to get the order by value for Documents listview
-	 *       @return string  $order_by  - first check the $_REQUEST['order_by'] if request value is empty then check in the $_SESSION['NOTES_ORDER_BY'] if this session value is empty then default order by will be returned.
+	 *       @param string|null $orderBy Optional order by parameter
+	 *       @return string  $order_by  - first check the $orderBy parameter, then $_SESSION, then default
 	 */
-	public function getOrderBy()
+	public function getOrderBy($orderBy = null)
 	{
 
 		\App\Log::trace('Entering getOrderBy() method ...');
@@ -95,22 +103,37 @@ class Documents extends \App\CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (\App\Http\AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
-		else
+		// Check parameter first, fallback to AppRequest for backward compatibility
+		if ($orderBy === null && \App\Http\AppRequest::has('order_by')) {
+			$orderBy = \App\Http\AppRequest::get('order_by');
+		}
+		
+		if ($orderBy !== null) {
+			$order_by = $this->db->sql_escape_string($orderBy);
+		} else {
 			$order_by = (($_SESSION['NOTES_ORDER_BY'] != '') ? ($_SESSION['NOTES_ORDER_BY']) : ($use_default_order_by));
+		}
 		\App\Log::trace('Exiting getOrderBy method ...');
 		return $order_by;
 	}
 
 	/**
 	 * Function used to get the sort order for Documents listview
+	 * @param int $folderId Folder ID
+	 * @param string|null $sortOrder Optional sort order parameter
+	 * @param int|null $requestFolderId Optional folder ID from request
 	 * @return String $sorder - sort order for a given folder.
 	 */
-	public function getSortOrderForFolder($folderId)
+	public function getSortOrderForFolder($folderId, $sortOrder = null, $requestFolderId = null)
 	{
-		if (\App\Http\AppRequest::has('sorder') && \App\Http\AppRequest::get('folderid') == $folderId) {
-			$sorder = $this->db->sql_escape_string(\App\Http\AppRequest::get('sorder'));
+		// Check parameters first, fallback to AppRequest for backward compatibility
+		if ($sortOrder === null && \App\Http\AppRequest::has('sorder')) {
+			$sortOrder = \App\Http\AppRequest::get('sorder');
+			$requestFolderId = \App\Http\AppRequest::get('folderid');
+		}
+		
+		if ($sortOrder !== null && $requestFolderId == $folderId) {
+			$sorder = $this->db->sql_escape_string($sortOrder);
 		} elseif (is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) &&
 			!empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
 			$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
@@ -122,16 +145,26 @@ class Documents extends \App\CRMEntity
 
 	/**
 	 * Function used to get the order by value for Documents listview
+	 * @param int $folderId Folder ID
+	 * @param string|null $orderBy Optional order by parameter
+	 * @param int|null $requestFolderId Optional folder ID from request
 	 * @return String order by column for a given folder.
 	 */
-	public function getOrderByForFolder($folderId)
+	public function getOrderByForFolder($folderId, $orderBy = null, $requestFolderId = null)
 	{
 		$use_default_order_by = '';
 		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
-		if (\App\Http\AppRequest::has('order_by') && \App\Http\AppRequest::get('folderid') == $folderId) {
-			$order_by = $this->db->sql_escape_string(\App\Http\AppRequest::get('order_by'));
+		
+		// Check parameters first, fallback to AppRequest for backward compatibility
+		if ($orderBy === null && \App\Http\AppRequest::has('order_by')) {
+			$orderBy = \App\Http\AppRequest::get('order_by');
+			$requestFolderId = \App\Http\AppRequest::get('folderid');
+		}
+		
+		if ($orderBy !== null && $requestFolderId == $folderId) {
+			$order_by = $this->db->sql_escape_string($orderBy);
 		} elseif (is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) &&
 			!empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
 			$order_by = $_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId];
