@@ -11,7 +11,7 @@ use App\AppConfig;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Company extends Base
+class Company extends Runtime\BaseModel
 {
 
 	/** @var Logo directory */

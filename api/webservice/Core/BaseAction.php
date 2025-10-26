@@ -16,7 +16,7 @@ class BaseAction
 	/** @var \Api\Controller */
 	public $controller;
 
-	/** @var \App\Base */
+	/** @var \App\Runtime\BaseModel */
 	public $session;
 
 	public function checkAction()
@@ -67,7 +67,7 @@ class BaseAction
 		if (empty($row)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
-		$this->session = new \App\Base();
+		$this->session = new \App\Runtime\BaseModel();
 		$this->session->setData($row);
 		$userId = $this->session->get('user_id');
 		\App\Modules\Users\Models\Record::setCurrentUserId($userId);

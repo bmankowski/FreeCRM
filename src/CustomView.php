@@ -465,7 +465,7 @@ class CustomView
 	public function getViewId($noCache = false, \App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			$request = null /* Request should be passed as parameter */;
+			$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		}
 		\App\Log::trace(__METHOD__);
 		if (isset($this->defaultViewId)) {

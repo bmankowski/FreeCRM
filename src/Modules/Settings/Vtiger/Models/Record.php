@@ -16,7 +16,7 @@ namespace App\Modules\Settings\Vtiger\Models;
  * Settings Vtiger Record Model Class
  */
 
-abstract class Record extends \App\Base
+abstract class Record extends \App\Runtime\BaseModel
 {
 
 	abstract function getId();

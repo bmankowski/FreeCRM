@@ -96,7 +96,10 @@ class BaseModel
 	 */
 	public function isEmpty($key)
 	{
-		return (!isset($this->valueMap[$key]) || empty($this->valueMap[$key]));
+		if(empty($this->valueMap)) {
+			return true;
+		}
+		return (!isset($this->valueMap[$key]) || $this->valueMap[$key] === '');
 	}
 
 	/**
@@ -114,5 +117,15 @@ class BaseModel
 	public function getKeys()
 	{
 		return array_keys($this->valueMap);
+	}
+
+	/**
+	 * Function to get the html value for a given key
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getHtmlEncode($key)
+	{
+		return \App\Purifier::encodeHtml($this->get($key));
 	}
 }
