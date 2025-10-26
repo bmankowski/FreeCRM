@@ -11,7 +11,7 @@ namespace App\Modules\Campaigns\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Relation extends \App\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Base\Models\Relation
 {
 
 	/**
@@ -39,7 +39,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 
 	/**
 	 * Function to get relation field for relation module and parent module
-	 * @return \App\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Base\Models\Field
 	 */
 	public function getRelationField()
 	{

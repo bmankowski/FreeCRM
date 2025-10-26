@@ -16,7 +16,7 @@ require_once 'libraries/RSSFeeds/Feed.php';
 // for rss caching
 Feed::$cacheDir = 'cache/rss_cache';
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**

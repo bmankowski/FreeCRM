@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Leads\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**

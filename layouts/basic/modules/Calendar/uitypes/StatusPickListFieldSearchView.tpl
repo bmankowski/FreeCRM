@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Calendar/uitypes/StatusPickListFieldSearchView.tpl -->
 {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-{assign var=EVENTS_MODULE_MODEL value=\App\Modules\Vtiger\Models\Module::getInstance('Events')}
+{assign var=EVENTS_MODULE_MODEL value=\App\Modules\Base\Models\Module::getInstance('Events')}
 {assign var=EVENT_STATUS_FIELD_MODEL value=$EVENTS_MODULE_MODEL->getField('activitystatus')}
 {assign var=EVENT_STAUTS_PICKLIST_VALUES value=$EVENT_STATUS_FIELD_MODEL->getPicklistValues()}
 {assign var=PICKLIST_VALUES value=array_merge($FIELD_MODEL->getPicklistValues(),$EVENT_STAUTS_PICKLIST_VALUES)}

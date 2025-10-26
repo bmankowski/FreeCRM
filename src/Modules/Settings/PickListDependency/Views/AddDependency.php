@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PickListDependency\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class AddDependency extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class AddDependency extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()
@@ -31,7 +31,7 @@ class AddDependency extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 
 		$qualifiedModule = $request->getModule(true);
 		$viewer = $this->getViewer($request);
-		$moduleModels = \App\Modules\Vtiger\Models\Module::getEntityModules();
+		$moduleModels = \App\Modules\Base\Models\Module::getEntityModules();
 
 		$viewer->assign('MODULES', $moduleModels);
 		echo $viewer->view('AddDependency.tpl', $qualifiedModule);

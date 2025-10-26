@@ -14,7 +14,7 @@ namespace App\Modules\Import\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
@@ -39,10 +39,10 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
-	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel)
+	public function getListViewEntries(\App\Modules\Base\Models\Paging $pagingModel)
 	{
 		$moduleModel = $this->getModule();
 		$this->loadListViewCondition();
@@ -88,13 +88,13 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
 	 * @param string $moduleName - Module Name
 	 * @param int $viewId - Custom View Id
-	 * @return \App\Modules\Vtiger\Models\ListView instance
+	 * @return \App\Modules\Base\Models\ListView instance
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
 	{
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', 'Import');
 		$instance = new $modelClassName();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		$queryGenerator->initForDefaultCustomView(true);
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);

@@ -8,7 +8,7 @@ namespace App\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public function getTreeViewName()
@@ -33,7 +33,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			],
 		];
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		}
 		return $links;
 	}

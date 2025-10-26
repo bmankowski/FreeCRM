@@ -12,7 +12,7 @@ namespace App\Modules\CallHistory\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -22,7 +22,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 
-		$linkModelListDetails = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$linkModelListDetails = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.
 		//Since ui will be look ugly if you need many basic links
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
@@ -36,7 +36,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 		  'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("'.$recordModel->getDeleteUrl().'")',
 		  'linkicon' => ''
 		  );
-		  $linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
+		  $linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($deletelinkModel);
 		  }
 		 */
 		if (!empty($detailViewBasiclinks)) {

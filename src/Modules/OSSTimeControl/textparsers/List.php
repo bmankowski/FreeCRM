@@ -26,7 +26,7 @@ class TextParser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->textParser->moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($this->textParser->moduleName);
 		$fields = $moduleModel->getFields();
 		$ids = $this->textParser->getParam('pdf')->getRecordIds();
 		if (!is_array($ids)) {
@@ -50,7 +50,7 @@ class TextParser extends \App\TextParser\Base
 		$summary = [];
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
 			foreach ($this->columnNames as $key => $column) {
 				$fieldModel = $fields[$column];
 				$class = '';

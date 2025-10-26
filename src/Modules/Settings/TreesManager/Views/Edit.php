@@ -13,7 +13,7 @@ namespace App\Modules\Settings\TreesManager\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

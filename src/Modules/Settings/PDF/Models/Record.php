@@ -13,7 +13,7 @@ namespace App\Modules\Settings\PDF\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	protected $recordCache = [];
@@ -46,13 +46,13 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$this->module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -80,7 +80,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -99,7 +99,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		return $pdf;
 	}
 
-	public static function save(\App\Modules\Vtiger\Models\PDF $pdfModel, $step = 1)
+	public static function save(\App\Modules\Base\Models\PDF $pdfModel, $step = 1)
 	{
 		$db = \App\Db::getInstance('admin');
 
@@ -163,7 +163,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		}
 	}
 
-	public static function deleteWatermark(\App\Modules\Vtiger\Models\PDF $pdfModel)
+	public static function deleteWatermark(\App\Modules\Base\Models\PDF $pdfModel)
 	{
 		$db = \App\Db::getInstance('admin');
 		$watermarkImage = $pdfModel->get('watermark_image');
@@ -176,7 +176,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		return false;
 	}
 
-	public static function delete(\App\Modules\Vtiger\Models\PDF $pdfModel)
+	public static function delete(\App\Modules\Base\Models\PDF $pdfModel)
 	{
 		return \App\Db::getInstance('admin')->createCommand()
 				->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
@@ -186,7 +186,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	public static function transformAdvanceFilterToWorkFlowFilter(\App\Modules\Vtiger\Models\PDF &$pdfModel)
+	public static function transformAdvanceFilterToWorkFlowFilter(\App\Modules\Base\Models\PDF &$pdfModel)
 	{
 		$conditions = $pdfModel->get('conditions');
 		$wfCondition = [];

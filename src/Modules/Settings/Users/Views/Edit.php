@@ -22,7 +22,7 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
 				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
@@ -53,7 +53,7 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
-		$settingsModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance();
+		$settingsModel = \App\Modules\Settings\Base\Models\Module::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 		$viewer->assign('MENUS', $menu);

@@ -14,7 +14,7 @@ namespace App\Modules\OSSTimeControl\Views;
 
 
 use App\Http\Vtiger_Request;
-class RightPanel  extends \App\Modules\Vtiger\Views\Index
+class RightPanel  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()

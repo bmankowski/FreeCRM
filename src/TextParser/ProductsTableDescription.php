@@ -26,7 +26,7 @@ class ProductsTableDescription extends Base
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->textParser->moduleName);
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		foreach ($inventoryRows as $inventoryRow) {

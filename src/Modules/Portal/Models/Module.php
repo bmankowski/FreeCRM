@@ -11,7 +11,7 @@ namespace App\Modules\Portal\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public function getSideBarLinks($linkParams)
@@ -22,7 +22,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => '',
 		);
-		$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+		$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		return $links;
 	}
 

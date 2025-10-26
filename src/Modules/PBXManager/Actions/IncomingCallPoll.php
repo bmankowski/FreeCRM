@@ -113,7 +113,7 @@ class IncomingCallPoll extends \App\Runtime\BaseActionController
 		$element['phone'] = $request->get('number');
 		$element['assigned_user_id'] = vtws_getWebserviceEntityId('Users', $user->id);
 
-		$moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$mandatoryFieldModels = $moduleInstance->getMandatoryFieldModels();
 		foreach ($mandatoryFieldModels as $mandatoryField) {
 			$fieldName = $mandatoryField->get('name');
@@ -124,7 +124,7 @@ class IncomingCallPoll extends \App\Runtime\BaseActionController
 			} else {
 				$fieldValue = $defaultValue;
 				if (empty($fieldValue)) {
-					$fieldValue = \App\Modules\Vtiger\Helpers\Util::getDefaultMandatoryValue($fieldType);
+					$fieldValue = \App\Modules\Base\Helpers\Util::getDefaultMandatoryValue($fieldType);
 				}
 				$element[$fieldName] = $fieldValue;
 			}

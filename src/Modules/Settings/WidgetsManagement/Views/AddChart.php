@@ -10,7 +10,7 @@ namespace App\Modules\Settings\WidgetsManagement\Views;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class AddChart extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class AddChart extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	public function getReports()

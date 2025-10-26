@@ -4,7 +4,7 @@ namespace App\Modules\OSSPasswords\Views;
 
 //The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
 
-class InRelation  extends \App\Modules\Vtiger\Views\Index
+class InRelation  extends \App\Modules\Base\Views\Index
 {
 
 	public function getScripts(\App\Http\Vtiger_Request $request)

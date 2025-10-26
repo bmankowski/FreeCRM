@@ -220,7 +220,7 @@ class PBXManager extends \App\CRMEntity
 			}
 			$adb->pquery("INSERT INTO vtiger_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
 		}
-		\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_INTEGRATION', [
+		\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_INTEGRATION', [
 			'name' => 'LBL_PBXMANAGER',
 			'iconpath' => 'adminIcon-pbx-manager',
 			'description' => 'LBL_PBXMANAGER_DESCRIPTION',

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CronTasks\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

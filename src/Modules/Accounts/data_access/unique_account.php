@@ -25,27 +25,27 @@ class DataAccess_unique_account
 		$where = '';
 		$hierarchyCheck = false;
 		if ($ID != 0 && $ID != '' && !array_key_exists('vat_id', $recordForm)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($ID, $moduleName);
 			$vatId = $recordModel->get('vat_id');
 		} else {
 			if (array_key_exists('vat_id', $recordForm))
 				$vatId = $recordForm['vat_id'];
 		}
 		if ($ID != 0 && $ID != '' && !array_key_exists('accountname', $recordForm)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($ID, $moduleName);
 			$accountName = $recordModel->get('accountname');
 		} else {
 			if (array_key_exists('accountname', $recordForm))
 				$accountName = $recordForm['accountname'];
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$hierarchyField = \App\Modules\Vtiger\Models\Field::getInstance('account_id', $moduleModel);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$hierarchyField = \App\Modules\Base\Models\Field::getInstance('account_id', $moduleModel);
 		if ($hierarchyField->isActiveField()) {
 			if (array_key_exists('account_id', $recordForm))
 				$hierarchyValue = $recordForm['account_id'];
 			elseif ($ID != 0 && $ID != '' && !array_key_exists('account_id', $recordForm)) {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($ID, $moduleName);
 				$hierarchyValue = $recordModel->get('account_id');
 			}
 			if ($hierarchyValue) {
@@ -94,7 +94,7 @@ class DataAccess_unique_account
 			}
 		}
 		if ($save === true && empty($recordForm['account_id']) === false && $ID > 0) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($ID, $moduleName);
 			$hierarchyValueOld = $recordModel->get('account_id');
 			if ($hierarchyValueOld != $recordForm['account_id']) {
 				$hierarchyAll = $this->getHierarchy($recordForm['account_id'], $moduleName, '');

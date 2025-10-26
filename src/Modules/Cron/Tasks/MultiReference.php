@@ -19,7 +19,7 @@ foreach ($rows as &$multireference) {
 		$queryGenerator->addCondition('id', $multireference['lastid'], 'a');
 		$queryGenerator->setOrder('id', 'ASC');
 
-		$fields = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
+		$fields = \App\Modules\Base\UiTypes\MultiReferenceValue::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 		$dataReader = $queryGenerator->createQuery()->limit($limit)->createCommand()->query();
 		unset($queryGenerator);
 		$queryGenerator = new \App\QueryGenerator($multireference['source_module']);
@@ -31,7 +31,7 @@ foreach ($rows as &$multireference) {
 		
 		while ($id = $dataReader->readColumn(0)) {
 			foreach ($fields as &$field) {
-				$fieldModel = new \App\Modules\Vtiger\Models\Field();
+				$fieldModel = new \App\Modules\Base\Models\Field();
 				$fieldModel->initialize($field);
 				$UITypeModel = $fieldModel->getUITypeModel();
 				$UITypeModel->reloadValue($multireference['source_module'], $id);
@@ -55,9 +55,9 @@ foreach ($rows as &$multireference) {
 			if (in_array($multireference['lastid'], $executed)) {
 				continue;
 			}
-			$fields = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
+			$fields = \App\Modules\Base\UiTypes\MultiReferenceValue::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 			foreach ($fields as $field) {
-				$fieldModel = new \App\Modules\Vtiger\Models\Field();
+				$fieldModel = new \App\Modules\Base\Models\Field();
 				$fieldModel->initialize($field);
 				$UITypeModel = $fieldModel->getUITypeModel();
 				$UITypeModel->reloadValue($multireference['source_module'], $multireference['lastid']);

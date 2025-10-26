@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Menu\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class CreateMenu extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class CreateMenu extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

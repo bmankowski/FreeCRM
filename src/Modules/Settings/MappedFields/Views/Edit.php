@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MappedFields\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -61,11 +61,11 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 				break;
 			case 'step3':
 				$moduleSourceName = \vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
-				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleSourceName);
-				$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+				$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleSourceName);
+				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('SOURCE_MODULE', $moduleSourceName);
-				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
+				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\AdvancedFilter::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 			case 'step2':
@@ -96,8 +96,8 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.Edit4",
-			'modules.Vtiger.resources.AdvanceFilter',
-			'modules.Vtiger.resources.AdvanceFilterEx',
+			'modules.Base.resources.AdvanceFilter',
+			'modules.Base.resources.AdvanceFilterEx',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

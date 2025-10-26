@@ -26,11 +26,11 @@ class TableTaxSummary extends Base
 			return '';
 		}
 		$html = '';
-		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->textParser->moduleName);
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		$columns = $inventoryField->getColumns();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		$baseCurrency = \App\Modules\Vtiger\Util::getBaseCurrency();
+		$baseCurrency = \App\Modules\Base\Util::getBaseCurrency();
 		if (in_array('currency', $columns)) {
 			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
 				$currency = $inventoryRows[0]['currency'];

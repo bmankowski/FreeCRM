@@ -14,7 +14,7 @@ namespace App\Modules\Documents\Views;
 
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	public function __construct()
@@ -26,7 +26,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		$fileType = $recordModel->get('filetype');
 		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
 
@@ -38,7 +38,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \App\Modules\Vtiger\Models\Record record model
+	 * @param \App\Modules\Base\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

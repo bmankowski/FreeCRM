@@ -37,7 +37,7 @@ class MassSaveAjax extends \App\Runtime\BaseActionController
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Base\Models\Record or Module specific Record Model instance
 	 */
 	private function getRecordModelsFromRequest(\App\Http\Vtiger_Request $request)
 	{
@@ -47,7 +47,7 @@ class MassSaveAjax extends \App\Runtime\BaseActionController
 		$recordModels = [];
 		$currentUserModel = $request->getUser();
 		foreach ($recordIds as &$recordId) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 			$recordModel->set('commentcontent', $request->get('commentcontent'));
 			$recordModel->set('related_to', $recordId);
 			$recordModel->set('assigned_user_id', $currentUserModel->getId());

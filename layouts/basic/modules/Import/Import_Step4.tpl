@@ -48,7 +48,7 @@
 							{if $smarty.foreach.rowData.iteration gt 1}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
 								{assign var="PREFIX" value='inventory_'}
-								{assign var="INVENTORY_FIELDS" value=\App\Modules\Vtiger\Models\InventoryField::getInstance($FOR_MODULE)->getColumns()}
+								{assign var="INVENTORY_FIELDS" value=\App\Modules\Base\Models\InventoryField::getInstance($FOR_MODULE)->getColumns()}
 								{array_push($INVENTORY_FIELDS, 'recordIteration')}
 							{else}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$AVAILABLE_BLOCKS}

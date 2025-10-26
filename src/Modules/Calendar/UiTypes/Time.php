@@ -2,7 +2,7 @@
 
 namespace App\Modules\Calendar\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\BaseUiType as Base;
+use App\Modules\Base\UiTypes\BaseUiType as Base;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -38,7 +38,7 @@ class Time extends Base
 	 * Function to get the calendar event call duration value in hour format
 	 * @param type $fieldName
 	 * @param type $value
-	 * @return <\App\Modules\Vtiger\UiTypes\Time> - getTimeValue 
+	 * @return <\App\Modules\Base\UiTypes\Time> - getTimeValue 
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{

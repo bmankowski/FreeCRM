@@ -11,7 +11,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
  */
 use App\Http\Vtiger_Request;
 
-class ClosedTicketsByUser  extends \App\Modules\Vtiger\Views\Index
+class ClosedTicketsByUser  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -44,7 +44,7 @@ class ClosedTicketsByUser  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = 'HelpDesk';
 		$time['start'] = \App\Fields\DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = \App\Fields\DateTimeField::convertToDBFormat($time['end']);
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$ticketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$query = (new \App\Db\Query())->select([
@@ -89,7 +89,7 @@ class ClosedTicketsByUser  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$time = $request->get('time');
 		if (empty($time)) {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);

@@ -2,7 +2,7 @@
 
 namespace App\Modules\OSSTimeControl\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\BaseUiType;
+use App\Modules\Base\UiTypes\BaseUiType;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -39,7 +39,7 @@ class Time extends BaseUiType
 	 * Function to get the calendar event call duration value in hour format
 	 * @param type $fieldName
 	 * @param type $value
-	 * @return <\App\Modules\Vtiger\UiTypes\Time> - getTimeValue 
+	 * @return <\App\Modules\Base\UiTypes\Time> - getTimeValue 
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{

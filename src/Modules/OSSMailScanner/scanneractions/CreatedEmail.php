@@ -46,7 +46,7 @@ class CreatedEmail {
 			$toIds = array_merge($toIds, $mail->findEmailAdress('ccaddress'));
 			$toIds = array_merge($toIds, $mail->findEmailAdress('bccaddress'));
 
-			$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
+			$record = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
 			$record->set('subject', $mail->isEmpty('subject') ? '-' : $mail->get('subject'));
 			$record->set('to_email', $mail->get('toaddress'));

@@ -1,0 +1,59 @@
+{*<!--
+/*********************************************************************************
+  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+   * ("License"); You may not use this file except in compliance with the License
+   * The Original Code is:  vtiger CRM Open Source
+   * The Initial Developer of the Original Code is vtiger.
+   * Portions created by vtiger are Copyright (C) vtiger.
+   * All Rights Reserved.
+  *
+ ********************************************************************************/
+-->*}
+{strip}
+<!-- layouts/basic/modules/Base/showDuplicateSearch.tpl -->
+<div class='modelContainer modal fade' tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header contentsBackground">
+				<button data-dismiss="modal" class="close" title="{"LBL_CLOSE"|t}">&times;</button>
+				<h3 class="modal-title">{"LBL_MERGING_CRITERIA_SELECTION"|t:$MODULE}</h3>
+			</div>
+			<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
+				<input type='hidden' name='module' value='{$MODULE}' />
+				<input type='hidden' name='view' value='FindDuplicates' />
+				<br>
+				<div class="form-group">
+					<div class="col-sm-3 control-label">
+						{"LBL_AVAILABLE_FIELDS"|t:$MODULE}
+					</div>
+					<div class="col-sm-6 controls">
+							<div class="col-md-10">
+								<select id="fieldList" class="select2 form-control" multiple="true" title="{"LBL_AVAILABLE_FIELDS"|t:$MODULE}" name="fields[]"
+									data-validation-engine="validate[required]">
+									{foreach from=$FIELDS item=FIELD}
+										{if $FIELD->isViewableInDetailView()}
+											<option value="{$FIELD->getName()}">{$FIELD->get('label')|t:$MODULE}</option>
+										{/if}
+									{/foreach}
+								</select>
+							</div>
+							<div class="col-md-10">
+								<label><input type="checkbox" name="ignoreEmpty" title="{"LBL_IGNORE_EMPTY_VALUES"|t:$MODULE}" checked /><span class="alignMiddle">&nbsp;{"LBL_IGNORE_EMPTY_VALUES"|t:$MODULE}</span></label>
+							</div>
+						<br>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="pull-right cancelLinkContainer">
+						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{"LBL_CANCEL"|t:$MODULE}</button>
+					</div>
+					<button class="btn btn-success" type="submit" disabled="true">
+						<strong>{"LBL_FIND_DUPLICATES"|t:$MODULE}</strong>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--/layouts/basic/modules/Base/showDuplicateSearch.tpl -->
+{/strip}

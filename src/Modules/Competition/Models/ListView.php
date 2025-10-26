@@ -8,13 +8,13 @@ namespace App\Modules\Competition\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param array $linkParams
-	 * @return array - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return array - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -31,7 +31,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 			);
 		}
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $links;
 	}

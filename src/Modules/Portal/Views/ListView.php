@@ -13,7 +13,7 @@ namespace App\Modules\Portal\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView  extends \App\Modules\Vtiger\Views\Index
+class ListView  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -53,7 +53,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		$listViewModel = new \App\Modules\Portal\Models\ListView();
@@ -96,7 +96,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.List',
+			'modules.Base.resources.List',
 			"modules.$moduleName.resources.List",
 		);
 

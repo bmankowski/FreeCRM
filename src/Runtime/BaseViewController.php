@@ -113,11 +113,11 @@ abstract class BaseViewController extends \App\Runtime\BaseActionController
 				   }
 			   }
 		   }
-		   $parentMenu = \App\Modules\Vtiger\Models\Menu::getParentMenu($parentList, $parent, $moduleName);
+		   $parentMenu = \App\Modules\Base\Models\Menu::getParentMenu($parentList, $parent, $moduleName);
 		   if (count($parentMenu) > 0) {
 			   $breadcrumbs = array_reverse($parentMenu);
 		   }
-		   $moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		   $moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		   if ($moduleModel && $moduleModel->getDefaultUrl()) {
 			   $breadcrumbs[] = [
 				   'name' => \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName),

@@ -11,7 +11,7 @@ namespace App\Modules\Documents\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
 		foreach ($reqPopUpFields as &$fieldName) {
 			if (!isset($popupFields[$fieldName])) {
-				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
+				$fieldModel = \App\Modules\Base\Models\Field::getInstance($fieldName, $this);
 				if ($fieldModel->getPermissions()) {
 					$popupFields[$fieldName] = $fieldName;
 				}

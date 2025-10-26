@@ -12,7 +12,7 @@ namespace App\Modules\Faq\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -22,7 +22,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getInstanceFromHelpDesk($parentRecordModel)
 	{
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Faq');
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('Faq');
 		$fieldMappingList = \App\Modules\Faq\Models\Record::getTicketToFAQMappingFields();
 
 		foreach ($fieldMappingList as $fieldMapping) {

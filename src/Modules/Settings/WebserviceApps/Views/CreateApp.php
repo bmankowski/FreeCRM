@@ -11,7 +11,7 @@ namespace App\Modules\Settings\WebserviceApps\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-class CreateApp extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class CreateApp extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -37,7 +37,7 @@ class CreateApp extends \App\Modules\Settings\Vtiger\Views\BasicModal
 			$recordModel = \App\Modules\Settings\WebserviceApps\Models\Record::getInstanceById($recordId);
 			$accountId = $recordModel->get('accounts_id');
 			if ($recordModel && !empty($accountId)) {
-				$recordModel->set('accountsModel', \App\Modules\Vtiger\Models\Record::getInstanceById($accountId));
+				$recordModel->set('accountsModel', \App\Modules\Base\Models\Record::getInstanceById($accountId));
 			}
 		} else {
 			$recordModel = false;

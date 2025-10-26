@@ -25,7 +25,7 @@ class FileReader {
 	{
 		$this->request = $request;
 		$this->user = $user;
-		$this->moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->request->get('module'));
+		$this->moduleModel = \App\Modules\Base\Models\Module::getInstance($this->request->get('module'));
 	}
 
 	public function getStatus()
@@ -118,7 +118,7 @@ class FileReader {
 		];
 		foreach ($fieldMapping as $fieldName => $index) {
 			if ($field = $moduleFields[$fieldName]) {
-				$stringTypes = array_merge(\App\Modules\Vtiger\Models\Field::$referenceTypes, ['owner', 'currencyList', 'sharedOwner']);
+				$stringTypes = array_merge(\App\Modules\Base\Models\Field::$referenceTypes, ['owner', 'currencyList', 'sharedOwner']);
 				if (in_array($field->getFieldDataType(), $stringTypes)) {
 					$columns[$fieldName] = $schema->createColumnSchemaBuilder('string', 255);
 				} else {
@@ -130,7 +130,7 @@ class FileReader {
 
 		if ($this->moduleModel->isInventory()) {
 			$inventoryTableName = \App\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
-			$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->moduleModel->getName());
+			$inventoryFieldModel = \App\Modules\Base\Models\InventoryField::getInstance($this->moduleModel->getName());
 			$columns = [
 				'id' => $schema->createColumnSchemaBuilder('integer', 19)
 			];

@@ -10,7 +10,7 @@ namespace App\Modules\Products\Views;
  */
 
 use App\Http\Vtiger_Request;
-class TreeRecords  extends \App\Modules\Vtiger\Views\Index
+class TreeRecords  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -32,15 +32,15 @@ class TreeRecords  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$baseModuleName = 'Accounts';
 
-		$multiReferenceFirld = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::getFieldsByModules($baseModuleName, $moduleName);
+		$multiReferenceFirld = \App\Modules\Base\UiTypes\MultiReferenceValue::getFieldsByModules($baseModuleName, $moduleName);
 		$multiReferenceFirld = reset($multiReferenceFirld);
 		if (count($multiReferenceFirld) === 0) {
 			return;
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($baseModuleName, $filter);
+		$listViewModel = \App\Modules\Base\Models\ListView::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {
 			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');

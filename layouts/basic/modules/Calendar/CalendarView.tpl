@@ -22,8 +22,8 @@
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-<input type="hidden" id="hiddenDays" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
-<input type="hidden" id="activityStateLabels" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
+<input type="hidden" id="hiddenDays" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+<input type="hidden" id="activityStateLabels" value="{\App\Modules\Base\Helpers\Util::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 <style>
 {foreach from=\App\Modules\Settings\Calendar\Models\Module::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }
@@ -32,7 +32,7 @@
 {foreach from=\App\Modules\Settings\Calendar\Models\Module::getUserColors('colors') item=ITEM}
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
 {/foreach}
-{foreach from=\App\Modules\Vtiger\Models\Module::getAll() item=MODULE}
+{foreach from=\App\Modules\Base\Models\Module::getAll() item=MODULE}
 	.modIcon_{$MODULE->get('name')}{ background-image: url("{\App\Runtime\Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
 {/foreach}
 </style>

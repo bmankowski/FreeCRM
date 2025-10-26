@@ -11,7 +11,7 @@ namespace App\Modules\Settings\CustomView\Models;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public function getCustomViews($tabId)

@@ -11,7 +11,7 @@ namespace App\Modules\Vendors\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**

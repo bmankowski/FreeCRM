@@ -28,7 +28,7 @@ class GetHoliday extends \App\Runtime\BaseActionController
 
 		$sourceData = array();
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 
 		$holiday['workDay'] = $recordModel->getHoliday($id, $year);
 		$holiday['entitlement'] = $recordModel->getHolidaysEntitlement($id, $year);

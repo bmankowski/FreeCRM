@@ -78,17 +78,17 @@
 						{if $FIELD_MODEL->isDefaultValueOptionDisabled() neq "true"}
 							{if $FIELD_MODEL->getFieldDataType() eq "picklist"}
 								{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-								<select class="col-md-2 select2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}'>
+								<select class="col-md-2 select2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}'>
 									{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-										<option value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKLIST_NAME)}" {if decode_html($FIELD_MODEL->get('defaultvalue')) eq $PICKLIST_NAME} selected {/if}>{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}</option>
+										<option value="{\App\Modules\Base\Helpers\Util::toSafeHTML($PICKLIST_NAME)}" {if decode_html($FIELD_MODEL->get('defaultvalue')) eq $PICKLIST_NAME} selected {/if}>{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}</option>
 									{/foreach}
 								</select>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
 								{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 								{assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('defaultvalue'))}
-								<select multiple class="col-md-2 select2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}'>
+								<select multiple class="col-md-2 select2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}'>
 									{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
-										<option value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKLIST_VALUE)}" {if in_array(\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}</option>
+										<option value="{\App\Modules\Base\Helpers\Util::toSafeHTML($PICKLIST_VALUE)}" {if in_array(\App\Modules\Base\Helpers\Util::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{$PICKLIST_VALUE|t:$SELECTED_MODULE_NAME}</option>
 									{/foreach}
 								</select>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "boolean"}
@@ -168,7 +168,7 @@
 				{if AppConfig::developer('CHANGE_VISIBILITY')}
 					<label class="checkbox">
 						{'LBL_DISPLAY_TYPE'|t:$QUALIFIED_MODULE}
-						{assign var=DISPLAY_TYPE value=\App\Modules\Vtiger\Models\Field::showDisplayTypeList()}
+						{assign var=DISPLAY_TYPE value=\App\Modules\Base\Models\Field::showDisplayTypeList()}
 					</label>
 					<div class="marginLeft20 defaultValueUi">
 						<select name="displaytype" class="form-control select2">

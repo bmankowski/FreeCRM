@@ -20,7 +20,7 @@ class EmailParser extends TextParser
 
 	/**
 	 * Check if this content can be used
-	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
+	 * @param \App\Modules\Base\Models\Field $fieldModel
 	 * @param string $moduleName
 	 * @return boolean
 	 */

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Leads\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
+class Mapping extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $name = 'Leads';
@@ -56,11 +56,11 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get list of detail view link models
-	 * @return <Array> list of detail view link models <\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> list of detail view link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getDetailViewLinks()
 	{
-		return array(\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
+		return array(\App\Modules\Base\Models\Link::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("' . $this->getEditViewUrl() . '")',
@@ -70,11 +70,11 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function to get list of mapping link models
-	 * @return <Array> list of mapping link models <\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> list of mapping link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getMappingLinks()
 	{
-		return array(\App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
+		return array(\App\Modules\Base\Models\Link::getInstanceFromValues(array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"' . $this->getMappingDeleteUrl() . '")',
@@ -126,7 +126,7 @@ class Mapping extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getFieldsInfo($fieldIdsList)
 	{
-		$leadModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getName());
+		$leadModel = \App\Modules\Base\Models\Module::getInstance($this->getName());
 		$leadId = $leadModel->getId();
 		$dataReader = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'uitype', 'typeofdata', 'fieldname', 'tablename', 'tabid'])
 			->from('vtiger_field')

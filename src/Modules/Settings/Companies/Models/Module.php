@@ -10,7 +10,7 @@ namespace App\Modules\Settings\Companies\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 's_yf_companies';

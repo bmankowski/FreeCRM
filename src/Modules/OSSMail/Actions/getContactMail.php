@@ -22,7 +22,7 @@ class getContactMail extends \App\Runtime\BaseActionController
 		$mod = $request->get('mod');
 		$emailFields = [];
 		$searchList = \App\Modules\OSSMailScanner\Models\Record::getEmailSearch($mod);
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ids, $mod);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($ids, $mod);
 		$name = $recordModel->getName();
 		foreach ($searchList as &$emailField) {
 			$email = $recordModel->get($emailField['fieldname']);

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\HideBlocks\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -34,7 +34,7 @@ class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Vtiger\V
 			
 		}
 		$moduleModel = \App\Modules\Settings\HideBlocks\Models\Record::getModuleInstanceByBlockId($blockId);
-		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$blockInstance = vtlib\Block::getInstance($blockId, $moduleModel);
@@ -52,7 +52,7 @@ class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Vtiger\V
 			}
 		}
 		$viewer->assign('MANDATORY_FIELDS', $mandatoryFields);
-		$viewer->assign('DATE_FILTERS', \App\Modules\Vtiger\AdvancedFilter::getDateFilter($qualifiedModuleName));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($qualifiedModuleName));
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getName');

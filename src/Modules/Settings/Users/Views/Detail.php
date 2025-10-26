@@ -43,7 +43,7 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
-		$settingsModel = new \App\Modules\Settings\Vtiger\Models\Module();
+		$settingsModel = new \App\Modules\Settings\Base\Models\Module();
 		$menuModels = $settingsModel->getMenus($request);
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 		$viewer->assign('MENUS', $menu);
@@ -90,7 +90,7 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \App\Modules\Vtiger\Models\Record record model
+	 * @param \App\Modules\Base\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

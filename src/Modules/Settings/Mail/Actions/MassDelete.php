@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class MassDelete extends \App\Modules\Vtiger\Actions\Mass
+class MassDelete extends \App\Modules\Base\Actions\Mass
 {
 
 	/**

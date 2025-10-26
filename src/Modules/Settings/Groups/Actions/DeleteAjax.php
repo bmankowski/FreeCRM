@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\Groups\Actions;
-use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Base\Models\Tracker;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
+class DeleteAjax extends \App\Modules\Settings\Base\Actions\Delete
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -38,7 +38,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 		}
 
 		if ($recordModel && $transferToOwner) {
-			\App\Modules\Settings\Vtiger\Models\Tracker::addDetail([], $prevValues);
+			\App\Modules\Settings\Base\Models\Tracker::addDetail([], $prevValues);
 			$recordModel->delete($transferToOwner);
 		}
 

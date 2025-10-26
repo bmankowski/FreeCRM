@@ -10,7 +10,7 @@ namespace App\Modules\Accounts\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class AccountsByIndustry  extends \App\Modules\Vtiger\Views\Index
+class AccountsByIndustry  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -88,7 +88,7 @@ class AccountsByIndustry  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Accounts');
 		else
@@ -102,15 +102,15 @@ class AccountsByIndustry  extends \App\Modules\Vtiger\Views\Index
 		//Date conversion from user to database format
 		$dates = [];
 		if (!empty($createdTime)) {
-			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		} else {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time !== false) {
 				$dates = $time;
 			}
 		}
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$data = $this->getAccountsByIndustry($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$leadSIndustryAmount = count($data['name']);

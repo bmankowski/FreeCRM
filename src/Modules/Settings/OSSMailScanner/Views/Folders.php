@@ -10,7 +10,7 @@ namespace App\Modules\Settings\OSSMailScanner\Views;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Folders extends \App\Modules\Vtiger\Views\BasicModal
+class Folders extends \App\Modules\Base\Views\BasicModal
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -35,9 +35,9 @@ class Folders extends \App\Modules\Vtiger\Views\BasicModal
 		$mailModuleActive = \vtlib\Functions::getModuleId('OSSMail');
 		$folders = [];
 		if ($mailModuleActive) {
-			$mailRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+			$mailRecordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
 			$folders = $mailRecordModel->getFolders($record);
-			$mailScannerRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+			$mailScannerRecordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 			$mailScannerFolders = $mailScannerRecordModel->getFolders($record);
 			$selectedFolders = [];
 			$missingFolders = [];

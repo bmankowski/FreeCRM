@@ -55,7 +55,7 @@ class Notification {
 	 */
 	private function existNotifications($userId, $startDate, $endDate)
 	{
-		$scheduleData = \App\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule($userId, true);
+		$scheduleData = \App\Modules\Base\Models\Watchdog::getWatchingModulesSchedule($userId, true);
 		$modules = $scheduleData['modules'];
 		return \App\Modules\Notification\Models\Module::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
 	}
@@ -93,7 +93,7 @@ class Notification {
 		foreach ($notifications as $userId => $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, 0, \App\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
-				$notice = \App\Modules\Vtiger\Models\Record::getInstanceById($noticeId);
+				$notice = \App\Modules\Base\Models\Record::getInstanceById($noticeId);
 				$notice->setMarked();
 			}
 		}

@@ -11,18 +11,18 @@ namespace App\Modules\Rss\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = array(
 			array(
@@ -33,7 +33,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			)
 		);
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		}
 		$quickWidgets = array(
 			array(
@@ -44,7 +44,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			),
 		);
 		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickWidget);
 		}
 
 		return $links;

@@ -28,10 +28,10 @@
 						<div class="clearfix"></div>
 					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
+						<input type="hidden" name="picklistDependency" value='{\App\Modules\Base\Helpers\Util::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 					{/if}
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($MAPPING_RELATED_FIELD)}' />
+						<input type="hidden" name="mappingRelatedField" value='{\App\Modules\Base\Helpers\Util::toSafeHTML($MAPPING_RELATED_FIELD)}' />
 					{/if}
 					<input type="hidden" name="module" value="{$MODULE}">
 					<input type="hidden" name="action" value="SaveAjax">

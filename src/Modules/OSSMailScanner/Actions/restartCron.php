@@ -26,7 +26,7 @@ class restartCron extends \App\Runtime\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('updatedFields');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$recordModel->runRestartCron();
 		$recordModel->verificationCron();
 		$result = array('success' => true, 'data' => \App\Runtime\Vtiger_Language_Handler::translate('JS_info_restart_ok', 'OSSMailScanner'));

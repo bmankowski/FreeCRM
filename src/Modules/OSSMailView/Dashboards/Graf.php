@@ -14,7 +14,7 @@ namespace App\Modules\OSSMailView\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class Graf  extends \App\Modules\Vtiger\Views\Index
+class Graf  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -98,14 +98,14 @@ class Graf  extends \App\Modules\Vtiger\Views\Index
 			$dateFilter['end'] = $today;
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getMailCount($owner, $dateFilter);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
 		for ($i = 0; $i < $countData; $i++) {
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dateFilter);
 		}
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		// Prepare owner data for the template
 		$allActiveUserList = \App\Fields\Owner::getInstance()->getAccessibleUsers();

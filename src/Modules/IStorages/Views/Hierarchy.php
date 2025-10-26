@@ -36,7 +36,7 @@ class Hierarchy extends \App\Runtime\BaseViewController
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getHierarchy();
 
 		$viewer->assign('MODULE', $moduleName);

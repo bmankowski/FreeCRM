@@ -14,7 +14,7 @@ use App\Modules\Settings\Widgets\Models\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Widget extends \App\Modules\Settings\Vtiger\Views\Index
+class Widget extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -86,7 +86,7 @@ class Module
 	{
 		switch ($row['type']) {
 			case 0:
-				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($row['module']);
+				$moduleModel = \App\Modules\Base\Models\Module::getInstance($row['module']);
 				$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
 				break;
 			case 1: $url = $row['dataurl'];
@@ -130,7 +130,7 @@ class Module
 		$filters = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->all();
-		foreach (\App\Modules\Vtiger\Models\Module::getAll() as $module) {
+		foreach (\App\Modules\Base\Models\Module::getAll() as $module) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
 			if (file_exists($filterDir)) {
 				$fileFilters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));

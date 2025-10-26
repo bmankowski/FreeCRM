@@ -43,7 +43,7 @@ class Company extends Runtime\BaseModel
 
 	/**
 	 * Function to get the Company Logo
-	 * @return \App\Modules\Vtiger\Models\Image instance
+	 * @return \App\Modules\Base\Models\Image instance
 	 */
 	public function getLogo($type = false)
 	{
@@ -54,7 +54,7 @@ class Company extends Runtime\BaseModel
 		if (!$logoName) {
 			return null;
 		}
-		$logoModel = new \App\Modules\Vtiger\Models\Image();
+		$logoModel = new \App\Modules\Base\Models\Image();
 		$imagePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoStoragePath) . $logoName;
 		$imageURL = \App\AppConfig::main('site_URL') . static::$logoURL . $logoName;
 		$logoModel->setData([

@@ -8,7 +8,7 @@ namespace App\Modules\IStorages\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -25,7 +25,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				preg_match('/[.\s]+/', $storageInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $storageInfo[0], $name);
 
-				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('IStorages');
+				$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('IStorages');
 				$recordModel->setId($storageId);
 				$hierarchy['entries'][$storageId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}

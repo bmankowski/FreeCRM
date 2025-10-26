@@ -10,7 +10,7 @@ namespace App\Modules\OSSMail\Views;
  */
 
 use App\Http\Vtiger_Request;
-class MailActionBar  extends \App\Modules\Vtiger\Views\Index
+class MailActionBar  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -39,7 +39,7 @@ class MailActionBar  extends \App\Modules\Vtiger\Views\Index
 		$mailViewModel = \App\Modules\OSSMailView\Models\Record::getCleanInstance('OSSMailView');
 		$record = $mailViewModel->checkMailExist($uid, $folder, $rcId);
 		if (!$record && !empty($account['actions'])) {
-			$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+			$mailModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
 			$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder);
 			$return = \App\Modules\OSSMailScanner\Models\Record::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);
 			if (isset($return['CreatedEmail'])) {

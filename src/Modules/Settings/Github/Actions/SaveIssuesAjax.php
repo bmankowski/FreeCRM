@@ -10,7 +10,7 @@ namespace App\Modules\Settings\Github\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class SaveIssuesAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
+class SaveIssuesAjax extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

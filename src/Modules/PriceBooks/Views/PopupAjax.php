@@ -13,7 +13,7 @@ namespace App\Modules\PriceBooks\Views;
 
 
 use App\Http\Vtiger_Request;
-class PopupAjax  extends \App\Modules\Vtiger\Views\Index
+class PopupAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()

@@ -14,7 +14,7 @@ namespace App\Modules\PriceBooks\Models;
 /**
  * PriceBooks Record Model Class
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**

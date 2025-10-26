@@ -10,7 +10,7 @@ namespace App\Modules\Settings\ModuleManager\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Library extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Library extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

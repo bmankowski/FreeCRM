@@ -11,7 +11,7 @@ namespace App\Modules\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**

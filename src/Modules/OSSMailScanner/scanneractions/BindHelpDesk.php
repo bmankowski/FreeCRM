@@ -26,7 +26,7 @@ class BindHelpDesk extends \App\Runtime\BaseModel
 				return false;
 			}
 			$conf = \App\Modules\OSSMailScanner\Models\Record::getConfig('emailsearch');
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $this->moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id, $this->moduleName);
 			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(\App\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
 				$recordModel->set('ticketstatus', \App\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
 				$recordModel->save();

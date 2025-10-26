@@ -13,7 +13,7 @@ namespace App\Modules\Settings\LangManagement\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

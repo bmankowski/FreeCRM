@@ -96,7 +96,7 @@ abstract class EntityMeta
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
-				foreach (\App\Modules\Vtiger\Models\Field::$referenceTypes as $type) {
+				foreach (\App\Modules\Base\Models\Field::$referenceTypes as $type) {
 					if (strcasecmp($webserviceField->getFieldDataType(), $type) === 0) {
 						$this->referenceFieldDetails[$fieldName] = $webserviceField->getReferenceList();
 					}

@@ -30,9 +30,9 @@ class CheckDuplicate extends \App\Runtime\BaseActionController
 		$record = $request->get('record');
 
 		if ($record) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 		} else {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		}
 
 		$recordModel->set('reportname', $reportName);

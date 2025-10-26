@@ -26,7 +26,7 @@ class VTEmailTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{

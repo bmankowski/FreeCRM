@@ -10,7 +10,7 @@ namespace App\Modules\SSalesProcesses\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	public function getDetailViewRelatedLinks()
@@ -18,7 +18,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 
-		$relatedLinks = \App\Modules\Vtiger\Models\DetailView::getDetailViewRelatedLinks();
+		$relatedLinks = \App\Modules\Base\Models\DetailView::getDetailViewRelatedLinks();
 		$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
 
 		if ($showPSTab) {

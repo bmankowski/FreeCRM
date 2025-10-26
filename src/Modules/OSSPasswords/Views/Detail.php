@@ -10,7 +10,7 @@ namespace App\Modules\OSSPasswords\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	protected $record = false;
@@ -33,7 +33,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \App\Modules\Vtiger\Models\Record record model
+	 * @param \App\Modules\Base\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

@@ -11,13 +11,13 @@ namespace App\Modules\Settings\PDF\Actions;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ExportTemplate extends \App\Modules\Settings\Vtiger\Actions\Index
+class ExportTemplate extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
+		$pdfModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId);
 
 		header('content-type: application/xml; charset=utf-8');
 		header('Pragma: public');

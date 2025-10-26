@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Leads\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class MappingDetail extends \App\Modules\Settings\Vtiger\Views\Index
+class MappingDetail extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

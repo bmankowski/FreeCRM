@@ -11,7 +11,7 @@ namespace App\Modules\Settings\BruteForce\Views;
  * @author YetiForce.com
  */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**

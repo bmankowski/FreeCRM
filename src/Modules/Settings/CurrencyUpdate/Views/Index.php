@@ -9,7 +9,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Views;
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -24,7 +24,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$moduleModel->refreshBanks();
 
 		$downloadBtn = !$request->isEmpty('download') ? $request->get('download') : false;
-		$date = !$request->isEmpty('duedate') ? \App\Modules\Vtiger\UiTypes\Datetime::getDBInsertedValue($request->get('duedate')) : false;
+		$date = !$request->isEmpty('duedate') ? \App\Modules\Base\UiTypes\Datetime::getDBInsertedValue($request->get('duedate')) : false;
 
 		$dateCur = '';
 		if ($date) {
@@ -77,7 +77,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULENAME', 'CurrencyUpdate');
-		$viewer->assign('DATE', ($request->has('duedate') ? (new \App\Modules\Vtiger\UiTypes\Date())->getDisplayValue($dateCur) : ''));
+		$viewer->assign('DATE', ($request->has('duedate') ? (new \App\Modules\Base\UiTypes\Date())->getDisplayValue($dateCur) : ''));
 		$viewer->assign('CURRNUM', $curr_num);
 		$viewer->assign('BANK', $bankTab);
 		$viewer->assign('HISTORIA', $history);

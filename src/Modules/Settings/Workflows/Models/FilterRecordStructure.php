@@ -74,7 +74,7 @@ class FilterRecordStructure extends \App\Modules\Settings\Workflows\Models\Recor
 			if ($type == 'owner')
 				$referenceModules = array('Users');
 			foreach ($referenceModules as $refModule) {
-				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($refModule);
+				$moduleModel = \App\Modules\Base\Models\Module::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
 				foreach ($blockModelList as $blockLabel => $blockModel) {
 					$fieldModelList = $blockModel->getFields();

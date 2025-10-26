@@ -8,7 +8,7 @@ namespace App\Modules\Leads\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Relation extends \App\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Base\Models\Relation
 {
 
 	/**

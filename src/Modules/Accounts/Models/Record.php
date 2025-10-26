@@ -12,7 +12,7 @@ namespace App\Modules\Accounts\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -31,7 +31,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				preg_match('/[.\s]+/', $link, $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
 
-				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Accounts');
+				$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('Accounts');
 				$recordModel->setId($accountId);
 				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}
@@ -45,7 +45,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateEventUrl()
 	{
-		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Base\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -55,7 +55,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateTaskUrl()
 	{
-		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Base\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 

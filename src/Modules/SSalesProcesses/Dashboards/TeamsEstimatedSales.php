@@ -8,7 +8,7 @@ namespace App\Modules\SSalesProcesses\Dashboards;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class TeamsEstimatedSales  extends \App\Modules\Vtiger\Views\Index
+class TeamsEstimatedSales  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -89,7 +89,7 @@ class TeamsEstimatedSales  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$time = $request->get('time');
 		$compare = $request->get('compare') === 'true';
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
 		if (empty($time)) {
 			$time = ['start' => ''];
 			$date = new \DateTime();

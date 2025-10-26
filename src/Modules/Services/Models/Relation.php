@@ -11,7 +11,7 @@ namespace App\Modules\Services\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Relation extends \App\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Base\Models\Relation
 {
 
 	/**

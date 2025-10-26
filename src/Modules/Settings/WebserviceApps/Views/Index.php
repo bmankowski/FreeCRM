@@ -10,7 +10,7 @@ namespace App\Modules\Settings\WebserviceApps\Views;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

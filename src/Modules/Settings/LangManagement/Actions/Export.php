@@ -13,7 +13,7 @@ namespace App\Modules\Settings\LangManagement\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Export extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Export extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

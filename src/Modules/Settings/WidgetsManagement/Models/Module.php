@@ -12,7 +12,7 @@ namespace App\Modules\Settings\WidgetsManagement\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public function getRestrictFilter()
@@ -107,7 +107,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function appoints the proper owner
-	 * @param \App\Modules\Vtiger\Models\Widget $widgetModel
+	 * @param \App\Modules\Base\Models\Widget $widgetModel
 	 * @param string $moduleName
 	 * @param mixed $owner
 	 * @return mixed
@@ -239,7 +239,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$widgets = [];
 		while ($row = $dataReader->read()) {
 			$moduleName = \App\Module::getModuleName($row['tabid']);
-			$widgets[$moduleName][] = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+			$widgets[$moduleName][] = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
 		}
 		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
 		return $widgets;
@@ -414,7 +414,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$widgets[$row['linklabel']] = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+			$widgets[$row['linklabel']] = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
 		}
 		\App\Log::trace('Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets() method ...');
 		return $widgets;
@@ -444,19 +444,19 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$blockId = '';
 		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
-				$minilistWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
-				$minilistWidgetModel = new \App\Modules\Vtiger\Models\MiniList();
+				$minilistWidget = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
+				$minilistWidgetModel = new \App\Modules\Base\Models\MiniList();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$data[$row['blockid']][] = $minilistWidget;
 			} else if ($row['linklabel'] == 'ChartFilter') {
-				$chartFilterWidget = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new \App\Modules\Vtiger\Models\ChartFilter();
+				$chartFilterWidget = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new \App\Modules\Base\Models\ChartFilter();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
 				$chartFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
 				$data[$row['blockid']][] = $chartFilterWidget;
 			} else
-				$data[$row['blockid']][] = \App\Modules\Vtiger\Models\Widget::getInstanceFromValues($row);
+				$data[$row['blockid']][] = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
 		}
 		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule() method ...");
 		return $data;

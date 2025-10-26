@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ChartEdit extends \App\Modules\Vtiger\Views\Edit
+class ChartEdit extends \App\Modules\Base\Views\Edit
 {
 
 	public function __construct()
@@ -45,7 +45,7 @@ class ChartEdit extends \App\Modules\Vtiger\Views\Edit
 
 		$reportModel = \App\Modules\Reports\Models\Record::getCleanInstance($record);
 		$primaryModule = $reportModel->getPrimaryModule();
-		$primaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($primaryModule);
+		$primaryModuleModel = \App\Modules\Base\Models\Module::getInstance($primaryModule);
 		if ($primaryModuleModel) {
 			$currentUser = $request->getUser();
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
@@ -160,18 +160,18 @@ class ChartEdit extends \App\Modules\Vtiger\Views\Edit
 		$viewer->assign('REPORT_MODEL', $reportModel);
 		$viewer->assign('PRIMARY_MODULE', $primaryModule);
 
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 
 		$viewer->assign('SECONDARY_MODULES', $secondaryModules);
 		$viewer->assign('PRIMARY_MODULE_RECORD_STRUCTURE', $primaryModuleRecordStructure);
 		$viewer->assign('SECONDARY_MODULE_RECORD_STRUCTURES', $secondaryModuleRecordStructures);
-		$viewer->assign('DATE_FILTERS', \App\Modules\Vtiger\AdvancedFilter::getDateFilter($moduleName));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($moduleName));
 		if (($primaryModule == 'Calendar') || (in_array('Calendar', $secondaryModules))) {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Base\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -238,7 +238,7 @@ class ChartEdit extends \App\Modules\Vtiger\Views\Edit
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

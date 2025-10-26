@@ -10,7 +10,7 @@ namespace App\Modules\Settings\Mail\Actions;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class SendManuallyAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class SendManuallyAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	/**

@@ -12,7 +12,7 @@ namespace App\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -26,7 +26,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts');
-		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || \App\Modules\Vtiger\Models\Module::getInstance($sourceModule)->isInventory()) {
+		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || \App\Modules\Base\Models\Module::getInstance($sourceModule)->isInventory()) {
 			$condition = ['and', ['vtiger_products.discontinued' => 1]];
 			if ($sourceModule === $this->getName()) {
 				$subQuery = (new \App\Db\Query())
@@ -93,7 +93,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of \App\Modules\Vtiger\Models\Record>
+	 * @return <Array of \App\Modules\Base\Models\Record>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{

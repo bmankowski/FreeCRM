@@ -10,7 +10,7 @@ namespace App\Modules\Settings\LayoutEditor\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class CreateInventoryFields extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class CreateInventoryFields extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()
@@ -25,7 +25,7 @@ class CreateInventoryFields extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('type');
 		$block = $request->get('block');
-		$instance = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
+		$instance = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		$models = $instance->getAllFields();
 
 		$fieldsName = [];
@@ -47,7 +47,7 @@ class CreateInventoryFields extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$type = $request->get('mtype');
 		$moduleName = $request->get('type');
 		$id = $request->get('id');
-		$instance = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
+		$instance = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		if ($id) {
 			$fieldInstance = $instance->getFields(false, [$id], 'Settings');
 		} else {

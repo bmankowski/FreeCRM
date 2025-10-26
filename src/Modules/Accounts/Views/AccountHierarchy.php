@@ -46,7 +46,7 @@ class AccountHierarchy extends \App\Runtime\BaseViewController
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getAccountHierarchy();
 		$listColumns = \App\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		$lastModifiedField = [];
@@ -54,7 +54,7 @@ class AccountHierarchy extends \App\Runtime\BaseViewController
 			foreach ($hierarchy['entries'] as $crmId => $entry) {
 				$lastModified = $this->getLastModified($crmId);
 				if ($lastModified) {
-					$lastModifiedField[$crmId]['active']['userModel'] = \App\Modules\Vtiger\Models\Record::getInstanceById($lastModified['user_id'], 'Users');
+					$lastModifiedField[$crmId]['active']['userModel'] = \App\Modules\Base\Models\Record::getInstanceById($lastModified['user_id'], 'Users');
 					$lastModifiedField[$crmId]['active']['changedon'] = (new \App\Fields\DateTimeField($lastModified['date_updated']))->getFullcalenderDateTimevalue();
 				}
 			}

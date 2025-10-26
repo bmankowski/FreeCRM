@@ -10,7 +10,7 @@ namespace App\Modules\Documents\Views;
  */
 
 use App\Http\Vtiger_Request;
-class MassAddDocuments  extends \App\Modules\Vtiger\Views\Index
+class MassAddDocuments  extends \App\Modules\Base\Views\Index
 {
 
 	/**

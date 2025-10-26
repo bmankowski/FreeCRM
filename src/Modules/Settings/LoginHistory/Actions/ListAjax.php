@@ -11,14 +11,14 @@ namespace App\Modules\Settings\LoginHistory\Actions;
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class ListAjax extends \App\Modules\Settings\Vtiger\Actions\ListAjax
+class ListAjax extends \App\Modules\Settings\Base\Actions\ListAjax
 {
 
 	public function getListViewCount(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 
-		$listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance($qualifiedModuleName);
+		$listViewModel = \App\Modules\Settings\Base\Models\ListView::getInstance($qualifiedModuleName);
 
 		$searchField = $request->get('search_key');
 		$value = $request->get('search_value');

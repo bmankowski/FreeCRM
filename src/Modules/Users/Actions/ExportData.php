@@ -22,7 +22,7 @@ class ExportData extends \App\Runtime\BaseActionController
 		$adb = \App\Database\PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 
-		$this->moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$this->moduleFieldInstances = $this->moduleInstance->getFields();
 		$this->focus = $this->moduleInstance->getEntityInstance();
 		$query = $this->getExportQuery($request);

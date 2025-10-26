@@ -27,5 +27,5 @@ foreach ($readyTasks as $taskDetails) {
 		continue;
 	}
 	$task->setContents($taskContents);
-	$task->doTask(\App\Modules\Vtiger\Models\Record::getInstanceById($entityId));
+	$task->doTask(\App\Modules\Base\Models\Record::getInstanceById($entityId));
 }

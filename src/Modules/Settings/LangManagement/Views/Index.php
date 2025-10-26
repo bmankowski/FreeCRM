@@ -13,7 +13,7 @@ namespace App\Modules\Settings\LangManagement\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -39,7 +39,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 			"modules.Settings.$moduleName.resources.LangManagement",
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js',
-			'modules.Vtiger.resources.dashboards.Widget',
+			'modules.Base.resources.dashboards.Widget',
 			'~libraries/jquery/flot/jquery.flot.min.js',
 			'~libraries/jquery/flot/jquery.flot.stack.min.js',
 			'~libraries/jquery/flot/jquery.flot.valuelabels.min.js',

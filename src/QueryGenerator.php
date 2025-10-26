@@ -73,12 +73,12 @@ class QueryGenerator
 	private $conditionsOr = [];
 
 	/**
-	 * @var \App\Modules\Vtiger\Models\Module 
+	 * @var \App\Modules\Base\Models\Module 
 	 */
 	private $moduleModel;
 
 	/**
-	 * @var array \App\Modules\Vtiger\Models\Field 
+	 * @var array \App\Modules\Base\Models\Field 
 	 */
 	private $fieldsModel;
 
@@ -104,7 +104,7 @@ class QueryGenerator
 	public function __construct($moduleName, $userId = false)
 	{
 		$this->moduleName = $moduleName;
-	$this->moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+	$this->moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 	$this->entityModel = \App\CRMEntity::getInstance($moduleName);
 	$this->user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : \App\Modules\Users\Models\Record::getCurrentUserId(), 'Users');
 }
@@ -381,7 +381,7 @@ class QueryGenerator
 		}
 		$moduleFields = $this->moduleModel->getFields();
 		if ($this->moduleName === 'Calendar') {
-			$eventModuleFieldList = \App\Modules\Vtiger\Models\Module::getInstance('Events')->getFields();
+			$eventModuleFieldList = \App\Modules\Base\Models\Module::getInstance('Events')->getFields();
 			$moduleFields = array_merge($moduleFields, $eventModuleFieldList);
 		}
 		foreach ($moduleFields as $fieldName => &$fieldModel) {
@@ -397,7 +397,7 @@ class QueryGenerator
 
 	/**
 	 * Get field module
-	 * @return \App\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Base\Models\Field
 	 */
 	public function getModuleField($fieldName)
 	{
@@ -832,11 +832,11 @@ class QueryGenerator
 	/**
 	 * Set related field join
 	 * @param string[] $fieldDetail
-	 * @return \App\Modules\Vtiger\Models\Field|boolean
+	 * @return \App\Modules\Base\Models\Field|boolean
 	 */
 	protected function addRelatedJoin($fieldDetail)
 	{
-		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($fieldDetail['relatedModule']);
+		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($fieldDetail['relatedModule']);
 		$relatedFieldModel = $relatedModuleModel->getField($fieldDetail['relatedField']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
 			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
@@ -852,7 +852,7 @@ class QueryGenerator
 
 	/**
 	 * Get query related field instance
-	 * @param \App\Modules\Vtiger\Models\Field $field
+	 * @param \App\Modules\Base\Models\Field $field
 	 * @param array $relatedInfo
 	 * @return QueryField\BaseField
 	 * @throws \App\Exceptions\AppException
@@ -962,7 +962,7 @@ class QueryGenerator
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
 				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
 				}
 				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
 					$dateValues = explode(',', $fieldValue);

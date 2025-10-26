@@ -12,7 +12,7 @@ namespace App\Modules\Leads\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
@@ -23,7 +23,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$linkModelList = \App\Modules\Vtiger\Models\DetailView::getDetailViewLinks($linkParams);
+		$linkModelList = \App\Modules\Base\Models\DetailView::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
@@ -53,7 +53,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
 			);
-			$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;
 	}

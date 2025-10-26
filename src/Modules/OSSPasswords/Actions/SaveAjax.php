@@ -12,7 +12,7 @@ namespace App\Modules\OSSPasswords\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \App\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Base\Actions\Save
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -83,7 +83,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = \App\Modules\Vtiger\Helpers\Util::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \App\Modules\Base\Helpers\Util::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() !== 'currency' && $fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'time' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}

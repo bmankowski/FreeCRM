@@ -10,7 +10,7 @@ namespace App\Modules\Accounts\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class NewAccounts  extends \App\Modules\Vtiger\Views\Index
+class NewAccounts  extends \App\Modules\Base\Views\Index
 {
 
 	private function getAccounts($moduleName, $user, $time, $pagingModel)
@@ -59,7 +59,7 @@ class NewAccounts  extends \App\Modules\Vtiger\Views\Index
 			$time['start'] = \vtlib\Functions::currentUserDisplayDateNew();
 			$time['end'] = \vtlib\Functions::currentUserDisplayDateNew();
 		}
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
 			$user = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		}
@@ -72,7 +72,7 @@ class NewAccounts  extends \App\Modules\Vtiger\Views\Index
 		if (empty($page)) {
 			$page = 1;
 		}
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$newAccounts = $this->getAccounts($moduleName, $user, $time, $pagingModel);

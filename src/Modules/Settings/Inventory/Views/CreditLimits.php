@@ -11,7 +11,7 @@ use App\Http\Vtiger_Request;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class CreditLimits extends \App\Modules\Settings\Vtiger\Views\Index
+class CreditLimits extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function getView()
@@ -37,7 +37,7 @@ class CreditLimits extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('INVENTORY_DATA', $allData);
 		$viewer->assign('VIEW', $view);
-		$viewer->assign('CURRENCY', \App\Modules\Vtiger\Helpers\Util::getBaseCurrency());
+		$viewer->assign('CURRENCY', \App\Modules\Base\Helpers\Util::getBaseCurrency());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\LayoutEditor\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Block extends \App\Modules\Vtiger\Models\Block
+class Block extends \App\Modules\Base\Models\Block
 {
 
 	public function isActionsAllowed()
@@ -83,7 +83,7 @@ class Block extends \App\Modules\Vtiger\Models\Block
 	/**
 	 * Function to retrieve block instance from vtlib\Block object
 	 * @param vtlib\Block $blockObject - vtlib block object
-	 * @return \App\Modules\Vtiger\Models\Block
+	 * @return \App\Modules\Base\Models\Block
 	 */
 	public static function getInstanceFromBlockObject(\vtlib\Block $blockObject)
 	{
@@ -98,7 +98,7 @@ class Block extends \App\Modules\Vtiger\Models\Block
 	/**
 	 * Function to retrieve block instances for a module
 	 * @param <type> $moduleModel - module instance
-	 * @return <array> - list of \App\Modules\Vtiger\Models\Block
+	 * @return <array> - list of \App\Modules\Base\Models\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{

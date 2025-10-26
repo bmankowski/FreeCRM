@@ -75,7 +75,7 @@ class WorkFlowScheduler {
 			if ($tasks) {
 				$records = $this->getEligibleWorkflowRecords($workflow);
 				foreach ($records as &$recordId) {
-					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 					$data = $recordModel->getData();
 					foreach ($tasks as $task) {
 						if ($task->active) {

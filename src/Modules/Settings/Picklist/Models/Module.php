@@ -14,7 +14,7 @@ use App\Modules\Settings\PicklistModels\Field;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public function getPickListTableName($fieldName)
@@ -277,7 +277,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
 	 * @param vtlib\Module $moduleObj
-	 * @return \App\Modules\Vtiger\Models\Module instance
+	 * @return \App\Modules\Base\Models\Module instance
 	 */
 	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
 	{

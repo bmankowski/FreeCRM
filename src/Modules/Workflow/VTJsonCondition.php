@@ -17,7 +17,7 @@ class VTJsonCondition {
 	/**
 	 * Evaluate
 	 * @param array $condition
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @return string
 	 */
 	public function evaluate($condition, $recordModel)
@@ -41,9 +41,9 @@ class VTJsonCondition {
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						if ($referenceModule === 'Users') {
-							$referenceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId, $referenceModule);
+							$referenceRecordModel = \App\Modules\Base\Models\Record::getInstanceById($referenceFieldId, $referenceModule);
 						} else {
-							$referenceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($referenceFieldId);
+							$referenceRecordModel = \App\Modules\Base\Models\Record::getInstanceById($referenceFieldId);
 						}
 						$cond['fieldname'] = $fieldname;
 						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
@@ -123,9 +123,9 @@ class VTJsonCondition {
 
 	/**
 	 * Check condition
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @param array $cond
-	 * @param null|\App\Modules\Vtiger\Models\Record $referredRecordModel
+	 * @param null|\App\Modules\Base\Models\Record $referredRecordModel
 	 * @return boolean
 	 * @throws Exception
 	 */
@@ -192,7 +192,7 @@ class VTJsonCondition {
 					$value = $value . ':00'; // time fields will not have seconds appended to it, so we are adding 
 					break;
 				case 'multiReferenceValue':
-					$value = \App\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA . $value . \App\Modules\Vtiger\UiTypes\MultiReferenceValue::COMMA;
+					$value = \App\Modules\Base\UiTypes\MultiReferenceValue::COMMA . $value . \App\Modules\Base\UiTypes\MultiReferenceValue::COMMA;
 					break;
 				case 'sharedOwner':
 					if ($condition === 'is' || $condition === 'is not') {
@@ -425,13 +425,13 @@ class VTJsonCondition {
 				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
 				return false;
 			case 'is Watching Record':
-				$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
+				$watchdog = \App\Modules\Base\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {
 					return true;
 				}
 				return false;
 			case 'is Not Watching Record':
-				$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
+				$watchdog = \App\Modules\Base\Models\Watchdog::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {
 					return false;
 				}

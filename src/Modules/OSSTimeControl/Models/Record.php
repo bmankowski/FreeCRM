@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class OSSTimeControl_Record_Model extends \App\Modules\Vtiger\Models\Record
+class OSSTimeControl_Record_Model extends \App\Modules\Base\Models\Record
 {
 
 	const recalculateStatus = 'Accepted';
@@ -16,7 +16,7 @@ class OSSTimeControl_Record_Model extends \App\Modules\Vtiger\Models\Record
 			->sum('sum_time');
 		$sumTime = number_format($sumTime, 2);
 		$metaData = \vtlib\Functions::getCRMRecordMetadata($id);
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($metaData['setype']);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($metaData['setype']);
 		$focus = $moduleModel->getEntityInstance();
 		if ($moduleModel->getFieldByColumn('sum_time')) {
 			\App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => $sumTime], [$focus->table_index => $id])->execute();

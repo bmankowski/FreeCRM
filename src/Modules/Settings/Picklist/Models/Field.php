@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Picklist\Models;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	public function isEditable()
@@ -32,7 +32,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	public function getPicklistValuesForRole($roleIdList, $groupMode = 'INTERSECTION')
 	{
 		if (!$this->isRoleBased()) {
-			$fieldModel = new \App\Modules\Vtiger\Models\Field();
+			$fieldModel = new \App\Modules\Base\Models\Field();
 			return $fieldModel->getPicklistValues();
 		}
 		$intersectionMode = false;
@@ -75,7 +75,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 * Function to get instance
 	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
-	 * @return <\App\Modules\Vtiger\Models\Field>
+	 * @return <\App\Modules\Base\Models\Field>
 	 */
 	public static function getInstance($value, $module = false)
 	{
@@ -89,7 +89,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	/**
 	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
 	 * @param vtlib\Field $fieldObj - vtlib field object
-	 * @return \App\Modules\Vtiger\Models\Field instance
+	 * @return \App\Modules\Base\Models\Field instance
 	 */
 	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
 	{

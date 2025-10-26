@@ -13,7 +13,7 @@ namespace App\Modules\Rss\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView  extends \App\Modules\Vtiger\Views\Index
+class ListView  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -38,7 +38,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('ListViewContents.tpl', $moduleName);
@@ -60,7 +60,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 	{
 		$module = $request->getModule();
 		$recordId = $request->get('id');
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);
 		if ($recordId) {
 			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordId, $module);
 		} else {
@@ -80,7 +80,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -88,11 +88,11 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.List',
+			'modules.Base.resources.List',
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			'modules.Vtiger.resources.CkEditor'
+			'modules.Base.resources.CkEditor'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -102,7 +102,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\Field instances
+	 * @return <Array> - List of \App\Modules\Base\Models\Field instances
 	 */
 	public function getListViewRssHeaders($module)
 	{
@@ -123,7 +123,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 			)
 		);
 		foreach ($headerFields as $fieldName => $fieldDetails) {
-			$fieldModel = new \App\Modules\Vtiger\Models\Field();
+			$fieldModel = new \App\Modules\Base\Models\Field();
 			foreach ($fieldDetails as $name => $value) {
 				$fieldModel->set($name, $value);
 			}

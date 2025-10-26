@@ -12,7 +12,7 @@ namespace App\Modules\SMSNotifier\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	public function getAdvancedLinks()
@@ -85,7 +85,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -94,7 +94,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 		$moduleName = $moduleModel->getName();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		$massActionLink = array();
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
@@ -105,7 +105,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 				'linkicon' => ''
 			);
 		}
-		$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+		$links['LISTVIEWMASSACTION'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 
 		return $links;
 	}

@@ -8,7 +8,7 @@ namespace App\Modules\Announcements\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**

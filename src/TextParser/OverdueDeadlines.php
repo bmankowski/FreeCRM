@@ -29,7 +29,7 @@ class OverdueDeadlines extends Base
 			return '';
 		}
 		$moduleName = 'Calendar';
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 	$fields = $moduleModel->getFields();
 	$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 	$adminUser = !$currentUserModel->isAdmin() ? \App\Modules\Users\Models\Record::getActiveAdminId() : $currentUserModel->getId();
@@ -59,7 +59,7 @@ class OverdueDeadlines extends Base
 			$html .= '<tr>';
 			foreach ($this->columnNames as $column) {
 				$recordId = $row['id'];
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 				$class = '';
 				if (in_array($column, ['activitytype', 'date_start', 'link'])) {
 					$class = 'class="center"';
@@ -68,7 +68,7 @@ class OverdueDeadlines extends Base
 				if ($column == 'link') {
 					$linkId = $recordModel->get('link');
 					if (!empty($linkId) && \App\Utils\Utils::isRecordExists($linkId)) {
-						$processRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($linkId);
+						$processRecordModel = \App\Modules\Base\Models\Record::getInstanceById($linkId);
 						$value = $processRecordModel->getName();
 					} else {
 						$value = '';

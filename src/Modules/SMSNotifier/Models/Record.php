@@ -11,7 +11,7 @@ namespace App\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	public static function SendSMS($message, $toNumbers, $currentUserId, $recordIds, $moduleName)

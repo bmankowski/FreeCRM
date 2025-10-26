@@ -20,7 +20,7 @@ class VTEntityMethodManager {
 		$adb->pquery("insert into com_vtiger_workflowtasks_entitymethod (workflowtasks_entitymethod_id, module_name, function_path, function_name, method_name) values (?,?,?,?,?)", array($id, $moduleName, $functionPath, $functionName, $methodName));
 	}
 
-	public function executeMethod(\App\Modules\Vtiger\Models\Record $recordModel, $methodName)
+	public function executeMethod(\App\Modules\Base\Models\Record $recordModel, $methodName)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();

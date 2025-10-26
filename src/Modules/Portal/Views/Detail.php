@@ -13,7 +13,7 @@ namespace App\Modules\Portal\Views;
 
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -45,8 +45,8 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.List',
-			'modules.Vtiger.resources.Detail',
+			'modules.Base.resources.List',
+			'modules.Base.resources.Detail',
 			"modules.$moduleName.resources.List",
 			"modules.$moduleName.resources.Detail",
 		);

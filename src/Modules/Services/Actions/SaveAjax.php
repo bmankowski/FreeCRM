@@ -11,7 +11,7 @@ namespace App\Modules\Services\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SaveAjax extends \App\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Base\Actions\Save
 {
 	
 }

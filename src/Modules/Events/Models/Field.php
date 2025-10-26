@@ -14,7 +14,7 @@ namespace App\Modules\Events\Models;
 /**
  * Events Field Model Class
  */
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	public function get($propertyName)

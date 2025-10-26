@@ -26,7 +26,7 @@ class AccontRemove extends \App\Runtime\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$id = $request->get('id');
-		$recordModel_OSSMailScanner = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$recordModel_OSSMailScanner = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$recordModel_OSSMailScanner->AccontDelete($id);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('success' => true, 'data' => \App\Runtime\Vtiger_Language_Handler::translate('AccontDeleteOK', 'OSSMailScanner')));

@@ -13,7 +13,7 @@ namespace App\Modules\Calendar\Views;
 
 
 use App\Http\Vtiger_Request;
-class ViewTypes  extends \App\Modules\Vtiger\Views\Index
+class ViewTypes  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()

@@ -16,13 +16,13 @@ namespace App\Modules\Settings\Workflows\Models;
  * Settings List View Model Class
  */
 
-class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -52,7 +52,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}

@@ -24,9 +24,9 @@ class RelationListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function extending recordModel object with additional information
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public function getEntryExtend(\App\Modules\Vtiger\Models\Record $recordModel)
+	public function getEntryExtend(\App\Modules\Base\Models\Record $recordModel)
 	{
 		if ($this->getRelationModel()->getRelationModuleModel()->getName() === 'PriceBooks') {
 			$parentId = $this->getParentRecordModel()->getId();
@@ -38,7 +38,7 @@ class RelationListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> List of action models <\App\Modules\Base\Models\Link>
 	 */
 	public function getLinks()
 	{
@@ -59,8 +59,8 @@ class RelationListView extends \App\Runtime\BaseModel
 	{
 		$headerFields = parent::getHeaders();
 		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'getManyToMany') {
-			$qtyInStockField = new \App\Modules\Vtiger\Models\Field();
-			$qtyInStockField->setModule(\App\Modules\Vtiger\Models\Module::getInstance('IStorages'));
+			$qtyInStockField = new \App\Modules\Base\Models\Field();
+			$qtyInStockField->setModule(\App\Modules\Base\Models\Module::getInstance('IStorages'));
 			$qtyInStockField->set('name', 'qtyinstock');
 			$qtyInStockField->set('column', 'qtyinstock');
 			$qtyInStockField->set('label', 'FL_QTY_IN_STOCK');
@@ -69,8 +69,8 @@ class RelationListView extends \App\Runtime\BaseModel
 		}
 		if ($this->getRelationModel()->getRelationModuleModel()->getName() == 'PriceBooks') {
 			//Added to support Unit Price
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('PriceBooks');
-			$unitPriceField = new \App\Modules\Vtiger\Models\Field();
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance('PriceBooks');
+			$unitPriceField = new \App\Modules\Base\Models\Field();
 			$unitPriceField->setModule($moduleModel);
 			$unitPriceField->set('name', 'unit_price');
 			$unitPriceField->set('column', 'unit_price');
@@ -80,7 +80,7 @@ class RelationListView extends \App\Runtime\BaseModel
 			$headerFields['unit_price'] = $unitPriceField;
 
 			//Added to support List Price
-			$field = new \App\Modules\Vtiger\Models\Field();
+			$field = new \App\Modules\Base\Models\Field();
 			$field->setModule($moduleModel);
 			$field->set('name', 'listprice');
 			$field->set('column', 'listprice');

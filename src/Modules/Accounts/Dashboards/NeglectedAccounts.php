@@ -10,7 +10,7 @@ namespace App\Modules\Accounts\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class NeglectedAccounts  extends \App\Modules\Vtiger\Views\Index
+class NeglectedAccounts  extends \App\Modules\Base\Views\Index
 {
 
 	private $conditions = [];
@@ -55,7 +55,7 @@ class NeglectedAccounts  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
 			$user = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		}
@@ -68,7 +68,7 @@ class NeglectedAccounts  extends \App\Modules\Vtiger\Views\Index
 		if (empty($page)) {
 			$page = 1;
 		}
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$accounts = $this->getAccounts($moduleName, $user, $pagingModel);

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Workflows\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class CreateEntity extends \App\Modules\Settings\Vtiger\Views\Index
+class CreateEntity extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -26,7 +26,7 @@ class CreateEntity extends \App\Modules\Settings\Vtiger\Views\Index
 		$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($workflowId);
 
 		$relatedModule = $request->get('relatedModule');
-		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
 
 		$workflowModuleModel = $workflowModel->getModule();
 

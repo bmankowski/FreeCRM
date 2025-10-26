@@ -13,7 +13,7 @@ namespace App\Modules\Settings\LayoutEditor\Views;
 /**
  * EditField View Class
  */
-class EditField extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class EditField extends \App\Modules\Settings\Base\Views\BasicModal
 {
 	/**
 	 * Check permission to view

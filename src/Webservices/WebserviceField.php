@@ -305,7 +305,7 @@ class WebserviceField
 						array_push($referenceTypes, $row['type']);
 				}
 			} else {
-				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstanceFromFieldId($this->getFieldId());
+				$fieldModel = \App\Modules\Base\Models\Field::getInstanceFromFieldId($this->getFieldId());
 				$referenceTypes = $fieldModel->getUITypeModel()->getReferenceList();
 			}
 			$referenceTypesUnsorted = array_values(array_intersect($accessibleTypes, $referenceTypes));

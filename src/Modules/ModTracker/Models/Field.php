@@ -11,7 +11,7 @@ namespace App\Modules\ModTracker\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 	protected $data = [];
 
@@ -60,7 +60,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to set parent to this model
-	 * @param \App\Modules\Vtiger\Models\Record
+	 * @param \App\Modules\Base\Models\Record
 	 */
 	public function setParent($parent)
 	{
@@ -70,7 +70,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get parent
-	 * @return \App\Modules\Vtiger\Models\Record
+	 * @return \App\Modules\Base\Models\Record
 	 */
 	public function getParent()
 	{
@@ -79,7 +79,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to set Field instance
-	 * @param \App\Modules\Vtiger\Models\Field
+	 * @param \App\Modules\Base\Models\Field
 	 */
 	public function setFieldInstance($fieldModel)
 	{
@@ -89,7 +89,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get Field instance
-	 * @return \App\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Base\Models\Field
 	 */
 	public function getFieldInstance()
 	{

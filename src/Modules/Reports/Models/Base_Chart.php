@@ -72,7 +72,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 		$fieldName = $fieldInfo[3];
 
 		if ($moduleName && $fieldName) {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			return $moduleModel->getField($fieldName);
 		}
 		return false;
@@ -259,7 +259,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 	public function getBaseModuleListViewURL()
 	{
 		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($primaryModule);
+		$primaryModuleModel = \App\Modules\Base\Models\Module::getInstance($primaryModule);
 		$listURL = $primaryModuleModel->getListViewUrlWithAllFilter();
 
 		return $listURL;
@@ -344,7 +344,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 				$value = date('Y-m-d H:i:s', strtotime('first day of JANUARY ' . $value)) . ',' . date('Y-m-d', strtotime('last day of DECEMBER ' . $value)) . ' 23:59:59';
 			}
 		} elseif ($dataFieldInfo[4] == 'DT') {
-			$value = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($value);
+			$value = \App\Modules\Base\UiTypes\Date::getDisplayDateTimeValue($value);
 		}
 
 		if (empty($value)) {

@@ -15,7 +15,7 @@ namespace App\Modules\Calendar\Models;
 /**
  * Calendar Module Model Class
  */
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -84,12 +84,12 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
 		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
 			[
@@ -121,7 +121,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			];
 		}
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = [];
@@ -165,10 +165,10 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		);
 
 		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickWidget);
 		}
 		foreach ($quickWidgetsRight as $quickWidgetRight) {
-			$links['SIDEBARWIDGETRIGHT'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidgetRight);
+			$links['SIDEBARWIDGETRIGHT'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickWidgetRight);
 		}
 
 		return $links;
@@ -207,7 +207,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$keysValuesToReplace = array('taskpriority' => 'priority');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
@@ -230,7 +230,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $this);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
@@ -443,7 +443,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$recordId = $row['recordid'];
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Calendar');
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
 					$url = "index.php?module=OSSMail&view=compose&mod=" . \vtlib\Functions::getCRMRecordType($link) . "&record=$link";
@@ -458,7 +458,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function gives fields based on the type
 	 * @param string $type - field type
-	 * @return <Array of \App\Modules\Vtiger\Models\Field> - list of field models
+	 * @return <Array of \App\Modules\Base\Models\Field> - list of field models
 	 */
 	public function getFieldsByType($type)
 	{

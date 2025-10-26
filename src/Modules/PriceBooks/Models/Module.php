@@ -11,7 +11,7 @@ namespace App\Modules\PriceBooks\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -57,7 +57,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	{
 		$popupFields = parent::getPopupViewFieldsList($sourceModule);
 		if (!isset($popupFields['currency_id'])) {
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('currency_id', $this);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance('currency_id', $this);
 			if ($fieldModel->getPermissions()) {
 				$popupFields['currency_id'] = 'currency_id';
 			}

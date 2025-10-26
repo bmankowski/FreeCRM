@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class ChartDetail  extends \App\Modules\Vtiger\Views\Index
+class ChartDetail  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -59,7 +59,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('SELECTED_ADVANCED_FILTER_FIELDS', $reportModel->transformToNewAdvancedFilter());
 		$viewer->assign('PRIMARY_MODULE', $primaryModule);
 
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 
@@ -70,7 +70,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		if (($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== false)) {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Base\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -78,7 +78,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('PRIMARY_MODULE_FIELDS', $reportModel->getPrimaryModuleFieldsForAdvancedReporting());
 		$viewer->assign('SECONDARY_MODULE_FIELDS', $reportModel->getSecondaryModuleFieldsForAdvancedReporting());
 		$viewer->assign('CALCULATION_FIELDS', $reportModel->getModuleCalculationFieldsForReport());
-		$viewer->assign('DATE_FILTERS', \App\Modules\Vtiger\AdvancedFilter::getDateFilter($moduleName));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($moduleName));
 		$viewer->assign('REPORT_MODEL', $reportModel);
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
@@ -133,7 +133,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -141,8 +141,8 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.Detail',
-			"modules.Vtiger.resources.dashboards.Widget",
+			'modules.Base.resources.Detail',
+			"modules.Base.resources.dashboards.Widget",
 			"modules.$moduleName.resources.Detail",
 			"modules.$moduleName.resources.Edit",
 			"modules.$moduleName.resources.Edit3",
@@ -169,7 +169,7 @@ class ChartDetail  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\CssScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\CssScript instances
 	 */
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{

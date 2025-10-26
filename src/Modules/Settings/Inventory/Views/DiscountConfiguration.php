@@ -10,7 +10,7 @@ use App\HttpVtiger_Request;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class DiscountConfiguration extends \App\Modules\Settings\Vtiger\Views\Index
+class DiscountConfiguration extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function getView()

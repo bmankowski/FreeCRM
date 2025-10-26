@@ -11,7 +11,7 @@ namespace App\Modules\Contacts\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -20,7 +20,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateEventUrl()
 	{
-		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Base\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -30,7 +30,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateTaskUrl()
 	{
-		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Base\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Notifications\Actions;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	/**
@@ -38,11 +38,11 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 			if (!is_array($members)) {
 				$members = [$members];
 			}
-			$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($module);
+			$watchdogModel = \App\Modules\Base\Models\Watchdog::getInstance($module);
 			foreach ($members as $member) {
 				$watchdogModel->changeModuleState($state, $member);
 			}
-			\App\Modules\Vtiger\Models\Watchdog::reloadCache();
+			\App\Modules\Base\Models\Watchdog::reloadCache();
 		}
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
@@ -62,11 +62,11 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 			if (!is_array($members)) {
 				$members = [$members];
 			}
-			$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($module);
+			$watchdogModel = \App\Modules\Base\Models\Watchdog::getInstance($module);
 			foreach ($members as $member) {
 				$watchdogModel->lock($lock, $member);
 			}
-			\App\Modules\Vtiger\Models\Watchdog::reloadCache();
+			\App\Modules\Base\Models\Watchdog::reloadCache();
 		}
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
@@ -83,9 +83,9 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 		$member = $request->get('member');
 		$exceptions = $request->get('exceptions');
 		if (!empty($member)) {
-			$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($module);
+			$watchdogModel = \App\Modules\Base\Models\Watchdog::getInstance($module);
 			$watchdogModel->exceptions($exceptions, $member);
-			\App\Modules\Vtiger\Models\Watchdog::reloadCache();
+			\App\Modules\Base\Models\Watchdog::reloadCache();
 		}
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);

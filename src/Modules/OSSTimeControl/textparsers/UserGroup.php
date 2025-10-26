@@ -56,7 +56,7 @@ class TextParser extends \App\TextParser\Base
 			$ids = [$ids];
 		}
 		foreach ($ids as $recordId) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $this->textParser->moduleName);
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
 			$time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');
 			$users[$user] = [

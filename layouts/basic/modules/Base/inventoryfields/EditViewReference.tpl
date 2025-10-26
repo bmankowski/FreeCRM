@@ -1,0 +1,56 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip}
+<!-- layouts/basic/modules/Base/inventoryfields/EditViewReference.tpl -->
+	{assign var="REFERENCE_LIST" value=$FIELD->getReferenceModules()}
+	{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
+	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['mandatory'=>true]))}
+	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
+	<div class="input-group referenceGroup" style="max-width: 250px;">
+		{if $REFERENCE_LIST_COUNT eq 1}
+			{assign var="REFERENCED_MODULE_NAME" value=reset($REFERENCE_LIST)}
+			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}" />
+		{/if}
+		{if $REFERENCE_LIST_COUNT gt 1}
+			{assign var="REFERENCED_MODULE_NAME" value=$FIELD->getReferenceModule($ITEM_VALUE)}
+			{if in_array($REFERENCED_MODULE_NAME, $REFERENCE_LIST)}
+				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCED_MODULE_NAME}" />
+			{else}
+				{assign var="REFERENCED_MODULE_NAME" value=$REFERENCE_LIST[0]}
+				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCED_MODULE_NAME}" />
+			{/if}
+		{/if}
+		{if $REFERENCE_LIST_COUNT > 1}
+			<div class="input-group-addon noSpaces referenceModulesListGroup">
+				<select class="referenceModulesList" title="{"LBL_RELATED_MODULE_TYPE"|t}" required="required">
+					{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
+						<option value="{$REFERENCE}" title="{$REFERENCE|t:$REFERENCE}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{$REFERENCE|t:$REFERENCE}</option>
+					{/foreach}
+				</select>
+			</div>
+		{/if}
+		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-type="inventory" data-displayvalue="{\App\Modules\Base\Helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
+		{assign var="displayId" value=$ITEM_VALUE}
+		{if $FIELD->get('displaytype') != 10}
+			<span class="input-group-addon clearReferenceSelection cursorPointer">
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="glyphicon glyphicon-remove-sign" title="{"LBL_CLEAR"|t:$MODULE}"></span>
+			</span>
+		{/if}
+		<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text" title="{\App\Modules\Base\Helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" class="marginLeftZero form-control autoComplete" {if !empty($ITEM_VALUE)}readonly="true"{/if}
+			   value="{\App\Modules\Base\Helpers\Util::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-validation-engine="validate[{if $FIELD->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+			   data-fieldinfo="{$FIELD_INFO}" {if $FIELD->get('displaytype') != 10}placeholder="{"LBL_TYPE_SEARCH"|t:$MODULE}"{/if}
+			   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+		{if $FIELD->get('displaytype') != 10}
+			<span class="input-group-addon relatedPopup cursorPointer">
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search relatedPopup" title="{"LBL_SELECT"|t:$MODULE}" ></span>
+			</span>
+		{/if}
+		{assign var=REFERENCE_MODULE_MODEL value=\App\Modules\Base\Models\Module::getInstance($REFERENCED_MODULE_NAME)}
+		<!-- Show the add button only if it is edit view  -->
+		{if $VIEW eq 'Edit' && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
+			<span class="input-group-addon cursorPointer createReferenceRecord">
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="glyphicon glyphicon-plus" title="{"LBL_CREATE"|t:$MODULE}"></span>
+			</span>
+		{/if}
+	</div>
+<!--/layouts/basic/modules/Base/inventoryfields/EditViewReference.tpl -->
+{/strip}

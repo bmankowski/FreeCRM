@@ -12,7 +12,7 @@ namespace App\Modules\OSSEmployees\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -28,7 +28,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
 			'linkicon' => 'glyphicon glyphicon-user'
 		];
-		$linkModelLists['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($linkModel);
+		$linkModelLists['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($linkModel);
 		return $linkModelLists;
 	}
 }

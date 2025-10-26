@@ -22,12 +22,12 @@ class ProjectTask_ProjectTaskHandler_Handler {
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			\App\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+			\App\Modules\Base\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			foreach ($delta as $name => &$value) {
 				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
-					$moduledModel = \App\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone');
+					$moduledModel = \App\Modules\Base\Models\Module::getInstance('ProjectMilestone');
 					if ($name === 'projectmilestoneid') {
 						$moduledModel->updateProgressMilestone($recordModel->get($name));
 						$moduledModel->updateProgressMilestone($value);
@@ -45,7 +45,7 @@ class ProjectTask_ProjectTaskHandler_Handler {
 	 */
 	public function entityAfterDelete(\App\EventHandler $eventHandler)
 	{
-		\App\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		\App\Modules\Base\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 
 	/**
@@ -54,6 +54,6 @@ class ProjectTask_ProjectTaskHandler_Handler {
 	 */
 	public function entityAfterRestore(\App\EventHandler $eventHandler)
 	{
-		\App\Modules\Vtiger\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
+		\App\Modules\Base\Models\Module::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 }

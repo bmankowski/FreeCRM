@@ -8,7 +8,7 @@
  */
 use App\Http\Vtiger_Request;
 
-class OSSMailView_MailsPreview_View extends \App\Modules\Vtiger\Views\IndexAjax
+class OSSMailView_MailsPreview_View extends \App\Modules\Base\Views\IndexAjax
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -37,7 +37,7 @@ class OSSMailView_MailsPreview_View extends \App\Modules\Vtiger\Views\IndexAjax
 		$mode = $request->get('mode');
 		$record = $request->get('record');
 		$mailFilter = $request->get('mailFilter');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$config = \App\Modules\OSSMail\Models\Module::getComposeParameters();
 		$config['widget_limit'] = '';
 

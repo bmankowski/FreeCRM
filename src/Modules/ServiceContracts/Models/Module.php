@@ -8,15 +8,15 @@ namespace App\Modules\ServiceContracts\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param \App\Modules\Vtiger\Models\ListView $listviewModel
+	 * @param \App\Modules\Base\Models\ListView $listviewModel
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByRelatedField(\App\Modules\Vtiger\Models\ListView $listviewModel, \App\QueryGenerator $queryGenerator)
+	public function getQueryByRelatedField(\App\Modules\Base\Models\ListView $listviewModel, \App\QueryGenerator $queryGenerator)
 	{
 		if ($listviewModel->get('src_module') == 'HelpDesk' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');

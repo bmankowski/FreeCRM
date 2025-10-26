@@ -16,7 +16,7 @@ namespace App\Modules\Settings\Groups\Models;
  * Settings Module Model Class
  */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 'vtiger_groups';

@@ -27,7 +27,7 @@ class IdentitiesDel extends \App\Runtime\BaseActionController
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('id');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$recordModel->deleteIdentities($id);
 
 		$response = new \App\Http\Vtiger_Response();

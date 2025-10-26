@@ -14,7 +14,7 @@ namespace App\Modules\Events\Models;
 /**
  * Events Edit View Record Structure Model
  */
-class EditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 	
 }

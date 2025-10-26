@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Calendar\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ActivityTypes extends \App\Modules\Settings\Vtiger\Views\Index
+class ActivityTypes extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

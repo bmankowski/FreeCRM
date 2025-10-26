@@ -4,15 +4,15 @@
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
-	{assign var=BASIC_FIELD_MODEL value=\App\Modules\Vtiger\Models\Field::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
+	{assign var=BASIC_FIELD_MODEL value=\App\Modules\Base\Models\Field::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="recordBasic" id="recordBasic" value="{$ID}">
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<input type="hidden" class="hierarchyId" id="hierarchyId" value="{$HIERARCHY_ID}">
-	<input type="hidden" class="hierarchyField" id="hierarchyField" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($HIERARCHY_FIELD))}">
+	<input type="hidden" class="hierarchyField" id="hierarchyField" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($HIERARCHY_FIELD))}">
 	{if $RELATED_EXISTS}
 		<input type="hidden" class="relatedRecord" id="relatedRecord" value="{$RELATED_RECORD}">
 		<input type="hidden" class="relatedModuleBasic" id="relatedModuleBasic" value="{$RELATED_MODULE_BASIC}">
-		<input type="hidden" class="relatedModule" id="relatedModule" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_MODULE))}">
+		<input type="hidden" class="relatedModule" id="relatedModule" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_MODULE))}">
 	{/if}
 	<div class="modal-header">
 		<div class="col-xs-8">
@@ -49,7 +49,7 @@
 					</ul>
 				</div>
 				{if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
-					{assign var=RENEW_FIELD_MODEL value=\App\Modules\Vtiger\Models\Field::getInstance('osssoldservices_renew', $RECORD->getModule())}
+					{assign var=RENEW_FIELD_MODEL value=\App\Modules\Base\Models\Field::getInstance('osssoldservices_renew', $RECORD->getModule())}
 					{assign var=IS_EDITABLE_READONLY value=$RENEW_FIELD_MODEL->set('isEditableReadOnly', false)}
 					{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
 					<div class="btn-group fieldButton" data-name="osssoldservices_renew">

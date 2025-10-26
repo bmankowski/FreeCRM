@@ -11,7 +11,7 @@ namespace App\Modules\Settings\AdvancedPermission\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
+class DeleteAjax extends \App\Modules\Settings\Base\Actions\Delete
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -21,7 +21,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 		$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($record);
 		$recordModel->delete();
 
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		header("Location: {$moduleModel->getDefaultUrl()}");
 	}
 

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Edit extends \App\Modules\Vtiger\Views\Edit
+class Edit extends \App\Modules\Base\Views\Edit
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -19,9 +19,9 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 		$recordModel = $this->record;
 		if (!$recordModel) {
 			if (!empty($recordId)) {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 			} else {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 			}
 		}
 
@@ -38,7 +38,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 
 	public function getDuplicate($record, $moduleName)
 	{
-		$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = $this->record ? $this->record : \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 		$recordModel->set('id', '');
 		$recordModel->set('qtyinstock', null);
 		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
@@ -57,7 +57,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

@@ -14,13 +14,13 @@ namespace App\Modules\ModComments\Models;
 /**
  * ModComments ListView Model Class
  */
-class Model extends \App\Modules\Vtiger\Models\ListView
+class Model extends \App\Modules\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
@@ -38,7 +38,7 @@ class Model extends \App\Modules\Vtiger\Models\ListView
 				'linkurl' => 'index.php?parent=Settings&module=Workflow&sourceModule=' . $this->getName(),
 				'linkicon' => \App\Runtime\Vtiger_Theme::getImagePath('EditWorkflows.png')
 			);
-			$links['LISTVIEWSETTING'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($settingsLink);
+			$links['LISTVIEWSETTING'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($settingsLink);
 		}
 
 		return $links;

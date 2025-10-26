@@ -12,7 +12,7 @@ namespace App\Modules\HelpDesk\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**

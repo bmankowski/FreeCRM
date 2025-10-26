@@ -76,8 +76,8 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		$sourceModule = $this->webserviceObject->getEntityName();
 		global $currentModule;
 		$currentModule = $sourceModule;
-		$sourceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ids[1], $sourceModule);
-		$targetModel = \App\Modules\Vtiger\Models\RelationListView::getInstance($sourceRecordModel, $relatedModule, $relatedLabel);
+		$sourceRecordModel = \App\Modules\Base\Models\Record::getInstanceById($ids[1], $sourceModule);
+		$targetModel = \App\Modules\Base\Models\RelationListView::getInstance($sourceRecordModel, $relatedModule, $relatedLabel);
 		$sql = $targetModel->getRelationQuery();
 
 		$relatedWebserviceObject = VtigerWebserviceObject::fromName($adb, $relatedModule);

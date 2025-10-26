@@ -11,7 +11,7 @@ namespace App\Modules\OSSPasswords\Views;
 
 use App\Http\Vtiger_Request;
 
-class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
+class QuickCreateAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -20,7 +20,7 @@ class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 		$passwordConfig = (new \App\Db\Query())->from('vtiger_passwords_config')->one();
 
 		$moduleName = $request->getModule();
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 
 		$fieldList = $moduleModel->getFields();
@@ -33,7 +33,7 @@ class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 			}
 		}
 
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $field => $value) {
@@ -50,7 +50,7 @@ class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 		$relatedModule = 'OSSPasswords';
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
+		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('RELATEDMODULE', $relatedModule);
 		$viewer->assign('GENERATEPASS', 'Generate Password');
 		$viewer->assign('VIEW', $request->get('view'));

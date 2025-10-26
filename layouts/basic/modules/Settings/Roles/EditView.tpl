@@ -142,7 +142,7 @@
 					<div class="col-md-7 fieldValue">
 						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
 						<select id="modulesList" class="row modules select2 form-control" multiple="true" name="searchunpriv[]">
-							{foreach from=\App\Modules\Vtiger\Models\Module::getAll([0],[],true) key=TABID item=MODULE_MODEL}
+							{foreach from=\App\Modules\Base\Models\Module::getAll([0],[],true) key=TABID item=MODULE_MODEL}
 								<option value="{$MODULE_MODEL->getName()}" {if in_array($MODULE_MODEL->getName(), $SEARCH_MODULES)}selected="true"{/if}>{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}</option>
 							{/foreach}
 						</select>

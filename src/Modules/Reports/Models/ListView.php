@@ -14,12 +14,12 @@ namespace App\Modules\Reports\Models;
 /**
  * Reports ListView Model Class
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
@@ -58,11 +58,11 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 		}
 
 		foreach ($basicLinks as $basicLink) {
-			$headerLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
+			$headerLinkInstance = \App\Modules\Base\Models\Link::getInstanceFromValues($basicLink);
 			$headerLinkInstance->setChildLink([]);
 			if (!empty($basicLink['childlinks'])) {
 				foreach ($basicLink['childlinks'] as &$childLink) {
-					$headerLinkInstance->addChildLink(\App\Modules\Vtiger\Models\Link::getInstanceFromValues($childLink));
+					$headerLinkInstance->addChildLink(\App\Modules\Base\Models\Link::getInstanceFromValues($childLink));
 				}
 			}
 			$links['LISTVIEWBASIC'][] = $headerLinkInstance;
@@ -74,7 +74,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -98,7 +98,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 		}
 
 		foreach ($massActionLinks as $massActionLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
@@ -106,7 +106,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\Field instances
+	 * @return <Array> - List of \App\Modules\Base\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -118,17 +118,17 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
-	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
+	public function getListViewEntries(\App\Modules\Base\Models\Paging $pagingModel, $searchResult = false)
 	{
 		$reportFolderModel = \App\Modules\Reports\Models\Folder::getInstance();
 		$reportFolderModel->set('folderid', $this->get('folderid'));
 
 		$orderBy = $this->get('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}

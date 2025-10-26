@@ -12,7 +12,7 @@ namespace App\Modules\CallHistory\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
@@ -32,7 +32,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		return $links;
 	}

@@ -10,7 +10,7 @@ namespace App\Modules\Services\Views;
  */
 
 use App\Http\Vtiger_Request;
-class TreeRecords  extends \App\Modules\Vtiger\Views\Index
+class TreeRecords  extends \App\Modules\Base\Views\Index
 {
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

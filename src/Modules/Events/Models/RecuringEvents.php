@@ -36,8 +36,8 @@ class RecuringEvents extends \App\Runtime\BaseModel
 	 */
 	public function updateNeverEndingEvents($recordId)
 	{
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
-		$cleanInstance = \App\Modules\Vtiger\Models\Record::getCleanInstance($recordModel->getModuleName());
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
+		$cleanInstance = \App\Modules\Base\Models\Record::getCleanInstance($recordModel->getModuleName());
 		$cleanInstance->setData($recordModel->getData());
 		$this->recordModel = $cleanInstance;
 		$records = $this->getLastRecord($recordId);
@@ -60,7 +60,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 	{
 		$instance = new self();
 		$moduleName = $request->getModule();
-		$instance->recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$instance->recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$instance->isNew = $request->isEmpty('record');
 		if (!$instance->isNew) {
 			$instance->templateRecordId = $request->get('record');
@@ -114,7 +114,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 	public function updateOmmitedRecords($records, $dateStart)
 	{
 		foreach ($records as $recordId) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 			$rule = new \Recurr\Rule($recordModel->get('recurrence'));
 			$rule->setUntil(new \DateTime($dateStart));
 			$recordModel->set('recurrence', $rule->getString());
@@ -129,7 +129,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 	 */
 	public function updateRecord($recordId, $dates)
 	{
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		foreach ($this->changes as $fieldName => $value) {
 			$recordModel->set($fieldName, $this->recordModel->get($fieldName));
 		}
@@ -163,7 +163,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 							$this->updateRecord($recordId, $dates[$itemNumber]);
 							unset($dates[$itemNumber]);
 						} else {
-							\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+							\App\Modules\Base\Models\Record::getInstanceById($recordId)->delete();
 						}
 						$itemNumber++;
 					}
@@ -197,7 +197,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 							$this->updateRecord($recordId, $dates[$itemNumber]);
 							unset($dates[$itemNumber]);
 						} else {
-							\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+							\App\Modules\Base\Models\Record::getInstanceById($recordId)->delete();
 						}
 						$itemNumber++;
 					}
@@ -221,7 +221,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 				$records = $this->getRecords($this->recordModel->get('followup'));
 				foreach ($records as $recordId => $data) {
 					if ($recordId !== $this->templateRecordId) {
-						\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+						\App\Modules\Base\Models\Record::getInstanceById($recordId)->delete();
 					}
 				}
 				break;
@@ -238,7 +238,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 						$omittedRecords [] = $recordId;
 						continue;
 					}
-					\App\Modules\Vtiger\Models\Record::getInstanceById($recordId)->delete();
+					\App\Modules\Base\Models\Record::getInstanceById($recordId)->delete();
 				}
 				break;
 			case self::UPDATE_THIS_EVENT:

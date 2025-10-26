@@ -10,7 +10,7 @@ namespace App\Modules\Settings\BruteForce\Models;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	const UNBLOCKED = 0;
@@ -271,7 +271,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 			}
 			$emails = [];
 			foreach ($usersId as $id) {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, 'Users');
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id, 'Users');
 				$emails[] = $recordModel->get('email1');
 			}
 			\App\Mailer::sendFromTemplate([

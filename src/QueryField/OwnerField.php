@@ -60,7 +60,7 @@ class OwnerField extends BaseField
 	 */
 	public function operatorWr()
 	{
-		$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstance($this->getModuleName());
+		$watchdog = \App\Modules\Base\Models\Watchdog::getInstance($this->getModuleName());
 		$condition = [];
 		if ($watchdog->isActive()) {
 			$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__watchdog_record', 'vtiger_crmentity.crmid = u_#__watchdog_record.record']);
@@ -79,7 +79,7 @@ class OwnerField extends BaseField
 	 */
 	public function operatorNwr()
 	{
-		$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstance($this->getModuleName());
+		$watchdog = \App\Modules\Base\Models\Watchdog::getInstance($this->getModuleName());
 		$condition = [];
 		if ($watchdog->isActive()) {
 			$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__watchdog_record', 'vtiger_crmentity.crmid = u_#__watchdog_record.record']);

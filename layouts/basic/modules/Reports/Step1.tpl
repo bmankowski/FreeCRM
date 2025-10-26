@@ -19,7 +19,7 @@
 			<input type="hidden" class="step" value="1" />
 			<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" id="relatedModules" data-value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_MODULES))}" />
+			<input type="hidden" id="relatedModules" data-value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_MODULES))}" />
 			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}' />
 			<div class="well contentsBackground">
 				<div class="row marginBottom5px">

@@ -15,7 +15,7 @@ namespace App\Modules\Faq\Views;
 
 use App\Http\Vtiger_Request;
 
-class Edit extends \App\Modules\Vtiger\Views\Index
+class Edit extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -25,20 +25,20 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 		$record = $request->get('record');
 
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
 		} else if (!empty($record)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
 
 			$parentId = $request->get('parentId');
 			$parentModule = $request->get('parentModule');
 			if ($parentId && $parentModule === 'HelpDesk') {
-				$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $parentModule);
+				$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $parentModule);
 				$recordModel = \App\Modules\Faq\Models\Record::getInstanceFromHelpDesk($parentRecordModel);
 			}
 		}
@@ -53,7 +53,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 
 		$viewMode = $request->get('view_mode');
@@ -93,7 +93,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', $request->getUser());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Vtiger\Helpers\Util::getMaxUploadSize());
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}

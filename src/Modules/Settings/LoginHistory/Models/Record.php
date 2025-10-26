@@ -10,7 +10,7 @@ namespace App\Modules\Settings\LoginHistory\Models;
  * @license licenses/License.html
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	/**
@@ -54,7 +54,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			case 'login_time':
 			case 'logout_time':
 				if ($this->get($fieldName) !== '0000-00-00 00:00:00') {
-					return \App\Modules\Vtiger\UiTypes\Datetime::getDateTimeValue($this->get($fieldName));
+					return \App\Modules\Base\UiTypes\Datetime::getDateTimeValue($this->get($fieldName));
 				} else {
 					return '---';
 				}

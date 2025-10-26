@@ -12,7 +12,7 @@ namespace App\Modules\Calendar\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
@@ -75,7 +75,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'glyphicon glyphicon-ok',
 				'linkclass' => 'showModal closeCalendarRekord'
 			];
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 		if (\App\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
 			$basicActionLink = [
@@ -84,7 +84,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(\'' . $recordModel->get('location') . '\')',
 				'linkicon' => 'glyphicon glyphicon-map-marker',
 			];
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 
 		if ($recordModel->isDeletable() && $recordModel->get('reapeat') === 1) {
@@ -100,7 +100,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_RECORD')
 			];
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deletelinkModel);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($deletelinkModel);
 		}
 		return $linkModelList;
 	}

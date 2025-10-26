@@ -11,7 +11,7 @@ namespace App\Modules\RecycleBin\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -25,7 +25,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getListViewLinks()
 	{
@@ -44,7 +44,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		}
 
 		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicLink);
 		}
 
 		return $links;
@@ -53,7 +53,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions()
 	{
@@ -78,7 +78,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 
 		foreach ($massActionLinks as $massActionLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 		}
 
 		return $links;
@@ -87,12 +87,12 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = array(
 			array(
@@ -103,7 +103,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			),
 		);
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		}
 		return $links;
 	}
@@ -153,7 +153,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			->execute();
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
 		$this->deleteFiles($recordIds);
-		\App\Modules\Vtiger\Models\Files::getRidOfTrash(['crmid' => $recordIds]);
+		\App\Modules\Base\Models\Files::getRidOfTrash(['crmid' => $recordIds]);
 	}
 	/*	 * Function to delete files from CRM.
 	 * @param type $recordIds

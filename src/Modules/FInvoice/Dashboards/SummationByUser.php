@@ -11,7 +11,7 @@ namespace App\Modules\FInvoice\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class SummationByUser  extends \App\Modules\Vtiger\Views\Index
+class SummationByUser  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -23,7 +23,7 @@ class SummationByUser  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$currentUser = $request->getUser();
 		$userId = $currentUser->getId();
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $userId);
 		if ($request->has('time')) {
 			$time = $request->get('time');
 		} else {

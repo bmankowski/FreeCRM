@@ -12,7 +12,7 @@ namespace App\Modules\PaymentsIn\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	public function getAdvancedLinks()

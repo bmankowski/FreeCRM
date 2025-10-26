@@ -31,7 +31,7 @@ class SaveActions extends \App\Runtime\BaseActionController
 			if ($vale != 'null') {
 				$vale = implode(',', $vale);
 			}
-			$OSSMailScannerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+			$OSSMailScannerModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 			$OSSMailScannerModel->setActions($userid, $vale);
 			$success = true;
 			$data = \App\Runtime\Vtiger_Language_Handler::translate('JS_save_info', 'OSSMailScanner');

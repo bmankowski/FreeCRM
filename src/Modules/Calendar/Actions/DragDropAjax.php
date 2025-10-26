@@ -45,7 +45,7 @@ class DragDropAjax extends \App\Runtime\BaseActionController
 			$response->emit();
 		} else {
 			$result = array('ispermitted' => true, 'error' => false);
-			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$record = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 
 			$oldDateTime[] = $record->get('due_date');
 			$oldDateTime[] = $record->get('time_end');
@@ -92,7 +92,7 @@ class DragDropAjax extends \App\Runtime\BaseActionController
 			$response->emit();
 		} else {
 			$result = array('ispermitted' => true);
-			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$record = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 
 			$oldStartDateTime[] = $record->get('date_start');
 			$oldStartDateTime[] = $record->get('time_start');

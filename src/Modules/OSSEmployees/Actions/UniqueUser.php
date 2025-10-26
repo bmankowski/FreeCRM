@@ -25,7 +25,7 @@ class UniqueUser extends \App\Runtime\BaseActionController
 
 		$userId = $request->get('userId');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 
 		$userExists = $recordModel->checkUser($userId);
 

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\BruteForce\Actions;
  * @author YetiForce.com
  */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Views\Index
+class SaveAjax extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**

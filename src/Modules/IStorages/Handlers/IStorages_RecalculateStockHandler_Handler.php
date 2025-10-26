@@ -24,7 +24,7 @@ class IStorages_RecalculateStockHandler_Handler {
 		if (isset($correctionModules[$moduleName])) {
 			$relatedModuleField = $correctionModules[$moduleName];
 			$relatedModuleRecordId = $recordModel->get($relatedModuleField);
-			$relatedModuleRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relatedModuleRecordId);
+			$relatedModuleRecordModel = \App\Modules\Base\Models\Record::getInstanceById($relatedModuleRecordId);
 		}
 		if ($recordModel->get($status) === 'PLL_ACCEPTED') {
 			if (isset($correctionModules[$moduleName])) {
@@ -42,7 +42,7 @@ class IStorages_RecalculateStockHandler_Handler {
 		}
 	}
 
-	public function getInventoryDataAndSend(\App\Modules\Vtiger\Models\Record $recordModel, $action)
+	public function getInventoryDataAndSend(\App\Modules\Base\Models\Record $recordModel, $action)
 	{
 		$moduleName = $recordModel->getModuleName();
 		$inventoryData = $recordModel->getInventoryData();

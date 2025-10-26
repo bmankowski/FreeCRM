@@ -22,7 +22,7 @@ class ChangeType extends \App\Runtime\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$selectedIds = $request->get('data');
 		$mail_type = $request->get('mail_type');
 		if ($selectedIds == 'all') {

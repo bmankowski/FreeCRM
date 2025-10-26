@@ -11,21 +11,21 @@ namespace App\Modules\RecycleBin\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
 	 * @param string $moduleName - Module Name
 	 * @param string $sourceModule - Source Module Name
-	 * @return \App\Modules\Vtiger\Models\ListView instance
+	 * @return \App\Modules\Base\Models\ListView instance
 	 */
 	public static function getInstance($moduleName, $sourceModule = 0)
 	{
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 
-		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
 		$queryGenerator = new \App\QueryGenerator($sourceModuleModel->get('name'));
 		$cvidObj = \App\Modules\CustomView\Models\Record::getAllFilterByModule($sourceModuleModel->get('name'));
 		$viewId = $cvidObj->getId('cvid');
@@ -47,8 +47,8 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewCount()
 	{

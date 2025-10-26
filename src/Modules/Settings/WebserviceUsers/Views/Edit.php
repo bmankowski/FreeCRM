@@ -11,7 +11,7 @@ namespace App\Modules\Settings\WebserviceUsers\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class Edit extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	/**

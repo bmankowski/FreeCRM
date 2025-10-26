@@ -92,7 +92,7 @@ class Privileges extends \App\Runtime\BaseModel
 	public function hasModulePermission($mixed)
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($mixed);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($mixed);
 		return !empty($moduleModel) && $moduleModel->isActive() && (($this->get('is_admin') == 'on' || $profileTabsPermissions[$moduleModel->getId()] === 0));
 	}
 
@@ -104,12 +104,12 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public function hasModuleActionPermission($mixed, $action)
 	{
-		if (!is_object($action) || !($action instanceof \App\Modules\Vtiger\Models\Action)) {
-			$action = \App\Modules\Vtiger\Models\Action::getInstance($action);
+		if (!is_object($action) || !($action instanceof \App\Modules\Base\Models\Action)) {
+			$action = \App\Modules\Base\Models\Action::getInstance($action);
 		}
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($mixed);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($mixed);
 		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE));
 	}
 
@@ -232,7 +232,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	protected static $lockEditCache = [];
 
-	public static function checkLockEdit($moduleName, \App\Modules\Vtiger\Models\Record $recordModel)
+	public static function checkLockEdit($moduleName, \App\Modules\Base\Models\Record $recordModel)
 	{
 		$recordId = $recordModel->getId();
 		if (isset(self::$lockEditCache[$moduleName . $recordId])) {
@@ -379,12 +379,12 @@ class Privileges extends \App\Runtime\BaseModel
 
 		$parentRecord = false;
 		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
-			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
 			foreach ($parentModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField() && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
-					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record);
+					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record);
 					$value = $recordModel->get($fieldName);
 					if ($value != '' && $value != 0) {
 						$parentRecord = $value;
@@ -416,7 +416,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
 								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
@@ -453,7 +453,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
 								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);

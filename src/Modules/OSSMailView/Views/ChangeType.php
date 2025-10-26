@@ -10,7 +10,7 @@ namespace App\Modules\OSSMailView\Views;
  */
 
 use App\Http\Vtiger_Request;
-class ChangeType  extends \App\Modules\Vtiger\Views\Index
+class ChangeType  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

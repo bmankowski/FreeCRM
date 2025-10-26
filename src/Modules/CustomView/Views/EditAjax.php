@@ -14,7 +14,7 @@ namespace App\Modules\CustomView\Views;
 
 use App\Http\Vtiger_Request;
 
-class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
+class EditAjax extends \App\Modules\Base\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -28,8 +28,8 @@ class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 		if (is_numeric($moduleName)) {
 			$moduleName = \vtlib\Functions::getModuleName($moduleName);
 		}
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		if (!empty($record)) {
 			$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($record);
@@ -42,12 +42,12 @@ class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 
 		$viewer->assign('ADVANCE_CRITERIA', $customViewModel->transformToNewAdvancedFilter());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('DATE_FILTERS', \App\Modules\Vtiger\AdvancedFilter::getDateFilter($module));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($module));
 
 		if ($moduleName == 'Calendar') {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Base\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -62,8 +62,8 @@ class EditAjax extends \App\Modules\Vtiger\Views\IndexAjax
 		// Added to show event module custom fields
 		if ($moduleName == 'Calendar') {
 			$relatedModuleName = 'Events';
-			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
-			$relatedRecordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($relatedModuleModel);
+			$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModuleName);
+			$relatedRecordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($relatedModuleModel);
 			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
 			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Updates\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public static function getUpdates()

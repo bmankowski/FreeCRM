@@ -20,7 +20,7 @@ use App\Modules\Settings\WorkflowsModels\TaskRecord;
 
 
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	public function getId()
@@ -71,7 +71,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	public function setModule($moduleName)
 	{
-		$this->module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 
@@ -138,7 +138,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -180,7 +180,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -403,7 +403,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if ($relatedModule) {
 			$db = \App\Database\PearDatabase::getInstance();
 
-			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+			$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
 			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
 
 			foreach ($referenceFieldsList as $fieldName => $fieldModel) {

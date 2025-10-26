@@ -8,7 +8,7 @@ namespace App\Modules\SRecurringOrders\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];

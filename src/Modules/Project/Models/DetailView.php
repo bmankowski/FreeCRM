@@ -12,7 +12,7 @@ namespace App\Modules\Project\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -30,7 +30,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'glyphicon glyphicon-tasks',
 				'linkhint' => 'Add Project Task',
 			];
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($viewLinks);
 		}
 		if (\App\Modules\Users\Models\Privileges::isPermitted('Documents', 'EditView')) {
 			$viewLinks = [
@@ -40,7 +40,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkicon' => 'glyphicon glyphicon-file',
 				'linkhint' => 'Add Note',
 			];
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($viewLinks);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($viewLinks);
 		}
 		return $linkModelList;
 	}
@@ -54,7 +54,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$parentModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
+		$parentModel = \App\Modules\Base\Models\Module::getInstance('OSSTimeControl');
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MailSmtp\Views;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**

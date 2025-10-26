@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Companies\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**
@@ -47,7 +47,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'modules.Vtiger.resources.AdvanceFilterEx',
+			'modules.Base.resources.AdvanceFilterEx',
 			'modules.Settings.Companies.resources.Edit',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

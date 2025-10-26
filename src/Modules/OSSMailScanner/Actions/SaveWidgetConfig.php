@@ -28,7 +28,7 @@ class SaveWidgetConfig extends \App\Runtime\BaseActionController
 		$param = $request->get('name');
 		$val = $request->get('value');
 		$conf_type = $request->get('conf_type');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$recordModel->setConfigWidget($conf_type, $param, $val);
 		$result = array('success' => true, 'data' => \App\Runtime\Vtiger_Language_Handler::translate('JS_save_config_info', 'OSSMailScanner'));
 		$response = new \App\Http\Vtiger_Response();

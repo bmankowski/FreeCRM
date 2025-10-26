@@ -8,7 +8,7 @@ namespace App\Modules\SVendorEnquiries\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];

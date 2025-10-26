@@ -13,16 +13,16 @@ namespace App\Modules\Settings\OSSMail\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$OSSMail_Record_Model = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+		$OSSMail_Record_Model = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
 		if (\vtlib\Functions::getModuleId('OSSMailScanner')) {
-			$OSSMailScanner_Record_Model = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+			$OSSMailScanner_Record_Model = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 			$WidgetCfg = $OSSMailScanner_Record_Model->getConfig(false);
 		}
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));

@@ -17,13 +17,13 @@ namespace App\Modules\OSSMailScanner\Models;
  * removed deprecated function getTypeFolder
  */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	public static function getActionsList()
 	{
 		$accountsPriority = ['CreatedEmail', 'CreatedHelpDesk', 'BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindSSalesProcesses'];
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSMailScanner');
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance('OSSMailScanner');
 		$iterator = new DirectoryIterator($moduleModel->actionsDir);
 		$actions = [];
 		foreach ($iterator as $i => $fileInfo) {
@@ -221,7 +221,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$params['folder'] = urldecode($params['folder']);
-		$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+		$mailModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
 		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$mail = $mailModel->getMail($mbox, $params['uid']);
 		if (!$mail) {
@@ -268,7 +268,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 		if ($get_emails) {
 			for ($i = $msgno; $i <= $num_msg; $i++) {
-				$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+				$mailModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
 
 				$uid = imap_uid($mbox, $i);
 				$mail = $mailModel->getMail($mbox, $uid, $i);
@@ -392,8 +392,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			\App\Log::info(\App\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return \App\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
-		$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
-		$scannerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$mailModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
+		$scannerModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$countEmails = 0;
 		$scanId = 0;
 		$accounts = \App\Modules\OSSMail\Models\Record::getAccountsList();

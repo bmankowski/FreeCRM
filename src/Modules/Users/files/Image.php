@@ -25,7 +25,7 @@ class Image {
 		if (empty($record)) {
 			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
 		}
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $request->getModule());
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $request->getModule());
 		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $recordModel->getImagePath();
 		$file = \App\Fields\File::loadFromPath($path);
 		header('Content-Type: ' . $file->getMimeType());
@@ -38,7 +38,7 @@ class Image {
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		// Check for operation access.
 		$allowed = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record);

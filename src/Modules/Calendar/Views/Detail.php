@@ -15,7 +15,7 @@ namespace App\Modules\Calendar\Views;
 
 use App\Http\Vtiger_Request;
 
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -25,16 +25,16 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!empty($recordId)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
 		}
 		if (!$this->record) {
-			$this->record = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
+			$this->record = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = array();
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
@@ -116,15 +116,15 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$moduleName = $request->getModule();
 
 		if (!empty($recordId)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
 		}
 
-		$detailViewModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
+		$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
-		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$moduleModel = $recordModel->getModule();
 

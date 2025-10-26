@@ -24,7 +24,7 @@ class ImportMail extends \App\Runtime\BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$scannerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$scannerModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$mailScanMail = $scannerModel->manualScanMail($request->get('params'));
 		$return = false;
 		if ($mailScanMail['CreatedEmail']) {

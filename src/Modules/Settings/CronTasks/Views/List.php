@@ -13,7 +13,7 @@ namespace App\Modules\Settings\CronTasks\Views;
  * *********************************************************************************** */
 
 
-class List extends \App\Modules\Settings\Vtiger\Views\List
+class List extends \App\Modules\Settings\Base\Views\List
 {
 
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
@@ -21,10 +21,10 @@ class List extends \App\Modules\Settings\Vtiger\Views\List
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance($qualifiedModuleName);
+		$listViewModel = \App\Modules\Settings\Base\Models\ListView::getInstance($qualifiedModuleName);
 		$listViewModel->set('orderby', 'sequence');
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();

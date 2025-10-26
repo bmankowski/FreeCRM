@@ -27,7 +27,7 @@ class ProductListPrice extends \App\Runtime\BaseActionController
 	{
 		$recordId = $request->get('record');
 		$moduleModel = $request->getModule();
-		$priceBookModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
+		$priceBookModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleModel);
 		$listPrice = $priceBookModel->getProductsListPrice($request->get('itemId'));
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array($listPrice));

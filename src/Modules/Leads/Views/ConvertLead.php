@@ -14,13 +14,13 @@ namespace App\Modules\Leads\Views;
 
 
 use App\Http\Vtiger_Request;
-class ConvertLead  extends \App\Modules\Vtiger\Views\Index
+class ConvertLead  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('ConvertLead')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -31,7 +31,7 @@ class ConvertLead  extends \App\Modules\Vtiger\Views\Index
 		}
 
 		$recordId = $request->get('record');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		if (!\App\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -45,9 +45,9 @@ class ConvertLead  extends \App\Modules\Vtiger\Views\Index
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		$moduleModel = $recordModel->getModule();
-		$marketingProcessConfig = \App\Modules\Vtiger\Models\Processes::getConfig('marketing', 'conversion');
+		$marketingProcessConfig = \App\Modules\Base\Models\Processes::getConfig('marketing', 'conversion');
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('CURRENT_USER_PRIVILEGE', $currentUserPriviligeModel);

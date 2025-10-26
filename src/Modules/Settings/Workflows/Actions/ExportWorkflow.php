@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Workflows\Actions;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
-class ExportWorkflow extends \App\Modules\Settings\Vtiger\Actions\Index
+class ExportWorkflow extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

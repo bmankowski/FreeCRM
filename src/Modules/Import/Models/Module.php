@@ -12,7 +12,7 @@ namespace App\Modules\Import\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -164,7 +164,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return \App\Modules\Vtiger\Models\Field[] - list of field models
+	 * @return \App\Modules\Base\Models\Field[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -207,14 +207,14 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns instance of the module where import takes place
-	 * @return \App\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Base\Models\Module
 	 */
 	public function getImportModuleModel()
 	{
 		if ($this->importModuleModel) {
 			return $this->importModuleModel;
 		}
-		return $this->importModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getImportModule());
+		return $this->importModuleModel = \App\Modules\Base\Models\Module::getInstance($this->getImportModule());
 	}
 
 	/**

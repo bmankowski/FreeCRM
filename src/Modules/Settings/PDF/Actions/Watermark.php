@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PDF\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class Watermark extends \App\Modules\Settings\Vtiger\Actions\Index
+class Watermark extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function __construct()
@@ -24,7 +24,7 @@ class Watermark extends \App\Modules\Settings\Vtiger\Actions\Index
 	public function Delete(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
+		$pdfModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId);
 		$output = \App\Modules\Settings\PDF\Models\Record::deleteWatermark($pdfModel);
 
 		$response = new \App\Http\Vtiger_Response();

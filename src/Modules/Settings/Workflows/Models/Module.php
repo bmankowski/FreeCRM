@@ -14,7 +14,7 @@ use App\Modules\Workflow\VTEntityMethodManager;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 'com_vtiger_workflows';
@@ -83,7 +83,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$moduleModels = \App\Modules\Vtiger\Models\Module::getAll(array(0, 2));
+		$moduleModels = \App\Modules\Base\Models\Module::getAll(array(0, 2));
 		$supportedModuleModels = array();
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isWorkflowSupported()) {

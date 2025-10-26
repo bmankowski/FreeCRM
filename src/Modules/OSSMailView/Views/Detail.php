@@ -14,7 +14,7 @@ namespace App\Modules\OSSMailView\Views;
 
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	public function __construct()

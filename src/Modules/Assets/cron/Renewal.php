@@ -20,6 +20,6 @@ $query = 'SELECT
 $query = sprintf($query, $db->generateQuestionMarks($renewal));
 $result = $db->pquery($query, $renewal);
 while (($recordId = $db->getSingleValue($result)) !== false) {
-	$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Assets');
+	$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Assets');
 	$recordModel->updateRenewal();
 }

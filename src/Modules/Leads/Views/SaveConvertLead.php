@@ -30,7 +30,7 @@ class SaveConvertLead extends \App\Runtime\BaseViewController
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		if (!\App\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -52,9 +52,9 @@ class SaveConvertLead extends \App\Runtime\BaseViewController
 		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
 		$entityValues['assignedTo'] = $assignId;
 		$entityValues['leadId'] = $recordId;
-		$createAlways = \App\Modules\Vtiger\Models\Processes::getConfig('marketing', 'conversion', 'create_always');
+		$createAlways = \App\Modules\Base\Models\Processes::getConfig('marketing', 'conversion', 'create_always');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $request->getModule());
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $request->getModule());
 		$convertLeadFields = $recordModel->getConvertLeadFields();
 		$availableModules = ['Accounts'];
 		foreach ($availableModules as $module) {
@@ -71,7 +71,7 @@ class SaveConvertLead extends \App\Runtime\BaseViewController
 		try {
 			$results = true;
 			if ($createAlways === true || $createAlways === 'true') {
-				$leadModel = \App\Modules\Vtiger\Models\Module::getCleanInstance($request->getModule());
+				$leadModel = \App\Modules\Base\Models\Module::getCleanInstance($request->getModule());
 				$results = $leadModel->searchAccountsToConvert($recordModel);
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
 			}

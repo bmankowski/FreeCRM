@@ -12,7 +12,7 @@ namespace App\Modules\Home\Models;
  * *********************************************************************************** */
 
 
-class Widget extends \App\Modules\Vtiger\Models\Record
+class Widget extends \App\Modules\Base\Models\Record
 {
 	
 }

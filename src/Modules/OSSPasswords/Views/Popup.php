@@ -10,7 +10,7 @@ namespace App\Modules\OSSPasswords\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Popup  extends \App\Modules\Vtiger\Views\Index
+class Popup  extends \App\Modules\Base\Views\Index
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -29,7 +29,7 @@ class Popup  extends \App\Modules\Vtiger\Views\Index
 		if ($showFilter && \App\Utils\Utils::isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], "module=$moduleName&src_module=$sourceModule") === 0) {
 			$filterField = ['HelpDesk' => 'parent_id', 'Project' => 'linktoaccountscontacts', 'OSSPasswords' => 'related_to'];
 			$relParentModule = 'Accounts';
-			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
+			$record = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			$relId = $record->get($filterField[$sourceModule]);
 			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);

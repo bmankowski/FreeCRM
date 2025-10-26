@@ -22,7 +22,7 @@ class Save extends \App\Runtime\BaseActionController
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
-			$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
+			$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$moduleModel = $recordModel->getModule();
@@ -34,7 +34,7 @@ class Save extends \App\Runtime\BaseActionController
 	/**
 	 * Function to save record
 	 * @param \App\Http\Vtiger_Request $request - values of the record
-	 * @return \App\Modules\Vtiger\Models\Record - record Model of saved record
+	 * @return \App\Modules\Base\Models\Record - record Model of saved record
 	 */
 	public function saveRecord(\App\Http\Vtiger_Request $request)
 	{
@@ -42,15 +42,15 @@ class Save extends \App\Runtime\BaseActionController
 		$recordModel->save();
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
+			$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			if ($relatedModule->getName() == 'Events') {
-				$relatedModule = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+				$relatedModule = \App\Modules\Base\Models\Module::getInstance('Calendar');
 			}
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 		return $recordModel;
@@ -59,27 +59,27 @@ class Save extends \App\Runtime\BaseActionController
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Base\Models\Record or Module specific Record Model instance
 	 */
 	protected function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		//Start Date and Time values
-		$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start'));
-		$startDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
+		$startTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start'));
+		$startDate = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
 		if ($startTime) {
-			$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($startTime);
-			$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . ' ' . $startTime);
+			$startTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($startTime);
+			$startDateTime = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . ' ' . $startTime);
 			list($startDate, $startTime) = explode(' ', $startDateTime);
 		}
 		$recordModel->set('date_start', $startDate);
 		$recordModel->set('time_start', $startTime);
 		//End Date and Time values
 		$endTime = $request->get('time_end');
-		$endDate = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($request->get('due_date'));
+		$endDate = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($request->get('due_date'));
 		if ($endTime) {
-			$endTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($endTime);
-			$endDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
+			$endTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($endTime);
+			$endDateTime = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}
 		$recordModel->set('time_end', $endTime);

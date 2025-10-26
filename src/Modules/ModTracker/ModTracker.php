@@ -52,7 +52,7 @@ class ModTracker {
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
-			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_OTHER_SETTINGS', [
+			\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => 'ModTracker',
 				'iconpath' => 'adminIcon-modules-track-chanegs',
 				'description' => 'LBL_MODTRACKER_DESCRIPTION',

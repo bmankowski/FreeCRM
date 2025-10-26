@@ -11,7 +11,7 @@ namespace App\Modules\PaymentsIn\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class PaymentsIn_step1_View extends \App\Modules\Vtiger\Views\Index
+class PaymentsIn_step1_View extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request)
@@ -24,7 +24,7 @@ class PaymentsIn_step1_View extends \App\Modules\Vtiger\Views\Index
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$paymentsIn = array();
-		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$record = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);

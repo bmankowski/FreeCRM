@@ -20,7 +20,7 @@ class Delete extends \App\Runtime\BaseActionController
 		$recordId = $request->get('record');
 		$ajaxDelete = $request->get('ajaxDelete');
 
-	$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+	$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 	$moduleModel = $recordModel->getModule();
 	$recordModel->delete();
 

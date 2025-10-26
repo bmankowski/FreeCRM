@@ -16,7 +16,7 @@
 				</label>
 				<br>
 				<div class="row">
-					{include file='layouts/basic/modules/Vtiger/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
+					{include file='layouts/basic/modules/Base/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
 				</div>
 				<div class="form-group">
 					<div class="col-sm-12 controls">

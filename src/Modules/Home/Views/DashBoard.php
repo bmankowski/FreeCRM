@@ -14,7 +14,7 @@ namespace App\Modules\Home\Views;
 
 
 use App\Http\Vtiger_Request;
-class DashBoard extends \App\Modules\Vtiger\Views\DashBoard
+class DashBoard extends \App\Modules\Base\Views\DashBoard
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -26,7 +26,7 @@ class DashBoard extends \App\Modules\Vtiger\Views\DashBoard
 			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
 		}
 		$viewer = $this->getViewer($request);
-		$modulesWithWidget = \App\Modules\Vtiger\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);
+		$modulesWithWidget = \App\Modules\Base\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$this->preProcessDisplay($request);
 	}

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\AutomaticAssignment\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	/**
@@ -77,7 +77,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	public static function getSupportedModules()
 	{
-		return \App\Modules\Vtiger\Models\Module::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
+		return \App\Modules\Base\Models\Module::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	public static function getFieldsByModule($moduleName)
 	{
 		$accessibleFields = [];
-		$moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		foreach ($moduleInstance->getFields() as $fieldName => $fieldObject) {
 			if (in_array($fieldObject->getFieldDataType(), static::$fieldType) && $fieldObject->isActiveField() && $fieldObject->getUIType() !== 4) {
 				$accessibleFields[$fieldObject->getBlockName()][$fieldName] = $fieldObject;
@@ -132,11 +132,11 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Function searches for record from the Auto assign records panel
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @param string $role
 	 * @return bool|\App\Modules\Settings\AutomaticAssignment\Models\Record
 	 */
-	public function searchRecord(\App\Modules\Vtiger\Models\Record $recordModel, $role = '')
+	public function searchRecord(\App\Modules\Base\Models\Record $recordModel, $role = '')
 	{
 		$key = $recordModel->getModuleName() . $role;
 		if (\App\Cache\Cache::has(__METHOD__, $key)) {
@@ -183,11 +183,11 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	/**
 	 * Execute auto assign 
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public static function autoAssignExecute(\App\Modules\Vtiger\Models\Record $recordModel)
+	public static function autoAssignExecute(\App\Modules\Base\Models\Record $recordModel)
 	{
-		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
+		$moduleInstance = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $moduleInstance->searchRecord($recordModel);
 		if ($autoAssignRecord) {
 			$owner = $autoAssignRecord->getAssignUser();

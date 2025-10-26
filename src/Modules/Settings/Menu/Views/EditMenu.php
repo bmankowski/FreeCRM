@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Menu\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class EditMenu extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class EditMenu extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -9,7 +9,7 @@ namespace App\Modules\OSSMail\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	static function getAccountsList($user = false, $onlyMy = false, $password = false)
@@ -462,7 +462,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				$attachId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
 				$isSaved = self::saveAttachmentFile($attachId, $fileName, $fileContent);
 				if ($isSaved) {
-					$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('Documents');
+					$record = \App\Modules\Base\Models\Record::getCleanInstance('Documents');
 					$record->set('assigned_user_id', $userid);
 					$record->set('notes_title', $fileName);
 					$record->set('filename', $fileName);

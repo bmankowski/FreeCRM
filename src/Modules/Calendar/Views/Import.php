@@ -12,7 +12,7 @@ namespace App\Modules\Calendar\Views;
  * *********************************************************************************** */
 
 
-class Import  extends \App\Modules\Vtiger\Views\Index
+class Import  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()
@@ -90,7 +90,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 
 			$requiredFields = array();
 			$modules = array($eventModule, $todoModule);
-			$calendarModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$calendarModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
 			foreach ($modules as $module) {
 				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
@@ -124,7 +124,7 @@ class Import  extends \App\Modules\Vtiger\Views\Index
 						$activityFieldsList['taskpriority'] = $priorityMap[$priorityval];
 				}
 
-				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 

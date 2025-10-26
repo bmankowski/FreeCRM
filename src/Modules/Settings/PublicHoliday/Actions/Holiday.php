@@ -14,7 +14,7 @@ use App\Modules\Settings\PublicHolidayModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Holiday extends \App\Modules\Settings\Vtiger\Actions\Index
+class Holiday extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function __construct()

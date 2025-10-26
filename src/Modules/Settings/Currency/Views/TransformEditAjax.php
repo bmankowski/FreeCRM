@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Currency\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class TransformEditAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class TransformEditAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

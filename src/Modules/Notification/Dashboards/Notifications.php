@@ -10,7 +10,7 @@ namespace App\Modules\Notification\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class Notifications  extends \App\Modules\Vtiger\Views\Index
+class Notifications  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -18,7 +18,7 @@ class Notifications  extends \App\Modules\Vtiger\Views\Index
 		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
 		$limit = (int) $widget->get('limit');
 		if (empty($limit)) {
 			$limit = 10;

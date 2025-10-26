@@ -11,7 +11,7 @@ namespace App\Modules\Settings\AdvancedPermission\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function __construct()
@@ -63,12 +63,12 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$record = $request->get('record');
 		$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($record);
 		$selectedModule = \App\Module::getModuleName($recordModel->get('tabid'));
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($selectedModule);
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($selectedModule);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($recordModel->get('conditions')));
+		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\AdvancedFilter::transformToAdvancedFilterCondition($recordModel->get('conditions')));
 		$viewer->assign('SOURCE_MODULE', $selectedModule);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
@@ -80,7 +80,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'modules.Vtiger.resources.AdvanceFilterEx',
+			'modules.Base.resources.AdvanceFilterEx',
 			'modules.Settings.AdvancedPermission.resources.Edit',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

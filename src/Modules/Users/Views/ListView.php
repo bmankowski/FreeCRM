@@ -13,7 +13,7 @@ namespace App\Modules\Users\Views;
  * ********************************************************************************** */
 
 
-class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -28,7 +28,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'modules.Vtiger.resources.List',
+			'modules.Base.resources.List',
 			'modules.Users.resources.List',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -87,7 +87,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 		}
 		$this->listViewModel->set('status', $status);
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 
@@ -250,7 +250,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

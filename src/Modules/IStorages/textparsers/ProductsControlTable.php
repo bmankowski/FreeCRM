@@ -25,8 +25,8 @@ class TextParser extends \App\TextParser\Base
 	{
 		$html = '';
 		$relationModuleName = 'Products';
-		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
@@ -68,7 +68,7 @@ class TextParser extends \App\TextParser\Base
 			foreach ($entries as $entry) {
 				$html .= '<tr>';
 				$entryId = $entry->getId();
-				$entryRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
+				$entryRecordModel = \App\Modules\Base\Models\Record::getInstanceById($entryId, $relationModuleName);
 				$qtyPerUnit = $entryRecordModel->get('qty_per_unit');
 				foreach ($headers as $header) {
 					$label = $header->get('label');

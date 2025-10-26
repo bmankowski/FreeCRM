@@ -68,13 +68,13 @@
 						<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}">
 						   {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 						</span>
-						{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=\App\Modules\Vtiger\Models\Field::REFERENCE_TYPE) && $FIELD_MODEL->isAjaxEditable() eq 'true'}
+						{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=\App\Modules\Base\Models\Field::REFERENCE_TYPE) && $FIELD_MODEL->isAjaxEditable() eq 'true'}
 							<span class="hide edit">
 								{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 								{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 								   <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 								{else}
-									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
+									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{\App\Modules\Base\Helpers\Util::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
 								{/if}
 							</span>
 						{/if}

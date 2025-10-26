@@ -13,7 +13,7 @@ namespace App\Modules\Settings\TimeControlProcesses\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Record
+class Module extends \App\Modules\Base\Models\Record
 {
 
 	public static function getCleanInstance()

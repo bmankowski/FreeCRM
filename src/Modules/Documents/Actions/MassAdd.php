@@ -45,7 +45,7 @@ class MassAdd extends \App\Runtime\BaseActionController
 					'error' => $file['error'][$i],
 					'size' => $file['size'][$i],
 				];
-				$recordeModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordeModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 				$recordeModel->set('notes_title', $nameFiles[$i]);
 				$recordeModel->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserId());
 				$recordeModel->file = $originalFile;
@@ -55,11 +55,11 @@ class MassAdd extends \App\Runtime\BaseActionController
 				
 				// Link the document to parent record if createmode is 'link'
 				if ($createMode === 'link' && !empty($returnModule) && !empty($returnId)) {
-					$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($returnModule);
+					$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($returnModule);
 					$relatedModule = $recordeModel->getModule();
 					$relatedRecordId = $recordeModel->getId();
 					
-					$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+					$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 					if ($relationModel) {
 						$relationModel->addRelation($returnId, $relatedRecordId);
 					}

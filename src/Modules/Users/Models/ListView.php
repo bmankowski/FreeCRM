@@ -12,18 +12,18 @@ namespace App\Modules\Users\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams)
 	{
 		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
 
 		$basicLinks = array(
 			array(
@@ -34,12 +34,12 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 			)
 		);
 		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicLink);
+			$links['LISTVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicLink);
 		}
 
 		$advancedLinks = $this->getAdvancedLinks();
 		foreach ($advancedLinks as $advancedLink) {
-			$links['LISTVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($advancedLink);
+			$links['LISTVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($advancedLink);
 		}
 		return $links;
 	}
@@ -47,7 +47,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Vtiger\Models\Link instances for Mass Actions
+	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -64,7 +64,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 			);
 		}
 		foreach ($massActionLinks as $massActionLink) {
-			$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$links['LISTVIEWMASSACTION'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		$countLinks = count($links['LISTVIEWMASSACTION']);
 		for ($i = 0; $i < $countLinks; $i++) {
@@ -90,10 +90,10 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel, $status (Active or Inactive User). Default false
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel, $status (Active or Inactive User). Default false
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
-	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel)
+	public function getListViewEntries(\App\Modules\Base\Models\Paging $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 		// Added as Users module do not have custom filters and id column is added by querygenerator.
@@ -118,7 +118,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view header
-	 * @return \App\Modules\Vtiger\Models\Field[] - List of \App\Modules\Vtiger\Models\Field instances
+	 * @return \App\Modules\Base\Models\Field[] - List of \App\Modules\Base\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{

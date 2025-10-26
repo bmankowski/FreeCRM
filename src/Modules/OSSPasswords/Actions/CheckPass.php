@@ -22,7 +22,7 @@ class CheckPass extends \App\Runtime\BaseActionController
 		$moduleName = $request->getModule();
 		$password = $request->get('password');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 
 		$passOK = $recordModel->checkPassword($password);
 

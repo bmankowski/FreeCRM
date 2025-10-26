@@ -10,7 +10,7 @@ namespace App\Modules\Settings\AdvancedPermission\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class RecalculatePermission extends \App\Modules\Settings\Vtiger\Actions\Save
+class RecalculatePermission extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

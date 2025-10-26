@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\SharingAccess\Actions;
-use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Base\Models\Tracker;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Save
+class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -41,7 +41,7 @@ class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Vtige
 				
 			}
 		}
-		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $postValues);
+		\App\Modules\Settings\Base\Models\Tracker::addDetail($prevValues, $postValues);
 		\App\Modules\Settings\SharingAccess\Models\Module::recalculateSharingRules();
 
 		$response = new \App\Http\Vtiger_Response();

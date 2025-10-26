@@ -107,7 +107,7 @@ class CardDAV {
 				$cardLMT = $card['lastmodified'];
 				if ($crmLMT < $cardLMT) {
 					// Updating
-					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($card['crmid']);
+					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($card['crmid']);
 					$this->updateRecord($recordModel, $card);
 					$updates++;
 				}
@@ -244,7 +244,7 @@ class CardDAV {
 		\App\Log::trace(__METHOD__ . ' | Start Card ID' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		if (isset($vcard->ORG)) {
-			$lead = \App\Modules\Vtiger\Models\Record::getCleanInstance('Leads');
+			$lead = \App\Modules\Base\Models\Record::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
 			$lead->set('company', (string) $vcard->ORG);
 			$lead->set('lastname', (string) $vcard->ORG);
@@ -255,7 +255,7 @@ class CardDAV {
 		}
 		$head = $vcard->N->getParts();
 
-		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$record = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$record->set('assigned_user_id', $this->user->get('id'));
 		if ($moduleName == 'Contacts') {
 			$record->set('firstname', $head[1]);

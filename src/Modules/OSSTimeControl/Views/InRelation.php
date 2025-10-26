@@ -14,7 +14,7 @@ namespace App\Modules\OSSTimeControl\Views;
 
 
 use App\Http\Vtiger_Request;
-class InRelation  extends \App\Modules\Vtiger\Views\Index
+class InRelation  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -29,11 +29,11 @@ class InRelation  extends \App\Modules\Vtiger\Views\Index
 			$requestedPage = 1;
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $requestedPage);
 
-		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if ($sortOrder == 'ASC') {

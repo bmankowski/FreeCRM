@@ -15,7 +15,7 @@ namespace App\Modules\Settings\Currency\Models;
 
 
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	public function getId()
@@ -44,14 +44,14 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
 		);
-		$editLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
+		$editLinkInstance = \App\Modules\Base\Models\Link::getInstanceFromValues($editLink);
 
 		$deleteLink = array(
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
 		);
-		$deleteLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
+		$deleteLinkInstance = \App\Modules\Base\Models\Link::getInstanceFromValues($deleteLink);
 		return array($editLinkInstance, $deleteLinkInstance);
 	}
 

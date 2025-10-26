@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\Users\Models;
-use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Base\Models\Tracker;
 
 
 /* +***********************************************************************************************************************************
@@ -14,7 +14,7 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 	public $name = 'Users';
 
@@ -248,13 +248,13 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 				else
 					$prev[$name] = '';
 				$post[$name] = implode(',', $newValues[$id]);
-				\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
+				\App\Modules\Settings\Base\Models\Tracker::addDetail($prev, $post);
 			}
 		}
 
 		$difference = \vtlib\Functions::arrayDiffAssocRecursive($oldValues, $newValues);
 		if (!empty($difference)) {
-			\App\Modules\Settings\Vtiger\Models\Tracker::changeType('delete');
+			\App\Modules\Settings\Base\Models\Tracker::changeType('delete');
 			foreach ($difference as $id => $locks) {
 				if (strpos($id, 'H') === false) {
 					$name = \App\Modules\Users\Models\Record::getInstanceById($id, 'Users');
@@ -267,7 +267,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 					$post[$name] = implode(',', $newValues[$id]);
 				else
 					$post[$name] = '';
-				\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
+				\App\Modules\Settings\Base\Models\Tracker::addDetail($prev, $post);
 			}
 		}
 	}

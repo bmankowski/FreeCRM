@@ -13,7 +13,7 @@ namespace App\Modules\Settings\LayoutEditor\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function __construct()
@@ -70,13 +70,13 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('SELECTED_MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCKS', $blockModels);
 		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
-		$viewer->assign('DISPLAY_TYPE_LIST', \App\Modules\Vtiger\Models\Field::showDisplayTypeList());
+		$viewer->assign('DISPLAY_TYPE_LIST', \App\Modules\Base\Models\Field::showDisplayTypeList());
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
-		$viewer->assign('INVENTORY_MODEL', \App\Modules\Vtiger\Models\InventoryField::getInstance($sourceModule));
+		$viewer->assign('INVENTORY_MODEL', \App\Modules\Base\Models\InventoryField::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 
@@ -88,7 +88,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		if (empty($sourceModule)) {
 			//To get the first element
 			$moduleName = reset($supportedModulesList);
-			$sourceModule = \App\Modules\Vtiger\Models\Module::getInstance($moduleName)->getName();
+			$sourceModule = \App\Modules\Base\Models\Module::getInstance($moduleName)->getName();
 		}
 		$moduleModel = \App\Modules\Settings\LayoutEditor\Models\Module::getInstanceByName($sourceModule);
 		$relatedModuleModels = $moduleModel->getRelations();

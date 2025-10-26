@@ -13,7 +13,7 @@ namespace App\Modules\Users\Views;
 
 
 use App\Http\Vtiger_Request;
-class TransferOwner  extends \App\Modules\Vtiger\Views\Index
+class TransferOwner  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

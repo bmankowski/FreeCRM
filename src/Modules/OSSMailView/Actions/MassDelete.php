@@ -41,7 +41,7 @@ class MassDelete extends \App\Runtime\BaseActionController
 		$permission = true;
 		foreach ($recordIds as $recordId) {
 			if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName); // fixme: not 100% sure thats whats expected
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName); // fixme: not 100% sure thats whats expected
 				$recordModel->delete_rel($recordId);
 				$recordModel->delete();
 			} else {

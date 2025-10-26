@@ -13,7 +13,7 @@ namespace App\Modules\Settings\ModuleManager\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ModuleImport extends \App\Modules\Settings\Vtiger\Views\Index
+class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function __construct()

@@ -9,7 +9,7 @@ namespace App\Modules\Notification\Models;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -30,7 +30,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 * Function returns notifications list
 	 * @param int $limit
 	 * @param array $conditions
-	 * @return \App\Modules\Vtiger\Models\Record[]
+	 * @return \App\Modules\Base\Models\Record[]
 	 */
 	public function getEntries($limit = false, $conditions = false)
 	{
@@ -48,7 +48,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$dataReader = $query->createCommand()->query();
 		$entries = [];
 		while ($row = $dataReader->read()) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('Notification');
 			$recordModel->setData($row);
 			$entries[$row['id']] = $recordModel;
 		}
@@ -83,7 +83,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$dataReader = $query->createCommand()->query();
 		$entries = [];
 		while ($row = $dataReader->read()) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('Notification');
 			$recordModel->setData($row);
 			$entries[$row['notification_type']][$row['notificationid']] = $recordModel;
 		}
@@ -96,7 +96,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 */
 	public function getTypes()
 	{
-		$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('notification_type', \App\Modules\Vtiger\Models\Module::getInstance('Notification'));
+		$fieldModel = \App\Modules\Base\Models\Field::getInstance('notification_type', \App\Modules\Base\Models\Module::getInstance('Notification'));
 		return $fieldModel->getPicklistValues();
 	}
 }

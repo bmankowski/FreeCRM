@@ -87,7 +87,7 @@ class CronReviewed {
 		if ('all' === $this->get('selected_ids')) {
 			$data['module'] = \vtlib\Functions::getModuleName($this->get('tabid'));
 			$request = new \App\Http\Vtiger_Request($data, $data);
-			$this->recordList = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($request);
+			$this->recordList = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request);
 		} else {
 			$this->recordList = $this->get('selected_ids');
 		}

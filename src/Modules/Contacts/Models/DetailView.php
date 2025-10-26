@@ -12,7 +12,7 @@ namespace App\Modules\Contacts\Models;
  * *********************************************************************************** */
 
 //Same as Accounts Detail View
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 	
 }

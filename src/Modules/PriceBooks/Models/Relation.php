@@ -12,7 +12,7 @@ namespace App\Modules\PriceBooks\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends \App\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Base\Models\Relation
 {
 
 	/**
@@ -25,7 +25,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 	{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 
-		$priceBookModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
+		$priceBookModel = \App\Modules\Base\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
 		$priceBookModel->updateListPrice($destinationRecordId, $listPrice);
 	}
 
@@ -39,7 +39,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		if ($sourceModuleName == 'PriceBooks' && ($destinationModuleName == 'Products' || $destinationModuleName == 'Services')) {
-			$priceBookModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
+			$priceBookModel = \App\Modules\Base\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
 			$priceBookModel->deleteListPrice($relatedRecordId);
 		} else {
 			parent::deleteRelation($sourceRecordId, $relatedRecordId);

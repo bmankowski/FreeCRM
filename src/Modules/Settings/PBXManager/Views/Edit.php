@@ -13,7 +13,7 @@ namespace App\Modules\Settings\PBXManager\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Settings_PBXManager_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_PBXManager_Edit_View extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function __construct()

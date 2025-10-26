@@ -45,7 +45,7 @@ class ActivityReminder extends \App\Runtime\BaseActionController
 		$recordId = $request->get('record');
 		$time = $request->get('time');
 		$module = $request->getModule();
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $module);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $module);
 		$recordModel->updateReminderPostpone($time);
 	}
 }

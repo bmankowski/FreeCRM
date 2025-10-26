@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Notifications\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
+class Configuration extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**
@@ -22,13 +22,13 @@ class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$srcModule = $request->get('srcModule');
-		$modules = \App\Modules\Vtiger\Models\Watchdog::getSupportedModules();
+		$modules = \App\Modules\Base\Models\Watchdog::getSupportedModules();
 		if (!$request->has('srcModule')) {
 			reset($modules);
 			$srcModule = key($modules);
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('WATCHDOG_MODULE', \App\Modules\Vtiger\Models\Watchdog::getInstance($srcModule));
+		$viewer->assign('WATCHDOG_MODULE', \App\Modules\Base\Models\Watchdog::getInstance($srcModule));
 		$viewer->assign('SELECTED_MODULE', $srcModule);
 		$viewer->assign('SUPPORTED_MODULES', $modules);
 		$viewer->view('Configuration.tpl', $request->getModule(false));

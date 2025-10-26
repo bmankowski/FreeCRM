@@ -12,7 +12,7 @@ namespace App\Modules\OSSTimeControl\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**

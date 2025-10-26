@@ -14,7 +14,7 @@ namespace App\Modules\ModComments\Views;
 
 
 use App\Http\Vtiger_Request;
-class DetailAjax extends \App\Modules\Vtiger\Views\Index
+class DetailAjax extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -25,9 +25,9 @@ class DetailAjax extends \App\Modules\Vtiger\Views\Index
 	{
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record);
 		$currentUserModel = $request->getUser();
-		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
+		$modCommentsModel = \App\Modules\Base\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);

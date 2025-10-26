@@ -10,7 +10,7 @@ use App\HttpVtiger_Request;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function __construct()

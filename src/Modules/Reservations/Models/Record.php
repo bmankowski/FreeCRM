@@ -10,7 +10,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	const recalculateStatus = 'Accepted';
@@ -30,25 +30,25 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		self::recalculateServiceContracts($servicecontractsid);
 
 		if (self::checkID($projecttaskid)) {
-			$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($projecttaskid, 'ProjectTask');
+			$ModuleNameInstance = \App\Modules\Base\Models\Record::getInstanceById($projecttaskid, 'ProjectTask');
 			$projectid = $ModuleNameInstance->get('projectid');
 			if (self::checkID($projectid)) {
 				self::recalculateProject($projectid);
-				$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
+				$ModuleNameInstance = \App\Modules\Base\Models\Record::getInstanceById($projectid, 'Project');
 				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 			}
 		}
 		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
+			$ModuleNameInstance = \App\Modules\Base\Models\Record::getInstanceById($ticketid, 'HelpDesk');
 			$projectid = $ModuleNameInstance->get('projectid');
 			if (self::checkID($projectid)) {
 				self::recalculateProject($projectid);
-				$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($projectid, 'Project');
+				$ModuleNameInstance = \App\Modules\Base\Models\Record::getInstanceById($projectid, 'Project');
 				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 			}
 		}
 		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($ticketid, 'HelpDesk');
+			$ModuleNameInstance = \App\Modules\Base\Models\Record::getInstanceById($ticketid, 'HelpDesk');
 			self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
 		}
 	}

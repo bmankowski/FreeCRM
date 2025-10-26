@@ -11,7 +11,7 @@ namespace App\Modules\Calendar\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Edit extends \App\Modules\Vtiger\Views\Edit
+class Edit extends \App\Modules\Base\Views\Edit
 {
 
 	public function __construct()
@@ -27,7 +27,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 			$mode = $recordModel->getType();
 		}
 
@@ -46,17 +46,17 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 		$record = $request->get('record');
 
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
 		} else if (!empty($record)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $record);
 		} else {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
 		}
-		$eventModule = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$eventModule = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$recordModel->setModuleFromInstance($eventModule);
 
 		$moduleModel = $recordModel->getModule();
@@ -76,15 +76,15 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 			}
 			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) {
 				if ($fieldName == 'date_start') {
-					$startTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($requestFieldList['time_start']);
-					$startDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
+					$startTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($requestFieldList['time_start']);
+					$startDateTime = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $startTime);
 					list($startDate, $startTime) = explode(' ', $startDateTime);
-					$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($startDate);
+					$fieldValue = \App\Modules\Base\UiTypes\Date::getDisplayDateValue($startDate);
 				} else {
-					$endTime = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($requestFieldList['time_end']);
-					$endDateTime = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $endTime);
+					$endTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($requestFieldList['time_end']);
+					$endDateTime = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($fieldValue . " " . $endTime);
 					list($endDate, $endTime) = explode(' ', $endDateTime);
-					$fieldValue = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($endDate);
+					$fieldValue = \App\Modules\Base\UiTypes\Date::getDisplayDateValue($endDate);
 				}
 			}
 
@@ -92,7 +92,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 
 		$viewMode = $request->get('view_mode');
@@ -123,7 +123,7 @@ class Edit extends \App\Modules\Vtiger\Views\Edit
 			}
 		}
 		$viewer->assign('USER_CHANGED_END_DATE_TIME', $userChangedEndDateTime);
-		$viewer->assign('TOMORROWDATE', \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-m-d', time() + 86400)));
+		$viewer->assign('TOMORROWDATE', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-m-d', time() + 86400)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('RECORD', $recordModel);

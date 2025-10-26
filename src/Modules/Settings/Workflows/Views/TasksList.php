@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Workflows\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class TasksList extends \App\Modules\Settings\Vtiger\Views\Index
+class TasksList extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

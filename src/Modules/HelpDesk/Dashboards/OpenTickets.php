@@ -15,7 +15,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
 
 use App\Http\Vtiger_Request;
 
-class OpenTickets  extends \App\Modules\Vtiger\Views\Index
+class OpenTickets  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -28,7 +28,7 @@ class OpenTickets  extends \App\Modules\Vtiger\Views\Index
 
 		$ticketStatus = \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify();
 		$moduleName = 'HelpDesk';
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$query = new \App\Db\Query();
 		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
@@ -85,7 +85,7 @@ class OpenTickets  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		$data = $this->getOpenTickets();
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

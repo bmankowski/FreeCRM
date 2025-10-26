@@ -12,7 +12,7 @@ namespace App\Modules\Reservations\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public function getCalendarViewUrl()
@@ -40,7 +40,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			],
 		];
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		if ($linkParams['ACTION'] == 'Calendar') {
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 				'linkicon' => ''
 			];
 			foreach ($quickWidgets as $quickWidget) {
-				$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+				$links['SIDEBARWIDGET'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickWidget);
 			}
 		}
 

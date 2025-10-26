@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class SaveAjax  extends \App\Modules\Vtiger\Views\Index
+class SaveAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -45,7 +45,7 @@ class SaveAjax  extends \App\Modules\Vtiger\Views\Index
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 
 		$page = $request->get('page');
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', \App\Modules\Reports\Views\Detail::REPORT_LIMIT);
 

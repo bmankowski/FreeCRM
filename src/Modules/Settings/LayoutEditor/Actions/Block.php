@@ -12,7 +12,7 @@ namespace App\Modules\Settings\LayoutEditor\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Block extends \App\Modules\Settings\Vtiger\Actions\Index
+class Block extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function __construct()
@@ -26,7 +26,7 @@ class Block extends \App\Modules\Settings\Vtiger\Actions\Index
 	{
 		$blockId = $request->get('blockid');
 		$sourceModule = $request->get('sourceModule');
-		$modueInstance = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$modueInstance = \App\Modules\Base\Models\Module::getInstance($sourceModule);
 		$beforeBlockId = false;
 
 		if (!empty($blockId)) {
@@ -40,15 +40,15 @@ class Block extends \App\Modules\Settings\Vtiger\Actions\Index
 			//Indicates block id after which you need to add the new block
 			$beforeBlockId = $request->get('beforeBlockId');
 			if (!empty($beforeBlockId)) {
-				$beforeBlockInstance = \App\Modules\Vtiger\Models\Block::getInstance($beforeBlockId);
+				$beforeBlockInstance = \App\Modules\Base\Models\Block::getInstance($beforeBlockId);
 				$beforeBlockSequence = $beforeBlockInstance->get('sequence');
 				$newBlockSequence = ($beforeBlockSequence + 1);
 				//To give sequence one more than prev block 
 				$blockInstance->set('sequence', $newBlockSequence);
 				//push all other block down so that we can keep new block there
-				\App\Modules\Vtiger\Models\Block::pushDown($beforeBlockSequence, $modueInstance->getId());
+				\App\Modules\Base\Models\Block::pushDown($beforeBlockSequence, $modueInstance->getId());
 			}
-			$isDuplicate = \App\Modules\Vtiger\Models\Block::checkDuplicate($request->get('label'), $modueInstance->getId());
+			$isDuplicate = \App\Modules\Base\Models\Block::checkDuplicate($request->get('label'), $modueInstance->getId());
 		}
 
 		$response = new \App\Http\Vtiger_Response();
@@ -58,7 +58,7 @@ class Block extends \App\Modules\Settings\Vtiger\Actions\Index
 				$responseInfo = array('id' => $id, 'label' => $blockInstance->get('label'), 'isCustom' => $blockInstance->isCustomized(), 'beforeBlockId' => $beforeBlockId, 'isAddCustomFieldEnabled' => $blockInstance->isAddCustomFieldEnabled());
 				if (empty($blockId)) {
 					//if mode is create add all blocks sequence so that client will place the new block correctly
-					$responseInfo['sequenceList'] = \App\Modules\Vtiger\Models\Block::getAllBlockSequenceList($modueInstance->getId());
+					$responseInfo['sequenceList'] = \App\Modules\Base\Models\Block::getAllBlockSequenceList($modueInstance->getId());
 				}
 				$response->setResult($responseInfo);
 			} catch (Exception $e) {
@@ -75,7 +75,7 @@ class Block extends \App\Modules\Settings\Vtiger\Actions\Index
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$sequenceList = $request->get('sequence');
-			\App\Modules\Vtiger\Models\Block::updateSequenceNumber($sequenceList);
+			\App\Modules\Base\Models\Block::updateSequenceNumber($sequenceList);
 			$response->setResult(array('success' => true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -87,13 +87,13 @@ class Block extends \App\Modules\Settings\Vtiger\Actions\Index
 	{
 		$response = new \App\Http\Vtiger_Response();
 		$blockId = $request->get('blockid');
-		$checkIfFieldsExists = \App\Modules\Vtiger\Models\Block::checkFieldsExists($blockId);
+		$checkIfFieldsExists = \App\Modules\Base\Models\Block::checkFieldsExists($blockId);
 		if ($checkIfFieldsExists) {
 			$response->setError('502', \App\Runtime\Vtiger_Language_Handler::translate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false)));
 			$response->emit();
 			return;
 		}
-		$blockInstance = \App\Modules\Vtiger\Models\Block::getInstance($blockId);
+		$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId);
 		if (!$blockInstance->isCustomized()) {
 			$response->setError('502', \App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false)));
 			$response->emit();

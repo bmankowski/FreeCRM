@@ -311,7 +311,7 @@ class Privilege
 		
 		// Check if user is a shared owner
 		if (!$isPermittedPrivateRecord) {
-			$shownerids = \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($record, $moduleName);
+			$shownerids = \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($record, $moduleName);
 			if (in_array($userId, $shownerids) 
 				|| count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 				$level = 'SEC_PRIVATE_RECORD_SHARED_OWNER';
@@ -350,7 +350,7 @@ class Privilege
 			return null;
 		}
 		
-		$shownerids = \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($record, $moduleName);
+		$shownerids = \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($record, $moduleName);
 		if (in_array($userId, $shownerids) 
 			|| count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 			return static::returnPermissionResult(true, 'SEC_RECORD_SHARED_OWNER');
@@ -433,7 +433,7 @@ class Privilege
 					break;
 				case 1: // Shared owner check
 					$relatedPermission = in_array($userId, 
-						\App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($parentRecord, $parentMetaData['setype']));
+						\App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($parentRecord, $parentMetaData['setype']));
 					break;
 				case 2: // Sharing rules check
 					if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {

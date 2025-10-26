@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Workflows\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class RecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 
 	const RECORD_STRUCTURE_MODE_DEFAULT = '';

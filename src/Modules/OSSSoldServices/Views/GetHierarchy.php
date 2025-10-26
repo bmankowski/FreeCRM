@@ -10,7 +10,7 @@ namespace App\Modules\OSSSoldServices\Views;
  */
 
 use App\Http\Vtiger_Request;
-class GetHierarchy  extends \App\Modules\Vtiger\Views\Index
+class GetHierarchy  extends \App\Modules\Base\Views\Index
 {
 	
 }

@@ -12,7 +12,7 @@ namespace App\Modules\Documents\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
@@ -35,7 +35,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkurl' => $recordModel->getDownloadFileURL(),
 				'linkicon' => 'glyphicon glyphicon-download-alt'
 			);
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 		$basicActionLink = array(
 			'linktype' => 'DETAILVIEW',
@@ -43,7 +43,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 			'linkurl' => $recordModel->checkFileIntegrityURL(),
 			'linkicon' => 'glyphicon glyphicon-saved'
 		);
-		$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+		$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 
 		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
 			if ($currentUserModel->hasModulePermission('OSSMail') && \App\AppConfig::main('isActiveSendingMails')) {
@@ -55,7 +55,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 					'linkurl' => 'index.php?module=OSSMail&view=compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
 					'linkicon' => 'glyphicon glyphicon-envelope'
 				);
-				$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+				$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 			}
 		}
 

@@ -10,7 +10,7 @@ namespace App\Modules\OpenStreetMap\Views;
  */
 
 use App\Http\Vtiger_Request;
-class MapModal  extends \App\Modules\Vtiger\Views\Index
+class MapModal  extends \App\Modules\Base\Views\Index
 {
 
 	public function getSize(\App\Http\Vtiger_Request $request)
@@ -21,10 +21,10 @@ class MapModal  extends \App\Modules\Vtiger\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		if (!$request->isEmpty('srcModule')) {
-			$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->get('srcModule'));
+			$srcModuleModel = \App\Modules\Base\Models\Module::getInstance($request->get('srcModule'));
 			$fields = $srcModuleModel->getFields();
 			$fieldsToGroup = [];
 			foreach ($fields as &$fieldModel) {

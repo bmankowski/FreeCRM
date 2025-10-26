@@ -66,13 +66,13 @@ class OSSMailScanner {
 
 	public function turn_on($moduleName)
 	{
-		\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_MAIL', [
+		\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_MAIL', [
 			'name' => 'Mail Scanner',
 			'iconpath' => 'adminIcon-mail-scanner',
 			'description' => 'LBL_MAIL_SCANNER_DESCRIPTION',
 			'linkto' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index'
 		]);
-		\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_SECURITY_MANAGEMENT', [
+		\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_SECURITY_MANAGEMENT', [
 			'name' => 'Mail Logs',
 			'iconpath' => 'adminIcon-mail-download-history',
 			'description' => 'LBL_MAIL_LOGS_DESCRIPTION',

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\AutomaticAssignment\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**
@@ -58,24 +58,24 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	private function getVariablesToAdvancedFilter(CRM_Viewer $viewer, $recordModel)
 	{
 		$sourceModuleName = $recordModel->getSourceModuleName();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($recordModel->get('tabid'));
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($recordModel->get('tabid'));
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 
 		$conditions = $recordModel->get('conditions');
 		if ($conditions) {
 			$conditions = \App\Json::decode($conditions);
 		}
-		$criteria = \App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($conditions);
-		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Vtiger\AdvancedFilter::transformToAdvancedFilterCondition($conditions));
+		$criteria = \App\Modules\Base\AdvancedFilter::transformToAdvancedFilterCondition($conditions);
+		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\AdvancedFilter::transformToAdvancedFilterCondition($conditions));
 
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('DATE_FILTERS', \App\Modules\Vtiger\AdvancedFilter::getDateFilter($sourceModuleName));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($sourceModuleName));
 
 		if ($sourceModuleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Base\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);

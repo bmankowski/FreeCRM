@@ -16,7 +16,7 @@ namespace App\Modules\Settings\Roles\Models;
  * Roles Record Model Class
  */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
     /** @var array */
@@ -444,7 +444,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -466,7 +466,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 				)
 			);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 		}
 

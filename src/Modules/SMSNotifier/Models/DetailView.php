@@ -11,7 +11,7 @@ namespace App\Modules\SMSNotifier\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**

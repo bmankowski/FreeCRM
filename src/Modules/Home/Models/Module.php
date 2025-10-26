@@ -12,7 +12,7 @@ namespace App\Modules\Home\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -26,8 +26,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns latest comments across CRM
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return \App\Modules\Vtiger\Models\Record[]
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return \App\Modules\Base\Models\Record[]
 	 */
 	public function getComments($pagingModel)
 	{
@@ -46,7 +46,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$comments = [];
 		while ($row = $dataReader->read()) {
 			if (\App\Modules\Users\Models\Privileges::isPermitted($row['setype'], 'DetailView', $row['related_to'])) {
-				$commentModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('ModComments');
+				$commentModel = \App\Modules\Base\Models\Record::getCleanInstance('ModComments');
 				$commentModel->setData($row);
 				$time = $commentModel->get('createdtime');
 				$comments[$time] = $commentModel;
@@ -70,12 +70,12 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function returns the Calendar Events for the module
 	 * @param string $mode - upcoming/overdue mode
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel - $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel - $pagingModel
 	 * @param string $user - all/userid
 	 * @param string $recordId - record id
 	 * @return array
 	 */
-	public function getCalendarActivities($mode, \App\Modules\Vtiger\Models\Paging $pagingModel, $user, $recordId = false, $paramsMore = [])
+	public function getCalendarActivities($mode, \App\Modules\Base\Models\Paging $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
 		$activities = [];
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
@@ -127,27 +127,27 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$model = \App\Modules\Vtiger\Models\Record::getCleanInstance('Calendar');
+			$model = \App\Modules\Base\Models\Record::getCleanInstance('Calendar');
 			$model->setData($row);
 			$model->setId($row['crmid']);
 			if ($row['parent_id']) {
 				if (\App\Utils\Utils::isRecordExists($row['parent_id'])) {
-					$record = \App\Modules\Vtiger\Models\Record::getInstanceById($row['parent_id']);
+					$record = \App\Modules\Base\Models\Record::getInstanceById($row['parent_id']);
 					if ($record->getModuleName() == 'Accounts') {
 						$model->set('contractor', $record);
 					} else if ($record->getModuleName() == 'Project') {
 						if (\App\Utils\Utils::isRecordExists($record->get('linktoaccountscontacts'))) {
-							$recordContractor = \App\Modules\Vtiger\Models\Record::getInstanceById($record->get('linktoaccountscontacts'));
+							$recordContractor = \App\Modules\Base\Models\Record::getInstanceById($record->get('linktoaccountscontacts'));
 							$model->set('contractor', $recordContractor);
 						}
 					} else if ($record->getModuleName() == 'ServiceContracts') {
 						if (\App\Utils\Utils::isRecordExists($record->get('sc_realted_to'))) {
-							$recordContractor = \App\Modules\Vtiger\Models\Record::getInstanceById($record->get('sc_realted_to'));
+							$recordContractor = \App\Modules\Base\Models\Record::getInstanceById($record->get('sc_realted_to'));
 							$model->set('contractor', $recordContractor);
 						}
 					} else if ($record->getModuleName() == 'HelpDesk') {
 						if (\App\Utils\Utils::isRecordExists($record->get('parent_id'))) {
-							$recordContractor = \App\Modules\Vtiger\Models\Record::getInstanceById($record->get('parent_id'));
+							$recordContractor = \App\Modules\Base\Models\Record::getInstanceById($record->get('parent_id'));
 							;
 							$model->set('contractor', $recordContractor);
 						}
@@ -179,7 +179,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function returns the Calendar Events for the module
 	 * @param string $mode - upcoming/overdue mode
-	 * @param <\App\Modules\Vtiger\Models\Paging> $pagingModel - $pagingModel
+	 * @param <\App\Modules\Base\Models\Paging> $pagingModel - $pagingModel
 	 * @param string $user - all/userid
 	 * @param string $recordId - record id
 	 * @return <Array>
@@ -190,8 +190,8 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
-		$nowInUserFormat = \App\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = \App\Modules\Vtiger\UiTypes\Datetime::getDBDateTimeValue($nowInUserFormat);
+		$nowInUserFormat = \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
+		$nowInDBFormat = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 		$query = (new \App\Db\Query())
 			->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
@@ -215,12 +215,12 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$dataReader = $query->createCommand()->query();
 		$projecttasks = [];
 		while ($row = $dataReader->read()) {
-			$model = \App\Modules\Vtiger\Models\Record::getCleanInstance('ProjectTask');
+			$model = \App\Modules\Base\Models\Record::getCleanInstance('ProjectTask');
 			$model->setData($row);
 			$model->setId($row['crmid']);
 			if ($row['projectid']) {
 				if (\App\Utils\Utils::isRecordExists($row['projectid'])) {
-					$record = \App\Modules\Vtiger\Models\Record::getInstanceById($row['projectid'], 'Project');
+					$record = \App\Modules\Base\Models\Record::getInstanceById($row['projectid'], 'Project');
 					if (\App\Utils\Utils::isRecordExists($record->get('linktoaccountscontacts'))) {
 						$model->set('account', '<a href="index.php?module=' . \vtlib\Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . \vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 					}
@@ -241,7 +241,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns comments and recent activities across module
-	 * @param <\App\Modules\Vtiger\Models\Paging> $pagingModel
+	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
 	 * @param string $type - comments, updates or all
 	 * @return <Array>
 	 */
@@ -252,7 +252,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		}
 		$comments = array();
 		if ($type == 'all' || $type == 'comments') {
-			$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
+			$modCommentsModel = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modCommentsModel->isPermitted('DetailView')) {
 				$comments = $this->getComments($pagingModel);
 			}

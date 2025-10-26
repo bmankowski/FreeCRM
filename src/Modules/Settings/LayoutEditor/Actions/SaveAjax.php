@@ -10,7 +10,7 @@ namespace App\Modules\Settings\LayoutEditor\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()
@@ -27,7 +27,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$param = $request->get('param');
 		$moduleName = $param['module'];
 		$status = false;
-		$inventoryInstance = \App\Modules\Vtiger\Models\Inventory::getInstance($moduleName);
+		$inventoryInstance = \App\Modules\Base\Models\Inventory::getInstance($moduleName);
 		$status = $inventoryInstance->setMode($param['status']);
 		if ($status) {
 			$status = true;
@@ -50,7 +50,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$name = $param['name'];
 		$id = $param['id'];
 		$edit = false;
-		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		if (!empty($id)) {
 			$return = $inventoryField->saveField($name, $param);
 			$edit = true;
@@ -72,7 +72,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
-		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		$status = $inventoryField->saveSequence($param['ids']);
 		if ($status) {
 			$status = true;
@@ -86,7 +86,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
-		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		$status = $inventoryField->delete($param);
 		if ($status) {
 			$status = true;

@@ -97,7 +97,7 @@
 												{if $FIELD_VALUE|is_array}
 													{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
 												{/if}
-												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($FIELD_VALUE)}' />
+												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Modules\Base\Helpers\Util::toSafeHTML($FIELD_VALUE)}' />
 											{/if}
 										</span>
 									{/if}

@@ -14,7 +14,7 @@ namespace App\Modules\Rss\Views;
 
 
 use App\Http\Vtiger_Request;
-class ViewTypes  extends \App\Modules\Vtiger\Views\Index
+class ViewTypes  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()
@@ -40,7 +40,7 @@ class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 	public function getRssWidget(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->get('module');
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);
 		$rssSources = $moduleModel->getRssSources();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
@@ -57,7 +57,7 @@ class ViewTypes  extends \App\Modules\Vtiger\Views\Index
 	public function getRssAddForm(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$this->preProcess($request);

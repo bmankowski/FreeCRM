@@ -36,7 +36,7 @@ class VTCreateTodoTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -108,7 +108,7 @@ class VTCreateTodoTask extends VTTask
 
 		$time = explode(' ', $baseDateStart);
 		if (count($time) < 2) {
-			$timeWithSec = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($this->time);
+			$timeWithSec = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($this->time);
 			$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
 			$time = $dbInsertDateTime->format('H:i:s');
 		} else {
@@ -131,12 +131,12 @@ class VTCreateTodoTask extends VTTask
 			$row = (new \App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->one();
 			if ($row) {
 				$timeEnd = $row['end_hour'];
-				$timeWithSec = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
+				$timeWithSec = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
 				$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			} else {
 				$timeEnd = $adminUser->column_fields['end_hour'];
-				$timeWithSec = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
+				$timeWithSec = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
 				$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			}
@@ -167,7 +167,7 @@ class VTCreateTodoTask extends VTTask
 		if ($field) {
 			$fields[$field] = $recordModel->getId();
 		}
-		$newRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Calendar');
+		$newRecordModel = \App\Modules\Base\Models\Record::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();

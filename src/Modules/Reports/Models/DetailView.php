@@ -11,21 +11,21 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <\App\Modules\Vtiger\Models\DetailView>
+	 * @return <\App\Modules\Base\Models\DetailView>
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$recordModel = \App\Modules\Reports\Models\Record::getCleanInstance($recordId, $moduleName);
 
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
@@ -74,7 +74,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 
 		$linkModelList = array();
 		foreach ($detailViewLinks as $detailViewLinkEntry) {
-			$linkModelList[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLinkEntry);
+			$linkModelList[] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLinkEntry);
 		}
 
 		return $linkModelList;
@@ -82,7 +82,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 
 	/**
 	 * Function to get the detail view widgets
-	 * @return <Array> - List of widgets , where each widget is an \App\Modules\Vtiger\Models\Link
+	 * @return <Array> - List of widgets , where each widget is an \App\Modules\Base\Models\Link
 	 */
 	public function getWidgets()
 	{
@@ -100,7 +100,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 
 		$widgetLinks = array();
 		foreach ($widgets as $widgetDetails) {
-			$widgetLinks[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($widgetDetails);
+			$widgetLinks[] = \App\Modules\Base\Models\Link::getInstanceFromValues($widgetDetails);
 		}
 		return $widgetLinks;
 	}

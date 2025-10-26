@@ -11,7 +11,7 @@ namespace App\Modules\FInvoice\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class SummationByMonths  extends \App\Modules\Vtiger\Views\Index
+class SummationByMonths  extends \App\Modules\Base\Views\Index
 {
 
 	private $conditions = false;
@@ -29,7 +29,7 @@ class SummationByMonths  extends \App\Modules\Vtiger\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $userId);
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $userId);
 		if (!$request->has('owner'))
 			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget);
 		else

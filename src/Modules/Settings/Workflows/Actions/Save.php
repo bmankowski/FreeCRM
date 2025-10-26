@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Workflows\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Save extends \App\Modules\Settings\Vtiger\Actions\Basic
+class Save extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -61,7 +61,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Basic
 				$date = $request->get('schdate');
 				$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
-				$currentTime = \App\Modules\Vtiger\Helpers\Util::getActiveAdminCurrentDateTime();
+				$currentTime = \App\Modules\Base\Helpers\Util::getActiveAdminCurrentDateTime();
 				if ($nextTriggerTime > $currentTime) {
 					$workflowModel->set('nexttrigger_time', $nextTriggerTime);
 				} else {

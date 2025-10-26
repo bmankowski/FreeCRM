@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Leads\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**

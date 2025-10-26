@@ -40,9 +40,9 @@ class RelationAjax extends \App\Runtime\BaseActionController
 		$relatedModuleName = $request->get('relatedModule');
 		$viewId = $request->get('viewId');
 		if ($viewId) {
-			$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->getModule());
-			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
-			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+			$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($request->getModule());
+			$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModuleName);
+			$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 				$queryGenerator = new \App\QueryGenerator($relatedModuleName);
 				$queryGenerator->initForCustomViewById($viewId);
@@ -75,10 +75,10 @@ class RelationAjax extends \App\Runtime\BaseActionController
 		$response = new \App\Http\Vtiger_Response();
 
 		if ($relatedRecordId && $status && $status < 5) {
-			$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->getModule());
-			$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModuleName);
+			$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($request->getModule());
+			$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModuleName);
 
-			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+			$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 			$relationModel->updateStatus($request->get('sourceRecord'), array($relatedRecordId => $status));
 
 			$response->setResult(array(true));

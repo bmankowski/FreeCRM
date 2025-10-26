@@ -43,15 +43,15 @@ class RelationAjax extends \App\Runtime\BaseActionController
 			$relatedModule = \vtlib\Functions::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
-		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
+		$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId, $relatedRecordId, $listPrice);
 			if ($relatedModule == 'PriceBooks') {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relatedRecordId);
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($relatedRecordId);
 				if ($sourceRecordId && ($sourceModule === 'Products' || $sourceModule === 'Services')) {
-					$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModule);
+					$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($sourceRecordId, $sourceModule);
 					$recordModel->updateListPrice($sourceRecordId, $parentRecordModel->get('unit_price'));
 				}
 			}
@@ -72,9 +72,9 @@ class RelationAjax extends \App\Runtime\BaseActionController
 		$relatedModule = $request->get('related_module');
 		$relInfos = $request->get('relinfo');
 
-		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
+		$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relInfos as $relInfo) {
 			$price = \App\Fields\CurrencyField::convertToDBFormat($relInfo['price'], null, true);
 			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);

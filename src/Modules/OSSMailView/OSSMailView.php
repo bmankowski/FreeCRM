@@ -333,7 +333,7 @@ class OSSMailView extends \App\CRMEntity
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
-			\App\Modules\Settings\Vtiger\Models\Module::addSettingsField('LBL_MAIL', [
+			\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_MAIL', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-oss_mailview',
 				'description' => 'LBL_MAIL_VIEW_DESCRIPTION',

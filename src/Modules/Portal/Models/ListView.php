@@ -15,13 +15,13 @@ namespace App\Modules\Portal\Models;
 /**
  * Portal ListView Model Class
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
-	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
+	public function getListViewEntries(\App\Modules\Base\Models\Paging $pagingModel, $searchResult = false)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('Portal');
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance('Portal');
 
 		$query = $this->getQuery();
 
@@ -47,7 +47,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 			$listViewEntries[$row['portalid']] = array();
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
-			$listViewEntries[$row['portalid']]['createdtime'] = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row['createdtime']);
+			$listViewEntries[$row['portalid']]['createdtime'] = \App\Modules\Base\UiTypes\Date::getDisplayDateValue($row['createdtime']);
 		}
 		$index = 0;
 		foreach ($listViewEntries as $recordId => $record) {

@@ -41,7 +41,7 @@ class Save extends \App\Runtime\BaseActionController
 		$roleName = $request->get('rolename');
 		$allowassignedrecordsto = $request->get('allowassignedrecordsto');
 
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		if (!empty($recordId)) {
 			$recordModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($recordId);
 		} else {

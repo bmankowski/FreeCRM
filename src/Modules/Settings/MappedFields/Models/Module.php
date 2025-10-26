@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MappedFields\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	protected $record = false;
@@ -99,7 +99,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	public static function getSupportedModules()
 	{
 		$restrictedModules = ['OSSMailView', 'ModComments'];
-		$moduleModels = \App\Modules\Vtiger\Models\Module::getAll([0, 2]);
+		$moduleModels = \App\Modules\Base\Models\Module::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isEntityModule() && !in_array($moduleModel->getName(), $restrictedModules)) {
@@ -150,7 +150,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		if ($moduleModel) {
 			$objectProperties = get_object_vars($moduleModel);
 			$moduleModel = new self();
@@ -167,7 +167,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$instance = new self();
-		$instance->record = \App\Modules\Vtiger\Models\MappedFields::getInstanceById($recordId, $moduleName);
+		$instance->record = \App\Modules\Base\Models\MappedFields::getInstanceById($recordId, $moduleName);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $instance;
 	}
@@ -214,7 +214,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->getName());
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
 		$moduleFields = $moduleMeta->getAccessibleFields();
 		$fields = [];
@@ -235,7 +235,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		$isInventory = $moduleModel->isInventory();
 		if ($isInventory) {
-			$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->getName());
+			$inventoryFieldModel = \App\Modules\Base\Models\InventoryField::getInstance($this->getName());
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$blockName = 'LBL_ADVANCED_BLOCK';
 			foreach ($inventoryFields as $field) {
@@ -370,7 +370,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 				if (empty($value)) {
 					break;
 				}
-				$instances[$combine[$fieldsKey]] = \App\Modules\Vtiger\Models\Module::getInstance((string) $fieldsValue);
+				$instances[$combine[$fieldsKey]] = \App\Modules\Base\Models\Module::getInstance((string) $fieldsValue);
 			} elseif ($fieldsKey == 'fields') {
 				foreach ($fieldsValue as $fieldKey => $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {

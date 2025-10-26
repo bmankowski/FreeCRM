@@ -11,7 +11,7 @@ use App\Modules\Settings\TimeControlProcessesModels\Module;
  */
 use App\Http\Vtiger_Request;
 
-class AllTimeControl  extends \App\Modules\Vtiger\Views\Index
+class AllTimeControl  extends \App\Modules\Base\Views\Index
 {
 
 	public function getSearchParams($assignedto = '', $dateStart, $dateEnd)
@@ -121,7 +121,7 @@ class AllTimeControl  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
 		$time = $request->get('time');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {

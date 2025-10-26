@@ -13,7 +13,7 @@ namespace App\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Condition extends \App\Modules\Settings\Vtiger\Views\Index
+class Condition extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

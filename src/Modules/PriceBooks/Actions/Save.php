@@ -17,7 +17,7 @@ class Save extends \App\Runtime\BaseActionController
 	/**
 	 * Function to save record
 	 * @param \App\Http\Vtiger_Request $request - values of the record
-	 * @return \App\Modules\Vtiger\Models\Record - record Model of saved record
+	 * @return \App\Modules\Base\Models\Record - record Model of saved record
 	 */
 	public function saveRecord(\App\Http\Vtiger_Request $request)
 	{
@@ -25,17 +25,17 @@ class Save extends \App\Runtime\BaseActionController
 		$recordModel->save();
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
+			$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 
 			//To store the relationship between Products/Services and PriceBooks
 			if ($parentRecordId && ($parentModuleName === 'Products' || $parentModuleName === 'Services')) {
-				$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
+				$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentRecordId, $parentModuleName);
 				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
 			}
 		}

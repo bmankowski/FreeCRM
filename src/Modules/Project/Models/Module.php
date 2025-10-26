@@ -12,7 +12,7 @@ namespace App\Modules\Project\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public function getGanttProject($id)
@@ -20,7 +20,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		$branches = $this->getGanttMileston($id);
 		$response = ['data' => [], 'links' => []];
 		if ($branches) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $this->getName());
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id, $this->getName());
 			$project['id'] = $id;
 			$project['text'] = $recordModel->get('projectname');
 			$project['priority'] = $recordModel->get('projectpriority');
@@ -39,7 +39,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function getGanttMileston($id)
 	{
 		$response = ['data' => [], 'links' => []];
-		$relatedListView = \App\Modules\Vtiger\Models\RelationListView::getInstance(\App\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectMilestone');
+		$relatedListView = \App\Modules\Base\Models\RelationListView::getInstance(\App\Modules\Base\Models\Record::getInstanceById($id), 'ProjectMilestone');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'projectmilestoneid' => 'projectmilestoneid',
 			'projectid' => 'projectid',
@@ -86,7 +86,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public function getGanttTask($id)
 	{
-		$relatedListView = \App\Modules\Vtiger\Models\RelationListView::getInstance(\App\Modules\Vtiger\Models\Record::getInstanceById($id), 'ProjectTask');
+		$relatedListView = \App\Modules\Base\Models\RelationListView::getInstance(\App\Modules\Base\Models\Record::getInstanceById($id), 'ProjectTask');
 		$relatedListView->getRelationModel()->set('QueryFields', [
 			'id' => 'id',
 			'projectid' => 'projectid',

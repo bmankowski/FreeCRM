@@ -11,7 +11,7 @@ namespace App\Modules\Settings\AutomaticAssignment\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
+class DeleteAjax extends \App\Modules\Settings\Base\Actions\Delete
 {
 
 	/**

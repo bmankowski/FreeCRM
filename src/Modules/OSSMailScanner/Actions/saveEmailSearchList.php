@@ -29,7 +29,7 @@ class saveEmailSearchList extends \App\Runtime\BaseActionController
 		if (!empty($vale)) {
 			$vale = implode(',', $vale);
 		}
-		$OSSMailScannerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$OSSMailScannerModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$OSSMailScannerModel->setEmailSearchList($vale);
 		$success = true;
 		$data = \App\Runtime\Vtiger_Language_Handler::translate('JS_save_fields_info', 'OSSMailScanner');

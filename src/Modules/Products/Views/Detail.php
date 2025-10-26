@@ -14,7 +14,7 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
 		$viewer = $this->getViewer($request);

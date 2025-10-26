@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CronTasks\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class AddAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class AddAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -13,7 +13,7 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class MoreCurrenciesList  extends \App\Modules\Vtiger\Views\Index
+class MoreCurrenciesList  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -25,7 +25,7 @@ class MoreCurrenciesList  extends \App\Modules\Vtiger\Views\Index
 			$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'CreateView');
 		} else {
 			$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record);
-			$lockEdit = \App\Modules\Users\Models\Privileges::checkLockEdit($moduleName, \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName));
+			$lockEdit = \App\Modules\Users\Models\Privileges::checkLockEdit($moduleName, \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName));
 		}
 		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
@@ -39,10 +39,10 @@ class MoreCurrenciesList  extends \App\Modules\Vtiger\Views\Index
 		$currencyName = $request->get('currency');
 
 		if (!empty($recordId)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 		} else {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
 
 			foreach ($priceDetails as $key => $currencyDetails) {

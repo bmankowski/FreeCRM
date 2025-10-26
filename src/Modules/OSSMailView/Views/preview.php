@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSMailView_preview_View extends \App\Modules\Vtiger\Views\Index
+class OSSMailView_preview_View extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -35,7 +35,7 @@ class OSSMailView_preview_View extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 
 		$from = $recordModel->get('from_email');
 		$to = $recordModel->get('to_email');

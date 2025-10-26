@@ -12,7 +12,7 @@ namespace App\Modules\Users\Views;
  * ********************************************************************************** */
 
 
-class Index extends \App\Modules\Vtiger\Views\Index
+class Index extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -20,7 +20,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 		parent::preProcess($request);
 		$currentUserModel = $request->getUser();
 		if ($currentUserModel->isAdminUser()) {
-			$settingsIndexView = new \App\Modules\Settings\Vtiger\Views\Index();
+			$settingsIndexView = new \App\Modules\Settings\Base\Views\Index();
 			$settingsIndexView->preProcessSettings($request);
 		}
 	}
@@ -29,7 +29,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 	{
 		$currentUserModel = $request->getUser();
 		if ($currentUserModel->isAdminUser()) {
-			$settingsIndexView = new \App\Modules\Settings\Vtiger\Views\Index();
+			$settingsIndexView = new \App\Modules\Settings\Base\Views\Index();
 			$settingsIndexView->postProcessSettings($request);
 		}
 		parent::postProcess($request);
@@ -43,7 +43,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -51,7 +51,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.Vtiger',
+			'modules.Base.resources.Vtiger',
 			"modules.$moduleName.resources.$moduleName",
 		);
 

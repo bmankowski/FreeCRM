@@ -12,7 +12,7 @@ namespace App\Modules\Accounts\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
@@ -34,7 +34,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => 'glyphicon glyphicon-user'
 			);
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 		}
 		return $linkModelList;
 	}
@@ -84,7 +84,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
-		$modCommentsModel = \App\Modules\Vtiger\Models\Module::getInstance('ModComments');
+		$modCommentsModel = \App\Modules\Base\Models\Module::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',

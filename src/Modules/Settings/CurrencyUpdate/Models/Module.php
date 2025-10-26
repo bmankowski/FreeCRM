@@ -11,7 +11,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Models;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Module extends \App\Modules\Vtiger\Models\Record
+class Module extends \App\Modules\Base\Models\Record
 {
 	/*
 	 * Returns objects instance

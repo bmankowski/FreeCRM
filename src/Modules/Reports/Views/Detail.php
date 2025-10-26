@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	protected $reportData;
@@ -47,7 +47,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$reportModel = $detailViewModel->getRecord();
 		$reportModel->setModule('Reports');
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', self::REPORT_LIMIT);
 
@@ -84,7 +84,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$viewer->assign('SELECTED_ADVANCED_FILTER_FIELDS', $reportModel->transformToNewAdvancedFilter());
 		$viewer->assign('PRIMARY_MODULE', $primaryModule);
 
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($reportModel);
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 
@@ -119,11 +119,11 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		if (($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== false)) {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {
-			$advanceFilterOpsByFieldType = \App\Modules\Vtiger\Models\Field::getAdvancedFilterOpsByFieldType();
+			$advanceFilterOpsByFieldType = \App\Modules\Base\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
-		$viewer->assign('DATE_FILTERS', \App\Modules\Vtiger\AdvancedFilter::getDateFilter($module));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($module));
 		$viewer->assign('LINEITEM_FIELD_IN_CALCULATION', $reportModel->showLineItemFieldsInFilter(false));
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('REPORT_MODEL', $reportModel);
@@ -159,7 +159,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 			$reportModel->setModule('Reports');
 			$reportType = $reportModel->get('reporttype');
 
-			$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+			$pagingModel = new \App\Modules\Base\Models\Paging();
 			$pagingModel->set('page', $page);
 			$pagingModel->set('limit', self::REPORT_LIMIT + 1);
 
@@ -190,7 +190,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -198,7 +198,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.Detail',
+			'modules.Base.resources.Detail',
 			"modules.$moduleName.resources.Detail"
 		);
 

@@ -10,7 +10,7 @@ namespace App\Modules\OSSSoldServices\Views;
  */
 
 use App\Http\Vtiger_Request;
-class EditFieldByModal  extends \App\Modules\Vtiger\Views\Index
+class EditFieldByModal  extends \App\Modules\Base\Views\Index
 {
 
 	public function getModalScripts(\App\Http\Vtiger_Request $request)
@@ -19,7 +19,7 @@ class EditFieldByModal  extends \App\Modules\Vtiger\Views\Index
 		$viewName = $request->get('view');
 
 		$scripts = [
-			"modules.Vtiger.resources.$viewName",
+			"modules.Base.resources.$viewName",
 			"modules.Assets.resources.$viewName",
 			"modules.$moduleName.resources.$viewName"
 		];

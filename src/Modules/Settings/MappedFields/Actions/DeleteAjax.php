@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MappedFields\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
+class DeleteAjax extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

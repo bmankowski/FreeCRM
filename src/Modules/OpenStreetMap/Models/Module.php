@@ -10,7 +10,7 @@ namespace App\Modules\OpenStreetMap\Models;
  */
 
 use App\AppConfig;
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**

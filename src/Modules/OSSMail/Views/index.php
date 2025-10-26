@@ -14,7 +14,7 @@ namespace App\Modules\OSSMail\Views;
 
 
 use App\Http\Vtiger_Request;
-class index  extends \App\Modules\Vtiger\Views\Index
+class index  extends \App\Modules\Base\Views\Index
 {
 
 	protected $mainUrl = 'src/Modules/OSSMail/roundcube/';

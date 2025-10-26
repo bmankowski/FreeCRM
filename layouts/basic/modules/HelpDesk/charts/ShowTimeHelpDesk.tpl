@@ -46,7 +46,7 @@
 {/literal}
 	</script>
 	<div style="width: 80%; margin: auto; text-align: center;">{"OSSTimeControl"|t:"OSSTimeControl"}: {"LBL_USERS"|t}<br/>
-		<input class="chartData" type="hidden" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
+		<input class="chartData" type="hidden" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
 		<div id="timeHelpDesk" style="height:400px;width:100%;"></div>
 	</div>
 {else}

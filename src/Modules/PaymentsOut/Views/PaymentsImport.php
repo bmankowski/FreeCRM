@@ -14,7 +14,7 @@ namespace App\Modules\PaymentsOut\Views;
 
 
 use App\Http\Vtiger_Request;
-class PaymentsImport  extends \App\Modules\Vtiger\Views\Index
+class PaymentsImport  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

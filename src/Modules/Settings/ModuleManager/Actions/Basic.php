@@ -13,7 +13,7 @@ namespace App\Modules\Settings\ModuleManager\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Basic extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

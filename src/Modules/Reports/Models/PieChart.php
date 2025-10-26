@@ -65,9 +65,9 @@ class PieChart extends Base_Chart
 					}
 					$label = implode(',', $labelList);
 				} else if ($fieldDataType == 'date') {
-					$label = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = \App\Modules\Base\UiTypes\Date::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else if ($fieldDataType == 'datetime') {
-					$label = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = \App\Modules\Base\UiTypes\Date::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
 					$label = $row[$legend];
 				}

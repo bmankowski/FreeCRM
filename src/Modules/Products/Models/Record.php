@@ -12,7 +12,7 @@ namespace App\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -59,7 +59,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$subProductId = $db->query_result($result, $i, 'productid');
-			$subProductList[] = \App\Modules\Vtiger\Models\Record::getInstanceById($subProductId, 'Products');
+			$subProductList[] = \App\Modules\Base\Models\Record::getInstanceById($subProductId, 'Products');
 		}
 
 		return $subProductList;
@@ -158,7 +158,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param string $searchKey
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\Record or Module Specific Record Model instances
+	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false, $operator = false)
 	{
@@ -238,7 +238,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);

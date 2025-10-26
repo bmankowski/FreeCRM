@@ -6,7 +6,7 @@
 namespace App\Modules\Reports\Views;
 
 use App\Http\Vtiger_Request;
-class Pagination  extends \App\Modules\Vtiger\Views\Index
+class Pagination  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -29,7 +29,7 @@ class Pagination  extends \App\Modules\Vtiger\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new \App\Modules\Reports\Models\ListView();
@@ -53,7 +53,7 @@ class Pagination  extends \App\Modules\Vtiger\Views\Index
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 

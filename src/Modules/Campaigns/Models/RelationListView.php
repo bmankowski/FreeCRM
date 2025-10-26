@@ -16,7 +16,7 @@ class RelationListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> List of action models <\App\Modules\Base\Models\Link>
 	 */
 	public function getLinks()
 	{
@@ -26,7 +26,7 @@ class RelationListView extends \App\Runtime\BaseModel
 		$relatedModuleName = $relatedModuleModel->getName();
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 			if ($relatedModuleModel->isPermitted('MassComposeEmail') && \App\AppConfig::main('isActiveSendingMails') && \App\Mail::getDefaultSmtp()) {
-				$emailLink = \App\Modules\Vtiger\Models\Link::getInstanceFromValues(array(
+				$emailLink = \App\Modules\Base\Models\Link::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL', $relatedModuleName),
 						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",

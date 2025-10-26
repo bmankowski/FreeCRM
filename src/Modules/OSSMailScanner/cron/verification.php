@@ -10,5 +10,5 @@ namespace App\Modules\OSSMailScanner\cron;
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 $recordModel->verificationCron();

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Profiles\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends \App\Modules\Settings\Vtiger\Views\Index
+class ListView extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)

@@ -30,7 +30,7 @@ class ConvertFAQ extends \App\Runtime\BaseActionController
 
 		$result = array();
 		if (!empty($recordId)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 
 			$faqRecordModel = \App\Modules\Faq\Models\Record::getInstanceFromHelpDesk($recordModel);
 

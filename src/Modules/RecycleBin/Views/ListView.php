@@ -14,7 +14,7 @@ namespace App\Modules\RecycleBin\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView  extends \App\Modules\Vtiger\Views\Index
+class ListView  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -92,7 +92,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
@@ -151,18 +151,18 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
-			'modules.Vtiger.resources.List',
+			'modules.Base.resources.List',
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			'modules.Vtiger.resources.CkEditor'
+			'modules.Base.resources.CkEditor'
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -180,7 +180,7 @@ class ListView  extends \App\Modules\Vtiger\Views\Index
 		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
 
 		$listViewCount = $listViewModel->getListViewCount($request);
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

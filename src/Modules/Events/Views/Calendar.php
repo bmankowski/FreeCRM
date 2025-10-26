@@ -13,7 +13,7 @@ namespace App\Modules\Events\Views;
 
 
 use App\Http\Vtiger_Request;
-class Calendar  extends \App\Modules\Vtiger\Views\Index
+class Calendar  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

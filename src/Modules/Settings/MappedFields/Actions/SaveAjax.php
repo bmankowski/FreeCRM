@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MappedFields\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

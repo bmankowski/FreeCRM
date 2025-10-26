@@ -12,7 +12,7 @@ namespace App\Modules\Calendar\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	public static function getNameByReference($refModuleName)
@@ -21,9 +21,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		if (!empty($fieldName)) {
 			return $fieldName;
 		}
-		$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($refModuleName);
-		$relatedModule = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
-		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+		$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($refModuleName);
+		$relatedModule = \App\Modules\Base\Models\Module::getInstance('Calendar');
+		$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 		if ($relationModel && $relationModel->getRelationField()) {
 			$fieldName = $relationModel->getRelationField()->getFieldName();
 			\App\Cache\Cache::save('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
@@ -112,8 +112,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			// Request should be passed as parameter
 		}
 		//Time should changed to 24hrs format
-		$request->set('time_start', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start')));
-		$request->set('time_end', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_end')));
+		$request->set('time_start', \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start')));
+		$request->set('time_end', \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_end')));
 		parent::saveToDb();
 		$this->updateActivityReminder();
 		$this->insertIntoInviteTable($request);
@@ -339,7 +339,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \App\Modules\Vtiger\Models\Link[] - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return \App\Modules\Base\Models\Link[] - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordListViewLinksLeftSide()
 	{
@@ -357,7 +357,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

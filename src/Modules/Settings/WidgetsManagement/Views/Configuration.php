@@ -13,7 +13,7 @@ namespace App\Modules\Settings\WidgetsManagement\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
+class Configuration extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

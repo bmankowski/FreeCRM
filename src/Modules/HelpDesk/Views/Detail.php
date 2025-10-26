@@ -14,7 +14,7 @@ namespace App\Modules\HelpDesk\Views;
 
 use App\Http\Vtiger_Request;
 
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	public function __construct()
@@ -28,7 +28,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -52,7 +52,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance('OSSTimeControl');
 		if ($moduleModel)
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -65,7 +65,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$detailViewModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
+		$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);

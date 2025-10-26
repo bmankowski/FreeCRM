@@ -28,7 +28,7 @@ class SaveRcConfig extends \App\Runtime\BaseActionController
 		$conf_type = $request->get('ct');
 		$type = $request->get('type');
 		$vale = $request->get('vale');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$result = array('success' => true, 'data' => $recordModel->setConfigWidget($conf_type, $type, $vale));
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);

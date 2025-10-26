@@ -10,7 +10,7 @@ namespace App\Modules\Accounts;
  */
 class HeaderField {
 
-	public function process(\App\Modules\Vtiger\Models\DetailView $viewModel)
+	public function process(\App\Modules\Base\Models\DetailView $viewModel)
 	{
 		$row = (new \App\Db\Query())->select('MAX(due_date) AS date,count(*) AS total')->from('vtiger_servicecontracts')
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')

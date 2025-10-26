@@ -16,12 +16,12 @@ class ChangesReviewedOn extends \App\Runtime\BaseActionController
 		$record = $request->get('record');
 		$sourceModule = $request->get('sourceModule');
 		if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record);
+			$recordModel = $this->record ? $this->record : \App\Modules\Base\Models\Record::getInstanceById($record);
 			if (!$recordModel->getModule()->isTrackingEnabled()) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} elseif (!empty($sourceModule)) {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
 			if (!$moduleModel || $moduleModel->isTrackingEnabled()) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
@@ -71,7 +71,7 @@ class ChangesReviewedOn extends \App\Runtime\BaseActionController
 		$sourceModule = $request->get('sourceModule');
 		$request->set('module', $sourceModule);
 		$result = false;
-		$recordsList = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($request);
+		$recordsList = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request);
 		if (is_array($recordsList) && count($recordsList) > \App\AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
 			$params = $request->get('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params'] : ['selected_ids'];
 			foreach ($params as $variable) {

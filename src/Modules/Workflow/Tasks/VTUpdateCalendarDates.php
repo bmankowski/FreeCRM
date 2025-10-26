@@ -22,7 +22,7 @@ class VTUpdateCalendarDates extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -37,7 +37,7 @@ class VTUpdateCalendarDates extends VTTask
 			. 'WHERE vtiger_activity_update_dates.parent = ?', [$entityId]);
 		while ($row = $adb->fetch_array($result)) {
 			$task = new \ArrayObject(unserialize($row['task']));
-			$rowRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($row['activityid'], 'Calendar');
+			$rowRecordModel = \App\Modules\Base\Models\Record::getInstanceById($row['activityid'], 'Calendar');
 
 			if ($task['datefield_start'] == 'wfRunTime') {
 				$baseDateStart = date('Y-m-d H:i:s');
@@ -50,7 +50,7 @@ class VTUpdateCalendarDates extends VTTask
 
 			$time = explode(' ', $baseDateStart);
 			if (count($time) < 2) {
-				$timeWithSec = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($task['time']);
+				$timeWithSec = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($task['time']);
 				$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
 				$time = $dbInsertDateTime->format('H:i:s');
 			} else {
@@ -76,13 +76,13 @@ class VTUpdateCalendarDates extends VTTask
 				$result = $adb->pquery('SELECT `end_hour` FROM vtiger_users WHERE id = ?', [$userId]);
 				if ($adb->num_rows($result)) {
 					$timeEnd = $adb->query_result($result, 0, 'end_hour');
-					$timeWithSec = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
+					$timeWithSec = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
 					$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 					$timeEnd = $dbInsertDateTime->format('H:i:s');
 				} else {
 					$adminUser = \App\Modules\Users\Users::getActiveAdminUser();
 					$timeEnd = $adminUser->column_fields['end_hour'];
-					$timeWithSec = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
+					$timeWithSec = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($timeEnd);
 					$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 					$timeEnd = $dbInsertDateTime->format('H:i:s');
 				}

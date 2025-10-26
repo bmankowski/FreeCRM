@@ -14,7 +14,7 @@ namespace App\Modules\Leads\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class LeadsByIndustry  extends \App\Modules\Vtiger\Views\Index
+class LeadsByIndustry  extends \App\Modules\Base\Views\Index
 {
 
 	public function getSearchParams($value, $assignedto, $dates)
@@ -82,7 +82,7 @@ class LeadsByIndustry  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, 'Leads');
 		else
@@ -96,8 +96,8 @@ class LeadsByIndustry  extends \App\Modules\Vtiger\Views\Index
 		$dates = [];
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		} else {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if($time !== false){
@@ -105,7 +105,7 @@ class LeadsByIndustry  extends \App\Modules\Vtiger\Views\Index
 			}
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getLeadsByIndustry($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$leadSIndustryAmount = count($data['name']);

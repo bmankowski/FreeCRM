@@ -14,7 +14,7 @@ use App\Modules\Settings\ModTrackerModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \App\Modules\Settings\Vtiger\Actions\Index
+class Save extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function __construct()

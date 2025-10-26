@@ -15,7 +15,7 @@ namespace App\Modules\Users\Views;
 
 use App\Http\Vtiger_Request;
 
-class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
+class PreferenceDetail extends \App\Modules\Base\Views\Detail
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -62,20 +62,20 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 			}
 			$currentUser = $request->getUser();
 			$selectedModule = $request->getModule();
-			$currentDate = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
+			$currentDate = \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
 			$viewer->assign('CURRENTDATE', $currentDate);
 			$viewer->assign('MODULE', $selectedModule);
 			$viewer->assign('MODULE_NAME', $selectedModule);
 			$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 			$viewer->assign('PARENT_MODULE', $request->get('parent'));
-			$viewer->assign('MENUS', \App\Modules\Vtiger\Models\Menu::getAll(true));
+			$viewer->assign('MENUS', \App\Modules\Base\Models\Menu::getAll(true));
 			$viewer->assign('VIEW', $request->get('view'));
 			$viewer->assign('USER_MODEL', $currentUser);
 
-			$homeModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Home');
+			$homeModuleModel = \App\Modules\Base\Models\Module::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-			$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Vtiger\Models\Module::getSearchableModules());
+			$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Base\Models\Module::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
 			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
@@ -83,7 +83,7 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 			//Additional parameters
 			$recordId = $request->get('record');
 			$moduleName = $request->getModule();
-			$detailViewModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
+			$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 			$recordModel = $detailViewModel->getRecord();
 			$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 			$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
@@ -123,8 +123,8 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = \App\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
@@ -141,9 +141,9 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 		unset($headerScriptInstances[$moduleDetailFile]);
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.Detail',
-			'modules.Vtiger.resources.RelatedList',
-			'modules.Vtiger.resources.ListSearch',
+			'modules.Base.resources.Detail',
+			'modules.Base.resources.RelatedList',
+			'modules.Base.resources.ListSearch',
 			'modules.Users.resources.Detail',
 			'modules.' . $moduleName . '.resources.PreferenceDetail',
 			'modules.' . $moduleName . '.resources.PreferenceEdit'

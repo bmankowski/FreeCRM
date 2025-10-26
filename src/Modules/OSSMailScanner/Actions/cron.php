@@ -25,7 +25,7 @@ class cron extends \App\Runtime\BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($recordModel->executeCron($request->getUser()->user_name));
 		$response->emit();

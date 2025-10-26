@@ -14,7 +14,7 @@ namespace App\Modules\Settings\Leads\Views;
  * ********************************************************************************** */
 
 
-class MappingEdit extends \App\Modules\Settings\Vtiger\Views\Index
+class MappingEdit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

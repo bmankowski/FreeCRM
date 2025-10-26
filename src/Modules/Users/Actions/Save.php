@@ -11,14 +11,14 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends \App\Modules\Vtiger\Actions\Save
+class Save extends \App\Modules\Base\Actions\Save
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = $this->record ? $this->record : \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 		$currentUserModel = $request->getUser();
 
 		// Check for operation access.
@@ -42,7 +42,7 @@ class Save extends \App\Modules\Vtiger\Actions\Save
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Base\Models\Record or Module specific Record Model instance
 	 */
 	protected function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
@@ -71,10 +71,10 @@ class Save extends \App\Modules\Vtiger\Actions\Save
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$result = \App\Modules\Vtiger\Helpers\Util::transformUploadedFiles($_FILES, true);
+		$result = \App\Modules\Base\Helpers\Util::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('Users');
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
 			$settingsModuleModel = \App\Modules\Settings\Users\Models\Module::getInstance();
@@ -83,7 +83,7 @@ class Save extends \App\Modules\Vtiger\Actions\Save
 			$sharedIds = $request->get('sharedusers');
 			$sharedType = $request->get('calendarsharedtype');
 			$currentUserModel = $request->getUser();
-			$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+			$calendarModuleModel = \App\Modules\Base\Models\Module::getInstance('Calendar');
 			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
@@ -105,7 +105,7 @@ class Save extends \App\Modules\Vtiger\Actions\Save
 				}
 			}
 			if ($request->get('relationOperation')) {
-				$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
+				$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
 				$loadUrl = $parentRecordModel->getDetailViewUrl();
 			} else if ($request->get('isPreference')) {
 				$loadUrl = $recordModel->getPreferenceDetailViewUrl();

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MailSmtp\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	/**

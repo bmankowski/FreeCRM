@@ -12,7 +12,7 @@ namespace App\Modules\Settings\LayoutEditor\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Field extends \App\Modules\Settings\Vtiger\Actions\Index
+class Field extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function __construct()
@@ -50,7 +50,7 @@ class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 	public function save(\App\Http\Vtiger_Request $request)
 	{
 		$fieldId = $request->get('fieldid');
-		$fieldInstance = \App\Modules\Vtiger\Models\Field::getInstance($fieldId);
+		$fieldInstance = \App\Modules\Base\Models\Field::getInstance($fieldId);
 		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
 			if ($key == 'mandatory') {
@@ -62,7 +62,7 @@ class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 		}
 		$defaultValue = $request->get('fieldDefaultValue');
 		if ($fieldInstance->getFieldDataType() == 'date') {
-			$dateInstance = new \App\Modules\Vtiger\UiTypes\Date();
+			$dateInstance = new \App\Modules\Base\UiTypes\Date();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
 		}
 		if ($request->has('fieldMask')) {
@@ -145,8 +145,8 @@ class Field extends \App\Modules\Settings\Vtiger\Actions\Index
 		$moduleName = $request->get('rmodule');
 		$picklistValues = [];
 		if (!empty($fieldName) && !empty($moduleName) && $fieldName != '-') {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-			$fieldInstance = \App\Modules\Vtiger\Models\Field::getInstance($fieldName, $moduleModel);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$fieldInstance = \App\Modules\Base\Models\Field::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
 			if ($picklistValues === null) {
 				$picklistValues = [];

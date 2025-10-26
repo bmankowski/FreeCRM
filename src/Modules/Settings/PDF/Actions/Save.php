@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PDF\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class Save extends \App\Modules\Settings\Vtiger\Actions\Index
+class Save extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Index
 		$moduleName = $request->get('module_name');
 
 		if ($recordId) {
-			$pdfModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId, $moduleName);
+			$pdfModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId, $moduleName);
 		} else {
 			$pdfModel = \App\Modules\Settings\PDF\Models\Record::getCleanInstance($moduleName);
 		}

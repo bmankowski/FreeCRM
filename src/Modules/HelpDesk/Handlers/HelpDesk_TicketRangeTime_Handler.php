@@ -18,7 +18,7 @@ class HelpDesk_TicketRangeTime_Handler {
 	{
 		$params = $eventHandler->getParams();
 		if (in_array($params['destinationModule'], ['Calendar', 'Events', 'Activity', 'ModComments'])) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
 			\App\Modules\HelpDesk\Models\Record::updateTicketRangeTimeField($recordModel, true);
 		}
 	}

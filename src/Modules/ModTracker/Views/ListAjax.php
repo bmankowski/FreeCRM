@@ -13,7 +13,7 @@ namespace App\Modules\ModTracker\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListAjax  extends \App\Modules\Vtiger\Views\Index
+class ListAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -27,7 +27,7 @@ class ListAjax  extends \App\Modules\Vtiger\Views\Index
 			$pageNumber = 1;
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);

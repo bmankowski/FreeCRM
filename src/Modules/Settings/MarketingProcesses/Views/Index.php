@@ -13,7 +13,7 @@ namespace App\Modules\Settings\MarketingProcesses\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -28,8 +28,8 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('LEADS_MODULE_MODEL', \App\Modules\Vtiger\Models\Module::getInstance('Leads'));
-		$viewer->assign('ACCOUNTS_MODULE_MODEL', \App\Modules\Vtiger\Models\Module::getInstance('Accounts'));
+		$viewer->assign('LEADS_MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance('Leads'));
+		$viewer->assign('ACCOUNTS_MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance('Accounts'));
 		$viewer->view('Index.tpl', $qualifiedModule);
 		\App\Log::trace('End ' . __METHOD__);
 	}

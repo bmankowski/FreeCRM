@@ -13,7 +13,7 @@ namespace App\Modules\Settings\DataAccess\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public static $moduleName = 'Settings:DataAccess';
@@ -132,7 +132,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	{
 		if ($baseModule === 'All')
 			return $baseModule;
-		$baseModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($baseModule);
+		$baseModuleModel = \App\Modules\Base\Models\Module::getInstance($baseModule);
 		$list = $baseModuleModel->getFields();
 		$output = array();
 		if (count($list)) {

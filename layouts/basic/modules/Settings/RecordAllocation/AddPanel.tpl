@@ -6,7 +6,7 @@
 	{/if}
 	{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE_NAME)->getAccessibleGroups('Public')}
 	<div class="panelItem">
-		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}" />
+		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}" />
 		<div class="panel panel-default" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
 			<div class="panel-heading">
 				<div class="row">

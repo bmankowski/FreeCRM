@@ -12,7 +12,7 @@ namespace App\Modules\Campaigns\Views;
  * *********************************************************************************** */
 
 
-class Detail extends \App\Modules\Vtiger\Views\Detail
+class Detail extends \App\Modules\Base\Views\Detail
 {
 
 	public function __construct()
@@ -30,7 +30,7 @@ class Detail extends \App\Modules\Vtiger\Views\Detail
 		foreach ($relatedModules as $tabId) {
 			$relatedModulesNames[$tabId] = \vtlib\Functions::getModuleName($tabId);
 		}
-		$countRecords = \App\Modules\Vtiger\Widgets\CountRecords::getCountRecords($relatedModulesNames, $recordId);
+		$countRecords = \App\Modules\Base\Widgets\CountRecords::getCountRecords($relatedModulesNames, $recordId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('COUNT_RECORDS', $countRecords);
@@ -41,7 +41,7 @@ class Detail extends \App\Modules\Vtiger\Views\Detail
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -49,7 +49,7 @@ class Detail extends \App\Modules\Vtiger\Views\Detail
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.List',
+			'modules.Base.resources.List',
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",

@@ -16,7 +16,7 @@ class CheckUserEmail extends \App\Runtime\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('Users');
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance('Users');
 		$output = !$moduleModel->checkMailExist($request->get('email'), $request->get('cUser'));
 
 		$response = new \App\Http\Vtiger_Response();

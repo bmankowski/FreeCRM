@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Profiles\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Settings_Profiles_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_Profiles_Edit_View extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
@@ -61,8 +61,8 @@ class Settings_Profiles_Edit_View extends \App\Modules\Settings\Vtiger\Views\Ind
 		}
 		$viewer->assign('ALL_PROFILES', $recordModel->getAll());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ALL_BASIC_ACTIONS', \App\Modules\Vtiger\Models\Action::getAllBasic(true));
-		$viewer->assign('ALL_UTILITY_ACTIONS', \App\Modules\Vtiger\Models\Action::getAllUtility(true));
+		$viewer->assign('ALL_BASIC_ACTIONS', \App\Modules\Base\Models\Action::getAllBasic(true));
+		$viewer->assign('ALL_UTILITY_ACTIONS', \App\Modules\Base\Models\Action::getAllUtility(true));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);

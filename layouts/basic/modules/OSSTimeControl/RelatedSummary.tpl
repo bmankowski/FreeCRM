@@ -32,7 +32,7 @@
 			</div>
 			<div class="row chartContainer">
 				<div class="col-md-12">
-					<input class="widgetData" type="hidden" value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
+					<input class="widgetData" type="hidden" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
 					<div class="legendContainer">
 						{"LBL_SUM"|t:$RELATED_MODULE_NAME}: {$TOTALTIME['full']}<br />
 					</div>

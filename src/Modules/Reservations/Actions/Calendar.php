@@ -64,7 +64,7 @@ class Calendar extends \App\Runtime\BaseActionController
 			if (!empty($recordId)) {
 				try {
 					$delta = $request->get('delta');
-					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 					$recordData = $recordModel->entity->column_fields;
 					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
 					$due_date = $end['date'];

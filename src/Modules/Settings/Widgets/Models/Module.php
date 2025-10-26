@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Widgets\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public static function getWidgets($module = false)
@@ -43,7 +43,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	{
 		$modules = \vtlib\Functions::getAllModules();
 		foreach ($modules as $id => $module) {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module['name']);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($module['name']);
 			if (!$moduleModel->isSummaryViewSupported()) {
 				unset($modules[$id]);
 			}
@@ -61,7 +61,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		$moduleName = \vtlib\Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($module);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
 			$action = str_replace('.php', "", $ff);
@@ -272,7 +272,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	/**
 	 * Function to get buttons which visible in header widget 
 	 * @param integer $moduleId Number id module
-	 * @return \App\Modules\Vtiger\Models\Link[]
+	 * @return \App\Modules\Base\Models\Link[]
 	 */
 	public static function getHeaderButtons($moduleId)
 	{
@@ -288,7 +288,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 		}
 		$buttons = [];
 		foreach ($linkList as &$link) {
-			$buttons[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($link);
+			$buttons[] = \App\Modules\Base\Models\Link::getInstanceFromValues($link);
 		}
 		return $buttons;
 	}

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\AutomaticAssignment\Actions;
-use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Base\Models\Tracker;
 
 
 
@@ -12,7 +12,7 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	/**
@@ -20,7 +20,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
 	 */
 	public function __construct()
 	{
-		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
+		\App\Modules\Settings\Base\Models\Tracker::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('deleteElement');

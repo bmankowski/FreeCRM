@@ -10,7 +10,7 @@ namespace App\Modules\Settings\MailSmtp\Models;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 's_#__mail_smtp';

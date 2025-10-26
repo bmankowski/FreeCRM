@@ -11,7 +11,7 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns quick links for the module
-	 * @return <Array of \App\Modules\Vtiger\Models\Link>
+	 * @return <Array of \App\Modules\Base\Models\Link>
 	 */
 	public function getSideBarLinks($linkParams = '')
 	{
@@ -71,7 +71,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			),
 		);
 		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickLink);
+			$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = array(
@@ -83,7 +83,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			),
 		);
 		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($quickWidget);
+			$links['SIDEBARWIDGET'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickWidget);
 		}
 
 		return $links;

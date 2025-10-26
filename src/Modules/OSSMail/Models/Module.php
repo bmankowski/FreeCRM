@@ -9,7 +9,7 @@ namespace App\Modules\OSSMail\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public function getDefaultViewName()
@@ -68,12 +68,12 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 		$return = [];
 		if (!empty($record) && \App\Utils\Utils::isRecordExists($record) && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
+			$recordModel_OSSMailView = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$return['to'] = $email;
 			}
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName === 'Campaigns') {
 				$subject = '';
@@ -152,13 +152,13 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	{
 		$url = 'mailto:';
 		if (!empty($record) && \App\Utils\Utils::isRecordExists($record) && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
+			$recordModel_OSSMailView = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$url .= $email;
 			}
 			$url .= '?';
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
@@ -206,7 +206,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		}
 
 		if (!empty($srecord) && !empty($smoduleName)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($srecord);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {

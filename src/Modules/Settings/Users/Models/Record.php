@@ -5,7 +5,7 @@ namespace App\Modules\Settings\Users\Models;
 /**
  * Settings Users Record Model Class
  */
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 	/** @var \App\Modules\Users\Models\Record */
 	protected $userModel;

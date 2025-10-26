@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CronTasks\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class UpdateSequence extends \App\Modules\Settings\Vtiger\Actions\Index
+class UpdateSequence extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Leads\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class MappingDelete extends \App\Modules\Settings\Vtiger\Actions\Index
+class MappingDelete extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

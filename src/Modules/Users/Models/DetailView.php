@@ -11,7 +11,7 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
@@ -46,7 +46,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				);
 			}
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 			$detailViewPreferenceLinks = array();
 			if (vglobal('systemMode') != 'demo') {
@@ -65,7 +65,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 			);
 
 			foreach ($detailViewPreferenceLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWPREFERENCE'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWPREFERENCE'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 
 			$detailViewActionLinks = [];
@@ -84,7 +84,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkicon' => ''
 			);
 			foreach ($detailViewActionLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 			return $linkModelList;
 		}

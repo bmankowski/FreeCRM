@@ -13,12 +13,12 @@ namespace App\Modules\ModComments\Views;
 
 
 use App\Http\Vtiger_Request;
-class View  extends \App\Modules\Vtiger\Views\Detail
+class View  extends \App\Modules\Base\Views\Detail
 {
 
 	/**
 	 * Function to get Ajax is enabled or not
-	 * @param \App\Modules\Vtiger\Models\Record record model
+	 * @param \App\Modules\Base\Models\Record record model
 	 * @return <boolean> true/false
 	 */
 	public function isAjaxEnabled($recordModel)

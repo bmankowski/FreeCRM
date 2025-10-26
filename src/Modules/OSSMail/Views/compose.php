@@ -10,7 +10,7 @@ namespace App\Modules\OSSMail\Views;
  */
 
 use App\Http\Vtiger_Request;
-class compose  extends \App\Modules\Vtiger\Views\Index
+class compose  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

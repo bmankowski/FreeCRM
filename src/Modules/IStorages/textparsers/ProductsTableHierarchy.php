@@ -24,13 +24,13 @@ class TextParser extends \App\TextParser\Base
 	public function process()
 	{
 		$html = '';
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$relationModuleName = 'Products';
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
 		$db = \App\Database\PearDatabase::getInstance();
 		// Products from main storage
-		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
+		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($this->textParser->recordModel, $relationModuleName);
 		// Summary table with products from all storages
 		$allEntries[$this->textParser->record] = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
@@ -58,8 +58,8 @@ class TextParser extends \App\TextParser\Base
 			$storageIdsArray[] = $storageId;
 			if (is_array($storageInfo) && intval($storageId) && $storageId != $this->textParser->record) {
 				// Getting storage products if it is child of main storage
-				$storageRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($storageId);
-				$storageRelationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($storageRecordModel, $relationModuleName);
+				$storageRecordModel = \App\Modules\Base\Models\Record::getInstanceById($storageId);
+				$storageRelationListView = \App\Modules\Base\Models\RelationListView::getInstance($storageRecordModel, $relationModuleName);
 				$allEntries[$storageId] = $storageRelationListView->getEntries($pagingModel);
 			}
 		}
@@ -130,7 +130,7 @@ class TextParser extends \App\TextParser\Base
 			foreach ($allEntries as $entries) {
 				foreach ($entries as $entry) {
 					$entryId = $entry->getId();
-					$entryRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($entryId, $relationModuleName);
+					$entryRecordModel = \App\Modules\Base\Models\Record::getInstanceById($entryId, $relationModuleName);
 					$productId = $entryRecordModel->get('id');
 					if (isset($productsQty[$productId]) && in_array($productId, $productsInTable) === false) {
 						$storagesQtyString = '[';

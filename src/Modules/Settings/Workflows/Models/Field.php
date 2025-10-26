@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Workflows\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**
@@ -22,7 +22,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 */
 	public static function getAdvancedFilterOptions()
 	{
-		return \App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOptions();
+		return \App\Modules\Base\AdvancedFilter::getAdvancedFilterOptions();
 	}
 
 	/**
@@ -31,17 +31,17 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return \App\Modules\Vtiger\AdvancedFilter::getAdvancedFilterOpsByFieldType();
+		return \App\Modules\Base\AdvancedFilter::getAdvancedFilterOpsByFieldType();
 	}
 
 	/**
 	 * Function to get comment field which will useful in creating conditions
-	 * @param \App\Modules\Vtiger\Models\Module $moduleModel
-	 * @return <\App\Modules\Vtiger\Models\Field>
+	 * @param \App\Modules\Base\Models\Module $moduleModel
+	 * @return <\App\Modules\Base\Models\Field>
 	 */
 	public static function getCommentFieldForFilterConditions($moduleModel)
 	{
-		$commentField = new \App\Modules\Vtiger\Models\Field();
+		$commentField = new \App\Modules\Base\Models\Field();
 		$commentField->set('name', '_VT_add_comment');
 		$commentField->set('label', 'Comment');
 		$commentField->setModule($moduleModel);
@@ -52,8 +52,8 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 	/**
 	 * Function to get comment fields list which are useful in tasks
-	 * @param \App\Modules\Vtiger\Models\Module $moduleModel
-	 * @return <Array> list of Field models <\App\Modules\Vtiger\Models\Field>
+	 * @param \App\Modules\Base\Models\Module $moduleModel
+	 * @return <Array> list of Field models <\App\Modules\Base\Models\Field>
 	 */
 	public static function getCommentFieldsListForTasks($moduleModel)
 	{
@@ -61,7 +61,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 
 		$commentFieldModelsList = array();
 		foreach ($commentsFieldsInfo as $fieldName => $fieldLabel) {
-			$commentField = new \App\Modules\Vtiger\Models\Field();
+			$commentField = new \App\Modules\Base\Models\Field();
 			$commentField->setModule($moduleModel);
 			$commentField->set('name', $fieldName);
 			$commentField->set('label', $fieldLabel);

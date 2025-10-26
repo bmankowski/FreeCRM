@@ -13,7 +13,7 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class PriceBookProductPopup  extends \App\Modules\Vtiger\Views\Index
+class PriceBookProductPopup  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -32,7 +32,7 @@ class PriceBookProductPopup  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -44,8 +44,8 @@ class PriceBookProductPopup  extends \App\Modules\Vtiger\Views\Index
 		}
 		$jsFileNames = [
 			"modules.$moduleName.resources.ProductsPopup",
-			'modules.Vtiger.resources.validator.BaseValidator',
-			'modules.Vtiger.resources.validator.FieldValidator',
+			'modules.Base.resources.validator.BaseValidator',
+			'modules.Base.resources.validator.FieldValidator',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		];
 		$jsFileNames = array_merge($jsServices, $jsFileNames);
@@ -75,13 +75,13 @@ class PriceBookProductPopup  extends \App\Modules\Vtiger\Views\Index
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$listViewModel = \App\Modules\Base\Models\ListView::getInstanceForPopup($moduleName);
 
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
@@ -95,7 +95,7 @@ class PriceBookProductPopup  extends \App\Modules\Vtiger\Views\Index
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
 			$listViewModel->set('src_record', $sourceRecord);
-			$sourceRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecord, $sourceModule);
+			$sourceRecordModel = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			$currencyId = $sourceRecordModel->get('currency_id');
 		}
 		if ((!empty($searchKey)) && (!empty($searchValue))) {

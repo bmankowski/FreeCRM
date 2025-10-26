@@ -35,12 +35,12 @@ class SummaryWidget {
 		if (!empty($request->get('limit'))) {
 			$limit = $request->get('limit');
 		}
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', 0);
 		$pagingModel->set('limit', $limit);
 
-		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $fromModule);
-		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $mod);
+		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $fromModule);
+		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $mod);
 		$recordsModels = $relationListView->getEntries($pagingModel);
 		$recordsHeader = $relationListView->getHeaders();
 		array_splice($recordsHeader, 3);
@@ -55,10 +55,10 @@ class SummaryWidget {
 
 	/**
 	 * Get related modules record counts
-	 * @param \App\Modules\Vtiger\Models\Record $parentRecordModel
+	 * @param \App\Modules\Base\Models\Record $parentRecordModel
 	 * @return type
 	 */
-	public static function getModulesAndCount(\App\Modules\Vtiger\Models\Record $parentRecordModel)
+	public static function getModulesAndCount(\App\Modules\Base\Models\Record $parentRecordModel)
 	{
 		$modules = [];
 		foreach (self::MODULES as &$moduleName) {
@@ -66,7 +66,7 @@ class SummaryWidget {
 			if (!\App\Privilege::isPermitted($moduleName)) {
 				continue;
 			}
-			$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
+			$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 			if (!$relationListView->getRelationModel()) {
 				continue;
 			}

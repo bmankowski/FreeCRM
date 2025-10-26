@@ -74,7 +74,7 @@ class PrivilegeAdvanced
 				continue;
 			}
 			static::$webservice = false;
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$test = (new \App\Modules\Workflow\VTJsonCondition())->evaluate($privilege['conditions'], $recordModel);
 			static::$webservice = true;
 			if ($test) {

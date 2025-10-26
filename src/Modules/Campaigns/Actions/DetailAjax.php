@@ -53,8 +53,8 @@ class DetailAjax extends \App\Runtime\BaseActionController
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
 
-		$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$count = $relationListView->getRelatedEntriesCount();
 		$result = array();
 		$result['module'] = $moduleName;

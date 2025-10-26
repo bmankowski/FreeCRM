@@ -12,7 +12,7 @@ namespace App\Modules\Users\Models;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class EditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 
 	/**

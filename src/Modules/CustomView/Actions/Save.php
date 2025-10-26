@@ -17,7 +17,7 @@ class Save extends \App\Runtime\BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->get('source_module'));
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($request->get('source_module'));
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new \App\Http\Vtiger_Response();
 
@@ -61,7 +61,7 @@ class Save extends \App\Runtime\BaseActionController
 		);
 		$selectedColumnsList = $request->get('columnslist');
 		if (empty($selectedColumnsList)) {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->get('source_module'));
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($request->get('source_module'));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
 				$cvId = \App\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();

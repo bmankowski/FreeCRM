@@ -4,7 +4,7 @@
 
 namespace App\Modules\Events\Models;
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 	
 }

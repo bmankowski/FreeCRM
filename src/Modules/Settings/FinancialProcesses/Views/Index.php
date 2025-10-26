@@ -14,7 +14,7 @@ use App\Modules\Settings\FinancialProcessesViews\Index;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

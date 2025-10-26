@@ -12,7 +12,7 @@ namespace App\Modules\ModComments\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class SaveAjax extends \App\Modules\Vtiger\Actions\SaveAjax
+class SaveAjax extends \App\Modules\Base\Actions\SaveAjax
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

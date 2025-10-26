@@ -8,7 +8,7 @@ namespace App\Modules\Assets\Models;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	public function isAjaxEditable()

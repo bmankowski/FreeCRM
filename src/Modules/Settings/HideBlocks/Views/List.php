@@ -18,7 +18,7 @@
 use App\Http\Vtiger_Request;
 
 
-class List extends \App\Modules\Vtiger\Views\List
+class List extends \App\Modules\Base\Views\List
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

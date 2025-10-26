@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView extends \App\Modules\Vtiger\Views\Index
+class ListView extends \App\Modules\Base\Views\Index
 {
 
 	protected $listViewHeaders = false;
@@ -35,7 +35,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new \App\Modules\Reports\Models\ListView();
@@ -59,7 +59,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 
@@ -106,7 +106,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$folders = $moduleModel->getFolders();
 		$folderId = $request->get('viewname');
 		if (empty($folderId) || $folderId == 'undefined') {
@@ -137,7 +137,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 			$pageNumber = '1';
 		}
 		$viewer->assign('MODULE', $moduleName);
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 
@@ -153,7 +153,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$noOfEntries = count($this->listViewEntries);
 
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -198,7 +198,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -206,7 +206,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Vtiger.resources.List',
+			'modules.Base.resources.List',
 			"modules.$moduleName.resources.List",
 		);
 
@@ -260,7 +260,7 @@ class ListView extends \App\Modules\Vtiger\Views\Index
 	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 

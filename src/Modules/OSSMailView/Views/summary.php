@@ -9,13 +9,13 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSMailView_summary_View extends \App\Modules\Vtiger\Views\Edit
+class OSSMailView_summary_View extends \App\Modules\Base\Views\Edit
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 	}
 
 	public function preProcess(\App\Http\Vtiger_Request $request)

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Companies\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class Detail extends \App\Modules\Settings\Vtiger\Views\Index
+class Detail extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**

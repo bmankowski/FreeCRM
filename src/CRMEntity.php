@@ -111,7 +111,7 @@ class CRMEntity
 
 		Log::trace('Entering ' . __METHOD__);
 
-		$inventory = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
+		$inventory = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
 
 		$db->createCommand()->delete($table, ['id' => $this->id])->execute();
@@ -446,7 +446,7 @@ class CRMEntity
 	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
+		$referenceInfo = \App\Modules\Base\Models\Relation::getReferenceTableInfo($module, $withModule);
 		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
 	}
 
@@ -487,7 +487,7 @@ class CRMEntity
 			}
 			//Event triggering code
 			$eventHandler = new \App\EventHandler();
-			$eventHandler->setRecordModel(\App\Modules\Vtiger\Models\Record::getInstanceById($id));
+			$eventHandler->setRecordModel(\App\Modules\Base\Models\Record::getInstanceById($id));
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityAfterRestore');
 		}
@@ -642,7 +642,7 @@ class CRMEntity
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$referenceInfo = \App\Modules\Vtiger\Models\Relation::getReferenceTableInfo($module, $withModule);
+		$referenceInfo = \App\Modules\Base\Models\Relation::getReferenceTableInfo($module, $withModule);
 
 		foreach ($withCrmid as $relcrmid) {
 			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? && %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PBXManager\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	const tableName = 'vtiger_pbxmanager_gateway';

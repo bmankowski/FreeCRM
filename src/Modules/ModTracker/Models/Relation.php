@@ -12,7 +12,7 @@ namespace App\Modules\ModTracker\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends \App\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Base\Models\Relation
 {
 	/** @var mixed Parent object */
 	protected $parent;
@@ -44,7 +44,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 		$noOfRows = $db->num_rows($result);
 		$moduleModels = [];
 		if ($noOfRows) {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($targetModule);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($targetModule);
 			$row = $db->getRow($result);
 			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();

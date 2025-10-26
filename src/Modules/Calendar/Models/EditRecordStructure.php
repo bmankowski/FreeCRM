@@ -14,7 +14,7 @@ namespace App\Modules\Calendar\Models;
 /**
  * Calendar Edit View Record Structure Model
  */
-class EditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 
 	/**

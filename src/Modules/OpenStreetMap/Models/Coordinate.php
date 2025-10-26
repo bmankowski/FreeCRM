@@ -130,7 +130,7 @@ class Coordinate extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get params url
-	 * @param <\App\Modules\Vtiger\Models\Record> $recordModel
+	 * @param <\App\Modules\Base\Models\Record> $recordModel
 	 * @param string $type a,b or c
 	 * @return array
 	 */
@@ -147,7 +147,7 @@ class Coordinate extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get coordinates for record
-	 * @param <\App\Modules\Vtiger\Models\Record> $recordModel
+	 * @param <\App\Modules\Base\Models\Record> $recordModel
 	 * @return array
 	 */
 	public function getCoordinatesByRecord($recordModel)
@@ -341,7 +341,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance($groupByField, $moduleModel);
 			if ($fieldModel !== false)
 				$groupByFieldColumn = $fieldModel->get('column');
 		}
@@ -386,7 +386,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		if ($selectedIds == 'all') {
 			return $this->readAllCoordinatesFromCustomeView();
 		} else if (!empty($selectedIds)) {
-			$records = \App\Modules\Vtiger\Actions\Mass::getRecordsListFromRequest($this->get('request'));
+			$records = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($this->get('request'));
 			return $this->readCoordinatesByRecords($records);
 		}
 		return [];
@@ -413,7 +413,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($groupByField, $moduleModel);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance($groupByField, $moduleModel);
 			$groupByFieldColumn = $fieldModel->get('column');
 		}
 		$queryGenerator = new \App\QueryGenerator($moduleName);
@@ -503,7 +503,7 @@ class Coordinate extends \App\Runtime\BaseModel
 					->where(['user_id' => $userId, 'module_name' => $moduleName])
 					->createCommand($db)->queryColumn(0);
 			if (!empty($records)) {
-				$this->set('srcModuleModel', \App\Modules\Vtiger\Models\Module::getInstance($moduleName));
+				$this->set('srcModuleModel', \App\Modules\Base\Models\Module::getInstance($moduleName));
 				$coordinates [$moduleName] = $this->readCoordinatesByRecords($records);
 			}
 		}

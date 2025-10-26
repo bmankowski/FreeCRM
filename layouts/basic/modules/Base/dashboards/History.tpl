@@ -1,0 +1,41 @@
+{*<!--
+/*********************************************************************************
+  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+   * ("License"); You may not use this file except in compliance with the License
+   * The Original Code is:  vtiger CRM Open Source
+   * The Initial Developer of the Original Code is vtiger.
+   * Portions created by vtiger are Copyright (C) vtiger.
+   * All Rights Reserved.
+  *
+ ********************************************************************************/
+-->*}
+{strip}
+<!-- layouts/basic/modules/Base/dashboards/History.tpl -->
+<div class="dashboardWidgetHeader">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="dashboardTitle textOverflowEllipsis" title="{$WIDGET->getTitle()|t:$MODULE_NAME}"><strong>{$WIDGET->getTitle()|t:$MODULE_NAME}</strong></div>
+		</div>
+		<div class="col-md-4">
+			<div class="box pull-right">
+				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row" >
+		<div class="col-md-6 pull-right">
+			<select class="widgetFilter form-control input-sm" id="historyType" title="{"LBL_HISTORY_TYPE"|t}" name="type">
+				<option title="{"LBL_ALL"|t}" value="all" {if $DATA['type'] eq 'all'}selected{/if}>{"LBL_ALL"|t}</option>
+				{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}
+				<option title="{"LBL_COMMENTS"|t}" value="comments" {if $DATA['type'] eq 'comments'}selected{/if}>{"LBL_COMMENTS"|t}</option>{/if}
+				<option value="updates" title="{"LBL_UPDATES"|t}" {if $DATA['type'] eq 'updates'}selected{/if}>{"LBL_UPDATES"|t}</option>
+			</select>
+		</div>
+	</div>
+</div>
+<div class="dashboardWidgetContent">
+	{include file="dashboards/HistoryContents.tpl"|@vtemplate_path:$MODULE_NAME}
+</div>
+<!--/layouts/basic/modules/Base/dashboards/History.tpl -->
+{/strip}

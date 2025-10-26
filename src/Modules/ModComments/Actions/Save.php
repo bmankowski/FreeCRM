@@ -24,12 +24,12 @@ class Save extends \App\Runtime\BaseActionController
 		foreach ($responseFieldsToSent as &$fieldName) {
 			$fieldModel = $fieldModelList[$fieldName];
 			$fieldValue = $recordModel->get($fieldName);
-			$result[$fieldName] = \App\Modules\Vtiger\Helpers\Util::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
+			$result[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
 		}
 
 		$result['success'] = true;
-		$result['modifiedtime'] = \App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($recordModel->get('modifiedtime'));
-		$result['modifiedtimetitle'] = \App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
+		$result['modifiedtime'] = \App\Modules\Base\Helpers\Util::formatDateDiffInStrings($recordModel->get('modifiedtime'));
+		$result['modifiedtimetitle'] = \App\Modules\Base\Helpers\Util::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);

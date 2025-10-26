@@ -8,7 +8,7 @@ namespace App\Modules\KnowledgeBase\Models;
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -35,7 +35,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 		];
 		$relatedLinks = [];
 		foreach ($relatedLinkEntries as $relatedLinkEntry) {
-			$relatedLinks[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($relatedLinkEntry);
+			$relatedLinks[] = \App\Modules\Base\Models\Link::getInstanceFromValues($relatedLinkEntry);
 		}
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		foreach ($relatedLinks as $relatedLink) {

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\ModuleManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_ModuleManager_ModuleExport_Action extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Settings_ModuleManager_ModuleExport_Action extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()
@@ -34,7 +34,7 @@ class Settings_ModuleManager_ModuleExport_Action extends \App\Modules\Settings\V
 	{
 		$moduleName = $request->get('forModule');
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
 		if (!$moduleModel->isExportable()) {
 			echo 'Module not exportable!';

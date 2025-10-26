@@ -14,7 +14,7 @@ namespace App\Modules\Events\Models;
 /**
  * Events Record Model Class
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -130,14 +130,14 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($parentModuleName);
+			$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $this->getModule();
 			if ($relatedModule->getName() == 'Events') {
-				$relatedModule = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+				$relatedModule = \App\Modules\Base\Models\Module::getInstance('Calendar');
 			}
 			$relatedRecordId = $this->getId();
-			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+			$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 	}

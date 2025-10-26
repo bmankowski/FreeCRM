@@ -14,7 +14,7 @@
                        <div class="value textOverflowEllipsis col-xs-10 paddingRightZero" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
                             {include file=$FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()|@vtemplate_path FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
                         </div>
-                        {if $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=\App\Modules\Vtiger\Models\Field::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->get('uitype') neq 69}
+                        {if $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=\App\Modules\Base\Models\Field::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->get('uitype') neq 69}
                             <div class="hide edit col-xs-12">
                                 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 								{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
@@ -24,7 +24,7 @@
 									{if $FIELD_VALUE|is_array}
 										{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
 									{/if}
-									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Modules\Vtiger\Helpers\Util::toSafeHTML($FIELD_VALUE)}' />
+									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Modules\Base\Helpers\Util::toSafeHTML($FIELD_VALUE)}' />
 								{/if}
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
@@ -55,14 +55,14 @@
 			<div>
 				<p>
 					<small>
-						{"LBL_CREATED_ON"|t:$MODULE_NAME} {\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString($RECORD->get('createdtime'))}
+						{"LBL_CREATED_ON"|t:$MODULE_NAME} {\App\Modules\Base\Helpers\Util::formatDateTimeIntoDayString($RECORD->get('createdtime'))}
 					</small>
 				</p>
 			</div>
 			<div>
 				<p>
 					<small>
-						{"LBL_MODIFIED_ON"|t:$MODULE_NAME} {\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString($RECORD->get('modifiedtime'))}
+						{"LBL_MODIFIED_ON"|t:$MODULE_NAME} {\App\Modules\Base\Helpers\Util::formatDateTimeIntoDayString($RECORD->get('modifiedtime'))}
 					</small>
 				</p>
 			</div>

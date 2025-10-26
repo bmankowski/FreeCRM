@@ -14,7 +14,7 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class Widget  extends \App\Modules\Vtiger\Views\Index
+class Widget  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()

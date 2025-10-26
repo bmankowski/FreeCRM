@@ -44,7 +44,7 @@ class CreatedHelpDesk {
 	{
 		$contactId = (int) $mail->findEmailAdress('fromaddress', 'Contacts', false);
 		$parentId = (int) $mail->findEmailAdress('fromaddress', 'Accounts', false);
-		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('HelpDesk');
+		$record = \App\Modules\Base\Models\Record::getCleanInstance('HelpDesk');
 
 		$db = \App\Database\PearDatabase::getInstance();
 		if (empty($parentId) && !empty($contactId)) {
@@ -76,7 +76,7 @@ class CreatedHelpDesk {
 		$id = $record->getId();
 
 		if (!empty($contactId)) {
-			$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($record->getModule(), \App\Modules\Vtiger\Models\Module::getInstance('Contacts'));
+			$relationModel = \App\Modules\Base\Models\Relation::getInstance($record->getModule(), \App\Modules\Base\Models\Module::getInstance('Contacts'));
 			$relationModel->addRelation($id, $contactId);
 		}
 

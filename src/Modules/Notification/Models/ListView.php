@@ -8,17 +8,17 @@ namespace App\Modules\Notification\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the Quick Links for the List view of the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getHederLinks($linkParams)
 	{
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
 		$headerLinks = [];
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
@@ -39,7 +39,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
-			$links['LIST_VIEW_HEADER'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($headerLink);
+			$links['LIST_VIEW_HEADER'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($headerLink);
 		}
 		return $links;
 	}

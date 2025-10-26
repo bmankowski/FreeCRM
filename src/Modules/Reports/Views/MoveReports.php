@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class MoveReports  extends \App\Modules\Vtiger\Views\Index
+class MoveReports  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -28,7 +28,7 @@ class MoveReports  extends \App\Modules\Vtiger\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$folderList = $moduleModel->getFolders();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOLDERS', $folderList);

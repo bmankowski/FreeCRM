@@ -277,7 +277,7 @@ class Accounts extends \App\CRMEntity
 				} else if ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
 					
 				} else {
-					$fieldModel = \App\Modules\Vtiger\Models\Field::getInstanceFromFieldId($field['fieldid']);
+					$fieldModel = \App\Modules\Base\Models\Field::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
 					$data = $fieldModel->getDisplayValue($data);
 				}
@@ -342,7 +342,7 @@ class Accounts extends \App\CRMEntity
 				if ($fieldName == 'assigned_user_id') {
 					$parent_account_info[$fieldName] = $row['user_name'];
 				} elseif ($fieldName == 'shownerid') {
-					$sharedOwners = \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($row['accountid']);
+					$sharedOwners = \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($row['accountid']);
 					if (!empty($sharedOwners)) {
 						$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
@@ -398,7 +398,7 @@ class Accounts extends \App\CRMEntity
 					if ($fieldName == 'assigned_user_id') {
 						$child_account_info[$fieldName] = $row['user_name'];
 					} elseif ($fieldName == 'shownerid') {
-						$sharedOwners = \App\Modules\Vtiger\UiTypes\SharedOwner::getSharedOwners($child_acc_id);
+						$sharedOwners = \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($child_acc_id);
 						if (!empty($sharedOwners)) {
 							$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;

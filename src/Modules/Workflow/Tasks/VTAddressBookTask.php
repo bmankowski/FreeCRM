@@ -26,7 +26,7 @@ class VTAddressBookTask extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -49,7 +49,7 @@ class VTAddressBookTask extends VTTask
 		}
 		$db->delete($table, 'id = ?', [$entityId]);
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$fields = $moduleModel->getFieldsByType('email');
 		foreach ($fields as $field) {
 			$fieldname = $field->getName();
@@ -62,7 +62,7 @@ class VTAddressBookTask extends VTTask
 
 	/**
 	 * Function to get contents of this task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @return bool
 	 */
 	public function getContents($recordModel)

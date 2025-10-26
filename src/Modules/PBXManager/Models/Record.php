@@ -12,7 +12,7 @@ namespace App\Modules\PBXManager\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	const moduletableName = 'vtiger_pbxmanager';
@@ -77,8 +77,8 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function saveRecordWithArrray($params)
 	{
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('PBXManager');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('PBXManager');
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance('PBXManager');
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('PBXManager');
 		$details = array_change_key_case($params, CASE_LOWER);
 		$fieldModelList = $moduleModel->getFields();
 		if (!isset($details["assigned_user_id"]))

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PBXManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Gateway extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Gateway extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

@@ -15,7 +15,7 @@ use App\Modules\Settings\WorkflowsModels\TaskRecord;
  * *********************************************************************************** */
 
 
-class TaskAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class TaskAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()
@@ -142,7 +142,7 @@ class TaskAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 
 			$taskType = get_class($taskObject);
 			if ($taskType === 'VTCreateEntityTask' && $taskObject->field_value_mapping) {
-				$relationModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
+				$relationModuleModel = \App\Modules\Base\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);

@@ -14,7 +14,7 @@ namespace App\Modules\PBXManager\Views;
 
 use App\Http\Vtiger_Request;
 
-class Detail  extends \App\Modules\Vtiger\Views\Detail
+class Detail  extends \App\Modules\Base\Views\Detail
 {
 
 	/**
@@ -34,7 +34,7 @@ class Detail  extends \App\Modules\Vtiger\Views\Detail
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
-			$this->record = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $recordId);
+			$this->record = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
 

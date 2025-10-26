@@ -14,7 +14,7 @@ use App\Modules\Settings\RealizationProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveGeneral extends \App\Modules\Settings\Vtiger\Actions\Index
+class SaveGeneral extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function __construct()

@@ -16,7 +16,7 @@ class Export extends \App\Runtime\BaseModel
 	{
 		$moduleName = $request->get('source_module');
 		$cvId = $request->get('viewname');
-		$listInstance = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName, $cvId);
+		$listInstance = \App\Modules\Base\Models\ListView::getInstance($moduleName, $cvId);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');
@@ -72,7 +72,7 @@ class Export extends \App\Runtime\BaseModel
 	public function exportData(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
 
@@ -85,7 +85,7 @@ class Export extends \App\Runtime\BaseModel
 	 * Function that create the exported file
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param array $dataReader
-	 * @param \App\Modules\Vtiger\Models\Module $moduleModel
+	 * @param \App\Modules\Base\Models\Module $moduleModel
 	 */
 	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{

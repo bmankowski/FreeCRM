@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/OSSMailView/preview.tpl -->
 	{if !$NOLOADLIBS}
-		{include file="modules/Vtiger/Header.tpl"}
+		{include file="modules/Base/Header.tpl"}
 	{/if}
 	{if $ISMODAL}
 		<div class="modelContainer modal fade" tabindex="-1">

@@ -11,7 +11,7 @@ namespace App\Modules\Notification\Views;
  */
 
 use App\Http\Vtiger_Request;
-class NotificationConfig  extends \App\Modules\Vtiger\Views\Index
+class NotificationConfig  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -32,19 +32,19 @@ class NotificationConfig  extends \App\Modules\Vtiger\Views\Index
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$moduleList = \App\Modules\Vtiger\Models\Watchdog::getSupportedModules();
+		$moduleList = \App\Modules\Base\Models\Watchdog::getSupportedModules();
 		foreach ($moduleList as $tabId => &$module) {
 			if (!\App\Privilege::isPermitted($module->getName(), 'WatchingModule')) {
 				unset($moduleList[$tabId]);
 			}
 		}
-		$watchingModules = \App\Modules\Vtiger\Models\Watchdog::getWatchingModules();
-		$scheduleData = \App\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule();
+		$watchingModules = \App\Modules\Base\Models\Watchdog::getWatchingModules();
+		$scheduleData = \App\Modules\Base\Models\Watchdog::getWatchingModulesSchedule();
 		$selectedAllModules = count($moduleList) === count($watchingModules) ? true : false;
 		$selectedAllSendNotice = count($moduleList) === count($scheduleData['modules']) ? true : false;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_LIST', $moduleList);
-		$viewer->assign('WATCHING_MODEL', \App\Modules\Vtiger\Models\Watchdog::getInstance($moduleName));
+		$viewer->assign('WATCHING_MODEL', \App\Modules\Base\Models\Watchdog::getInstance($moduleName));
 		$viewer->assign('WATCHING_MODULES', $watchingModules);
 		$viewer->assign('SELECT_ALL_MODULES', $selectedAllModules);
 		$viewer->assign('IS_ALL_EMAIL_NOTICE', $selectedAllSendNotice);
@@ -59,7 +59,7 @@ class NotificationConfig  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return array - List of \App\Modules\Vtiger\Models\CssScript instances
+	 * @return array - List of \App\Modules\Base\Models\CssScript instances
 	 */
 	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{

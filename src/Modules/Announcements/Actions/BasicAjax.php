@@ -31,7 +31,7 @@ class BasicAjax extends \App\Runtime\BaseActionController
 		$record = $request->get('record');
 		$state = $request->get('type');
 
-		$announcements = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$announcements = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$announcements->setMark($record, $state);
 
 		$response = new \App\Http\Vtiger_Response();

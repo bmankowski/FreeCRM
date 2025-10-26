@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Leads\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MappingSave extends \App\Modules\Settings\Vtiger\Actions\Index
+class MappingSave extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

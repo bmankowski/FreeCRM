@@ -452,7 +452,7 @@ class Vtiger_Request
 	{
 		switch ($serviceName) {
 			case 'SettingsModule':
-				return new \App\Modules\Settings\Vtiger\Models\Module();
+				return new \App\Modules\Settings\Base\Models\Module();
 			default:
 				throw new \Exception("Unknown service: {$serviceName}");
 		}
@@ -461,13 +461,13 @@ class Vtiger_Request
 	/**
 	 * Get module model (convenience method)
 	 * @param string $moduleName
-	 * @return \App\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Base\Models\Module
 	 */
 	public function getModuleModel($moduleName)
 	{
 		$cacheKey = "module_model_{$moduleName}";
 		return $this->getCachedOrCompute($cacheKey, function() use ($moduleName) {
-			return \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			return \App\Modules\Base\Models\Module::getInstance($moduleName);
 		});
 	}
 

@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MailSmtp\Models;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	/**
@@ -70,7 +70,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return array - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -92,7 +92,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as &$recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}
@@ -174,7 +174,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public static function getCleanInstance()
 	{
-		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:MailSmtp');
+		$moduleInstance = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:MailSmtp');
 		$instance = new self();
 		$instance->module = $moduleInstance;
 		return $instance;

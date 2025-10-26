@@ -13,7 +13,7 @@ namespace App\Modules\Settings\QuickCreateEditor\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function __construct()
@@ -35,7 +35,7 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 	public function showFieldLayout(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$menuModelsList = \App\Modules\Vtiger\Models\Module::getQuickCreateModules();
+		$menuModelsList = \App\Modules\Base\Models\Module::getQuickCreateModules();
 
 		if (empty($sourceModule)) {
 			//To get the first element
@@ -50,9 +50,9 @@ class Index extends \App\Modules\Settings\Vtiger\Views\Index
 			$sourceModule = array('Calendar', 'Events');
 
 		foreach ($sourceModule as $module) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($module);
+			$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($module);
 
-			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
+			$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$quickCreateContents[$module] = $recordStructureInstance->getStructure();
 		}
 

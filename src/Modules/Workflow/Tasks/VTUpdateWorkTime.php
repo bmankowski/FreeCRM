@@ -18,7 +18,7 @@ class VTUpdateWorkTime extends VTTask
 
 	/**
 	 * Execute task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -63,7 +63,7 @@ class VTUpdateWorkTime extends VTTask
 
 	/**
 	 * Function to get contents of this task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @return <String> contents
 	 */
 	public function getContents($recordModel)

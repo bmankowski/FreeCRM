@@ -18,7 +18,7 @@ namespace App\Modules\Settings\Profiles\Models;
 
 
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	const PROFILE_FIELD_INACTIVE = 0;
@@ -159,10 +159,10 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function hasModuleActionPermission($module, $action)
 	{
 		$actionId = false;
-		if (is_object($action) && is_a($action, '\App\Modules\Vtiger\Models\Action')) {
+		if (is_object($action) && is_a($action, '\App\Modules\Base\Models\Action')) {
 			$actionId = $action->getId();
 		} else {
-			$action = \App\Modules\Vtiger\Models\Action::getInstance($action);
+			$action = \App\Modules\Base\Models\Action::getInstance($action);
 			$actionId = $action->getId();
 		}
 		if (!$actionId) {
@@ -229,10 +229,10 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getProfileTabModel($module)
 	{
 		$tabId = false;
-		if (is_object($module) && is_a($module, '\App\Modules\Vtiger\Models\Module')) {
+		if (is_object($module) && is_a($module, '\App\Modules\Base\Models\Module')) {
 			$tabId = $module->getId();
 		} else {
-			$module = \App\Modules\Vtiger\Models\Module::getInstance($module);
+			$module = \App\Modules\Base\Models\Module::getInstance($module);
 			$tabId = $module->getId();
 		}
 		if (!$tabId) {
@@ -247,10 +247,10 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	{
 		$profileTabModel = $this->getProfileTabModel($module);
 		$fieldId = false;
-		if (is_object($field) && is_a($field, '\App\Modules\Vtiger\Models\Field')) {
+		if (is_object($field) && is_a($field, '\App\Modules\Base\Models\Field')) {
 			$fieldId = $field->getId();
 		} else {
-			$field = \App\Modules\Vtiger\Models\Field::getInstance($field, $profileTabModel);
+			$field = \App\Modules\Base\Models\Field::getInstance($field, $profileTabModel);
 			$fieldId = $field->getId();
 		}
 		if (!$fieldId) {
@@ -348,13 +348,13 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getModulePermissions()
 	{
 		if (!isset($this->module_permissions)) {
-			$allModules = \App\Modules\Vtiger\Models\Module::getAll(array(0), \App\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
-			$eventModule = \App\Modules\Vtiger\Models\Module::getInstance('Events');
+			$allModules = \App\Modules\Base\Models\Module::getAll(array(0), \App\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
+			$eventModule = \App\Modules\Base\Models\Module::getInstance('Events');
 			$allModules[$eventModule->getId()] = $eventModule;
 			$profileTabPermissions = $this->getProfileTabPermissions();
 			$profileActionPermissions = $this->getProfileActionPermissions();
 			$profileUtilityPermissions = $this->getProfileUtilityPermissions();
-			$allTabActions = \App\Modules\Vtiger\Models\Action::getAll(true);
+			$allTabActions = \App\Modules\Base\Models\Action::getAll(true);
 
 			foreach ($allModules as $id => $moduleModel) {
 				$permissions = [];
@@ -438,8 +438,8 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');
 		$profilePermissions = $this->get('profile_permissions');
-		$calendarModule = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
-		$eventModule = \App\Modules\Vtiger\Models\Module::getInstance('Events');
+		$calendarModule = \App\Modules\Base\Models\Module::getInstance('Calendar');
+		$eventModule = \App\Modules\Base\Models\Module::getInstance('Events');
 		$eventFieldsPermissions = $profilePermissions[$eventModule->getId()]['fields'];
 		$profilePermissions[$eventModule->getId()] = $profilePermissions[$calendarModule->getId()];
 		$profilePermissions[$eventModule->getId()]['fields'] = $eventFieldsPermissions;
@@ -473,10 +473,10 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$params = array($profileId, \App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT, $this->tranformInputPermissionValue($this->get('editall')));
 		$db->pquery($sql, $params);
 
-		$allModuleModules = \App\Modules\Vtiger\Models\Module::getAll(array(0), \App\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
+		$allModuleModules = \App\Modules\Base\Models\Module::getAll(array(0), \App\Modules\Settings\Profiles\Models\Module::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
 		if (count($allModuleModules) > 0) {
-			$actionModels = \App\Modules\Vtiger\Models\Action::getAll(true);
+			$actionModels = \App\Modules\Base\Models\Action::getAll(true);
 			foreach ($allModuleModules as $tabId => $moduleModel) {
 				if ($moduleModel->isActive() && isset($profilePermissions[$moduleModel->getId()])) {
 					$this->saveModulePermissions($moduleModel, $profilePermissions[$moduleModel->getId()]);
@@ -532,7 +532,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if ($moduleModel->isEntityModule() || $moduleModel->isUtilityActionEnabled()) {
 			if (isset($permissions['actions']) || $moduleModel->isUtilityActionEnabled()) {
 				$actionPermissions = isset($permissions['actions']) ? $permissions['actions'] : [];
-				$actionsIdsList = \App\Modules\Vtiger\Models\Action::$standardActions;
+				$actionsIdsList = \App\Modules\Base\Models\Action::$standardActions;
 				//Dividing on actions
 				$utilityIdsList = [];
 				foreach ($actionPermissions as $actionId => $permission) {
@@ -550,11 +550,11 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 					} elseif ($actionsIdsList) {
 						$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
 						foreach ($actionsIdsList as $actionId => $permission) {
-							if (in_array($permission, \App\Modules\Vtiger\Models\Action::$nonConfigurableActions)) {
+							if (in_array($permission, \App\Modules\Base\Models\Action::$nonConfigurableActions)) {
 								$permission = 'on';
 							}
 							$permissionValue = $this->tranformInputPermissionValue($permission);
-							if (isset(\App\Modules\Vtiger\Models\Action::$standardActions[$actionId])) {
+							if (isset(\App\Modules\Base\Models\Action::$standardActions[$actionId])) {
 								if ($permission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
 									$actionEnabled = true;
 								}
@@ -565,7 +565,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 						$db->pquery($actionsUpdateQuery, [$profileId, $tabId]);
 					}
 
-					foreach (\App\Modules\Vtiger\Models\Action::$utilityActions as $utilityActionId => $utilityActionName) {
+					foreach (\App\Modules\Base\Models\Action::$utilityActions as $utilityActionId => $utilityActionName) {
 						if (!isset($utilityIdsList[$utilityActionId])) {
 							$utilityIdsList[$utilityActionId] = 'off';
 						}
@@ -588,7 +588,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 					$count = count($actionsIdsList);
 					$actionsInsertQuery = 'INSERT INTO vtiger_profile2standardpermissions(profileid, tabid, operation, permissions) VALUES ';
 					foreach ($actionsIdsList as $actionId => $permission) {
-						if (in_array($permission, \App\Modules\Vtiger\Models\Action::$nonConfigurableActions)) {
+						if (in_array($permission, \App\Modules\Base\Models\Action::$nonConfigurableActions)) {
 							$permission = 'on';
 						}
 						$actionEnabled = true;
@@ -679,7 +679,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -707,7 +707,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

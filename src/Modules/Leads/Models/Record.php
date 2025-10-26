@@ -12,7 +12,7 @@ namespace App\Modules\Leads\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -37,7 +37,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			return;
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 			//Fields that need to be shown
@@ -60,7 +60,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				}
 			}
 			foreach ($complusoryFields as $complusoryField) {
-				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($complusoryField, $moduleModel);
+				$fieldModel = \App\Modules\Base\Models\Field::getInstance($complusoryField, $moduleModel);
 				if ($fieldModel->getPermissions(false)) {
 					$industryFieldModel = $moduleModel->getField($complusoryField);
 					$industryLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
@@ -92,10 +92,10 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', array());
 			$numOfRows = $db->num_rows($result);
 
-			$accountInstance = \App\Modules\Vtiger\Models\Module::getInstance('Accounts');
+			$accountInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$accountFieldInstances = $accountInstance->getFieldsById();
 
-			$leadInstance = \App\Modules\Vtiger\Models\Module::getInstance('Leads');
+			$leadInstance = \App\Modules\Base\Models\Module::getInstance('Leads');
 			$leadFieldInstances = $leadInstance->getFieldsById();
 
 			for ($i = 0; $i < $numOfRows; $i++) {
@@ -120,7 +120,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function returns the fields required for Lead Convert
-	 * @return <Array of \App\Modules\Vtiger\Models\Field>
+	 * @return <Array of \App\Modules\Base\Models\Field>
 	 */
 	public function getConvertLeadFields()
 	{
@@ -138,7 +138,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateEventUrl()
 	{
-		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Base\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
 	}
 
@@ -148,7 +148,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public function getCreateTaskUrl()
 	{
-		$calendarModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
+		$calendarModuleModel = \App\Modules\Base\Models\Module::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
 }

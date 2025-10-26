@@ -11,7 +11,7 @@ namespace App\Modules\Settings\WebserviceUsers\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	/**

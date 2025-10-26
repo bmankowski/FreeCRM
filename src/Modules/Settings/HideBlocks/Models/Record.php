@@ -13,7 +13,7 @@ namespace App\Modules\Settings\HideBlocks\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	/**
@@ -72,7 +72,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get record links
-	 * @return <Array> list of link models <\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> list of link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getRecordLinks()
 	{
@@ -92,7 +92,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -219,7 +219,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 				->from('vtiger_blocks')
 				->where(['blockid' => $blockId])->scalar();
 		if (!empty($tabid)) {
-			return \App\Modules\Vtiger\Models\Module::getInstance($tabid);
+			return \App\Modules\Base\Models\Module::getInstance($tabid);
 		}
 		return false;
 	}

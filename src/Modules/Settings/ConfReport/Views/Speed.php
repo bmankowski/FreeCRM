@@ -10,7 +10,7 @@ namespace App\Modules\Settings\ConfReport\Views;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Speed extends \App\Modules\Vtiger\Views\BasicModal
+class Speed extends \App\Modules\Base\Views\BasicModal
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -19,7 +19,7 @@ class DeleteAjax extends \App\Runtime\BaseActionController
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordModel->delete();
 
 		$cvId = $request->get('viewname');

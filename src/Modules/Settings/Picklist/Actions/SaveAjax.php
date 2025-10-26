@@ -13,7 +13,7 @@ use App\Modules\Settings\PicklistModels\Field;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function __construct()
@@ -60,7 +60,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
 		for ($i = 0; $i < $rowCount; $i++) {
 			$recordId = $db->query_result_rowdata($result, $i);
 			$recordId = $recordId['id'];
-			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, 'Users');
+			$record = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Users');
 			$record->set($defaultFieldName, $newValue);
 			$record->save();
 		}

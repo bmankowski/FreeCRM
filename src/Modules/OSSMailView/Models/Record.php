@@ -12,7 +12,7 @@ namespace App\Modules\OSSMailView\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	protected $modules_email_actions_widgets = [];
@@ -135,7 +135,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		$return = false;
 		if (!empty($ids) && $ids != '0') {
-			$recordModelMailScanner = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+			$recordModelMailScanner = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 			$config = $recordModelMailScanner->getConfig('email_list');
 			if (strpos($ids, ',')) {
 				$idsArray = explode(",", $ids);
@@ -158,7 +158,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$returnEmail = '';
 		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
 			$accountId = '';
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $module);
 			switch ($module) {
 				case 'HelpDesk':
 					$accountId = $recordModel->get('parent_id');
@@ -177,7 +177,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		} else {
 			$emailFields = \App\Modules\OSSMailScanner\Models\Record::getEmailSearch($module);
 			if (count($emailFields) > 0) {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $module);
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $module);
 				foreach ($emailFields as $emailField) {
 					$email = $recordModel->get($emailField['columnname']);
 					if (!empty($email)) {

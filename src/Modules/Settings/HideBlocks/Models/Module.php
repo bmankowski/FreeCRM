@@ -14,7 +14,7 @@ use App\Modules\Settings\HideBlocksModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 'vtiger_blocks_hide';

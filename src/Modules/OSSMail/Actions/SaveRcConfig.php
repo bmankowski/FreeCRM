@@ -19,7 +19,7 @@ class SaveRcConfig extends \App\Runtime\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$param = $request->get('updatedFields');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
 		$result = ['success' => true, 'data' => $recordModel->setConfigData($param)];
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);

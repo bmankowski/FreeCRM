@@ -11,7 +11,7 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class QuickCreateRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class QuickCreateRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 
 	/**

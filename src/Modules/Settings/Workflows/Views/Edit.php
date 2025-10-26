@@ -15,7 +15,7 @@ use App\Modules\Settings\WorkflowsModels\RecordStructure;
  * ********************************************************************************** */
 
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -96,7 +96,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = \App\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
+			$selectedModule = \App\Modules\Base\Models\Module::getInstance($selectedModuleName);
 			$workFlowModel = \App\Modules\Settings\Workflows\Models\Record::getCleanInstance($selectedModuleName);
 		}
 
@@ -118,7 +118,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
 		$viewer->assign('MODULE_MODEL', $selectedModule);
 		$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
-		$viewer->assign('DATE_FILTERS', \App\Modules\Vtiger\AdvancedFilter::getDateFilter($qualifiedModuleName));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($qualifiedModuleName));
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Settings\Workflows\Models\Field::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
@@ -152,7 +152,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 			$selectedModuleName = $selectedModule->getName();
 		} else {
 			$selectedModuleName = $request->get('module_name');
-			$selectedModule = \App\Modules\Vtiger\Models\Module::getInstance($selectedModuleName);
+			$selectedModule = \App\Modules\Base\Models\Module::getInstance($selectedModuleName);
 			$workFlowModel = \App\Modules\Settings\Workflows\Models\Record::getCleanInstance($selectedModuleName);
 		}
 
@@ -182,7 +182,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
 			'~libraries/jquery/ckeditor/ckeditor.js',
-			"modules.Vtiger.resources.CkEditor",
+			"modules.Base.resources.CkEditor",
 			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
 		);
 

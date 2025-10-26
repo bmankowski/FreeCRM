@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Menu\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

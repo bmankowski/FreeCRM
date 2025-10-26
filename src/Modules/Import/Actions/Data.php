@@ -81,7 +81,7 @@ class Data extends \App\Runtime\BaseActionController
 				$defaultValues = $this->defaultValues;
 			}
 		}
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->module);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($this->module);
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
 			$mandatoryFieldName = $fieldInstance->getName();
 			if (empty($defaultValues[$mandatoryFieldName])) {
@@ -180,7 +180,7 @@ class Data extends \App\Runtime\BaseActionController
 			$query->limit($importBatchLimit);
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$isInventory = $moduleModel->isInventory();
 		if ($isInventory) {
 			$inventoryTableName = \App\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
@@ -294,7 +294,7 @@ class Data extends \App\Runtime\BaseActionController
 
 	public function transformInventoryForImport($inventoryData)
 	{
-		$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->module);
+		$inventoryFieldModel = \App\Modules\Base\Models\InventoryField::getInstance($this->module);
 		$inventoryFields = $inventoryFieldModel->getFields();
 		$maps = $inventoryFieldModel->getAutoCompleteFields();
 
@@ -341,7 +341,7 @@ class Data extends \App\Runtime\BaseActionController
 					$fieldObject = $this->inventoryFieldMapData[$mapData['field']][$entityName];
 				} else {
 					$moduleObject = vtlib\Module::getInstance($entityName);
-					$fieldObject = $moduleObject ? \App\Modules\Vtiger\Models\Field::getInstance($mapData['field'], $moduleObject) : null;
+					$fieldObject = $moduleObject ? \App\Modules\Base\Models\Field::getInstance($mapData['field'], $moduleObject) : null;
 					if (!is_array($this->inventoryFieldMapData[$mapData['field']])) {
 						$this->inventoryFieldMapData[$mapData['field']] = [];
 					}
@@ -373,7 +373,7 @@ class Data extends \App\Runtime\BaseActionController
 
 	/**
 	 * Function transforms value for reference type field
-	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Base\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return mixed
 	 */
@@ -397,7 +397,7 @@ class Data extends \App\Runtime\BaseActionController
 
 	/**
 	 * Function transforms value for owner type field
-	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Base\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return int
 	 */
@@ -449,7 +449,7 @@ class Data extends \App\Runtime\BaseActionController
 
 	/**
 	 * Function transforms value for multipicklist type field
-	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Base\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return string
 	 */
@@ -472,7 +472,7 @@ class Data extends \App\Runtime\BaseActionController
 
 	/**
 	 * Function transforms value for reference type field
-	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Base\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return bool|int
 	 */
@@ -535,7 +535,7 @@ class Data extends \App\Runtime\BaseActionController
 
 	/**
 	 * Function transforms value for picklist type field
-	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Base\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return string
 	 */
@@ -573,7 +573,7 @@ class Data extends \App\Runtime\BaseActionController
 
 	/**
 	 * Function transforms value for tree type field
-	 * @param \App\Modules\Vtiger\Models\Field $fieldInstance
+	 * @param \App\Modules\Base\Models\Field $fieldInstance
 	 * @param string $fieldValue
 	 * @return string
 	 */
@@ -606,7 +606,7 @@ class Data extends \App\Runtime\BaseActionController
 	 */
 	public function transformForImport($fieldData, $fillDefault = true, $checkMandatoryFieldValues = true)
 	{
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->module);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($this->module);
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		foreach ($fieldData as $fieldName => $fieldValue) {
 			$fieldInstance = $moduleModel->getFieldByName($fieldName);
@@ -616,7 +616,7 @@ class Data extends \App\Runtime\BaseActionController
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue);
-			} elseif (in_array($fieldInstance->getFieldDataType(), \App\Modules\Vtiger\Models\Field::$referenceTypes)) {
+			} elseif (in_array($fieldInstance->getFieldDataType(), \App\Modules\Base\Models\Field::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
@@ -677,7 +677,7 @@ class Data extends \App\Runtime\BaseActionController
 	 */
 	public function createEntityRecord($moduleName, $entityLabel)
 	{
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
 		$mandatoryFields = array_keys($moduleModel->getMandatoryFieldModels());
 		$entityNameFields = $moduleModel->getNameFields();
@@ -814,7 +814,7 @@ class Data extends \App\Runtime\BaseActionController
 		$query->from($tableName)->where(['temp_status' => [self::IMPORT_RECORD_SKIPPED, self::IMPORT_RECORD_FAILED]]);
 		$dataReader = $query->createCommand()->query();
 		if ($dataReader->count()) {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($forModule);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($forModule);
 			$columnNames = $db->getTableSchema($tableName)->getColumnNames();
 			foreach ($columnNames as $key => $fieldName) {
 				if ($key > 2) {
@@ -822,7 +822,7 @@ class Data extends \App\Runtime\BaseActionController
 				}
 			}
 			while ($row = $dataReader->read()) {
-				$record = new \App\Modules\Vtiger\Models\Base();
+				$record = new \App\Modules\Base\Models\Base();
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}
@@ -869,7 +869,7 @@ class Data extends \App\Runtime\BaseActionController
 	 */
 	public function createRecordByModel($moduleName, $fieldData)
 	{
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);
@@ -896,7 +896,7 @@ class Data extends \App\Runtime\BaseActionController
 	 */
 	public function updateRecordByModel($rekord, $fieldData, $moduleName = false)
 	{
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($rekord, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($rekord, $moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);
@@ -917,8 +917,8 @@ class Data extends \App\Runtime\BaseActionController
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{
-		$inventoryModel = new \App\Modules\Vtiger\Models\Base();
-		$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->module);
+		$inventoryModel = new \App\Modules\Base\Models\Base();
+		$inventoryFieldModel = \App\Modules\Base\Models\InventoryField::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {
 			$i = $index + 1;

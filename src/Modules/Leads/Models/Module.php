@@ -12,7 +12,7 @@ namespace App\Modules\Leads\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -26,7 +26,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	/**
 	 * Function to get the list of recently visisted records
 	 * @param <Number> $limit
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\Record or Module Specific Record Model instances
+	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
 	public function getRecentRecords($limit = 10)
 	{
@@ -198,7 +198,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		if ($recordModel) {
 			$params = [];
 			$db = \App\Database\PearDatabase::getInstance();
-			$mappingFields = \App\Modules\Vtiger\Models\Processes::getConfig('marketing', 'conversion', 'mapping');
+			$mappingFields = \App\Modules\Base\Models\Processes::getConfig('marketing', 'conversion', 'mapping');
 			$mappingFields = \App\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "
 				. "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_account.accountid "

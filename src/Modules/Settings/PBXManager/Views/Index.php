@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PBXManager\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function __construct()

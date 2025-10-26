@@ -16,7 +16,7 @@ namespace App\Modules\Settings\PickListDependency\Models;
 
 require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	private $mapping = false;
@@ -48,14 +48,14 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
 		];
-		$editLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($editLink);
+		$editLinkInstance = \App\Modules\Base\Models\Link::getInstanceFromValues($editLink);
 
 		$deleteLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
 		];
-		$deleteLinkInstance = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($deleteLink);
+		$deleteLinkInstance = \App\Modules\Base\Models\Link::getInstanceFromValues($deleteLink);
 		return [$editLinkInstance, $deleteLinkInstance];
 	}
 

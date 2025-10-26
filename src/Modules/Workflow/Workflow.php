@@ -39,7 +39,7 @@ class Workflow
 
 	/**
 	 * Evaluate
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @return boolean
 	 */
 	public function evaluate($recordModel)
@@ -77,7 +77,7 @@ class Workflow
 
 	/**
 	 * Perform tasks
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function performTasks($recordModel)
 	{

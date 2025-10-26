@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Profiles\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class IndexAjax extends \App\Modules\Settings\Vtiger\Views\Index
+class IndexAjax extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

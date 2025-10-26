@@ -8,7 +8,7 @@ namespace App\Modules\OSSMailView\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Relation extends \App\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Base\Models\Relation
 {
 
 	public function addRelation($mailId, $crmid, $date = false)
@@ -33,7 +33,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 		$result = $db->pquery($query, [$mailId, $crmid]);
 		if ($db->getRowCount($result) == 0) {
 			if (!$date) {
-				$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($mailId, 'OSSMailView');
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($mailId, 'OSSMailView');
 				$date = $recordModel->get('date');
 			}
 			$db->insert('vtiger_ossmailview_relation', [

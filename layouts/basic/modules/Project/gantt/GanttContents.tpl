@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 <style>
-{foreach from=\App\Modules\Vtiger\Models\Module::getAll() item=MODULE}
+{foreach from=\App\Modules\Base\Models\Module::getAll() item=MODULE}
 	.modIcon_{$MODULE->get('name')}{ background-image: url("{\App\Runtime\Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}") !important; }
 {/foreach}
 td{

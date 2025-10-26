@@ -2,7 +2,7 @@
 
 namespace App\Modules\HelpDesk\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\BaseUiType;
+use App\Modules\Base\UiTypes\BaseUiType;
 
 /**
  * UIType RangeTime Field Class

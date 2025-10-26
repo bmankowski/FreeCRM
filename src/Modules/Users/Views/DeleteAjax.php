@@ -14,7 +14,7 @@ namespace App\Modules\Users\Views;
 
 
 use App\Http\Vtiger_Request;
-class DeleteAjax  extends \App\Modules\Vtiger\Views\Index
+class DeleteAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

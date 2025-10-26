@@ -13,7 +13,7 @@ namespace App\Modules\RecycleBin\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListAjax  extends \App\Modules\Vtiger\Views\Index
+class ListAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()

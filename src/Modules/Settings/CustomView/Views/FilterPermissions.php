@@ -10,7 +10,7 @@ namespace App\Modules\Settings\CustomView\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class FilterPermissions extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class FilterPermissions extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

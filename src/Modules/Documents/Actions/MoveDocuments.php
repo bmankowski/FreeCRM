@@ -32,7 +32,7 @@ class MoveDocuments extends \App\Runtime\BaseActionController
 
 		if (!empty($documentIdsList)) {
 			foreach ($documentIdsList as $documentId) {
-				$documentModel = \App\Modules\Vtiger\Models\Record::getInstanceById($documentId, $moduleName);
+				$documentModel = \App\Modules\Base\Models\Record::getInstanceById($documentId, $moduleName);
 				if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $documentId)) {
 					$documentModel->set('folderid', $folderId);
 					$documentModel->save();

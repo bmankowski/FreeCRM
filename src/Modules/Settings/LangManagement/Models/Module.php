@@ -10,7 +10,7 @@ namespace App\Modules\Settings\LangManagement\Models;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	const url_separator = '^';

@@ -15,11 +15,11 @@ if ($lastUpdatedCrmId !== false) {
 			->where(['>', 'crmid', $lastUpdatedCrmId])
 			->limit(\App\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 			->createCommand()->query();
-	$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance('OpenStreetMap');
+	$moduleModel = \App\Modules\Base\Models\Module::getInstance('OpenStreetMap');
 	$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 	while ($row = $dataReader->read()) {
 		if ($moduleModel->isAllowModules($row['setype']) && $row['deleted'] == 0) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($row['crmid']);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($row['crmid']);
 			$coordinates = $coordinatesModel->getCoordinatesByRecord($recordModel);
 			foreach ($coordinates as $typeAddress => $coordinate) {
 				$isCoordinateExists = (new \App\Db\Query())->from('u_#__openstreetmap')->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])->exists();

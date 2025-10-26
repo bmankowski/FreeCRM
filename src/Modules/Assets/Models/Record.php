@@ -9,7 +9,7 @@ namespace App\Modules\Assets\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	protected $privileges = ['editFieldByModal' => true];
@@ -39,7 +39,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		if ($this->isEmpty('product')) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
-		$productsRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($this->get('product'), 'Products');
+		$productsRecordModel = \App\Modules\Base\Models\Record::getInstanceById($this->get('product'), 'Products');
 		$renewable = $productsRecordModel->get('renewable');
 		if (!$renewable) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';

@@ -15,7 +15,7 @@ use App\Modules\Settings\WorkflowsModels\TaskRecord;
  * ********************************************************************************** */
 
 
-class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
+class EditTask extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -52,7 +52,7 @@ class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
 			if ($taskObject->entity_type && $taskObject->field_value_mapping) {
-				$relationModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($taskObject->entity_type);
+				$relationModuleModel = \App\Modules\Base\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
@@ -83,7 +83,7 @@ class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 	}
 	if ($taskType === 'App\\Modules\\com_vtiger_workflow\\tasks\\VTSendPdf' || $taskType === 'VTSendPdf') {
 		// Prepare PDF templates for the template
-		$pdfTemplates = \App\Modules\Vtiger\Models\PDF::getTemplatesByModule($sourceModule);
+		$pdfTemplates = \App\Modules\Base\Models\PDF::getTemplatesByModule($sourceModule);
 		$viewer->assign('PDF_TEMPLATES', $pdfTemplates);
 		
 		// Prepare SMTP accounts

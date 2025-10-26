@@ -13,7 +13,7 @@ namespace App\Modules\Settings\GlobalPermission\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	const GLOBAL_ACTION_VIEW = 1;

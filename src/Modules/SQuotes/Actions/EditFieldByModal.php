@@ -19,7 +19,7 @@ class EditFieldByModal extends \App\Runtime\BaseActionController
 		$state = $params['state'];
 		$fieldName = $params['fieldName'];
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordModel->set('id', $recordId);
 		$recordModel->set($fieldName, $state);
 		if (in_array($state, ['PLL_CANCELLED', 'PLL_ACCEPTED'])) {

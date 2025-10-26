@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class DownloadAttachment extends \App\Modules\Vtiger\Actions\Mass
+class DownloadAttachment extends \App\Modules\Base\Actions\Mass
 {
 
 	/**

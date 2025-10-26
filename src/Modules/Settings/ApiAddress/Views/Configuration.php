@@ -13,7 +13,7 @@ namespace App\Modules\Settings\ApiAddress\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Configuration extends \App\Modules\Settings\Vtiger\Views\Index
+class Configuration extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

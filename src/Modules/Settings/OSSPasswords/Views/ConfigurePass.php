@@ -13,7 +13,7 @@ namespace App\Modules\Settings\OSSPasswords\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
+class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -124,7 +124,7 @@ class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 					$info = 'Encryption password is already created.';
 				} else if ($newPassword != false) {
 					// create new config
-					$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+					$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 
 					$config = ["encode" => ['key' => "$newPassword"]];
 					$recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
@@ -176,7 +176,7 @@ class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 
 					if ($decrypt_aff_rows == $encrypt_aff_rows) {
 						// at end we are saving new password key
-						$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+						$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 						$config = array("encode" => array('key' => "$newKey"));
 						$save_ini = $recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
 						$success = 'Your key has been changed correctly.';
@@ -225,7 +225,7 @@ class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 		} else if (!empty($uninstall_passwords) && !empty($status)) {
 			\App\Log::trace('Uninstallation started...');
 			$moduleName = $request->getModule();
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			if ($moduleModel) {
 				$moduleModel->delete();
 			}
@@ -234,7 +234,7 @@ class ConfigurePass extends \App\Modules\Settings\Vtiger\Views\Index
 		$registerTxt = $register == 0 ? '' : 'checked="checked"';
 
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ERROR', $error);
 		$viewer->assign('INFO', $info);

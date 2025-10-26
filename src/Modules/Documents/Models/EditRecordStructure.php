@@ -11,7 +11,7 @@ namespace App\Modules\Documents\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class EditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 
 	/**

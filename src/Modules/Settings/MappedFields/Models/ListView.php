@@ -11,13 +11,13 @@ namespace App\Modules\Settings\MappedFields\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{

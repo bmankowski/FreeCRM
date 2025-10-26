@@ -12,7 +12,7 @@ namespace App\Modules\ModTracker\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	const UPDATE = 0;
@@ -27,11 +27,11 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to get the history of updates on a record
 	 * @param int $parentRecordId
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @param string $type
 	 * @return array - list of  \App\Modules\ModTracker\Models\Record
 	 */
-	public static function getUpdates($parentRecordId, \App\Modules\Vtiger\Models\Paging $pagingModel, $type)
+	public static function getUpdates($parentRecordId, \App\Modules\Base\Models\Paging $pagingModel, $type)
 	{
 		$recordInstances = [];
 		$startIndex = $pagingModel->getStartIndex();
@@ -163,7 +163,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	public function getModule()
 	{
 		if (empty($this->parent)) {
-			return \App\Modules\Vtiger\Models\Module::getInstance($this->getModuleName());
+			return \App\Modules\Base\Models\Module::getInstance($this->getModuleName());
 		}
 		return $this->getParent()->getModule();
 	}
@@ -200,7 +200,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	public function setParent($id, $moduleName)
 	{
-		$this->parent = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
+		$this->parent = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
 	}
 
 	public function getParent()
@@ -302,7 +302,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 				if ($row['fieldname'] == 'record_id' || $row['fieldname'] == 'record_module')
 					continue;
 
-				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($row['fieldname'], $this->getModule());
+				$fieldModel = \App\Modules\Base\Models\Field::getInstance($row['fieldname'], $this->getModule());
 				if (!$fieldModel)
 					continue;
 
@@ -377,7 +377,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		$db = \App\Db::getInstance();
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
-		$query = \App\Modules\Vtiger\Widgets\HistoryRelation::getQuery($sourceId, $sourceModule, \App\Modules\Vtiger\Widgets\HistoryRelation::getActions());
+		$query = \App\Modules\Base\Widgets\HistoryRelation::getQuery($sourceId, $sourceModule, \App\Modules\Base\Widgets\HistoryRelation::getActions());
 		if (!$query) {
 			return false;
 		}
@@ -404,7 +404,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	 */
 	public static function getLastRelation($sourceIds, $sourceModule)
 	{
-		$colors = \App\Modules\Vtiger\Widgets\HistoryRelation::$colors;
+		$colors = \App\Modules\Base\Widgets\HistoryRelation::$colors;
 		if (!is_array($sourceIds)) {
 			$sourceIds = [$sourceIds];
 		}

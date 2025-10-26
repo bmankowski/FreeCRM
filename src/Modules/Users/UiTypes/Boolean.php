@@ -8,7 +8,7 @@ namespace App\Modules\Users\UiTypes;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Boolean extends \App\Modules\Vtiger\UiTypes\BaseUiType
+class Boolean extends \App\Modules\Base\UiTypes\BaseUiType
 {
 
 	public function getDBValue($value, $recordModel = false)

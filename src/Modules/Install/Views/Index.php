@@ -13,7 +13,7 @@ namespace App\Modules\Install\Views;
 use App\Http\Vtiger_Request;
 
 
-class Index extends \App\Modules\Vtiger\Views\Index
+class Index extends \App\Modules\Base\Views\Index
 {
 
 	protected $debug = false;
@@ -71,7 +71,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 			$dbconfig = AppConfig::main('dbconfig');
 			if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
 				$defaultModule = vglobal('default_module');
-				$defaultModuleInstance = \App\Modules\Vtiger\Models\Module::getInstance($defaultModule);
+				$defaultModuleInstance = \App\Modules\Base\Models\Module::getInstance($defaultModule);
 				$defaultView = $defaultModuleInstance->getDefaultViewName();
 				header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 			}

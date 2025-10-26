@@ -10,7 +10,7 @@ namespace App\Modules\Settings\LoginHistory\Models;
  * @license licenses/License.html
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 'vtiger_loginhistory';

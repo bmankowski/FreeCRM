@@ -12,7 +12,7 @@ use App\Modules\Settings\SalesProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
@@ -30,10 +30,10 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return array - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return array - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
-	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel, $searchResult = false)
+	public function getListViewEntries(\App\Modules\Base\Models\Paging $pagingModel, $searchResult = false)
 	{
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
@@ -112,8 +112,8 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewCount()
 	{

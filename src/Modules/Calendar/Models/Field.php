@@ -15,7 +15,7 @@ namespace App\Modules\Calendar\Models;
 /**
  * Calendar Field Model Class
  */
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**

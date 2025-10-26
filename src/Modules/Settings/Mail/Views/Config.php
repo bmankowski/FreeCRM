@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Mail\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Config extends \App\Modules\Settings\Vtiger\Views\Index
+class Config extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**

@@ -10,7 +10,7 @@ namespace App\Modules\Settings\LangManagement\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class GetChart extends \App\Modules\Settings\Vtiger\Actions\Basic
+class GetChart extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

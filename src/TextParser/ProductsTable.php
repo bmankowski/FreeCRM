@@ -26,7 +26,7 @@ class ProductsTable extends Base
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$inventoryField = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->textParser->moduleName);
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		if ($fields[0] != 0) {
 			$columns = $inventoryField->getColumns();
@@ -35,7 +35,7 @@ class ProductsTable extends Base
 			$countFields0 = count($fields[0]);
 			$countFields1 = count($fields[1]);
 			$countFields2 = count($fields[2]);
-			$baseCurrency = \App\Modules\Vtiger\Util::getBaseCurrency();
+			$baseCurrency = \App\Modules\Base\Util::getBaseCurrency();
 		}
 		if (in_array('currency', $columns)) {
 			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {

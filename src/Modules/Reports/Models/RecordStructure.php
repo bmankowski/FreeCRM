@@ -29,14 +29,14 @@ class RecordStructure extends \App\Runtime\BaseModel
 		if (!empty($this->structuredValues[$moduleName])) {
 			return $this->structuredValues[$moduleName];
 		}
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		if ($moduleName === 'Calendar') {
-			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+			$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = array();
 			$calendarRecordStructure = $recordStructureInstance->getStructure();
 
-			$eventsModel = \App\Modules\Vtiger\Models\Module::getInstance('Events');
-			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($eventsModel);
+			$eventsModel = \App\Modules\Base\Models\Module::getInstance('Events');
+			$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($eventsModel);
 			$eventRecordStructure = $recordStructureInstance->getStructure();
 
 			$blockLabel = 'LBL_CUSTOM_INFORMATION';
@@ -49,7 +49,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 			}
 			$moduleRecordStructure = $calendarRecordStructure;
 		} else {
-			$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+			$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 			$moduleRecordStructure = $recordStructureInstance->getStructure();
 		}
 		$this->structuredValues[$moduleName] = $moduleRecordStructure;
@@ -58,7 +58,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the Primary Module Record Structure
-	 * @return <\App\Modules\Vtiger\Models\RecordStructure>
+	 * @return <\App\Modules\Base\Models\RecordStructure>
 	 */
 	public function getPrimaryModuleRecordStructure()
 	{
@@ -69,7 +69,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the Secondary Modules Record Structure
-	 * @return <Array of \App\Modules\Vtiger\Models\RecordSructures>
+	 * @return <Array of \App\Modules\Base\Models\RecordSructures>
 	 */
 	public function getSecondaryModuleRecordStructure()
 	{

@@ -18,7 +18,7 @@ use App\Modules\Settings\SharingAccessModels\RuleMember;
  * Sharng Access Vtiger Module Model Class
  */
 
-class RuleMember extends \App\Modules\Vtiger\Models\Record
+class RuleMember extends \App\Modules\Base\Models\Record
 {
 
 	const RULE_MEMBER_TYPE_GROUPS = 'Groups';

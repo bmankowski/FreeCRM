@@ -15,7 +15,7 @@ class GetMarkers extends \App\Runtime\BaseActionController
 	{
 		$data = [];
 		$sourceModule = $request->get('srcModule');
-		$srcModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
+		$srcModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
 		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinatesModel->set('srcModuleModel', $srcModuleModel);
 		$coordinatesModel->set('radius', (int) $request->get('radius'));
@@ -33,7 +33,7 @@ class GetMarkers extends \App\Runtime\BaseActionController
 		$coordinatesModel->set('search_params', $request->get('search_params'));
 		$coordinatesModel->set('request', $request);
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($request->getModule());
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($request->getModule());
 		$coordinatesCenter = $coordinatesModel->getCoordinatesCenter();
 		if ($moduleModel->isAllowModules($sourceModule) && !$request->isEmpty('viewname')) {
 			$data ['coordinates'] = $coordinatesModel->getCoordinatesCustomView();

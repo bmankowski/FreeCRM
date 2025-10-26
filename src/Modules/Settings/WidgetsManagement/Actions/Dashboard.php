@@ -10,7 +10,7 @@ namespace App\Modules\Settings\WidgetsManagement\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Dashboard extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Dashboard extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

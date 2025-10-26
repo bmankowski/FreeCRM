@@ -14,7 +14,7 @@ use App\Modules\Settings\ModTrackerModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class List extends \App\Modules\Settings\Vtiger\Views\Index
+class List extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -11,7 +11,7 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class DetailRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 
 	/**

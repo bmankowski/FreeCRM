@@ -35,9 +35,9 @@ class RelationAjax extends \App\Runtime\BaseActionController
 		$relInfos = $request->get('relinfo');
 		$relatedModule = $request->get('related_module');
 
-		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
+		$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relInfos as $relInfo) {
 			$price = \App\Fields\CurrencyField::convertToDBFormat($relInfo['price'], null, true);
 			$relationModel->addListPrice($sourceRecordId, $relInfo['id'], $price);
@@ -59,9 +59,9 @@ class RelationAjax extends \App\Runtime\BaseActionController
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
-		$relationModel = \App\Modules\Vtiger\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
+		$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId, $relatedRecordId, $listPrice);
 		}
@@ -82,8 +82,8 @@ class RelationAjax extends \App\Runtime\BaseActionController
 		$relatedModule = $request->get('related_module');
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		$sourceModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
-		$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
+		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
 		$relationModel = \App\Modules\PriceBooks\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);

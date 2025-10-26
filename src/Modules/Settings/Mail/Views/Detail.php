@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Mail\Views;
  */
 
 
-class Detail extends \App\Modules\Settings\Vtiger\Views\Index
+class Detail extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**

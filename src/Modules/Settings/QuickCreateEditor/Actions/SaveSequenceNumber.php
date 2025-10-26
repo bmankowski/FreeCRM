@@ -14,7 +14,7 @@ use App\Modules\Settings\QuickCreateEditorModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveSequenceNumber extends \App\Modules\Settings\Vtiger\Actions\Index
+class SaveSequenceNumber extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function __construct()

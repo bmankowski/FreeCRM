@@ -2,7 +2,7 @@
 
 namespace App\Modules\Events\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\BaseUiType as Base;
+use App\Modules\Base\UiTypes\BaseUiType as Base;
 
 /**
  * UIType Picklist Field Class

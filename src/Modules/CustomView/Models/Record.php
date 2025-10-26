@@ -16,7 +16,7 @@ namespace App\Modules\CustomView\Models;
 /**
  * CustomView Record Model Class
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	protected $isFeatured = false;
@@ -54,7 +54,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the Module to which the record belongs
-	 * @return \App\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Base\Models\Module
 	 */
 	public function getModule()
 	{
@@ -64,18 +64,18 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	/**
 	 * Function to set the Module to which the record belongs
 	 * @param string $moduleName
-	 * @return \App\Modules\Vtiger\Models\Record or Module Specific Record Model instance
+	 * @return \App\Modules\Base\Models\Record or Module Specific Record Model instance
 	 */
 	public function setModule($moduleName)
 	{
-		$this->module = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$this->module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		return $this;
 	}
 
 	/**
 	 * Function to set the Module to which the record belongs from the Module model instance
-	 * @param \App\Modules\Vtiger\Models\Module $module
-	 * @return \App\Modules\Vtiger\Models\Record or Module Specific Record Model instance
+	 * @param \App\Modules\Base\Models\Module $module
+	 * @return \App\Modules\Base\Models\Record or Module Specific Record Model instance
 	 */
 	public function setModuleFromInstance($module)
 	{
@@ -707,7 +707,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					}
 					$advfilterval = implode(",", $val);
 				}
-				$criteria['value'] = \App\Modules\Vtiger\Helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($advfilterval));
+				$criteria['value'] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\ListViewUtils::decodeHtml($advfilterval));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$groupId = $relcriteriarow['groupid'];

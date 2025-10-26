@@ -36,7 +36,7 @@ function vtws_convertlead($entityvalues, $user)
 	$leadHandler = new $handlerClass($leadObject, $user, $adb, $log);
 
 
-	$leadInfo = \App\Modules\Vtiger\Models\Record::getInstanceById($entityvalues['leadId'])->getData();
+	$leadInfo = \App\Modules\Base\Models\Record::getInstanceById($entityvalues['leadId'])->getData();
 	$sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
 	$leadIdComponents = $entityvalues['leadId'];
 	$result = $adb->pquery($sql, [$leadIdComponents]);
@@ -91,7 +91,7 @@ function vtws_convertlead($entityvalues, $user)
 					$create = false;
 				}
 				if ($create) {
-					$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($entityvalue['name']);
+					$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($entityvalue['name']);
 					$fieldModelList = $recordModel->getModule()->getFields();
 					foreach ($fieldModelList as $fieldName => &$fieldModel) {
 						if (isset($entityObjectValues[$fieldName])) {

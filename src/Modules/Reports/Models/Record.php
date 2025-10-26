@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Models;
 require_once('src/Modules/Reports/ReportUtils.php');
 require_once('Report.php');
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
     /** @var mixed */
@@ -149,7 +149,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
 		if ($db->num_rows($reportResult)) {
 			$values = $db->query_result_rowdata($reportResult, 0);
-			$module = \App\Modules\Vtiger\Models\Module::getInstance('Reports');
+			$module = \App\Modules\Base\Models\Module::getInstance('Reports');
 			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
 			$self->initialize();
 		}
@@ -169,7 +169,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$self = self::getInstanceById($recordId);
 		}
 		$self->initialize();
-		$module = \App\Modules\Vtiger\Models\Module::getInstance('Reports');
+		$module = \App\Modules\Base\Models\Module::getInstance('Reports');
 		$self->setModuleFromInstance($module);
 		return $self;
 	}
@@ -614,9 +614,9 @@ class Record extends \App\Modules\Vtiger\Models\Record
 					if ($fieldType == 'currency') {
 						if ($field->getUIType() == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-							$advFilterValue = \App\Modules\Vtiger\UiTypes\Currency::convertToDBFormat($advFilterValue, null, true);
+							$advFilterValue = \App\Modules\Base\UiTypes\Currency::convertToDBFormat($advFilterValue, null, true);
 						} else {
-							$advFilterValue = \App\Modules\Vtiger\UiTypes\Currency::convertToDBFormat($advFilterValue);
+							$advFilterValue = \App\Modules\Base\UiTypes\Currency::convertToDBFormat($advFilterValue);
 						}
 					}
 
@@ -723,7 +723,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function returns report's data
-	 * @param <\App\Modules\Vtiger\Models\Paging> $pagingModel
+	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
 	 * @param string $filterQuery
 	 * @return <Array>
 	 */
@@ -1029,7 +1029,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @return <Array>
 	 */
 	public function generateData($pagingModel = false)
@@ -1040,7 +1040,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to generate data for advanced filter conditions
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @return <Array>
 	 */
 	public function generateCalculationData()
@@ -1185,7 +1185,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		$fields = $this->getPrimaryModuleFields();
 		$primaryModule = $this->getPrimaryModule();
-		$primaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($primaryModule);
+		$primaryModuleModel = \App\Modules\Base\Models\Module::getInstance($primaryModule);
 		$primaryModuleFieldInstances = $primaryModuleModel->getFields();
 
 		if (is_array($fields))
@@ -1221,7 +1221,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			$secondaryModuleFieldInstances = array();
 			foreach ($secondaryModules as $secondaryModule) {
 				if (!empty($secondaryModule)) {
-					$secondaryModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($secondaryModule);
+					$secondaryModuleModel = \App\Modules\Base\Models\Module::getInstance($secondaryModule);
 					$secondaryModuleFieldInstances[$secondaryModule] = $secondaryModuleModel->getFields();
 				}
 			}

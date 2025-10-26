@@ -10,7 +10,7 @@ namespace App\Modules\Settings\WidgetsManagement\Views;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class DashboardType extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class DashboardType extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

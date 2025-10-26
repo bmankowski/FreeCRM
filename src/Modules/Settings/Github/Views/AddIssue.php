@@ -10,7 +10,7 @@ namespace App\Modules\Settings\Github\Views;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class AddIssue extends \App\Modules\Vtiger\Views\BasicModal
+class AddIssue extends \App\Modules\Base\Views\BasicModal
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

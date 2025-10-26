@@ -12,7 +12,7 @@ namespace App\Modules\Settings\AutomaticAssignment\Models;
  */
 
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	/**
@@ -112,19 +112,19 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	/**
 	 * Function returns field instances for given name
 	 * @param string $name
-	 * @return \App\Modules\Vtiger\Models\Field
+	 * @return \App\Modules\Base\Models\Field
 	 */
 	public function getFieldInstanceByName($name)
 	{
 		switch ($name) {
 			case 'value':
-				return \App\Modules\Vtiger\Models\Field::getInstance($this->get('field'), \App\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
+				return \App\Modules\Base\Models\Field::getInstance($this->get('field'), \App\Modules\Base\Models\Module::getInstance($this->get('tabid')));
 			case 'roles':
 			case 'roleid':
-				return \App\Modules\Vtiger\Models\Field::getInstance('roleid', \App\Modules\Vtiger\Models\Module::getInstance('Users'));
+				return \App\Modules\Base\Models\Field::getInstance('roleid', \App\Modules\Base\Models\Module::getInstance('Users'));
 			case 'smowners':
 			case 'assign':
-				return \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', \App\Modules\Vtiger\Models\Module::getInstance($this->get('tabid')));
+				return \App\Modules\Base\Models\Field::getInstance('assigned_user_id', \App\Modules\Base\Models\Module::getInstance($this->get('tabid')));
 			default:
 				break;
 		}
@@ -361,7 +361,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \App\Modules\Vtiger\Models\Link[] - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return \App\Modules\Base\Models\Link[] - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -387,7 +387,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -426,7 +426,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		if (\App\Cache\Cache::has($cacheName, $key)) {
 			return \App\Cache\Cache::get($cacheName, $key);
 		}
-		$moduleInstance = \App\Modules\Settings\Vtiger\Models\Module::getInstance('Settings:AutomaticAssignment');
+		$moduleInstance = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$instance = new self();
 		$instance->module = $moduleInstance;
 		\App\Cache\Cache::save($cacheName, $key, $instance);

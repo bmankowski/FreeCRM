@@ -68,7 +68,7 @@ class ClipBoard extends \App\Runtime\BaseActionController
 		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 		$coordinatesModel->set('moduleName', $srcModuleName);
 		$coordinatesModel->addCache($record);
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($srcModuleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($srcModuleName);
 		$coordinatesModel->set('srcModuleModel', $moduleModel);
 		$coordinates = $coordinatesModel->readCoordinatesByRecords([$record]);
 		if(empty($coordinates)) {

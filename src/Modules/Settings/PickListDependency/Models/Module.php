@@ -15,7 +15,7 @@ namespace App\Modules\Settings\PickListDependency\Models;
 
 require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 'vtiger_picklist_dependency';
@@ -69,7 +69,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 		$modulesModelsList = array();
 		foreach ($modules as $moduleLabel => $moduleName) {
-			$instance = new \App\Modules\Vtiger\Models\Module();
+			$instance = new \App\Modules\Base\Models\Module();
 			$instance->name = $moduleName;
 			$instance->label = $moduleLabel;
 			$modulesModelsList[] = $instance;

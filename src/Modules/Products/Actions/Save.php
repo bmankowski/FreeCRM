@@ -16,7 +16,7 @@ class Save extends \App\Runtime\BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$result = \App\Modules\Vtiger\Helpers\Util::transformUploadedFiles($_FILES, true);
+		$result = \App\Modules\Base\Helpers\Util::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
 		parent::process($request);
 	}

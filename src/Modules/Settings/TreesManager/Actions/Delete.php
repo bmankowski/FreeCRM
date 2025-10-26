@@ -13,7 +13,7 @@ namespace App\Modules\Settings\TreesManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Delete extends \App\Modules\Settings\Vtiger\Actions\Index
+class Delete extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

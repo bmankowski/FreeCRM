@@ -23,7 +23,7 @@ if ($adb->getRowCount($result) >= 1) {
 	$reminderResult = $adb->query($reminderFrequencyQuery);
 	$reminderFrequency = $adb->getSingleValue($reminderResult);
 
-	$eventsRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Events');
+	$eventsRecordModel = \App\Modules\Base\Models\Record::getCleanInstance('Events');
 
 	while ($row = $adb->getRow($result)) {
 		$date_start = $row['date_start'];

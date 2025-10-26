@@ -10,7 +10,7 @@ namespace App\Modules\Settings\LangManagement\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class GetLabels extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class GetLabels extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	public function getSize(\App\Http\Vtiger_Request $request)

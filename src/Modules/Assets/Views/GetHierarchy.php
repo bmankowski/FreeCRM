@@ -10,7 +10,7 @@ namespace App\Modules\Assets\Views;
  */
 
 use App\Http\Vtiger_Request;
-class GetHierarchy  extends \App\Modules\Vtiger\Views\Index
+class GetHierarchy  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -57,7 +57,7 @@ class GetHierarchy  extends \App\Modules\Vtiger\Views\Index
 				preg_match('/[.\s]+/', $link, $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
 
-				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($hierarchyModuleName);
+				$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($hierarchyModuleName);
 				$recordModel->setId($accountId);
 				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . $name[2];
 			}

@@ -13,7 +13,7 @@ namespace App\Modules\SMSNotifier\Views;
 
 
 use App\Http\Vtiger_Request;
-class CheckStatus  extends \App\Modules\Vtiger\Views\Index
+class CheckStatus  extends \App\Modules\Base\Views\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -30,7 +30,7 @@ class CheckStatus  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$notifierRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'), $moduleName);
+		$notifierRecordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		$notifierRecordModel->checkStatus();
 
 		$viewer->assign('RECORD', $notifierRecordModel);

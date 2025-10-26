@@ -13,7 +13,7 @@ namespace App\Modules\Settings\ApiAddress\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveConfig extends \App\Modules\Settings\Vtiger\Actions\Basic
+class SaveConfig extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

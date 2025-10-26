@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\Groups\Actions;
-use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Base\Models\Tracker;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends \App\Modules\Settings\Vtiger\Actions\Save
+class Save extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		$prevValues = [];
 		if (!empty($recordId)) {
 			$recordModel = \App\Modules\Settings\Groups\Models\Record::getInstance($recordId);
@@ -46,7 +46,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 			$recordModel->set('modules', $request->get('modules'));
 			$recordModel->save();
 			$postValues = $recordModel->getDisplayData();
-			\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $postValues);
+			\App\Modules\Settings\Base\Models\Tracker::addDetail($prevValues, $postValues);
 		}
 
 		$redirectUrl = $recordModel->getDetailViewUrl();

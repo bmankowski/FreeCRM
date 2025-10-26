@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PickListDependency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Index extends \App\Modules\Settings\Vtiger\Actions\Basic
+class Index extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function __construct()

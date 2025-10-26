@@ -127,8 +127,8 @@ class CRM_Viewer extends \Smarty
 			
 		// Register static classes for template use
 		$this->registerClass('AppConfig', '\App\AppConfig');
-		$this->registerClass('\App\Modules\Vtiger\Util', '\App\Modules\\Vtiger\\Helpers\\Util');
-		$this->registerClass('\App\Modules\Vtiger\Models\Menu', '\App\Modules\\Vtiger\Models\\Menu');
+		$this->registerClass('\App\Modules\Base\Util', '\App\Modules\\Base\\Helpers\\Util');
+		$this->registerClass('\App\Modules\Base\Models\Menu', '\App\Modules\\Base\Models\\Menu');
 		$this->registerClass('Vtiger_Language_Handler', '\App\\Runtime\\Vtiger_Language_Handler');
 		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
 		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
@@ -137,7 +137,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Debugger', '\App\\Debugger');
 		$this->registerClass('App\\Company', '\App\\Company');
 		// Register UIType and utility classes used in templates
-		$this->registerClass('Vtiger_Datetime_UIType', '\App\\Modules\\Vtiger\\UiTypes\\Datetime');
+		$this->registerClass('Vtiger_Datetime_UIType', '\App\\Modules\\Base\\UiTypes\\Datetime');
 		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
 		$this->registerClass('\App\\Fields\\DateTimeField', '\App\\Fields\\DateTimeField');
 		$this->registerClass('\App\\Fields\\DateTime', '\App\\Fields\\DateTime');
@@ -147,11 +147,11 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('vtlib\\Functions', 'vtlib\\Functions');
 		// Register additional model classes used in templates
 		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');
-		$this->registerClass('\App\\Modules\\Vtiger\\Models\\Module', '\App\\Modules\\Vtiger\\Models\\Module');
-		$this->registerClass('\App\\Modules\\Vtiger\\Models\\Field', '\App\\Modules\\Vtiger\\Models\\Field');
-		$this->registerClass('\App\\Modules\\Vtiger\\Models\\InventoryField', '\App\\Modules\\Vtiger\\Models\\InventoryField');
-		$this->registerClass('Vtiger_InventoryField_Model', '\App\\Modules\\Vtiger\\Models\\InventoryField');
-		$this->registerClass('\App\\Modules\\Vtiger\\Helpers\\Util', '\App\\Modules\\Vtiger\\Helpers\\Util');
+		$this->registerClass('\App\\Modules\\Base\\Models\\Module', '\App\\Modules\\Base\\Models\\Module');
+		$this->registerClass('\App\\Modules\\Base\\Models\\Field', '\App\\Modules\\Base\\Models\\Field');
+		$this->registerClass('\App\\Modules\\Base\\Models\\InventoryField', '\App\\Modules\\Base\\Models\\InventoryField');
+		$this->registerClass('Vtiger_InventoryField_Model', '\App\\Modules\\Base\\Models\\InventoryField');
+		$this->registerClass('\App\\Modules\\Base\\Helpers\\Util', '\App\\Modules\\Base\\Helpers\\Util');
 		$this->registerClass('\App\\Privilege', '\App\\Privilege');
 		$this->registerClass('App\\Privilege', '\App\\Privilege');
 		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
@@ -259,7 +259,7 @@ class CRM_Viewer extends \Smarty
 					$baseModuleName = $moduleHierarchyParts[0];
 					$fallBackOrder = [
 						$actualModuleName,
-						$baseModuleName . '/Vtiger'
+						$baseModuleName . '/Base'
 					];
 					foreach ($fallBackOrder as $fallBackModuleName) {
 						$intermediateFallBackFileName = 'modules/' . $fallBackModuleName . '/' . $templateName;
@@ -271,7 +271,7 @@ class CRM_Viewer extends \Smarty
 					}
 				}
 
-				$filePath = 'modules/Vtiger/' . $templateName;
+				$filePath = 'modules/Base/' . $templateName;
 			}
 		}
 

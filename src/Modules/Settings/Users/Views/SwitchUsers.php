@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Users\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class SwitchUsers extends \App\Modules\Settings\Vtiger\Views\Index
+class SwitchUsers extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

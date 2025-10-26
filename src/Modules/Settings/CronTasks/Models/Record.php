@@ -14,7 +14,7 @@ namespace App\Modules\Settings\CronTasks\Models;
 
 
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	static $STATUS_DISABLED = 0;
@@ -107,7 +107,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	public function getLastEndDateTime()
 	{
 		if ($this->get('lastend') != NULL) {
-			$lastScannedTime = \App\Modules\Vtiger\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
+			$lastScannedTime = \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
 			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$hourFormat = $userModel->get('hour_format');
 			if ($hourFormat == '24') {
@@ -204,7 +204,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			->one();
 		if ($row) {
 			$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-			$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+			$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($row)->setModule($moduleModel);
 			return $recordModel;
@@ -230,7 +230,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -246,7 +246,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;

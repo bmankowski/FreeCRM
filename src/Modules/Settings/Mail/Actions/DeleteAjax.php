@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Mail\Actions;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
+class DeleteAjax extends \App\Modules\Settings\Base\Actions\Delete
 {
 	/**
 	 * Checking permission 
@@ -37,7 +37,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 		$recordModel = \App\Modules\Settings\Mail\Models\Record::getInstance($record);
 		$recordModel->delete();
 
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		header("Location: {$moduleModel->getDefaultUrl()}");
 	}
 	

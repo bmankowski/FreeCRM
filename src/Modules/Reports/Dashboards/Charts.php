@@ -10,7 +10,7 @@ namespace App\Modules\Reports\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class Charts  extends \App\Modules\Vtiger\Views\Index
+class Charts  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -19,7 +19,7 @@ class Charts  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$widgetId = $request->get('widgetid');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
 		$data = [];
 		$typeChart = '';

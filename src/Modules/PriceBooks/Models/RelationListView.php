@@ -18,7 +18,7 @@ class RelationListView extends \App\Runtime\BaseModel
 	{
 		$headerFields = parent::getHeaders();
 		//Added to support List Price
-		$field = new \App\Modules\Vtiger\Models\Field();
+		$field = new \App\Modules\Base\Models\Field();
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');

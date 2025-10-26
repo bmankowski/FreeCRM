@@ -9,7 +9,7 @@ namespace App\Modules\KnowledgeBase\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Content  extends \App\Modules\Vtiger\Views\Index
+class Content  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -20,9 +20,9 @@ class Content  extends \App\Modules\Vtiger\Views\Index
 			$previewContent->process($request);
 		} else {
 			$moduleName = $request->getModule();
-			$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+			$pagingModel = new \App\Modules\Base\Models\Paging();
 			$pagingModel->set('limit', 'no_limit');
-			$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($moduleName);
+			$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName);
 			$listEntries = $listViewModel->getListViewEntries($pagingModel);
 			$headers = $listViewModel->getListViewHeaders();
 

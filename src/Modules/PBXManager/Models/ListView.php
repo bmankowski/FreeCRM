@@ -14,7 +14,7 @@ namespace App\Modules\PBXManager\Models;
 /**
  * PBXManager ListView Model Class
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 
 	/**
@@ -34,7 +34,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = \App\Modules\Vtiger\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
+		$links = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
@@ -46,7 +46,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 			);
 
 			foreach ($massActionLinks as $massActionLink) {
-				$links['LISTVIEWMASSACTION'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($massActionLink);
+				$links['LISTVIEWMASSACTION'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 			}
 		}
 
@@ -56,7 +56,7 @@ class ListView extends \App\Modules\Vtiger\Models\ListView
 	/**
 	 * Overrided to add HTML content for callstatus irrespective of the filters
 	 */
-	public function getListViewEntries(\App\Modules\Vtiger\Models\Paging $pagingModel)
+	public function getListViewEntries(\App\Modules\Base\Models\Paging $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setField('direction');

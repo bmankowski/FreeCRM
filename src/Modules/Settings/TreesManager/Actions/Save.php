@@ -38,7 +38,7 @@ class Save extends \App\Runtime\BaseActionController
 		$replace = $request->get('replace');
 		$templatemodule = $request->get('templatemodule');
 
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		if (!empty($recordId)) {
 			$recordModel = \App\Modules\Settings\TreesManager\Models\Record::getInstanceById($recordId);
 		} else {

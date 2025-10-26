@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\SharingAccess\Actions;
-use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Base\Models\Tracker;
 
 
 /* +***********************************************************************************************************************************
@@ -18,12 +18,12 @@ use App\Modules\Settings\Vtiger\Models\Tracker;
 
 use App\Http\Vtiger_Response;
 use App\Http\Vtiger_Request;
-class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtiger\Actions\Save
+class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	public function __construct()
 	{
-		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking();
+		\App\Modules\Settings\Base\Models\Tracker::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('saveRule');
 		$this->exposeMethod('deleteRule');
@@ -40,8 +40,8 @@ class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 
 	public function saveRule(\App\Http\Vtiger_Request $request)
 	{
-		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
-		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('save');
+		\App\Modules\Settings\Base\Models\Tracker::lockTracking(false);
+		\App\Modules\Settings\Base\Models\Tracker::addBasic('save');
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
@@ -57,7 +57,7 @@ class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 		$prevValues['permission'] = $ruleModel->getPermission();
 		$newValues['permission'] = $request->get('permission');
 
-		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prevValues, $newValues);
+		\App\Modules\Settings\Base\Models\Tracker::addDetail($prevValues, $newValues);
 
 		$ruleModel->set('source_id', $request->get('source_id'));
 		$ruleModel->set('target_id', $request->get('target_id'));
@@ -75,8 +75,8 @@ class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Vtig
 
 	public function deleteRule(\App\Http\Vtiger_Request $request)
 	{
-		\App\Modules\Settings\Vtiger\Models\Tracker::lockTracking(false);
-		\App\Modules\Settings\Vtiger\Models\Tracker::addBasic('delete');
+		\App\Modules\Settings\Base\Models\Tracker::lockTracking(false);
+		\App\Modules\Settings\Base\Models\Tracker::addBasic('delete');
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 

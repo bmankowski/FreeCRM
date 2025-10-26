@@ -279,7 +279,7 @@ class CalDAV {
 				$deletes++;
 			} else {
 				if (strtotime($row['modifiedtime']) < $row['lastmodified']) { // Updating
-					$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($row['crmid']);
+					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($row['crmid']);
 					if ($this->recordUpdate($recordModel, $row))
 						$updates++;
 					$skipped++;
@@ -299,7 +299,7 @@ class CalDAV {
 			$type = (string) $component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
-				$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('Calendar');
+				$record = \App\Modules\Base\Models\Record::getCleanInstance('Calendar');
 				$record->set('assigned_user_id', $this->user->get('id'));
 				$record->set('subject', (string) $component->SUMMARY);
 				$record->set('location', (string) $component->LOCATION);
@@ -758,7 +758,7 @@ class CalDAV {
 		return $vt;
 	}
 
-	protected function recordSaveAttendee(\App\Modules\Vtiger\Models\Record $record, Sabre\VObject\Component\VEvent $component)
+	protected function recordSaveAttendee(\App\Modules\Base\Models\Record $record, Sabre\VObject\Component\VEvent $component)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record->getId()]);

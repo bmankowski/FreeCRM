@@ -13,7 +13,7 @@ namespace App\Modules\Import\Views;
  * *********************************************************************************** */
 
 use App\Http\Vtiger_Request;
-use App\Modules\Vtiger\Views\Popup;
+use App\Modules\Base\Views\Popup;
 
 class ListView extends Popup
 {
@@ -72,11 +72,11 @@ class ListView extends Popup
 			$pageNumber = '1';
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$listViewModel = \App\Modules\Import\Models\ListView::getInstance($moduleName, $cvId);
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		if (!empty($orderBy)) {

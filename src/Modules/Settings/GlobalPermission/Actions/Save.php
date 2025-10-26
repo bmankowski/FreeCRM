@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\GlobalPermission\Actions;
-use App\Modules\Settings\Vtiger\Models\Tracker;
+use App\Modules\Settings\Base\Models\Tracker;
 use App\Modules\Settings\GlobalPermissionModels\Record;
 
 
@@ -15,7 +15,7 @@ use App\Modules\Settings\GlobalPermissionModels\Record;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \App\Modules\Settings\Vtiger\Actions\Save
+class Save extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	public function __construct()
@@ -34,7 +34,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		// Initialize tracker with request parameter instead of AppRequest
-		\App\Modules\Settings\Vtiger\Models\Tracker::setRecordId($request->get('profileID'));
+		\App\Modules\Settings\Base\Models\Tracker::setRecordId($request->get('profileID'));
 		$profileID = $request->get('profileID');
 		$checked = $request->get('checked');
 		$globalactionid = $request->get('globalactionid');
@@ -52,7 +52,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 		}
 		$post[$globalActionName] = $checked;
 		\App\Modules\Settings\GlobalPermission\Models\Record::save($profileID, $globalactionid, $checked);
-		\App\Modules\Settings\Vtiger\Models\Tracker::addDetail($prev, $post);
+		\App\Modules\Settings\Base\Models\Tracker::addDetail($prev, $post);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE_OK', $request->getModule(false))));
 		$response->emit();

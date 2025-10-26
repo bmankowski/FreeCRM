@@ -53,7 +53,7 @@ class Loader
 	public static function getComponentClassName(
 		string $componentType,
 		string $componentName,
-		string $moduleName = 'Vtiger',
+		string $moduleName = 'Base',
 		bool $throwException = true
 	) {
 		// PERFORMANCE: Check cache first
@@ -88,10 +88,10 @@ class Loader
 			return $className;
 		}
 
-		// For Settings modules, try Settings\Vtiger fallback
+		// For Settings modules, try Settings\Base fallback
 		if (strpos($originalModuleName, 'Settings:') === 0) {
-			$settingsVtigerFallback = "App\\Modules\\Settings\\Vtiger\\{$typeDir}\\{$componentName}";
-			$settingsFilePath = "src/Modules/Settings/Vtiger/{$typeDir}/{$componentName}.php";
+			$settingsVtigerFallback = "App\\Modules\\Settings\\Base\\{$typeDir}\\{$componentName}";
+			$settingsFilePath = "src/Modules/Settings/Base/{$typeDir}/{$componentName}.php";
 			
 			if (file_exists(ROOT_DIRECTORY . '/' . $settingsFilePath) && class_exists($settingsVtigerFallback)) {
 				self::$componentClassCache[$cacheKey] = $settingsVtigerFallback;
@@ -113,8 +113,8 @@ class Loader
 		}
 
 		// Fallback to Vtiger base class (inheritance pattern)
-		$fallbackClass = "App\\Modules\\Vtiger\\{$typeDir}\\{$componentName}";
-		$vtigerFilePath = "src/Modules/Vtiger/{$typeDir}/{$componentName}.php";
+		$fallbackClass = "App\\Modules\\Base\\{$typeDir}\\{$componentName}";
+		$vtigerFilePath = "src/Modules/Base/{$typeDir}/{$componentName}.php";
 		
 		if (file_exists(ROOT_DIRECTORY . '/' . $vtigerFilePath) && class_exists($fallbackClass)) {
 			self::$componentClassCache[$cacheKey] = $fallbackClass;
@@ -148,7 +148,7 @@ class Loader
 	public static function getComponentFilePath(
 		string $componentType,
 		string $componentName,
-		string $moduleName = 'Vtiger'
+		string $moduleName = 'Base'
 	): string {
 		// Handle Settings:SubModule
 		$modulePath = str_replace(':', DIRECTORY_SEPARATOR, $moduleName);
@@ -259,7 +259,7 @@ class Loader
 	/**
 	 * Auto-load legacy class files
 	 * 
-	 * Handles legacy Module_Component_Type pattern (e.g., Settings_Vtiger_Module_Model)
+	 * Handles legacy Module_Component_Type pattern (e.g., Settings_Base_Module_Model)
 	 * Searches in multiple directories with fallback support
 	 * 
 	 * @param string $className Legacy class name

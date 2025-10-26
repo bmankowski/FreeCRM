@@ -17,7 +17,7 @@ use App\Modules\Workflow\VTTaskType;
  * Workflow Task Type Model Class
  */
 
-class TaskType extends \App\Modules\Vtiger\Models\Record
+class TaskType extends \App\Modules\Base\Models\Record
 {
 
 	public function getId()
@@ -80,8 +80,8 @@ class TaskType extends \App\Modules\Vtiger\Models\Record
 	{
 		$taskTypeName = $this->get('tasktypename');
 		switch ($taskTypeName) {
-			case 'VTCreateTodoTask' : return \App\Modules\Vtiger\Models\Module::getInstance('Calendar');
-			case 'VTCreateEventTask' : return \App\Modules\Vtiger\Models\Module::getInstance('Events');
+			case 'VTCreateTodoTask' : return \App\Modules\Base\Models\Module::getInstance('Calendar');
+			case 'VTCreateEventTask' : return \App\Modules\Base\Models\Module::getInstance('Events');
 		}
 	}
 }

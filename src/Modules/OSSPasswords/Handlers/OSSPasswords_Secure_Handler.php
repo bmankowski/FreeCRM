@@ -24,7 +24,7 @@ class OSSPasswords_Secure_Handler {
 					->orderBy(['basic.id' => SORT_DESC])->limit(1)->one();
 
 			if ($result) {
-				$conf = \App\Modules\Vtiger\Models\Record::getCleanInstance($eventHandler->getModuleName())->getConfiguration();
+				$conf = \App\Modules\Base\Models\Record::getCleanInstance($eventHandler->getModuleName())->getConfiguration();
 				$where = ['id' => $result['id'], 'fieldname' => 'password'];
 				if ($conf['register_changes'] === 1)
 					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where)->execute();

@@ -14,7 +14,7 @@ namespace App\Modules\Notification\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Reminders  extends \App\Modules\Vtiger\Views\Index
+class Reminders  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -25,7 +25,7 @@ class Reminders  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$entries = $moduleModel->getEntries(\App\AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'));
 		$colors = ['PLL_SYSTEM' => '#FF9800', 'PLL_USERS' => '#1baee2'];
 		$viewer->assign('RECORDS', $entries);

@@ -10,7 +10,7 @@ namespace App\Modules\Settings\MappedFields\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Import extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class Import extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

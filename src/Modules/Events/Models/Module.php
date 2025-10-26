@@ -14,7 +14,7 @@ namespace App\Modules\Events\Models;
 /**
  * Calendar Module Model Class
  */
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**

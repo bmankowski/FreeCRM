@@ -11,7 +11,7 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 	/** @var bool Authentication state */
 	protected $authenticated = false;
@@ -41,12 +41,12 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the Module to which the record belongs
-	 * @return \App\Modules\Vtiger\Models\Module
+	 * @return \App\Modules\Base\Models\Module
 	 */
 	public function getModule()
 	{
 		if (empty($this->module)) {
-			$this->module = \App\Modules\Vtiger\Models\Module::getInstance('Users');
+			$this->module = \App\Modules\Base\Models\Module::getInstance('Users');
 		}
 		return $this->module;
 	}

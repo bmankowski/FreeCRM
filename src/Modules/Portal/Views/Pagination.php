@@ -6,7 +6,7 @@
 namespace App\Modules\Portal\Views;
 
 use App\Http\Vtiger_Request;
-class Pagination  extends \App\Modules\Vtiger\Views\Index
+class Pagination  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()
@@ -37,7 +37,7 @@ class Pagination  extends \App\Modules\Vtiger\Views\Index
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
 		$listViewModel = new \App\Modules\Portal\Models\ListView();

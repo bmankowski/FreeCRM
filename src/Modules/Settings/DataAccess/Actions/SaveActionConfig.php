@@ -13,7 +13,7 @@ namespace App\Modules\Settings\DataAccess\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveActionConfig extends \App\Modules\Settings\Vtiger\Actions\Index
+class SaveActionConfig extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

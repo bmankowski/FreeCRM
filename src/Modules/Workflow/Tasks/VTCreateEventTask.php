@@ -54,7 +54,7 @@ class VTCreateEventTask extends \App\Modules\Workflow\VTTask
 
 	/**
 	 * Execute task
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function doTask($recordModel)
 	{
@@ -113,7 +113,7 @@ class VTCreateEventTask extends \App\Modules\Workflow\VTTask
 		if ($field) {
 			$fields[$field] = $id;
 		}
-		$newRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('Events');
+		$newRecordModel = \App\Modules\Base\Models\Record::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
@@ -146,7 +146,7 @@ class VTCreateEventTask extends \App\Modules\Workflow\VTTask
 	public static function convertToDBFormat($timeStr): string
 	{
 		$date = new \DateTime();
-		$time = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($timeStr);
+		$time = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($timeStr);
 		$dbInsertDateTime = \App\Fields\DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
 		return $dbInsertDateTime->format('H:i:s');
 	}

@@ -14,7 +14,7 @@ namespace App\Modules\Accounts\Models;
 /**
  * Mass Edit Record Structure Model
  */
-class MassEditRecordStructure extends \App\Modules\Vtiger\Models\RecordStructure
+class MassEditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 	/*
 	 * Function that return Field Restricted are not

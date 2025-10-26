@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Users\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Colors extends \App\Modules\Settings\Vtiger\Views\Index
+class Colors extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

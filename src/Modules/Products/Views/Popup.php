@@ -11,7 +11,7 @@ use App\Modules\Settings\SalesProcessesModels\Module;
  */
 
 use App\Http\Vtiger_Request;
-class Popup  extends \App\Modules\Vtiger\Views\Index
+class Popup  extends \App\Modules\Base\Views\Index
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -50,23 +50,23 @@ class Popup  extends \App\Modules\Vtiger\Views\Index
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (vglobal('popupAjax'))
 			$pagingModel->set('noLimit', true);
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		if (!\App\Record::isExists($relatedParentId)) {
 			$relatedParentModule = '';
 			$relatedParentId = '';
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
-			$parentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relatedParentId, $relatedParentModule);
-			$listViewModel = \App\Modules\Vtiger\Models\RelationListView::getInstance($parentRecordModel, $moduleName, $label);
+			$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($relatedParentId, $relatedParentModule);
+			$listViewModel = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $moduleName, $label);
 		} else {
-			$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
+			$listViewModel = \App\Modules\Base\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
@@ -126,7 +126,7 @@ class Popup  extends \App\Modules\Vtiger\Views\Index
 		if (!empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
 			$relatedParentModule = null;
 			$relatedParentId = null;
-			$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
+			$listViewModel = \App\Modules\Base\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 			$listViewModel->set('search_params', $transformedSearchParams);
 			if (!empty($orderBy)) {
 				$listViewModel->set('orderby', $orderBy);

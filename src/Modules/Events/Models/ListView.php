@@ -14,7 +14,7 @@ namespace App\Modules\Events\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 	
 }

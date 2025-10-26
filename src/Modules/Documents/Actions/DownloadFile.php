@@ -27,7 +27,7 @@ class DownloadFile extends \App\Runtime\BaseActionController
 	{
 		$moduleName = $request->getModule();
 
-		$documentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'), $moduleName);
+		$documentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		//Download the file
 		$documentRecordModel->downloadFile();
 		//Update the Download Count

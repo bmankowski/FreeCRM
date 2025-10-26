@@ -2,7 +2,7 @@
 
 namespace App\Modules\Notification\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\BaseUiType;
+use App\Modules\Base\UiTypes\BaseUiType;
 
 /**
  * Uitype Model

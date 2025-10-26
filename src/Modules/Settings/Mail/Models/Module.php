@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\Mail\Models;
-use App\Modules\Settings\Vtiger\Models\MenuItem;
+use App\Modules\Settings\Base\Models\MenuItem;
 
 
 
@@ -11,7 +11,7 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 's_#__mail_queue';
@@ -26,7 +26,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 	 */
 	public function getDefaultUrl()
 	{
-		$menu = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
+		$menu = \App\Modules\Settings\Base\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
 		return 'index.php?module=Mail&parent=Settings&view=List&fieldid=' . $menu->get('fieldid');
 	}
 

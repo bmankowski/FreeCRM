@@ -13,13 +13,13 @@ namespace App\Modules\Settings\OSSMailScanner\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class logs extends \App\Modules\Settings\Vtiger\Views\Index
+class logs extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$OSSMailScanner_Record_Model = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$OSSMailScanner_Record_Model = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 
 		$cron_history_action_list = $OSSMailScanner_Record_Model->get_scan_history();
 		$viewer = $this->getViewer($request);

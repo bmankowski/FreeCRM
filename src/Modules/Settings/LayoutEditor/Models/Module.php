@@ -14,12 +14,12 @@ namespace App\Modules\Settings\LayoutEditor\Models;
  * ********************************************************************************** */
 
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return <Array of \App\Modules\Vtiger\Models\Field> - list of field models
+	 * @return <Array of \App\Modules\Base\Models\Field> - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function returns all the blocks for the module
-	 * @return <Array of \App\Modules\Vtiger\Models\Block> - list of block models
+	 * @return <Array of \App\Modules\Base\Models\Block> - list of block models
 	 */
 	public function getBlocks()
 	{
@@ -213,7 +213,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		if (isset($details['displayType'])) {
 			$fieldModel->set('displaytype', $details['displayType']);
 		}
-		$blockModel = \App\Modules\Vtiger\Models\Block::getInstance($blockId, $this);
+		$blockModel = \App\Modules\Base\Models\Block::getInstance($blockId, $this);
 		$blockModel->addField($fieldModel);
 
 		if ($fieldType == 'Picklist' || $fieldType == 'MultiSelectCombo') {
@@ -420,7 +420,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
 	{
 		$exceptions = ['id', 'inventoryItemsNo', 'seq'];
-		$instance = \App\Modules\Vtiger\Models\InventoryField::getInstance($moduleName);
+		$instance = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		foreach ($instance->getAllFields() as $field) {
 			$exceptions[] = $field->getColumnName();
 			if (preg_match('/^' . $field->getColumnName() . '[0-9]/', $fieldName) != 0) {
@@ -445,7 +445,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	public static function getInstanceByName($moduleName)
 	{
-		$moduleInstance = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$objectProperties = get_object_vars($moduleInstance);
 		$selfInstance = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
@@ -530,7 +530,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	public function getRelations()
 	{
 		if ($this->relations === null) {
-			$this->relations = \App\Modules\Vtiger\Models\Relation::getAllRelations($this, false);
+			$this->relations = \App\Modules\Base\Models\Relation::getAllRelations($this, false);
 		}
 
 		// Contacts relation-tab is turned into custom block on DetailView.

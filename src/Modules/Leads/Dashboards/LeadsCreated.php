@@ -13,13 +13,13 @@ namespace App\Modules\Leads\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class LeadsCreated  extends \App\Modules\Vtiger\Views\Index
+class LeadsCreated  extends \App\Modules\Base\Views\Index
 {
 
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -48,14 +48,14 @@ class LeadsCreated  extends \App\Modules\Vtiger\Views\Index
 
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getLeadsCreated($owner, $dates);
 
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		//Include special script and css needed for this widget
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));

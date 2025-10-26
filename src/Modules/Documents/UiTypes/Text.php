@@ -2,7 +2,7 @@
 
 namespace App\Modules\Documents\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\BaseUiType;
+use App\Modules\Base\UiTypes\BaseUiType;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

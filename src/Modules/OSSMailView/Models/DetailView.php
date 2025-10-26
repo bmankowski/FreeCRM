@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSMailView\Models;
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	public function getDetailViewLinks($linkParams)
@@ -86,7 +86,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				];
 			}
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 		}
 		$linkModelDetailViewList = $linkModelList['DETAILVIEW'];

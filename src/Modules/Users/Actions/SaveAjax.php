@@ -14,7 +14,7 @@ use App\Modules\Settings\PasswordModels\Record;
  * *********************************************************************************** */
 
 
-class SaveAjax extends \App\Modules\Vtiger\Actions\Save
+class SaveAjax extends \App\Modules\Base\Actions\Save
 {
 
 	public function __construct()
@@ -69,7 +69,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
-			$fieldValue = $displayValue = \App\Modules\Vtiger\Helpers\Util::toSafeHTML($recordModel->get($fieldName));
+			$fieldValue = $displayValue = \App\Modules\Base\Helpers\Util::toSafeHTML($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
@@ -94,7 +94,7 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Base\Models\Record or Module specific Record Model instance
 	 */
 	public function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{

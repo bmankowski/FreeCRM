@@ -29,7 +29,7 @@ class CheckFileIntegrity extends \App\Runtime\BaseActionController
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$documentRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleName);
+		$documentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$resultVal = $documentRecordModel->checkFileIntegrity();
 
 		$result = array('success' => $resultVal);

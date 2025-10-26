@@ -14,7 +14,7 @@ use App\Modules\Settings\TimeControlProcessesModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

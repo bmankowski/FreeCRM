@@ -14,7 +14,7 @@ namespace App\Modules\OSSMail\Views;
 
 
 use App\Http\Vtiger_Request;
-class CheckConfig  extends \App\Modules\Vtiger\Views\Index
+class CheckConfig  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

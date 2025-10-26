@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Profiles\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends \App\Modules\Settings\Vtiger\Actions\Basic
+class Delete extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class Delete extends \App\Modules\Settings\Vtiger\Actions\Basic
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
 
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($recordId);
 		$transferToProfile = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($transferRecordId);
 		if ($recordModel && $transferToProfile) {

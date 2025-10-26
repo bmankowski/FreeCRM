@@ -20,7 +20,7 @@ class executeActions extends \App\Runtime\BaseActionController
 	{
 		$mode = $request->get('mode');
 		$params = $request->get('params');
-		$instance = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailView');
+		$instance = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailView');
 
 		if ($mode == 'addRelated')
 			$data = $instance->addRelated($params);

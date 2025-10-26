@@ -11,7 +11,7 @@ namespace App\Modules\Documents\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**

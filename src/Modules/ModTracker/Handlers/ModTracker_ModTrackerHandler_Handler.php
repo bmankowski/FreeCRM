@@ -198,7 +198,7 @@ class ModTracker_ModTrackerHandler_Handler {
 	public function addNotification($moduleName, $recordId, $watchdogTitle, $watchdogMessage = '')
 	{
 		if ($watchdogTitle) {
-			$watchdog = \App\Modules\Vtiger\Models\Watchdog::getInstanceById($recordId, $moduleName);
+			$watchdog = \App\Modules\Base\Models\Watchdog::getInstanceById($recordId, $moduleName);
 			$users = $watchdog->getWatchingUsers([\App\Modules\Users\Models\Record::getCurrentUserRealId()]);
 			if (!empty($users)) {
 				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
@@ -206,7 +206,7 @@ class ModTracker_ModTrackerHandler_Handler {
 				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
 				$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 				if ($relatedField) {
-					$notification = \App\Modules\Vtiger\Models\Record::getCleanInstance('Notification');
+					$notification = \App\Modules\Base\Models\Record::getCleanInstance('Notification');
 					$notification->set('shownerid', $users);
 					$notification->set($relatedField, $recordId);
 					$notification->set('title', $watchdogTitle);

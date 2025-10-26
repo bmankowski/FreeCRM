@@ -15,7 +15,7 @@
 		<span class="col-md-2">
 			<div style="position:relative;display:inline;">
 				{if $RECORD->get('customer') and $RECORD->get('customertype') eq 'Contacts'}
-					{assign var=MODULE_INSTANCE value=\App\Modules\Vtiger\Models\Record::getInstanceById($RECORD->get('customer'),$RECORD->get('customertype'))}
+					{assign var=MODULE_INSTANCE value=\App\Modules\Base\Models\Record::getInstanceById($RECORD->get('customer'),$RECORD->get('customertype'))}
 					{assign var=IMAGE_DETAILS value=$MODULE_INSTANCE->getImageDetails()}
 					{if $IMAGE_DETAILS}
 						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
@@ -60,8 +60,8 @@
 
 							{assign var=CALLER_INFO value=PBXManager_Record_Model::lookUpRelatedWithNumber($RECORD->get('customernumber'))}
 							{if $CALLER_INFO.id}
-								{assign var=MODULEMODEL value=\App\Modules\Vtiger\Models\Module::getInstance($RECORD->get('customertype'))}
-								{assign var=FIELDMODEL value=\App\Modules\Vtiger\Models\Field::getInstance($CALLER_INFO.fieldname,$MODULEMODEL)}
+								{assign var=MODULEMODEL value=\App\Modules\Base\Models\Module::getInstance($RECORD->get('customertype'))}
+								{assign var=FIELDMODEL value=\App\Modules\Base\Models\Field::getInstance($CALLER_INFO.fieldname,$MODULEMODEL)}
 								{assign var=FIELD_NAME value=$FIELDMODEL->get('label')}
 							{/if}
 

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\MappedFields\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class List extends \App\Modules\Settings\Vtiger\Views\List
+class List extends \App\Modules\Settings\Base\Views\List
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

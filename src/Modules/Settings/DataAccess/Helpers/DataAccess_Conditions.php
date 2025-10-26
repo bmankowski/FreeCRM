@@ -32,7 +32,7 @@ class DataAccess_Conditions
 			foreach ($condition as $lisConditions) {
 				foreach ($lisConditions as $cndKey => $singleCnd) {
 					if (!in_array($singleCnd['fieldname'], $fieldNames)) {
-						$form = \App\Modules\Vtiger\Models\Record::getInstanceById($recordModel->getId())->getData();
+						$form = \App\Modules\Base\Models\Record::getInstanceById($recordModel->getId())->getData();
 						break;
 					}
 				}
@@ -166,7 +166,7 @@ class DataAccess_Conditions
 				->createCommand()->query();
 		while ($ID = $dataReader->readColumn(0)) {
 			if (\App\Utils\Utils::isRecordExists($ID)) {
-				$documentModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID);
+				$documentModel = \App\Modules\Base\Models\Record::getInstanceById($ID);
 				if ($docName == $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
 					return true;
 				}
@@ -184,7 +184,7 @@ class DataAccess_Conditions
 				->createCommand()->query();
 		while ($ID = $dataReader->readColumn(0)) {
 			if (\App\Utils\Utils::isRecordExists($ID)) {
-				$documentModel = \App\Modules\Vtiger\Models\Record::getInstanceById($ID);
+				$documentModel = \App\Modules\Base\Models\Record::getInstanceById($ID);
 				if ($docName == $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
 					return $documentModel->get('ossdc_status');
 				}

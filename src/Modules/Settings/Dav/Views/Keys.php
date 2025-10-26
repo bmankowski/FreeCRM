@@ -14,7 +14,7 @@ use App\Modules\Settings\DavModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Keys extends \App\Modules\Settings\Vtiger\Views\Index
+class Keys extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

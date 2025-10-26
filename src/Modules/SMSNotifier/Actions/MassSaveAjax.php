@@ -37,7 +37,7 @@ class MassSaveAjax extends \App\Runtime\BaseActionController
 		$message = $request->get('message');
 
 		foreach ($recordIds as $recordId) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 			$numberSelected = false;
 			foreach ($phoneFieldList as $fieldname) {
 				$fieldValue = $recordModel->get($fieldname);

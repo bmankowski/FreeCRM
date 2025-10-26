@@ -17,7 +17,7 @@ use App\Modules\Workflow\VTTaskManager;
  * Workflow Task Record Model Class
  */
 
-class TaskRecord extends \App\Modules\Settings\Vtiger\Models\Record
+class TaskRecord extends \App\Modules\Settings\Base\Models\Record
 {
 
 	const TASK_STATUS_ACTIVE = 1;

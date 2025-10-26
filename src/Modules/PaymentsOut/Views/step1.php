@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class PaymentsOut_step1_View extends \App\Modules\Vtiger\Views\Index
+class PaymentsOut_step1_View extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request)
@@ -22,7 +22,7 @@ class PaymentsOut_step1_View extends \App\Modules\Vtiger\Views\Index
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$paymentsOut = array();
-		$record = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$record = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);

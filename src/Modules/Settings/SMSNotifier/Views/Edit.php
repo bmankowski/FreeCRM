@@ -13,7 +13,7 @@ use App\Modules\Settings\SMSNotifierModels\Record;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Edit extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class Edit extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

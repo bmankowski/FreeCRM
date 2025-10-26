@@ -14,13 +14,13 @@ namespace App\Modules\Services\Views;
 
 
 use App\Http\Vtiger_Request;
-class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
+class QuickCreateAjax  extends \App\Modules\Base\Views\Index
 {
 
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return \App\Modules\Vtiger\Models\JsScript[]
+	 * @return \App\Modules\Base\Models\JsScript[]
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

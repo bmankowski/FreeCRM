@@ -12,7 +12,7 @@ namespace App\Modules\Users\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
@@ -93,7 +93,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function to delete a given record model of the current module
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
 	public function deleteRecord($recordModel)
 	{
@@ -297,10 +297,10 @@ class Module extends \App\Modules\Vtiger\Models\Module
 
 	/**
 	 * Function to save a given record model of the current module
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @copyright Modyfikowane przez PWC
 	 */
-	public function saveRecord(\App\Modules\Vtiger\Models\Record $recordModel, $relationParams = null)
+	public function saveRecord(\App\Modules\Base\Models\Record $recordModel, $relationParams = null)
 	{
 		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
@@ -316,7 +316,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 		}
 		$recordModel->saveToDb($relationParams);
 		//After adding new user, set the default activity types for new user
-		\App\Modules\Vtiger\Helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		\App\Modules\Base\Helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\Modules\Users\Models\Record::getCurrentUserRealId() === $recordModel->getId()) {
 			\App\Http\Vtiger_Session::set('language', $recordModel->get('language'));
 		}
@@ -334,7 +334,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 	 * Function gives list fields for save
 	 * @return string[]
 	 */
-	public function getFieldsForSave(\App\Modules\Vtiger\Models\Record $recordModel)
+	public function getFieldsForSave(\App\Modules\Base\Models\Record $recordModel)
 	{
 		$editFields = [];
 		foreach (\App\Field::getFieldsPermissions($this->getId(), false) as &$field) {

@@ -12,7 +12,7 @@ namespace App\Modules\OSSPasswords\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 	/*
 	 * Funkcja odszyfrowywująca i przekazująca dalej hasło

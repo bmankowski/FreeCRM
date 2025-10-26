@@ -26,7 +26,7 @@ class Relation extends \App\Runtime\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$recordModel->setReloadRelationRecord($request->get('moduleName'), $request->get('record'));
 
 		$response = new \App\Http\Vtiger_Response();

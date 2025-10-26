@@ -32,12 +32,12 @@ class EventHandler
 	 */
 	private static $classNameMap = [
 		'ModTracker_ModTrackerHandler_Handler' => '\App\Modules\ModTracker\Handlers\ModTracker_ModTrackerHandler_Handler',
-		'Vtiger_RecordLabelUpdater_Handler' => '\App\Modules\Vtiger\Handlers\Vtiger_RecordLabelUpdater_Handler',
-		'Vtiger_Workflow_Handler' => '\App\Modules\Vtiger\Handlers\Vtiger_Workflow_Handler',
-		'Vtiger_MultiReferenceUpdater_Handler' => '\App\Modules\Vtiger\Handlers\Vtiger_MultiReferenceUpdater_Handler',
-		'Vtiger_AutomaticAssignment_Handler' => '\App\Modules\Vtiger\Handlers\Vtiger_AutomaticAssignment_Handler',
-		'Vtiger_SharingPrivileges_Handler' => '\App\Modules\Vtiger\Handlers\Vtiger_SharingPrivileges_Handler',
-		'Vtiger_Attachments_Handler' => '\App\Modules\Vtiger\Handlers\Vtiger_Attachments_Handler',
+		'Vtiger_RecordLabelUpdater_Handler' => '\App\Modules\Base\Handlers\Vtiger_RecordLabelUpdater_Handler',
+		'Vtiger_Workflow_Handler' => '\App\Modules\Base\Handlers\Vtiger_Workflow_Handler',
+		'Vtiger_MultiReferenceUpdater_Handler' => '\App\Modules\Base\Handlers\Vtiger_MultiReferenceUpdater_Handler',
+		'Vtiger_AutomaticAssignment_Handler' => '\App\Modules\Base\Handlers\Vtiger_AutomaticAssignment_Handler',
+		'Vtiger_SharingPrivileges_Handler' => '\App\Modules\Base\Handlers\Vtiger_SharingPrivileges_Handler',
+		'Vtiger_Attachments_Handler' => '\App\Modules\Base\Handlers\Vtiger_Attachments_Handler',
 		'Calendar_CalendarHandler_Handler' => '\App\Modules\Calendar\Handlers\Calendar_CalendarHandler_Handler',
 		'API_CalDAV_Handler' => '\App\Modules\API\Handlers\API_CalDAV_Handler',
 		'API_CardDAV_Handler' => '\App\Modules\API\Handlers\API_CardDAV_Handler',
@@ -186,7 +186,7 @@ class EventHandler
 
 	/**
 	 * Set record model
-	 * @param \App\App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\App\Modules\Base\Models\Record $recordModel
 	 */
 	public function setRecordModel($recordModel)
 	{
@@ -231,7 +231,7 @@ class EventHandler
 
 	/**
 	 * Get record model
-	 * @return \App\Modules\Vtiger\Models\Record
+	 * @return \App\Modules\Base\Models\Record
 	 */
 	public function getRecordModel()
 	{

@@ -26,7 +26,7 @@ class MassSave extends \App\Runtime\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		foreach ($recordModels as $recordId => $recordModel) {
 			if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId)) {
@@ -42,13 +42,13 @@ class MassSave extends \App\Runtime\BaseActionController
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return \App\Modules\Vtiger\Models\Record or Module specific Record Model instance
+	 * @return \App\Modules\Base\Models\Record or Module specific Record Model instance
 	 */
 	public function getRecordModelsFromRequest(\App\Http\Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$recordIds = $this->getRecordsListFromRequest($request);
 
 		if (empty($recordIds) && $request->get('selected_ids') == 'all') {
@@ -69,14 +69,14 @@ class MassSave extends \App\Runtime\BaseActionController
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $moduleModel);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleModel);
 			$recordModel->set('id', $recordId);
 
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				$fieldValue = $request->get($fieldName, null);
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time') {
-					$fieldValue = \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
 				}
 				if (isset($fieldValue) && $fieldValue != null) {
 					if (!is_array($fieldValue)) {

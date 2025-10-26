@@ -13,7 +13,7 @@ namespace App\Modules\Settings\TreesManager\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	public $baseTable = 'vtiger_trees_templates';
@@ -24,7 +24,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$supportedModuleModels = \App\Modules\Vtiger\Models\Module::getAll(array(0, 2));
+		$supportedModuleModels = \App\Modules\Base\Models\Module::getAll(array(0, 2));
 		return $supportedModuleModels;
 	}
 

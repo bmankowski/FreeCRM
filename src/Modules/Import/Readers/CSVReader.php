@@ -123,7 +123,7 @@ class CSVReader extends FileReader
 		$fieldMapping = $this->request->get('field_mapping');
 		$inventoryFieldMapping = $this->request->get('inventory_field_mapping');
 		if ($this->moduleModel->isInventory()) {
-			$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($this->moduleModel->getName());
+			$inventoryFieldModel = \App\Modules\Base\Models\InventoryField::getInstance($this->moduleModel->getName());
 			$inventoryFields = $inventoryFieldModel->getFields();
 		}
 		$i = -1;

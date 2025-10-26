@@ -2,7 +2,7 @@
 
 namespace App\Modules\Notification\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\BaseUiType;
+use App\Modules\Base\UiTypes\BaseUiType;
 
 /**
  * Uitype model 
@@ -26,7 +26,7 @@ class String extends BaseUiType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record id record
-	 * @param <\App\Modules\Vtiger\Models\Record> $recordInstance 
+	 * @param <\App\Modules\Base\Models\Record> $recordInstance 
 	 * @param mixed $rawText
 	 * @return string
 	 */

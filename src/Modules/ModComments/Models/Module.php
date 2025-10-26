@@ -11,13 +11,13 @@ namespace App\Modules\ModComments\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Vtiger\Models\Link instances
+	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams)
 	{

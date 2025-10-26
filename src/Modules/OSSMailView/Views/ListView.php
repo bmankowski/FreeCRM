@@ -14,7 +14,7 @@ namespace App\Modules\OSSMailView\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView  extends \App\Modules\Vtiger\Views\Index
+class ListView  extends \App\Modules\Base\Views\Index
 {
 
 	public function isEditable($moduleName)

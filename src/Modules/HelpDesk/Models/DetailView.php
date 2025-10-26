@@ -11,7 +11,7 @@ namespace App\Modules\HelpDesk\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DetailView extends \App\Modules\Vtiger\Models\DetailView
+class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
@@ -25,7 +25,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		$quotesModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Faq');
+		$quotesModuleModel = \App\Modules\Base\Models\Module::getInstance('Faq');
 		if ($quotesModuleModel->isPermitted('DetailView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
@@ -33,7 +33,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 				'linkurl' => $recordModel->getConvertFAQUrl(),
 				'showLabel' => 1,
 			);
-			$linkModelList['DETAILVIEW'][] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 		}
 
 		return $linkModelList;
@@ -45,7 +45,7 @@ class DetailView extends \App\Modules\Vtiger\Models\DetailView
 		$moduleName = $recordModel->getModuleName();
 
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$parentModel = \App\Modules\Vtiger\Models\Module::getInstance('OSSTimeControl');
+		$parentModel = \App\Modules\Base\Models\Module::getInstance('OSSTimeControl');
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

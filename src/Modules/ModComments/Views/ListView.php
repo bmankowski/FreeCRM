@@ -13,7 +13,7 @@ namespace App\Modules\ModComments\Views;
 
 
 use App\Http\Vtiger_Request;
-class View  extends \App\Modules\Vtiger\Views\Index
+class View  extends \App\Modules\Base\Views\Index
 {
 
 	public function isEditable($moduleName)

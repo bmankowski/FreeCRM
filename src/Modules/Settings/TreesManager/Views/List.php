@@ -13,7 +13,7 @@ namespace App\Modules\Settings\TreesManager\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class List extends \App\Modules\Settings\Vtiger\Views\List
+class List extends \App\Modules\Settings\Base\Views\List
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

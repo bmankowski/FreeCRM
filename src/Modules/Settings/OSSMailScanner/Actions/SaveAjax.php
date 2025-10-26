@@ -10,7 +10,7 @@ namespace App\Modules\Settings\OSSMailScanner\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
+class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()
@@ -23,7 +23,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$user = $request->get('user');
 		$folders = $request->get('folders');
-		$mailScannerRecordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$mailScannerRecordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$mailScannerRecordModel->setFolderList($user, $folders);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([

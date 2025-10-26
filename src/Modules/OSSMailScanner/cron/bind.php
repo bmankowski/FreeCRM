@@ -8,7 +8,7 @@ namespace App\Modules\OSSMailScanner\cron;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $db = \App\Database\PearDatabase::getInstance();
-$scanerModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+$scanerModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 $result = $db->query("SELECT vtiger_ossmailview.*,roundcube_users.actions FROM vtiger_ossmailview INNER JOIN roundcube_users ON roundcube_users.user_id = vtiger_ossmailview.rc_user WHERE vtiger_ossmailview.verify = 1");
 while ($row = $db->getRow($result)) {
 	$scanerModel->bindMail($row);
@@ -33,7 +33,7 @@ while ($relationRow = $db->getRow($result)) {
 	if ($bind === false) {
 		continue;
 	}
-	$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relationRow['crmid'], $moduleName);
+	$recordModel = \App\Modules\Base\Models\Record::getInstanceById($relationRow['crmid'], $moduleName);
 	$where = [];
 	if ($bind == 'prefix') {
 		$recordNumber = $recordModel->getRecordNumber();

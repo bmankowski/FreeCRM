@@ -47,7 +47,7 @@ class ImportICS extends \App\Runtime\BaseActionController
 
 			$requiredFields = array();
 			$modules = array($eventModule, $todoModule);
-			$calendarModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$calendarModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
 			foreach ($modules as $module) {
 				$moduleRequiredFields = array_keys($calendarModel->getRequiredFields($module));
@@ -72,7 +72,7 @@ class ImportICS extends \App\Runtime\BaseActionController
 				$totalCount[$module] ++;
 				$activityFieldsList = $activity->generateArray($icalActivities[$i]);
 
-				$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+				$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 

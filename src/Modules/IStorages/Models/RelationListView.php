@@ -22,8 +22,8 @@ class RelationListView extends \App\Runtime\BaseModel
 	{
 		$headerFields = parent::getHeaders();
 		if ($this->getRelationModel()->get('modulename') == 'Products' && $this->getRelationModel()->get('name') == 'getManyToMany') {
-			$qtyInStock = new \App\Modules\Vtiger\Models\Field();
-			$qtyInStock->setModule(\App\Modules\Vtiger\Models\Module::getInstance('Products'));
+			$qtyInStock = new \App\Modules\Base\Models\Field();
+			$qtyInStock->setModule(\App\Modules\Base\Models\Module::getInstance('Products'));
 			$qtyInStock->set('name', 'qtyproductinstock');
 			$qtyInStock->set('column', 'qtyproductinstock');
 			$qtyInStock->set('label', 'FL_QTY_IN_STOCK');

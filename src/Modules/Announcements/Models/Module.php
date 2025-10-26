@@ -8,7 +8,7 @@ namespace App\Modules\Announcements\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	protected $announcements = [];
@@ -97,7 +97,7 @@ class Module extends \App\Modules\Vtiger\Models\Module
 			}
 		}
 		if ($archive) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $this->getName());
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $this->getName());
 			$recordModel->set('announcementstatus', 'PLL_ARCHIVES');
 			$recordModel->save();
 		}

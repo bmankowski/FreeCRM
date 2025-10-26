@@ -20,7 +20,7 @@ class getConfig extends \App\Runtime\BaseActionController
 	{
 		$type = $request->get('type');
 		$vale = $request->get('vale');
-		$recordModel_OSSMailScanner = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMailScanner');
+		$recordModel_OSSMailScanner = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$Config = $recordModel_OSSMailScanner->getConfig('email_list');
 		$result = array('success' => $success, 'data' => $Config);
 		$response = new \App\Http\Vtiger_Response();

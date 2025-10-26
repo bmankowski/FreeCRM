@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSMailView_mbody_View extends \App\Modules\Vtiger\Views\Index
+class OSSMailView_mbody_View extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -33,7 +33,7 @@ class OSSMailView_mbody_View extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 		$content = $recordModel->get('content');
 		CSRF::$frameBreaker = false;
 		CSRF::$rewriteJs = null;

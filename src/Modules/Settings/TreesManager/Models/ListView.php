@@ -13,13 +13,13 @@ namespace App\Modules\Settings\TreesManager\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -38,7 +38,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance('assigned_user_id', $moduleModel);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
@@ -70,7 +70,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 			$record->set('module', \App\Runtime\Vtiger_Language_Handler::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
-				$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+				$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 				$record->setModule($moduleModel);
 			}
 			$listViewRecordModels[$record->getId()] = $record;

@@ -13,7 +13,7 @@ namespace App\Modules\Contacts\Views;
 
 
 use App\Http\Vtiger_Request;
-class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
+class QuickCreateAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -21,8 +21,8 @@ class QuickCreateAjax  extends \App\Modules\Vtiger\Views\Index
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$salutationFieldModel = \App\Modules\Vtiger\Models\Field::getInstance('salutationtype', $moduleModel);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$salutationFieldModel = \App\Modules\Base\Models\Field::getInstance('salutationtype', $moduleModel);
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
 		parent::process($request);
 	}

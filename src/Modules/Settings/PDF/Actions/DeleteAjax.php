@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PDF\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
+class DeleteAjax extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -20,7 +20,7 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 		$recordId = $request->get('record');
 
 		$response = new \App\Http\Vtiger_Response();
-		$recordModel = \App\Modules\Vtiger\Models\PDF::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId);
 		if (\App\Modules\Settings\PDF\Models\Record::delete($recordModel)) {
 			$response->setResult(array('success' => 'true'));
 		} else {

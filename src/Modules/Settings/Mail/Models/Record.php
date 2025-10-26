@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\Mail\Models;
-use App\Modules\Settings\Vtiger\Models\MenuItem;
+use App\Modules\Settings\Base\Models\MenuItem;
 
 
 
@@ -12,7 +12,7 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	/**
@@ -57,7 +57,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	 */
 	public function getDetailViewUrl()
 	{
-		$menu = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
+		$menu = \App\Modules\Settings\Base\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
 		return 'index.php?module=Mail&parent=Settings&view=Detail&record=' . $this->getId() . '&fieldid=' . $menu->get('fieldid');
 	}
 
@@ -150,7 +150,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return array - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -174,7 +174,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		];
 
 		foreach ($recordLinks as &$recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

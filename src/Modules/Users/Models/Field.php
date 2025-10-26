@@ -14,7 +14,7 @@ namespace App\Modules\Users\Models;
 /**
  * User Field Model Class
  */
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**

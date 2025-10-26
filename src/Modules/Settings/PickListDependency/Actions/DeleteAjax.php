@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PickListDependency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Index
+class DeleteAjax extends \App\Modules\Settings\Base\Actions\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

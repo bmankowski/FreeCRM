@@ -14,7 +14,7 @@ namespace App\Modules\Faq\Models;
 /**
  * Vtiger ListView Model Class
  */
-class ListView extends \App\Modules\Vtiger\Models\ListView
+class ListView extends \App\Modules\Base\Models\ListView
 {
 	/*
 	 * Function to give advance links of a module

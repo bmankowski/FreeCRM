@@ -15,7 +15,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
 
 use App\Http\Vtiger_Request;
 
-class TicketsByStatus  extends \App\Modules\Vtiger\Views\Index
+class TicketsByStatus  extends \App\Modules\Base\Views\Index
 {
 
 	private $conditions = false;
@@ -114,7 +114,7 @@ class TicketsByStatus  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, $moduleName);
 		else
@@ -125,11 +125,11 @@ class TicketsByStatus  extends \App\Modules\Vtiger\Views\Index
 
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
-			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($createdTime['end']);
+			$dates['start'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['start']);
+			$dates['end'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($createdTime['end']);
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getTicketsByStatus($owner);
 
 		$listViewUrl = $moduleModel->getListViewUrl();

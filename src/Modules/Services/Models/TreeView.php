@@ -8,7 +8,7 @@ namespace App\Modules\Services\Models;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TreeView extends \App\Modules\Vtiger\Models\TreeView
+class TreeView extends \App\Modules\Base\Models\TreeView
 {
 
 	public function isActive()
@@ -18,9 +18,9 @@ class TreeView extends \App\Modules\Vtiger\Models\TreeView
 
 	private function getRecords()
 	{
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstance($this->getModuleName());
+		$listViewModel = \App\Modules\Base\Models\ListView::getInstance($this->getModuleName());
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		$tree = [];
 		foreach ($listEntries as $item) {

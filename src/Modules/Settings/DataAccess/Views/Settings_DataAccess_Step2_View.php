@@ -13,7 +13,7 @@ namespace App\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_DataAccess_Step2_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_DataAccess_Step2_View extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -34,7 +34,7 @@ class Settings_DataAccess_Step2_View extends \App\Modules\Settings\Vtiger\Views\
 			$viewer->assign('BASE_INFO', $docInfo['basic_info']);
 			$countRequiredConditions = count($docInfo['required_conditions']);
 			for ($i = 0; $i < $countRequiredConditions; $i++) {
-				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($docInfo['required_conditions'][$i]['fieldname'], \App\Modules\Vtiger\Models\Module::getInstance($baseModule));
+				$fieldModel = \App\Modules\Base\Models\Field::getInstance($docInfo['required_conditions'][$i]['fieldname'], \App\Modules\Base\Models\Module::getInstance($baseModule));
 				$docInfo['required_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 
@@ -43,7 +43,7 @@ class Settings_DataAccess_Step2_View extends \App\Modules\Settings\Vtiger\Views\
 			$countOptionalConditions = count($docInfo['optional_conditions']);
 			for ($i = 0; $i < $countOptionalConditions; $i++) {
 
-				$fieldModel = \App\Modules\Vtiger\Models\Field::getInstance($docInfo['optional_conditions'][$i]['fieldname'], \App\Modules\Vtiger\Models\Module::getInstance($baseModule));
+				$fieldModel = \App\Modules\Base\Models\Field::getInstance($docInfo['optional_conditions'][$i]['fieldname'], \App\Modules\Base\Models\Module::getInstance($baseModule));
 				$docInfo['optional_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 			$viewer->assign('OPTIONAL_CONDITIONS', $docInfo['optional_conditions']);

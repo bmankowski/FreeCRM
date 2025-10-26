@@ -16,11 +16,11 @@
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var=FIELD_NAME value=$FIELD_MODEL->getFieldName()}
 {if $FIELD_NAME eq 'defaulteventstatus'}
-    {assign var=EVENT_MODULE value=\App\Modules\Vtiger\Models\Module::getInstance('Events')}
+    {assign var=EVENT_MODULE value=\App\Modules\Base\Models\Module::getInstance('Events')}
     {assign var=EVENTSTATUS_FIELD_MODEL value=$EVENT_MODULE->getField('activitystatus')}
     {assign var=PICKLIST_VALUES value=$EVENTSTATUS_FIELD_MODEL->getPicklistValues()} 
 {else if $FIELD_NAME eq 'defaultactivitytype'}
-    {assign var=EVENT_MODULE value=\App\Modules\Vtiger\Models\Module::getInstance('Events')}
+    {assign var=EVENT_MODULE value=\App\Modules\Base\Models\Module::getInstance('Events')}
     {assign var=ACTIVITYTYPE_FIELD_MODEL value=$EVENT_MODULE->getField('activitytype')}
     {assign var=PICKLIST_VALUES value=$ACTIVITYTYPE_FIELD_MODEL->getPicklistValues()} 
 {/if}
@@ -28,7 +28,7 @@
         {if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>{/if}
         {if $FIELD_MODEL->get('name') eq 'defaulteventstatus' || $FIELD_MODEL->get('name') eq 'defaultactivitytype' }<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>{/if}
         {foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-			{assign var=OPTION_VALUE value=\App\Modules\Vtiger\Helpers\Util::toSafeHTML($PICKLIST_NAME)}
+			{assign var=OPTION_VALUE value=\App\Modules\Base\Helpers\Util::toSafeHTML($PICKLIST_NAME)}
 			{if $PICKLIST_NAME eq ' ' and ($FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator')}
 				{assign var=PICKLIST_VALUE value='LBL_SPACE'|t:'Users'}
 				{assign var=OPTION_VALUE value='&nbsp;'}

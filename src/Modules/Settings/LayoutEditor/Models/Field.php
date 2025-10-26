@@ -13,7 +13,7 @@ namespace App\Modules\Settings\LayoutEditor\Models;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**
@@ -234,7 +234,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 	/**
 	 * Function to get all fields list for all blocks
 	 * @param array List of block ids
-	 * @param \App\Modules\Vtiger\Models\Module $moduleInstance
+	 * @param \App\Modules\Base\Models\Module $moduleInstance
 	 * @return array<\App\Modules\Settings\LayoutEditor\Models\Field> List of Field models 
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)

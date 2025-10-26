@@ -15,7 +15,7 @@ use App\Modules\Settings\SMSNotifierModels\Field;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Settings\Vtiger\Models\Record
+class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	/**
@@ -78,7 +78,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 
 	/**
 	 * Function to get record links
-	 * @return <Array> list of link models <\App\Modules\Vtiger\Models\Link>
+	 * @return <Array> list of link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getRecordLinks()
 	{
@@ -98,7 +98,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 			)
 		);
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 
 		return $links;
@@ -163,7 +163,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 		$result = $db->pquery('SELECT * FROM vtiger_smsnotifier_servers WHERE id = ?', array($recordId));
 
 		if ($db->num_rows($result)) {
-			$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+			$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 			$rowData = $db->query_result_rowdata($result, 0);
 
 			$recordModel = new self();
@@ -187,7 +187,7 @@ class Record extends \App\Modules\Settings\Vtiger\Models\Record
 	static public function getCleanInstance($qualifiedModuleName)
 	{
 		$recordModel = new self();
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		return $recordModel->setModule($moduleModel);
 	}
 }

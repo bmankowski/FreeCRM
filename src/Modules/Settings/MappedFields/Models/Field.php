@@ -11,7 +11,7 @@ namespace App\Modules\Settings\MappedFields\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class Field extends \App\Modules\Vtiger\Models\Field
+class Field extends \App\Modules\Base\Models\Field
 {
 
 	public $inventoryField = false;
@@ -173,7 +173,7 @@ class Field extends \App\Modules\Vtiger\Models\Field
 				}
 				break;
 			case 'INVENTORY':
-				$inventoryFieldModel = \App\Modules\Vtiger\Models\InventoryField::getInstance($module->getName());
+				$inventoryFieldModel = \App\Modules\Base\Models\InventoryField::getInstance($module->getName());
 				$inventoryFields = $inventoryFieldModel->getFields();
 				return self::getInstanceFromInventoryFieldObject($inventoryFields[$value]);
 			default:

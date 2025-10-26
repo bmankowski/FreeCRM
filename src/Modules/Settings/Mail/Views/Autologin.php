@@ -14,7 +14,7 @@ use App\Modules\Settings\MailModels\Autologin;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Autologin extends \App\Modules\Settings\Vtiger\Views\Index
+class Autologin extends \App\Modules\Settings\Base\Views\Index
 {
 
 	/**

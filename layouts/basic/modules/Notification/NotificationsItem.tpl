@@ -16,8 +16,8 @@
 						</div>
 					{/if}
 					<div class="pull-right">
-						<small title="{\App\Modules\Vtiger\Helpers\Util::formatDateTimeIntoDayString($ROW->get('createdtime'))}">
-							{\App\Modules\Vtiger\Helpers\Util::formatDateDiffInStrings($ROW->get('createdtime'))}
+						<small title="{\App\Modules\Base\Helpers\Util::formatDateTimeIntoDayString($ROW->get('createdtime'))}">
+							{\App\Modules\Base\Helpers\Util::formatDateDiffInStrings($ROW->get('createdtime'))}
 						</small>
 					</div>
 					<strong>{$ROW->getTitle()}</strong>

@@ -13,12 +13,12 @@ namespace App\Modules\Settings\PickListDependency\Models;
  * *********************************************************************************** */
 
 
-class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
+class ListView extends \App\Modules\Settings\Base\Models\ListView
 {
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\Field instances
+	 * @return <Array> - List of \App\Modules\Base\Models\Field instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -42,8 +42,8 @@ class ListView extends \App\Modules\Settings\Vtiger\Models\ListView
 
 	/**
 	 * Function to get the list view entries
-	 * @param \App\Modules\Vtiger\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Vtiger\Models\Record instance.
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{

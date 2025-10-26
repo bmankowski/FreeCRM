@@ -58,7 +58,7 @@ class VerticalbarChart extends Base_Chart
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType == 'date') {
-						$label = \App\Modules\Vtiger\UiTypes\Date::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
+						$label = \App\Modules\Base\UiTypes\Date::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));

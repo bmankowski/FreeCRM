@@ -12,7 +12,7 @@ namespace App\Modules\Users\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . "/../../../");
-include_once 'src/Modules/Vtiger/helpers/ShortURL.php';
+include_once 'src/Modules/Base/helpers/ShortURL.php';
 
 class ForgotPassword {
 
@@ -24,7 +24,7 @@ class ForgotPassword {
 		$confirmPassword = $request->get('confirmPassword');
 		$shortURLID = $request->get('shorturl_id');
 		$secretHash = $request->get('secret_hash');
-		$shortURLModel = \App\Modules\Vtiger\Helpers\ShortURL::getInstance($shortURLID);
+		$shortURLModel = \App\Modules\Base\Helpers\ShortURL::getInstance($shortURLID);
 		$secretToken = $shortURLModel->handler_data['secret_token'];
 
 		$validateData = array('username' => $userName,
@@ -75,7 +75,7 @@ class ForgotPassword {
 						'recordId' => $userId,
 						'to' => $email,
 						'priority' => 9,
-						'trackURL' => \App\Modules\Vtiger\Helpers\ShortURL::generateURL($options)
+						'trackURL' => \App\Modules\Base\Helpers\ShortURL::generateURL($options)
 				]);
 			}
 			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';

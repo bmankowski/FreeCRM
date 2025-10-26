@@ -69,13 +69,13 @@ class TextParser
 	/** @var string Module name */
 	public $moduleName;
 
-	/** @var \App\Modules\Vtiger\Models\Record Record model */
+	/** @var \App\Modules\Base\Models\Record Record model */
 	public $recordModel;
 
 	/** @var string|null Parser type */
 	public $type;
 
-	/** @var \App\Modules\Vtiger\Models\Record Source record model */
+	/** @var \App\Modules\Base\Models\Record Source record model */
 	protected $sourceRecordModel;
 
 	/** @var string Content */
@@ -105,16 +105,16 @@ class TextParser
 		$instance = new $class();
 		$instance->record = $record;
 		$instance->moduleName = $moduleName;
-		$instance->recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+		$instance->recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 		return $instance;
 	}
 
 	/**
 	 * Get instanace by record model
-	 * @param \App\Modules\Vtiger\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @return \self
 	 */
-	public static function getInstanceByModel(\App\Modules\Vtiger\Models\Record $recordModel)
+	public static function getInstanceByModel(\App\Modules\Base\Models\Record $recordModel)
 	{
 		$class = get_called_class();
 		$instance = new $class();
@@ -201,7 +201,7 @@ class TextParser
 	 */
 	public function setSourceRecord($record, $moduleName = false, $recordModel = false)
 	{
-		$this->sourceRecordModel = $recordModel ? $recordModel : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
+		$this->sourceRecordModel = $recordModel ? $recordModel : \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
 		return $this;
 	}
 
@@ -340,7 +340,7 @@ class TextParser
 		}
 		$value = '';
 		if ($employee) {
-			$relatedRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($employee, 'OSSEmployees');
+			$relatedRecordModel = \App\Modules\Base\Models\Record::getInstanceById($employee, 'OSSEmployees');
 			$instance = static::getInstanceByModel($relatedRecordModel);
 			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 				if (isset($this->$key)) {
@@ -362,7 +362,7 @@ class TextParser
 	{
 		switch ($key) {
 			case 'CurrentDate': return (new \DateTimeField(null))->getDisplayDate();
-			case 'CurrentTime' : return \App\Modules\Vtiger\Util::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
+			case 'CurrentTime' : return \App\Modules\Base\Util::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl' : return \App\AppConfig::main('site_URL');
 			case 'PortalUrl' : return \App\AppConfig::main('PORTAL_URL');
 			case 'BaseTimeZone' : return \App\Fields\DateTimeField::getDBTimeZone();
@@ -476,7 +476,7 @@ class TextParser
 				return '';
 			}
 		}
-		$relatedRecordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($relatedId, $moduleName);
+		$relatedRecordModel = \App\Modules\Base\Models\Record::getInstanceById($relatedId, $moduleName);
 		$instance = static::getInstanceByModel($relatedRecordModel);
 		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 			if (isset($this->$key)) {
@@ -508,10 +508,10 @@ class TextParser
 	/**
 	 * Get record display value
 	 * @param mixed $value
-	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
+	 * @param \App\Modules\Base\Models\Field $fieldModel
 	 * @return string
 	 */
-	protected function recordDisplayValue($value, \App\Modules\Vtiger\Models\Field $fieldModel)
+	protected function recordDisplayValue($value, \App\Modules\Base\Models\Field $fieldModel)
 	{
 		if ($value === '' || !$fieldModel->isViewEnabled()) {
 			return '-';
@@ -607,7 +607,7 @@ class TextParser
 
 	/**
 	 * Check if this content can be used
-	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
+	 * @param \App\Modules\Base\Models\Field $fieldModel
 	 * @param string $moduleName
 	 * @return boolean
 	 */
@@ -686,7 +686,7 @@ class TextParser
 				];
 			}
 		}
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($this->moduleName);
 		foreach ($moduleModel->getBlocks() as $blockModel) {
 			foreach ($blockModel->getFields() as $fieldModel) {
 				if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
@@ -720,7 +720,7 @@ class TextParser
 			];
 		}
 		foreach (\App\TextParser::$sourceModules[$this->moduleName] as $moduleName) {
-			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			foreach ($moduleModel->getBlocks() as $blockModel) {
 				foreach ($blockModel->getFields() as $fieldModel) {
 					if ($fieldModel->isViewable()) {
@@ -747,10 +747,10 @@ class TextParser
 		if (isset(static::$relatedVariable[$cacheKey])) {
 			return static::$relatedVariable[$cacheKey];
 		}
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($this->moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = \App\Runtime\Vtiger_Language_Handler::translate('LBL_ENTITY_VARIABLES');
-		foreach ($moduleModel->getFieldsByType(array_merge(\App\Modules\Vtiger\Models\Field::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
+		foreach ($moduleModel->getFieldsByType(array_merge(\App\Modules\Base\Models\Field::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
 			if ($field->getFieldDataType() === 'owner') {
 				$relatedModules = ['Users'];
 			} else {
@@ -768,7 +768,7 @@ class TextParser
 			}
 			foreach ($relatedModules as $relatedModule) {
 				$relatedModuleLang = \App\Runtime\Vtiger_Language_Handler::translate($relatedModule, $relatedModule);
-				$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($relatedModule);
+				$moduleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
 				foreach ($moduleModel->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {

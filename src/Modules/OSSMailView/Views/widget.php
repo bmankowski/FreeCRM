@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailView_widget_View extends \App\Modules\Vtiger\Views\Edit
+class OSSMailView_widget_View extends \App\Modules\Base\Views\Edit
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -40,7 +40,7 @@ class OSSMailView_widget_View extends \App\Modules\Vtiger\Views\Edit
 		$mode = $request->get('mode');
 		$record = $request->get('record');
 		$mailFilter = $request->get('mailFilter');
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$config = \App\Modules\OSSMail\Models\Module::getComposeParameters();
 		if ($request->has('limit')) {
 			$config['widget_limit'] = $request->get('limit');

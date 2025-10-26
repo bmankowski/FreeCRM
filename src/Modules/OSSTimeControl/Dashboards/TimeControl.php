@@ -16,7 +16,7 @@ use App\Modules\Settings\PublicHolidayModels\Module;
 
 use App\Http\Vtiger_Request;
 
-class TimeControl  extends \App\Modules\Vtiger\Views\Index
+class TimeControl  extends \App\Modules\Base\Views\Index
 {
 
 	public function getSearchParams($assignedto = '', $date)
@@ -37,8 +37,8 @@ class TimeControl  extends \App\Modules\Vtiger\Views\Index
 		if (!$time) {
 			return [];
 		}
-		$date['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($time['start']);
-		$date['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($time['end']);
+		$date['start'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($time['start']);
+		$date['end'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($time['end']);
 		$module = 'HelpDesk';
 		$query = (new \App\Db\Query())->select(['daytime' => 'sum_time', 'due_date', 'timecontrol_type'])
 			->from('vtiger_osstimecontrol')
@@ -160,7 +160,7 @@ class TimeControl  extends \App\Modules\Vtiger\Views\Index
 		$linkId = $request->get('linkid');
 		$user = $request->get('user');
 		$time = $request->get('time');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {

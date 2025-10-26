@@ -13,7 +13,7 @@ namespace App\Modules\Project\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class ProjectWidget  extends \App\Modules\Vtiger\Views\Index
+class ProjectWidget  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -67,11 +67,11 @@ class ProjectWidget  extends \App\Modules\Vtiger\Views\Index
 
 		//Date conversion from user to database format
 		if (!empty($dates)) {
-			$dates['start'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['start']);
-			$dates['end'] = \App\Modules\Vtiger\UiTypes\Date::getDBInsertedValue($dates['end']);
+			$dates['start'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($dates['start']);
+			$dates['end'] = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($dates['end']);
 		}
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getProjectWidget($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$countData = count($data);
@@ -79,7 +79,7 @@ class ProjectWidget  extends \App\Modules\Vtiger\Views\Index
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dates);
 		}
 
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

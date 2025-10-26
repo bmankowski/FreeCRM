@@ -8,7 +8,7 @@ namespace App\Modules\SSalesProcesses\Dashboards;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class EstimatedValueByStatus  extends \App\Modules\Vtiger\Views\Index
+class EstimatedValueByStatus  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -39,7 +39,7 @@ class EstimatedValueByStatus  extends \App\Modules\Vtiger\Views\Index
 	private function getEstimatedValue($owner = false)
 	{
 		$moduleName = 'SSalesProcesses';
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$query = (new \App\Db\Query())->select('SUM(u_#__ssalesprocesses.estimated) AS estimated, u_#__ssalesprocesses.ssalesprocesses_status')
 			->from('u_yf_ssalesprocesses')
 			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
@@ -74,7 +74,7 @@ class EstimatedValueByStatus  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($linkId, $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultUserId($widget, $moduleName);
 		else

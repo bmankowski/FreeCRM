@@ -6,7 +6,7 @@
 namespace App\Modules\RecycleBin\Views;
 
 use App\Http\Vtiger_Request;
-class Pagination  extends \App\Modules\Vtiger\Views\Index
+class Pagination  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()
@@ -49,7 +49,7 @@ class Pagination  extends \App\Modules\Vtiger\Views\Index
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \App\CRMEntity::getInstance($moduleName);

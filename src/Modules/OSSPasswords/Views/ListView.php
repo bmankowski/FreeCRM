@@ -10,13 +10,13 @@ namespace App\Modules\OSSPasswords\Views;
  */
 
 use App\Http\Vtiger_Request;
-class ListView  extends \App\Modules\Vtiger\Views\Index
+class ListView  extends \App\Modules\Base\Views\Index
 {
 
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

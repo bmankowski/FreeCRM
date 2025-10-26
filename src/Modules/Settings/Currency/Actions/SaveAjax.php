@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Currency\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

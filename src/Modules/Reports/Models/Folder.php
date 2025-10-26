@@ -80,7 +80,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns Report Models for the folder
-	 * @param <\App\Modules\Vtiger\Models\Paging> $pagingModel
+	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
 	 * @return <\App\Modules\Reports\Models\Record>
 	 */
 	public function getReports($pagingModel)
@@ -91,7 +91,7 @@ class Folder extends \App\Runtime\BaseModel
 			'orderBy' => $this->get('orderby'),
 			'sortBy' => $this->get('sortby'));
 
-		$reportClassInstance = \App\Modules\Vtiger\Models\Module::getClassInstance('Reports');
+		$reportClassInstance = \App\Modules\Base\Models\Module::getClassInstance('Reports');
 
 		$fldrId = $this->getId();
 		if ($fldrId == 'All') {
@@ -125,7 +125,7 @@ class Folder extends \App\Runtime\BaseModel
 			$pagingModel->set('nextPageExists', false);
 		}
 
-		$reportModuleModel = \App\Modules\Vtiger\Models\Module::getInstance('Reports');
+		$reportModuleModel = \App\Modules\Base\Models\Module::getInstance('Reports');
 
 		if ($fldrId === false) {
 			return $this->getAllReportModels($reportsList, $reportModuleModel);
@@ -374,7 +374,7 @@ class Folder extends \App\Runtime\BaseModel
 	/**
 	 * Function to get all Report Record Models
 	 * @param <Array> $allReportsList
-	 * @param \App\Modules\Vtiger\Models\Module - Reports Module Model
+	 * @param \App\Modules\Base\Models\Module - Reports Module Model
 	 * @return <Array> Reports Record Models
 	 */
 	public function getAllReportModels($allReportsList, $reportModuleModel)

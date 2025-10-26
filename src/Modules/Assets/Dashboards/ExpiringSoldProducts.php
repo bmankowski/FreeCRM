@@ -15,7 +15,7 @@ namespace App\Modules\Assets\Dashboards;
 
 use App\Http\Vtiger_Request;
 
-class ExpiringSoldProducts  extends \App\Modules\Vtiger\Views\Index
+class ExpiringSoldProducts  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -23,7 +23,7 @@ class ExpiringSoldProducts  extends \App\Modules\Vtiger\Views\Index
 		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($request->get('linkid'), $currentUser->getId());
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('RELATED_MODULE', 'Assets');
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -29,7 +29,7 @@ class GetLog extends \App\Runtime\BaseActionController
 		$startNumber = $request->get('start_number');
 		$moduleName = $request->getModule();
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 		$log = $recordModel->get_scan_history($startNumber);
 
 		$response = new \App\Http\Vtiger_Response();

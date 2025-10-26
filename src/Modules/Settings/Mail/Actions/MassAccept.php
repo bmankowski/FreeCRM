@@ -10,7 +10,7 @@ namespace App\Modules\Settings\Mail\Actions;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class MassAccept extends \App\Modules\Vtiger\Actions\Mass
+class MassAccept extends \App\Modules\Base\Actions\Mass
 {
 
 	/**

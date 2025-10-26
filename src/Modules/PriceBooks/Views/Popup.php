@@ -14,7 +14,7 @@ namespace App\Modules\PriceBooks\Views;
 
 
 use App\Http\Vtiger_Request;
-class Popup  extends \App\Modules\Vtiger\Views\Index
+class Popup  extends \App\Modules\Base\Views\Index
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -55,12 +55,12 @@ class Popup  extends \App\Modules\Vtiger\Views\Index
 			$pageNumber = '1';
 		}
 
-		$pagingModel = new \App\Modules\Vtiger\Models\Paging();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
-		$listViewModel = \App\Modules\Vtiger\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
-		$recordStructureInstance = \App\Modules\Vtiger\Models\RecordStructure::getInstanceForModule($moduleModel);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$listViewModel = \App\Modules\Base\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
@@ -92,7 +92,7 @@ class Popup  extends \App\Modules\Vtiger\Views\Index
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
 		//Added to support List Price
-		$field = new \App\Modules\Vtiger\Models\Field();
+		$field = new \App\Modules\Base\Models\Field();
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');

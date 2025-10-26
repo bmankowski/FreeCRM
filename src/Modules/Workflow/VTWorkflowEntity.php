@@ -104,7 +104,7 @@ class VTWorkflowEntity {
 		$wsId = $this->data['id'];
 		$parts = explode('x', $wsId);
 		$recordId = $parts[1];
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId, $this->moduleName);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $this->moduleName);
 		if ($recordModel->getPreviousValue()) {
 			return true;
 		} else {

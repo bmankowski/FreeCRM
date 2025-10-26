@@ -30,9 +30,9 @@ class VTAutoAssign extends VTTask
 	public function getAutoAssignEntries($moduleName)
 	{
 		$moduleName = \App\Module::getTabName($moduleName);
-		$listViewModel = \App\Modules\Settings\Vtiger\Models\ListView::getInstance('Settings:AutomaticAssignment');
+		$listViewModel = \App\Modules\Settings\Base\Models\ListView::getInstance('Settings:AutomaticAssignment');
 		$listViewModel->set('sourceModule', \App\Module::getModuleId($moduleName));
-		$entries = $listViewModel->getListViewEntries(new \App\Modules\Vtiger\Models\Paging());
+		$entries = $listViewModel->getListViewEntries(new \App\Modules\Base\Models\Paging());
 		return $entries;
 	}
 }

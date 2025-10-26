@@ -16,7 +16,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListAjax  extends \App\Modules\Vtiger\Views\Index
+class ListAjax  extends \App\Modules\Base\Views\Index
 {
 
 	public function __construct()
@@ -41,7 +41,7 @@ class ListAjax  extends \App\Modules\Vtiger\Views\Index
 		}
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new \App\Modules\Reports\Models\ListView();

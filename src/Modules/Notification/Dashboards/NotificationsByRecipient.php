@@ -10,7 +10,7 @@ namespace App\Modules\Notification\Dashboards;
  */
 use App\Http\Vtiger_Request;
 
-class NotificationsByRecipient  extends \App\Modules\Vtiger\Views\Index
+class NotificationsByRecipient  extends \App\Modules\Base\Views\Index
 {
 
 	/**
@@ -42,7 +42,7 @@ class NotificationsByRecipient  extends \App\Modules\Vtiger\Views\Index
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
-		$listView = \App\Modules\Vtiger\Models\Module::getInstance($moduleName)->getListViewUrl();
+		$listView = \App\Modules\Base\Models\Module::getInstance($moduleName)->getListViewUrl();
 		$time['start'] = \App\Fields\DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = \App\Fields\DateTimeField::convertToDBFormat($time['end']);
 		$query = new \App\Db\Query();
@@ -74,7 +74,7 @@ class NotificationsByRecipient  extends \App\Modules\Vtiger\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = \App\Modules\Vtiger\Models\Widget::getInstance($request->get('linkid'), $request->getUser()->getId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($request->get('linkid'), $request->getUser()->getId());
 		$time = $request->get('time');
 		if (empty($time)) {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\HideBlocks\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Vtiger\Views\Index
+class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -24,7 +24,7 @@ class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Vtiger\Views\I
 		$enabled = 0;
 		$views = array();
 		$viewer = $this->getViewer($request);
-		$moduleModel = \App\Modules\Settings\Vtiger\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		if ($recordId) {
 			$mode = 'edit';
 			$recordModel = \App\Modules\Settings\HideBlocks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);

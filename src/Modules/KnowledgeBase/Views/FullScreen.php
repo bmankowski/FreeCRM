@@ -10,7 +10,7 @@ namespace App\Modules\KnowledgeBase\Views;
  */
 
 use App\Http\Vtiger_Request;
-class FullScreen  extends \App\Modules\Vtiger\Views\Index
+class FullScreen  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -19,7 +19,7 @@ class FullScreen  extends \App\Modules\Vtiger\Views\Index
 		$previewView->process($request, false);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($request->get('record'));
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('record'));
 		$type = str_replace('PLL_', '', $recordModel->get('knowledgebase_view'));
 		$template = ucfirst(strtolower($type)) . 'View.tpl';
 		$viewer->assign('IS_POPUP', true);

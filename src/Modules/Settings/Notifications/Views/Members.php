@@ -10,7 +10,7 @@ namespace App\Modules\Settings\Notifications\Views;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Members extends \App\Modules\Settings\Vtiger\Views\BasicModal
+class Members extends \App\Modules\Settings\Base\Views\BasicModal
 {
 
 	/**
@@ -45,7 +45,7 @@ class Members extends \App\Modules\Settings\Vtiger\Views\BasicModal
 	{
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->get('srcModule');
-		$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
+		$watchdogModel = \App\Modules\Base\Models\Watchdog::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_TO_ADD', true);
 		$viewer->assign('SRC_MODULE', $srcModule);
@@ -64,7 +64,7 @@ class Members extends \App\Modules\Settings\Vtiger\Views\BasicModal
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->get('srcModule');
 		$member = $request->get('member');
-		$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($srcModule);
+		$watchdogModel = \App\Modules\Base\Models\Watchdog::getInstance($srcModule);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MEMBER', $member);
 		$viewer->assign('SRC_MODULE', $srcModule);

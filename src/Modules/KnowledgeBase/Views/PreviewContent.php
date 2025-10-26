@@ -9,14 +9,14 @@ namespace App\Modules\KnowledgeBase\Views;
  */
 
 use App\Http\Vtiger_Request;
-class PreviewContent  extends \App\Modules\Vtiger\Views\Index
+class PreviewContent  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		// Exctracts type from record field 'views'
 		$type = str_replace('PLL_', '', $recordModel->get('knowledgebase_view'));
 		// Changes views type to template name 

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Roles\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class MoveAjax extends \App\Modules\Settings\Vtiger\Actions\Basic
+class MoveAjax extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

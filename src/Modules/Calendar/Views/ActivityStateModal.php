@@ -11,14 +11,14 @@ namespace App\Modules\Calendar\Views;
  */
 
 use App\Http\Vtiger_Request;
-class ActivityStateModal  extends \App\Modules\Vtiger\Views\Index
+class ActivityStateModal  extends \App\Modules\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
-		$recordInstance = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
+		$recordInstance = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
 		$permissionToSendEmail = \App\Module::isModuleActive('OSSMail') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
 
 		$viewer = $this->getViewer($request);
@@ -33,7 +33,7 @@ class ActivityStateModal  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Vtiger\Models\JsScript instances
+	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getScripts(\App\Http\Vtiger_Request $request)
 	{

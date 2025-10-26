@@ -10,7 +10,7 @@ namespace App\Modules\IIDN\Views;
  */
 
 use App\Http\Vtiger_Request;
-class EditFieldByModal  extends \App\Modules\Vtiger\Views\Index
+class EditFieldByModal  extends \App\Modules\Base\Views\Index
 {
 
 	protected $restrictItems = ['PLL_ACCEPTED' => 'btn-success'];

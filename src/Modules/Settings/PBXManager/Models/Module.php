@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\Settings\PBXManager\Models;
-use App\Modules\Settings\Vtiger\Models\MenuItem;
+use App\Modules\Settings\Base\Models\MenuItem;
 
 
 /* +***********************************************************************************
@@ -13,7 +13,7 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Module extends \App\Modules\Settings\Vtiger\Models\Module
+class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
 	/**
@@ -71,7 +71,7 @@ class Module extends \App\Modules\Settings\Vtiger\Models\Module
 
 	public function getMenuItem()
 	{
-		$menuItem = \App\Modules\Settings\Vtiger\Models\MenuItem::getInstance('LBL_PBXMANAGER');
+		$menuItem = \App\Modules\Settings\Base\Models\MenuItem::getInstance('LBL_PBXMANAGER');
 		return $menuItem;
 	}
 

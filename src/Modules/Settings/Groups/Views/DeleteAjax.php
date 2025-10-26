@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Groups\Views;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \App\Modules\Settings\Vtiger\Views\Index
+class DeleteAjax extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

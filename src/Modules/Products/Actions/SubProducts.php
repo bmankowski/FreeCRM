@@ -31,7 +31,7 @@ class SubProducts extends \App\Runtime\BaseActionController
 		$productId = $request->get('record');
 		$values = [];
 		if (\App\Utils\Utils::isRecordExists($productId)) {
-			$productModel = \App\Modules\Vtiger\Models\Record::getInstanceById($productId);
+			$productModel = \App\Modules\Base\Models\Record::getInstanceById($productId);
 			$subProducts = $productModel->getSubProducts();
 
 			foreach ($subProducts as $subProduct) {

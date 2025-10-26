@@ -17,7 +17,7 @@ class ActivityStateAjax extends \App\Runtime\BaseActionController
 		$recordId = $request->get('record');
 		$state = $request->get('state');
 
-		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		$recordModel->set('activitystatus', $state);
 		$recordModel->save();
 

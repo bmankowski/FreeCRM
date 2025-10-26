@@ -11,7 +11,7 @@ namespace App\Modules\Assets\Views;
 
 use App\Http\Vtiger_Request;
 
-class EditFieldByModal  extends \App\Modules\Vtiger\Views\Index
+class EditFieldByModal  extends \App\Modules\Base\Views\Index
 {
 
 	public function getSize(\App\Http\Vtiger_Request $request)
@@ -24,8 +24,8 @@ class EditFieldByModal  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');
 
-		$recordModel = \App\Modules\Vtiger\Models\DetailView::getInstance($moduleName, $ID)->getRecord();
-		$recordStrucure = \App\Modules\Vtiger\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Vtiger\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $ID)->getRecord();
+		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$fields = [];
 		foreach ($structuredValues as $fildsInBlock) {
@@ -46,10 +46,10 @@ class EditFieldByModal  extends \App\Modules\Vtiger\Views\Index
 			$relatedRecord = $recordModel->get($relationData['relationField']);
 			$metaData = \vtlib\Functions::getCRMRecordMetadata($relatedRecord);
 			if ($relatedRecord && $metaData && $metaData['setype'] == $relatedModuleBasicName && $metaData['deleted'] == 0 && \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleBasicName, 'DetailView', $relatedRecord)) {
-				$relatedModuleBasic = \App\Modules\Vtiger\Models\Module::getInstance($relatedModuleBasicName);
+				$relatedModuleBasic = \App\Modules\Base\Models\Module::getInstance($relatedModuleBasicName);
 				foreach ($relationsModuleName as $relationModuleName) {
-					$relatedModuleModel = \App\Modules\Vtiger\Models\Module::getInstance($relationModuleName);
-					$relationModels[$relationModuleName] = \App\Modules\Vtiger\Models\Relation::getInstance($relatedModuleBasic, $relatedModuleModel);
+					$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relationModuleName);
+					$relationModels[$relationModuleName] = \App\Modules\Base\Models\Relation::getInstance($relatedModuleBasic, $relatedModuleModel);
 					if (!empty($relationModels[$relationModuleName])) {
 						$relationsModules[] = $relationModuleName;
 					}

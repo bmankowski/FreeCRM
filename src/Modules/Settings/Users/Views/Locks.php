@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Users\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class Locks extends \App\Modules\Settings\Vtiger\Views\Index
+class Locks extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)

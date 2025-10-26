@@ -13,7 +13,7 @@ namespace App\Modules\Settings\QuickCreateEditor\Models;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Module extends \App\Modules\Vtiger\Models\Module
+class Module extends \App\Modules\Base\Models\Module
 {
 
 	public static function updateFieldSequenceNumber($blockFieldSequence)

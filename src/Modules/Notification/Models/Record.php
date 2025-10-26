@@ -8,7 +8,7 @@ namespace App\Modules\Notification\Models;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Record extends \App\Modules\Vtiger\Models\Record
+class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
@@ -209,7 +209,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return \App\Modules\Vtiger\Models\Link[] - Associate array of \App\Modules\Vtiger\Models\Link instances
+	 * @return \App\Modules\Base\Models\Link[] - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordListViewLinksLeftSide()
 	{
@@ -225,7 +225,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Vtiger\Models\Link::getInstanceFromValues($recordLink);
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}

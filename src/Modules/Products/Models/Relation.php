@@ -12,7 +12,7 @@ namespace App\Modules\Products\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Relation extends \App\Modules\Vtiger\Models\Relation
+class Relation extends \App\Modules\Base\Models\Relation
 {
 
 	/**
@@ -26,7 +26,7 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
 		if (($sourceModuleName == 'Products' || $sourceModuleName == 'Services') && $relatedModuleName == 'PriceBooks') {
 			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service 
-			return \App\Modules\Vtiger\Models\Record::getInstanceById($relatedRecordId, $relatedModuleName)->deleteListPrice($sourceRecordId);
+			return \App\Modules\Base\Models\Record::getInstanceById($relatedRecordId, $relatedModuleName)->deleteListPrice($sourceRecordId);
 		} else if ($sourceModuleName == $relatedModuleName) {
 			return $this->deleteProductToProductRelation($sourceRecordId, $relatedRecordId);
 		} else {
@@ -70,9 +70,9 @@ class Relation extends \App\Modules\Vtiger\Models\Relation
 	{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
-		$relationModuleModel = \App\Modules\Vtiger\Models\Record::getInstanceById($destinationRecordId, $relatedModuleName);
+		$relationModuleModel = \App\Modules\Base\Models\Record::getInstanceById($destinationRecordId, $relatedModuleName);
 
-		$productModel = \App\Modules\Vtiger\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
+		$productModel = \App\Modules\Base\Models\Record::getInstanceById($sourceRecordId, $sourceModuleName);
 		$productModel->updateListPrice($destinationRecordId, $listPrice, $relationModuleModel->get('currency_id'));
 	}
 

@@ -60,7 +60,7 @@ class Notification extends \App\Runtime\BaseActionController
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id);
 			$recordModel->setMarked();
 		}
 
@@ -72,11 +72,11 @@ class Notification extends \App\Runtime\BaseActionController
 	public function saveWatchingModules(\App\Http\Vtiger_Request $request)
 	{
 		$selectedModules = $request->get('selctedModules');
-		$watchingModules = \App\Modules\Vtiger\Models\Watchdog::getWatchingModules();
-		\App\Modules\Vtiger\Models\Watchdog::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
+		$watchingModules = \App\Modules\Base\Models\Watchdog::getWatchingModules();
+		\App\Modules\Base\Models\Watchdog::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
 			foreach ($selectedModules as $moduleId) {
-				$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($moduleId);
+				$watchdogModel = \App\Modules\Base\Models\Watchdog::getInstance($moduleId);
 				$watchdogModel->changeModuleState(1);
 			}
 		} else {
@@ -84,11 +84,11 @@ class Notification extends \App\Runtime\BaseActionController
 		}
 		foreach ($watchingModules as $moduleId) {
 			if (!in_array($moduleId, $selectedModules)) {
-				$watchdogModel = \App\Modules\Vtiger\Models\Watchdog::getInstance($moduleId);
+				$watchdogModel = \App\Modules\Base\Models\Watchdog::getInstance($moduleId);
 				$watchdogModel->changeModuleState(0);
 			}
 		}
-		\App\Modules\Vtiger\Models\Watchdog::reloadCache();
+		\App\Modules\Base\Models\Watchdog::reloadCache();
 	}
 
 	public function createMail(\App\Http\Vtiger_Request $request)

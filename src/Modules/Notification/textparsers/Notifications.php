@@ -25,7 +25,7 @@ class TextParser extends \App\TextParser\Base
 	{
 		$siteURL = \App\AppConfig::main('site_URL');
 		$html = '';
-		$scheduleData = \App\Modules\Vtiger\Models\Watchdog::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
+		$scheduleData = \App\Modules\Base\Models\Watchdog::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
 		$modules = $scheduleData['modules'];
 
 		$notificationInstance = \App\Modules\Notification\Models\Module::getInstance('Notification');
