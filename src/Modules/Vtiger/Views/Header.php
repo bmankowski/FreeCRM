@@ -12,8 +12,8 @@ namespace App\Modules\Vtiger\Views;
 use App\Http\Vtiger_Request;
 use App\Runtime\Vtiger_Theme;
 
-use App\Runtime\Vtiger_JsScript_Model;
-use App\Runtime\Vtiger_CssScript_Model;
+
+
 
 use App\AppConfig;
 
@@ -135,7 +135,7 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 		foreach ($headerScripts as $headerType => $headerScriptsValue) {
 			foreach ($headerScriptsValue as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
-					$headerScriptInstances[] = \App\Runtime\Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
+					$headerScriptInstances[] = \App\View\Assets\ScriptAsset::getInstanceFromLinkObject($headerScript);
 				}
 			}
 		}
@@ -156,13 +156,13 @@ abstract class Header extends \App\Runtime\Vtiger_View_Controller
 
 		$headerCss = \App\Modules\Vtiger\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = \App\Runtime\Vtiger_Theme::getThemeStyle();
-		$cssScriptModel = new \App\Runtime\Vtiger_CssScript_Model();
+		$cssScriptModel = new \App\View\Assets\StyleAsset();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
 		foreach ($headerCss as $headerType => $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($cssLink->linkurl)) {
-					$headerCssInstances[] = \App\Runtime\Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
+					$headerCssInstances[] = \App\View\Assets\StyleAsset::getInstanceFromLinkObject($cssLink);
 				}
 			}
 		}

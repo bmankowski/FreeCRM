@@ -84,7 +84,7 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	/**
 	 * Scripts
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return \App\Runtime\Vtiger_JsScript_Model[]
+	 * @return \App\View\Assets\ScriptAsset[]
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

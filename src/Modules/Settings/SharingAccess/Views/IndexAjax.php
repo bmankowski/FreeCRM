@@ -85,7 +85,7 @@ class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Vtiger
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of ScriptAsset instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

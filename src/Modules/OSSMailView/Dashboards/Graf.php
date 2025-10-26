@@ -20,7 +20,7 @@ class Graf  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Retrieves css styles that need to loaded in the page
 	 * @param \App\Http\Vtiger_Request $request - request model
-	 * @return <array> - array of Vtiger_CssScript_Model
+	 * @return <array> - array of StyleAsset
 	 */
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{

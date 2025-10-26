@@ -1,23 +1,13 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
-
-namespace App\Runtime;
+namespace App\View\Assets;
 
 /**
- * CSS Script Model - extends \App\Runtime\Vtiger_JavaScript
+ * Style Asset - Data model for CSS assets
  */
-
-class Vtiger_CssScript_Model extends \App\Runtime\Vtiger_JavaScript
+class StyleAsset
 {
 	protected $data = [];
-	
+
 	/**
 	 * Set a property on the model and return this for chaining
 	 * @param string $key
@@ -29,7 +19,7 @@ class Vtiger_CssScript_Model extends \App\Runtime\Vtiger_JavaScript
 		$this->data[$key] = $value;
 		return $this;
 	}
-	
+
 	/**
 	 * Get a property from the model
 	 * @param string $key
@@ -39,7 +29,7 @@ class Vtiger_CssScript_Model extends \App\Runtime\Vtiger_JavaScript
 	{
 		return $this->data[$key] ?? null;
 	}
-	
+
 	/**
 	 * Get the href URL
 	 * @return string
@@ -48,7 +38,7 @@ class Vtiger_CssScript_Model extends \App\Runtime\Vtiger_JavaScript
 	{
 		return $this->get('href');
 	}
-	
+
 	/**
 	 * Get the rel attribute
 	 * @return string
@@ -57,7 +47,7 @@ class Vtiger_CssScript_Model extends \App\Runtime\Vtiger_JavaScript
 	{
 		return $this->get('rel') ?? 'stylesheet';
 	}
-	
+
 	/**
 	 * Get the media attribute
 	 * @return string

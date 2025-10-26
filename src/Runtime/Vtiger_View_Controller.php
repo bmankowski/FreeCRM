@@ -213,7 +213,7 @@ abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Control
    /**
 	* Retrieves css styles that need to loaded in the page
 	* @param, \App\Http\Vtiger_Request $vtigerRequest - request model
-	* @return <array> - array of Vtiger_CssScript_Model
+	* @return <array> - array of StyleAsset
 	*/
    public function getHeaderCss(\App\Http\Vtiger_Request $vtigerRequest)
    {
@@ -244,7 +244,7 @@ abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Control
    /**
 	* Retrieves headers scripts that need to loaded in the page
 	* @param, \App\Http\Vtiger_Request $vtigerRequest - request model
-	* @return <array> - array of Vtiger_JsScript_Model
+	* @return <array> - array of ScriptAsset
 	*/
    public function getHeaderScripts(\App\Http\Vtiger_Request $vtigerRequest)
    {
@@ -306,7 +306,7 @@ abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Control
 	   $jsScriptInstances = [];
 
 	   foreach ($jsFileNames as $jFileName) {
-		   $jsScript = new \App\Runtime\Vtiger_JsScript_Model();
+		   $jsScript = new \App\View\Assets\ScriptAsset();
 
 		   // external javascript source file handling
 		   if (strpos($jFileName, 'http://') === 0 || strpos($jFileName, 'https://') === 0) {
@@ -379,7 +379,7 @@ abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Control
    /**
 	* Function returns the css files
 	* @param <Array> $cssFileNames
-	* @return <Array of Vtiger_CssScript_Model>
+	* @return <Array of StyleAsset>
 	*
 	* First check if $cssFileName exists
 	* if not, check under layout folder $cssFileName eg:layouts/basic/$cssFileName
@@ -388,7 +388,7 @@ abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Control
    {
 	   $cssStyleInstances = [];
 	   foreach ($cssFileNames as $cssFileName) {
-		   $cssScriptModel = new \App\Runtime\Vtiger_CssScript_Model();
+		   $cssScriptModel = new \App\View\Assets\StyleAsset();
 		   if (strpos($cssFileName, 'http://') === 0 || strpos($cssFileName, 'https://') === 0) {
 			   $cssStyleInstances[] = $cssScriptModel->set('href', $cssFileName);
 			   continue;

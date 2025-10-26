@@ -42,10 +42,6 @@ if (!class_exists('Vtiger_Theme')) {
     class_alias('Vtiger\Runtime\Theme', 'Vtiger_Theme');
 }
 
-if (!class_exists('Vtiger_JavaScript')) {
-    class_alias('Vtiger\Runtime\JavaScript', 'Vtiger_JavaScript');
-}
-
 if (!class_exists('Vtiger_Controller')) {
     class_alias('Vtiger\Runtime\Controller', 'Vtiger_Controller');
 }

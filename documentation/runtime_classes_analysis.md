@@ -148,7 +148,156 @@ App\Modules\Vtiger\Models\JsScript
 4. Update all inheritance references
 5. Remove Vtiger naming where it refers to base implementation
 
+## JavaScript/CSS Asset Management Classes - Detailed Analysis
+
+### Class Hierarchy
+```
+App\Runtime\BaseModel
+  └─ App\Modules\Vtiger\Models\JsScript
+      └─ App\Runtime\Vtiger_JavaScript (path utilities)
+          ├─ App\Runtime\Vtiger_JsScript_Model (JS model with data container)
+          └─ App\Runtime\Vtiger_CssScript_Model (CSS model with data container)
+```
+
+### Purpose & Functionality
+
+#### 1. `App\Modules\Vtiger\Models\JsScript` (Base Class)
+**Location**: `src/Modules/Vtiger/Models/JsScript.php`
+**Purpose**: Base data model for JavaScript includes
+**Methods**:
+- `getType()` - Returns script type (default: "text/javascript")
+- `getSrc()` - Returns script source URL
+- `getInstanceFromLinkObject()` - Factory method from \vtlib\Link
+
+#### 2. `App\Runtime\Vtiger_JavaScript` (Path Resolution)
+**Location**: `src/Runtime/Vtiger_JavaScript.php`
+**Purpose**: Static utilities for finding JavaScript file paths
+**Methods**:
+- `getFilePath($fileName)` - Resolves JS file path
+- `getBaseJavaScriptPath()` - Returns layout path (e.g., "layouts/basic")
+**Extends**: `App\Modules\Vtiger\Models\JsScript`
+
+#### 3. `App\Runtime\Vtiger_JsScript_Model` (JS Data Model)
+**Location**: `src/Runtime/Vtiger_JsScript_Model.php`
+**Purpose**: Chainable data container for JavaScript asset properties
+**Properties**: `$data` array (src, type, etc.)
+**Methods**:
+- `set($key, $value)` - Chainable setter
+- `get($key)` - Getter
+- `getSrc()` - Returns src URL
+- `getType()` - Returns script type
+**Used in**: Template variables `$HEADER_SCRIPTS`, `$FOOTER_SCRIPTS`
+**Usage**: ~50 occurrences across views
+
+#### 4. `App\Runtime\Vtiger_CssScript_Model` (CSS Data Model)
+**Location**: `src/Runtime/Vtiger_CssScript_Model.php`
+**Purpose**: Chainable data container for CSS asset properties
+**Properties**: `$data` array (href, rel, media, etc.)
+**Methods**:
+- `set($key, $value)` - Chainable setter
+- `get($key)` - Getter
+- `getHref()` - Returns CSS URL
+- `getRel()` - Returns rel attribute (default: "stylesheet")
+- `getMedia()` - Returns media attribute (default: "screen")
+**Used in**: Template variable `$STYLES`
+**Extends**: `App\Runtime\Vtiger_JavaScript` (for path utilities)
+
+### How It Works (Asset Loading Flow)
+
+#### Step 1: View Controller Defines Assets
+```php
+// In Vtiger_View_Controller::preProcessDisplay()
+public function getHeaderScripts($request) {
+    return $this->checkAndConvertJsScripts([
+        'libraries.jquery.jquery',
+        'libraries.bootstrap.bootstrap',
+        // ... more scripts
+    ]);
+}
+
+public function getHeaderCss($request) {
+    return $this->checkAndConvertCssStyles([
+        '~libraries/bootstrap3/css/bootstrap.css',
+        'libraries.resources.styles',
+        // ... more styles
+    ]);
+}
+```
+
+#### Step 2: Controller Creates Model Instances
+```php
+// checkAndConvertJsScripts() creates instances:
+$jsScript = new \App\Runtime\Vtiger_JsScript_Model();
+$jsScriptInstances[] = $jsScript->set('src', $layoutPath . '/' . $filePath);
+
+// checkAndConvertCssStyles() creates instances:
+$cssScriptModel = new \App\Runtime\Vtiger_CssScript_Model();
+$cssStyleInstances[] = $cssScriptModel->set('href', $filePath);
+```
+
+#### Step 3: Models Assigned to Template
+```php
+// In Vtiger_View_Controller::preProcessDisplay()
+$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request)); // Array of JsScript_Model
+$viewer->assign('STYLES', $this->getHeaderCss($request));              // Array of CssScript_Model
+$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));  // Array of JsScript_Model
+```
+
+#### Step 4: Template Renders Assets
+```smarty
+{* In Header.tpl *}
+{foreach item=cssModel from=$STYLES}
+    <link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" />
+{/foreach}
+
+{foreach item=jsModel from=$HEADER_SCRIPTS}
+    <script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+{/foreach}
+```
+
+### Path Resolution Logic
+
+The system supports multiple path formats:
+1. **Literal path** (prefixed with `~`): `~libraries/jquery/jquery.js` → Direct file path
+2. **Dotted notation**: `libraries.jquery.jquery` → Converted to `libraries/jquery/jquery.js`
+3. **Layout fallback**: Checks current layout, then default layout
+4. **Minification**: Auto-detects `.min.js` / `.min.css` versions when enabled
+
+### Problems with Current Design
+
+1. **Confusing Inheritance**: CSS model extends JavaScript utilities class (no logical reason)
+2. **Naming Inconsistency**: 
+   - `Vtiger_JavaScript` (static utilities) vs `Vtiger_JsScript_Model` (data model)
+   - One has underscore naming, extends a namespaced class
+3. **Redundant Hierarchy**: JsScript_Model re-implements get/set that already exists in BaseModel
+4. **Misplaced Classes**: Asset models in Runtime instead of View/Asset namespace
+5. **Poor Separation**: Path resolution mixed with data modeling
+
+### Usage Statistics
+- **Vtiger_JsScript_Model**: Referenced in ~50 files (all views)
+- **Vtiger_CssScript_Model**: Referenced in ~40 files (mostly views, some dashboards)
+- **Called by**: Every view controller that loads JS/CSS assets
+- **Template usage**: Every page header/footer template
+
 ## Recommendations
+
+### For JavaScript/CSS Classes
+**Current Structure**:
+```
+Runtime/Vtiger_JavaScript.php (path utils)
+Runtime/Vtiger_JsScript_Model.php (JS model)
+Runtime/Vtiger_CssScript_Model.php (CSS model)
+Modules/Vtiger/Models/JsScript.php (base model)
+```
+
+**Proposed Structure**:
+```
+View/Assets/AssetPathResolver.php (path utilities)
+View/Assets/ScriptAsset.php (JS model)
+View/Assets/StyleAsset.php (CSS model)
+```
+
+**Benefits**: Clear separation, better naming, logical namespace
 
 ### For Runtime Directory
 - **Rename to**: `src/Foundation/` or `src/Core/`
@@ -156,6 +305,7 @@ App\Modules\Vtiger\Models\JsScript
 - **Controllers** → Move to `src/Http/Controllers/`
 - **Language_Handler** → Move to `src/Localization/Translator.php`
 - **CRM_Viewer** → Move to `src/View/TemplateEngine.php`
+- **Asset Classes** → Move to `src/View/Assets/`
 
 ### For Vtiger Module Base Classes
 - **Current**: `App\Modules\Vtiger\Models\Record`

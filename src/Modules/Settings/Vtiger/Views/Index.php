@@ -267,7 +267,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return <Array> - List of ScriptAsset instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -296,7 +296,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 	/**
 	 * Retrieves css styles that need to loaded in the page
 	 * @param \App\Http\Vtiger_Request $request - request model
-	 * @return <array> - array of Vtiger_CssScript_Model
+	 * @return <array> - array of StyleAsset
 	 */
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
